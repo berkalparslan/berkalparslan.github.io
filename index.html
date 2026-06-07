@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ali Berk Alparslan — Apps</title>
+  <meta name="description" content="iOS &amp; Android apps by Ali Berk Alparslan — BamTech" />
+
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --subtle: #6e6e73;
+      --border: #e5e5ea;
+      --accent: #0071e3;
+      --green: #34c759;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+
+    .hero-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0071e3, #34aadc);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(0, 113, 227, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--subtle);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Section ────────────────────────────────────────────── */
+    .section {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px 72px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Grid ───────────────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Card ───────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.07);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .app-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .app-icon-placeholder {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #e5e5ea, #d1d1d6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .app-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      margin-bottom: 4px;
+    }
+
+    .app-desc {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.45;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 6px;
+    }
+
+    .badge.watch {
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--accent);
+    }
+
+    .badge.soon {
+      background: #f5f5f7;
+      color: var(--subtle);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Store buttons ──────────────────────────────────────── */
+    .store-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+
+    .store-btn:hover {
+      opacity: 0.75;
+    }
+
+    .store-btn.ios {
+      background: #000;
+      color: #fff;
+    }
+
+    .store-btn.android {
+      background: #01875f;
+      color: #fff;
+    }
+
+    .store-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.8;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 56px 20px 44px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 0 16px 56px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/">Bam<span>Tech</span></a>
+      <a href="mailto:aberk@bamtech.co" style="font-size:14px;color:var(--accent);text-decoration:none;">Contact</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-avatar">👨‍💻</div>
+    <h1>Ali Berk Alparslan</h1>
+    <p>iOS &amp; Android apps crafted with care — sports trackers, tools &amp; more.</p>
+  </section>
+
+  <!-- Apple Watch Sports Apps -->
+  <section class="section">
+    <div class="section-title">⌚ Sports &amp; Apple Watch</div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9d/f1/a2/9df1a2b3-0d44-6c34-eaea-0b6df3b57e8c/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
+            alt="Volleyball" />
+          <div class="app-info">
+            <div class="app-name">Score Keeper for Volleyball</div>
+            <div class="app-desc">Live scoring, logbook &amp; health stats on Apple Watch.</div>
+            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5a/71/ed/5a71ed81-fc3d-71ff-8875-7ebfcc3e875d/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg"
+            alt="Tennis" />
+          <div class="app-info">
+            <div class="app-name">Tennis Padel Score Keeper</div>
+            <div class="app-desc">Smart scoring for tennis &amp; padel with Apple Watch.</div>
+            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.wear"
+            target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
+            </svg>
+            Google Play
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/49/13/9c491310-467a-19fb-d113-98416a8bdfd1/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
+            alt="Pickleball" />
+          <div class="app-info">
+            <div class="app-name">Score Keeper for Pickleball</div>
+            <div class="app-desc">Track pickleball matches &amp; stats from your wrist.</div>
+            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Games -->
+  <section class="section">
+    <div class="section-title">🎮 Games &amp; Fun</div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/25/04/75/25047589-d890-00e8-5eec-bbcc3ab5eb06/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+            alt="O mu Bu mu" />
+          <div class="app-info">
+            <div class="app-name">O mu Bu mu?</div>
+            <div class="app-desc">Eğlenceli tercih oyunu — arkadaşlarınla oyna.</div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne"
+            target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
+            </svg>
+            Google Play
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c8/61/9d/c8619dd1-5e0a-b1d5-ac6f-713aa996dc42/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg"
+            alt="Orbix Roulette" />
+          <div class="app-info">
+            <div class="app-name">Orbix Roulette</div>
+            <div class="app-desc">Spin the wheel — beautiful roulette experience.</div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6756230899" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Lifestyle & Tools -->
+  <section class="section">
+    <div class="section-title">🛠 Lifestyle &amp; Tools</div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/44/71/fa/4471fac3-d08e-6fd4-9152-80d0f35865d1/AppIcon-0-0-1x_U007epad-0-1-85-220.jpeg/512x512bb.jpg"
+            alt="Daily Whisper" />
+          <div class="app-info">
+            <div class="app-name">Daily Whisper: Affirmations</div>
+            <div class="app-desc">Start your day with positive affirmations &amp; mindfulness.</div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/17/32/ee1732ba-3b6f-f559-c4b4-09161ea4165b/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg"
+            alt="Kit QR" />
+          <div class="app-info">
+            <div class="app-name">Kit: QR Generator &amp; Scanner</div>
+            <div class="app-desc">Create and scan QR codes instantly.</div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <img class="app-icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/96/d4/7496d4ab-c099-9b9a-7935-d9ad4d3aaf84/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg"
+            alt="Tasbih" />
+          <div class="app-info">
+            <div class="app-name">Tasbih Tally: Digital Counter</div>
+            <div class="app-desc">Beautiful digital counter for dhikr and daily tracking.</div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            App Store
+          </a>
+          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
+        </div>
+      </div>
+
+      <!-- Loomi — Coming Soon -->
+      <div class="card" style="opacity:0.6;">
+        <div class="card-top">
+          <div class="app-icon-placeholder">📚</div>
+          <div class="app-info">
+            <div class="app-name">Loomi</div>
+            <div class="app-desc">Coming soon.</div>
+            <div class="badges"><span class="badge soon">Coming Soon</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 BamTech — Ali Berk Alparslan<br />
+      <a href="https://docs.google.com/document/d/1kemuLTTsRYehcVqjuW9drzGe7Qa-rn-ctF8331Kxxtg/edit?usp=sharing"
+        target="_blank">Privacy Policy</a>
+    </p>
+  </footer>
+
+</body>
+
+</html>
