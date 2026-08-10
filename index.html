@@ -250,6 +250,28 @@
       color: #fff;
     }
 
+    .header-nav {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .header-nav a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .header-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mağazada olmayan uygulamalarda düğme yerine sayfa bağlantısı. */
+    .store-btn:not(.ios):not(.android) {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
     .store-btn svg {
       width: 14px;
       height: 14px;
@@ -300,7 +322,11 @@
   <header>
     <div class="header-inner">
       <a class="brand" href="/">Bam<span>Tech</span></a>
-      <a href="mailto:aberk@bamtech.co" style="font-size:14px;color:var(--accent);text-decoration:none;">Contact</a>
+      <nav class="header-nav">
+        <a href="/privacy/">Privacy</a>
+        <a href="/support/">Support</a>
+        <a href="mailto:aberkalparslan@gmail.com">Contact</a>
+      </nav>
     </div>
   </header>
 
@@ -534,14 +560,35 @@
             <div class="badges"><span class="badge soon">Coming Soon</span></div>
           </div>
         </div>
+        <div class="store-btns">
+          <a class="store-btn" href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="app-icon-placeholder">🩺</div>
+          <div class="app-info">
+            <div class="app-name">BodyBook: Health &amp; Skincare</div>
+            <div class="app-desc">Blood pressure, weight, skincare routine with product shelf
+              life, mole photos, medication, water and sleep — in one panel. Everything stays
+              on your iPhone.</div>
+            <div class="badges"><span class="badge soon">Coming Soon</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn" href="/bodybook/privacy/">Privacy</a>
+          <a class="store-btn" href="/bodybook/support/">Support</a>
+        </div>
       </div>
     </div>
   </section>
 
   <footer>
     <p>© 2026 BamTech — Ali Berk Alparslan<br />
-      <a href="/privacy.html">Privacy Policy</a> ·
-      <a href="mailto:aberk@bamtech.co">Support</a>
+      <a href="/privacy/">Privacy Policies</a> ·
+      <a href="/support/">Support</a> ·
+      <a href="mailto:aberkalparslan@gmail.com">Contact</a>
     </p>
   </footer>
 
