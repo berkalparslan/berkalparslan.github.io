@@ -1,22 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ali Berk Alparslan — Apps</title>
-  <meta name="description" content="iOS &amp; Android apps by Ali Berk Alparslan — BamTech" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BamTech — Indie iOS &amp; watchOS Apps</title>
+  <meta name="description"
+    content="Apps by BamTech — score keepers for tennis, padel, pickleball and volleyball, health tracking, tools and games for iPhone and Apple Watch." />
+
+  <link rel="canonical" href="https://berkalparslan.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="BamTech — Indie iOS &amp; watchOS Apps" />
+  <meta property="og:description" content="Score keepers, health trackers and small tools for iPhone and Apple Watch." />
+  <meta property="og:url" content="https://berkalparslan.github.io/" />
+  <meta name="twitter:card" content="summary" />
+
+  <script>
+    /* Tema, sayfa boyanmadan uygulanır — yoksa açık/koyu sıçraması görünür.
+       Anahtar alt sayfalarla ortak: "bb-theme". Varsayılan açık. */
+    (function () {
+      try {
+        document.documentElement.setAttribute(
+          "data-theme", localStorage.getItem("bb-theme") || "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
 
   <style>
     :root {
-      --bg: #f5f5f7;
+      color-scheme: light;
+      --bg: #f4f4f7;
+      --bg-deep: #ececf1;
       --surface: #ffffff;
-      --text: #1d1d1f;
-      --subtle: #6e6e73;
-      --border: #e5e5ea;
+      --surface-2: #fafafc;
+      --text: #14141a;
+      --subtle: #6a6a75;
+      --faint: #9a9aa6;
+      --border: #e3e3ea;
+      --border-strong: #d2d2dc;
       --accent: #0071e3;
-      --green: #34c759;
-      --radius: 18px;
+      --accent-soft: rgba(0, 113, 227, .10);
+      --violet: #7c5cff;
+      --mint: #14b8a6;
+      --amber: #f59e0b;
+      --shadow-sm: 0 1px 2px rgba(20, 20, 40, .06), 0 4px 14px rgba(20, 20, 40, .05);
+      --shadow-lg: 0 2px 6px rgba(20, 20, 40, .07), 0 18px 46px rgba(20, 20, 40, .10);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      --aurora-1: rgba(0, 113, 227, .30);
+      --aurora-2: rgba(124, 92, 255, .26);
+      --aurora-3: rgba(20, 184, 166, .22);
+      --grain: .035;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b0b0e;
+      --bg-deep: #060608;
+      --surface: #15151a;
+      --surface-2: #1b1b21;
+      --text: #f3f3f7;
+      --subtle: #9d9daa;
+      --faint: #6d6d7a;
+      --border: #26262e;
+      --border-strong: #34343e;
+      --accent: #4da3ff;
+      --accent-soft: rgba(77, 163, 255, .14);
+      --violet: #9d84ff;
+      --mint: #2dd4bf;
+      --amber: #fbbf24;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .3);
+      --shadow-lg: 0 2px 8px rgba(0, 0, 0, .5), 0 20px 50px rgba(0, 0, 0, .45);
+      --aurora-1: rgba(0, 113, 227, .34);
+      --aurora-2: rgba(124, 92, 255, .30);
+      --aurora-3: rgba(20, 184, 166, .20);
+      --grain: .06;
     }
 
     * {
@@ -25,149 +86,586 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 84px;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── Header ─────────────────────────────────────────────── */
-    header {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-    }
-
-    .brand span {
+    a {
       color: var(--accent);
     }
 
-    /* ── Hero ───────────────────────────────────────────────── */
-    .hero {
-      text-align: center;
-      padding: 80px 24px 60px;
+    /* ── Aurora arkaplan ─────────────────────────────────────── */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 60% at 50% -10%, var(--bg) 0%, var(--bg-deep) 100%);
     }
 
-    .hero-avatar {
-      width: 72px;
-      height: 72px;
+    .aurora i {
+      position: absolute;
+      display: block;
       border-radius: 50%;
-      background: linear-gradient(135deg, #0071e3, #34aadc);
+      filter: blur(90px);
+      opacity: .9;
+    }
+
+    .aurora i:nth-child(1) {
+      width: 46vw;
+      height: 46vw;
+      min-width: 320px;
+      min-height: 320px;
+      left: -8vw;
+      top: -12vw;
+      background: var(--aurora-1);
+      animation: drift1 26s ease-in-out infinite alternate;
+    }
+
+    .aurora i:nth-child(2) {
+      width: 40vw;
+      height: 40vw;
+      min-width: 280px;
+      min-height: 280px;
+      right: -6vw;
+      top: -6vw;
+      background: var(--aurora-2);
+      animation: drift2 32s ease-in-out infinite alternate;
+    }
+
+    .aurora i:nth-child(3) {
+      width: 34vw;
+      height: 34vw;
+      min-width: 240px;
+      min-height: 240px;
+      left: 32vw;
+      top: 22vw;
+      background: var(--aurora-3);
+      animation: drift3 38s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      to {
+        transform: translate3d(9vw, 6vw, 0) scale(1.15);
+      }
+    }
+
+    @keyframes drift2 {
+      to {
+        transform: translate3d(-7vw, 9vw, 0) scale(1.1);
+      }
+    }
+
+    @keyframes drift3 {
+      to {
+        transform: translate3d(5vw, -7vw, 0) scale(.9);
+      }
+    }
+
+    /* Grain — aurora'nın üstünde ince bir doku. */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: var(--grain);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      .aurora i {
+        animation: none;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* gap yerine margin — gap, "Bam" metin düğümüyle <span>Tech</span>
+       arasına da boşluk koyuyordu. */
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex: none;
+      margin-right: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--violet));
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .brand span {
+      background: linear-gradient(90deg, var(--accent), var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .header-nav a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--subtle);
+      text-decoration: none;
+      padding: 6px 11px;
+      border-radius: 9px;
+      transition: color .15s, background .15s;
+    }
+
+    .header-nav a:hover {
+      color: var(--text);
+      background: color-mix(in srgb, var(--text) 6%, transparent);
+    }
+
+    .icon-btn {
+      flex: none;
+      height: 32px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+      color: var(--subtle);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 24px rgba(0, 113, 227, 0.25);
+      gap: 6px;
+      padding: 0 10px;
+      transition: color .15s, border-color .15s;
+    }
+
+    .icon-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .icon-btn.square {
+      width: 32px;
+      padding: 0;
+    }
+
+    kbd {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      line-height: 1;
+      padding: 3px 5px;
+      border-radius: 5px;
+      background: color-mix(in srgb, var(--text) 8%, transparent);
+      color: var(--faint);
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 720px) {
+      .header-nav {
+        display: none;
+      }
+
+      #kbdHint {
+        display: none;
+      }
+    }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 92px 24px 56px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      background: color-mix(in srgb, var(--surface) 60%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      margin-bottom: 26px;
+      backdrop-filter: blur(10px);
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--mint) 60%, transparent);
+      animation: pulse 2.4s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      70% {
+        box-shadow: 0 0 0 9px transparent;
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 transparent;
+      }
     }
 
     .hero h1 {
-      font-size: clamp(28px, 5vw, 40px);
+      font-size: clamp(34px, 7vw, 62px);
       font-weight: 700;
-      letter-spacing: -0.8px;
-      line-height: 1.15;
-      margin-bottom: 12px;
+      letter-spacing: -.035em;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(100deg, var(--accent), var(--violet) 55%, var(--mint));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .hero p {
-      font-size: 17px;
+      font-size: clamp(16px, 2.2vw, 19px);
       color: var(--subtle);
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 560px;
+      margin: 0 auto 30px;
       line-height: 1.6;
     }
 
-    /* ── Section ────────────────────────────────────────────── */
-    .section {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 24px 72px;
+    .hero-cta {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 46px;
     }
 
-    .section-title {
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+    }
+
+    .btn:active {
+      transform: scale(.97);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--violet));
+      color: #fff;
+      box-shadow: 0 4px 18px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 26px color-mix(in srgb, var(--accent) 45%, transparent);
+    }
+
+    .btn-ghost {
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+      border-color: var(--border-strong);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Stat şeridi ─────────────────────────────────────────── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat {
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
+      backdrop-filter: blur(14px);
+      padding: 18px 10px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat small {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 620px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        padding: 60px 20px 40px;
+      }
+    }
+
+    /* ── Bölüm ───────────────────────────────────────────────── */
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 72px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    .section-head p {
+      font-size: 14px;
+      color: var(--faint);
+      margin-left: auto;
+    }
+
+    /* ── Filtreler + arama ───────────────────────────────────── */
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .chip {
+      font: inherit;
       font-size: 13px;
       font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 65%, transparent);
       color: var(--subtle);
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all .15s;
+      white-space: nowrap;
     }
 
-    /* ── Grid ───────────────────────────────────────────────── */
+    .chip:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    .chip[aria-pressed="true"] {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+    }
+
+    .search {
+      margin-left: auto;
+      position: relative;
+      min-width: 210px;
+      flex: 0 1 260px;
+    }
+
+    .search input {
+      width: 100%;
+      font: inherit;
+      font-size: 13.5px;
+      padding: 8px 12px 8px 34px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 65%, transparent);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+      outline: none;
+    }
+
+    .search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      fill: var(--faint);
+      pointer-events: none;
+    }
+
+    @media (max-width: 620px) {
+      .search {
+        margin-left: 0;
+        flex: 1 1 100%;
+      }
+    }
+
+    /* ── Uygulama ızgarası ───────────────────────────────────── */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
       gap: 16px;
     }
 
-    /* ── Card ───────────────────────────────────────────────── */
     .card {
-      background: var(--surface);
+      position: relative;
+      background: color-mix(in srgb, var(--surface) 82%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--border);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .22s cubic-bezier(.2, .8, .3, 1), box-shadow .22s, border-color .22s;
+      overflow: hidden;
+    }
+
+    /* İmleci izleyen yumuşak ışıltı — JS iki değişkeni günceller. */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity .25s;
+      pointer-events: none;
+      background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%),
+          color-mix(in srgb, var(--accent) 13%, transparent), transparent 65%);
     }
 
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.07);
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card.is-hidden {
+      display: none;
     }
 
     .card-top {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 14px;
     }
 
-    .app-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 14px;
-      flex-shrink: 0;
+    .app-icon,
+    .app-icon-ph {
+      width: 62px;
+      height: 62px;
+      border-radius: 15px;
+      flex: none;
       object-fit: cover;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+      border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
     }
 
-    .app-icon-placeholder {
-      width: 60px;
-      height: 60px;
-      border-radius: 14px;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, #e5e5ea, #d1d1d6);
+    .app-icon-ph {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
+      font-size: 27px;
+      background: linear-gradient(135deg, var(--surface-2), color-mix(in srgb, var(--accent) 12%, var(--surface-2)));
     }
 
     .app-info {
@@ -176,73 +674,86 @@
     }
 
     .app-name {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      margin-bottom: 4px;
+      font-size: 15.5px;
+      font-weight: 650;
+      letter-spacing: -.02em;
+      line-height: 1.3;
+      margin-bottom: 5px;
     }
 
     .app-desc {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--subtle);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .badges {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-top: 6px;
+      margin-top: 9px;
     }
 
     .badge {
-      display: inline-block;
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-weight: 700;
+      letter-spacing: .05em;
       text-transform: uppercase;
-      padding: 3px 7px;
+      padding: 3.5px 8px;
       border-radius: 6px;
+      border: 1px solid transparent;
     }
 
     .badge.watch {
-      background: rgba(0, 113, 227, 0.08);
+      background: var(--accent-soft);
       color: var(--accent);
     }
 
     .badge.soon {
-      background: #f5f5f7;
-      color: var(--subtle);
-      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--amber) 14%, transparent);
+      color: var(--amber);
     }
 
-    /* ── Store buttons ──────────────────────────────────────── */
+    .badge.new {
+      background: color-mix(in srgb, var(--mint) 15%, transparent);
+      color: var(--mint);
+    }
+
     .store-btns {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      margin-top: auto;
     }
 
     .store-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 13px;
+      padding: 8px 14px;
       border-radius: 10px;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 600;
-      transition: opacity 0.15s;
       white-space: nowrap;
+      transition: opacity .15s, transform .15s;
     }
 
     .store-btn:hover {
-      opacity: 0.75;
+      opacity: .82;
+      transform: translateY(-1px);
+    }
+
+    .store-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex: none;
     }
 
     .store-btn.ios {
-      background: #000;
-      color: #fff;
+      background: var(--text);
+      color: var(--bg);
     }
 
     .store-btn.android {
@@ -250,348 +761,821 @@
       color: #fff;
     }
 
-    .header-nav {
-      display: flex;
-      gap: 18px;
-      font-size: 14px;
-    }
-
-    .header-nav a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .header-nav a:hover {
-      text-decoration: underline;
-    }
-
-    /* Mağazada olmayan uygulamalarda düğme yerine sayfa bağlantısı. */
-    .store-btn:not(.ios):not(.android) {
+    .store-btn.link {
       background: transparent;
-      color: var(--accent);
+      color: var(--subtle);
       border: 1px solid var(--border);
     }
 
-    .store-btn svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-      flex-shrink: 0;
+    .store-btn.link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
-    /* ── Footer ─────────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 24px;
+    .empty {
+      grid-column: 1 / -1;
       text-align: center;
+      padding: 48px 20px;
+      color: var(--faint);
+      font-size: 14px;
     }
 
-    footer p {
+    /* ── Blog ────────────────────────────────────────────────── */
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .post {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      transition: transform .18s, border-color .18s;
+    }
+
+    .post:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .post time {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--faint);
+      letter-spacing: .02em;
+    }
+
+    .post h3 {
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -.015em;
+      margin: 6px 0 5px;
+      line-height: 1.35;
+    }
+
+    .post p {
       font-size: 13px;
       color: var(--subtle);
-      line-height: 1.8;
+      line-height: 1.5;
+    }
+
+    /* ── Bağlantı şeridi ─────────────────────────────────────── */
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .link-tile {
+      flex: 1 1 200px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+      backdrop-filter: blur(12px);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .18s, transform .18s;
+    }
+
+    .link-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .link-tile b {
+      display: block;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .link-tile small {
+      display: block;
+      font-size: 12.5px;
+      color: var(--faint);
+    }
+
+    .link-tile .em {
+      font-size: 20px;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 34px 24px 44px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--faint);
+      line-height: 1.9;
     }
 
     footer a {
-      color: var(--accent);
+      color: var(--subtle);
       text-decoration: none;
     }
 
     footer a:hover {
-      text-decoration: underline;
+      color: var(--accent);
     }
 
-    @media (max-width: 600px) {
-      .hero {
-        padding: 56px 20px 44px;
-      }
+    /* ── Komut paleti (⌘K) ───────────────────────────────────── */
+    .palette-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: color-mix(in srgb, var(--bg-deep) 55%, transparent);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 12vh 20px 20px;
+    }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    .palette-backdrop[hidden] {
+      display: none;
+    }
 
-      .section {
-        padding: 0 16px 56px;
+    .palette {
+      width: 100%;
+      max-width: 560px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: rise .18s cubic-bezier(.2, .8, .3, 1);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(-10px) scale(.98);
       }
+    }
+
+    .palette input {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      padding: 16px 18px;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      outline: none;
+    }
+
+    .palette ul {
+      list-style: none;
+      max-height: 52vh;
+      overflow-y: auto;
+      padding: 6px;
+    }
+
+    .palette li {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .palette li[aria-selected="true"] {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .palette li .pi {
+      width: 20px;
+      text-align: center;
+      flex: none;
+      font-size: 15px;
+    }
+
+    .palette li .pt {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .palette li .pk {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .palette footer {
+      border-top: 1px solid var(--border);
+      padding: 9px 14px;
+      text-align: left;
+      font-size: 11.5px;
+      color: var(--faint);
+      display: flex;
+      gap: 14px;
+    }
+
+    /* Ekran okuyucular için görünmez ama erişilebilir. */
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
   </style>
 </head>
 
 <body>
 
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+
   <header>
     <div class="header-inner">
-      <a class="brand" href="/">Bam<span>Tech</span></a>
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
       <nav class="header-nav">
-        <a href="/privacy/">Privacy</a>
+        <a href="#apps">Apps</a>
+        <a href="/blog/">Blog</a>
         <a href="/support/">Support</a>
-        <a href="mailto:aberkalparslan@gmail.com">Contact</a>
+        <a href="/privacy/">Privacy</a>
       </nav>
+      <button class="icon-btn" id="paletteBtn" aria-label="Open command palette">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+          <path
+            d="M10 2a8 8 0 105.29 14.01l4.35 4.35 1.41-1.41-4.35-4.35A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
+        </svg>
+        <span id="kbdHint"><kbd>⌘</kbd><kbd>K</kbd></span>
+      </button>
+      <button class="icon-btn square" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
     </div>
   </header>
 
+  <!-- ── Hero ───────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="hero-avatar">👨‍💻</div>
-    <h1>Ali Berk Alparslan</h1>
-    <p>iOS &amp; Android apps crafted with care — sports trackers, tools &amp; more.</p>
+    <div class="eyebrow"><span class="pulse"></span> Shipping from Istanbul</div>
+    <h1>Small apps that<br /><em>do one thing well.</em></h1>
+    <p>BamTech is a one-person studio building independent apps for iPhone and Apple&nbsp;Watch —
+      score keepers for the courts, quiet health tools, and a couple of things purely for fun.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#apps">Browse the apps
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M12 16l-6-6h12z" />
+        </svg>
+      </a>
+      <a class="btn btn-ghost" href="/blog/">Read the blog</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b id="statApps">8</b><small>Live apps</small></div>
+      <div class="stat"><b id="statWatch">6</b><small>Watch apps</small></div>
+      <div class="stat"><b>2</b><small>Platforms</small></div>
+      <div class="stat"><b id="statSoon">2</b><small>In the oven</small></div>
+    </div>
   </section>
 
-  <!-- Apple Watch Sports Apps -->
-  <section class="section">
-    <div class="section-title">⌚ Sports &amp; Apple Watch</div>
-    <div class="grid">
+  <!-- ── Uygulamalar ────────────────────────────────────────── -->
+  <section class="section" id="apps">
+    <div class="section-head">
+      <h2>Apps</h2>
+      <p id="resultCount"></p>
+    </div>
 
-      <div class="card">
-        <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9d/f1/a2/9df1a2b3-0d44-6c34-eaea-0b6df3b57e8c/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
-            alt="Volleyball" />
-          <div class="app-info">
-            <div class="app-name">Score Keeper for Volleyball</div>
-            <div class="app-desc">Live scoring, logbook &amp; health stats on Apple Watch.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-        </div>
+    <div class="toolbar">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="watch" aria-pressed="false">⌚ Apple Watch</button>
+      <button class="chip" data-filter="sport" aria-pressed="false">Sport</button>
+      <button class="chip" data-filter="health" aria-pressed="false">Health</button>
+      <button class="chip" data-filter="tools" aria-pressed="false">Tools</button>
+      <button class="chip" data-filter="fun" aria-pressed="false">Fun</button>
+      <button class="chip" data-filter="soon" aria-pressed="false">Coming soon</button>
+      <div class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M10 2a8 8 0 105.29 14.01l4.35 4.35 1.41-1.41-4.35-4.35A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
+        </svg>
+        <label class="sr" for="appSearch">Search apps</label>
+        <input id="appSearch" type="search" placeholder="Search apps…" autocomplete="off" />
       </div>
+    </div>
 
-      <div class="card">
+    <div class="grid" id="appGrid">
+
+      <!-- Tennis & Padel -->
+      <article class="card" data-tags="sport watch ios android" data-name="Tennis Padel Score Keeper tenis padel">
         <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5a/71/ed/5a71ed81-fc3d-71ff-8875-7ebfcc3e875d/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg"
-            alt="Tennis" />
+          <img class="app-icon" loading="lazy" alt="Tennis Padel Score Keeper icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5a/71/ed/5a71ed81-fc3d-71ff-8875-7ebfcc3e875d/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg" />
           <div class="app-info">
-            <div class="app-name">Tennis Padel Score Keeper</div>
-            <div class="app-desc">Smart scoring for tennis &amp; padel with Apple Watch.</div>
+            <div class="app-name">Tennis &amp; Padel Score Keeper</div>
+            <div class="app-desc">Tap to score, the match rules take care of themselves — tiebreaks,
+              golden points, sets. Runs standalone on the Watch.</div>
             <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
           </div>
         </div>
         <div class="store-btns">
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
+            </svg>App Store</a>
           <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.wear"
             target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>
-            Google Play
-          </a>
+            </svg>Google Play</a>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
+      <!-- Pickleball -->
+      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Pickleball">
         <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/49/13/9c491310-467a-19fb-d113-98416a8bdfd1/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
-            alt="Pickleball" />
+          <img class="app-icon" loading="lazy" alt="Pickleball Score Keeper icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/49/13/9c491310-467a-19fb-d113-98416a8bdfd1/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" />
           <div class="app-info">
             <div class="app-name">Score Keeper for Pickleball</div>
-            <div class="app-desc">Track pickleball matches &amp; stats from your wrist.</div>
+            <div class="app-desc">Server, side-out and rally scoring handled for you. Glance at your
+              wrist between points instead of arguing about the score.</div>
             <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
           </div>
         </div>
         <div class="store-btns">
           <a class="store-btn ios" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
+            </svg>App Store</a>
         </div>
-      </div>
+      </article>
 
-    </div>
-  </section>
-
-  <!-- Games -->
-  <section class="section">
-    <div class="section-title">🎮 Games &amp; Fun</div>
-    <div class="grid">
-
-      <div class="card">
+      <!-- Volleyball -->
+      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Volleyball voleybol">
         <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/25/04/75/25047589-d890-00e8-5eec-bbcc3ab5eb06/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
-            alt="O mu Bu mu" />
+          <img class="app-icon" loading="lazy" alt="Volleyball Score Keeper icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9d/f1/a2/9df1a2b3-0d44-6c34-eaea-0b6df3b57e8c/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" />
           <div class="app-info">
-            <div class="app-name">O mu Bu mu?</div>
-            <div class="app-desc">Eğlenceli tercih oyunu — arkadaşlarınla oyna.</div>
+            <div class="app-name">Score Keeper for Volleyball</div>
+            <div class="app-desc">Live set scoring with a match logbook and heart-rate stats pulled
+              straight from your workout.</div>
+            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>
-            Google Play
-          </a>
+            </svg>App Store</a>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
+      <!-- BodyBook -->
+      <article class="card" data-tags="health soon" data-name="BodyBook Health Skincare sağlık cilt">
         <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c8/61/9d/c8619dd1-5e0a-b1d5-ac6f-713aa996dc42/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg"
-            alt="Orbix Roulette" />
+          <div class="app-icon-ph">🩺</div>
+          <div class="app-info">
+            <div class="app-name">BodyBook: Health &amp; Skincare</div>
+            <div class="app-desc">Blood pressure, weight, skincare routine with product shelf life,
+              mole photos, medication, water and sleep — one panel. Everything stays on your iPhone.</div>
+            <div class="badges"><span class="badge soon">Coming soon</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/bodybook/">Take the tour</a>
+          <a class="store-btn link" href="/bodybook/privacy/">Privacy</a>
+          <a class="store-btn link" href="/bodybook/support/">Support</a>
+        </div>
+      </article>
+
+      <!-- WalletCoach -->
+      <article class="card" data-tags="tools soon" data-name="WalletCoach Wallet Coach price in hours para">
+        <div class="card-top">
+          <div class="app-icon-ph">💸</div>
+          <div class="app-info">
+            <div class="app-name">WalletCoach: Price in Hours</div>
+            <div class="app-desc">Turns any price tag into the hours you'd have to work for it.
+              Plus inflation tools and short economics reads.</div>
+            <div class="badges"><span class="badge soon">Coming soon</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn link" href="/privacy.html">Privacy</a>
+        </div>
+      </article>
+
+      <!-- Orbix -->
+      <article class="card" data-tags="fun watch ios" data-name="Orbix Roulette wheel spin">
+        <div class="card-top">
+          <img class="app-icon" loading="lazy" alt="Orbix Roulette icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c8/61/9d/c8619dd1-5e0a-b1d5-ac6f-713aa996dc42/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg" />
           <div class="app-info">
             <div class="app-name">Orbix Roulette</div>
-            <div class="app-desc">Spin the wheel — beautiful roulette experience.</div>
+            <div class="app-desc">A beautiful decision wheel. Who pays, who goes first, where to eat —
+              spin it and stop arguing.</div>
             <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
           </div>
         </div>
         <div class="store-btns">
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756230899" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
+            </svg>App Store</a>
         </div>
-      </div>
+      </article>
 
-    </div>
-  </section>
-
-  <!-- Lifestyle & Tools -->
-  <section class="section">
-    <div class="section-title">🛠 Lifestyle &amp; Tools</div>
-    <div class="grid">
-
-      <div class="card">
+      <!-- Tasbih -->
+      <article class="card" data-tags="tools watch ios" data-name="Tasbih Tally digital counter zikir tesbih">
         <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/44/71/fa/4471fac3-d08e-6fd4-9152-80d0f35865d1/AppIcon-0-0-1x_U007epad-0-1-85-220.jpeg/512x512bb.jpg"
-            alt="Daily Whisper" />
-          <div class="app-info">
-            <div class="app-name">Daily Whisper: Affirmations</div>
-            <div class="app-desc">Start your day with positive affirmations &amp; mindfulness.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/17/32/ee1732ba-3b6f-f559-c4b4-09161ea4165b/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg"
-            alt="Kit QR" />
-          <div class="app-info">
-            <div class="app-name">Kit: QR Generator &amp; Scanner</div>
-            <div class="app-desc">Create and scan QR codes instantly.</div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img class="app-icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/96/d4/7496d4ab-c099-9b9a-7935-d9ad4d3aaf84/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg"
-            alt="Tasbih" />
+          <img class="app-icon" loading="lazy" alt="Tasbih Tally icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/96/d4/7496d4ab-c099-9b9a-7935-d9ad4d3aaf84/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg" />
           <div class="app-info">
             <div class="app-name">Tasbih Tally: Digital Counter</div>
-            <div class="app-desc">Beautiful digital counter for dhikr and daily tracking.</div>
+            <div class="app-desc">A quiet digital counter for dhikr and daily repetitions, with haptics
+              on the Watch so you never lose count.</div>
             <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
           </div>
         </div>
         <div class="store-btns">
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            App Store
-          </a>
-          <!-- TODO: <a class="store-btn android" href="https://play.google.com/store/apps/details?id=PACKAGE_ID">Google Play</a> -->
+            </svg>App Store</a>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
+      <!-- O mu Bu mu -->
+      <article class="card" data-tags="fun ios android" data-name="O mu Bu mu would you rather tercih oyunu">
         <div class="card-top">
-          <div class="app-icon-placeholder">💸</div>
+          <img class="app-icon" loading="lazy" alt="O mu Bu mu icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/25/04/75/25047589-d890-00e8-5eec-bbcc3ab5eb06/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" />
           <div class="app-info">
-            <div class="app-name">Wallet Coach: Price in Hours</div>
-            <div class="app-desc">Turn any price into the hours you must work for it — plus
-              inflation tools and short economics reads.</div>
-            <div class="badges"><span class="badge soon">Coming Soon</span></div>
+            <div class="app-name">O mu Bu mu?</div>
+            <div class="app-desc">Would-you-rather, Turkish edition. Impossible choices, played out
+              loud with friends.</div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn" href="/privacy.html">Privacy</a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne"
+            target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
+            </svg>Google Play</a>
         </div>
-      </div>
+      </article>
 
-      <div class="card">
+      <!-- Kit QR -->
+      <article class="card" data-tags="tools ios" data-name="Kit QR Generator Scanner barcode kod">
         <div class="card-top">
-          <div class="app-icon-placeholder">🩺</div>
+          <img class="app-icon" loading="lazy" alt="Kit QR Generator icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/17/32/ee1732ba-3b6f-f559-c4b4-09161ea4165b/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg" />
           <div class="app-info">
-            <div class="app-name">BodyBook: Health &amp; Skincare</div>
-            <div class="app-desc">Blood pressure, weight, skincare routine with product shelf
-              life, mole photos, medication, water and sleep — in one panel. Everything stays
-              on your iPhone.</div>
-            <div class="badges"><span class="badge soon">Coming Soon</span></div>
+            <div class="app-name">Kit: QR Generator &amp; Scanner</div>
+            <div class="app-desc">Make a QR code for a link, wifi or contact in two taps — and scan
+              anything back just as fast.</div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="/bodybook/">Take the tour</a>
-          <a class="store-btn" href="/bodybook/privacy/">Privacy</a>
-          <a class="store-btn" href="/bodybook/support/">Support</a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
         </div>
-      </div>
+      </article>
+
+      <!-- Daily Whisper -->
+      <article class="card" data-tags="health watch ios" data-name="Daily Whisper Affirmations mindfulness">
+        <div class="card-top">
+          <img class="app-icon" loading="lazy" alt="Daily Whisper icon"
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/44/71/fa/4471fac3-d08e-6fd4-9152-80d0f35865d1/AppIcon-0-0-1x_U007epad-0-1-85-220.jpeg/512x512bb.jpg" />
+          <div class="app-info">
+            <div class="app-name">Daily Whisper: Affirmations</div>
+            <div class="app-desc">One calm line a day, delivered to your wrist. No feed, no streaks,
+              nothing to keep up with.</div>
+            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+        </div>
+      </article>
+
+      <p class="empty" id="emptyState" hidden>No app matches that. Try clearing the search.</p>
+    </div>
+  </section>
+
+  <!-- ── Blog ───────────────────────────────────────────────── -->
+  <section class="section" id="blog">
+    <div class="section-head">
+      <h2>Notes</h2>
+      <p><a href="/blog/">All posts →</a></p>
+    </div>
+    <div class="posts" id="postList">
+      <p class="empty" style="grid-column:1/-1">Loading…</p>
+    </div>
+  </section>
+
+  <!-- ── Bağlantılar ────────────────────────────────────────── -->
+  <section class="section" id="elsewhere">
+    <div class="section-head">
+      <h2>Elsewhere</h2>
+    </div>
+    <div class="links">
+      <a class="link-tile" href="https://github.com/berkalparslan" target="_blank" rel="noopener">
+        <span class="em">🐙</span>
+        <span><b>GitHub</b><small>Code and experiments</small></span>
+      </a>
+      <a class="link-tile" href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener">
+        <span class="em">🍎</span>
+        <span><b>App Store</b><small>Every app in one place</small></span>
+      </a>
+      <a class="link-tile" href="mailto:aberkalparslan@gmail.com">
+        <span class="em">✉️</span>
+        <span><b>Email</b><small>aberkalparslan@gmail.com</small></span>
+      </a>
+      <a class="link-tile" href="/support/">
+        <span class="em">💬</span>
+        <span><b>Support</b><small>Bugs, requests, questions</small></span>
+      </a>
     </div>
   </section>
 
   <footer>
-    <p>© 2026 BamTech — Ali Berk Alparslan<br />
-      <a href="/privacy/">Privacy Policies</a> ·
+    <p>© 2026 BamTech<br />
+      <a href="/privacy/">Privacy</a> ·
       <a href="/support/">Support</a> ·
+      <a href="/blog/">Blog</a> ·
       <a href="mailto:aberkalparslan@gmail.com">Contact</a>
     </p>
   </footer>
+
+  <!-- ── Komut paleti ───────────────────────────────────────── -->
+  <div class="palette-backdrop" id="paletteBackdrop" hidden>
+    <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+      <label class="sr" for="paletteInput">Search</label>
+      <input id="paletteInput" type="text" placeholder="Jump to an app, a page, a setting…" autocomplete="off" />
+      <ul id="paletteList" role="listbox"></ul>
+      <footer><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd>
+          close</span></footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ── Tema ──────────────────────────────────────────────── */
+      const root = document.documentElement;
+      const themeBtn = document.getElementById("themeBtn");
+      const paintTheme = () => {
+        themeBtn.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+      };
+      const toggleTheme = () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("bb-theme", next); } catch (e) { }
+        paintTheme();
+      };
+      themeBtn.addEventListener("click", toggleTheme);
+      paintTheme();
+
+      /* Windows/Linux'ta ⌘ yerine Ctrl göster. */
+      if (!/Mac|iPhone|iPad/.test(navigator.platform || "")) {
+        const hint = document.getElementById("kbdHint");
+        if (hint) hint.innerHTML = "<kbd>Ctrl</kbd><kbd>K</kbd>";
+      }
+
+      /* ── Kartlar: sayaçlar, filtre, arama, ışıltı ──────────── */
+      const cards = Array.from(document.querySelectorAll("#appGrid .card"));
+      const chips = Array.from(document.querySelectorAll(".chip"));
+      const searchInput = document.getElementById("appSearch");
+      const emptyState = document.getElementById("emptyState");
+      const resultCount = document.getElementById("resultCount");
+
+      const tagsOf = c => (c.dataset.tags || "").split(/\s+/);
+      const live = cards.filter(c => !tagsOf(c).includes("soon"));
+      document.getElementById("statApps").textContent = live.length;
+      document.getElementById("statWatch").textContent = cards.filter(c => tagsOf(c).includes("watch")).length;
+      document.getElementById("statSoon").textContent = cards.length - live.length;
+
+      let activeFilter = "all";
+
+      function applyFilters() {
+        const q = searchInput.value.trim().toLowerCase();
+        let shown = 0;
+        for (const card of cards) {
+          const matchTag = activeFilter === "all" || tagsOf(card).includes(activeFilter);
+          const haystack = (card.dataset.name + " " + card.textContent).toLowerCase();
+          const matchText = !q || haystack.includes(q);
+          const visible = matchTag && matchText;
+          card.classList.toggle("is-hidden", !visible);
+          if (visible) shown++;
+        }
+        emptyState.hidden = shown > 0;
+        resultCount.textContent = shown + (shown === 1 ? " app" : " apps");
+      }
+
+      chips.forEach(chip => chip.addEventListener("click", () => {
+        activeFilter = chip.dataset.filter;
+        chips.forEach(c => c.setAttribute("aria-pressed", String(c === chip)));
+        applyFilters();
+      }));
+      searchInput.addEventListener("input", applyFilters);
+      applyFilters();
+
+      /* Kart üstündeki imleç konumu -> CSS değişkeni. */
+      const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      if (fine) {
+        cards.forEach(card => card.addEventListener("pointermove", e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+          card.style.setProperty("--my", (e.clientY - r.top) + "px");
+        }));
+      }
+
+      /* ── Blog önizlemesi ───────────────────────────────────── */
+      const postList = document.getElementById("postList");
+      fetch("/blog/posts.json", { cache: "no-cache" })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(posts => {
+          const recent = posts.slice(0, 3);
+          if (!recent.length) throw new Error("empty");
+          postList.innerHTML = recent.map(p => `
+            <a class="post" href="${p.url}">
+              <time datetime="${p.date}">${fmtDate(p.date)}</time>
+              <h3>${esc(p.title)}</h3>
+              <p>${esc(p.summary)}</p>
+            </a>`).join("");
+          registerPosts(recent);
+        })
+        .catch(() => {
+          postList.innerHTML =
+            '<p class="empty" style="grid-column:1/-1">Nothing published yet — first note coming soon.</p>';
+        });
+
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      }
+      function fmtDate(iso) {
+        const d = new Date(iso + "T00:00:00");
+        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",
+          { day: "numeric", month: "short", year: "numeric" });
+      }
+
+      /* ── Komut paleti ──────────────────────────────────────── */
+      const backdrop = document.getElementById("paletteBackdrop");
+      const pInput = document.getElementById("paletteInput");
+      const pList = document.getElementById("paletteList");
+
+      const commands = [
+        { icon: "🏠", title: "Home", kind: "page", run: () => location.hash = "" },
+        { icon: "📱", title: "All apps", kind: "page", run: () => go("#apps") },
+        { icon: "✍️", title: "Blog", kind: "page", run: () => location.href = "/blog/" },
+        { icon: "💬", title: "Support", kind: "page", run: () => location.href = "/support/" },
+        { icon: "🔒", title: "Privacy policies", kind: "page", run: () => location.href = "/privacy/" },
+        { icon: "✉️", title: "Email me", kind: "action", run: () => location.href = "mailto:aberkalparslan@gmail.com" },
+        { icon: "🍎", title: "App Store developer page", kind: "link", run: () => open("https://apps.apple.com/developer/id1676787785", "_blank") },
+        { icon: "🐙", title: "GitHub profile", kind: "link", run: () => open("https://github.com/berkalparslan", "_blank") },
+        { icon: "🌗", title: "Toggle dark mode", kind: "setting", run: toggleTheme },
+        { icon: "📊", title: "Lab — private dashboard", kind: "private", run: () => location.href = "/lab/" }
+      ];
+
+      /* Uygulama kartları da palete girer. */
+      cards.forEach(card => {
+        const link = card.querySelector("a.store-btn");
+        const img = card.querySelector(".app-icon");
+        const ph = card.querySelector(".app-icon-ph");
+        commands.push({
+          icon: ph ? ph.textContent : "📲",
+          img: img ? img.src : null,
+          title: card.querySelector(".app-name").textContent.trim(),
+          alias: card.dataset.name,
+          kind: "app",
+          run: () => { if (link) link.click(); }
+        });
+      });
+
+      let postCmds = [];
+      function registerPosts(posts) {
+        postCmds = posts.map(p => ({
+          icon: "📄", title: p.title, kind: "post", run: () => location.href = p.url
+        }));
+      }
+
+      function go(hash) {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      let results = [], cursor = 0;
+
+      function render() {
+        const q = pInput.value.trim().toLowerCase();
+        const all = commands.concat(postCmds);
+        results = q
+          ? all.filter(c => (c.title + " " + (c.alias || "") + " " + c.kind).toLowerCase().includes(q))
+          : all;
+        cursor = 0;
+        pList.innerHTML = results.length
+          ? results.map((c, i) => `
+              <li role="option" data-i="${i}" aria-selected="${i === 0}">
+                <span class="pi">${c.img ? `<img src="${c.img}" alt="" style="width:18px;height:18px;border-radius:5px;vertical-align:-3px">` : c.icon}</span>
+                <span class="pt">${esc(c.title)}</span>
+                <span class="pk">${c.kind}</span>
+              </li>`).join("")
+          : '<li aria-selected="false" style="color:var(--faint);cursor:default">No match</li>';
+      }
+
+      function move(delta) {
+        if (!results.length) return;
+        cursor = (cursor + delta + results.length) % results.length;
+        Array.from(pList.children).forEach((li, i) =>
+          li.setAttribute("aria-selected", String(i === cursor)));
+        const sel = pList.children[cursor];
+        if (sel) sel.scrollIntoView({ block: "nearest" });
+      }
+
+      function openPalette() {
+        backdrop.hidden = false;
+        pInput.value = "";
+        render();
+        pInput.focus();
+      }
+      function closePalette() {
+        backdrop.hidden = true;
+      }
+      function runCursor() {
+        const cmd = results[cursor];
+        if (!cmd) return;
+        closePalette();
+        cmd.run();
+      }
+
+      document.getElementById("paletteBtn").addEventListener("click", openPalette);
+      pInput.addEventListener("input", render);
+
+      pList.addEventListener("click", e => {
+        const li = e.target.closest("li[data-i]");
+        if (!li) return;
+        cursor = Number(li.dataset.i);
+        runCursor();
+      });
+
+      backdrop.addEventListener("mousedown", e => {
+        if (e.target === backdrop) closePalette();
+      });
+
+      pInput.addEventListener("keydown", e => {
+        if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+        else if (e.key === "Enter") { e.preventDefault(); runCursor(); }
+        else if (e.key === "Escape") { e.preventDefault(); closePalette(); }
+      });
+
+      document.addEventListener("keydown", e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          backdrop.hidden ? openPalette() : closePalette();
+          return;
+        }
+        if (e.key === "Escape" && !backdrop.hidden) closePalette();
+        /* "/" ile uygulama aramasına atla — bir alana yazarken değil. */
+        if (e.key === "/" && backdrop.hidden &&
+          !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    })();
+  </script>
 
 </body>
 

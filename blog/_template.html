@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+  YENİ YAZI ŞABLONU
+  ─────────────────
+  1. Bu dosyayı kopyala:  blog/YIL/yazi-adresi/index.html
+  2. Aşağıdaki TITLE / DESC / TARIH / ETIKET alanlarını doldur.
+  3. blog/posts.json'a en üste bir satır ekle:
+       { "title": "...", "url": "/blog/2026/yazi-adresi/",
+         "date": "2026-09-01", "tag": "ios", "summary": "..." }
+  4. Commit + push. Bir dakika içinde yayında.
+
+  Not: bu dosya doğrudan yayınlanır ama hiçbir yerden linklenmez ve
+  posts.json'da yer almaz — sadece kopyalamak için duruyor.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POST TITLE — BamTech</title>
+  <meta name="description" content="POST DESCRIPTION" />
+  <link rel="canonical" href="https://berkalparslan.github.io/blog/YEAR/SLUG/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="POST TITLE" />
+  <script>
+    (function () {
+      try {
+        document.documentElement.setAttribute(
+          "data-theme", localStorage.getItem("bb-theme") || "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/">Support</a>
+      </nav>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <a class="back-link" href="/blog/">← All notes</a>
+
+    <article class="post-body">
+      <h1>POST TITLE</h1>
+      <div class="post-header-meta">
+        <time datetime="2026-01-01">1 January 2026</time>
+        <span class="tag">TAG</span>
+      </div>
+
+      <p>İlk paragraf.</p>
+
+      <h2>Ara başlık</h2>
+      <p>Metin. <a href="#">Bağlantı</a>, <code>kod</code>, <strong>kalın</strong>.</p>
+
+      <ul>
+        <li>Madde</li>
+        <li>Madde</li>
+      </ul>
+
+      <blockquote>Alıntı.</blockquote>
+
+      <pre><code>// kod bloğu
+let x = 1</code></pre>
+
+      <p><img src="/blog/YEAR/SLUG/gorsel.png" alt="Açıklama" /></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 BamTech<br />
+      <a href="/">Apps</a> · <a href="/blog/">Blog</a> · <a href="/privacy/">Privacy</a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById("themeBtn");
+      const paint = () => {
+        btn.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+      };
+      btn.addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("bb-theme", next); } catch (e) { }
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+
+</html>

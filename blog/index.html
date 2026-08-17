@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes — BamTech</title>
+  <meta name="description" content="Notes on building small independent apps for iPhone and Apple Watch." />
+  <link rel="canonical" href="https://berkalparslan.github.io/blog/" />
+  <script>
+    (function () {
+      try {
+        document.documentElement.setAttribute(
+          "data-theme", localStorage.getItem("bb-theme") || "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/">Support</a>
+      </nav>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Notes</h1>
+    <p class="page-lede">Short write-ups on the apps — what I got wrong, what I'd build again,
+      and the odd technical detail worth keeping.</p>
+
+    <ul class="post-list" id="postList">
+      <li class="empty-note">Loading…</li>
+    </ul>
+  </main>
+
+  <footer>
+    <p>© 2026 BamTech<br />
+      <a href="/">Apps</a> · <a href="/privacy/">Privacy</a> · <a href="/support/">Support</a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const root = document.documentElement;
+      const btn = document.getElementById("themeBtn");
+      const paint = () => {
+        btn.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+      };
+      btn.addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("bb-theme", next); } catch (e) { }
+        paint();
+      });
+      paint();
+
+      const esc = s => String(s).replace(/[&<>"]/g,
+        c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+      const fmt = iso => {
+        const d = new Date(iso + "T00:00:00");
+        return isNaN(d) ? iso
+          : d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+      };
+
+      const list = document.getElementById("postList");
+
+      fetch("posts.json", { cache: "no-cache" })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(posts => {
+          /* En yeni önce — posts.json'daki sıraya güvenmiyoruz. */
+          posts.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+          if (!posts.length) throw new Error("empty");
+          list.innerHTML = posts.map(p => `
+            <li class="post-item">
+              <a href="${p.url}">
+                <div class="post-meta">
+                  <time datetime="${p.date}">${fmt(p.date)}</time>
+                  ${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}
+                </div>
+                <h2>${esc(p.title)}</h2>
+                <p>${esc(p.summary)}</p>
+              </a>
+            </li>`).join("");
+        })
+        .catch(() => {
+          list.innerHTML =
+            '<li class="empty-note">No posts yet. Check back soon.</li>';
+        });
+    })();
+  </script>
+</body>
+
+</html>

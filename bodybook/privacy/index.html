@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BodyBook — Gizlilik Politikası / Privacy Policy</title>
 <meta name="description" content="BodyBook gizlilik politikası — sağlık verilerin cihazında kalır.">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
+  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
@@ -17,6 +29,7 @@
       <a href="/bodybook/support/">Destek</a>
       <a href="/privacy/">Tüm politikalar</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
   </div>
 </header>
 
@@ -326,11 +339,31 @@
 
 <footer>
   <p>
-    © 2026 BamTech — Ali Berk Alparslan ·
+    © 2026 BamTech ·
     <a href="/">Uygulamalar</a> ·
     <a href="/bodybook/support/">BodyBook desteği</a>
   </p>
 </footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
 
 </body>
 </html>

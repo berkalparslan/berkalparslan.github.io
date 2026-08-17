@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Yeni bir sayfa veya blog yazısı eklediğinde buraya da bir satır ekle.
+     /lab/ bilerek yok — robots.txt'te de kapalı. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://berkalparslan.github.io/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://berkalparslan.github.io/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://berkalparslan.github.io/blog/2026/a-hub-for-everything-i-ship/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://berkalparslan.github.io/bodybook/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://berkalparslan.github.io/privacy/</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://berkalparslan.github.io/support/</loc>
+    <priority>0.5</priority>
+  </url>
+</urlset>

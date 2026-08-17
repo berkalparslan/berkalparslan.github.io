@@ -8,8 +8,21 @@
 <meta property="og:title" content="BodyBook — Sağlık & Cilt Takibi">
 <meta property="og:description" content="Yedi modül, tek panel. Veriler cihazında kalır.">
 <meta property="og:image" content="https://berkalparslan.github.io/bodybook/assets/screens/bugun.png">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
+  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
 <style>
 :root{
+  color-scheme:light;
   --paper:#faf6f1; --surface:#ffffff; --sunken:#f3ece4;
   --ink:#1e1a18; --ink2:#5c534d; --ink3:#8d827a;
   --line:#e8ded3; --accent:#d8542a;
@@ -17,14 +30,13 @@
   --med:#1e76c4; --water:#0e8894; --sleep:#4a42c4;
   --r:20px;
 }
-@media (prefers-color-scheme: dark){
-  :root{
+:root[data-theme="dark"]{
+  color-scheme:dark;
     --paper:#12100f; --surface:#1b1917; --sunken:#221f1c;
     --ink:#f5efe8; --ink2:#b3a99f; --ink3:#8a7f75;
     --line:#2e2926; --accent:#ff7a4d;
     --bp:#ff7a4d; --weight:#f0b429; --skin:#3fc48f; --mole:#a78bfa;
-    --med:#5aaef5; --water:#4dc9d6; --sleep:#7c74e8;
-  }
+  --med:#5aaef5; --water:#4dc9d6; --sleep:#7c74e8;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -50,6 +62,12 @@ a{color:var(--accent)}
 .bar nav::-webkit-scrollbar{display:none}
 .bar nav a{color:var(--ink2);text-decoration:none;white-space:nowrap}
 .bar nav a:hover{color:var(--accent)}
+.theme-toggle{
+  margin-left:auto;flex:none;width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
+  font-size:14px;line-height:1;cursor:pointer
+}
+.theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
 
 /* ── Genel ─────────────────────────────────── */
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
@@ -141,6 +159,7 @@ footer a{text-decoration:none}
       <a href="#trend">Trend</a>
       <a href="#gizlilik">Gizlilik</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
   </div>
 </div>
 
@@ -448,10 +467,30 @@ footer a{text-decoration:none}
 </div>
 
 <footer>
-  © 2026 BamTech — Ali Berk Alparslan ·
+  © 2026 BamTech ·
   <a href="/">Diğer uygulamalar</a> ·
   <a href="/privacy/">Gizlilik politikaları</a>
 </footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
 
 </body>
 </html>

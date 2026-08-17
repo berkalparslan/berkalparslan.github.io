@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A hub for everything I ship — BamTech</title>
+  <meta name="description"
+    content="Why the apps, privacy pages and notes now live at one address, and how this site is put together." />
+  <link rel="canonical" href="https://berkalparslan.github.io/blog/2026/a-hub-for-everything-i-ship/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="A hub for everything I ship" />
+  <script>
+    (function () {
+      try {
+        document.documentElement.setAttribute(
+          "data-theme", localStorage.getItem("bb-theme") || "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/">Support</a>
+      </nav>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <a class="back-link" href="/blog/">← All notes</a>
+
+    <article class="post-body">
+      <h1>A hub for everything I ship</h1>
+      <div class="post-header-meta">
+        <time datetime="2026-08-17">17 August 2026</time>
+        <span class="tag">meta</span>
+      </div>
+
+      <p>Every app I release needs a support page and a privacy policy before Apple will let it
+        through review. For a while those pages were the only reason this site existed — a
+        handful of documents written for a reviewer, not for a reader.</p>
+
+      <p>That felt like a waste. The same address can hold the apps themselves, the reasoning
+        behind them, and whatever I learn along the way. So this is now the one place I point
+        people to.</p>
+
+      <h2>What lives here</h2>
+      <ul>
+        <li><strong>The apps</strong> — score keepers for tennis, padel, pickleball and volleyball,
+          a health and skincare tracker, a QR toolkit, a decision wheel, and a few small things
+          for fun. Most of them run on Apple Watch.</li>
+        <li><strong>Support and privacy</strong> — one page per app, kept where the App Store
+          listing expects to find it.</li>
+        <li><strong>These notes</strong> — short posts about decisions I had to make twice.</li>
+      </ul>
+
+      <h2>How the site is built</h2>
+      <p>Plain HTML and CSS, served by GitHub Pages. No framework, no build step, no dependencies
+        to update six months from now. Adding a post means copying a file and adding one line to
+        a JSON manifest.</p>
+
+      <p>That constraint is the point. A personal site that needs maintenance stops getting
+        updated, and a site that stops getting updated is worse than no site at all.</p>
+
+      <hr />
+
+      <p>If something here is broken or you want to tell me an app is wrong about the score,
+        <a href="/support/">the support page</a> has the fastest route to me.</p>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 BamTech<br />
+      <a href="/">Apps</a> · <a href="/blog/">Blog</a> · <a href="/privacy/">Privacy</a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById("themeBtn");
+      const paint = () => {
+        btn.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+      };
+      btn.addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("bb-theme", next); } catch (e) { }
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+
+</html>

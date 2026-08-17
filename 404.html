@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Not found — BamTech</title>
+  <meta name="robots" content="noindex" />
+  <script>
+    (function () {
+      try {
+        document.documentElement.setAttribute(
+          "data-theme", localStorage.getItem("bb-theme") || "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+  <style>
+    .center {
+      min-height: 72vh;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .code {
+      font-family: var(--mono);
+      font-size: 60px;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      background: linear-gradient(120deg, var(--accent), var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .center p {
+      color: var(--subtle);
+      max-width: 38ch;
+      margin: 0 auto 18px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .actions a {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 11px;
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+    }
+
+    .actions a:first-child {
+      background: linear-gradient(135deg, var(--accent), var(--violet));
+      color: #fff;
+      border-color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="center">
+      <div class="code">404</div>
+      <h1 style="font-size:22px;letter-spacing:-.02em">This page moved, or never existed</h1>
+      <p>If you followed a link from one of the apps, let me know — I'd like to fix it.</p>
+      <div class="actions">
+        <a href="/">Back to the apps</a>
+        <a href="/support/">Report it</a>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
