@@ -66,6 +66,10 @@
     ['courier', 'Courier'], ['impact', 'Impact'], ['custom', 'Yüklenen font'],
   ];
 
+  const DEFAULT_TITLES = ['Başlığını buraya yaz', 'Write your headline here'];
+  const defaultTitle = () => t('Başlığını buraya yaz');
+  const isDefaultTitle = (x) => DEFAULT_TITLES.includes(x);
+
   const newSlide = (style) => {
     const base = {
       id: 's' + Math.random().toString(36).slice(2, 9),
@@ -73,7 +77,7 @@
       shot: null,
       bg: { type: 'linear', c1: '#6366f1', c2: '#22d3ee', c3: '#0b1020', angle: 135, variant: 0, img: null, blur: 0, dim: 25, pattern: 'none', patternOpacity: 12, patternColor: '#ffffff', noise: 0, vignette: 0 },
       device: { frame: 'iphone-pro', color: 'graphite', w: 66, x: 0, y: 27, rot: 0, shadow: 45, glare: true, homeIndicator: true, fit: 'top', screenBg: '#000000', above: false },
-      text: { title: 'Başlığını buraya yaz', sub: '', align: 'center', color: '#ffffff', subColor: '#ffffff', subOpacity: 85, font: 'system', weight: 700, subWeight: 400, titleSize: 6.2, subSize: 3.4, y: 6, pad: 9, lineHeight: 1.15, letterSpacing: 0, shadow: false },
+      text: { title: defaultTitle(), sub: '', align: 'center', color: '#ffffff', subColor: '#ffffff', subOpacity: 85, font: 'system', weight: 700, subWeight: 400, titleSize: 6.2, subSize: 3.4, y: 6, pad: 9, lineHeight: 1.15, letterSpacing: 0, shadow: false },
     };
     if (style) {
       base.bg = JSON.parse(JSON.stringify(style.bg));
@@ -94,11 +98,67 @@
     cur: 0,
     tab: 'layout',
     appDesc: '',
+    lang: 'tr',
     screens: '',
     customFont: null,
   };
 
   const cur = () => state.slides[state.cur];
+
+  /* ---- geçmiş: dizeler referansla taşınır, dataURL'ler kopyalanmaz ---- */
+  function clone(v) {
+    if (Array.isArray(v)) return v.map(clone);
+    if (v && typeof v === 'object') {
+      const o = {};
+      for (const k in v) o[k] = clone(v[k]);
+      return o;
+    }
+    return v;
+  }
+
+  const HISTORY_MAX = 60;
+  const undoStack = [];
+  const redoStack = [];
+  let lastKey = null, lastAt = 0;
+
+  /** Değişiklikten ÖNCE çağrılır. Aynı anahtar 900 ms içinde tekrar gelirse tek adım sayılır. */
+  function snapshot(key) {
+    const now = Date.now();
+    if (key && key === lastKey && now - lastAt < 900) { lastAt = now; return; }
+    lastKey = key; lastAt = now;
+    undoStack.push({ slides: clone(state.slides), cur: state.cur });
+    if (undoStack.length > HISTORY_MAX) undoStack.shift();
+    redoStack.length = 0;
+    updateHistoryUI();
+  }
+
+  function restore(entry) {
+    state.slides = clone(entry.slides);
+    state.cur = Math.max(0, Math.min(entry.cur, state.slides.length - 1));
+    lastKey = null;
+    refreshAll();
+    updateHistoryUI();
+  }
+
+  function undo() {
+    if (!undoStack.length) return toast(t('Geri alınacak bir şey yok'));
+    redoStack.push({ slides: clone(state.slides), cur: state.cur });
+    restore(undoStack.pop());
+    toast(t('Geri alındı'));
+  }
+
+  function redo() {
+    if (!redoStack.length) return toast(t('İleri alınacak bir şey yok'));
+    undoStack.push({ slides: clone(state.slides), cur: state.cur });
+    restore(redoStack.pop());
+    toast(t('İleri alındı'));
+  }
+
+  function updateHistoryUI() {
+    const u = document.getElementById('btnUndo'), r = document.getElementById('btnRedo');
+    if (u) u.disabled = !undoStack.length;
+    if (r) r.disabled = !redoStack.length;
+  }
   const getP = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
   const setP = (o, p, v) => {
     const ks = p.split('.');
@@ -126,7 +186,7 @@
     previewCanvas.width = w;
     previewCanvas.height = h;
     window.Render.renderSlide(previewCanvas.getContext('2d'), w, h, s, imagesFor(s));
-    $('#stageInfo').textContent = `${state.exp.w} × ${state.exp.h} px · ${window.Frames.FRAMES[s.device.frame].label}`;
+    $('#stageInfo').textContent = `${state.exp.w} × ${state.exp.h} px · ${t(window.Frames.FRAMES[s.device.frame].label)}`;
     $('#stageCount').textContent = `${state.cur + 1} / ${state.slides.length}`;
   }
 
@@ -174,6 +234,7 @@
   function move(i, d) {
     const j = i + d;
     if (j < 0 || j >= state.slides.length) return;
+    snapshot('move');
     const [x] = state.slides.splice(i, 1);
     state.slides.splice(j, 0, x);
     state.cur = j;
@@ -270,12 +331,13 @@
     for (const def of SCHEMA[state.tab]) {
       let node;
       if (def.type === 'section') {
-        node = el('div', 'section-title', def.label);
+        node = el('div', 'section-title', t(def.label));
       } else if (def.type === 'layoutPresets') {
         node = el('div', 'presets');
         LAYOUT_PRESETS.forEach((p) => {
-          const b = el('button', 'btn tiny', p.n);
+          const b = el('button', 'btn tiny', t(p.n));
           b.onclick = () => {
+            snapshot('layout:' + p.k);
             Object.entries(p.p).forEach(([k, v]) => setP(cur(), k, v));
             refreshAll();
           };
@@ -285,13 +347,14 @@
         node = el('div', 'swatches');
         BG_PRESETS.forEach((p) => {
           const b = el('div', 'swatch');
-          b.title = p.n;
+          b.title = t(p.n);
           b.style.background =
             p.t === 'solid' ? p.c1
               : p.t === 'mesh' ? `radial-gradient(circle at 20% 20%, ${p.c1}, transparent 60%), radial-gradient(circle at 80% 70%, ${p.c2}, transparent 60%), ${p.c3}`
                 : p.t === 'radial' ? `radial-gradient(circle at 50% 35%, ${p.c1}, ${p.c2})`
                   : `linear-gradient(${p.a || 135}deg, ${p.c1}, ${p.c2})`;
           b.onclick = () => {
+            snapshot('bgpreset');
             const bg = cur().bg;
             bg.type = p.t; bg.c1 = p.c1; bg.c2 = p.c2 || p.c1;
             if (p.c3) bg.c3 = p.c3;
@@ -305,14 +368,14 @@
         });
       } else if (def.type === 'button') {
         node = el('div', 'row');
-        const b = el('button', 'btn tiny wide' + (def.primary ? ' primary' : ''), def.label);
+        const b = el('button', 'btn tiny wide' + (def.primary ? ' primary' : ''), t(def.label));
         b.onclick = () => actions[def.act]();
         node.appendChild(b);
       } else {
         node = el('div', 'row');
         const val = getP(s, def.k);
         const lbl = el('label', 'lbl');
-        lbl.appendChild(el('span', null, def.label));
+        lbl.appendChild(el('span', null, t(def.label)));
         const valSpan = el('span', 'val');
         lbl.appendChild(valSpan);
         if (def.type !== 'check') node.appendChild(lbl);
@@ -325,6 +388,7 @@
           input.value = val;
           valSpan.textContent = fmt(val) + (def.unit || '');
           input.oninput = () => {
+            snapshot('ctl:' + def.k);
             setP(cur(), def.k, parseFloat(input.value));
             valSpan.textContent = fmt(input.value) + (def.unit || '');
             schedule();
@@ -333,12 +397,13 @@
         } else if (def.type === 'select') {
           input = el('select');
           def.opts.forEach(([v, l]) => {
-            const o = el('option', null, l);
+            const o = el('option', null, t(l));
             o.value = v;
             input.appendChild(o);
           });
           input.value = val;
           input.onchange = () => {
+            snapshot('ctl:' + def.k + ':' + input.value);
             const raw = input.value;
             setP(cur(), def.k, isNaN(raw) || raw === '' ? raw : Number(raw));
             schedule();
@@ -347,8 +412,9 @@
         } else if (def.type === 'seg') {
           input = el('div', 'seg');
           def.opts.forEach(([v, l]) => {
-            const b = el('button', getP(s, def.k) === v ? 'on' : '', l);
+            const b = el('button', getP(s, def.k) === v ? 'on' : '', t(l));
             b.onclick = () => {
+              snapshot('ctl:' + def.k + ':' + v);
               setP(cur(), def.k, v);
               [...input.children].forEach((c) => c.classList.remove('on'));
               b.classList.add('on');
@@ -362,19 +428,19 @@
           const c = el('input');
           c.type = 'color';
           c.value = val || '#000000';
-          c.oninput = () => { setP(cur(), def.k, c.value); schedule(); };
+          c.oninput = () => { snapshot('ctl:' + def.k); setP(cur(), def.k, c.value); schedule(); };
           input.appendChild(c);
         } else if (def.type === 'textarea') {
           input = el('textarea');
           input.value = val || '';
-          input.oninput = () => { setP(cur(), def.k, input.value); schedule(); };
+          input.oninput = () => { snapshot('ctl:' + def.k); setP(cur(), def.k, input.value); schedule(); };
         } else if (def.type === 'check') {
           const wrap = el('label', 'check');
           const c = el('input');
           c.type = 'checkbox';
           c.checked = !!val;
-          c.onchange = () => { setP(cur(), def.k, c.checked); schedule(); refreshVisibility(); };
-          wrap.append(c, el('span', null, def.label));
+          c.onchange = () => { snapshot('ctl:' + def.k); setP(cur(), def.k, c.checked); schedule(); refreshVisibility(); };
+          wrap.append(c, el('span', null, t(def.label)));
           input = wrap;
         }
         node.appendChild(input);
@@ -412,9 +478,9 @@
 
   const actions = {
     'pick-shot': () => { pickTarget = 'shot'; $('#shotPick').click(); },
-    'clear-shot': () => { cur().shot = null; refreshAll(); },
+    'clear-shot': () => { snapshot('clear-shot'); cur().shot = null; refreshAll(); },
     'pick-bg': () => { pickTarget = 'bg'; $('#bgPick').click(); },
-    'clear-bg': () => { cur().bg.img = null; refreshAll(); },
+    'clear-bg': () => { snapshot('clear-bg'); cur().bg.img = null; refreshAll(); },
     'pick-font': () => $('#fontPick').click(),
   };
 
@@ -422,12 +488,13 @@
     const imgs = [...files].filter((f) => f.type.startsWith('image/'));
     if (!imgs.length) return;
     imgs.sort((a, b) => a.name.localeCompare(b.name, 'tr', { numeric: true }));
+    snapshot('add-slides');
     const style = cur();
     for (const f of imgs) {
       const url = await window.Store.fileToDataUrl(f);
       await window.Store.loadImage(url);
       let target;
-      if (state.slides.length === 1 && !state.slides[0].shot && !state.slides[0].text.sub && state.slides[0].text.title === 'Başlığını buraya yaz') {
+      if (state.slides.length === 1 && !state.slides[0].shot && !state.slides[0].text.sub && isDefaultTitle(state.slides[0].text.title)) {
         target = state.slides[0];
       } else {
         target = newSlide(style);
@@ -435,11 +502,11 @@
       }
       target.shot = url;
       target.name = f.name.replace(/\.[^.]+$/, '');
-      if (target.text.title === 'Başlığını buraya yaz') target.text.title = '';
+      if (isDefaultTitle(target.text.title)) target.text.title = '';
       state.cur = state.slides.indexOf(target);
     }
     refreshAll();
-    toast(`${imgs.length} görsel eklendi`);
+    toast(t('{n} görsel eklendi', { n: imgs.length }));
   }
 
   /* ------------------------------------------------------------------ */
@@ -477,7 +544,7 @@
     const s = cur();
     const blob = await toBlob(renderToCanvas(s, state.exp.w, state.exp.h));
     download(blob, fileName(state.cur, s));
-    toast('İndirildi');
+    toast(t('İndirildi'));
   }
 
   async function exportAll() {
@@ -487,7 +554,7 @@
       files.push({ name: fileName(i, state.slides[i]), data: new Uint8Array(await blob.arrayBuffer()) });
     }
     download(window.makeZip(files), `store-${state.exp.w}x${state.exp.h}.zip`);
-    toast(`${files.length} görsel zip'lendi`);
+    toast(t("{n} görsel zip'lendi", { n: files.length }));
   }
 
   /* ------------------------------------------------------------------ */
@@ -495,7 +562,7 @@
   /* ------------------------------------------------------------------ */
   let saveTimer = null;
   function serialize() {
-    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens };
+    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens, lang: state.lang };
   }
   function autosave() {
     clearTimeout(saveTimer);
@@ -509,6 +576,7 @@
     state.cur = Math.min(p.cur || 0, state.slides.length - 1);
     state.appDesc = p.appDesc || '';
     state.screens = p.screens || '';
+    if (p.lang) state.lang = p.lang;
     await preloadImages();
     return true;
   }
@@ -570,6 +638,7 @@
   }
 
   function applyVariant(v) {
+    snapshot('import');
     const rows = v.slides || [];
     while (state.slides.length < rows.length) {
       state.slides.push(newSlide(state.slides[state.slides.length - 1]));
@@ -591,13 +660,13 @@
     const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/);
     if (fence) t = fence[1];
     const a = t.indexOf('{'), b = t.lastIndexOf('}');
-    if (a < 0 || b < 0) throw new Error('İçeride JSON bulunamadı');
+    if (a < 0 || b < 0) throw new Error(t('İçeride JSON bulunamadı'));
     const data = JSON.parse(t.slice(a, b + 1));
     const variants = data.variants
       || (data.slides ? [{ name: data.name || 'Şablon', template: data.template, slides: data.slides }] : null);
-    if (!variants || !variants.length) throw new Error('"variants" ya da "slides" alanı yok');
+    if (!variants || !variants.length) throw new Error(t('"variants" ya da "slides" alanı yok'));
     variants.forEach((v, i) => {
-      if (!Array.isArray(v.slides) || !v.slides.length) throw new Error(`${i + 1}. varyantta slaytlar boş`);
+      if (!Array.isArray(v.slides) || !v.slides.length) throw new Error(t('{i}. varyantta slaytlar boş', { i: i + 1 }));
     });
     return variants;
   }
@@ -611,14 +680,14 @@
     let variants;
     try { variants = parseImport(txt); }
     catch (e) { msg.textContent = '⚠︎ ' + e.message; return; }
-    msg.textContent = `${variants.length} varyant bulundu — uygulamak için birine tıkla.`;
+    msg.textContent = t('{n} varyant bulundu — uygulamak için birine tıkla.', { n: variants.length });
     variants.forEach((v) => {
-      const b = el('button', 'btn tiny', `${v.name || 'Varyant'}<br><span class="hint">${v.slides.length} slayt</span>`);
+      const b = el('button', 'btn tiny', `${v.name || 'Varyant'}<br><span class="hint">${t('{n} slayt', { n: v.slides.length })}</span>`);
       b.onclick = () => {
         [...box.children].forEach((c) => c.classList.remove('active'));
         b.classList.add('active');
         const n = applyVariant(v);
-        toast(`${n} slayt "${v.name || 'varyant'}" ile güncellendi`);
+        toast(t('{n} slayt "{name}" ile güncellendi', { n, name: v.name || 'varyant' }));
       };
       box.appendChild(b);
     });
@@ -637,12 +706,13 @@
 
   function initExportSelect() {
     const sel = $('#exportPreset');
+    sel.innerHTML = '';
     EXPORT_PRESETS.forEach(([n, w, h], i) => {
-      const o = el('option', null, `${n} — ${w}×${h}`);
+      const o = el('option', null, `${t(n)} — ${w}×${h}`);
       o.value = i;
       sel.appendChild(o);
     });
-    sel.appendChild(Object.assign(el('option', null, 'Özel'), { value: 'custom' }));
+    sel.appendChild(Object.assign(el('option', null, t('Özel')), { value: 'custom' }));
     syncExportUI();
     sel.onchange = () => {
       if (sel.value === 'custom') return;
@@ -670,7 +740,19 @@
     $('#exportPreset').value = i >= 0 ? String(i) : 'custom';
   }
 
+  function setLang(l) {
+    state.lang = l;
+    window.I18N.set(l);
+    $('#btnLang').textContent = l === 'tr' ? 'TR' : 'EN';
+    state.slides.forEach((sl) => { if (isDefaultTitle(sl.text.title)) sl.text.title = defaultTitle(); });
+    initExportSelect();
+    refreshAll();
+  }
+
   function bind() {
+    $('#btnLang').onclick = () => setLang(state.lang === 'tr' ? 'en' : 'tr');
+    $('#btnUndo').onclick = undo;
+    $('#btnRedo').onclick = redo;
     document.querySelectorAll('.tabs button').forEach((b) => {
       b.onclick = () => {
         document.querySelectorAll('.tabs button').forEach((x) => x.classList.remove('active'));
@@ -688,6 +770,7 @@
       if (f) {
         const url = await window.Store.fileToDataUrl(f);
         await window.Store.loadImage(url);
+        snapshot('pick-shot');
         cur().shot = url;
         cur().name = f.name.replace(/\.[^.]+$/, '');
         refreshAll();
@@ -700,6 +783,7 @@
       if (f) {
         const url = await window.Store.fileToDataUrl(f);
         await window.Store.loadImage(url);
+        snapshot('pick-bg');
         cur().bg.img = url;
         cur().bg.type = 'image';
         refreshAll();
@@ -716,12 +800,13 @@
         document.fonts.add(face);
         cur().text.font = 'custom';
         refreshAll();
-        toast('Font yüklendi: ' + f.name);
+        toast(t('Font yüklendi: {name}', { name: f.name }));
       }
       e.target.value = '';
     };
 
     $('#btnDup').onclick = () => {
+      snapshot('dup');
       const copy = JSON.parse(JSON.stringify(cur()));
       copy.id = 's' + Math.random().toString(36).slice(2, 9);
       state.slides.splice(state.cur + 1, 0, copy);
@@ -730,6 +815,7 @@
     };
 
     $('#btnDel').onclick = () => {
+      snapshot('del');
       if (state.slides.length === 1) { state.slides[0] = newSlide(); }
       else state.slides.splice(state.cur, 1);
       state.cur = Math.max(0, Math.min(state.cur, state.slides.length - 1));
@@ -740,6 +826,7 @@
     $('#btnNext').onclick = () => { state.cur = (state.cur + 1) % state.slides.length; refreshAll(); };
 
     $('#btnApplyAll').onclick = () => {
+      snapshot('apply-all');
       const src = cur();
       state.slides.forEach((s) => {
         if (s === src) return;
@@ -752,7 +839,7 @@
         s.text = t;
       });
       refreshAll();
-      toast('Stil tüm slaytlara uygulandı');
+      toast(t('Stil tüm slaytlara uygulandı'));
     };
 
     $('#btnExportOne').onclick = exportOne;
@@ -767,7 +854,8 @@
       } else if (act === 'load-proj') {
         $('#projPick').click();
       } else if (act === 'reset') {
-        if (confirm('Tüm slaytlar silinsin mi?')) {
+        if (confirm(t('Tüm slaytlar silinsin mi?'))) {
+          snapshot('reset');
           state.slides = [newSlide()];
           state.cur = 0;
           refreshAll();
@@ -787,8 +875,8 @@
           await preloadImages();
           syncExportUI();
           refreshAll();
-          toast('Proje yüklendi');
-        } catch (err) { toast('Proje okunamadı'); }
+          toast(t('Proje yüklendi'));
+        } catch (err) { toast(t('Proje okunamadı')); }
       }
       e.target.value = '';
     };
@@ -800,7 +888,7 @@
       $('#promptText').value = window.buildPrompt($('#appDesc').value, screenLines(), state.slides.length);
     };
     const fillScreens = () => {
-      $('#screenList').value = state.slides.map((s, i) => s.name || `slayt ${i + 1}`).join('\n');
+      $('#screenList').value = state.slides.map((s, i) => s.name || t('slayt {n}', { n: i + 1 })).join('\n');
     };
     $('#btnFillScreens').onclick = () => { fillScreens(); state.screens = $('#screenList').value; syncPrompt(); autosave(); };
     $('#screenList').oninput = () => { state.screens = $('#screenList').value; syncPrompt(); autosave(); };
@@ -821,14 +909,14 @@
       syncPrompt();
       try {
         await navigator.clipboard.writeText(ta.value);
-        toast('Prompt kopyalandı — AI\'ya yapıştır');
+        toast(t('Prompt kopyalandı — AI\'ya yapıştır'));
         return;
       } catch (e) { /* izin yok, eski yönteme düş */ }
       $('#promptBox').open = true;
       ta.focus(); ta.select();
       let ok = false;
       try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-      toast(ok ? 'Prompt kopyalandı — AI\'ya yapıştır' : 'Panoya erişilemedi — metin seçili, ⌘C ile kopyala');
+      toast(ok ? t('Prompt kopyalandı — AI\'ya yapıştır') : t('Panoya erişilemedi — metin seçili, ⌘C ile kopyala'));
     };
     $('#importJson').oninput = refreshImportUI;
 
@@ -856,6 +944,12 @@
     window.addEventListener('keydown', (e) => {
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return;
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        e.shiftKey ? redo() : undo();
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); return; }
       if (e.key === 'ArrowLeft') $('#btnPrev').click();
       if (e.key === 'ArrowRight') $('#btnNext').click();
       if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); exportAll(); }
@@ -864,10 +958,15 @@
 
   /* ------------------------------------------------------------------ */
   (async function init() {
+    const saved = await loadSaved();
+    if (!saved) state.lang = window.I18N.detect();
+    window.I18N.set(state.lang);
     initExportSelect();
     bind();
-    await loadSaved();
+    $('#btnLang').textContent = state.lang === 'tr' ? 'TR' : 'EN';
+    if (!saved) state.slides.forEach((sl) => { sl.text.title = defaultTitle(); });
     syncExportUI();
+    updateHistoryUI();
     refreshAll();
     // font yüklenince yeniden çiz
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);

@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yonca — Ekran ekran tanıtım</title>
+<meta name="description" content="Katıldığın çekilişleri takip eder, sonuç gününü ve saklaman gerekenleri hatırlatır. Her şey telefonunda kalır.">
+<meta property="og:title" content="Yonca — Çekiliş Takip">
+<meta property="og:description" content="Sonuç gününü de, sakladığın fişi de unutma.">
+<meta property="og:image" content="https://berkalparslan.github.io/yonca/assets/screens/liste.png">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
+  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f6faf7; --surface:#ffffff; --sunken:#edf5ef;
+  --ink:#101613; --ink2:#4d5a53; --ink3:#7d8a83;
+  --line:#dde7e0; --accent:#17914f;
+  --clover:#17914f; --gold:#c98f10; --teal:#12807f; --keep:#7855cc; --win:#199a56;
+  --r:20px;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0a1310; --surface:#121b17; --sunken:#16211c;
+  --ink:#eef5f0; --ink2:#a3b3ab; --ink3:#7b8a82;
+  --line:#22302a; --accent:#35c47c;
+  --clover:#35c47c; --gold:#edb840; --teal:#3ec0bf; --keep:#a98cf0; --win:#3fcb82;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+
+/* ── Üst çubuk ─────────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.bar-in{max-width:1120px;margin:0 auto;padding:0 22px;height:54px;display:flex;align-items:center;gap:20px}
+.logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo b{color:var(--accent)}
+.bar nav{display:flex;gap:18px;overflow-x:auto;flex:1;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{color:var(--ink2);text-decoration:none;font-size:14px;white-space:nowrap}
+.bar nav a:hover{color:var(--accent)}
+.theme-toggle{
+  margin-left:auto;background:var(--sunken);border:1px solid var(--line);color:var(--ink);
+  width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px;line-height:1;flex-shrink:0
+}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.hero{padding:72px 0 40px;text-align:center}
+.hero h1{font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+.hero p{font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--ink2);max-width:660px;margin:0 auto 8px}
+.kicker{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);background:var(--sunken);border:1px solid var(--line);
+  padding:6px 12px;border-radius:999px;margin-bottom:18px
+}
+.hero-shots{display:flex;gap:18px;justify-content:center;align-items:flex-start;margin-top:36px;flex-wrap:wrap}
+.hero-shots .shot{width:min(240px,42vw)}
+
+/* Telefon çerçevesi */
+.shot{
+  width:100%;border-radius:26px;display:block;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.06);
+  background:var(--surface);
+}
+
+/* ── Bölümler ──────────────────────────────── */
+section{padding:56px 0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.row.flip .txt{order:2}
+.tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--c,var(--accent))
+}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent))}
+h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.lede{color:var(--ink2);font-size:1.02rem;margin-bottom:18px}
+ul.feat{list-style:none;display:grid;gap:9px}
+ul.feat li{position:relative;padding-left:22px;color:var(--ink2);font-size:.96rem}
+ul.feat li::before{
+  content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;border-radius:2px;
+  background:var(--c,var(--accent))
+}
+ul.feat strong{color:var(--ink);font-weight:600}
+.shots{display:flex;gap:16px}
+.shots .shot{flex:1;min-width:0}
+
+.note{
+  margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--sunken);
+  border:1px solid var(--line);color:var(--ink2);font-size:.9rem
+}
+.quote{
+  margin-top:18px;padding:16px 18px;border-radius:14px;background:var(--sunken);
+  border:1px solid var(--line);border-left:3px solid var(--c,var(--accent));
+  color:var(--ink);font-size:.95rem
+}
+.quote b{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--c,var(--accent));margin-bottom:6px}
+
+/* Özet ızgara */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:26px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.card h3{font-size:1rem;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.card h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent))}
+.card p{font-size:.9rem;color:var(--ink2)}
+
+.cta{text-align:center;padding:64px 0}
+.cta h2{margin-bottom:12px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.btn{
+  display:inline-block;padding:13px 24px;border-radius:14px;text-decoration:none;font-weight:600;font-size:.95rem;
+  background:var(--accent);color:#fff;border:1px solid transparent
+}
+.btn.ghost{background:transparent;color:var(--accent);border-color:var(--line)}
+
+footer{border-top:1px solid var(--line);padding:30px 22px;text-align:center;color:var(--ink3);font-size:13px}
+footer a{text-decoration:none}
+
+@media (max-width:860px){
+  .row{grid-template-columns:1fr;gap:26px}
+  .row.flip .txt{order:0}
+  .shots{max-width:520px}
+  section{padding:44px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/">Bam<b>Tech</b></a>
+    <nav>
+      <a href="#liste">Liste</a>
+      <a href="#saklama">Saklama</a>
+      <a href="#hatirlatma">Hatırlatma</a>
+      <a href="#ekle">Ekleme</a>
+      <a href="#haklar">Katılım hakkı</a>
+      <a href="#sonuc">Sonuç</a>
+      <a href="#sansin">Şansın</a>
+      <a href="#gizlilik">Gizlilik</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="kicker">iPhone · Yakında</span>
+    <h1>Yonca</h1>
+    <p>Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki
+       kodu gönderirsin — sonra unutursun. Yonca hem sonuç gününü hem de saklaman gerekenleri
+       hatırlar.</p>
+    <div class="hero-shots">
+      <img class="shot" src="assets/screens/liste.png" alt="Yonca çekiliş listesi">
+      <img class="shot" src="assets/screens/magnum.png" alt="Saklaman gerekenler listesi">
+      <img class="shot" src="assets/screens/hatirlatmalar.png" alt="Kurulacak hatırlatmalar">
+    </div>
+  </header>
+
+  <!-- ── Liste ── -->
+  <section id="liste">
+    <div class="row">
+      <div class="txt">
+        <span class="tag">Ana ekran</span>
+        <h2>Liste kendini aciliyete göre dizer</h2>
+        <p class="lede">Tarihe göre değil, ne kadar acil olduğuna göre sıralanır. Sonucunu hâlâ
+          işaretlemediklerin en üste çıkar; çünkü unutulan asıl şey onlardır.</p>
+        <ul class="feat">
+          <li><strong>Sonucu işaretlenmemiş</strong> — tarihi geçmiş ama kazanıp kazanmadığını girmediklerin, kırmızı</li>
+          <li><strong>Bugün</strong> ve <strong>Bu hafta</strong> — geri sayım rozetiyle</li>
+          <li><strong>Henüz katılmadın</strong> — takip listende duran ama şartlarını tamamlamadıkların</li>
+          <li>Üstteki mor bant, saklaman gereken bir şeyin yerinde olmadığını söyler</li>
+          <li>Her kartta katılım hakkın, kazanma olasılığın ve eksik adım sayın</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/liste.png" alt="Çekiliş listesi, aciliyete göre gruplanmış">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Saklama ── -->
+  <section id="saklama" style="--c:var(--keep)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag">Farkı yaratan yer</span>
+        <h2>Çubuğu attıysan kazanman bir işe yaramaz</h2>
+        <p class="lede">Çekiliş uygulamaları tarihi hatırlatır. Asıl kaybettiren şey tarih değil:
+          Magnum çubuğunu, kapağı, market fişini, ürün kodunu saklaman gerekiyor. İbraz
+          edemezsen ödülü alamazsın.</p>
+        <ul class="feat">
+          <li>Saklaman gerekenler ayrı bir liste — tek tek işaretlersin</li>
+          <li><strong>Nereye koyduğunu da yazarsın</strong>: "mutfak çekmecesi", "araba torpido"</li>
+          <li>Yerine koymadıkların uygulamada kırmızı durur, listede ayrı bant açar</li>
+          <li>Eksik bıraktığın her şey "Eksik kalanlar" kartında toplanır</li>
+        </ul>
+        <div class="quote" style="--c:var(--keep)">
+          <b>Çekiliş günü gelen bildirim</b>
+          Magnum çubuk çekilişi bugün çekiliyor. Kazanırsan ibraz edeceğin şeyler:
+          Mutfak çekmecesi.
+        </div>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/magnum.png" alt="Saklaman gerekenler ve eksik kalanlar">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Hatırlatma ── -->
+  <section id="hatirlatma" style="--c:var(--gold)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag">Bildirimler</span>
+        <h2>Dört ayrı an, dört ayrı hatırlatma</h2>
+        <p class="lede">Tek bir "çekiliş günü geldi" bildirimi yeterli değil. Kaçırdığın anlar
+          farklı farklı, o yüzden hatırlatmalar da öyle.</p>
+        <ul class="feat">
+          <li><strong>Saklama</strong> — saklaman gereken bir şey var ama yerine koymadıysan</li>
+          <li><strong>Son katılım</strong> — süre doluyor ve hâlâ katılmadıysan</li>
+          <li><strong>Çekiliş günü</strong> — ibraz edeceğin şeylerin nerede olduğuyla birlikte</li>
+          <li><strong>Sonuç kontrolü</strong> — ertesi gün, sonucun nerede açıklanacağını söyleyerek</li>
+          <li>Bildirimi kaydırıp <strong>Kazandım / Kazanamadım</strong> diyebilirsin, uygulamayı açmadan</li>
+        </ul>
+        <div class="note">Detay ekranındaki "Kurulacak hatırlatmalar" kartı, kurulacak bildirimleri
+          metniyle birlikte önceden gösterir. Gördüğün ile gelen bildirim aynı yerden üretilir.</div>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/hatirlatmalar.png" alt="Kurulacak hatırlatmalar listesi">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ekleme ── -->
+  <section id="ekle" style="--c:var(--teal)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag">Çekiliş ekleme</span>
+        <h2>Yöntemi seç, gerisi hazır gelsin</h2>
+        <p class="lede">Her çekiliş aynı değil. Instagram çekilişinde tek mesele tarih; fiş
+          kampanyasında asıl mesele ne sakladığın. Yöntemi seçtiğinde form kendini ona göre kurar.</p>
+        <ul class="feat">
+          <li><strong>Sosyal medya</strong> — takip et, beğen, yorumda etiketle</li>
+          <li><strong>Ürün kodu</strong> — kodu bul, gönder, kodu sakla</li>
+          <li><strong>Fiş / kapak</strong> — ambalajı ve fişi ayır, sakla</li>
+          <li><strong>Siteye kayıt</strong> ve <strong>mağaza içi katılım</strong></li>
+          <li>Adımlar ve saklanacaklar şablondan gelir; üstüne kendi maddelerini eklersin</li>
+        </ul>
+        <div class="note">Gönderinin ekran görüntüsünü seçersen Yonca yazıyı okuyup tarihleri,
+          şartları, kazanan sayısını ve saklanacakları senin yerine doldurur. Okuma tamamen
+          cihazında yapılır, görüntü hiçbir yere gönderilmez.</div>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/ekle.png" alt="Çekiliş ekleme formu ve katılım yöntemi seçimi">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Katılım hakları ── -->
+  <section id="haklar" style="--c:var(--teal)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag">Birden fazla katılım</span>
+        <h2>Her kod, her fiş bir hak</h2>
+        <p class="lede">Kapak altı kampanyalarında bir kez katılmıyorsun. Her ürün yeni bir hak
+          demek ve kazanma olasılığın buna göre değişiyor.</p>
+        <ul class="feat">
+          <li>Gönderdiğin her kodu tarihiyle birlikte kaydedersin</li>
+          <li>Kaç hakkın olduğunu kart üstünde görürsün</li>
+          <li>Kazanma olasılığı hak sayısıyla çarpılarak hesaplanır</li>
+          <li>Hangi kodu ne zaman gönderdiğini unutursan liste orada durur</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/haklar.png" alt="Katılım hakları listesi">
+        <img class="shot" src="assets/screens/market-detay.png" alt="Çekiliş detayı ve katılım kaydı">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Sonuç ── -->
+  <section id="sonuc" style="--c:var(--win)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag">Sonuç</span>
+        <h2>Üç düğme, bitti</h2>
+        <p class="lede">Sonuç günü geldiğinde tek yapman gereken işaretlemek. Üçüncü seçenek
+          bilerek var: bazı çekilişler sonucu hiç açıklamaz ve bu da bir veri.</p>
+        <ul class="feat">
+          <li><strong>Kazandım</strong> — konfeti ve haptik, çünkü nadir bir an</li>
+          <li><strong>Kazanamadım</strong></li>
+          <li><strong>Açıklanmadı</strong> — düzenleyen sonucu paylaşmadıysa</li>
+          <li>İşaretlediğin an o çekilişin bekleyen bildirimleri iptal edilir</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/sonuc.png" alt="Sonuç işaretleme ekranı">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Şansın ── -->
+  <section id="sansin" style="--c:var(--gold)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag">İstatistik</span>
+        <h2>Şansın gerçekte ne kadar?</h2>
+        <p class="lede">Kaç çekilişe katıldığını ve kaçını kazandığını zaman içinde görürsün.
+          Ayrıca uygulamanın sana kızdığı yer burası: takip disiplini.</p>
+        <ul class="feat">
+          <li>Katıldığın, kazandığın, biriken katılım hakkın ve bu ayki sayın</li>
+          <li>Kazanma oranın ve kazandığın ödüllerin toplam değeri</li>
+          <li><strong>Risk altındaki çekilişler</strong> — saklaman gerekeni yerine koymadıkların</li>
+          <li>Sonucu işaretlenmemiş, nereye bakacağı belirsiz ve katılmadan takip ettiklerin</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/istatistik.png" alt="Kazanma oranı ve istatistikler">
+        <img class="shot" src="assets/screens/risk.png" alt="Risk altındaki çekilişler ve takip disiplini">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ayarlar ── -->
+  <section id="ayarlar">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag">Kontrol sende</span>
+        <h2>Hangi hatırlatma, saat kaçta</h2>
+        <p class="lede">Dört hatırlatma türünü tek tek kapatabilirsin. Saatini de sen seçersin;
+          değiştirdiğin an tüm aktif çekilişlerin bildirimleri yeniden kurulur.</p>
+        <ul class="feat">
+          <li>Hatırlatma saati — sabah mı, akşam mı, sana kalmış</li>
+          <li>Dört hatırlatma türü için ayrı anahtar</li>
+          <li>Bildirim izni kapalıysa uygulama bunu sessizce geçmez, listenin başında söyler</li>
+          <li>Tüm verileri tek dokunuşla kalıcı olarak silebilirsin</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" src="assets/screens/ayarlar.png" alt="Ayarlar ve hatırlatma tercihleri">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gizlilik ── -->
+  <section id="gizlilik">
+    <span class="tag">Gizlilik</span>
+    <h2>Hiçbir şey cihazından çıkmıyor</h2>
+    <p class="lede">Yonca'nın sunucusu yok. Hesap açman gerekmez ve uygulama internete hiçbir
+      istek göndermez.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Sunucu yok</h3>
+        <p>Çekilişlerin, kodların, fotoğrafların ve notların yalnızca cihazının içinde saklanır.</p>
+      </div>
+      <div class="card">
+        <h3>Hesap yok</h3>
+        <p>Kayıt olmazsın, e-posta vermezsin. Uygulamayı silersen her şey silinir.</p>
+      </div>
+      <div class="card">
+        <h3>İzleme yok</h3>
+        <p>Reklam, analitik ve üçüncü taraf SDK yok. İzleme izni (ATT) hiç sorulmaz.</p>
+      </div>
+      <div class="card">
+        <h3>Okuma cihazında</h3>
+        <p>Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h2>Yonca yakında App Store'da</h2>
+    <p class="lede">Çekilişi Yonca düzenlemez, kazananı seçmez. Sadece senin katıldıklarını
+      hatırlamana yardım eder.</p>
+    <div class="btns">
+      <a class="btn ghost" href="/yonca/privacy/">Gizlilik politikası</a>
+      <a class="btn ghost" href="/support/">Destek</a>
+      <a class="btn" href="/">Diğer uygulamalar</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/">BamTech</a> · <a href="/yonca/privacy/">Gizlilik</a> · <a href="/support/">Destek</a>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>

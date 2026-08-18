@@ -129,7 +129,7 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = `500 ${w * 0.06}px -apple-system, system-ui, sans-serif`;
-    ctx.fillText('Ekran görüntüsü ekle', x + w / 2, y + h / 2);
+    ctx.fillText(window.t ? window.t('Ekran görüntüsü ekle') : 'Ekran görüntüsü ekle', x + w / 2, y + h / 2);
   }
 
   /**

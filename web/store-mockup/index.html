@@ -12,10 +12,15 @@
 <header class="topbar">
   <div class="brand">📱 <b>Store Mockup Studio</b></div>
 
+  <div class="histo">
+    <button id="btnUndo" class="btn icon" disabled data-i18n-title="Geri al (⌘Z)" title="Geri al (⌘Z)">↶</button>
+    <button id="btnRedo" class="btn icon" disabled data-i18n-title="İleri al (⌘⇧Z)" title="İleri al (⌘⇧Z)">↷</button>
+  </div>
+
   <div class="grow"></div>
 
   <label class="field inline">
-    <span>Çıktı</span>
+    <span data-i18n>Çıktı</span>
     <select id="exportPreset"></select>
   </label>
   <div class="inline size-inputs">
@@ -23,22 +28,23 @@
     <input type="number" id="expH" min="100" step="1">
   </div>
   <label class="field inline">
-    <span>Format</span>
+    <span data-i18n>Format</span>
     <select id="exportFormat">
       <option value="png">PNG</option>
       <option value="jpeg">JPG</option>
     </select>
   </label>
 
-  <button id="btnImport" class="btn">✨ AI metin</button>
-  <button id="btnExportOne" class="btn">Bu slayt</button>
-  <button id="btnExportAll" class="btn primary">Tümünü indir (.zip)</button>
+  <button id="btnImport" class="btn" data-i18n>✨ AI metin</button>
+  <button id="btnExportOne" class="btn" data-i18n>Bu slayt</button>
+  <button id="btnExportAll" class="btn primary" data-i18n>Tümünü indir (.zip)</button>
+  <button id="btnLang" class="btn icon" title="Türkçe / English">TR</button>
   <div class="menu-wrap">
     <button id="btnMore" class="btn icon">⋯</button>
     <div id="moreMenu" class="menu">
-      <button data-act="save-proj">Projeyi kaydet (.json)</button>
-      <button data-act="load-proj">Proje yükle</button>
-      <button data-act="reset">Her şeyi sıfırla</button>
+      <button data-act="save-proj" data-i18n>Projeyi kaydet (.json)</button>
+      <button data-act="load-proj" data-i18n>Proje yükle</button>
+      <button data-act="reset" data-i18n>Her şeyi sıfırla</button>
     </div>
   </div>
 </header>
@@ -46,13 +52,13 @@
 <main>
   <aside class="rail">
     <div class="rail-head">
-      <span>Slaytlar</span>
-      <button id="btnAdd" class="btn tiny primary">+ Ekle</button>
+      <span data-i18n>Slaytlar</span>
+      <button id="btnAdd" class="btn tiny primary" data-i18n>+ Ekle</button>
     </div>
     <div id="slideList" class="slide-list"></div>
     <div class="rail-foot">
-      <button id="btnDup" class="btn tiny">Kopyala</button>
-      <button id="btnDel" class="btn tiny danger">Sil</button>
+      <button id="btnDup" class="btn tiny" data-i18n>Kopyala</button>
+      <button id="btnDel" class="btn tiny danger" data-i18n>Sil</button>
     </div>
   </aside>
 
@@ -71,58 +77,58 @@
 
   <aside class="panel">
     <nav class="tabs">
-      <button data-tab="layout" class="active">Düzen</button>
-      <button data-tab="bg">Arka plan</button>
-      <button data-tab="device">Cihaz</button>
-      <button data-tab="text">Metin</button>
+      <button data-tab="layout" class="active" data-i18n>Düzen</button>
+      <button data-tab="bg" data-i18n>Arka plan</button>
+      <button data-tab="device" data-i18n>Cihaz</button>
+      <button data-tab="text" data-i18n>Metin</button>
     </nav>
     <div id="panelBody" class="panel-body"></div>
     <div class="panel-foot">
-      <button id="btnApplyAll" class="btn tiny wide">Stili tüm slaytlara uygula</button>
+      <button id="btnApplyAll" class="btn tiny wide" data-i18n>Stili tüm slaytlara uygula</button>
     </div>
   </aside>
 </main>
 
-<div id="dropzone"><div>Ekran görüntülerini bırak</div></div>
+<div id="dropzone"><div data-i18n>Ekran görüntülerini bırak</div></div>
+
 <div id="importModal" class="modal">
   <div class="modal-card">
     <div class="modal-head">
-      <b>✨ AI metin &amp; şablon</b>
+      <b data-i18n>✨ AI metin &amp; şablon</b>
       <button class="btn tiny" data-close>✕</button>
     </div>
     <div class="modal-body">
       <div class="row">
-        <label class="lbl"><span>1 · Uygulamanı 1-2 cümleyle anlat</span></label>
-        <textarea id="appDesc" rows="2" placeholder="Örn: Halı saha maçı kuran, kadro toplayan ve skor tutan uygulama. Hedef kitle: 20-40 yaş amatör futbolcular."></textarea>
+        <label class="lbl"><span data-i18n>1 · Uygulamanı 1-2 cümleyle anlat</span></label>
+        <textarea id="appDesc" rows="2" data-i18n-ph placeholder="Örn: Halı saha maçı kuran, kadro toplayan ve skor tutan uygulama. Hedef kitle: 20-40 yaş amatör futbolcular."></textarea>
       </div>
       <div class="row">
         <label class="lbl">
-          <span>2 · Ekranların (her satır = bir ekran, slayt sırasıyla)</span>
-          <button id="btnFillScreens" class="btn tiny">Dosya adlarından doldur</button>
+          <span data-i18n>2 · Ekranların (her satır = bir ekran, slayt sırasıyla)</span>
+          <button id="btnFillScreens" class="btn tiny" data-i18n>Dosya adlarından doldur</button>
         </label>
-        <textarea id="screenList" rows="6" placeholder="ana ekran — haftanın maçları listesi&#10;maç kurma formu&#10;kadro / davet ekranı"></textarea>
-        <p class="hint">Ekran görüntülerini AI üretmiyor, sen yerleştiriyorsun. Bu liste sadece
-          hangi metnin hangi ekrana yazılacağını bilmesi için. Boş bırakırsan genel bir akış kurar.</p>
+        <textarea id="screenList" rows="6" data-i18n-ph placeholder="ana ekran — haftanın maçları listesi&#10;maç kurma formu&#10;kadro / davet ekranı"></textarea>
+        <p class="hint" data-i18n>Ekran görüntülerini AI üretmiyor, sen yerleştiriyorsun. Bu liste sadece hangi metnin hangi ekrana yazılacağını bilmesi için. Boş bırakırsan genel bir akış kurar.</p>
       </div>
       <div class="row">
-        <label class="lbl"><span>3 · Prompt'u al</span></label>
-        <button id="btnCopyPrompt" class="btn tiny wide">Prompt'u panoya kopyala</button>
-        <p class="hint">Kopyaladığın prompt'u ChatGPT / Claude'a yapıştır, dönen JSON'u aşağıya koy.</p>
+        <label class="lbl"><span data-i18n>3 · Prompt'u al</span></label>
+        <button id="btnCopyPrompt" class="btn tiny wide" data-i18n>Prompt'u panoya kopyala</button>
+        <p class="hint" data-i18n>Kopyaladığın prompt'u ChatGPT / Claude'a yapıştır, dönen JSON'u aşağıya koy.</p>
         <details id="promptBox">
-          <summary>Prompt'u göster / elle kopyala</summary>
+          <summary data-i18n>Prompt'u göster / elle kopyala</summary>
           <textarea id="promptText" rows="9" readonly></textarea>
         </details>
       </div>
       <div class="row">
-        <label class="lbl"><span>4 · JSON çıktısını yapıştır</span></label>
+        <label class="lbl"><span data-i18n>4 · JSON çıktısını yapıştır</span></label>
         <textarea id="importJson" rows="8" placeholder='{ "variants": [ ... ] }'></textarea>
       </div>
       <div id="variantPick" class="presets"></div>
       <p id="importMsg" class="hint"></p>
     </div>
     <div class="modal-foot">
-      <span class="hint grow">Ekran görüntülerin korunur, sadece metin ve stil değişir.</span>
-      <button class="btn" data-close>Kapat</button>
+      <span class="hint grow" data-i18n>Ekran görüntülerin korunur, sadece metin ve stil değişir.</span>
+      <button class="btn" data-close data-i18n>Kapat</button>
     </div>
   </div>
 </div>
@@ -135,6 +141,7 @@
 <input type="file" id="fontPick" accept=".ttf,.otf,.woff,.woff2" hidden>
 <input type="file" id="projPick" accept="application/json,.json" hidden>
 
+<script src="js/i18n.js"></script>
 <script src="js/zip.js"></script>
 <script src="js/frames.js"></script>
 <script src="js/render.js"></script>
