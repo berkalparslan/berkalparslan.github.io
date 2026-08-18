@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web tools — BamTech</title>
+<meta name="description" content="Small browser tools I built for my own workflow. No sign-up, nothing leaves your device.">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde geçiş sıçraması oluyor.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Tech</span></a>
+    <nav>
+      <a href="/">Apps</a>
+      <a href="/blog/">Blog</a>
+      <a href="/support/">Support</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Web</h1>
+<p class="lede">
+  Small tools that run in the browser. No account, no upload — everything stays
+  on your device.
+</p>
+
+<ul class="list-links">
+  <li>
+    <a href="/web/store-mockup/">Store Mockup Studio →</a>
+    <span>
+      Drop in raw screenshots and get App Store / Play Store artwork: device
+      frames, backgrounds, headlines — exported at the exact store sizes.
+    </span>
+  </li>
+</ul>
+
+<div class="card">
+  <h3>Store Mockup Studio</h3>
+  <p>
+    Pick a device frame (iPhone, Android, tablet, watch, browser window), a
+    background and a headline; the tool renders every slide at the resolution
+    App Store Connect or Play Console expects and hands you a zip.
+  </p>
+  <p>
+    It also writes the store copy for you: describe your app, copy the generated
+    prompt into any AI chat, paste the JSON back and every slide gets its
+    headline, subtitle, font and palette in one click.
+  </p>
+  <p><a href="/web/store-mockup/">Open the tool →</a></p>
+</div>
+
+<p class="lang-note">
+  Tarayıcıda çalışır, hiçbir görsel sunucuya gitmez.
+</p>
+
+</main>
+
+<footer>
+  <p>© 2026 BamTech · <a href="/privacy/">Gizlilik politikaları</a></p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>

@@ -1011,6 +1011,7 @@
       <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
       <nav class="header-nav">
         <a href="#apps">Apps</a>
+        <a href="/web/">Web</a>
         <a href="/blog/">Blog</a>
         <a href="/support/">Support</a>
         <a href="/privacy/">Privacy</a>
@@ -1062,6 +1063,7 @@
       <button class="chip" data-filter="sport" aria-pressed="false">Sport</button>
       <button class="chip" data-filter="health" aria-pressed="false">Health</button>
       <button class="chip" data-filter="tools" aria-pressed="false">Tools</button>
+      <button class="chip" data-filter="web" aria-pressed="false">🌐 Web</button>
       <button class="chip" data-filter="fun" aria-pressed="false">Fun</button>
       <button class="chip" data-filter="soon" aria-pressed="false">Coming soon</button>
       <div class="search">
@@ -1176,6 +1178,24 @@
         </div>
         <div class="store-btns">
           <a class="store-btn link" href="/privacy.html">Privacy</a>
+        </div>
+      </article>
+
+      <!-- Store Mockup Studio (web aracı) -->
+      <article class="card" data-tags="tools web" data-name="Store Mockup Studio screenshot mockup app store play store ekran görüntüsü">
+        <div class="card-top">
+          <div class="app-icon-ph">🖼️</div>
+          <div class="app-info">
+            <div class="app-name">Store Mockup Studio</div>
+            <div class="app-desc">Drop in raw screenshots and get App Store / Play Store artwork —
+              device frames, backgrounds and headlines, exported at the exact store sizes. Runs in
+              the browser, nothing is uploaded.</div>
+            <div class="badges"><span class="badge new">🌐 Web app</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/web/store-mockup/" target="_blank" rel="noopener">Open the tool</a>
+          <a class="store-btn link" href="/web/">About</a>
         </div>
       </article>
 
@@ -1381,10 +1401,11 @@
       const resultCount = document.getElementById("resultCount");
 
       const tagsOf = c => (c.dataset.tags || "").split(/\s+/);
-      const live = cards.filter(c => !tagsOf(c).includes("soon"));
+      /* Web araçları "live app" sayacına girmesin — mağazada yayınlanan uygulama değiller. */
+      const live = cards.filter(c => !tagsOf(c).includes("soon") && !tagsOf(c).includes("web"));
       document.getElementById("statApps").textContent = live.length;
       document.getElementById("statWatch").textContent = cards.filter(c => tagsOf(c).includes("watch")).length;
-      document.getElementById("statSoon").textContent = cards.length - live.length;
+      document.getElementById("statSoon").textContent = cards.filter(c => tagsOf(c).includes("soon")).length;
 
       let activeFilter = "all";
 
@@ -1465,6 +1486,7 @@
         { icon: "🍎", title: "App Store developer page", kind: "link", run: () => open("https://apps.apple.com/developer/id1676787785", "_blank") },
         { icon: "🐙", title: "GitHub profile", kind: "link", run: () => open("https://github.com/berkalparslan", "_blank") },
         { icon: "🌗", title: "Toggle dark mode", kind: "setting", run: toggleTheme },
+        { icon: "🌐", title: "Web tools", kind: "page", run: () => location.href = "/web/" },
         { icon: "📊", title: "Lab — private dashboard", kind: "private", run: () => location.href = "/lab/" }
       ];
 
