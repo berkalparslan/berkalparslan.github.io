@@ -171,6 +171,18 @@
       'Your screenshots stay in place — only copy and styling change.',
     'Kapat': 'Close',
 
+    /* şablonlar & ikinci cihaz */
+    '📐 Şablonlar': '📐 Templates',
+    '📐 Hazır şablonlar': '📐 Ready-made templates',
+    'Bir şablona tıkla: 6 slayt metinleriyle kurulur, sen sadece görselleri ve yazıları değiştirirsin.':
+      'Click a template: six slides are set up with copy — you only swap the screenshots and the words.',
+    '{name} şablonu uygulandı — {n} slayt': '{name} template applied — {n} slides',
+    'İkinci cihaz': 'Second device',
+    'İkinci cihaz ekle (ör. telefon + saat)': 'Add a second device (e.g. phone + watch)',
+    'İkinci cihazın görselini seç': 'Choose the second screenshot',
+    'İkinci görseli kaldır': 'Remove second screenshot',
+    'Ana cihazın önünde dursun': 'In front of the main device',
+
     /* mesajlar */
     '{n} görsel eklendi': '{n} screenshots added',
     'İndirildi': 'Downloaded',

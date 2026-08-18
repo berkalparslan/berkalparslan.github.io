@@ -235,16 +235,25 @@
     ctx.restore();
   }
 
-  /** slide render. images = { shot: Image|null, bg: Image|null } */
+  /** Ana cihaz + (varsa) ikinci cihaz; ikincisi önde ya da arkada olabilir. */
+  function drawDevices(ctx, W, H, slide, images) {
+    const d2 = slide.device2;
+    const second = () => drawDeviceLayer(ctx, W, H, d2, images.shot2);
+    if (d2 && d2.on && !d2.front) second();
+    if (slide.device.frame !== 'hidden') drawDeviceLayer(ctx, W, H, slide.device, images.shot);
+    if (d2 && d2.on && d2.front) second();
+  }
+
+  /** slide render. images = { shot, shot2, bg } */
   function renderSlide(ctx, W, H, slide, images) {
     ctx.save();
     ctx.clearRect(0, 0, W, H);
     drawBackground(ctx, W, H, slide.bg, images.bg);
     if (slide.device.above) {
       drawText(ctx, W, H, slide.text, false);
-      if (slide.device.frame !== 'hidden') drawDeviceLayer(ctx, W, H, slide.device, images.shot);
+      drawDevices(ctx, W, H, slide, images);
     } else {
-      if (slide.device.frame !== 'hidden') drawDeviceLayer(ctx, W, H, slide.device, images.shot);
+      drawDevices(ctx, W, H, slide, images);
       drawText(ctx, W, H, slide.text, false);
     }
     ctx.restore();

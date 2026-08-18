@@ -244,3 +244,17 @@ main {
 .btn:disabled { opacity: .35; cursor: default; }
 .btn:disabled:hover { background: var(--bg3); border-color: var(--line); }
 #btnLang { font-size: 11px; font-weight: 600; letter-spacing: .5px; min-width: 38px; }
+
+/* ---------- şablon galerisi ---------- */
+.modal-card.wide { width: min(1000px, 100%); }
+.tpl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.tpl-card {
+  background: var(--bg3); border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px; cursor: pointer; text-align: left; color: var(--fg);
+  font: inherit; transition: .12s;
+}
+.tpl-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tpl-shots { display: flex; gap: 6px; margin-bottom: 9px; }
+.tpl-shots canvas { width: 33%; border-radius: 5px; display: block; }
+.tpl-name { font-weight: 600; font-size: 12.5px; }
+.tpl-cat { color: var(--muted); font-size: 11px; margin-top: 2px; }

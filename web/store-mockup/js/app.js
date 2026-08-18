@@ -77,6 +77,7 @@
       shot: null,
       bg: { type: 'linear', c1: '#6366f1', c2: '#22d3ee', c3: '#0b1020', angle: 135, variant: 0, img: null, blur: 0, dim: 25, pattern: 'none', patternOpacity: 12, patternColor: '#ffffff', noise: 0, vignette: 0 },
       device: { frame: 'iphone-pro', color: 'graphite', w: 66, x: 0, y: 27, rot: 0, shadow: 45, glare: true, homeIndicator: true, fit: 'top', screenBg: '#000000', above: false },
+      device2: { on: false, shot: null, frame: 'watch', color: 'silver', w: 24, x: 20, y: 52, rot: 0, shadow: 45, glare: true, homeIndicator: false, fit: 'cover', screenBg: '#000000', front: true },
       text: { title: defaultTitle(), sub: '', align: 'center', color: '#ffffff', subColor: '#ffffff', subOpacity: 85, font: 'system', weight: 700, subWeight: 400, titleSize: 6.2, subSize: 3.4, y: 6, pad: 9, lineHeight: 1.15, letterSpacing: 0, shadow: false },
     };
     if (style) {
@@ -174,7 +175,11 @@
   let rafId = null;
 
   function imagesFor(s) {
-    return { shot: window.Store.imageFor(s.shot), bg: window.Store.imageFor(s.bg.img) };
+    return {
+      shot: window.Store.imageFor(s.shot),
+      shot2: window.Store.imageFor(s.device2 && s.device2.shot),
+      bg: window.Store.imageFor(s.bg.img),
+    };
   }
 
   function renderPreview() {
@@ -298,6 +303,19 @@
       { k: 'device.y', type: 'range', label: 'Dikey', min: -30, max: 100, step: 0.5, unit: '%' },
       { k: 'device.x', type: 'range', label: 'Yatay', min: -60, max: 60, step: 0.5, unit: '%' },
       { k: 'device.rot', type: 'range', label: 'Eğim', min: -30, max: 30, step: 0.5, unit: '°' },
+      { type: 'section', label: 'İkinci cihaz' },
+      { k: 'device2.on', type: 'check', label: 'İkinci cihaz ekle (ör. telefon + saat)' },
+      { type: 'button', label: 'İkinci cihazın görselini seç', act: 'pick-shot2', when: (s) => s.device2.on },
+      { type: 'button', label: 'İkinci görseli kaldır', act: 'clear-shot2', when: (s) => s.device2.on && !!s.device2.shot },
+      { k: 'device2.frame', type: 'select', label: 'Model', opts: FRAME_OPTS, when: (s) => s.device2.on },
+      { k: 'device2.color', type: 'select', label: 'Gövde rengi', opts: COLOR_OPTS, when: (s) => s.device2.on && s.device2.frame !== 'none' },
+      { k: 'device2.fit', type: 'seg', label: 'Sığdırma', opts: [['top', 'Üstten'], ['cover', 'Doldur'], ['contain', 'Sığdır']], when: (s) => s.device2.on },
+      { k: 'device2.front', type: 'check', label: 'Ana cihazın önünde dursun', when: (s) => s.device2.on },
+      { k: 'device2.w', type: 'range', label: 'Boyut', min: 8, max: 90, step: 0.5, unit: '%', when: (s) => s.device2.on },
+      { k: 'device2.y', type: 'range', label: 'Dikey', min: -20, max: 100, step: 0.5, unit: '%', when: (s) => s.device2.on },
+      { k: 'device2.x', type: 'range', label: 'Yatay', min: -60, max: 60, step: 0.5, unit: '%', when: (s) => s.device2.on },
+      { k: 'device2.rot', type: 'range', label: 'Eğim', min: -30, max: 30, step: 0.5, unit: '°', when: (s) => s.device2.on },
+      { k: 'device2.shadow', type: 'range', label: 'Gölge', min: 0, max: 100, step: 1, unit: '%', when: (s) => s.device2.on },
     ],
     text: [
       { type: 'section', label: 'İçerik' },
@@ -479,6 +497,8 @@
   const actions = {
     'pick-shot': () => { pickTarget = 'shot'; $('#shotPick').click(); },
     'clear-shot': () => { snapshot('clear-shot'); cur().shot = null; refreshAll(); },
+    'pick-shot2': () => { $('#shot2Pick').click(); },
+    'clear-shot2': () => { snapshot('clear-shot2'); cur().device2.shot = null; refreshAll(); },
     'pick-bg': () => { pickTarget = 'bg'; $('#bgPick').click(); },
     'clear-bg': () => { snapshot('clear-bg'); cur().bg.img = null; refreshAll(); },
     'pick-font': () => $('#fontPick').click(),
@@ -490,13 +510,12 @@
     imgs.sort((a, b) => a.name.localeCompare(b.name, 'tr', { numeric: true }));
     snapshot('add-slides');
     const style = cur();
+    const emptySlots = state.slides.filter((sl) => !sl.shot);
     for (const f of imgs) {
       const url = await window.Store.fileToDataUrl(f);
       await window.Store.loadImage(url);
-      let target;
-      if (state.slides.length === 1 && !state.slides[0].shot && !state.slides[0].text.sub && isDefaultTitle(state.slides[0].text.title)) {
-        target = state.slides[0];
-      } else {
+      let target = emptySlots.shift();
+      if (!target) {
         target = newSlide(style);
         state.slides.push(target);
       }
@@ -582,7 +601,11 @@
   }
   async function preloadImages() {
     const urls = [];
-    state.slides.forEach((s) => { if (s.shot) urls.push(s.shot); if (s.bg.img) urls.push(s.bg.img); });
+    state.slides.forEach((s) => {
+      if (s.shot) urls.push(s.shot);
+      if (s.device2 && s.device2.shot) urls.push(s.device2.shot);
+      if (s.bg.img) urls.push(s.bg.img);
+    });
     await Promise.all(urls.map((u) => window.Store.loadImage(u)));
   }
 
@@ -620,12 +643,24 @@
     shadow: 'shadow', textY: 'y', pad: 'pad',
   };
 
+  /** Şablon metinleri {tr,en} olabilir. */
+  function txt(v) {
+    if (v && typeof v === 'object') return v[window.I18N.lang] ?? v.tr ?? v.en ?? '';
+    return v;
+  }
+
   function applyTemplate(slide, t) {
     if (!t) return;
     if (t.layout) applyLayoutKey(slide, t.layout);
     if (t.frame) slide.device.frame = t.frame;
     if (t.deviceColor) slide.device.color = t.deviceColor;
     if (t.deviceSize != null) slide.device.w = t.deviceSize;
+    ['deviceX:x', 'deviceY:y', 'deviceRot:rot', 'fit:fit', 'deviceShadow:shadow', 'glare:glare']
+      .forEach((pair) => {
+        const [src, dst] = pair.split(':');
+        if (t[src] != null) slide.device[dst] = t[src];
+      });
+    if (t.device2) Object.assign(slide.device2, t.device2);
     if (t.background) {
       resolveBg(t.background, slide.bg);
       if (t.textColor == null) {
@@ -647,8 +682,8 @@
       const s = state.slides[i];
       applyTemplate(s, v.template);
       applyTemplate(s, row);
-      if (row.title != null) s.text.title = String(row.title).replace(/\\n/g, '\n');
-      if (row.subtitle != null) s.text.sub = String(row.subtitle).replace(/\\n/g, '\n');
+      if (row.title != null) s.text.title = String(txt(row.title)).replace(/\\n/g, '\n');
+      if (row.subtitle != null) s.text.sub = String(txt(row.subtitle)).replace(/\\n/g, '\n');
     });
     state.cur = 0;
     refreshAll();
@@ -690,6 +725,69 @@
         toast(t('{n} slayt "{name}" ile güncellendi', { n, name: v.name || 'varyant' }));
       };
       box.appendChild(b);
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Hazır şablon galerisi                                               */
+  /* ------------------------------------------------------------------ */
+  let mockShotCanvas = null;
+  /** Önizlemelerde kullanılan sahte ekran görüntüsü. */
+  function mockShot() {
+    if (mockShotCanvas) return mockShotCanvas;
+    const c = document.createElement('canvas');
+    c.width = 600; c.height = 1300;
+    const x = c.getContext('2d');
+    x.fillStyle = '#f6f7f9'; x.fillRect(0, 0, 600, 1300);
+    x.fillStyle = '#ffffff'; x.fillRect(0, 0, 600, 150);
+    x.fillStyle = '#d9dde4';
+    x.fillRect(48, 78, 250, 26);
+    x.fillStyle = '#e9ecf1';
+    for (let i = 0; i < 5; i++) x.fillRect(40, 210 + i * 150, 520, 120);
+    x.fillStyle = '#c9d2de';
+    for (let i = 0; i < 5; i++) { x.fillRect(70, 240 + i * 150, 60, 60); x.fillRect(150, 250 + i * 150, 240, 18); x.fillRect(150, 285 + i * 150, 150, 14); }
+    x.fillStyle = '#4f6bed'; x.fillRect(40, 990, 520, 74);
+    x.fillStyle = '#ffffff'; x.fillRect(1000, 0, 0, 0);
+    x.fillStyle = '#ffffff'; x.fillRect(0, 1180, 600, 120);
+    x.fillStyle = '#cbd3de';
+    for (let i = 0; i < 4; i++) x.fillRect(70 + i * 130, 1220, 60, 40);
+    mockShotCanvas = c;
+    return c;
+  }
+
+  /** Şablonun i. slaytını geçici bir slayt nesnesine uygular. */
+  function tplSlide(tpl, i) {
+    const sl = newSlide();
+    applyTemplate(sl, tpl.template);
+    applyTemplate(sl, tpl.slides[i]);
+    sl.text.title = String(txt(tpl.slides[i].title) || '');
+    sl.text.sub = String(txt(tpl.slides[i].subtitle) || '');
+    return sl;
+  }
+
+  function buildTemplateGrid() {
+    const grid = $('#tplGrid');
+    grid.innerHTML = '';
+    const mock = mockShot();
+    (window.TEMPLATES || []).forEach((tpl) => {
+      const card = el('button', 'tpl-card');
+      const shots = el('div', 'tpl-shots');
+      [0, 1, 2].forEach((i) => {
+        const c = el('canvas');
+        const w = 150, h = Math.round((w * state.exp.h) / state.exp.w);
+        c.width = w; c.height = h;
+        window.Render.renderSlide(c.getContext('2d'), w, h, tplSlide(tpl, i), { shot: mock, shot2: mock, bg: null });
+        shots.appendChild(c);
+      });
+      card.appendChild(shots);
+      card.appendChild(el('div', 'tpl-name', txt(tpl.name)));
+      card.appendChild(el('div', 'tpl-cat', txt(tpl.cat)));
+      card.onclick = () => {
+        const n = applyVariant({ template: tpl.template, slides: tpl.slides });
+        $('#tplModal').classList.remove('open');
+        toast(t('{name} şablonu uygulandı — {n} slayt', { name: txt(tpl.name), n }));
+      };
+      grid.appendChild(card);
     });
   }
 
@@ -751,6 +849,11 @@
 
   function bind() {
     $('#btnLang').onclick = () => setLang(state.lang === 'tr' ? 'en' : 'tr');
+    const tplModal = $('#tplModal');
+    $('#btnTemplates').onclick = () => { buildTemplateGrid(); tplModal.classList.add('open'); };
+    tplModal.onclick = (e) => {
+      if (e.target === tplModal || e.target.hasAttribute('data-close')) tplModal.classList.remove('open');
+    };
     $('#btnUndo').onclick = undo;
     $('#btnRedo').onclick = redo;
     document.querySelectorAll('.tabs button').forEach((b) => {
@@ -773,6 +876,18 @@
         snapshot('pick-shot');
         cur().shot = url;
         cur().name = f.name.replace(/\.[^.]+$/, '');
+        refreshAll();
+      }
+      e.target.value = '';
+    };
+
+    $('#shot2Pick').onchange = async (e) => {
+      const f = e.target.files[0];
+      if (f) {
+        const url = await window.Store.fileToDataUrl(f);
+        await window.Store.loadImage(url);
+        snapshot('pick-shot2');
+        cur().device2.shot = url;
         refreshAll();
       }
       e.target.value = '';
@@ -950,6 +1065,7 @@
         return;
       }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); return; }
+      if (e.key === 'Escape') { $('#tplModal').classList.remove('open'); $('#importModal').classList.remove('open'); }
       if (e.key === 'ArrowLeft') $('#btnPrev').click();
       if (e.key === 'ArrowRight') $('#btnNext').click();
       if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); exportAll(); }
