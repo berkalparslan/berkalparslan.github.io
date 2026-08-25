@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The counter is the easy part — BamTech</title>
+  <meta name="description"
+    content="Five sports, five score keepers. The hard part was never counting to twenty-one — it was everything the rulebook does around the number." />
+  <link rel="canonical" href="https://berkalparslan.github.io/blog/2026/scoring-rules-are-the-app/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The counter is the easy part" />
+  <meta property="og:description"
+    content="Five sports, five score keepers, and the realisation that the number on screen is the least interesting thing in the app." />
+  <meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+      catch (e) { d.setAttribute("data-theme", "light"); }
+      var lang;
+      try { lang = localStorage.getItem("bb-lang"); } catch (e) { }
+      var q = location.search.match(/[?&]lang=(tr|en)\b/);
+      if (q) lang = q[1];
+      if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+      d.setAttribute("data-lang", lang);
+      d.setAttribute("lang", lang);
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      </nav>
+      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <a class="back-link" href="/blog/">← <span class="tr">Tüm yazılar</span><span class="en">All notes</span></a>
+
+    <article class="post-body">
+
+      <!-- ── Türkçe ────────────────────────────────────────── -->
+      <div class="tr">
+        <h1>Asıl iş sayıyı artırmak değil</h1>
+        <div class="post-header-meta">
+          <time datetime="2026-08-25">25 Ağustos 2026</time>
+          <span class="tag">geliştirme</span>
+        </div>
+
+        <p>Beş ayrı spor için skor uygulaması yazdım: tenis ve padel, pickleball, voleybol,
+          badminton, masa tenisi. Başlarken hepsinin aynı uygulamanın kılığı değiştirilmiş
+          hâli olacağını sanıyordum. İki sayaç, iki düğme, bir "kim kazandı" ekranı.</p>
+
+        <p>Yanılmışım. Ekrandaki sayı, uygulamanın en az ilgi çekici parçası.</p>
+
+        <h2>Kurallar sayının etrafında yaşıyor</h2>
+
+        <p>Bir maçta gerçekten zor olan şey sayıyı bir artırmak değil; sayı arttıktan
+          <em>sonra</em> neyin değiştiğini bilmek. Servis kimde? Taraf değişecek mi? Bu sayı
+          seti bitirdi mi, yoksa iki fark mı gerekiyor? Her sporun buna verdiği cevap farklı,
+          ve farklar tam da insanların sahada tartıştığı yerlerde:</p>
+
+        <ul>
+          <li><strong>Tenis</strong> 40-40'ta avantaja gider, <strong>padel</strong> çoğu
+            turnuvada altın sayıya. Aynı ekran, aynı düğmeler, tamamen başka bir sonuç.</li>
+          <li><strong>Masa tenisi</strong>nde servis iki sayıda bir değişir — ama 10-10'dan
+            sonra teke düşer. Sesli sayarken en çok kaçırılan kural bu.</li>
+          <li><strong>Badminton</strong>da 21'e gidilir, iki fark aranır, ama sonsuza kadar
+            değil: bir tavan sayı var ve orada iş biter.</li>
+          <li><strong>Pickleball</strong>'da skor üç sayıdan oluşuyor — bizim sayımız, onların
+            sayısı ve <em>kaçıncı servisçi</em> olduğun. Yeni başlayanların en çok takıldığı yer.</li>
+          <li><strong>Voleybol</strong>da setler 25, iki fark; ama beşinci set 15. Uygulamanın
+            kaçıncı sette olduğunu bilmesi gerekiyor.</li>
+        </ul>
+
+        <p>Bunların hiçbiri karmaşık değil. Ama hepsi ayrı ayrı doğru olmak zorunda, çünkü
+          uygulamanın var oluş sebebi bu. Skoru yanlış tutan bir skor uygulaması, boş bir
+          ekrandan daha kötüdür — insanlar ona güvenip tartışmayı bırakıyorlar.</p>
+
+        <h2>Sayacı görmemek en iyisi</h2>
+
+        <p>İkinci şey saha kenarında anlaşıldı: maç sırasında telefon çıkarmak istemiyorsun.
+          Eldeki raket, gözün karşıda. O yüzden bu uygulamaların hepsinde asıl arayüz Apple
+          Watch'ta ve saat uygulaması telefondan bağımsız çalışıyor. Telefon maçtan önce
+          (kurulum) ve maçtan sonra (defter) devreye giriyor.</p>
+
+        <p>Bu karar, tasarımın geri kalanını da belirledi. Bilekte yer yok; iki büyük düğme,
+          bir skor, bir de kimin servisi olduğunu gösteren küçük bir işaret. Menü yok, ayar
+          yok, onay penceresi yok. Yanlışlıkla verilen sayıyı geri almak dışında hiçbir şeyin
+          orada olmasına gerek yok.</p>
+
+        <h2>Ne yapmazdım</h2>
+
+        <p>Beş uygulamayı beş ayrı proje olarak yürütmek, ilk seferinde doğru görünen ama
+          bedeli sonradan çıkan bir tercihti. Bir sporun sayfasında düzelttiğin şeyi diğer
+          dördünde de düzeltmen gerekiyor. Kural motorları farklı olmak zorunda — ama defter,
+          saat bağlantısı ve antrenman kaydı için bu geçerli değildi.</p>
+
+        <p>Bir dahakine ortak olan kısmı gerçekten ortak yapardım; farklı olan tek şeyin
+          kural kitabı olmasına izin verirdim.</p>
+
+        <hr />
+
+        <p>Uygulamalar: <a href="/tennis-padel/">Tenis &amp; Padel</a>,
+          <a href="/pickleball/">Pickleball</a>, <a href="/volleyball/">Voleybol</a>,
+          <a href="/rally-badminton/">Badminton</a>,
+          <a href="/rally-table-tennis/">Masa Tenisi</a>. Hepsi iPhone ve Apple Watch'ta.</p>
+      </div>
+
+      <!-- ── English ───────────────────────────────────────── -->
+      <div class="en">
+        <h1>The counter is the easy part</h1>
+        <div class="post-header-meta">
+          <time datetime="2026-08-25">25 August 2026</time>
+          <span class="tag">building</span>
+        </div>
+
+        <p>I have now written score keepers for five sports: tennis and padel, pickleball,
+          volleyball, badminton, table tennis. Going in, I assumed each one would be the same
+          app wearing a different shirt. Two counters, two buttons, a "who won" screen.</p>
+
+        <p>I was wrong. The number on screen is the least interesting part of the app.</p>
+
+        <h2>The rules live around the number</h2>
+
+        <p>The hard part of a match is not adding one to a counter. It is knowing what changes
+          <em>after</em> you add it. Who serves now? Do we switch ends? Did that point close
+          the set, or do we need two clear? Every sport answers differently, and the
+          differences sit exactly where people argue on court:</p>
+
+        <ul>
+          <li><strong>Tennis</strong> goes to advantage at 40-40; <strong>padel</strong>, in
+            most tournaments, goes to a golden point. Same screen, same buttons, completely
+            different outcome.</li>
+          <li>In <strong>table tennis</strong> the serve swaps every two points — until 10-10,
+            when it drops to one. It is the rule most often lost when people count out loud.</li>
+          <li><strong>Badminton</strong> plays to 21 and wants two clear, but not forever:
+            there is a cap, and at the cap it simply ends.</li>
+          <li><strong>Pickleball</strong> has a score made of three numbers — ours, theirs, and
+            <em>which server</em> you are. It is the thing beginners get stuck on.</li>
+          <li><strong>Volleyball</strong> sets go to 25 and two clear, except the fifth, which
+            goes to 15. The app has to know which set it is in.</li>
+        </ul>
+
+        <p>None of this is complicated. All of it has to be individually correct, because it is
+          the entire reason the app exists. A score keeper that keeps the wrong score is worse
+          than a blank screen — people trust it and stop arguing.</p>
+
+        <h2>The best counter is the one you don't look at</h2>
+
+        <p>The second lesson came from the side of a court: mid-match, you do not want to pull
+          out a phone. Your hand has a racket in it and your eyes are on the other side. So in
+          all of these the real interface lives on Apple Watch, and the Watch app runs on its
+          own. The phone shows up before the match, for setup, and after it, for the logbook.</p>
+
+        <p>That decision settled most of the rest of the design. There is no room on a wrist:
+          two large buttons, a score, and a small mark showing whose serve it is. No menus, no
+          settings, no confirmation sheets. Nothing needs to be there except a way to take back
+          a point you awarded by mistake.</p>
+
+        <h2>What I would not do again</h2>
+
+        <p>Running five apps as five separate projects looked right the first time and billed
+          me later. Fix something on one sport's screen and you fix it four more times. The
+          rule engines genuinely have to differ — the logbook, the Watch connection and the
+          workout session never did.</p>
+
+        <p>Next time I would make the shared part actually shared, and let the rulebook be the
+          only thing that varies.</p>
+
+        <hr />
+
+        <p>The apps: <a href="/tennis-padel/">Tennis &amp; Padel</a>,
+          <a href="/pickleball/">Pickleball</a>, <a href="/volleyball/">Volleyball</a>,
+          <a href="/rally-badminton/">Badminton</a>,
+          <a href="/rally-table-tennis/">Table Tennis</a>. All on iPhone and Apple Watch.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 BamTech<br />
+      <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
+      <a href="/blog/">Blog</a> ·
+      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var d = document.documentElement;
+      var lang = d.getAttribute("data-lang");
+      var theme = d.getAttribute("data-theme");
+      var lb = document.getElementById("langBtn");
+      var tb = document.getElementById("themeBtn");
+      function paint() {
+        lb.textContent = lang === "tr" ? "EN" : "TR";
+        tb.textContent = theme === "dark" ? "☀️" : "🌙";
+      }
+      lb.addEventListener("click", function () {
+        lang = lang === "tr" ? "en" : "tr";
+        d.setAttribute("data-lang", lang);
+        d.setAttribute("lang", lang);
+        try { localStorage.setItem("bb-lang", lang); } catch (e) { }
+        paint();
+      });
+      tb.addEventListener("click", function () {
+        theme = theme === "dark" ? "light" : "dark";
+        d.setAttribute("data-theme", theme);
+        try { localStorage.setItem("bb-theme", theme); } catch (e) { }
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+
+</html>

@@ -23,7 +23,7 @@
     }
     var lang;
     try {
-      lang = localStorage.getItem("wc-lang");
+      lang = localStorage.getItem("bb-lang");
     } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
@@ -588,7 +588,7 @@ footer a:hover{color:var(--accent)}
 
     langBtn.addEventListener("click", function () {
       var next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
-      try { localStorage.setItem("wc-lang", next); } catch (e) {}
+      try { localStorage.setItem("bb-lang", next); } catch (e) {}
       applyLang(next);
     });
 

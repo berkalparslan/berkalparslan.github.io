@@ -15,6 +15,13 @@
       } catch (e) {
         document.documentElement.setAttribute("data-theme", "light");
       }
+      var d = document.documentElement, lang;
+      try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+      var q = location.search.match(/[?&]lang=(tr|en)\b/);
+      if (q) lang = q[1];
+      if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+      d.setAttribute("data-lang", lang);
+      d.setAttribute("lang", lang);
     })();
   </script>
   <link rel="stylesheet" href="/assets/blog.css" />
@@ -30,17 +37,20 @@
     <div class="header-inner">
       <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
       <nav>
-        <a href="/">Apps</a>
+        <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
         <a href="/blog/">Blog</a>
-        <a href="/support/">Support</a>
+        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
       </nav>
+      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
       <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
     </div>
   </header>
 
   <main>
-    <h1 class="page-title">Notes</h1>
-    <p class="page-lede">Short write-ups on the apps — what I got wrong, what I'd build again,
+    <h1 class="page-title"><span class="tr">Yazılar</span><span class="en">Notes</span></h1>
+    <p class="page-lede tr">Uygulamalar üzerine kısa yazılar — neyi yanlış yaptım, neyi yeniden
+      yapardım, saklamaya değer teknik ayrıntılar.</p>
+    <p class="page-lede en">Short write-ups on the apps — what I got wrong, what I'd build again,
       and the odd technical detail worth keeping.</p>
 
     <ul class="post-list" id="postList">
@@ -50,7 +60,9 @@
 
   <footer>
     <p>© 2026 BamTech<br />
-      <a href="/">Apps</a> · <a href="/privacy/">Privacy</a> · <a href="/support/">Support</a>
+      <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
+      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
     </p>
   </footer>
 
@@ -71,34 +83,73 @@
       });
       paint();
 
+      const langBtn = document.getElementById("langBtn");
+      const paintLang = () => {
+        langBtn.textContent = root.getAttribute("data-lang") === "tr" ? "EN" : "TR";
+        document.title = root.getAttribute("data-lang") === "tr"
+          ? "Yazılar — BamTech" : "Notes — BamTech";
+      };
+      langBtn.addEventListener("click", () => {
+        const next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
+        root.setAttribute("data-lang", next);
+        root.setAttribute("lang", next);
+        try { localStorage.setItem("bb-lang", next); } catch (e) { }
+        paintLang();
+        draw();
+      });
+      paintLang();
+
       const esc = s => String(s).replace(/[&<>"]/g,
         c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
       const fmt = iso => {
         const d = new Date(iso + "T00:00:00");
-        return isNaN(d) ? iso
-          : d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+        if (isNaN(d)) return iso;
+        /* Tarih de sayfanın diline uysun. */
+        return d.toLocaleDateString(isTr() ? "tr-TR" : "en-GB",
+          { day: "numeric", month: "long", year: "numeric" });
       };
 
       const list = document.getElementById("postList");
+      let posts = [];
 
-      fetch("posts.json", { cache: "no-cache" })
-        .then(r => r.ok ? r.json() : Promise.reject(r.status))
-        .then(posts => {
-          /* En yeni önce — posts.json'daki sıraya güvenmiyoruz. */
-          posts.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-          if (!posts.length) throw new Error("empty");
-          list.innerHTML = posts.map(p => `
+      function isTr() { return root.getAttribute("data-lang") === "tr"; }
+
+      function draw() {
+        if (!posts.length) return;
+        const tr = isTr();
+        list.innerHTML = posts.map(p => {
+          /* Yazı çift dilliyse rozet göstermiyoruz — okuyucunun dilinde açılıyor.
+             Tek dilliyse ve o dil okuyucunun dili değilse uyaralım. */
+          const only = p.lang && p.lang.indexOf("+") === -1 ? p.lang : null;
+          const badge = only && only !== (tr ? "tr" : "en")
+            ? '<span class="lang-badge">' + esc(only) + "</span>" : "";
+          const title = tr && p.title_tr ? p.title_tr : p.title;
+          const summ = tr && p.summary_tr ? p.summary_tr : p.summary;
+          const tag = tr && p.tag_tr ? p.tag_tr : p.tag;
+          return `
             <li class="post-item">
               <a href="${p.url}">
                 <div class="post-meta">
                   <time datetime="${p.date}">${fmt(p.date)}</time>
-                  ${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}
+                  ${tag ? `<span class="tag">${esc(tag)}</span>` : ""}
+                  ${badge}
                 </div>
-                <h2>${esc(p.title)}</h2>
-                <p>${esc(p.summary)}</p>
+                <h2>${esc(title)}</h2>
+                <p>${esc(summ)}</p>
               </a>
-            </li>`).join("");
+            </li>`;
+        }).join("");
+      }
+
+      fetch("posts.json", { cache: "no-cache" })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(data => {
+          /* En yeni önce — posts.json'daki sıraya güvenmiyoruz. */
+          data.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+          if (!data.length) throw new Error("empty");
+          posts = data;
+          draw();
         })
         .catch(() => {
           list.innerHTML =

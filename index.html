@@ -25,6 +25,14 @@
       } catch (e) {
         document.documentElement.setAttribute("data-theme", "light");
       }
+      /* Dil: ?lang= > kayıtlı tercih > tarayıcı dili. Site geneli anahtar. */
+      var d = document.documentElement, lang;
+      try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+      var q = location.search.match(/[?&]lang=(tr|en)\b/);
+      if (q) lang = q[1];
+      if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+      d.setAttribute("data-lang", lang);
+      d.setAttribute("lang", lang);
     })();
   </script>
 
@@ -345,6 +353,17 @@
       padding: 6px 14px;
       margin-bottom: 26px;
       backdrop-filter: blur(10px);
+    }
+
+    .eyebrow-rot {
+      display: inline-block;
+      min-width: 1px;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .eyebrow-rot.out {
+      opacity: 0;
+      transform: translateY(-4px);
     }
 
     .pulse {
@@ -989,6 +1008,25 @@
       gap: 14px;
     }
 
+    /* ── Dil ─────────────────────────────────────────────────── */
+    :root[data-lang="tr"] .en {
+      display: none;
+    }
+
+    :root[data-lang="en"] .tr {
+      display: none;
+    }
+
+    span.tr,
+    span.en {
+      display: inline;
+    }
+
+    :root[data-lang="tr"] span.en,
+    :root[data-lang="en"] span.tr {
+      display: none;
+    }
+
     /* Ekran okuyucular için görünmez ama erişilebilir. */
     .sr {
       position: absolute;
@@ -1014,11 +1052,11 @@
     <div class="header-inner">
       <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
       <nav class="header-nav">
-        <a href="#apps">Apps</a>
-        <a href="/web/">Web</a>
-        <a href="/blog/">Blog</a>
-        <a href="/support/">Support</a>
-        <a href="/privacy/">Privacy</a>
+        <a href="#apps"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
+        <a href="/web/"><span class="tr">Web</span><span class="en">Web</span></a>
+        <a href="/blog/"><span class="tr">Blog</span><span class="en">Blog</span></a>
+        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+        <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       </nav>
       <button class="icon-btn" id="paletteBtn" aria-label="Open command palette">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
@@ -1027,161 +1065,79 @@
         </svg>
         <span id="kbdHint"><kbd>⌘</kbd><kbd>K</kbd></span>
       </button>
+      <button class="icon-btn" id="langBtn" aria-label="Change language" style="font-weight:700;letter-spacing:.04em">TR</button>
       <button class="icon-btn square" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
     </div>
   </header>
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="eyebrow"><span class="pulse"></span> Shipping from Istanbul</div>
-    <h1>Small apps that<br /><em>do one thing well.</em></h1>
-    <p>BamTech is a one-person studio building independent apps for iPhone and Apple&nbsp;Watch —
-      score keepers for the courts, quiet health tools, and a couple of things purely for fun.</p>
+    <div class="eyebrow"><span class="pulse"></span><span class="eyebrow-rot" id="eyebrowText">Bağımsız · tek kişilik stüdyo</span></div>
+    <h1><span class="tr">Bir işi<br /><em>hakkıyla yapan</em><br />küçük uygulamalar.</span><span class="en">Small apps that<br /><em>do one thing well.</em></span></h1>
+    <p class="tr">BamTech tek kişilik bir stüdyo. iPhone ve Apple&nbsp;Watch için bağımsız
+      uygulamalar: kortta skor tutanlar, sessiz sağlık araçları ve sırf keyif için yazılmış
+      birkaç şey.</p>
+    <p class="en">BamTech is a one-person studio building independent apps for iPhone and
+      Apple&nbsp;Watch — score keepers for the courts, quiet health tools, and a couple of
+      things purely for fun.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#apps">Browse the apps
+      <a class="btn btn-primary" href="#apps"><span class="tr">Uygulamalara bak</span><span class="en">Browse the apps</span>
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
           <path d="M12 16l-6-6h12z" />
         </svg>
       </a>
-      <a class="btn btn-ghost" href="/blog/">Read the blog</a>
+      <a class="btn btn-ghost" href="/blog/"><span class="tr">Blogu oku</span><span class="en">Read the blog</span></a>
     </div>
 
     <div class="stats">
-      <div class="stat"><b id="statApps">8</b><small>Live apps</small></div>
-      <div class="stat"><b id="statWatch">6</b><small>Watch apps</small></div>
-      <div class="stat"><b>2</b><small>Platforms</small></div>
-      <div class="stat"><b id="statSoon">2</b><small>In the oven</small></div>
+      <div class="stat"><b id="statApps">8</b><small><span class="tr">Yayında</span><span class="en">Live apps</span></small></div>
+      <div class="stat"><b id="statWatch">6</b><small><span class="tr">Watch uygulaması</span><span class="en">Watch apps</span></small></div>
+      <div class="stat"><b id="statPlat">3</b><small><span class="tr">Platform</span><span class="en">Platforms</span></small></div>
+      <div class="stat"><b id="statSoon">2</b><small><span class="tr">Yolda</span><span class="en">In the oven</span></small></div>
     </div>
   </section>
 
   <!-- ── Uygulamalar ────────────────────────────────────────── -->
   <section class="section" id="apps">
     <div class="section-head">
-      <h2>Apps</h2>
+      <h2><span class="tr">Uygulamalar</span><span class="en">Apps</span></h2>
       <p id="resultCount"></p>
     </div>
 
     <div class="toolbar">
-      <button class="chip" data-filter="all" aria-pressed="true">All</button>
-      <button class="chip" data-filter="watch" aria-pressed="false">⌚ Apple Watch</button>
-      <button class="chip" data-filter="sport" aria-pressed="false">Sport</button>
-      <button class="chip" data-filter="health" aria-pressed="false">Health</button>
-      <button class="chip" data-filter="tools" aria-pressed="false">Tools</button>
-      <button class="chip" data-filter="web" aria-pressed="false">🌐 Web</button>
-      <button class="chip" data-filter="fun" aria-pressed="false">Fun</button>
-      <button class="chip" data-filter="soon" aria-pressed="false">Coming soon</button>
+      <button class="chip" data-filter="all" aria-pressed="true"><span class="tr">Tümü</span><span class="en">All</span></button>
+      <button class="chip" data-filter="watch" aria-pressed="false"><span class="tr">⌚ Apple Watch</span><span class="en">⌚ Apple Watch</span></button>
+      <button class="chip" data-filter="sport" aria-pressed="false"><span class="tr">Spor</span><span class="en">Sport</span></button>
+      <button class="chip" data-filter="health" aria-pressed="false"><span class="tr">Sağlık</span><span class="en">Health</span></button>
+      <button class="chip" data-filter="tools" aria-pressed="false"><span class="tr">Araçlar</span><span class="en">Tools</span></button>
+      <button class="chip" data-filter="web" aria-pressed="false"><span class="tr">🌐 Web</span><span class="en">🌐 Web</span></button>
+      <button class="chip" data-filter="fun" aria-pressed="false"><span class="tr">Eğlence</span><span class="en">Fun</span></button>
+      <button class="chip" data-filter="soon" aria-pressed="false"><span class="tr">Yakında</span><span class="en">Coming soon</span></button>
       <div class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M10 2a8 8 0 105.29 14.01l4.35 4.35 1.41-1.41-4.35-4.35A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
         </svg>
         <label class="sr" for="appSearch">Search apps</label>
-        <input id="appSearch" type="search" placeholder="Search apps…" autocomplete="off" />
+        <input id="appSearch" type="search" placeholder=""  autocomplete="off" />
       </div>
     </div>
 
     <div class="grid" id="appGrid">
-
-      <!-- Tennis & Padel -->
-      <article class="card" data-tags="sport watch ios android" data-name="Tennis Padel Score Keeper tenis padel">
+      <!-- Wallet Coach -->
+      <article class="card" data-tags="tools ios finance" data-name="Wallet Coach WalletCoach butce bütçe ev ekonomisi household budget price in hours para aylik">
         <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Tennis Padel Score Keeper icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5a/71/ed/5a71ed81-fc3d-71ff-8875-7ebfcc3e875d/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg" />
+          <img class="app-icon" loading="lazy" alt="Wallet Coach icon"
+            src="/walletcoach/assets/icon-512.png" />
           <div class="app-info">
-            <div class="app-name">Tennis &amp; Padel Score Keeper</div>
-            <div class="app-desc">Tap to score, the match rules take care of themselves — tiebreaks,
-              golden points, sets. Runs standalone on the Watch.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+            <div class="app-name">Wallet Coach</div>
+            <div class="app-desc"><span class="tr">Ev ekonomisini Excel'deki ay sekmeleri gibi tutar: ayı bir kez yaz, ödedikçe işaretle, yeni ay öncekini kopyalasın. Üstüne alacak-verecek defteri, portföy ve harcamadan önce açtığın hesap makineleri.</span><span class="en">Household books kept the way a spreadsheet with a tab per month is kept: write the month down once, tick things off as they are paid, and let the next month copy itself. Plus a ledger, a portfolio and the calculators you open before you spend.</span></div>
+            <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.wear"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- Pickleball -->
-      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Pickleball">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Pickleball Score Keeper icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/49/13/9c491310-467a-19fb-d113-98416a8bdfd1/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" />
-          <div class="app-info">
-            <div class="app-name">Score Keeper for Pickleball</div>
-            <div class="app-desc">Server, side-out and rally scoring handled for you. Glance at your
-              wrist between points instead of arguing about the score.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Rally Badminton -->
-      <article class="card" data-tags="sport watch ios" data-name="Rally Badminton score keeper badminton badminton skor">
-        <div class="card-top">
-          <div class="app-icon-ph">🏸</div>
-          <div class="app-info">
-            <div class="app-name">Rally Badminton</div>
-            <div class="app-desc">Rally scoring, service court and side changes handled for you — 21-point games with the two-point rule built in.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span><span class="badge new">New</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/us/app/rally-badminton/id6802337158" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Rally Table Tennis -->
-      <article class="card" data-tags="sport watch ios" data-name="Rally Table Tennis ping pong masa tenisi score keeper">
-        <div class="card-top">
-          <div class="app-icon-ph">🏓</div>
-          <div class="app-info">
-            <div class="app-name">Rally Table Tennis</div>
-            <div class="app-desc">Eleven up, serve swaps every two points, deuce that keeps going. Glance at your wrist instead of counting out loud.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span><span class="badge new">New</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/us/app/rally-table-tennis/id6802339775" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Volleyball -->
-      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Volleyball voleybol">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Volleyball Score Keeper icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9d/f1/a2/9df1a2b3-0d44-6c34-eaea-0b6df3b57e8c/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" />
-          <div class="app-info">
-            <div class="app-name">Score Keeper for Volleyball</div>
-            <div class="app-desc">Live set scoring with a match logbook and heart-rate stats pulled
-              straight from your workout.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
+          <a class="store-btn ios" href="/walletcoach/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -1195,55 +1151,105 @@
           <div class="app-icon-ph">🩺</div>
           <div class="app-info">
             <div class="app-name">BodyBook: Health &amp; Skincare</div>
-            <div class="app-desc">Blood pressure, weight, skincare routine with product shelf life,
-              mole photos, medication, water and sleep — one panel. Everything stays on your iPhone.</div>
-            <div class="badges"><span class="badge soon">Coming soon</span></div>
+            <div class="app-desc"><span class="tr">Tansiyon, kilo, cilt bakım rutini ve ürün raf ömrü, ben fotoğrafları, ilaç, su ve uyku — tek panelde. Hepsi iPhone'unda kalır.</span><span class="en">Blood pressure, weight, skincare routine with product shelf life, mole photos, medication, water and sleep — one panel. Everything stays on your iPhone.</span></div>
+            <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="/bodybook/">Take the tour</a>
-          <a class="store-btn link" href="/bodybook/privacy/">Privacy</a>
-          <a class="store-btn link" href="/bodybook/support/">Support</a>
+          <a class="store-btn ios" href="/bodybook/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
         </div>
       </article>
 
-      <!-- Yonca -->
-      <article class="card" data-tags="tools soon" data-name="Yonca çekiliş takip giveaway kampanya prize draw">
+      <!-- Tennis & Padel -->
+      <article class="card" data-tags="sport watch ios android" data-name="Tennis Padel Score Keeper tenis padel">
         <div class="card-top">
-          <div class="app-icon-ph">🍀</div>
+          <img class="app-icon" loading="lazy" alt="Tennis Padel Score Keeper icon"
+            src="/tennis-padel/assets/icon.webp" />
           <div class="app-info">
-            <div class="app-name">Yonca: Çekiliş Takip</div>
-            <div class="app-desc">Tracks the giveaways you entered and reminds you on the result day —
-              and tells you where you put the receipt, cap or code you have to hand in if you win.</div>
-            <div class="badges"><span class="badge soon">Coming soon</span></div>
+            <div class="app-name">Tennis &amp; Padel Score Keeper</div>
+            <div class="app-desc"><span class="tr">Sayıya dokun, kurallar kendi işlesin — tiebreak, altın sayı, set. Saatte tek başına çalışır.</span><span class="en">Tap to score, the match rules take care of themselves — tiebreaks, golden points, sets. Runs standalone on the Watch.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="/yonca/">Take the tour</a>
-          <a class="store-btn link" href="/yonca/privacy/">Privacy</a>
+          <a class="store-btn ios" href="/tennis-padel/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.wear" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
+            </svg>Google Play</a>
         </div>
       </article>
 
-      <!-- Wallet Coach -->
-      <article class="card" data-tags="tools ios finance" data-name="Wallet Coach WalletCoach butce bütçe ev ekonomisi household budget price in hours para aylik">
+      <!-- Pickleball -->
+      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Pickleball">
         <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Wallet Coach icon"
-            src="/walletcoach/assets/icon-512.png" />
+          <img class="app-icon" loading="lazy" alt="Pickleball Score Keeper icon"
+            src="/pickleball/assets/icon.webp" />
           <div class="app-info">
-            <div class="app-name">Wallet Coach</div>
-            <div class="app-desc">Household books kept the way a spreadsheet with a tab per month
-              is kept: write the month down once, tick things off as they are paid, and let the
-              next month copy itself. Plus a ledger, a portfolio and the calculators you open
-              before you spend.</div>
-            <div class="badges"><span class="badge new">New</span></div>
+            <div class="app-name">Score Keeper for Pickleball</div>
+            <div class="app-desc"><span class="tr">Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.</span><span class="en">Server, side-out and rally scoring handled for you. Glance at your wrist between points instead of arguing about the score.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
-            App Store
-          </a>
-          <a class="store-btn ios" href="/walletcoach/">Take the tour</a>
-          <a class="store-btn link" href="/privacy.html">Privacy</a>
+          <a class="store-btn ios" href="/pickleball/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+        </div>
+      </article>
+
+      <!-- Volleyball -->
+      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Volleyball voleybol">
+        <div class="card-top">
+          <img class="app-icon" loading="lazy" alt="Volleyball Score Keeper icon"
+            src="/volleyball/assets/icon.webp" />
+          <div class="app-info">
+            <div class="app-name">Score Keeper for Volleyball</div>
+            <div class="app-desc"><span class="tr">Canlı set skoru, maç defteri ve antrenmandan gelen nabız istatistikleri.</span><span class="en">Live set scoring with a match logbook and heart-rate stats pulled straight from your workout.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/volleyball/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+        </div>
+      </article>
+
+      <!-- O mu Bu mu -->
+      <article class="card" data-tags="fun ios android" data-name="O mu Bu mu would you rather tercih oyunu">
+        <div class="card-top">
+          <img class="app-icon" loading="lazy" alt="O mu Bu mu icon"
+            src="/o-mu-bu-mu/assets/icon.webp" />
+          <div class="app-info">
+            <div class="app-name">O mu Bu mu?</div>
+            <div class="app-desc"><span class="tr">İmkânsız tercihler oyunu. Arkadaşlarınla sesli oynanır, tartışma garantili.</span><span class="en">Would-you-rather, Turkish edition. Impossible choices, played out loud with friends.</span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/o-mu-bu-mu/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
+          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
+            </svg>Google Play</a>
         </div>
       </article>
 
@@ -1253,15 +1259,47 @@
           <div class="app-icon-ph">🖼️</div>
           <div class="app-info">
             <div class="app-name">Store Mockup Studio</div>
-            <div class="app-desc">Drop in raw screenshots and get App Store / Play Store artwork —
-              device frames, backgrounds and headlines, exported at the exact store sizes. Runs in
-              the browser, nothing is uploaded.</div>
+            <div class="app-desc"><span class="tr">Ham ekran görüntülerini at, App Store / Play Store görselini al — cihaz çerçevesi, arka plan ve başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır, hiçbir şey yüklenmez.</span><span class="en">Drop in raw screenshots and get App Store / Play Store artwork — device frames, backgrounds and headlines, exported at the exact store sizes. Runs in the browser, nothing is uploaded.</span></div>
             <div class="badges"><span class="badge new">🌐 Web app</span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="/web/store-mockup/" target="_blank" rel="noopener">Open the tool</a>
-          <a class="store-btn link" href="/web/">About</a>
+          <a class="store-btn ios" href="/web/store-mockup/"><span class="tr">Aracı aç</span><span class="en">Open the tool</span></a>
+        </div>
+      </article>
+
+      <!-- Yonca -->
+      <article class="card" data-tags="tools soon" data-name="Yonca çekiliş takip giveaway kampanya prize draw">
+        <div class="card-top">
+          <div class="app-icon-ph">🍀</div>
+          <div class="app-info">
+            <div class="app-name">Yonca: Çekiliş Takip</div>
+            <div class="app-desc"><span class="tr">Katıldığın çekilişleri takip eder, sonuç günü hatırlatır — kazanırsan teslim edeceğin fişi, kapağı ya da kodu nereye koyduğunu da söyler.</span><span class="en">Tracks the giveaways you entered and reminds you on the result day — and tells you where you put the receipt, cap or code you have to hand in if you win.</span></div>
+            <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+        </div>
+      </article>
+
+      <!-- Rally Table Tennis -->
+      <article class="card" data-tags="sport watch ios" data-name="Rally Table Tennis ping pong masa tenisi score keeper">
+        <div class="card-top">
+          <img class="app-icon" loading="lazy" alt="Rally Table Tennis" src="/rally-table-tennis/assets/icon.webp" />
+          <div class="app-info">
+            <div class="app-name">Rally Table Tennis</div>
+            <div class="app-desc"><span class="tr">On bire kadar, iki sayıda bir servis değişimi, uzayan deuce. Yüksek sesle saymayı bırak.</span><span class="en">Eleven up, serve swaps every two points, deuce that keeps going. Glance at your wrist instead of counting out loud.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
+          </div>
+        </div>
+        <div class="store-btns">
+          <a class="store-btn ios" href="/rally-table-tennis/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/us/app/rally-table-tennis/id6802339775" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>App Store</a>
         </div>
       </article>
 
@@ -1269,15 +1307,15 @@
       <article class="card" data-tags="fun watch ios" data-name="Orbix Roulette wheel spin">
         <div class="card-top">
           <img class="app-icon" loading="lazy" alt="Orbix Roulette icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c8/61/9d/c8619dd1-5e0a-b1d5-ac6f-713aa996dc42/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg" />
+            src="/orbix-roulette/assets/icon.webp" />
           <div class="app-info">
             <div class="app-name">Orbix Roulette</div>
-            <div class="app-desc">A beautiful decision wheel. Who pays, who goes first, where to eat —
-              spin it and stop arguing.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+            <div class="app-desc"><span class="tr">Güzel bir karar çarkı. Kim ödeyecek, kim başlayacak, nereye gidilecek — çevir, tartışma bitsin.</span><span class="en">A beautiful decision wheel. Who pays, who goes first, where to eat — spin it and stop arguing.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
         <div class="store-btns">
+          <a class="store-btn ios" href="/orbix-roulette/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756230899" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -1290,15 +1328,15 @@
       <article class="card" data-tags="tools watch ios" data-name="Tasbih Tally digital counter zikir tesbih">
         <div class="card-top">
           <img class="app-icon" loading="lazy" alt="Tasbih Tally icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/96/d4/7496d4ab-c099-9b9a-7935-d9ad4d3aaf84/AppIcon-0-0-1x_U007emarketing-0-16-85-220.png/512x512bb.jpg" />
+            src="/tasbih-tally/assets/icon.webp" />
           <div class="app-info">
             <div class="app-name">Tasbih Tally: Digital Counter</div>
-            <div class="app-desc">A quiet digital counter for dhikr and daily repetitions, with haptics
-              on the Watch so you never lose count.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+            <div class="app-desc"><span class="tr">Zikir ve günlük tekrar için sessiz bir dijital sayaç; saatte titreşimle sayar, sayıyı kaybetmezsin.</span><span class="en">A quiet digital counter for dhikr and daily repetitions, with haptics on the Watch so you never lose count.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
         <div class="store-btns">
+          <a class="store-btn ios" href="/tasbih-tally/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -1307,29 +1345,23 @@
         </div>
       </article>
 
-      <!-- O mu Bu mu -->
-      <article class="card" data-tags="fun ios android" data-name="O mu Bu mu would you rather tercih oyunu">
+      <!-- Rally Badminton -->
+      <article class="card" data-tags="sport watch ios" data-name="Rally Badminton score keeper badminton badminton skor">
         <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="O mu Bu mu icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/25/04/75/25047589-d890-00e8-5eec-bbcc3ab5eb06/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" />
+          <img class="app-icon" loading="lazy" alt="Rally Badminton" src="/rally-badminton/assets/icon.webp" />
           <div class="app-info">
-            <div class="app-name">O mu Bu mu?</div>
-            <div class="app-desc">Would-you-rather, Turkish edition. Impossible choices, played out
-              loud with friends.</div>
+            <div class="app-name">Rally Badminton</div>
+            <div class="app-desc"><span class="tr">Ralli puanlaması, servis alanı ve taraf değişimi otomatik — 21 sayı ve iki fark kuralı dahil.</span><span class="en">Rally scoring, service court and side changes handled for you — 21-point games with the two-point rule built in.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
           </div>
         </div>
         <div class="store-btns">
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
+          <a class="store-btn ios" href="/rally-badminton/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
+          <a class="store-btn ios" href="https://apps.apple.com/us/app/rally-badminton/id6802337158" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
             </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
         </div>
       </article>
 
@@ -1337,14 +1369,14 @@
       <article class="card" data-tags="tools ios" data-name="Kit QR Generator Scanner barcode kod">
         <div class="card-top">
           <img class="app-icon" loading="lazy" alt="Kit QR Generator icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/17/32/ee1732ba-3b6f-f559-c4b4-09161ea4165b/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg" />
+            src="/kit-qr/assets/icon.webp" />
           <div class="app-info">
             <div class="app-name">Kit: QR Generator &amp; Scanner</div>
-            <div class="app-desc">Make a QR code for a link, wifi or contact in two taps — and scan
-              anything back just as fast.</div>
+            <div class="app-desc"><span class="tr">Link, wifi ya da kartvizit için iki dokunuşta QR üret — okutmak da bir o kadar hızlı.</span><span class="en">Make a QR code for a link, wifi or contact in two taps — and scan anything back just as fast.</span></div>
           </div>
         </div>
         <div class="store-btns">
+          <a class="store-btn ios" href="/kit-qr/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -1357,15 +1389,15 @@
       <article class="card" data-tags="health watch ios" data-name="Daily Whisper Affirmations mindfulness">
         <div class="card-top">
           <img class="app-icon" loading="lazy" alt="Daily Whisper icon"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/44/71/fa/4471fac3-d08e-6fd4-9152-80d0f35865d1/AppIcon-0-0-1x_U007epad-0-1-85-220.jpeg/512x512bb.jpg" />
+            src="/daily-whisper/assets/icon.webp" />
           <div class="app-info">
             <div class="app-name">Daily Whisper: Affirmations</div>
-            <div class="app-desc">One calm line a day, delivered to your wrist. No feed, no streaks,
-              nothing to keep up with.</div>
-            <div class="badges"><span class="badge watch">⌚ Watch App</span></div>
+            <div class="app-desc"><span class="tr">Günde bir sakin cümle, doğrudan bileğine. Akış yok, seri yok, yetişilecek bir şey yok.</span><span class="en">One calm line a day, delivered to your wrist. No feed, no streaks, nothing to keep up with.</span></div>
+            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
         <div class="store-btns">
+          <a class="store-btn ios" href="/daily-whisper/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -1374,15 +1406,15 @@
         </div>
       </article>
 
-      <p class="empty" id="emptyState" hidden>No app matches that. Try clearing the search.</p>
+<p class="empty" id="emptyState" hidden>No app matches that. Try clearing the search.</p>
     </div>
   </section>
 
   <!-- ── Blog ───────────────────────────────────────────────── -->
   <section class="section" id="blog">
     <div class="section-head">
-      <h2>Notes</h2>
-      <p><a href="/blog/">All posts →</a></p>
+      <h2><span class="tr">Yazılar</span><span class="en">Notes</span></h2>
+      <p><a href="/blog/"><span class="tr">Tüm yazılar →</span><span class="en">All posts →</span></a></p>
     </div>
     <div class="posts" id="postList">
       <p class="empty" style="grid-column:1/-1">Loading…</p>
@@ -1392,34 +1424,34 @@
   <!-- ── Bağlantılar ────────────────────────────────────────── -->
   <section class="section" id="elsewhere">
     <div class="section-head">
-      <h2>Elsewhere</h2>
+      <h2><span class="tr">Başka yerlerde</span><span class="en">Elsewhere</span></h2>
     </div>
     <div class="links">
       <a class="link-tile" href="https://github.com/berkalparslan" target="_blank" rel="noopener">
         <span class="em">🐙</span>
-        <span><b>GitHub</b><small>Code and experiments</small></span>
+        <span><b>GitHub</b><small><span class="tr">Kod ve denemeler</span><span class="en">Code and experiments</span></small></span>
       </a>
       <a class="link-tile" href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener">
         <span class="em">🍎</span>
-        <span><b>App Store</b><small>Every app in one place</small></span>
+        <span><b>App Store</b><small><span class="tr">Tüm uygulamalar tek yerde</span><span class="en">Every app in one place</span></small></span>
       </a>
       <a class="link-tile" href="mailto:aberkalparslan@gmail.com">
         <span class="em">✉️</span>
-        <span><b>Email</b><small>aberkalparslan@gmail.com</small></span>
+        <span><b><span class="tr">E-posta</span><span class="en">Email</span></b><small>aberkalparslan@gmail.com</small></span>
       </a>
       <a class="link-tile" href="/support/">
         <span class="em">💬</span>
-        <span><b>Support</b><small>Bugs, requests, questions</small></span>
+        <span><b><span class="tr">Destek</span><span class="en">Support</span></b><small><span class="tr">Hata, istek, soru</span><span class="en">Bugs, requests, questions</span></small></span>
       </a>
     </div>
   </section>
 
   <footer>
     <p>© 2026 BamTech<br />
-      <a href="/privacy/">Privacy</a> ·
-      <a href="/support/">Support</a> ·
+      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a> ·
       <a href="/blog/">Blog</a> ·
-      <a href="mailto:aberkalparslan@gmail.com">Contact</a>
+      <a href="mailto:aberkalparslan@gmail.com"><span class="tr">İletişim</span><span class="en">Contact</span></a>
     </p>
   </footer>
 
@@ -1453,6 +1485,33 @@
       themeBtn.addEventListener("click", toggleTheme);
       paintTheme();
 
+      /* ── Dil ───────────────────────────────────────────────── */
+      const langBtn = document.getElementById("langBtn");
+      const searchBox = document.getElementById("appSearch");
+      let lang = root.getAttribute("data-lang") || "en";
+
+      function paintLang() {
+        /* Düğme, tıklanınca geçilecek dili gösterir. */
+        langBtn.textContent = lang === "tr" ? "EN" : "TR";
+        langBtn.setAttribute("aria-label",
+          lang === "tr" ? "Switch to English" : "Türkçeye geç");
+        searchBox.placeholder = lang === "tr" ? "Uygulama ara…" : "Search apps…";
+        document.title = lang === "tr"
+          ? "BamTech — iPhone ve Apple Watch uygulamaları"
+          : "BamTech — Indie iOS & watchOS Apps";
+        applyFilters();
+        if (window.__paintEyebrow) window.__paintEyebrow();
+        if (window.__drawPosts) window.__drawPosts();
+      }
+
+      langBtn.addEventListener("click", () => {
+        lang = lang === "tr" ? "en" : "tr";
+        root.setAttribute("data-lang", lang);
+        root.setAttribute("lang", lang);
+        try { localStorage.setItem("bb-lang", lang); } catch (e) { }
+        paintLang();
+      });
+
       /* Windows/Linux'ta ⌘ yerine Ctrl göster. */
       if (!/Mac|iPhone|iPad/.test(navigator.platform || "")) {
         const hint = document.getElementById("kbdHint");
@@ -1472,6 +1531,12 @@
       document.getElementById("statApps").textContent = live.length;
       document.getElementById("statWatch").textContent = cards.filter(c => tagsOf(c).includes("watch")).length;
       document.getElementById("statSoon").textContent = cards.filter(c => tagsOf(c).includes("soon")).length;
+      /* Platform sayısı da etiketlerden gelsin — elle güncellenmesin. */
+      const plats = new Set();
+      cards.forEach(c => tagsOf(c).forEach(t => {
+        if (t === "ios" || t === "android" || t === "web") plats.add(t);
+      }));
+      document.getElementById("statPlat").textContent = plats.size;
 
       let activeFilter = "all";
 
@@ -1487,7 +1552,10 @@
           if (visible) shown++;
         }
         emptyState.hidden = shown > 0;
-        resultCount.textContent = shown + (shown === 1 ? " app" : " apps");
+        const isTr = root.getAttribute("data-lang") === "tr";
+        resultCount.textContent = isTr
+          ? shown + " uygulama"
+          : shown + (shown === 1 ? " app" : " apps");
       }
 
       chips.forEach(chip => chip.addEventListener("click", () => {
@@ -1497,6 +1565,7 @@
       }));
       searchInput.addEventListener("input", applyFilters);
       applyFilters();
+      paintLang();
 
       /* Kart üstündeki imleç konumu -> CSS değişkeni. */
       const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -1508,6 +1577,41 @@
         }));
       }
 
+      /* ── Dönen üst satır ───────────────────────────────────── */
+      /* Cümleler kart sayılarından üretilir; elle güncellenecek bir şey yok. */
+      const rot = document.getElementById("eyebrowText");
+
+      function rotLines() {
+        const tr = root.getAttribute("data-lang") === "tr";
+        const watch = cards.filter(c => tagsOf(c).includes("watch")).length;
+        return tr
+          ? ["Bağımsız · tek kişilik stüdyo",
+             live.length + " uygulama yayında",
+             watch + " tanesi Apple Watch'ta",
+             "Hiçbiri veri satmıyor"]
+          : ["Independent · a one-person studio",
+             live.length + " apps in the store",
+             watch + " of them on Apple Watch",
+             "None of them sell your data"];
+      }
+
+      let rotI = 0;
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.__paintEyebrow = () => { rot.textContent = rotLines()[rotI]; };
+      rot.textContent = rotLines()[0];
+
+      if (!still) {
+        setInterval(() => {
+          const lines = rotLines();
+          rotI = (rotI + 1) % lines.length;
+          rot.classList.add("out");
+          setTimeout(() => {
+            rot.textContent = lines[rotI];
+            rot.classList.remove("out");
+          }, 350);
+        }, 3800);
+      }
+
       /* ── Blog önizlemesi ───────────────────────────────────── */
       const postList = document.getElementById("postList");
       fetch("/blog/posts.json", { cache: "no-cache" })
@@ -1515,12 +1619,17 @@
         .then(posts => {
           const recent = posts.slice(0, 3);
           if (!recent.length) throw new Error("empty");
-          postList.innerHTML = recent.map(p => `
-            <a class="post" href="${p.url}">
-              <time datetime="${p.date}">${fmtDate(p.date)}</time>
-              <h3>${esc(p.title)}</h3>
-              <p>${esc(p.summary)}</p>
-            </a>`).join("");
+          /* Kart dile göre çizilir; dil değişince yeniden çağrılır. */
+          window.__drawPosts = () => {
+            const isTr = root.getAttribute("data-lang") === "tr";
+            postList.innerHTML = recent.map(p => `
+              <a class="post" href="${p.url}">
+                <time datetime="${p.date}">${fmtDate(p.date)}</time>
+                <h3>${esc(isTr && p.title_tr ? p.title_tr : p.title)}</h3>
+                <p>${esc(isTr && p.summary_tr ? p.summary_tr : p.summary)}</p>
+              </a>`).join("");
+          };
+          window.__drawPosts();
           registerPosts(recent);
         })
         .catch(() => {
@@ -1533,7 +1642,9 @@
       }
       function fmtDate(iso) {
         const d = new Date(iso + "T00:00:00");
-        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",
+        if (isNaN(d)) return iso;
+        const isTr = root.getAttribute("data-lang") === "tr";
+        return d.toLocaleDateString(isTr ? "tr-TR" : "en-GB",
           { day: "numeric", month: "short", year: "numeric" });
       }
 
@@ -1555,6 +1666,19 @@
         { icon: "🌐", title: "Web tools", kind: "page", run: () => location.href = "/web/" },
         { icon: "📊", title: "Lab — private dashboard", kind: "private", run: () => location.href = "/lab/" }
       ];
+
+      /* Tanıtım sayfaları ayrı bir girdi olarak da aranabilsin. */
+      cards.forEach(card => {
+        const tour = card.querySelector('.store-btn.link[href^="/"], .store-btn.ios[href^="/"]');
+        if (!tour) return;
+        commands.push({
+          icon: "📄",
+          title: card.querySelector(".app-name").textContent.trim() + " — tour",
+          alias: (card.dataset.name || "") + " tanıtım tour",
+          kind: "tour",
+          run: () => location.href = tour.getAttribute("href")
+        });
+      });
 
       /* Uygulama kartları da palete girer. */
       cards.forEach(card => {

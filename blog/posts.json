@@ -1,9 +1,24 @@
 [
   {
+    "title": "The counter is the easy part",
+    "title_tr": "Asıl iş sayıyı artırmak değil",
+    "url": "/blog/2026/scoring-rules-are-the-app/",
+    "date": "2026-08-25",
+    "tag": "building",
+    "tag_tr": "geliştirme",
+    "lang": "tr+en",
+    "summary": "Five sports, five score keepers. The hard part was never counting to twenty-one — it was everything the rulebook does around the number.",
+    "summary_tr": "Beş spor, beş skor uygulaması. Zor olan 21'e kadar saymak değildi; sayının etrafında kural kitabının yaptığı her şeydi."
+  },
+  {
     "title": "A hub for everything I ship",
+    "title_tr": "Yaptığım her şey tek adreste",
     "url": "/blog/2026/a-hub-for-everything-i-ship/",
     "date": "2026-08-17",
     "tag": "meta",
-    "summary": "Why the apps, the privacy pages and the notes now live at one address — and how this site is put together."
+    "tag_tr": "meta",
+    "lang": "en",
+    "summary": "Why the apps, the privacy pages and the notes now live at one address — and how this site is put together.",
+    "summary_tr": "Uygulamalar, gizlilik sayfaları ve yazılar neden tek adreste toplandı — ve bu site nasıl kurulu."
   }
 ]

@@ -1,0 +1,292 @@
+/* berkalparslan.github.io — uygulama tanıtım sayfaları ortak stili
+   ─────────────────────────────────────────────────────────────────
+   /walletcoach/, /bodybook/, /yonca/ kendi stillerini taşıyor; bu dosya
+   diğer uygulamaların tanıtım sayfaları için ortak iskelet.
+
+   Uygulamaya özel tek şey vurgu rengi: <body style="--accent:#..">
+   Koyu tema için --accent-dark verilebilir, verilmezse aynısı kullanılır.
+
+   Dil: metinler .tr / .en sınıflarıyla ikişer yazılır, kökteki
+   data-lang hangisinin görüneceğini belirler. JS ölse bile sayfa
+   okunur kalır (varsayılan görünen dil CSS'te değil, inline script'te
+   set edilir; script yoksa ikisi de görünür — bozuk değil, sadece iki
+   dilli). */
+
+:root {
+  color-scheme: light;
+  --bg: #f4f5f7;
+  --bg-deep: #eaebef;
+  --surface: #ffffff;
+  --sunken: #f0f1f4;
+  --ink: #14151a;
+  --ink2: #5a5c68;
+  --ink3: #8e909c;
+  --line: #e2e3ea;
+  --line2: #d0d2dc;
+  --accent: #0071e3;
+  --radius: 20px;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b0b0e;
+  --bg-deep: #08080a;
+  --surface: #16161b;
+  --sunken: #1c1c22;
+  --ink: #f2f2f6;
+  --ink2: #a0a2ae;
+  --ink3: #6e707c;
+  --line: #26262e;
+  --line2: #35353f;
+}
+
+/* Koyu temada ayrı bir vurgu tonu verilmişse onu kullan. */
+:root[data-theme="dark"] body[style*="--accent-dark"] {
+  --accent: var(--accent-dark);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ── Dil ───────────────────────────────────────────────────── */
+:root[data-lang="tr"] .en { display: none; }
+:root[data-lang="en"] .tr { display: none; }
+span.tr, span.en { display: inline; }
+:root[data-lang="tr"] span.en,
+:root[data-lang="en"] span.tr { display: none; }
+
+/* ── Üst çubuk ─────────────────────────────────────────────── */
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-in {
+  max-width: 1080px; margin: 0 auto; padding: 0 22px;
+  height: 56px; display: flex; align-items: center; gap: 16px;
+}
+
+.logo {
+  font-size: 15.5px; font-weight: 700; letter-spacing: -.02em;
+  color: var(--ink); text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center;
+}
+.logo i {
+  width: 8px; height: 8px; border-radius: 50%; flex: none;
+  margin-right: 8px; background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.logo b { color: var(--accent); font-weight: 700; }
+
+.bar nav {
+  display: flex; gap: 14px; font-size: 13px;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+}
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { color: var(--ink2); text-decoration: none; white-space: nowrap; }
+.bar nav a:hover { color: var(--accent); }
+
+.bar-end { margin-left: auto; display: flex; gap: 8px; flex: none; }
+
+.lang-toggle, .theme-toggle {
+  height: 30px; border-radius: 999px;
+  border: 1px solid var(--line2); background: var(--surface);
+  color: var(--ink2); font: inherit; font-size: 12px; line-height: 1;
+  font-weight: 700; letter-spacing: .04em; cursor: pointer;
+}
+.lang-toggle { padding: 0 11px; }
+.theme-toggle { width: 30px; font-size: 13px; padding: 0; }
+.lang-toggle:hover, .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Kabuk ─────────────────────────────────────────────────── */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero {
+  position: relative; text-align: center;
+  padding: 64px 22px 52px;
+  overflow: hidden;
+}
+
+/* Vurgu renginden türeyen yumuşak ışık — her uygulamada farklı. */
+.hero::before {
+  content: ""; position: absolute; inset: -40% 0 auto 0; height: 130%;
+  background: radial-gradient(ellipse 62% 52% at 50% 0%,
+    color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+  pointer-events: none; z-index: -1;
+}
+
+.hero-icon {
+  width: 92px; height: 92px; border-radius: 22px; display: block;
+  margin: 0 auto 22px;
+  box-shadow: 0 16px 36px -14px rgba(0, 0, 0, .5);
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.hero-icon.ph {
+  display: grid; place-items: center; font-size: 42px;
+  background: linear-gradient(150deg,
+    color-mix(in srgb, var(--accent) 22%, var(--surface)), var(--surface));
+}
+
+.kicker {
+  display: inline-block; font-size: 11.5px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5.6vw, 3.1rem); line-height: 1.06;
+  letter-spacing: -.032em; margin-bottom: 14px;
+}
+
+.hero .lede {
+  font-size: clamp(1rem, 2.2vw, 1.18rem); color: var(--ink2);
+  max-width: 620px; margin: 0 auto;
+}
+
+.pills {
+  display: flex; gap: 7px; justify-content: center; flex-wrap: wrap;
+  margin-top: 20px;
+}
+.pill {
+  font-size: 11.5px; font-weight: 650; letter-spacing: .02em;
+  padding: 5px 11px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink2);
+}
+
+.cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 999px; text-decoration: none;
+  font-weight: 650; font-size: .94rem; border: 1px solid transparent;
+  transition: transform .15s, filter .15s;
+}
+.btn:active { transform: scale(.97); }
+.btn svg { width: 15px; height: 15px; fill: currentColor; flex: none; }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { background: var(--surface); border-color: var(--line2); color: var(--ink); }
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Ekran görüntüleri ─────────────────────────────────────── */
+.shots {
+  display: flex; gap: 18px; justify-content: center; align-items: flex-start;
+  flex-wrap: wrap; padding: 8px 0 56px;
+}
+.shot {
+  width: min(250px, 44vw); border-radius: 22px; display: block;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 44px -20px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .06);
+  background: var(--surface);
+}
+
+/* ── Bölümler ──────────────────────────────────────────────── */
+section { padding: 54px 0; border-top: 1px solid var(--line); }
+section > .wrap > h2 {
+  font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+  letter-spacing: -.022em; line-height: 1.15; margin-bottom: 10px;
+}
+.sec-lede { color: var(--ink2); max-width: 62ch; margin-bottom: 26px; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.tag::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+
+/* ── Özellik ızgarası ──────────────────────────────────────── */
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+  gap: 14px;
+}
+.cell {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 16px; padding: 18px 20px;
+  transition: border-color .18s, transform .18s;
+}
+.cell:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); transform: translateY(-2px); }
+.cell h3 {
+  font-size: .98rem; font-weight: 650; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 9px; letter-spacing: -.01em;
+}
+.cell h3 .ic { font-size: 1.05rem; flex: none; }
+.cell p { color: var(--ink2); font-size: .91rem; line-height: 1.55; }
+
+/* ── Adımlar ───────────────────────────────────────────────── */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(212px, 1fr)); gap: 16px; }
+.step { position: relative; padding-left: 44px; }
+.step .n {
+  position: absolute; left: 0; top: -2px;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.step h3 { font-size: .97rem; font-weight: 650; margin-bottom: 5px; }
+.step p { color: var(--ink2); font-size: .91rem; line-height: 1.55; }
+
+/* ── Gizlilik kutusu ───────────────────────────────────────── */
+.note {
+  background: var(--sunken); border: 1px solid var(--line);
+  border-radius: 16px; padding: 20px 22px;
+}
+.note h3 { font-size: .98rem; font-weight: 650; margin-bottom: 8px; }
+.note p { color: var(--ink2); font-size: .93rem; margin-bottom: 10px; }
+.note p:last-child { margin-bottom: 0; }
+.note ul { list-style: none; display: grid; gap: 7px; margin-bottom: 12px; }
+.note li {
+  position: relative; padding-left: 20px; color: var(--ink2); font-size: .92rem;
+}
+.note li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+
+/* ── Alt ───────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 22px 46px; text-align: center;
+  color: var(--ink3); font-size: .87rem; line-height: 1.9;
+}
+footer a { color: var(--ink2); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 700px) {
+  .hero { padding: 46px 20px 40px; }
+  .shots { gap: 12px; padding-bottom: 42px; }
+  .shot { width: min(200px, 43vw); }
+  section { padding: 42px 0; }
+  .bar nav { display: none; }
+}

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rally Badminton — BamTech</title>
+<meta name="description" content="Badminton scoring with proper BWF rally rules. 15 or 21 points, best of three or five, two-point margin included.">
+<link rel="canonical" href="https://berkalparslan.github.io/rally-badminton/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rally Badminton">
+<meta property="og:description" content="Badminton scoring with proper BWF rally rules. 15 or 21 points, best of three or five, two-point margin included.">
+<meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png">
+<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/rally-badminton/assets/icon.webp">
+<script>
+  // Tema ve dil, sayfa boyanmadan uygulanır — yoksa gözle görülür sıçrama olur.
+  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
+  (function () {
+    var d = document.documentElement;
+    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+    catch (e) { d.setAttribute("data-theme", "light"); }
+    var lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang);
+    d.setAttribute("lang", lang);
+  })();
+</script>
+<link rel="stylesheet" href="/assets/tour.css">
+</head>
+<body style="--accent:#c62b46;--accent-dark:#f2647d">
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
+    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#nasil"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
+    <div class="bar-end">
+      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
+      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <img class="hero-icon" src="/rally-badminton/assets/icon.webp" width="92" height="92" alt="Rally Badminton">
+  <div class="kicker"><span class="tr">iPhone · Apple Watch</span><span class="en">iPhone · Apple Watch</span></div>
+  <h1>Rally Badminton</h1>
+  <p class="lede tr">BWF ralli puanlamasıyla badminton skoru. 15 veya 21 sayı, üç ya da beş oyunluk maç, iki sayı farkı kuralı dahil.</p>
+  <p class="lede en">Badminton scoring with proper BWF rally rules. 15 or 21 points, best of three or five, two-point margin included.</p>
+  <div class="pills"><span class="tr"><span class="pill">⌚ Watch uygulaması</span><span class="pill">Yeni</span><span class="pill">Türkçe sesli anons</span></span><span class="en"><span class="pill">⌚ Watch app</span><span class="pill">New</span><span class="pill">Turkish voice umpire</span></span></div>
+  <div class="cta">
+    
+<a class="btn primary" href="https://apps.apple.com/us/app/rally-badminton/id6802337158" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="tr">App Store'da aç</span><span class="en">View on the App Store</span></a>    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+  </div>
+</header>
+
+  <div class="shots wrap">
+    <img class="shot" src="/rally-badminton/assets/shot-1.webp" width="625" height="1200" loading="lazy" alt="Rally Badminton">
+    <img class="shot" src="/rally-badminton/assets/shot-2.webp" width="625" height="1200" loading="lazy" alt="Rally Badminton">
+    <img class="shot" src="/rally-badminton/assets/shot-3.webp" width="625" height="1200" loading="lazy" alt="Rally Badminton">
+  </div>
+
+<section id="ozellikler">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
+    <h2><span class="tr">Ne yapıyor?</span><span class="en">What it does</span></h2>
+    <p class="sec-lede tr">Fazlası yok. Bir işi iyi yapsın diye yazıldı.</p>
+    <p class="sec-lede en">Nothing more than this. It was built to do one job well.</p>
+    <div class="grid">
+      <div class="cell">
+        <h3><span class="ic">⌚</span><span class="tr">Bilekte tek başına</span><span class="en">Standalone on the wrist</span></h3>
+        <p class="tr">Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maç ortasında telefon aramazsın.</p>
+        <p class="en">The Watch app runs on its own — one tap per point. You never go looking for your phone mid-match.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">🎯</span><span class="tr">BWF ralli puanlaması</span><span class="en">BWF rally scoring</span></h3>
+        <p class="tr">15 ya da 21 sayı, Bo3 veya Bo5. Tekler ya da çiftler. Beraberlikte iki sayı farkı kuralı ve tavan sayı otomatik uygulanır.</p>
+        <p class="en">15 or 21 points, best of three or five, singles or doubles. The two-point margin and the cap are applied for you.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">🔊</span><span class="tr">Sesli hakem</span><span class="en">Voice umpire</span></h3>
+        <p class="tr">Her sayıdan sonra skoru yüksek sesle söyler. Türkçe dahil birden çok dil, istersen tamamen kapalı.</p>
+        <p class="en">Calls the score out loud after every point. Several languages including Turkish, or off entirely.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">🖼</span><span class="tr">Maç kartı paylaş</span><span class="en">Share the match card</span></h3>
+        <p class="tr">Bitince kendi fotoğrafınla bir sonuç kartı üretir — süre ve toplam sayı üstünde.</p>
+        <p class="en">At the final point it builds a result card over your own photo, duration and total points included.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">📖</span><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></h3>
+        <p class="tr">Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın, kazanılan-kaybedilen sayıların ve seviyeye göre gelişimin profilde durur.</p>
+        <p class="en">Every match filed with its date, duration and opponent. Win rate, points won and lost and your level sit in the profile.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">🎓</span><span class="tr">Academy</span><span class="en">Academy</span></h3>
+        <p class="tr">Uygulamanın içinde kural, teknik ve taktik rehberleri — kim servis atar, let nedir, hangi vuruş ne zaman.</p>
+        <p class="en">Rule, technique and tactics guides built in — who serves, what a let is, which shot when.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">❤️</span><span class="tr">Apple Health</span><span class="en">Apple Health</span></h3>
+        <p class="tr">İzin verirsen maçı antrenman olarak yazar; nabız ve kalori maç özetine düşer.</p>
+        <p class="en">With your permission it logs the match as a workout — heart rate and calories land in the summary.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">☁️</span><span class="tr">iCloud eşitlemesi</span><span class="en">iCloud sync</span></h3>
+        <p class="tr">Telefon ve saat aynı geçmişi görür. Eşitleme senin iCloud hesabında.</p>
+        <p class="en">Phone and Watch see the same history. Sync happens inside your own iCloud account.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nasil">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></div>
+    <h2><span class="tr">Üç adım</span><span class="en">Three steps</span></h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span>
+        <h3><span class="tr">Maçı kur</span><span class="en">Set up the match</span></h3>
+        <p class="tr">Format, sayı ve oyuncu adlarını seç. Kurulum telefonda, tek ekran.</p>
+        <p class="en">Pick the format, the points and who is playing. One screen, on the phone.</p>
+      </div>
+      <div class="step"><span class="n">2</span>
+        <h3><span class="tr">Watch'a gönder</span><span class="en">Send it to the Watch</span></h3>
+        <p class="tr">Tek dokunuşla saate aktar. Maç boyunca telefonu cebinde bırak.</p>
+        <p class="en">One tap moves it to your wrist. The phone stays in your bag for the rest of the match.</p>
+      </div>
+      <div class="step"><span class="n">3</span>
+        <h3><span class="tr">Sayarken kurallar sende değil</span><span class="en">Let the rules do the counting</span></h3>
+        <p class="tr">Sen sadece sayıyı ver; servis, taraf değişimi ve set sonu kendi hâlleder.</p>
+        <p class="en">You just award the point; serve, side changes and set endings take care of themselves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gizlilik">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
+    <h2><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
+    <div class="note">
+      <ul class="tr">
+      <li>Maç kayıtların telefonunda kalır</li>
+      <li>Hesap açman gerekmez</li>
+      <li>İstersen Apple Health'e antrenman yazar — izin sende</li>
+      <li>iCloud eşitlemesi kendi hesabında, geliştirici göremez</li>
+      </ul>
+      <ul class="en">
+      <li>Match records stay on your phone</li>
+      <li>No account required</li>
+      <li>Writes a workout to Apple Health if you allow it — your call</li>
+      <li>iCloud sync lives in your own account; the developer cannot see it</li>
+      </ul>
+      <p class="tr">Tam metin: <a href="/privacy/rally-badminton/">Rally Badminton gizlilik politikası</a>.
+        Sorun varsa <a href="mailto:aberkalparslan@gmail.com">yaz</a>.</p>
+      <p class="en">Full text: <a href="/privacy/rally-badminton/#en">the Rally Badminton privacy policy</a>.
+        Something wrong? <a href="mailto:aberkalparslan@gmail.com">Write in</a>.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 BamTech ·
+    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
+    <a href="/blog/">Blog</a> ·
+    <a href="/privacy/rally-badminton/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    var lang = d.getAttribute("data-lang");
+    var theme = d.getAttribute("data-theme");
+    var lb = document.getElementById("langBtn");
+    var tb = document.getElementById("themeBtn");
+    // Düğme, tıklanınca GEÇİLECEK dili gösterir.
+    function paint() {
+      lb.textContent = lang === "tr" ? "EN" : "TR";
+      tb.textContent = theme === "dark" ? "☀︎" : "☾";
+    }
+    lb.addEventListener("click", function () {
+      lang = lang === "tr" ? "en" : "tr";
+      d.setAttribute("data-lang", lang);
+      d.setAttribute("lang", lang);
+      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
+      paint();
+    });
+    tb.addEventListener("click", function () {
+      theme = theme === "dark" ? "light" : "dark";
+      d.setAttribute("data-theme", theme);
+      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
+      paint();
+    });
+    paint();
+  })();
+</script>
+</body>
+</html>

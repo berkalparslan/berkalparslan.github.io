@@ -125,6 +125,34 @@ main { max-width: 720px; margin: 0 auto; padding: 56px 24px 80px; }
 }
 .page-lede { font-size: 17px; color: var(--subtle); margin-bottom: 44px; max-width: 54ch; }
 
+
+/* ── Dil ─────────────────────────────────────────────────── */
+/* Metinler .tr / .en ile ikişer yazılır; kökteki data-lang seçer.
+   Tek dilli yazılarda bu sınıflar hiç kullanılmaz, sorun olmaz. */
+:root[data-lang="tr"] .en { display: none; }
+:root[data-lang="en"] .tr { display: none; }
+span.tr, span.en { display: inline; }
+:root[data-lang="tr"] span.en,
+:root[data-lang="en"] span.tr { display: none; }
+
+.lang-toggle {
+  flex: none; height: 32px; padding: 0 11px; border-radius: 9px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  color: var(--subtle); font: inherit; font-size: 12px; font-weight: 700;
+  letter-spacing: .04em; line-height: 1; cursor: pointer;
+}
+.lang-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Yazının hangi dilde olduğunu listede göstermek için. */
+.lang-badge {
+  font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 5px;
+  background: color-mix(in srgb, var(--subtle) 14%, transparent);
+  color: var(--subtle);
+}
+
 /* ── Yazı listesi ────────────────────────────────────────── */
 .post-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 
