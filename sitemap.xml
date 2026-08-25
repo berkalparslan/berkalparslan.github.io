@@ -40,6 +40,10 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://berkalparslan.github.io/walletcoach/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://berkalparslan.github.io/yonca/</loc>
     <priority>0.7</priority>
   </url>

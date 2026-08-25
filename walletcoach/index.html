@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wallet Coach — Ekran ekran tanıtım</title>
+<meta name="description" content="Ev ekonomisini aylık bir tablo gibi tut: gelir ve giderleri listele, ödedikçe işaretle, yeni ay öncekini kopyalasın. Her şey telefonunda kalır.">
+<meta property="og:title" content="Wallet Coach — Ay ay ev ekonomisi">
+<meta property="og:description" content="Excel'deki ay sekmelerinin yerini alan uygulama. Veriler cihazında kalır.">
+<meta property="og:image" content="https://berkalparslan.github.io/walletcoach/assets/screens/tr/panel.webp">
+<meta property="og:type" content="website">
+<link rel="icon" href="/walletcoach/assets/icon-180.png">
+<link rel="apple-touch-icon" href="/walletcoach/assets/icon-180.png">
+<script>
+  // Tema ve dil sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi ve
+  // dil değişimi gözle görülür bir sıçrama yapıyor.
+  (function () {
+    var d = document.documentElement;
+    try {
+      d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      d.setAttribute("data-theme", "light");
+    }
+    var lang;
+    try {
+      lang = localStorage.getItem("wc-lang");
+    } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    // Sayfa Türkçe yazıldı; tarayıcı Türkçe değilse İngilizceye düşüyor.
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang);
+    d.setAttribute("lang", lang);
+  })();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f5f8f7; --surface:#ffffff; --sunken:#eaf1ef;
+  --ink:#12201c; --ink2:#4e6560; --ink3:#849994;
+  --line:#dde8e5; --accent:#12a37a;
+  --panel:#12a37a; --month:#7c5cf0; --cal:#e0912a; --ledger:#0f9c96;
+  --assets:#e0912a; --wallet:#2f7de0; --pro:#c2506b;
+  --r:20px;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0d1412; --surface:#151f1c; --sunken:#1c2724;
+  --ink:#eaf3f0; --ink2:#9fb3ae; --ink3:#778b86;
+  --line:#25322e; --accent:#2ad19d;
+  --panel:#2ad19d; --month:#a48bff; --cal:#f2b04e; --ledger:#3cc9c2;
+  --assets:#f2b04e; --wallet:#5ea3ff; --pro:#f0839c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+
+/* ── Dil ────────────────────────────────────── */
+:root[data-lang="tr"] .en{display:none}
+:root[data-lang="en"] .tr{display:none}
+/* Satır içi kullanım blok elemanı yapmasın */
+span.tr,span.en{display:inline}
+:root[data-lang="tr"] span.en,:root[data-lang="en"] span.tr{display:none}
+
+/* ── Üst çubuk ─────────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.bar-in{max-width:1120px;margin:0 auto;padding:0 22px;height:54px;display:flex;align-items:center;gap:18px}
+.logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo b{color:var(--accent)}
+.bar nav{display:flex;gap:15px;overflow-x:auto;font-size:13.5px;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{color:var(--ink2);text-decoration:none;white-space:nowrap}
+.bar nav a:hover{color:var(--accent)}
+.bar-end{margin-left:auto;display:flex;gap:8px;flex:none}
+.lang-toggle,.theme-toggle{
+  height:32px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
+  font-size:12.5px;line-height:1;cursor:pointer;font-weight:700;letter-spacing:.04em
+}
+.lang-toggle{padding:0 12px}
+.theme-toggle{width:32px;font-size:14px}
+.lang-toggle:hover,.theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ── Genel ─────────────────────────────────── */
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.hero{padding:64px 0 40px;text-align:center}
+.hero-icon{width:88px;height:88px;border-radius:21px;margin:0 auto 22px;display:block;
+  box-shadow:0 14px 34px -14px rgba(0,0,0,.45)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+.hero p{font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--ink2);max-width:660px;margin:0 auto 8px}
+.kicker{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);
+  padding:6px 14px;border-radius:999px;margin-bottom:20px
+}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;
+  text-decoration:none;font-weight:650;font-size:.95rem;border:1px solid transparent
+}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:var(--line);color:var(--ink2);background:var(--surface)}
+.btn.ghost:hover{color:var(--accent);border-color:var(--accent)}
+
+.hero-shots{display:flex;gap:18px;justify-content:center;align-items:flex-start;margin-top:40px;flex-wrap:wrap}
+.hero-shots .shot{width:min(240px,42vw)}
+
+.shot{
+  width:100%;border-radius:26px;display:block;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.06);
+  background:var(--surface);
+}
+
+/* ── Bölümler ──────────────────────────────── */
+section{padding:56px 0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.row.flip .txt{order:2}
+.tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--c,var(--accent))
+}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent))}
+h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.lede{color:var(--ink2);font-size:1.02rem;margin-bottom:18px}
+ul.feat{list-style:none;display:grid;gap:9px}
+ul.feat li{position:relative;padding-left:22px;color:var(--ink2);font-size:.96rem}
+ul.feat li::before{
+  content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;border-radius:2px;
+  background:var(--c,var(--accent))
+}
+ul.feat strong{color:var(--ink);font-weight:600}
+/* Tek görsel bir sütunu kaplayınca metni eziyor; her hâlükârda telefon
+   boyunda kalsın diye üstten sınırlı. */
+.shots{display:flex;gap:16px;justify-content:center}
+.shots .shot{flex:1;min-width:0;max-width:330px}
+
+.note{
+  margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--sunken);
+  border:1px solid var(--line);color:var(--ink2);font-size:.9rem
+}
+
+/* ── Izgara ────────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:16px;margin-top:26px}
+.cell{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.cell h3{font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cell p{color:var(--ink2);font-size:.92rem}
+.cell .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent));flex:none}
+
+/* ── Fiyat ─────────────────────────────────── */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.plan.pro{border-color:var(--pro)}
+.plan h3{font-size:1.05rem;margin-bottom:4px}
+.plan .price{font-size:.9rem;color:var(--ink3);margin-bottom:14px}
+.plan ul{list-style:none;display:grid;gap:8px}
+.plan li{position:relative;padding-left:20px;color:var(--ink2);font-size:.93rem}
+.plan li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+.plan.pro li::before{color:var(--pro)}
+
+/* ── Alt ───────────────────────────────────── */
+footer{
+  border-top:1px solid var(--line);padding:34px 22px 46px;text-align:center;
+  color:var(--ink3);font-size:.88rem
+}
+footer a{color:var(--ink2);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:820px){
+  .row{grid-template-columns:1fr;gap:24px}
+  .row.flip .txt{order:0}
+  .plans{grid-template-columns:1fr}
+  .shots .shot{max-width:300px}
+  .shots{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/">Bam<b>Tech</b></a>
+    <nav>
+      <a href="#panel"><span class="tr">Panel</span><span class="en">Dashboard</span></a>
+      <a href="#ay"><span class="tr">Ay tablosu</span><span class="en">The sheet</span></a>
+      <a href="#yeniay"><span class="tr">Yeni ay</span><span class="en">New month</span></a>
+      <a href="#takvim"><span class="tr">Takvim</span><span class="en">Calendar</span></a>
+      <a href="#defter"><span class="tr">Alacak-verecek</span><span class="en">Ledger</span></a>
+      <a href="#varliklar"><span class="tr">Varlıklar</span><span class="en">Assets</span></a>
+      <a href="#cuzdan"><span class="tr">Araçlar</span><span class="en">Tools</span></a>
+      <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a>
+    </nav>
+    <div class="bar-end">
+      <button class="lang-toggle" id="langToggle" type="button">EN</button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Tema" title="Tema">☾</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <img class="hero-icon" src="assets/icon-512.png" width="88" height="88" alt="Wallet Coach">
+    <span class="kicker">
+      <span class="tr">iPhone · App Store'da</span><span class="en">iPhone · On the App Store</span>
+    </span>
+    <h1>Wallet Coach</h1>
+    <p class="tr">Ev ekonomisini bir bütçe uygulaması gibi değil, <strong>Excel'deki ay
+      sekmeleri</strong> gibi tutar. Ayın gelirini ve giderini bir kez yazarsın, geldikçe
+      ödedikçe işaretlersin, yeni ay tek dokunuşla öncekini kopyalar.</p>
+    <p class="en">Keeps the household books the way a <strong>spreadsheet with a tab per
+      month</strong> does, not the way a budgeting app does. You write the month down once,
+      tick things off as they come in and go out, and the next month copies itself.</p>
+
+    <div class="cta">
+      <a class="btn primary" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
+        <span class="tr">App Store'dan indir</span><span class="en">Get it on the App Store</span>
+      </a>
+      <a class="btn ghost" href="#panel">
+        <span class="tr">Ekranları gez</span><span class="en">Take the tour</span>
+      </a>
+    </div>
+
+    <div class="hero-shots">
+      <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" alt="Panel">
+      <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" alt="Ay tablosu">
+      <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" alt="Cüzdan">
+    </div>
+  </header>
+
+  <!-- ── Panel ── -->
+  <section id="panel" style="--c:var(--panel)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Panel</span><span class="en">Dashboard</span></span>
+        <h2 class="tr">Tek soru: ay sonunda ne kalıyor?</h2>
+        <h2 class="en">One question: what is left at the end of the month?</h2>
+        <p class="lede tr">Ekranın tepesindeki rakam <em>bakiyen</em> değil — <strong>her şey
+          ödendikten sonra</strong> elinde kalacak olan. Bütçe uygulamaları bunu genelde
+          söylemez; asıl merak edilen şey budur.</p>
+        <p class="lede en">The figure at the top is not your balance — it is what will be left
+          <strong>once everything is paid</strong>. Budgeting apps rarely say this outright, and
+          it is the thing people actually want to know.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Ödenecek</strong> ve <strong>gelecek</strong> yan yana: ne kadarı hâlâ havada</li>
+          <li class="en"><strong>Still to pay</strong> and <strong>still to come</strong>, side by side</li>
+          <li class="tr"><strong>Nereye gidiyor</strong> halkası: gider dağılımı bölüm bölüm</li>
+          <li class="en"><strong>Where it goes</strong> ring: the month's spend broken down by block</li>
+          <li class="tr"><strong>Yaklaşanlar</strong>: vadesi gelen satırlar, gecikenler kırmızı</li>
+          <li class="en"><strong>Coming up</strong>: what falls due next, overdue lines in red</li>
+          <li class="tr">Her satır <strong>panelden işaretlenebilir</strong> — ödemek için ay tablosuna gitmezsin</li>
+          <li class="en">Every line <strong>ticks off here</strong> — you never have to go to the sheet to do it</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" alt="Panel">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ay ── -->
+  <section id="ay" style="--c:var(--month)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Ay tablosu</span><span class="en">The monthly sheet</span></span>
+        <h2 class="tr">Her ay kendi başına bir sayfa</h2>
+        <h2 class="en">Each month is its own page</h2>
+        <p class="lede tr">Yerini aldığı Excel'deki gibi: Ağustos'u düzenlemek Temmuz'u
+          değiştirmez. Satırlar <strong>bölümler</strong> altında toplanır — kredi kartları,
+          krediler, ev, sigorta, abonelikler, gelirler.</p>
+        <p class="lede en">Like the spreadsheet it replaces: editing August does not touch July.
+          Lines sit under <strong>blocks</strong> — cards, loans, home, insurance,
+          subscriptions, income.</p>
+        <ul class="feat">
+          <li class="tr">Satır başına <strong>tutar, asgari, vade günü, işaret ve not</strong></li>
+          <li class="en">Per line: <strong>amount, minimum, due day, tick and note</strong></li>
+          <li class="tr"><strong>Asgari tutar</strong> yalnızca kredi kartı bölümlerinde çıkar</li>
+          <li class="en">The <strong>minimum payment</strong> only appears on card blocks</li>
+          <li class="tr"><strong>Bitiş ayı</strong>: kredinin son taksiti. Satır "kaç ay kaldı" der ve o ay geçince kopyalanmayı bırakır</li>
+          <li class="en"><strong>Ends on</strong>: the final instalment. The line counts down the months and stops copying itself afterwards</li>
+          <li class="tr"><strong>Kartla ödeme</strong>: bir gider kredi kartı satırına bağlanır. Bölümünde görünür ama ay toplamına ikinci kez girmez</li>
+          <li class="en"><strong>Paid by card</strong>: a bill can point at a card's own line. It still shows in its block but is not counted twice</li>
+          <li class="tr">Bölümler senin: sırasını değiştir, yenisini ekle, kullanmadığını kapat</li>
+          <li class="en">The blocks are yours: reorder them, add your own, switch off the ones you do not have</li>
+        </ul>
+        <div class="note tr">Kartla ödeme, bir tablonun en kolay yalan söylediği yer. Sigorta primi
+          hem "Sigorta" bölümünde hem de kartın ekstresinde duruyorsa ay toplamı iki katı
+          gösterir. Uygulama parayı kartın satırında sayar, gideri de yerinde bırakır.</div>
+        <div class="note en">Paying by card is where a sheet most easily lies. If the insurance
+          premium sits under "Insurance" and inside the card statement, the month reads double.
+          The app counts the money on the card's line and still leaves the bill where it belongs.</div>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" alt="Ay tablosu">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Yeni ay ── -->
+  <section id="yeniay" style="--c:var(--month)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Yeni ay</span><span class="en">Rolling over</span></span>
+        <h2 class="tr">Yeni ay öncekini kopyalar, işaretleri sıfırlar</h2>
+        <h2 class="en">The new month copies the last one and clears the ticks</h2>
+        <p class="lede tr">"Her ay tekrarlansın" işaretli satırlar yeni aya geçer; tek seferlik
+          olanlar geçmez. Ay başında sıfırdan yazmazsın, sadece değişeni düzeltirsin.</p>
+        <p class="lede en">Lines marked "repeats every month" come across; one-offs do not. You do
+          not start the month from a blank page, you only correct what changed.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Vade gün olarak saklanır</strong>, tarih olarak değil — yeni aya taşınınca kendiliğinden o aya oturur</li>
+          <li class="en"><strong>Due dates are stored as a day</strong>, not a date — so they move with the month on their own</li>
+          <li class="tr">Ayın 31'i Şubat'ta <strong>ayın son gününe kırpılır</strong></li>
+          <li class="en">The 31st <strong>clamps to the last day</strong> in February</li>
+          <li class="tr">Son taksitini geçmiş krediler yeni aya hiç gelmez</li>
+          <li class="en">A loan past its final instalment simply does not arrive</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="next-month" src="assets/screens/tr/next-month.webp" alt="Yeni ay oluştur">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Takvim ── -->
+  <section id="takvim" style="--c:var(--cal)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Takvim</span><span class="en">Calendar</span></span>
+        <h2 class="tr">Hangi gün ne ödenecek</h2>
+        <h2 class="en">What falls due, and when</h2>
+        <p class="lede tr">Panel ve Ay sekmelerinin sağ üstündeki takvim düğmesi ayı gün gün
+          açar. Dolu günler işaretli; bir güne dokununca o günün satırları gelir.</p>
+        <p class="lede en">The calendar button at the top of the dashboard and the sheet opens the
+          month day by day. Days with something on them are marked; tap one to see its lines.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Vade hatırlatmaları</strong>: kaç gün önce ve saat kaçta, sen seçersin</li>
+          <li class="en"><strong>Due reminders</strong>: how many days ahead and at what hour, your choice</li>
+          <li class="tr">Gecikmiş satırlar hem takvimde hem panelde ayrı renkte</li>
+          <li class="en">Overdue lines stand out in both the calendar and the dashboard</li>
+          <li class="tr">Hatırlatmalar <strong>ücretsiz</strong> — alışkanlığı kuran şey bu</li>
+          <li class="en">Reminders are <strong>free</strong> — they are what builds the habit</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="calendar" src="assets/screens/tr/calendar.webp" alt="Takvim">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Defter ── -->
+  <section id="defter" style="--c:var(--ledger)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Alacak-Verecek</span><span class="en">Ledger</span></span>
+        <h2 class="tr">Kim sana borçlu, sen kime borçlusun</h2>
+        <h2 class="en">Who owes you, and who you owe</h2>
+        <p class="lede tr">Ay tablosundan ayrı bir defter, bilerek. Arkadaşına verdiğin borç bu
+          ayın gideri değil; ay toplamına karıştırmak ikisini de bozardı.</p>
+        <p class="lede en">A separate book from the monthly sheet, on purpose. Money you lent a
+          friend is not this month's expense, and folding it in would wreck both figures.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Kişi ve kurum ayrı durur</strong> — bir markanın faturası arkadaş borcunun yanına düşmez</li>
+          <li class="en"><strong>People and companies stay apart</strong> — an invoice never sits next to money lent to a friend</li>
+          <li class="tr"><strong>Parçalı tahsilat</strong>: elli bin liralık işin yirmisi geldiyse kalanı görürsün</li>
+          <li class="en"><strong>Partial settlements</strong>: if twenty of fifty came in, you see what is left</li>
+          <li class="tr"><strong>KDV</strong> dahil/hariç hesaplanır; matrah, vergi ve brüt ayrı ayrı</li>
+          <li class="en"><strong>VAT</strong> in or out; net, tax and gross shown separately</li>
+          <li class="tr"><strong>Fatura kesildi mi?</strong> — kesilmeyi bekleyen işler ayrı listelenir</li>
+          <li class="en"><strong>Invoiced yet?</strong> — work still waiting to be billed is listed on its own</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="ledger" src="assets/screens/tr/ledger.webp" alt="Alacak-Verecek">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Varlıklar ── -->
+  <section id="varliklar" style="--c:var(--assets)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Varlıklar</span><span class="en">Assets</span></span>
+        <h2 class="tr">Neyin var, ne kadar ediyor</h2>
+        <h2 class="en">What you own, and what it is worth</h2>
+        <p class="lede tr">Ev, arsa, araç, altın, döviz, hisse, fon, kripto, mevduat. Değeri sen
+          girersin — uygulama canlı bir kur servisi çağırmaz.</p>
+        <p class="lede en">Property, land, vehicles, gold, currency, shares, funds, crypto,
+          savings. You set the values yourself — the app does not call a live price feed.</p>
+        <ul class="feat">
+          <li class="tr">Aldığın fiyatı da girersen <strong>kazancı</strong> hem tutar hem yüzde olarak çıkar</li>
+          <li class="en">Add what you paid and the <strong>gain</strong> appears in both money and per cent</li>
+          <li class="tr"><strong>"Bunun yerine altın alsaydım?"</strong> — aynı parayı aynı sürede nakit, dolar ya da altında tutsaydın ne olurdu</li>
+          <li class="en"><strong>"What if I had bought gold instead?"</strong> — the same money over the same months in cash, dollars or gold</li>
+          <li class="tr">Karşılaştırma <strong>aylık TCMB serisine</strong> dayanır, anlık kura değil</li>
+          <li class="en">The comparison runs on the <strong>monthly central-bank series</strong>, not a spot rate</li>
+        </ul>
+        <div class="note tr">Anlık kur bilerek yok. Reel getiri geçmiş aylık seriye dayanıyor;
+          yanına canlı bir kur konsa iki kaynak birbirini tutmaz ve hangisinin doğru olduğu
+          belirsizleşir.</div>
+        <div class="note en">The spot rate is left out deliberately. Real return is computed from a
+          monthly series; putting a live rate beside it would give two numbers that disagree and
+          no way to tell which is right.</div>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="assets" src="assets/screens/tr/assets.webp" alt="Varlıklar">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Cüzdan ── -->
+  <section id="cuzdan" style="--c:var(--wallet)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Cüzdan</span><span class="en">Wallet</span></span>
+        <h2 class="tr">Harcamadan önce bakılacak yer</h2>
+        <h2 class="en">The tab you open before you spend</h2>
+        <p class="lede tr">Defterler üstte, ara sıra açılan hesaplayıcılar altta. Hepsi tek bir
+          soruya bakıyor: bu para gerçekten neye mal oluyor?</p>
+        <p class="lede en">The books at the top, the occasional calculators underneath. All of them
+          ask one question: what does this money actually cost you?</p>
+        <ul class="feat">
+          <li class="tr"><strong>Fiyatı saate çevir</strong> — 8.000 liralık koltuk, senin saat ücretinle kaç saatlik çalışma</li>
+          <li class="en"><strong>Price in hours</strong> — an 8,000 sofa, in hours of your own work</li>
+          <li class="tr"><strong>Listem</strong> — almaya karar vermediklerin. Vazgeçtiklerinin toplamı "kurtardığın zaman" olarak birikir</li>
+          <li class="en"><strong>Wishlist</strong> — the things you have not decided on. What you skip adds up as time you kept</li>
+          <li class="tr"><strong>Şimdi ne kadar?</strong> — 2019'daki 5.000 lira bugünün parasıyla ne eder</li>
+          <li class="en"><strong>What is it worth now?</strong> — 5,000 in 2019, in today's money</li>
+          <li class="tr"><strong>Brütten nete</strong> — brüt maaşın ay ay eline ne geçirdiği; vergi dilimi atlayınca düşüş görünür</li>
+          <li class="en"><strong>Gross to net</strong> — what a gross salary actually pays month by month, tax bands and all</li>
+          <li class="tr"><strong>Zam hesaplayıcı</strong> — enflasyonun altında mı üstünde mi</li>
+          <li class="en"><strong>Raise calculator</strong> — above or below inflation</li>
+          <li class="tr"><strong>Öğren</strong> — kısa ekonomi yazıları, hepsi çevrimdışı</li>
+          <li class="en"><strong>Learn</strong> — short economics reads, all offline</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" alt="Cüzdan">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gizlilik ── -->
+  <section id="gizlilik">
+    <div class="txt" style="max-width:760px">
+      <span class="tag"><span class="tr">Veri ve gizlilik</span><span class="en">Data and privacy</span></span>
+      <h2 class="tr">Rakamların telefonunda kalır</h2>
+      <h2 class="en">Your figures stay on your phone</h2>
+      <p class="lede tr">Hesap açmak yok, giriş yapmak yok. Ne kadar kazandığın ve neye borçlu
+        olduğun hiçbir sunucuya gitmiyor.</p>
+      <p class="lede en">No account, no sign-in. What you earn and what you owe never reach a
+        server.</p>
+    </div>
+    <div class="grid">
+      <div class="cell" style="--c:var(--panel)">
+        <h3><span class="dot"></span><span class="tr">Gizli mod</span><span class="en">Hidden mode</span></h3>
+        <p class="tr">Her ekranın sağ üstündeki göz düğmesi bütün rakamları <strong>***</strong> yapar.
+          Otobüste açmak için.</p>
+        <p class="en">The eye button on every screen turns every figure into <strong>***</strong>.
+          For opening it on the bus.</p>
+      </div>
+      <div class="cell" style="--c:var(--ledger)">
+        <h3><span class="dot"></span><span class="tr">Yedekleme</span><span class="en">Backup</span></h3>
+        <p class="tr">iCloud Drive'a otomatik, ya da düz bir dosya olarak kendine gönder. Sunucu yok,
+          şema yok — dosyayı yeni telefonda açarsın.</p>
+        <p class="en">Automatic to iCloud Drive, or a plain file you mail to yourself. No server, no
+          schema — you just open it on the new phone.</p>
+      </div>
+      <div class="cell" style="--c:var(--cal)">
+        <h3><span class="dot"></span><span class="tr">Dışa aktarma</span><span class="en">Export</span></h3>
+        <p class="tr">Seçtiğin aylar PDF ya da CSV olarak çıkar: ay tablosu, defter ve varlıklar
+          birlikte.</p>
+        <p class="en">Any range of months as PDF or CSV: the sheet, the ledger and the portfolio
+          together.</p>
+      </div>
+      <div class="cell" style="--c:var(--month)">
+        <h3><span class="dot"></span><span class="tr">Yedi dil</span><span class="en">Seven languages</span></h3>
+        <p class="tr">Türkçe, İngilizce, Almanca, İspanyolca, Fransızca, Portekizce, Rusça. Para
+          birimini ayrıca seçersin.</p>
+        <p class="en">Turkish, English, German, Spanish, French, Portuguese, Russian. The currency is
+          a separate choice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Fiyat ── -->
+  <section id="fiyat">
+    <div class="txt" style="max-width:760px">
+      <span class="tag" style="--c:var(--pro)"><span class="tr">Fiyat</span><span class="en">Pricing</span></span>
+      <h2 class="tr">İki ay ücretsiz, sonrası sende</h2>
+      <h2 class="en">Two months free, then it is up to you</h2>
+      <p class="lede tr">Ücretsiz sınır bir deneme süresi değil: hatırlatmalar, takvim ve gizli mod
+        hep ücretsiz. Alışkanlığı kuran şeyler bunlar.</p>
+      <p class="lede en">The free tier is not a countdown: reminders, the calendar and hidden mode
+        stay free for good. Those are the parts that build the habit.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3>
+        <p class="price"><span class="tr">Süresiz</span><span class="en">No time limit</span></p>
+        <ul>
+          <li class="tr">İki ay tablosu</li><li class="en">Two monthly sheets</li>
+          <li class="tr">Vade hatırlatmaları ve takvim</li><li class="en">Due reminders and the calendar</li>
+          <li class="tr">Gizli mod</li><li class="en">Hidden mode</li>
+          <li class="tr">Üç varlık, üç alacak-verecek hesabı</li><li class="en">Three assets, three ledger accounts</li>
+          <li class="tr">Bütün hesaplayıcılar ve yazılar</li><li class="en">Every calculator and article</li>
+        </ul>
+      </div>
+      <div class="plan pro">
+        <h3>Wallet Coach Pro</h3>
+        <p class="price"><span class="tr">Aylık abonelik ya da tek seferlik ömür boyu</span><span class="en">Monthly, or a one-off lifetime purchase</span></p>
+        <ul>
+          <li class="tr">Sınırsız ay</li><li class="en">Unlimited months</li>
+          <li class="tr">PDF ve CSV dışa aktarma</li><li class="en">PDF and CSV export</li>
+          <li class="tr">Sınırsız varlık ve hesap</li><li class="en">Unlimited assets and accounts</li>
+          <li class="tr">Kendi bölümlerini oluşturma</li><li class="en">Your own blocks</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cta" style="justify-content:flex-start;margin-top:28px">
+      <a class="btn primary" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
+        <span class="tr">App Store'dan indir</span><span class="en">Get it on the App Store</span>
+      </a>
+    </div>
+    <p class="lede" style="margin-top:18px;font-size:.92rem">
+      <span class="tr">Android sürümü hazır, şu an kapalı testte.</span>
+      <span class="en">The Android build is finished and currently in closed testing.</span>
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  © 2026 BamTech ·
+  <a href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a> ·
+  <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+  <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+
+    // ── Tema ──
+    var themeBtn = document.getElementById("themeToggle");
+    function syncTheme() {
+      var dark = root.getAttribute("data-theme") === "dark";
+      themeBtn.textContent = dark ? "☀︎" : "☾";
+      themeBtn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    themeBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      syncTheme();
+    });
+    syncTheme();
+
+    // ── Dil ──
+    // Metin CSS ile değişiyor; burada yalnızca ekran görüntülerinin kaynağını
+    // ve düğmenin etiketini güncellemek kalıyor. JS çalışmazsa sayfa Türkçe
+    // kalır ve okunur — görseller de öyle.
+    var langBtn = document.getElementById("langToggle");
+    var shots = document.querySelectorAll("img[data-screen]");
+
+    function applyLang(lang) {
+      root.setAttribute("data-lang", lang);
+      root.setAttribute("lang", lang);
+      langBtn.textContent = lang === "tr" ? "EN" : "TR";
+      langBtn.setAttribute("aria-label", lang === "tr" ? "Switch to English" : "Türkçeye geç");
+      shots.forEach(function (img) {
+        img.src = "assets/screens/" + lang + "/" + img.dataset.screen + ".webp";
+      });
+    }
+
+    langBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
+      try { localStorage.setItem("wc-lang", next); } catch (e) {}
+      applyLang(next);
+    });
+
+    applyLang(root.getAttribute("data-lang") || "tr");
+  })();
+</script>
+
+</body>
+</html>
