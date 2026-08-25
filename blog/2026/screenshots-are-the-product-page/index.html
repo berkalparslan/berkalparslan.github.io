@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nobody reads the description — BamTech</title>
+  <meta name="description"
+    content="On the App Store the screenshots are the product page. What I learned putting one together for eleven apps, including the mistakes." />
+  <link rel="canonical"
+    href="https://berkalparslan.github.io/blog/2026/screenshots-are-the-product-page/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Nobody reads the description" />
+  <meta property="og:description"
+    content="On the App Store the screenshots are the product page — and the first two are the whole pitch." />
+  <meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+      catch (e) { d.setAttribute("data-theme", "light"); }
+      var lang;
+      try { lang = localStorage.getItem("bb-lang"); } catch (e) { }
+      var q = location.search.match(/[?&]lang=(tr|en)\b/);
+      if (q) lang = q[1];
+      if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+      d.setAttribute("data-lang", lang);
+      d.setAttribute("lang", lang);
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/blog.css" />
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
+      <nav>
+        <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
+        <a href="/blog/">Blog</a>
+        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      </nav>
+      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <a class="back-link" href="/blog/">← <span class="tr">Tüm yazılar</span><span class="en">All notes</span></a>
+
+    <article class="post-body">
+
+      <!-- ── Türkçe ────────────────────────────────────────── -->
+      <div class="tr">
+        <h1>Açıklamayı kimse okumuyor</h1>
+        <div class="post-header-meta">
+          <time datetime="2026-08-25">25 Ağustos 2026</time>
+          <span class="tag">mağaza</span>
+        </div>
+
+        <p>App Store'da uzun bir açıklama yazdım. Özenle. Sonra kendi telefonumdan kendi
+          uygulamama baktım ve o metnin ekranda hiç görünmediğini fark ettim. Görünen şey
+          ikonun, adın ve iki ekran görüntüsü.</p>
+
+        <p>Ürün sayfası açıklama değil. <strong>Ürün sayfası ekran görüntüleridir.</strong></p>
+
+        <h2>İlk iki kare her şeydir</h2>
+
+        <p>Listeleme sayfası açıldığında yan yana iki görsel giriyor. Kaydırmayan insan için
+          uygulaman bu ikisinden ibaret. Ben ilk sürümlerde oraya en gurur duyduğum ekranı
+          koymuştum — ayarlar ekranı. Kimseye bir şey anlatmıyordu.</p>
+
+        <p>Sonra sırayı değiştirdim: birinci karede uygulamanın <em>ne işe yaradığı</em>,
+          ikincide <em>nasıl göründüğü</em>. Skor uygulamalarında bu, "bilekten sayı ver" ile
+          "maç geçmişin burada" oldu. Ayarlar en sona gitti; oraya zaten kaydıran biri
+          gidiyor ve o kişi ikna olmuş demektir.</p>
+
+        <h2>Ekran görüntüsü ekran görüntüsü değildir</h2>
+
+        <p>Ham simülatör çıktısını olduğu gibi koymak cazip, çünkü dürüst geliyor. Ama küçük
+          bir kutuda 12 punto yazı okunmaz. Mağazadaki görsel, ekranın kendisi değil, ekranın
+          <strong>en önemli tek cümlesini büyütmüş hâli</strong> olmalı.</p>
+
+        <p>Pratikte işe yarayan format şu oldu: üstte bir başlık, altında telefon çerçevesi,
+          çerçevenin içinde de o başlığı kanıtlayan tek ekran. Başlık olmadan görsel "bak, bir
+          liste" diyor. Başlıkla birlikte "her maçın kaydı burada" diyor.</p>
+
+        <h2>Üçüncü taraf araçların bedeli</h2>
+
+        <p>Bu görselleri üretmek için hazır bir araç kullandım. Sonuç güzeldi, ama ücretsiz
+          sürüm görsellerin üstüne kendi filigranını basıyordu — ve ben bunu fark etmeden
+          birkaç uygulamayı o hâlde yayınladım.</p>
+
+        <blockquote>Bir aracın ücretsiz sürümü, çıktısını kendi reklamına çeviriyorsa
+          ücretsiz değildir.</blockquote>
+
+        <p>Sonunda kendi aracımı yazdım: ham ekran görüntüsünü at, cihaz çerçevesini, arka
+          planı ve başlığı seç, tam mağaza ölçüsünde dışa aktar. Tarayıcıda çalışıyor, hiçbir
+          şey yüklenmiyor. Bir öğleden sonra sürdü ve filigran sorunu bir daha olmadı.</p>
+
+        <h2>Bu siteyi yaparken tekrar öğrendim</h2>
+
+        <p>Uygulamalara tanıtım sayfası yazarken aynı hatayı bir kez daha yaptım: telefon
+          ekran görüntülerini olduğu gibi koydum. Kartta 250 piksel genişliğe indiklerinde
+          içindeki hiçbir şey okunmuyordu.</p>
+
+        <p>Çözüm görselleri büyütmek değil, <strong>kadrajı daraltmak</strong> oldu. Ekranın
+          tamamı yerine üstten başlayan, altı kesilen bir parça. Kesme çizgisi de kartların
+          arasına denk gelsin diye ayarlandı — bir başlığın ortasından geçen kırpma, kırpılmış
+          gibi görünüyor; iki kartın arasından geçen kırpma, devam ediyormuş gibi.</p>
+
+        <hr />
+
+        <p>Araç burada: <a href="/web/store-mockup/">Store Mockup Studio</a>. Ücretsiz,
+          kayıt yok, filigran yok.</p>
+      </div>
+
+      <!-- ── English ───────────────────────────────────────── -->
+      <div class="en">
+        <h1>Nobody reads the description</h1>
+        <div class="post-header-meta">
+          <time datetime="2026-08-25">25 August 2026</time>
+          <span class="tag">the store</span>
+        </div>
+
+        <p>I wrote a long App Store description. Carefully. Then I looked at my own app on my
+          own phone and realised none of that text was on screen. What was on screen: the
+          icon, the name, and two screenshots.</p>
+
+        <p>The description is not the product page. <strong>The screenshots are the product
+            page.</strong></p>
+
+        <h2>The first two frames are everything</h2>
+
+        <p>When a listing opens, two images fit side by side. For anyone who does not scroll,
+          those two are your entire app. In my first releases I put the screen I was proudest
+          of there — the settings screen. It told nobody anything.</p>
+
+        <p>Then I reordered: frame one is <em>what the app is for</em>, frame two is <em>what
+            it looks like in use</em>. For the score keepers that became "award points from
+          your wrist" and "here is your match history". Settings went last, where it belongs:
+          anyone scrolling that far is already convinced.</p>
+
+        <h2>A screenshot is not a screenshot</h2>
+
+        <p>Dropping the raw simulator output straight in is tempting, because it feels honest.
+          But 12-point text is unreadable in a small box. A store image is not the screen
+          itself — it is the screen with its <strong>single most important sentence made
+            large</strong>.</p>
+
+        <p>The format that worked: a headline at the top, a device frame under it, and inside
+          the frame the one screen that proves the headline. Without the headline the image
+          says "look, a list". With it, the image says "every match you played is in here".</p>
+
+        <h2>What the third-party tool cost me</h2>
+
+        <p>I used an off-the-shelf tool to build those images. The results looked good, but
+          the free tier stamped its own watermark across them — and I shipped a couple of apps
+          that way before I noticed.</p>
+
+        <blockquote>A tool's free tier is not free if it turns your output into its
+          advertising.</blockquote>
+
+        <p>So I wrote my own: drop in a raw screenshot, pick the device frame, the background
+          and the headline, export at the exact store size. It runs in the browser and nothing
+          is uploaded. It took an afternoon, and the watermark problem never came back.</p>
+
+        <h2>Then I learned it again building this site</h2>
+
+        <p>Writing tour pages for the apps, I made the same mistake once more: I dropped in
+          full phone screenshots as they were. Shrunk to 250 pixels wide on a card, nothing
+          inside them was legible.</p>
+
+        <p>The fix was not bigger images, it was a <strong>tighter crop</strong>. A slice that
+          starts at the top of the screen and runs off the bottom, rather than the whole
+          thing. And the cut line is placed between two cards on purpose — a crop through the
+          middle of a heading looks broken; a crop between two cards looks like it continues.</p>
+
+        <hr />
+
+        <p>The tool is here: <a href="/web/store-mockup/">Store Mockup Studio</a>. Free, no
+          sign-up, no watermark.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 BamTech<br />
+      <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
+      <a href="/blog/">Blog</a> ·
+      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var d = document.documentElement;
+      var lang = d.getAttribute("data-lang");
+      var theme = d.getAttribute("data-theme");
+      var lb = document.getElementById("langBtn");
+      var tb = document.getElementById("themeBtn");
+      function paint() {
+        lb.textContent = lang === "tr" ? "EN" : "TR";
+        tb.textContent = theme === "dark" ? "☀️" : "🌙";
+        document.title = lang === "tr"
+          ? "Açıklamayı kimse okumuyor — BamTech"
+          : "Nobody reads the description — BamTech";
+      }
+      lb.addEventListener("click", function () {
+        lang = lang === "tr" ? "en" : "tr";
+        d.setAttribute("data-lang", lang);
+        d.setAttribute("lang", lang);
+        try { localStorage.setItem("bb-lang", lang); } catch (e) { }
+        paint();
+      });
+      tb.addEventListener("click", function () {
+        theme = theme === "dark" ? "light" : "dark";
+        d.setAttribute("data-theme", theme);
+        try { localStorage.setItem("bb-theme", theme); } catch (e) { }
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+
+</html>

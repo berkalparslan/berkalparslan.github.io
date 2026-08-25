@@ -1,5 +1,16 @@
 [
   {
+    "title": "Nobody reads the description",
+    "title_tr": "Açıklamayı kimse okumuyor",
+    "url": "/blog/2026/screenshots-are-the-product-page/",
+    "date": "2026-08-25",
+    "tag": "the store",
+    "tag_tr": "mağaza",
+    "lang": "tr+en",
+    "summary": "On the App Store the screenshots are the product page. What I got wrong ordering them, and what a free tool's watermark cost me.",
+    "summary_tr": "App Store'da ürün sayfası açıklama değil, ekran görüntüleridir. Sıralamayı nasıl yanlış kurdum ve ücretsiz bir aracın filigranı bana neye mal oldu."
+  },
+  {
     "title": "The counter is the easy part",
     "title_tr": "Asıl iş sayıyı artırmak değil",
     "url": "/blog/2026/scoring-rules-are-the-app/",

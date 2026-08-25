@@ -12,6 +12,13 @@
   // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
   // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
   (function () {
+    var d = document.documentElement, lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang);
+    d.setAttribute("lang", lang);
     try {
       document.documentElement.setAttribute(
         "data-theme", localStorage.getItem("bb-theme") || "light");
@@ -143,6 +150,19 @@ footer a{text-decoration:none}
   .shots{max-width:520px}
   section{padding:44px 0}
 }
+
+/* ── Dil ────────────────────────────────────── */
+:root[data-lang="tr"] .en{display:none}
+:root[data-lang="en"] .tr{display:none}
+span.tr,span.en{display:inline}
+:root[data-lang="tr"] span.en,:root[data-lang="en"] span.tr{display:none}
+.lang-toggle{
+  height:32px;padding:0 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
+  font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  line-height:1;cursor:pointer;flex:none
+}
+.lang-toggle:hover{color:var(--accent);border-color:var(--accent)}
 </style>
   <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
   <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
@@ -154,15 +174,16 @@ footer a{text-decoration:none}
   <div class="bar-in">
     <a class="logo" href="/">Bam<b>Tech</b></a>
     <nav>
-      <a href="#liste">Liste</a>
-      <a href="#saklama">Saklama</a>
-      <a href="#hatirlatma">Hatırlatma</a>
-      <a href="#ekle">Ekleme</a>
-      <a href="#haklar">Katılım hakkı</a>
-      <a href="#sonuc">Sonuç</a>
-      <a href="#sansin">Şansın</a>
-      <a href="#gizlilik">Gizlilik</a>
+      <a href="#liste"><span class="tr">Liste</span><span class="en">The list</span></a>
+      <a href="#saklama"><span class="tr">Saklama</span><span class="en">Keeping proof</span></a>
+      <a href="#hatirlatma"><span class="tr">Hatırlatma</span><span class="en">Reminders</span></a>
+      <a href="#ekle"><span class="tr">Ekleme</span><span class="en">Adding one</span></a>
+      <a href="#haklar"><span class="tr">Katılım hakkı</span><span class="en">Entries</span></a>
+      <a href="#sonuc"><span class="tr">Sonuç</span><span class="en">The result</span></a>
+      <a href="#sansin"><span class="tr">Şansın</span><span class="en">Your odds</span></a>
+      <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
     </nav>
+    <button class="lang-toggle" id="langToggle" type="button" aria-label="Language">TR</button>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
   </div>
 </div>
@@ -170,11 +191,12 @@ footer a{text-decoration:none}
 <div class="wrap">
 
   <header class="hero">
-    <span class="kicker">iPhone · Yakında</span>
+    <span class="kicker"><span class="tr">iPhone · Yakında</span><span class="en">iPhone · Coming soon</span></span>
     <h1>Yonca</h1>
-    <p>Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki
+    <p class="tr">Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki
        kodu gönderirsin — sonra unutursun. Yonca hem sonuç gününü hem de saklaman gerekenleri
        hatırlar.</p>
+        <p class="en">You comment on an Instagram post, you keep receipts for a supermarket promotion, you send in the code under a bottle cap — and then you forget. Yonca remembers both the draw date and the things you have to hold on to.</p>
     <div class="hero-shots">
       <img class="shot" src="assets/screens/liste.png" alt="Yonca çekiliş listesi">
       <img class="shot" src="assets/screens/magnum.png" alt="Saklaman gerekenler listesi">
@@ -186,16 +208,26 @@ footer a{text-decoration:none}
   <section id="liste">
     <div class="row">
       <div class="txt">
-        <span class="tag">Ana ekran</span>
-        <h2>Liste kendini aciliyete göre dizer</h2>
-        <p class="lede">Tarihe göre değil, ne kadar acil olduğuna göre sıralanır. Sonucunu hâlâ
+        <span class="tag tr">Ana ekran</span>
+        <span class="tag en">Home screen</span>
+        <h2 class="tr">Liste kendini aciliyete göre dizer</h2>
+        <h2 class="en">The list sorts itself by urgency</h2>
+        <p class="lede tr">Tarihe göre değil, ne kadar acil olduğuna göre sıralanır. Sonucunu hâlâ
           işaretlemediklerin en üste çıkar; çünkü unutulan asıl şey onlardır.</p>
-        <ul class="feat">
+        <p class="lede en">Not by date, but by how urgent it is. The ones whose result you still have not marked rise to the top, because those are the ones that actually get forgotten.</p>
+        <ul class="feat tr">
           <li><strong>Sonucu işaretlenmemiş</strong> — tarihi geçmiş ama kazanıp kazanmadığını girmediklerin, kırmızı</li>
           <li><strong>Bugün</strong> ve <strong>Bu hafta</strong> — geri sayım rozetiyle</li>
           <li><strong>Henüz katılmadın</strong> — takip listende duran ama şartlarını tamamlamadıkların</li>
           <li>Üstteki mor bant, saklaman gereken bir şeyin yerinde olmadığını söyler</li>
           <li>Her kartta katılım hakkın, kazanma olasılığın ve eksik adım sayın</li>
+        </ul>
+        <ul class="feat en">
+          <li><strong>Result not marked</strong> — the date has passed but you never said whether you won. In red.</li>
+          <li><strong>Today</strong> and <strong>This week</strong>, with a countdown badge</li>
+          <li><strong>Not entered yet</strong> — on your watchlist, conditions still unmet</li>
+          <li>The purple band at the top means something you were meant to keep is not where it should be</li>
+          <li>Every card shows your entries, your odds and how many steps are left</li>
         </ul>
       </div>
       <div class="shots">
@@ -208,21 +240,35 @@ footer a{text-decoration:none}
   <section id="saklama" style="--c:var(--keep)">
     <div class="row flip">
       <div class="txt">
-        <span class="tag">Farkı yaratan yer</span>
-        <h2>Çubuğu attıysan kazanman bir işe yaramaz</h2>
-        <p class="lede">Çekiliş uygulamaları tarihi hatırlatır. Asıl kaybettiren şey tarih değil:
+        <span class="tag tr">Farkı yaratan yer</span>
+        <span class="tag en">Where it earns its place</span>
+        <h2 class="tr">Çubuğu attıysan kazanman bir işe yaramaz</h2>
+        <h2 class="en">Winning is no use if you threw the stick away</h2>
+        <p class="lede tr">Çekiliş uygulamaları tarihi hatırlatır. Asıl kaybettiren şey tarih değil:
           Magnum çubuğunu, kapağı, market fişini, ürün kodunu saklaman gerekiyor. İbraz
           edemezsen ödülü alamazsın.</p>
-        <ul class="feat">
+        <p class="lede en">Giveaway apps remind you of the date. The date is not what loses it for you: you have to keep the ice-cream stick, the cap, the receipt, the product code. If you cannot produce it, you do not get the prize.</p>
+        <ul class="feat tr">
           <li>Saklaman gerekenler ayrı bir liste — tek tek işaretlersin</li>
           <li><strong>Nereye koyduğunu da yazarsın</strong>: "mutfak çekmecesi", "araba torpido"</li>
           <li>Yerine koymadıkların uygulamada kırmızı durur, listede ayrı bant açar</li>
           <li>Eksik bıraktığın her şey "Eksik kalanlar" kartında toplanır</li>
         </ul>
-        <div class="quote" style="--c:var(--keep)">
+        <ul class="feat en">
+          <li>What you need to keep is its own list — you tick each item off</li>
+          <li><strong>You also write down where you put it</strong>: "kitchen drawer", "glovebox"</li>
+          <li>Anything not put away shows red and opens its own band in the list</li>
+          <li>Everything left undone collects in a "Still missing" card</li>
+        </ul>
+        <div class="quote tr" style="--c:var(--keep)">
           <b>Çekiliş günü gelen bildirim</b>
           Magnum çubuk çekilişi bugün çekiliyor. Kazanırsan ibraz edeceğin şeyler:
           Mutfak çekmecesi.
+        </div>
+        <div class="quote en" style="--c:var(--keep)">
+          <b>The notification on draw day</b>
+          The ice-cream stick draw is today. What you will need to produce if you win:
+          kitchen drawer.
         </div>
       </div>
       <div class="shots">
@@ -235,19 +281,30 @@ footer a{text-decoration:none}
   <section id="hatirlatma" style="--c:var(--gold)">
     <div class="row">
       <div class="txt">
-        <span class="tag">Bildirimler</span>
-        <h2>Dört ayrı an, dört ayrı hatırlatma</h2>
-        <p class="lede">Tek bir "çekiliş günü geldi" bildirimi yeterli değil. Kaçırdığın anlar
+        <span class="tag tr">Bildirimler</span>
+        <span class="tag en">Notifications</span>
+        <h2 class="tr">Dört ayrı an, dört ayrı hatırlatma</h2>
+        <h2 class="en">Four moments, four reminders</h2>
+        <p class="lede tr">Tek bir "çekiliş günü geldi" bildirimi yeterli değil. Kaçırdığın anlar
           farklı farklı, o yüzden hatırlatmalar da öyle.</p>
-        <ul class="feat">
+        <p class="lede en">A single "the draw is today" notification is not enough. The moments you miss are different from each other, so the reminders are too.</p>
+        <ul class="feat tr">
           <li><strong>Saklama</strong> — saklaman gereken bir şey var ama yerine koymadıysan</li>
           <li><strong>Son katılım</strong> — süre doluyor ve hâlâ katılmadıysan</li>
           <li><strong>Çekiliş günü</strong> — ibraz edeceğin şeylerin nerede olduğuyla birlikte</li>
           <li><strong>Sonuç kontrolü</strong> — ertesi gün, sonucun nerede açıklanacağını söyleyerek</li>
           <li>Bildirimi kaydırıp <strong>Kazandım / Kazanamadım</strong> diyebilirsin, uygulamayı açmadan</li>
         </ul>
-        <div class="note">Detay ekranındaki "Kurulacak hatırlatmalar" kartı, kurulacak bildirimleri
+        <ul class="feat en">
+          <li><strong>Keep it</strong> — there is something to hold on to and you have not put it away</li>
+          <li><strong>Last chance</strong> — time is running out and you still have not entered</li>
+          <li><strong>Draw day</strong> — together with where you put what you have to produce</li>
+          <li><strong>Check the result</strong> — the next day, telling you where it gets announced</li>
+          <li>Swipe the notification and say <strong>Won / Didn't win</strong> without opening the app</li>
+        </ul>
+        <div class="note tr">Detay ekranındaki "Kurulacak hatırlatmalar" kartı, kurulacak bildirimleri
           metniyle birlikte önceden gösterir. Gördüğün ile gelen bildirim aynı yerden üretilir.</div>
+        <div class="note en">The "Reminders to be set" card on the detail screen shows you the notifications in advance, wording included. What you see and what arrives come from the same place.</div>
       </div>
       <div class="shots">
         <img class="shot" src="assets/screens/hatirlatmalar.png" alt="Kurulacak hatırlatmalar listesi">
@@ -259,20 +316,31 @@ footer a{text-decoration:none}
   <section id="ekle" style="--c:var(--teal)">
     <div class="row flip">
       <div class="txt">
-        <span class="tag">Çekiliş ekleme</span>
-        <h2>Yöntemi seç, gerisi hazır gelsin</h2>
-        <p class="lede">Her çekiliş aynı değil. Instagram çekilişinde tek mesele tarih; fiş
+        <span class="tag tr">Çekiliş ekleme</span>
+        <span class="tag en">Adding a giveaway</span>
+        <h2 class="tr">Yöntemi seç, gerisi hazır gelsin</h2>
+        <h2 class="en">Pick how you enter, the rest fills itself in</h2>
+        <p class="lede tr">Her çekiliş aynı değil. Instagram çekilişinde tek mesele tarih; fiş
           kampanyasında asıl mesele ne sakladığın. Yöntemi seçtiğinde form kendini ona göre kurar.</p>
-        <ul class="feat">
+        <p class="lede en">Not every giveaway is the same. On Instagram the only thing that matters is the date; in a receipt promotion what matters is what you kept. Choose the method and the form rebuilds itself around it.</p>
+        <ul class="feat tr">
           <li><strong>Sosyal medya</strong> — takip et, beğen, yorumda etiketle</li>
           <li><strong>Ürün kodu</strong> — kodu bul, gönder, kodu sakla</li>
           <li><strong>Fiş / kapak</strong> — ambalajı ve fişi ayır, sakla</li>
           <li><strong>Siteye kayıt</strong> ve <strong>mağaza içi katılım</strong></li>
           <li>Adımlar ve saklanacaklar şablondan gelir; üstüne kendi maddelerini eklersin</li>
         </ul>
-        <div class="note">Gönderinin ekran görüntüsünü seçersen Yonca yazıyı okuyup tarihleri,
+        <ul class="feat en">
+          <li><strong>Social media</strong> — follow, like, tag someone in a comment</li>
+          <li><strong>Product code</strong> — find the code, send it, keep it</li>
+          <li><strong>Receipt or cap</strong> — set the packaging and the receipt aside</li>
+          <li><strong>Website sign-up</strong> and <strong>in-store entry</strong></li>
+          <li>Steps and things to keep come from a template; you add your own on top</li>
+        </ul>
+        <div class="note tr">Gönderinin ekran görüntüsünü seçersen Yonca yazıyı okuyup tarihleri,
           şartları, kazanan sayısını ve saklanacakları senin yerine doldurur. Okuma tamamen
           cihazında yapılır, görüntü hiçbir yere gönderilmez.</div>
+        <div class="note en">Hand it a screenshot of the post and Yonca reads the text, then fills in the dates, the conditions, how many winners there are and what you need to keep. The reading happens entirely on your device; the image is never uploaded.</div>
       </div>
       <div class="shots">
         <img class="shot" src="assets/screens/ekle.png" alt="Çekiliş ekleme formu ve katılım yöntemi seçimi">
@@ -284,15 +352,24 @@ footer a{text-decoration:none}
   <section id="haklar" style="--c:var(--teal)">
     <div class="row">
       <div class="txt">
-        <span class="tag">Birden fazla katılım</span>
-        <h2>Her kod, her fiş bir hak</h2>
-        <p class="lede">Kapak altı kampanyalarında bir kez katılmıyorsun. Her ürün yeni bir hak
+        <span class="tag tr">Birden fazla katılım</span>
+        <span class="tag en">More than one entry</span>
+        <h2 class="tr">Her kod, her fiş bir hak</h2>
+        <h2 class="en">Every code, every receipt is an entry</h2>
+        <p class="lede tr">Kapak altı kampanyalarında bir kez katılmıyorsun. Her ürün yeni bir hak
           demek ve kazanma olasılığın buna göre değişiyor.</p>
-        <ul class="feat">
+        <p class="lede en">In under-the-cap promotions you do not enter once. Every product is another entry, and your odds move with it.</p>
+        <ul class="feat tr">
           <li>Gönderdiğin her kodu tarihiyle birlikte kaydedersin</li>
           <li>Kaç hakkın olduğunu kart üstünde görürsün</li>
           <li>Kazanma olasılığı hak sayısıyla çarpılarak hesaplanır</li>
           <li>Hangi kodu ne zaman gönderdiğini unutursan liste orada durur</li>
+        </ul>
+        <ul class="feat en">
+          <li>Every code you send is logged with its date</li>
+          <li>Your entry count sits on the card</li>
+          <li>The odds are multiplied by how many entries you hold</li>
+          <li>Forget which code you sent when? The list is still there</li>
         </ul>
       </div>
       <div class="shots">
@@ -306,15 +383,24 @@ footer a{text-decoration:none}
   <section id="sonuc" style="--c:var(--win)">
     <div class="row flip">
       <div class="txt">
-        <span class="tag">Sonuç</span>
-        <h2>Üç düğme, bitti</h2>
-        <p class="lede">Sonuç günü geldiğinde tek yapman gereken işaretlemek. Üçüncü seçenek
+        <span class="tag tr">Sonuç</span>
+        <span class="tag en">The result</span>
+        <h2 class="tr">Üç düğme, bitti</h2>
+        <h2 class="en">Three buttons, done</h2>
+        <p class="lede tr">Sonuç günü geldiğinde tek yapman gereken işaretlemek. Üçüncü seçenek
           bilerek var: bazı çekilişler sonucu hiç açıklamaz ve bu da bir veri.</p>
-        <ul class="feat">
+        <p class="lede en">When the day comes, all you do is mark it. The third option is there on purpose: some giveaways never announce a result, and that is information too.</p>
+        <ul class="feat tr">
           <li><strong>Kazandım</strong> — konfeti ve haptik, çünkü nadir bir an</li>
           <li><strong>Kazanamadım</strong></li>
           <li><strong>Açıklanmadı</strong> — düzenleyen sonucu paylaşmadıysa</li>
           <li>İşaretlediğin an o çekilişin bekleyen bildirimleri iptal edilir</li>
+        </ul>
+        <ul class="feat en">
+          <li><strong>I won</strong> — confetti and a haptic, because it is a rare moment</li>
+          <li><strong>I didn't win</strong></li>
+          <li><strong>Never announced</strong> — the organiser never published a result</li>
+          <li>The moment you mark it, that giveaway's pending notifications are cancelled</li>
         </ul>
       </div>
       <div class="shots">
@@ -327,15 +413,24 @@ footer a{text-decoration:none}
   <section id="sansin" style="--c:var(--gold)">
     <div class="row">
       <div class="txt">
-        <span class="tag">İstatistik</span>
-        <h2>Şansın gerçekte ne kadar?</h2>
-        <p class="lede">Kaç çekilişe katıldığını ve kaçını kazandığını zaman içinde görürsün.
+        <span class="tag tr">İstatistik</span>
+        <span class="tag en">Statistics</span>
+        <h2 class="tr">Şansın gerçekte ne kadar?</h2>
+        <h2 class="en">What are your odds, really?</h2>
+        <p class="lede tr">Kaç çekilişe katıldığını ve kaçını kazandığını zaman içinde görürsün.
           Ayrıca uygulamanın sana kızdığı yer burası: takip disiplini.</p>
-        <ul class="feat">
+        <p class="lede en">How many you entered and how many you won, over time. This is also where the app tells you off: follow-through.</p>
+        <ul class="feat tr">
           <li>Katıldığın, kazandığın, biriken katılım hakkın ve bu ayki sayın</li>
           <li>Kazanma oranın ve kazandığın ödüllerin toplam değeri</li>
           <li><strong>Risk altındaki çekilişler</strong> — saklaman gerekeni yerine koymadıkların</li>
           <li>Sonucu işaretlenmemiş, nereye bakacağı belirsiz ve katılmadan takip ettiklerin</li>
+        </ul>
+        <ul class="feat en">
+          <li>Entered, won, entries banked and your count this month</li>
+          <li>Your win rate and the total value of what you have won</li>
+          <li><strong>Giveaways at risk</strong> — the ones whose proof you never put away</li>
+          <li>Unmarked results, ones with no announced venue, and the ones you follow without entering</li>
         </ul>
       </div>
       <div class="shots">
@@ -349,15 +444,24 @@ footer a{text-decoration:none}
   <section id="ayarlar">
     <div class="row flip">
       <div class="txt">
-        <span class="tag">Kontrol sende</span>
-        <h2>Hangi hatırlatma, saat kaçta</h2>
-        <p class="lede">Dört hatırlatma türünü tek tek kapatabilirsin. Saatini de sen seçersin;
+        <span class="tag tr">Kontrol sende</span>
+        <span class="tag en">You are in control</span>
+        <h2 class="tr">Hangi hatırlatma, saat kaçta</h2>
+        <h2 class="en">Which reminder, and at what hour</h2>
+        <p class="lede tr">Dört hatırlatma türünü tek tek kapatabilirsin. Saatini de sen seçersin;
           değiştirdiğin an tüm aktif çekilişlerin bildirimleri yeniden kurulur.</p>
-        <ul class="feat">
+        <p class="lede en">You can switch off each of the four reminder types on its own, and you choose the hour. Change it and every active giveaway's notifications are rebuilt on the spot.</p>
+        <ul class="feat tr">
           <li>Hatırlatma saati — sabah mı, akşam mı, sana kalmış</li>
           <li>Dört hatırlatma türü için ayrı anahtar</li>
           <li>Bildirim izni kapalıysa uygulama bunu sessizce geçmez, listenin başında söyler</li>
           <li>Tüm verileri tek dokunuşla kalıcı olarak silebilirsin</li>
+        </ul>
+        <ul class="feat en">
+          <li>Reminder hour — morning or evening, up to you</li>
+          <li>A separate switch for each of the four types</li>
+          <li>If notification permission is off, the app says so at the top of the list rather than failing quietly</li>
+          <li>You can erase all of your data permanently with one tap</li>
         </ul>
       </div>
       <div class="shots">
@@ -368,45 +472,58 @@ footer a{text-decoration:none}
 
   <!-- ── Gizlilik ── -->
   <section id="gizlilik">
-    <span class="tag">Gizlilik</span>
-    <h2>Hiçbir şey cihazından çıkmıyor</h2>
-    <p class="lede">Yonca'nın sunucusu yok. Hesap açman gerekmez ve uygulama internete hiçbir
+    <span class="tag tr">Gizlilik</span>
+        <span class="tag en">Privacy</span>
+    <h2 class="tr">Hiçbir şey cihazından çıkmıyor</h2>
+        <h2 class="en">Nothing leaves your device</h2>
+    <p class="lede tr">Yonca'nın sunucusu yok. Hesap açman gerekmez ve uygulama internete hiçbir
       istek göndermez.</p>
+        <p class="lede en">Yonca has no server. You never make an account, and the app sends no requests to the internet.</p>
     <div class="grid">
       <div class="card">
-        <h3>Sunucu yok</h3>
-        <p>Çekilişlerin, kodların, fotoğrafların ve notların yalnızca cihazının içinde saklanır.</p>
+        <h3 class="tr">Sunucu yok</h3>
+        <h3 class="en">No server</h3>
+        <p class="tr">Çekilişlerin, kodların, fotoğrafların ve notların yalnızca cihazının içinde saklanır.</p>
+        <p class="en">Your giveaways, codes, photos and notes are stored only inside your device.</p>
       </div>
       <div class="card">
-        <h3>Hesap yok</h3>
-        <p>Kayıt olmazsın, e-posta vermezsin. Uygulamayı silersen her şey silinir.</p>
+        <h3 class="tr">Hesap yok</h3>
+        <h3 class="en">No account</h3>
+        <p class="tr">Kayıt olmazsın, e-posta vermezsin. Uygulamayı silersen her şey silinir.</p>
+        <p class="en">You never register, you never hand over an email. Delete the app and it all goes.</p>
       </div>
       <div class="card">
-        <h3>İzleme yok</h3>
-        <p>Reklam, analitik ve üçüncü taraf SDK yok. İzleme izni (ATT) hiç sorulmaz.</p>
+        <h3 class="tr">İzleme yok</h3>
+        <h3 class="en">No tracking</h3>
+        <p class="tr">Reklam, analitik ve üçüncü taraf SDK yok. İzleme izni (ATT) hiç sorulmaz.</p>
+        <p class="en">No ads, no analytics, no third-party SDKs. The tracking prompt never appears.</p>
       </div>
       <div class="card">
-        <h3>Okuma cihazında</h3>
-        <p>Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır.</p>
+        <h3 class="tr">Okuma cihazında</h3>
+        <h3 class="en">Reading is local</h3>
+        <p class="tr">Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır.</p>
+        <p class="en">Text is read out of a screenshot on your device, using Apple's Vision framework.</p>
       </div>
     </div>
   </section>
 
   <div class="cta">
-    <h2>Yonca yakında App Store'da</h2>
-    <p class="lede">Çekilişi Yonca düzenlemez, kazananı seçmez. Sadece senin katıldıklarını
+    <h2 class="tr">Yonca yakında App Store'da</h2>
+        <h2 class="en">Yonca is coming to the App Store</h2>
+    <p class="lede tr">Çekilişi Yonca düzenlemez, kazananı seçmez. Sadece senin katıldıklarını
       hatırlamana yardım eder.</p>
+        <p class="lede en">Yonca does not run the giveaway and does not pick the winner. It only helps you remember the ones you entered.</p>
     <div class="btns">
-      <a class="btn ghost" href="/yonca/privacy/">Gizlilik politikası</a>
-      <a class="btn ghost" href="/support/">Destek</a>
-      <a class="btn" href="/">Diğer uygulamalar</a>
+      <a class="btn ghost" href="/yonca/privacy/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span></a>
+      <a class="btn ghost" href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a class="btn" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
     </div>
   </div>
 
 </div>
 
 <footer>
-  <a href="/">BamTech</a> · <a href="/yonca/privacy/">Gizlilik</a> · <a href="/support/">Destek</a>
+  <a href="/">BamTech</a> · <a href="/yonca/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> · <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
 </footer>
 
 <script>
@@ -426,6 +543,26 @@ footer a{text-decoration:none}
       sync();
     });
     sync();
+  })();
+</script>
+<script>
+  (function () {
+    var d = document.documentElement;
+    var lb = document.getElementById("langToggle");
+    if (!lb) return;
+    function paint() {
+      var tr = d.getAttribute("data-lang") === "tr";
+      lb.textContent = tr ? "EN" : "TR";
+      document.title = tr ? 'Yonca — Ekran ekran tanıtım' : 'Yonca — A screen-by-screen tour';
+    }
+    lb.addEventListener("click", function () {
+      var next = d.getAttribute("data-lang") === "tr" ? "en" : "tr";
+      d.setAttribute("data-lang", next);
+      d.setAttribute("lang", next);
+      try { localStorage.setItem("bb-lang", next); } catch (e) {}
+      paint();
+    });
+    paint();
   })();
 </script>
 
