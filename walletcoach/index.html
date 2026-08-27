@@ -40,7 +40,7 @@
   --ink:#12201c; --ink2:#4e6560; --ink3:#849994;
   --line:#dde8e5; --accent:#12a37a;
   --panel:#12a37a; --month:#7c5cf0; --cal:#e0912a; --ledger:#0f9c96;
-  --assets:#e0912a; --wallet:#2f7de0; --pro:#c2506b;
+  --assets:#e0912a; --savings:#8b4fd4; --wallet:#2f7de0; --pro:#c2506b;
   --r:20px;
 }
 :root[data-theme="dark"]{
@@ -49,7 +49,7 @@
   --ink:#eaf3f0; --ink2:#9fb3ae; --ink3:#778b86;
   --line:#25322e; --accent:#2ad19d;
   --panel:#2ad19d; --month:#a48bff; --cal:#f2b04e; --ledger:#3cc9c2;
-  --assets:#f2b04e; --wallet:#5ea3ff; --pro:#f0839c;
+  --assets:#f2b04e; --savings:#b98cf5; --wallet:#5ea3ff; --pro:#f0839c;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -199,6 +199,7 @@ footer a:hover{color:var(--accent)}
       <a href="#takvim"><span class="tr">Takvim</span><span class="en">Calendar</span></a>
       <a href="#defter"><span class="tr">Alacak-verecek</span><span class="en">Ledger</span></a>
       <a href="#varliklar"><span class="tr">Varlıklar</span><span class="en">Assets</span></a>
+      <a href="#birikim"><span class="tr">Birikim</span><span class="en">Savings</span></a>
       <a href="#cuzdan"><span class="tr">Araçlar</span><span class="en">Tools</span></a>
       <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       <a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a>
@@ -353,6 +354,8 @@ footer a:hover{color:var(--accent)}
           <li class="en">Overdue lines stand out in both the calendar and the dashboard</li>
           <li class="tr">Hatırlatmalar <strong>ücretsiz</strong> — alışkanlığı kuran şey bu</li>
           <li class="en">Reminders are <strong>free</strong> — they are what builds the habit</li>
+          <li class="tr">Başlığa dokun, <strong>yıl ve ay çarkı</strong> açılır: geçen marta da gelecek yıla da bir hareketle</li>
+          <li class="en">Tap the title for a <strong>year and month wheel</strong>: last March or next year in one flick</li>
         </ul>
       </div>
       <div class="shots">
@@ -421,6 +424,37 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
+  <!-- ── Birikim ── -->
+  <section id="birikim" style="--c:var(--savings)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Birikim</span><span class="en">Savings</span></span>
+        <h2 class="tr">Neyle biriktiriyorsan onunla say</h2>
+        <h2 class="en">Count it in whatever you actually save in</h2>
+        <p class="lede tr">Gram altın, dolar, bir fon ya da düpedüz para. Bir kap tek bir birim
+          tutar, çünkü gramlar grama toplandığında ortaya anlamlı bir sayı çıkar. İki şeyle
+          biriktiriyorsan iki kap açarsın.</p>
+        <p class="lede en">Grams of gold, dollars, a fund, or plain money. A pot holds one unit,
+          because grams add up to grams and that total means something. Saving in two things
+          means two pots.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Kur, katkının kendi satırında durur</strong> — iki gramın alındığı gün ne tuttuğu bir olgudur, bugünkü kurla yeniden fiyatlamak o geçmişi sessizce değiştirirdi</li>
+          <li class="en"><strong>The rate lives on the deposit</strong> — what two grams cost on the day is a fact, and re-pricing that history against today's rate would quietly rewrite it</li>
+          <li class="tr"><strong>Bugünkü değer ayrı bir şey</strong>: senin onayladığın kur, girildiği tarih ekranda yazılı. Uygulamadaki aylık seri yalnızca öneri; iki aydan eskiyse ekran bunu söyler</li>
+          <li class="en"><strong>Today's worth is a separate thing</strong>: the rate you confirmed, with the date you entered it. The bundled monthly series is only a suggestion, and the screen says so when it is months old</li>
+          <li class="tr"><strong>Kuru bilinmeyen katkı bedava sayılmaz</strong> — ortalama maliyet ve kazanç yalnızca kuru olan satırlardan hesaplanır</li>
+          <li class="en"><strong>A deposit with no rate is not counted as free</strong> — the average cost and the gain come only from the rows that recorded one</li>
+          <li class="tr"><strong>Hedef ve aylık hatırlatıcı</strong> isteğe bağlı; hedef paradan değil, kabın kendi biriminden girilir</li>
+          <li class="en"><strong>A target and a monthly nudge</strong>, both optional; the target is in the pot's own unit, not in money</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="savings" src="assets/screens/tr/savings.webp" alt="Birikim">
+        <img class="shot" data-screen="savings-detail" src="assets/screens/tr/savings-detail.webp" alt="Birikim detayı">
+      </div>
+    </div>
+  </section>
+
   <!-- ── Cüzdan ── -->
   <section id="cuzdan" style="--c:var(--wallet)">
     <div class="row">
@@ -428,10 +462,12 @@ footer a:hover{color:var(--accent)}
         <span class="tag"><span class="tr">Cüzdan</span><span class="en">Wallet</span></span>
         <h2 class="tr">Harcamadan önce bakılacak yer</h2>
         <h2 class="en">The tab you open before you spend</h2>
-        <p class="lede tr">Defterler üstte, ara sıra açılan hesaplayıcılar altta. Hepsi tek bir
-          soruya bakıyor: bu para gerçekten neye mal oluyor?</p>
-        <p class="lede en">The books at the top, the occasional calculators underneath. All of them
-          ask one question: what does this money actually cost you?</p>
+        <p class="lede tr">Defterler üstte — alacak-verecek, varlıklar, projeler, birikim, fiyat
+          takibi. Ara sıra açılan hesaplayıcılar altta. Hepsi tek bir soruya bakıyor: bu para
+          gerçekten neye mal oluyor?</p>
+        <p class="lede en">The books at the top — what you are owed, what you own, jobs, savings,
+          the price log. The occasional calculators underneath. All of them ask one question:
+          what does this money actually cost you?</p>
         <ul class="feat">
           <li class="tr"><strong>Fiyatı saate çevir</strong> — 8.000 liralık koltuk, senin saat ücretinle kaç saatlik çalışma</li>
           <li class="en"><strong>Price in hours</strong> — an 8,000 sofa, in hours of your own work</li>
