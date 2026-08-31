@@ -44,9 +44,10 @@
 <p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
 
 <h2>Kısaca</h2>
-<p>Boş Yer Yok hesap açmanı gerektirmez, reklam göstermez ve seni takip etmez. Oyun kaydın
-iPhone'unda kalır. Uygulamadan dışarı çıkan tek şey, bir satın alma yaptığında bunun
-doğrulanması için gereken bilgidir — aşağıda tek tek yazılı.</p>
+<p>Boş Yer Yok hesap açmanı gerektirmez, reklam göstermez ve seni uygulamalar arasında takip
+etmez. Oyun kaydın iPhone'unda kalır. Uygulamadan çıkan iki şey var: hangi özelliklerin
+kullanıldığına dair kaba istatistikler ve — bir satın alma yaparsan — bunun doğrulanması için
+gereken bilgi. İkisi de aşağıda tek tek yazılı.</p>
 
 <h2>Cihazında kalan veriler</h2>
 <p>Aşağıdakiler yalnızca cihazında, uygulamanın kendi deposunda saklanır. Geliştirici dahil
@@ -73,6 +74,23 @@ yoktur — bulutta yedeklenmez.</p>
 Reklam için kullanılmaz, satılmaz, veri simsarlarıyla paylaşılmaz.
 Hiç satın alma yapmazsan bu servise senin adına hiçbir şey gitmez.</p>
 
+<h2>Kullanım istatistikleri</h2>
+<p>Oyunun hangi bölümlerinin kullanıldığını ve oyuncuların nerede takıldığını anlamak için
+<strong>Google Firebase Analytics</strong> kullanılır. Buraya yalnızca <em>ne yapıldığına</em>
+dair olaylar gider: bir yükseltmenin alınması, ihaleye girilmesi, mağazanın açılması gibi.</p>
+<p><strong>Şunlar asla gönderilmez:</strong></p>
+<ul>
+  <li>Kasandaki para, gelirin veya herhangi bir tutar</li>
+  <li>Oyun kaydının kendisi</li>
+  <li>Adın, e-postan veya Apple Kimliğin</li>
+</ul>
+<p>Firebase bu olaylarla birlikte bir cihaz tanımlayıcısı ve genel cihaz bilgisi (model,
+işletim sistemi sürümü, ülke) toplar. Bu veriler kimliğinle ilişkilendirilmez ve reklam amaçlı
+takip için kullanılmaz.</p>
+<p>Uygulama çökerse <strong>Firebase Crashlytics</strong> çökme raporunu gönderir: hatanın
+oluştuğu kod satırları, cihaz modeli ve işletim sistemi sürümü. Bu rapor oyun kaydını
+içermez.</p>
+
 <h2>Bildirimler</h2>
 <p>Bildirimlere izin verirsen, hatırlatmalar <strong>cihazının kendisinde</strong> planlanır.
 Sunucudan gönderilmez, bu yüzden bildirimler için hiçbir veri dışarı çıkmaz. İzni istediğin
@@ -81,7 +99,7 @@ zaman iOS Ayarlar'dan geri alabilirsin.</p>
 <h2>Yapmadıklarımız</h2>
 <ul>
   <li>Reklam göstermek veya reklam kimliği (IDFA) okumak</li>
-  <li>Analitik ve kullanım takibi</li>
+  <li>Seni uygulamalar ve siteler arasında takip etmek</li>
   <li>Verilerini satmak, kiralamak veya veri simsarlarıyla paylaşmak</li>
   <li>Adını, e-postanı veya telefonunu istemek</li>
   <li>Konumunu takip etmek</li>
@@ -109,9 +127,10 @@ genişlerse, o sürüm yayınlanmadan önce hem bu sayfa hem App Store gizlilik 
 <p class="updated">Last updated: 31 August 2026</p>
 
 <h2>In short</h2>
-<p>No Spaces does not require an account, shows no ads and does not track you. Your save stays
-on your iPhone. The only thing that leaves the app is what is needed to verify a purchase when
-you make one — listed in full below.</p>
+<p>No Spaces does not require an account, shows no ads and does not track you across other
+apps. Your save stays on your iPhone. Two things do leave the app: coarse statistics about which
+features get used, and — if you make a purchase — what is needed to verify it. Both are listed
+in full below.</p>
 
 <h2>Data that stays on your device</h2>
 <p>The following is stored only on your device, in the app's own storage. Nobody — including
@@ -139,6 +158,23 @@ service called <strong>RevenueCat</strong>. What it receives is:</p>
 advertising, not sold, and not shared with data brokers. If you never make a purchase, nothing
 about you is sent to that service at all.</p>
 
+<h2>Usage statistics</h2>
+<p>To understand which parts of the game get used and where players get stuck, the app uses
+<strong>Google Firebase Analytics</strong>. Only events about <em>what was done</em> are sent:
+an upgrade bought, a tender entered, the store opened, and so on.</p>
+<p><strong>These are never sent:</strong></p>
+<ul>
+  <li>Your cash, your income or any amount at all</li>
+  <li>Your save file</li>
+  <li>Your name, email or Apple Account</li>
+</ul>
+<p>Alongside those events, Firebase collects a device identifier and general device information
+(model, OS version, country). This is not linked to your identity and is not used to track you
+for advertising.</p>
+<p>If the app crashes, <strong>Firebase Crashlytics</strong> sends a crash report: the lines of
+code where it failed, the device model and the OS version. The report does not contain your
+save.</p>
+
 <h2>Notifications</h2>
 <p>If you allow notifications, reminders are scheduled <strong>on the device itself</strong>.
 Nothing is pushed from a server, so no data leaves the app for notifications. You can withdraw
@@ -147,7 +183,7 @@ the permission at any time in iOS Settings.</p>
 <h2>What the app never does</h2>
 <ul>
   <li>Show ads or read the advertising identifier (IDFA)</li>
-  <li>Run analytics or usage tracking</li>
+  <li>Track you across other apps and websites</li>
   <li>Sell, rent or share your data with data brokers</li>
   <li>Ask for your name, email or phone number</li>
   <li>Track your location</li>
