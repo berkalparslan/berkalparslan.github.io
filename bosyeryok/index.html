@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boş Yer Yok — Ekran ekran tanıtım</title>
+<meta name="description" content="Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor.">
+<meta property="og:title" content="Boş Yer Yok — Otopark işletme oyunu">
+<meta property="og:description" content="Bir arsa, on araçlık yer. Tarifeyi sen belirle, ekibi sen kur, sokağın sürprizlerine sen karar ver.">
+<meta property="og:image" content="https://berkalparslan.github.io/bosyeryok/assets/screens/tr/otopark.webp">
+<meta property="og:type" content="website">
+<link rel="icon" href="/bosyeryok/assets/icon-180.png">
+<link rel="apple-touch-icon" href="/bosyeryok/assets/icon-180.png">
+<script>
+  // Tema ve dil sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi ve
+  // dil değişimi gözle görülür bir sıçrama yapıyor.
+  (function () {
+    var d = document.documentElement;
+    try {
+      d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      d.setAttribute("data-theme", "light");
+    }
+    var lang;
+    try {
+      lang = localStorage.getItem("bb-lang");
+    } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    // Sayfa Türkçe yazıldı; tarayıcı Türkçe değilse İngilizceye düşüyor.
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang);
+    d.setAttribute("lang", lang);
+  })();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f7f5f1; --surface:#ffffff; --sunken:#efebe4;
+  --ink:#17181a; --ink2:#55585c; --ink3:#8a8d91;
+  --line:#e4dfd5; --accent:#b7780a;
+  --otopark:#b7780a; --tesis:#2f7f52; --ihale:#6f52a8; --ekip:#3a7fa0; --tarife:#c0563c;
+  --pro:#b7780a;
+  --r:20px;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0a0b0c; --surface:#141618; --sunken:#1c1f22;
+  --ink:#e9e6e1; --ink2:#9a968f; --ink3:#676460;
+  --line:#23262a; --accent:#f5b301;
+  --otopark:#f5b301; --tesis:#4fb477; --ihale:#9b86c4; --ekip:#6fa8c7; --tarife:#d6533f;
+  --pro:#f5b301;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+
+/* ── Dil ────────────────────────────────────── */
+:root[data-lang="tr"] .en{display:none}
+:root[data-lang="en"] .tr{display:none}
+/* Satır içi kullanım blok elemanı yapmasın */
+span.tr,span.en{display:inline}
+:root[data-lang="tr"] span.en,:root[data-lang="en"] span.tr{display:none}
+
+/* ── Üst çubuk ─────────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.bar-in{max-width:1120px;margin:0 auto;padding:0 22px;height:54px;display:flex;align-items:center;gap:18px}
+.logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo b{color:var(--accent)}
+.bar nav{display:flex;gap:15px;overflow-x:auto;font-size:13.5px;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{color:var(--ink2);text-decoration:none;white-space:nowrap}
+.bar nav a:hover{color:var(--accent)}
+.bar-end{margin-left:auto;display:flex;gap:8px;flex:none}
+.lang-toggle,.theme-toggle{
+  height:32px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
+  font-size:12.5px;line-height:1;cursor:pointer;font-weight:700;letter-spacing:.04em
+}
+.lang-toggle{padding:0 12px}
+.theme-toggle{width:32px;font-size:14px}
+.lang-toggle:hover,.theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ── Genel ─────────────────────────────────── */
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.hero{padding:64px 0 40px;text-align:center}
+.hero-icon{width:88px;height:88px;border-radius:21px;margin:0 auto 22px;display:block;
+  box-shadow:0 14px 34px -14px rgba(0,0,0,.45)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+.hero p{font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--ink2);max-width:660px;margin:0 auto 8px}
+.kicker{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);
+  padding:6px 14px;border-radius:999px;margin-bottom:20px
+}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;
+  text-decoration:none;font-weight:650;font-size:.95rem;border:1px solid transparent
+}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:var(--line);color:var(--ink2);background:var(--surface)}
+.btn.ghost:hover{color:var(--accent);border-color:var(--accent)}
+
+.hero-shots{display:flex;gap:18px;justify-content:center;align-items:flex-start;margin-top:40px;flex-wrap:wrap}
+.hero-shots .shot{width:min(240px,42vw)}
+
+.shot{
+  width:100%;border-radius:26px;display:block;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.06);
+  background:var(--surface);
+}
+
+/* ── Bölümler ──────────────────────────────── */
+section{padding:56px 0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.row.flip .txt{order:2}
+.tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--c,var(--accent))
+}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent))}
+h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.lede{color:var(--ink2);font-size:1.02rem;margin-bottom:18px}
+ul.feat{list-style:none;display:grid;gap:9px}
+ul.feat li{position:relative;padding-left:22px;color:var(--ink2);font-size:.96rem}
+ul.feat li::before{
+  content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;border-radius:2px;
+  background:var(--c,var(--accent))
+}
+ul.feat strong{color:var(--ink);font-weight:600}
+/* Tek görsel bir sütunu kaplayınca metni eziyor; her hâlükârda telefon
+   boyunda kalsın diye üstten sınırlı. */
+.shots{display:flex;gap:16px;justify-content:center}
+.shots .shot{flex:1;min-width:0;max-width:330px}
+
+.note{
+  margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--sunken);
+  border:1px solid var(--line);color:var(--ink2);font-size:.9rem
+}
+
+/* ── Izgara ────────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:16px;margin-top:26px}
+.cell{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.cell h3{font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cell p{color:var(--ink2);font-size:.92rem}
+.cell .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent));flex:none}
+
+/* ── Fiyat ─────────────────────────────────── */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.plan.pro{border-color:var(--pro)}
+.plan h3{font-size:1.05rem;margin-bottom:4px}
+.plan .price{font-size:.9rem;color:var(--ink3);margin-bottom:14px}
+.plan ul{list-style:none;display:grid;gap:8px}
+.plan li{position:relative;padding-left:20px;color:var(--ink2);font-size:.93rem}
+.plan li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+.plan.pro li::before{color:var(--pro)}
+
+/* ── Alt ───────────────────────────────────── */
+footer{
+  border-top:1px solid var(--line);padding:34px 22px 46px;text-align:center;
+  color:var(--ink3);font-size:.88rem
+}
+footer a{color:var(--ink2);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:820px){
+  .row{grid-template-columns:1fr;gap:24px}
+  .row.flip .txt{order:0}
+  .plans{grid-template-columns:1fr}
+  .shots .shot{max-width:300px}
+  .shots{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/">Bam<b>Tech</b></a>
+    <nav>
+      <a href="#otopark"><span class="tr">Otopark</span><span class="en">The lot</span></a>
+      <a href="#tesis"><span class="tr">Tesis</span><span class="en">Facility</span></a>
+      <a href="#tarife"><span class="tr">Tarife</span><span class="en">Tariff</span></a>
+      <a href="#ekip"><span class="tr">Ekip</span><span class="en">Crew</span></a>
+      <a href="#sokak"><span class="tr">Sokak</span><span class="en">The street</span></a>
+      <a href="#ihale"><span class="tr">İhale</span><span class="en">Tenders</span></a>
+      <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a>
+    </nav>
+    <div class="bar-end">
+      <button class="lang-toggle" id="langToggle" type="button">EN</button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Tema" title="Tema">☾</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <img class="hero-icon" src="assets/icon-512.png" width="88" height="88" alt="Boş Yer Yok">
+    <span class="kicker">
+      <span class="tr">iPhone · Yakında App Store'da</span><span class="en">iPhone · Coming soon to the App Store</span>
+    </span>
+    <h1>Boş Yer Yok</h1>
+    <p class="tr">Boş bir arsa, tek blok, on araçlık yer. Bu bir <strong>otopark işletme
+      oyunu</strong> — direksiyon çevirmiyorsun, işletiyorsun. Kasa sen bakmasan da dolar,
+      ama parayı nereye koyduğun her şeyi belirler.</p>
+    <p class="en">An empty plot, one block, room for ten cars. This is a <strong>parking lot
+      management game</strong> — you don't steer, you run the place. The till fills while
+      you're away, but where you put the money decides everything.</p>
+
+    <div class="cta">
+      <!-- YAYINDA: aşağıdaki satırı App Store bağlantısıyla değiştir
+           <a class="btn primary" href="https://apps.apple.com/app/id6806977094" target="_blank" rel="noopener">
+             <span class="tr">App Store'dan indir</span><span class="en">Get it on the App Store</span></a> -->
+      <a class="btn primary" href="#otopark">
+        <span class="tr">Ekranları gez</span><span class="en">Take the tour</span>
+      </a>
+      <a class="btn ghost" href="/">
+        <span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span>
+      </a>
+    </div>
+
+    <div class="hero-shots">
+      <img class="shot" data-screen="otopark" src="assets/screens/tr/otopark.webp" alt="Otopark">
+      <img class="shot" data-screen="tesis" src="assets/screens/tr/tesis.webp" alt="Tesis">
+      <img class="shot" data-screen="ekip" src="assets/screens/tr/ekip.webp" alt="Ekip">
+    </div>
+  </header>
+
+  <!-- ── Otopark ── -->
+  <section id="otopark" style="--c:var(--otopark)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Otopark</span><span class="en">The lot</span></span>
+        <h2 class="tr">Şehirde park yeri yok ve herkes bir yer arıyor</h2>
+        <h2 class="en">There's no parking in this city, and everyone is looking for a space</h2>
+        <p class="lede tr">Ekranın ortasındaki otopark gerçek zamanlı işliyor: araçlar giriyor,
+          çıkıyor, gece ışıklar yanıyor. Üstteki sayaç <strong>saniyede ne kazandığını</strong>
+          söylüyor — ve bu rakam gün içinde durmadan değişiyor.</p>
+        <p class="lede en">The lot in the middle runs in real time: cars come in, cars leave,
+          the lights come on at night. The meter at the top tells you <strong>what you earn
+          per second</strong> — and that figure never stops moving through the day.</p>
+        <ul class="feat">
+          <li class="tr">Her konumun kendi <strong>24 saatlik talep eğrisi</strong> var</li>
+          <li class="en">Every location has its own <strong>24-hour demand curve</strong></li>
+          <li class="tr"><strong>Çarşı Meydanı</strong> gündüz dolar, akşam boşalır</li>
+          <li class="en"><strong>Market Square</strong> fills by day and empties at night</li>
+          <li class="tr"><strong>Stadyum Yanı</strong> haftanın altı günü sinek avlar, maç akşamı altın madeni</li>
+          <li class="en"><strong>Next to the Stadium</strong> is dead six days a week and a gold mine on match night</li>
+          <li class="tr"><strong>Havalimanı</strong>nda kimse iki saatliğine bırakmaz — bir hafta bırakıp uçar</li>
+          <li class="en">At the <strong>airport</strong> nobody stays two hours — they leave the car for a week and fly</li>
+          <li class="tr">Doluluk bir <strong>tavana</strong> çarpar; tavanı yükseltmek ayrı bir iş</li>
+          <li class="en">Occupancy hits a <strong>ceiling</strong>; raising that ceiling is a separate job</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="otopark" src="assets/screens/tr/otopark.webp" alt="Otopark">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tesis ── -->
+  <section id="tesis" style="--c:var(--tesis)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Tesis</span><span class="en">Facility</span></span>
+        <h2 class="tr">Her yükseltme somut bir şeyi düzeltir</h2>
+        <h2 class="en">Every upgrade fixes something you can point at</h2>
+        <p class="lede tr">Yüzde artıran soyut kutucuklar değil. Zemini düzgün çizersen bir araç
+          daha sığar. Aydınlatma yoksa <strong>gece kimse aracını bırakmaz</strong>. Bariyer
+          tıkanırsa kuyruk uzar ve müşteri kapıdan döner.</p>
+        <p class="lede en">Not abstract boxes that add a percentage. Repaint the surface properly
+          and one more car fits. With no lighting, <strong>nobody leaves a car overnight</strong>.
+          If the barrier jams, the queue builds and customers turn back at the gate.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Zemin &amp; çizgi</strong> — en ucuz kapasite</li>
+          <li class="en"><strong>Surface &amp; markings</strong> — the cheapest capacity there is</li>
+          <li class="tr"><strong>Otomatik bariyer</strong> — kuyruk erir, kimse geri dönmez</li>
+          <li class="en"><strong>Automatic barrier</strong> — the queue melts, nobody turns back</li>
+          <li class="tr"><strong>Aydınlatma</strong> — gece doluluğu buradan gelir</li>
+          <li class="en"><strong>Lighting</strong> — this is where night occupancy comes from</li>
+          <li class="tr"><strong>Üstü kapalı sundurma</strong> — yağmurda fiyat ayrı yazılır</li>
+          <li class="en"><strong>Canopy</strong> — covered spaces are priced separately when it rains</li>
+          <li class="tr"><strong>Şarj istasyonu</strong> — elektrikli araç sahibi fiyat sormaz, priz arar</li>
+          <li class="en"><strong>Charging point</strong> — EV drivers don't ask the price, they look for a socket</li>
+          <li class="tr">Her konumda <strong>dört bloğa kadar</strong> açabilirsin</li>
+          <li class="en">You can open <strong>up to four blocks</strong> at each location</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="tesis" src="assets/screens/tr/tesis.webp" alt="Tesis">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tarife ── -->
+  <section id="tarife" style="--c:var(--tarife)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Tarife ve abonman</span><span class="en">Tariff and contracts</span></span>
+        <h2 class="tr">Ücreti sen belirlersin, sonuçlarına da sen katlanırsın</h2>
+        <h2 class="en">You set the price, and you live with what it does</h2>
+        <p class="lede tr">Üç tarife var ve hangisinin kazandırdığı <strong>konuma göre
+          değişir</strong>. Havalimanında günlük sabit ücret mantıklı; çarşıda felakettir.
+          Oyun o şubede hangisinin daha iyi olduğunu söyler — ama seçim senin.</p>
+        <p class="lede en">There are three tariffs, and which one pays <strong>depends on the
+          location</strong>. A flat daily rate makes sense at the airport and is a disaster at
+          the market. The game tells you which is better at that lot — but the call is yours.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Saatlik</strong> — klasik. Ne kadar durursa o kadar öder</li>
+          <li class="en"><strong>Hourly</strong> — the classic. They pay for how long they stay</li>
+          <li class="tr"><strong>İlk saat bedava</strong> — yer boş kalmaz, kâr marjı düşer</li>
+          <li class="en"><strong>First hour free</strong> — nothing sits empty, the margin drops</li>
+          <li class="tr"><strong>Günlük sabit</strong> — sabah bırak akşam al, yoğunluk düşse de para aynı</li>
+          <li class="en"><strong>Flat daily</strong> — drop it in the morning, collect at night; the money holds even when demand doesn't</li>
+          <li class="tr"><strong>Abonman:</strong> yerlerinin bir kısmını aylık aboneye bağla — gece bile boş kalmaz</li>
+          <li class="en"><strong>Contracts:</strong> put part of your spaces on a monthly deal — you're never empty, not even at night</li>
+          <li class="tr">Karşılığında abone <strong>indirimli öder</strong> ve zirve saatte o yer senin değildir</li>
+          <li class="en">In return they <strong>pay a discount</strong>, and at peak hour that space isn't yours</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="tarife" src="assets/screens/tr/tarife.webp" alt="Tarife">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ekip ── -->
+  <section id="ekip" style="--c:var(--ekip)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Ekip</span><span class="en">Crew</span></span>
+        <h2 class="tr">Maaşlar her saniye kasadan düşer</h2>
+        <h2 class="en">Wages come out of the till every second</h2>
+        <p class="lede tr">Çoğu oyunda personel bedava bir çarpandır: alırsın, gelir artar,
+          bitti. Burada değil. Vale de gişe görevlisi de <strong>gerçek bir gider</strong> —
+          gelir maaşı karşılamazsa kasa erimeye başlar ve bunu ekranda anında görürsün.</p>
+        <p class="lede en">In most games staff are a free multiplier: you hire, income goes up,
+          done. Not here. The valet and the booth attendant are a <strong>real cost</strong> —
+          if income can't cover payroll the till starts draining, and you see it happen live.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Vale</strong> — sıkışık yere bir araç daha sokar</li>
+          <li class="en"><strong>Valet</strong> — squeezes one more car into a tight space</li>
+          <li class="tr"><strong>Gişe görevlisi</strong> — bariyer arızalansa da iş yürür</li>
+          <li class="en"><strong>Booth attendant</strong> — keeps things moving even when the barrier breaks</li>
+          <li class="tr"><strong>Güvenlik</strong> — çizilme korkusu bitince fiyata itiraz eden kalmaz</li>
+          <li class="en"><strong>Security</strong> — once nobody fears a scratch, nobody argues about the price</li>
+          <li class="tr"><strong>Trafik yönlendirici</strong> — giriş çıkış tıkanmaz</li>
+          <li class="en"><strong>Traffic marshal</strong> — the entrance never clogs</li>
+          <li class="tr">Büyümenin sınırı burada: <strong>ne zaman duracağını bilmek</strong></li>
+          <li class="en">This is where growth finds its limit: <strong>knowing when to stop</strong></li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="ekip" src="assets/screens/tr/ekip.webp" alt="Ekip">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Sokak ── -->
+  <section id="sokak" style="--c:var(--otopark)">
+    <div class="txt" style="max-width:760px">
+      <span class="tag"><span class="tr">Sokak</span><span class="en">The street</span></span>
+      <h2 class="tr">Sokak hareketli, hepsi de iyi haber değil</h2>
+      <h2 class="en">The street is busy, and not all of it is good news</h2>
+      <p class="lede tr">Ondokuz farklı olay var. Fırsatların üstüne atlarsan çarpan senindir;
+        aksilikler ise <strong>doğru yükseltmen varsa yarıya iner</strong>. Sundurma yağmuru
+        hafifletir, kamera tartışmayı bitirir, ödeme kiosku cezayı sembolik bırakır.</p>
+      <p class="lede en">There are nineteen different events. Jump on an opportunity and the
+        multiplier is yours; a setback is <strong>halved if you own the right upgrade</strong>.
+        A canopy softens the rain, a camera ends the argument, a payment kiosk keeps the fine
+        symbolic.</p>
+    </div>
+    <div class="grid">
+      <div class="cell" style="--c:var(--tesis)">
+        <h3><span class="dot"></span><span class="tr">Karşıdaki otopark kapandı</span><span class="en">The lot across the road shut down</span></h3>
+        <p class="tr">Bugünlük tüm mahallenin aracı sende. Fiyatı sen biliyorsun.</p>
+        <p class="en">Today the whole neighbourhood parks with you. You set the price.</p>
+      </div>
+      <div class="cell" style="--c:var(--tesis)">
+        <h3><span class="dot"></span><span class="tr">Bu akşam derbi var</span><span class="en">There's a derby tonight</span></h3>
+        <p class="tr">Stadyum dolacak. Üç saat boyunca boş yer kalmayacak.</p>
+        <p class="en">The stadium will fill. For three hours there won't be a space left.</p>
+      </div>
+      <div class="cell" style="--c:var(--tesis)">
+        <h3><span class="dot"></span><span class="tr">Sokakta dizi çekimi var</span><span class="en">A film crew took the street</span></h3>
+        <p class="tr">Ekip minibüsleri, jeneratör, figüranların arabaları. Hepsi sana geldi.</p>
+        <p class="en">Crew vans, a generator, the extras' cars. All of it came to you.</p>
+      </div>
+      <div class="cell" style="--c:var(--tarife)">
+        <h3><span class="dot"></span><span class="tr">Sağanak başladı</span><span class="en">The downpour started</span></h3>
+        <p class="tr">Aracını açıkta bırakmak isteyen kimse yok. <em>Sundurma varsa hafif atlatırsın.</em></p>
+        <p class="en">Nobody wants to leave a car in the open. <em>A canopy softens it.</em></p>
+      </div>
+      <div class="cell" style="--c:var(--tarife)">
+        <h3><span class="dot"></span><span class="tr">Bariyer arızalandı</span><span class="en">The barrier broke</span></h3>
+        <p class="tr">Giriş yavaşladı, kuyruk uzadı. <em>Gişe görevlisi işi elle yürütür.</em></p>
+        <p class="en">Entry slowed, the queue grew. <em>The booth attendant runs it by hand.</em></p>
+      </div>
+      <div class="cell" style="--c:var(--tarife)">
+        <h3><span class="dot"></span><span class="tr">Zabıta ceza kesti</span><span class="en">The inspector wrote a ticket</span></h3>
+        <p class="tr">Kaldırım işgali tutanağı. <em>Kiosk fişleri kayıtlıysa ceza sembolik kalır.</em></p>
+        <p class="en">A pavement obstruction notice. <em>With kiosk receipts on file the fine stays symbolic.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── İhale ── -->
+  <section id="ihale" style="--c:var(--ihale)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">İhale ve ruhsat</span><span class="en">Tenders and permits</span></span>
+        <h2 class="tr">Sıfırla, bir dahakine çok daha hızlı büyü</h2>
+        <h2 class="en">Reset, and grow far faster the next time</h2>
+        <p class="lede tr">Hedefi tutturunca belediye ihalesine girersin. Konumlar, bloklar ve
+          ekip sıfırlanır — karşılığında <strong>ruhsat</strong> alırsın. Ruhsatlar kalıcıdır ve
+          bir sonraki turu baştan güçlü başlatır.</p>
+        <p class="lede en">Hit the target and you enter the council tender. Locations, blocks and
+          crew reset — in return you earn <strong>permits</strong>. Permits are permanent and they
+          make the next run start strong.</p>
+        <ul class="feat">
+          <li class="tr"><strong>Kalıcı gelir</strong> — her turda daha yüksek başlarsın</li>
+          <li class="en"><strong>Permanent income</strong> — every run starts higher</li>
+          <li class="tr"><strong>Yükseltme indirimi</strong> — bütün yükseltmeler kalıcı olarak ucuzlar</li>
+          <li class="en"><strong>Cheaper upgrades</strong> — everything costs permanently less</li>
+          <li class="tr"><strong>Başlangıç sermayesi</strong> — yeni ihaleye boş kasayla girmezsin</li>
+          <li class="en"><strong>Starting capital</strong> — you don't enter a new tender with an empty till</li>
+          <li class="tr"><strong>Çevrimdışı süre</strong> — sen yokken biriken üretimin tavanı uzar</li>
+          <li class="en"><strong>Offline time</strong> — the ceiling on what builds up while you're away rises</li>
+          <li class="tr"><strong>Başarımlar da ruhsat verir</strong> ve hiçbir zaman sıfırlanmaz</li>
+          <li class="en"><strong>Achievements grant permits too</strong>, and those never reset</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="ihale" src="assets/screens/tr/ihale.webp" alt="İhale">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gizlilik ── -->
+  <section id="gizlilik">
+    <div class="txt" style="max-width:760px">
+      <span class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></span>
+      <h2 class="tr">Hesap yok, giriş yok, veri yok</h2>
+      <h2 class="en">No account, no sign-in, no data</h2>
+      <p class="lede tr">Oyun hesap istemez, reklam göstermez ve seni takip etmez. Oyun kaydın
+        yalnızca telefonunda tutulur. Uygulamadan dışarı çıkan tek şey, <strong>bir satın alma
+        yaptığında</strong> bunun doğrulanması için gereken bilgidir — adınla değil, uygulamanın
+        ürettiği rastgele bir kimlikle.</p>
+      <p class="lede en">The game asks for no account, shows no ads and does not track you. Your
+        save stays on the phone. The only thing that leaves the app is what is needed to verify a
+        purchase <strong>when you make one</strong> — tied to a random identifier the app creates,
+        never to your name.</p>
+      <ul class="feat">
+        <li class="tr">Analitik yok, izleyici yok, reklam kimliği yok</li>
+        <li class="en">No analytics, no trackers, no advertising identifier</li>
+        <li class="tr">Ödemeyi <strong>Apple</strong> işler; kart bilgin, adın ve adresin bize hiç gelmez</li>
+        <li class="en">Payments are handled by <strong>Apple</strong>; your card, name and address never reach us</li>
+        <li class="tr">Hiç satın alma yapmazsan uygulamadan senin adına <strong>hiçbir şey gitmez</strong></li>
+        <li class="en">If you never buy anything, <strong>nothing at all</strong> leaves the app about you</li>
+        <li class="tr">Oyunu sıfırlarsan kayıt cihazından silinir, başka bir kopyası yoktur</li>
+        <li class="en">Reset the game and the save is gone from your device; there is no other copy</li>
+      </ul>
+      <div class="note">
+        <span class="tr">Ayrıntılı metin: <a href="/privacy/bosyeryok/">Gizlilik Politikası</a></span>
+        <span class="en">Full text: <a href="/privacy/bosyeryok/">Privacy Policy</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Fiyat ── -->
+  <section id="fiyat">
+    <div class="txt" style="max-width:760px">
+      <span class="tag"><span class="tr">Fiyat</span><span class="en">Pricing</span></span>
+      <h2 class="tr">Oyunun tamamı ücretsiz</h2>
+      <h2 class="en">The whole game is free</h2>
+      <p class="lede tr">Kilitli bölüm, enerji barı, bekleme duvarı yok. Satın alınabilen tek
+        şey <strong>zaman</strong> — ve hiçbiri gerekli değil.</p>
+      <p class="lede en">No locked chapters, no energy bar, no wait wall. The only thing money
+        buys is <strong>time</strong> — and none of it is necessary.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3 class="tr">Ücretsiz</h3><h3 class="en">Free</h3>
+        <div class="price"><span class="tr">Oyunun tamamı</span><span class="en">The complete game</span></div>
+        <ul>
+          <li class="tr">Dört konum, konum başına dört blok</li>
+          <li class="en">Four locations, four blocks each</li>
+          <li class="tr">Bütün yükseltmeler, ekip ve tarifeler</li>
+          <li class="en">Every upgrade, all crew and all tariffs</li>
+          <li class="tr">İhale, ruhsat ve başarımlar</li>
+          <li class="en">Tenders, permits and achievements</li>
+          <li class="tr">Reklam yok</li>
+          <li class="en">No ads</li>
+        </ul>
+      </div>
+      <div class="plan pro">
+        <h3 class="tr">Patron</h3><h3 class="en">Boss Pack</h3>
+        <div class="price"><span class="tr">Tek ödeme, ömür boyu · abonelik yok</span><span class="en">One payment, forever · no subscription</span></div>
+        <ul>
+          <li class="tr">Sen yokken otopark <strong>21 saate kadar</strong> çalışır</li>
+          <li class="en">The lot keeps earning <strong>up to 21 hours</strong> while you're away</li>
+          <li class="tr">Bütün gelire kalıcı <strong>+%15</strong> — ihale kazansan bile durur</li>
+          <li class="en">A permanent <strong>+15%</strong> on all income — it survives the tender reset</li>
+          <li class="tr">2.500 altın açılış hediyesi</li>
+          <li class="en">2,500 gold to start with</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:18px;font-size:.92rem">
+      <span class="tr">Nakit ve altın paketleri de var; ikisi de oyunun içinde kazandığın şeyi
+        satın alıyor, kilitli bir içeriği değil.</span>
+      <span class="en">There are cash and gold packs too; both buy what you already earn in
+        game, not content locked behind them.</span>
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  © 2026 BamTech ·
+  <a href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a> ·
+  <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+  <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+
+    // ── Tema ──
+    var themeBtn = document.getElementById("themeToggle");
+    function syncTheme() {
+      var dark = root.getAttribute("data-theme") === "dark";
+      themeBtn.textContent = dark ? "☀︎" : "☾";
+      themeBtn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    themeBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      syncTheme();
+    });
+    syncTheme();
+
+    // ── Dil ──
+    // Metin CSS ile değişiyor; burada yalnızca ekran görüntülerinin kaynağını
+    // ve düğmenin etiketini güncellemek kalıyor. JS çalışmazsa sayfa Türkçe
+    // kalır ve okunur — görseller de öyle.
+    var langBtn = document.getElementById("langToggle");
+    var shots = document.querySelectorAll("img[data-screen]");
+
+    function applyLang(lang) {
+      root.setAttribute("data-lang", lang);
+      root.setAttribute("lang", lang);
+      langBtn.textContent = lang === "tr" ? "EN" : "TR";
+      langBtn.setAttribute("aria-label", lang === "tr" ? "Switch to English" : "Türkçeye geç");
+      shots.forEach(function (img) {
+        img.src = "assets/screens/" + lang + "/" + img.dataset.screen + ".webp";
+      });
+    }
+
+    langBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
+      try { localStorage.setItem("bb-lang", next); } catch (e) {}
+      applyLang(next);
+    });
+
+    applyLang(root.getAttribute("data-lang") || "tr");
+  })();
+</script>
+
+</body>
+</html>
