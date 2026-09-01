@@ -76,8 +76,8 @@ const tidyCat = (c) => !c ? '—' :
   c.toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
 
 const playBadges = (a) =>
-  (a.hasAds ? '<span class="badge ads">reklam</span>' : '') +
-  (a.hasIAP ? '<span class="badge iap">iap</span>' : '');
+  (a.hasAds ? ' <span class="badge ads">reklam</span>' : '') +
+  (a.hasIAP ? ' <span class="badge iap">iap</span>' : '');
 
 function playRow(a, pick) {
   const tag = pick ? 'button' : 'a';
