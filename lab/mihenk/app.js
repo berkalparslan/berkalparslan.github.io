@@ -57,7 +57,17 @@ async function bridge(path) {
   if (!BRIDGE) throw new Error('köprü tanımlı değil');
   const r = await fetch(API + path);
   const j = await r.json();
-  if (j.error) throw new Error(j.error);
+  if (j.error) {
+    // Köprü eski sürümdeyse yeni uçları tanımıyor — bunu açıkça söyle,
+    // yoksa "Bilinmeyen uç" diye anlamsız bir hata görünüyor.
+    if (/bilinmeyen uç/i.test(j.error)) {
+      throw new Error('Bu özellik köprünün güncel sürümünü istiyor. ' +
+        (LOCAL ? 'server.py yeniden başlatılmalı.'
+               : 'Cloudflare Worker\'daki kod güncellenmeli — worker.js dosyasının ' +
+                 'son hâlini panoya kopyalayıp Worker\'a yeniden yapıştır.'));
+    }
+    throw new Error(j.error);
+  }
   return j;
 }
 async function itunes(endpoint, params) {
