@@ -7,8 +7,8 @@
 <title>Mihenk — App Store ölçüm taşı</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=1788249920">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css?v=1788268331">
 </head>
 <body>
 
@@ -44,13 +44,7 @@
     <code>play.google.com/…?id=…</code>)
   </p>
 
-  <div class="liteban">
-    <strong>Yayın sürümü — App Store tarafı çalışıyor.</strong>
-    Google Play verisi ve iOS uygulama içi satın alma bilgisi
-    <em>yerel sürüm</em> gerektiriyor: bu iki kaynak tarayıcıdan doğrudan
-    çekilemiyor (CORS kapalı), küçük bir aracı sunucu gerekiyor.
-    <code>python3 ~/dev/mihenk/server.py</code>
-  </div>
+  <div class="liteban" id="liteban"></div>
 
   <div id="status" class="status" hidden></div>
   <div id="search" class="search-out" hidden>
@@ -96,67 +90,32 @@
 
   <section class="model">
     <details>
-      <summary><h2>Tahmin modeli — her sayı nereden geliyor</h2></summary>
+      <summary><h2>Bu sayılar nasıl hesaplanıyor</h2></summary>
       <div class="model-body">
+        <p class="lead">Apple ve Google, başkasının uygulamasının indirme ve gelirini
+        <strong>yayınlamıyor.</strong> Bu alandaki bütün araçlar — Sensor Tower dahil —
+        tahmin üretiyor. Buradaki de tahmin.</p>
 
-        <p class="lead">Apple ve Google başkasının uygulamasının indirme ve gelirini <strong>yayınlamıyor.</strong> Sensor Tower, Appfigures, AppBrain dahil herkes tahmin ediyor. Burada da tahmin var — farkı, hesabın açık olması.</p>
+        <h3>İndirme</h3>
+        <p>Yorum sayısından türetiliyor. Uygulamalar indirme başına kabaca sabit bir
+        oranda yorum topluyor; o oran bir aralık olarak uygulanıyor ve sonuç
+        <strong>hiçbir zaman tek sayı değil, hep aralık</strong> olarak gösteriliyor.</p>
 
-        <h3>1. Yorum sayısından indirme</h3>
-        <p>Model kendi uygulamalarımızın <strong>gerçek</strong> satış raporlarıyla kalibre edildi (App Store Connect, Aralık 2025 – Temmuz 2026):</p>
-        <div class="scroll">
-        <table class="calib">
-          <thead><tr><th>Uygulama</th><th class="n">Gerçek indirme</th><th class="n">Toplam yorum</th><th class="n">Oran</th></tr></thead>
-          <tbody>
-            <tr><td>Tennis Padel</td><td class="n">210</td><td class="n">6</td><td class="n">35</td></tr>
-            <tr><td>O mu Bu mu</td><td class="n">121</td><td class="n">3</td><td class="n">40</td></tr>
-            <tr><td>Pickleball</td><td class="n">93</td><td class="n">3</td><td class="n">31</td></tr>
-            <tr><td>Tasbih Tally</td><td class="n">61</td><td class="n">3</td><td class="n">20</td></tr>
-            <tr><td>Orbix Roulette</td><td class="n">59</td><td class="n">3</td><td class="n">20</td></tr>
-            <tr><td>Volleyball</td><td class="n">49</td><td class="n">2</td><td class="n">24</td></tr>
-          </tbody>
-        </table>
-        </div>
-        <p>Medyan <strong>31 indirme / 1 yorum</strong>. Model <span class="k">25 – 40</span> aralığını kullanıyor, orta değer 31.</p>
-        <p class="warn">Kalibrasyon <strong>46 ülkelik tam tarama</strong> ile yapıldı. Dar tarama daha az yorum bulur, tahmin de o oranda düşük çıkar — kıyaslama yaparken hep aynı tarama genişliğini kullan.</p>
-        <p class="warn">Kalibrasyon altı küçük uygulamadan geliyor. Büyük uygulamalarda oran farklı olabilir — sektörde sık anılan aralık 50–100. Bu yüzden sonuç <strong>her zaman aralık olarak</strong> gösteriliyor, tek sayı olarak değil.</p>
+        <h3>Gelir</h3>
+        <p>Ücretli uygulamada indirme × fiyat × geliştirici payı. Ücretsiz uygulamada
+        kategorinin indirme başına ortalama değeri kullanılıyor, aboneliği olan
+        uygulamalar için üst sınır açılıyor.</p>
 
-        <h3>2. İndirmeden gelir</h3>
-        <p>Ücretli uygulamada: <span class="k">indirme × fiyat × 0,85</span> (Küçük İşletme Programı payı). Uygulama içi satın alma varsa bu <em>alt sınır</em> — göremiyoruz.</p>
-        <p>Ücretsiz uygulamada: <span class="k">indirme × kategori değeri</span>, üst sınırda <span class="k">× 3</span>. Kategori değerleri iki sağlam rakamdan türetildi:</p>
+        <h3>Güven</h3>
+        <p>Yorum sayısı azaldıkça hata payı büyür. Uzun süredir güncellenmemiş
+        uygulamalarda tahmin şişer: yorumlar birikmiştir ama indirme durmuş olabilir.</p>
+
+        <h3>Görünmeyenler</h3>
         <ul>
-          <li>App Store ortalaması indirme başına <strong>$0,67</strong></li>
-          <li>Sağlık &amp; Fitness indirme başına <strong>$1,21</strong> — en yüksek kategori</li>
+          <li>Uygulama içi satın alma dönüşüm oranı</li>
+          <li>Reklam geliri</li>
+          <li>Taranmayan ülkelerdeki yorumlar</li>
         </ul>
-        <p>Diğer kategoriler, ödeyen kullanıcı başına yıllık gelir (RLTV) oranıyla ölçeklendi: Sağlık &amp; Fitness $35,64 ↔ $1,21 bağıntısı katsayı veriyor, o katsayı Verimlilik ($24,95), Eğitim ($22,82) ve Oyunlar ($11,22) değerlerine uygulandı.</p>
-
-        <h3>Modelin kendi sınavı</h3>
-        <p>Tennis Padel üzerinde test edildi — bu uygulamanın <strong>gerçek</strong> rakamlarını biliyoruz:</p>
-        <div class="scroll">
-        <table class="calib">
-          <thead><tr><th></th><th class="n">Model</th><th class="n">Gerçek</th><th class="n">Sapma</th></tr></thead>
-          <tbody>
-            <tr><td>İndirme (8 ay)</td><td class="n">125 – 200</td><td class="n">210</td><td class="n">%5 düşük</td></tr>
-            <tr><td>Toplam gelir</td><td class="n">$69 – $110</td><td class="n">$292</td><td class="n">3 kat düşüktü</td></tr>
-          </tbody>
-        </table>
-        </div>
-        <p>İndirme tarafı iyi tutturdu. <strong>Gelir tarafı üç kat düşük kaldı</strong> çünkü kategori ortalaması aboneliği hesaba katmıyor — Tennis Padel gelirinin çoğu All-Sports Pass aboneliğinden geliyor. Bu yüzden ücretsiz uygulamalarda üst sınır 3× ile açıldı. Alt sınır "aboneliği yok" varsayımı, üst sınır "çalışan aboneliği var" varsayımıdır.</p>
-
-        <h3>3. Güven puanı</h3>
-        <p>Yorum sayısı azaldıkça hata payı büyür. <strong>Düşük</strong>: 10'dan az yorum. <strong>Orta</strong>: 10–99. <strong>İyi</strong>: 100+. Ayrıca 12 aydan uzun süredir güncellenmemiş uygulamalarda tahmin şişer — yorumlar birikmiştir ama indirme durmuştur.</p>
-
-        <h3>Bilinmeyenler</h3>
-        <ul>
-          <li>Uygulama içi satın alma fiyatları ve dönüşüm oranı görünmüyor</li>
-          <li>Reklam geliri hiç görünmüyor</li>
-          <li>Yorum bırakma oranı kategoriye ve uygulamanın istem sıklığına göre değişir</li>
-          <li>Yorum sayısı ülke ülke toplanıyor; taranmayan ülkeler eksik kalır</li>
-        </ul>
-
-        <h3>Google Play tarafı — tahmin yok, gerçek sayı var</h3>
-        <p>Play <strong>kurulum sayısını kendisi yayınlıyor</strong> ("500 B+", "1 Mn+"). Yani Android tarafında tahmin etmeye gerek yok; aralık zaten Google'ın kendi beyanı. Apple'da olmayan bir avantaj.</p>
-        <p>Play ayrıca <strong>reklam var mı</strong> ve <strong>uygulama içi satın alma var mı</strong> bilgisini de gösteriyor — rakibin para modelini doğrudan okuyabiliyorsun.</p>
-        <p class="warn">Play'in CORS başlığı yok, tarayıcıdan doğrudan çekilemiyor. Bu yüzden <code>server.py</code> içinde küçük bir köprü var: sayfayı sunucu tarafında çekip ayrıştırıyor. Google sayfa yapısını haber vermeden değiştirebilir; alanlar bir gün boş gelmeye başlarsa kalıpları güncellemek gerekir.</p>
       </div>
     </details>
   </section>
@@ -167,6 +126,7 @@
   <p>Veri kaynağı: <code>itunes.apple.com/lookup</code> — ücretsiz, anahtarsız, herkese açık. Kaydedilenler yalnızca bu tarayıcıda durur.</p>
 </footer>
 
-<script src="app.js?v=1788249920"></script>
+<script>window.MIHENK_API = "";  /* Cloudflare Worker adresi buraya */</script>
+<script src="app.js?v=1788268331"></script>
 </body>
 </html>

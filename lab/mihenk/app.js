@@ -55,9 +55,17 @@ function parseInput(raw) {
   return { kind: 'search', term: s };
 }
 
-// ─── Play köprüsü (server.py) ───────────────────────────────────────
+// ─── Köprü ──────────────────────────────────────────────────────────
+// Play ve App Store sayfaları CORS'a kapalı; aradaki köprü ya yereldeki
+// server.py ya da yayındaki Cloudflare Worker oluyor.
+// Yerelde boş taban (aynı sunucu), yayında window.MIHENK_API.
+const LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+const API = LOCAL ? '' : (window.MIHENK_API || '');
+const HAS_BRIDGE = LOCAL || !!API;
+
 async function playFetch(path) {
-  const r = await fetch(path);
+  if (!HAS_BRIDGE) throw new Error('köprü tanımlı değil');
+  const r = await fetch(API + path);
   const j = await r.json();
   if (j.error) throw new Error(j.error);
   return j;
@@ -130,8 +138,9 @@ async function searchBoth(term) {
     $('#andList').innerHTML = '<div class="empty">Play köprüsü yanıt vermedi.</div>';
     const n = $('#andNote');
     n.hidden = false;
-    n.textContent = 'Android tarafı için server.py ile çalıştırman gerekiyor: '
-      + 'python3 server.py — sebep: ' + e.message;
+    n.textContent = HAS_BRIDGE
+      ? 'Köprüye ulaşılamadı: ' + e.message
+      : 'Android araması için köprü gerekiyor (yerelde server.py, yayında Cloudflare Worker).';
   });
 
   await Promise.all([ios, and]);
@@ -166,7 +175,12 @@ async function gather(id, scope, onTick) {
   await Promise.all(jobs);
 
   per.sort((a, b) => b.n - a.n);
-  return { base, per, total: per.reduce((s, x) => s + x.n, 0) };
+  const total = per.reduce((s, x) => s + x.n, 0);
+  // Tek ülkenin puanı yanıltıcı — yorum sayısıyla ağırlıklandır.
+  const rated = per.filter((x) => x.avg > 0);
+  const wsum = rated.reduce((s, x) => s + x.n, 0);
+  const avg = wsum ? rated.reduce((s, x) => s + x.avg * x.n, 0) / wsum : 0;
+  return { base, per, total, avg };
 }
 
 // ─── Tahmin ─────────────────────────────────────────────────────────
@@ -226,7 +240,8 @@ function estimate(app, ratings) {
 }
 
 // ─── Görselleştirme ─────────────────────────────────────────────────
-function card(app, ratings, per, est, scope) {
+function card(app, ratings, per, est, scope, avg) {
+  const rating = avg || app.averageUserRating || 0;
   const icon = app.artworkUrl100 || app.artworkUrl60 || '';
   const priceTag = est.price > 0
     ? `<span class="tag price">${esc(app.formattedPrice)}</span>`
@@ -269,7 +284,7 @@ function card(app, ratings, per, est, scope) {
 
     <div class="est">
       <div><span class="lab">Toplam yorum</span><span class="big">${int(ratings)}</span>
-        <span class="sub">★ ${(app.averageUserRating || 0).toFixed(2)} ortalama</span></div>
+        <span class="sub">${rating ? '★ ' + rating.toFixed(2) + ' ortalama' : 'henüz puan yok'}</span></div>
       <div><span class="lab">İndirme tahmini</span>
         ${ratings === 0 ? '<span class="big">—</span>'
           : `<span class="big">${int(est.dl.low)} – ${int(est.dl.high)}</span>
@@ -308,9 +323,11 @@ async function attachPlay(app) {
     const d = await playFetch('/api/play/search?q=' + encodeURIComponent(app.trackName));
     rs = d.results || [];
   } catch {
-    box.innerHTML = '<span class="lab">Google Play karşılığı</span>'
-      + '<span class="pk">Köprü kapalı. Android tarafı için yerel sürüm gerekiyor: '
-      + '<code>python3 server.py</code></span>';
+    box.innerHTML = '<span class="lab">Google Play karşılığı</span><span class="pk">'
+      + (HAS_BRIDGE
+          ? 'Köprüye ulaşılamadı. Yerelde <code>python3 server.py</code> çalışıyor mu?'
+          : 'Android verisi için köprü gerekiyor — kurulumu README\'de.')
+      + '</span>';
     return;
   }
   if (!rs.length) {
@@ -373,9 +390,11 @@ async function attachIOSExtras(app) {
     slot.innerHTML = `<span class="lab">Para modeli</span>
       <div class="tags">${tags.join('')}</div>${list}`;
   } catch {
-    slot.innerHTML = '<span class="lab">Para modeli</span>'
-      + '<span class="pk">Bu bilgi App Store sayfasından geliyor; yerel sürüm gerekiyor '
-      + '(<code>python3 server.py</code>).</span>';
+    slot.innerHTML = '<span class="lab">Para modeli</span><span class="pk">'
+      + (HAS_BRIDGE
+          ? 'App Store sayfasına ulaşılamadı.'
+          : 'Uygulama içi satın alma bilgisi için köprü gerekiyor — kurulumu README\'de.')
+      + '</span>';
   }
 }
 
@@ -389,9 +408,10 @@ function devSummary(name, scans) {
   const mLow = scans.reduce((a, s) => a + (s.est.monthly?.low || 0), 0);
   const mHigh = scans.reduce((a, s) => a + (s.est.monthly?.high || 0), 0);
 
-  const rated = scans.filter((s) => s.app.averageUserRating > 0);
+  const rated = scans.filter((s) => (s.avg || 0) > 0);
   const avg = rated.length
-    ? rated.reduce((a, s) => a + s.app.averageUserRating, 0) / rated.length : 0;
+    ? rated.reduce((a, s) => a + s.avg * s.ratings, 0) /
+      rated.reduce((a, s) => a + s.ratings, 0) : 0;
 
   // En eski çıkış
   const dates = scans.map((s) => s.app.releaseDate).filter(Boolean).sort();
@@ -428,7 +448,7 @@ function devSummary(name, scans) {
       <td>${esc(a.primaryGenreName || '—')}</td>
       <td>${esc(a.formattedPrice || '—')}</td>
       <td class="n">${s.ratings || '—'}</td>
-      <td class="n">${a.averageUserRating ? '★' + a.averageUserRating.toFixed(1) : '—'}</td>
+      <td class="n">${s.avg ? '★' + s.avg.toFixed(1) : '—'}</td>
       <td class="n">${s.ratings ? int(e.dl.low) + ' – ' + int(e.dl.high) : '—'}</td>
       <td class="n">${s.ratings && e.monthly
         ? money(e.monthly.low) + ' – ' + money(e.monthly.high)
@@ -508,7 +528,18 @@ function load() {
 }
 function persist(rows) {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(rows)); } catch { /* kotayı aştıysa sessiz geç */ }
-  renderSaved();
+  // Yayın sürümünde köprü durumunu üstte açıkça söyle.
+(function banner() {
+  const el = document.getElementById('liteban');
+  if (!el) return;
+  el.innerHTML = HAS_BRIDGE
+    ? '<strong>Tam sürüm.</strong> App Store, Google Play ve uygulama içi satın alma bilgisi çalışıyor.'
+    : '<strong>App Store tarafı çalışıyor.</strong> Google Play verisi ve iOS '
+      + 'uygulama içi satın alma bilgisi köprü gerektiriyor — bu iki kaynak '
+      + 'tarayıcıdan doğrudan çekilemiyor. Kurulumu <code>worker.js</code> içinde yazılı.';
+})();
+
+renderSaved();
 }
 function save(rec) {
   const rows = load().filter((r) => r.id !== rec.id);
@@ -608,13 +639,13 @@ async function run() {
       const app = g.base || a;
       const est = estimate(app, g.total);
       SCANNED.set(String(app.trackId), { app, ratings: g.total, est });
-      scans.push({ app, ratings: g.total, per: g.per, est });
+      scans.push({ app, ratings: g.total, per: g.per, est, avg: g.avg });
 
       if (isDev) {
         $('#results').innerHTML = devSummary(
           apps[0].artistName || app.sellerName || 'Geliştirici', scans);
       } else {
-        frag.push(card(app, g.total, g.per, est, scope));
+        frag.push(card(app, g.total, g.per, est, scope, g.avg));
         $('#results').innerHTML = frag.join('');
         wireCards();
         attachIOSExtras(app);
@@ -708,5 +739,16 @@ try {
   const t = localStorage.getItem('mihenk.theme');
   if (t) document.documentElement.setAttribute('data-theme', t);
 } catch { /* yoksay */ }
+
+// Yayın sürümünde köprü durumunu üstte açıkça söyle.
+(function banner() {
+  const el = document.getElementById('liteban');
+  if (!el) return;
+  el.innerHTML = HAS_BRIDGE
+    ? '<strong>Tam sürüm.</strong> App Store, Google Play ve uygulama içi satın alma bilgisi çalışıyor.'
+    : '<strong>App Store tarafı çalışıyor.</strong> Google Play verisi ve iOS '
+      + 'uygulama içi satın alma bilgisi köprü gerektiriyor — bu iki kaynak '
+      + 'tarayıcıdan doğrudan çekilemiyor. Kurulumu <code>worker.js</code> içinde yazılı.';
+})();
 
 renderSaved();
