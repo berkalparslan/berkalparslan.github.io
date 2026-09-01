@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Mihenk — App Store ölçüm taşı</title>
+<title>Mihenk — uygulama ölçme aracı</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=1788270680">
+<link rel="stylesheet" href="style.css?v=1788275090">
 </head>
 <body>
 
@@ -17,81 +17,73 @@
     <span class="mark">◈</span>
     <div>
       <h1>Mihenk</h1>
-      <p>App Store ölçüm taşı — bir uygulamanın ayarını tartar</p>
+      <p>Bir uygulama ne kadar indirilmiş, ne kazanıyor — tahmin eder</p>
     </div>
   </div>
-  <button id="themeBtn" class="ghost" type="button" title="Tema">◐</button>
+  <button id="themeBtn" class="ghost" type="button" title="Açık / koyu tema">◐</button>
 </header>
 
 <main>
 
-  <section class="searchbar">
-    <label for="q" class="sr">Uygulama veya geliştirici bağlantısı</label>
-    <input id="q" type="text" spellcheck="false"
-      placeholder="Uygulama adı yaz, ya da App Store / geliştirici bağlantısı yapıştır">
-    <select id="scope" title="Kaç ülke taransın">
-      <option value="fast">Hızlı — 12 ülke</option>
-      <option value="wide">Geniş — 28 ülke</option>
-      <option value="full" selected>Tam — 46 ülke</option>
-    </select>
-    <button id="go" type="button">Tart</button>
+  <!-- Arama -->
+  <section class="hero">
+    <label for="q" class="hero-lab">Ne aramak istiyorsun?</label>
+    <div class="searchbar">
+      <input id="q" type="text" spellcheck="false" autocomplete="off"
+             placeholder="Uygulama adı yaz, ya da bir mağaza bağlantısı yapıştır">
+      <button id="go" type="button">Ara</button>
+    </div>
+
+    <div class="modes" id="modes">
+      <span class="mode-hint">Ne yapabilirsin:</span>
+      <button class="chip" type="button" data-ex="tansiyon takip">Uygulama adı</button>
+      <button class="chip" type="button" data-ex="https://apps.apple.com/app/id6798041415">App Store bağlantısı</button>
+      <button class="chip" type="button" data-ex="https://apps.apple.com/developer/id1676787785">Geliştirici sayfası</button>
+      <button class="chip" type="button" data-ex="https://play.google.com/store/apps/details?id=com.duolingo">Play bağlantısı</button>
+    </div>
+
+    <div class="opts">
+      <label for="scope">Kaç ülkeden yorum toplansın</label>
+      <select id="scope">
+        <option value="fast">Hızlı — 12 ülke</option>
+        <option value="wide">Dengeli — 28 ülke</option>
+        <option value="full" selected>Tam — 46 ülke (en doğru)</option>
+      </select>
+      <span class="opts-note">Ne kadar çok ülke, tahmin o kadar isabetli. Tam tarama biraz uzun sürer.</span>
+    </div>
   </section>
 
-  <p class="hint" id="hint">
-    <strong>Ad yaz</strong> → iki mağazada birden arar (<code>pickleball score</code>) ·
-    <strong>bağlantı yapıştır</strong> → ayrıntılı tartar
-    (<code>apps.apple.com/app/id…</code>, <code>/developer/id…</code>,
-    <code>play.google.com/…?id=…</code>)
-  </p>
-
-  <div class="liteban" id="liteban"></div>
-
+  <div class="liteban" id="liteban" hidden></div>
   <div id="status" class="status" hidden></div>
-  <div id="search" class="search-out" hidden>
-    <div class="col">
-      <h2 class="colhead"> App Store <span id="iosN" class="pill">0</span></h2>
-      <div id="iosList" class="list"></div>
-      <p class="colnote">Buradaki yorum sayısı yalnızca <strong>ABD mağazasından</strong> —
-        hızlı liste için tek istek atılıyor. Satıra tıklayınca 46 ülke taranır ve
-        gerçek toplam çıkar; çoğu uygulamada bu sayı belirgin şekilde artar.
-        Soldaki <code>≈</code> sayı, yorumdan türetilmiş <strong>indirme tahmini</strong>.</p>
-    </div>
-    <div class="col">
-      <h2 class="colhead">▶ Google Play <span id="andN" class="pill">0</span></h2>
-      <div id="andList" class="list"></div>
-      <p class="colnote" id="andNote" hidden></p>
-    </div>
-  </div>
-  <div id="results"></div>
+  <div id="out"></div>
 
-  <section id="savedWrap" class="saved" hidden>
-    <div class="saved-head">
-      <h2>Kaydedilenler <span id="savedCount" class="pill">0</span></h2>
-      <div class="saved-actions">
-        <button id="exportBtn" class="ghost" type="button">JSON dışa aktar</button>
-        <label class="ghost filelabel">JSON içe aktar<input id="importInput" type="file" accept="application/json" hidden></label>
-        <button id="clearBtn" class="ghost danger" type="button">Hepsini sil</button>
+  <!-- Kaydedilenler -->
+  <section id="savedWrap" class="block" hidden>
+    <div class="block-head">
+      <h2>Kaydettiklerin <span id="savedCount" class="pill">0</span></h2>
+      <div class="btnrow">
+        <button id="exportBtn" class="ghost" type="button">Dosyaya aktar</button>
+        <label class="ghost filelabel">Dosyadan yükle<input id="importInput" type="file" accept="application/json" hidden></label>
+        <button id="clearBtn" class="ghost danger" type="button">Listeyi boşalt</button>
       </div>
     </div>
     <div class="scroll">
       <table id="savedTable">
-        <thead>
-          <tr>
-            <th>Uygulama</th><th>Kategori</th><th>Fiyat</th>
-            <th class="n">Yorum</th><th class="n">İndirme tahmini</th>
-            <th class="n">Aylık gelir tahmini</th><th class="n">Yaş</th>
-            <th>Güven</th><th></th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th>Uygulama</th><th>Mağaza</th><th>Kategori</th><th>Fiyat</th>
+          <th class="n">Yorum</th><th class="n">İndirme</th>
+          <th class="n">Aylık gelir</th><th></th>
+        </tr></thead>
         <tbody></tbody>
       </table>
     </div>
   </section>
 
-  <section class="model">
+  <!-- Yöntem -->
+  <section class="block model">
     <details>
-      <summary><h2>Bu sayılar nasıl hesaplanıyor</h2></summary>
-      <div class="model-body">
+      <summary><h2>Bu sayılar nereden geliyor?</h2></summary>
+      <div class="prose">
         <p class="lead">Apple ve Google, başkasının uygulamasının indirme ve gelirini
         <strong>yayınlamıyor.</strong> Bu alandaki bütün araçlar — Sensor Tower dahil —
         tahmin üretiyor. Buradaki de tahmin.</p>
@@ -123,10 +115,11 @@
 </main>
 
 <footer>
-  <p>Veri kaynağı: <code>itunes.apple.com/lookup</code> — ücretsiz, anahtarsız, herkese açık. Kaydedilenler yalnızca bu tarayıcıda durur.</p>
+  <p>Kaynak: App Store ve Google Play'in herkese açık sayfaları.
+     Kaydettiklerin yalnızca bu tarayıcıda durur, hiçbir yere gönderilmez.</p>
 </footer>
 
 <script>window.MIHENK_API = "https://mihenk.kittapcom.workers.dev";</script>
-<script src="app.js?v=1788270680"></script>
+<script src="app.js?v=1788275090"></script>
 </body>
 </html>
