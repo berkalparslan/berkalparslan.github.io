@@ -902,6 +902,23 @@
       text-decoration: none;
     }
 
+    /* Araç bağlantısı: bulunabilsin ama öne çıkmasın. */
+    footer .foot-tools {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--faint);
+      opacity: .75;
+    }
+
+    footer .foot-tools a {
+      color: var(--faint);
+      border-bottom: 1px solid var(--border);
+    }
+
+    footer .foot-tools a:hover {
+      color: var(--subtle);
+    }
+
     footer a:hover {
       color: var(--accent);
     }
@@ -1468,6 +1485,10 @@
       <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a> ·
       <a href="/blog/">Blog</a> ·
       <a href="mailto:aberkalparslan@gmail.com"><span class="tr">İletişim</span><span class="en">Contact</span></a>
+    </p>
+    <p class="foot-tools">
+      <a href="/lab/mihenk/">Mihenk</a> —
+      <span class="tr">bir uygulamanın indirme ve gelirini tahmin eden araç</span><span class="en">estimates an app's downloads and revenue</span>
     </p>
   </footer>
 
