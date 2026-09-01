@@ -70,6 +70,11 @@ async function playFetch(path) {
   if (j.error) throw new Error(j.error);
   return j;
 }
+// Play kategorisi bazen tamamı büyük harf geliyor (EDUCATION).
+// Worker'da düzeltildi ama eski deploy'larda da düzgün görünsün.
+const tidyCat = (c) => !c ? '—' :
+  c.toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+
 const playBadges = (a) =>
   (a.hasAds ? '<span class="badge ads">reklam</span>' : '') +
   (a.hasIAP ? '<span class="badge iap">iap</span>' : '');
@@ -82,7 +87,7 @@ function playRow(a, pick) {
   return `<${tag} class="row${pick ? '' : ' plain'}" ${attrs}>
     ${a.icon ? `<img src="${esc(a.icon)}" alt="">` : '<span></span>'}
     <span><span class="nm">${esc(a.name || a.package)}</span>
-      <span class="meta">${esc(a.developer || '—')} · ${esc(a.category || '—')}${playBadges(a)}</span></span>
+      <span class="meta">${esc(a.developer || '—')} · ${esc(tidyCat(a.category))}${playBadges(a)}</span></span>
     <span class="rt"><b class="installs">${esc(a.installs || '—')}</b>
       <span class="rtk">kurulum · ${a.rating ? '★' + a.rating.toFixed(1) : '—'} ${a.reviews ? '· ' + esc(a.reviews) : ''}</span></span>
   </${tag}>`;
@@ -344,7 +349,7 @@ async function attachPlay(app) {
         <span><span class="pk">Puan</span><span class="pv">${hit.rating ? '★' + hit.rating.toFixed(1) : '—'}</span></span>
         <span><span class="pk">Yorum</span><span class="pv">${esc(hit.reviews || '—')}</span></span>
         <span><span class="pk">Model</span><span class="pv sm">${hit.hasIAP ? 'IAP var' : 'IAP yok'}${hit.hasAds ? ' · reklam var' : ''}</span></span>
-        <span><span class="pk">Kategori</span><span class="pv sm">${esc(hit.category || '—')}</span></span>
+        <span><span class="pk">Kategori</span><span class="pv sm">${esc(tidyCat(hit.category))}</span></span>
       </div>
       <p class="pfoot"><a href="${esc(hit.url)}" target="_blank" rel="noopener">Play'de aç ↗</a>
         <button class="linkish" type="button" data-other>Bu değil, listeden seç (${rs.length})</button></p>`;
