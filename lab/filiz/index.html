@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Filiz — seeding paneli prototipi</title>
+  <meta name="description"
+    content="Content seeding operasyonu için üç rollü panel prototipi: üretici gönderir, marka izler, ajans yönetir." />
+
+  <!-- Arama motorlarına kapalı — lab'in geri kalanıyla aynı politika. -->
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="theme-color" content="#EFF2EF" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0C1310" media="(prefers-color-scheme: dark)" />
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22C12 14 12 10 6 5c8 0 14 3 14 9 0 5-4 8-8 8z' fill='%231E6B4F'/%3E%3C/svg%3E" />
+
+  <script>
+    /* Lab'in geri kalanı her zaman koyu; Filiz sunumda projeksiyona
+       vurulduğu için varsayılanı açık tema. Tercih burada saklanıyor,
+       site genelindeki "bb-theme" anahtarına dokunulmuyor. */
+    (function () {
+      var t = "light";
+      try { t = localStorage.getItem("filiz-theme") || "light"; } catch (e) { }
+      document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #EFF2EF; --panel: #FFFFFF; --panel-2: #F5F7F4; --sunk: #E7ECE7;
+      --ink: #101A16; --ink-2: #3A4B43; --muted: #67766E;
+      --line: #E1E6E0; --line-2: #C6D0C7;
+      --accent: #1E6B4F; --accent-soft: #DEEAE2; --accent-ink: #FFFFFF;
+      --ok: #1E6B4F; --ok-soft: #DEEAE2;
+      --warn: #9A6A0B; --warn-soft: #F2E9D2;
+      --bad: #AC3A21; --bad-soft: #F5E0D9;
+      --idle: #8A968F; --idle-soft: #E7ECE7;
+      --creator: #1E6B4F; --brand: #2B5C8A; --agency: #7A4A86;
+      --creator-soft: #DEEAE2; --brand-soft: #DCE6F0; --agency-soft: #E9DFED;
+      --shadow: 0 1px 2px rgba(16,26,22,.05), 0 4px 12px rgba(16,26,22,.04);
+    }
+
+    /* JS kapalıysa sistem tercihi geçerli olsun. */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #0C1310; --panel: #151E19; --panel-2: #1A241F; --sunk: #111A15;
+        --ink: #E2EAE4; --ink-2: #B4C4BB; --muted: #8A9B92;
+        --line: #243029; --line-2: #37473E;
+        --accent: #57C08F; --accent-soft: #182E24; --accent-ink: #08110D;
+        --ok: #57C08F; --ok-soft: #182E24;
+        --warn: #D3A63F; --warn-soft: #2C2515;
+        --bad: #E07E5C; --bad-soft: #31201A;
+        --idle: #7E8D85; --idle-soft: #1C2621;
+        --creator: #57C08F; --brand: #76ACDC; --agency: #BC93CA;
+        --creator-soft: #182E24; --brand-soft: #17242F; --agency-soft: #271D2C;
+        --shadow: 0 1px 2px rgba(0,0,0,.4);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0C1310; --panel: #151E19; --panel-2: #1A241F; --sunk: #111A15;
+      --ink: #E2EAE4; --ink-2: #B4C4BB; --muted: #8A9B92;
+      --line: #243029; --line-2: #37473E;
+      --accent: #57C08F; --accent-soft: #182E24; --accent-ink: #08110D;
+      --ok: #57C08F; --ok-soft: #182E24;
+      --warn: #D3A63F; --warn-soft: #2C2515;
+      --bad: #E07E5C; --bad-soft: #31201A;
+      --idle: #7E8D85; --idle-soft: #1C2621;
+      --creator: #57C08F; --brand: #76ACDC; --agency: #BC93CA;
+      --creator-soft: #182E24; --brand-soft: #17242F; --agency-soft: #271D2C;
+      --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; }
+
+    /* ── prototip şeridi ─────────────────────────────────── */
+    .proto {
+      background: var(--ink); color: var(--bg); padding: 8px 20px;
+      display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center;
+      font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .06em;
+    }
+    .proto b { font-weight: 600; }
+    .proto .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warn); flex: none; }
+    .proto a { color: var(--bg); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── üst bar ─────────────────────────────────────────── */
+    .top { background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
+    .top-in { max-width: 1220px; margin: 0 auto; padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 17px; letter-spacing: -.02em; flex: none; }
+    .leaf { width: 20px; height: 20px; flex: none; }
+    .camp { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); border-left: 1px solid var(--line); padding-left: 14px; }
+    .camp b { color: var(--ink); font-weight: 600; }
+    .tools { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .switch { display: flex; background: var(--sunk); border-radius: 7px; padding: 3px; gap: 2px; flex: none; }
+    .switch button {
+      font-family: inherit; font-size: 12.5px; font-weight: 600; border: 0; background: transparent;
+      color: var(--muted); padding: 6px 13px; border-radius: 5px; cursor: pointer; white-space: nowrap;
+      transition: background .12s, color .12s;
+    }
+    .switch button:hover { color: var(--ink); }
+    .switch button[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: var(--shadow); }
+    .switch button[data-r="c"][aria-selected="true"] { color: var(--creator); }
+    .switch button[data-r="b"][aria-selected="true"] { color: var(--brand); }
+    .switch button[data-r="a"][aria-selected="true"] { color: var(--agency); }
+    .theme {
+      border: 1px solid var(--line-2); background: var(--panel); color: var(--ink);
+      width: 34px; height: 34px; border-radius: 7px; cursor: pointer; display: grid; place-items: center; flex: none;
+    }
+    .theme:hover { background: var(--panel-2); }
+    .theme svg { width: 16px; height: 16px; }
+    :root[data-theme="dark"] .theme .sun { display: none; }
+    :root:not([data-theme="dark"]) .theme .moon { display: none; }
+
+    main { max-width: 1220px; margin: 0 auto; padding: 22px 20px 60px; }
+    .view[hidden] { display: none !important; }
+
+    .vh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin-bottom: 4px; }
+    h1 { font-size: 23px; font-weight: 700; letter-spacing: -.025em; margin: 0; }
+    .vsub { color: var(--muted); font-size: 13.5px; margin: 0 0 20px; }
+    .rolechip { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 3px; }
+    .rolechip.c { background: var(--creator-soft); color: var(--creator); }
+    .rolechip.b { background: var(--brand-soft); color: var(--brand); }
+    .rolechip.a { background: var(--agency-soft); color: var(--agency); }
+
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; }
+    .card > h2 { font-size: 14px; font-weight: 600; letter-spacing: -.01em; margin: 0; padding: 13px 16px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 9px; }
+    .card > h2 .cnt { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); font-weight: 500; margin-left: auto; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin-bottom: 20px; }
+    .stat { background: var(--panel); padding: 14px 16px; }
+    .stat .k { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 7px; }
+    .stat .v { font-size: 25px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; display: block; line-height: 1.1; }
+    .stat .d { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); margin-top: 5px; display: block; }
+    .stat .d.up { color: var(--ok); } .stat .d.dn { color: var(--bad); }
+
+    .grid2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; align-items: start; }
+    .grid-lib { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 14px; padding: 16px; }
+    @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+
+    .tw { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 13px; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    thead th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; color: var(--muted); background: var(--panel-2); white-space: nowrap; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--panel-2); }
+    td.n, th.n { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .who { display: flex; align-items: center; gap: 10px; }
+    .av { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+    .who .nm { font-weight: 600; display: block; line-height: 1.25; }
+    .who .hd { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); display: block; }
+
+    .plats { display: flex; gap: 5px; }
+    .pl { width: 22px; height: 22px; border-radius: 4px; display: grid; place-items: center; font-family: "IBM Plex Mono", monospace; font-size: 9.5px; font-weight: 600; border: 1px solid transparent; }
+    .pl.done { background: var(--ok-soft); color: var(--ok); border-color: var(--ok); }
+    .pl.wait { background: var(--idle-soft); color: var(--idle); border-color: var(--line-2); }
+    .pl.err { background: var(--bad-soft); color: var(--bad); border-color: var(--bad); }
+
+    .pill { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; display: inline-block; }
+    .pill.ok { background: var(--ok-soft); color: var(--ok); }
+    .pill.warn { background: var(--warn-soft); color: var(--warn); }
+    .pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+    .alerts { display: flex; flex-direction: column; }
+    .al { display: grid; grid-template-columns: 4px 1fr; border-bottom: 1px solid var(--line); }
+    .al:last-child { border-bottom: none; }
+    .al .s { background: var(--line-2); }
+    .al[data-l="bad"] .s { background: var(--bad); }
+    .al[data-l="warn"] .s { background: var(--warn); }
+    .al .b { padding: 12px 16px; }
+    .al .t { font-weight: 600; font-size: 13.5px; margin-bottom: 3px; }
+    .al .m { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+    .al .act { margin-top: 8px; display: flex; gap: 8px; }
+    .btn { font-family: inherit; font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 5px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink); cursor: pointer; }
+    .btn:hover { background: var(--panel-2); }
+    .btn.pri { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .btn.pri:hover { filter: brightness(1.08); }
+    .btn.wide { width: 100%; padding: 11px; font-size: 14px; }
+
+    .marj { padding: 16px; }
+    .mrow { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+    .mrow:last-child { border-bottom: none; border-top: 1px solid var(--line-2); margin-top: 4px; padding-top: 12px; }
+    .mrow span { font-size: 13px; color: var(--muted); }
+    .mrow b { font-family: "IBM Plex Mono", monospace; font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .mrow:last-child b { color: var(--ok); font-size: 17px; }
+
+    .chartbox { padding: 16px; }
+    .chartbox svg { display: block; width: 100%; height: auto; }
+
+    .vid { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel-2); }
+    .vid .thumb { aspect-ratio: 9/13; position: relative; display: grid; place-items: center; background: linear-gradient(160deg, var(--sunk), var(--panel-2)); }
+    .vid .thumb .play { width: 34px; height: 34px; border-radius: 50%; background: var(--panel); display: grid; place-items: center; box-shadow: var(--shadow); color: var(--ink); }
+    .vid .thumb .badge { position: absolute; top: 8px; left: 8px; font-family: "IBM Plex Mono", monospace; font-size: 9.5px; font-weight: 600; letter-spacing: .06em; background: var(--panel); color: var(--ink); padding: 2px 6px; border-radius: 3px; box-shadow: var(--shadow); }
+    .vid .thumb .vw { position: absolute; bottom: 8px; left: 8px; font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; background: var(--ink); color: var(--bg); padding: 3px 7px; border-radius: 3px; }
+    .vid .meta { padding: 9px 10px; display: flex; align-items: center; gap: 8px; justify-content: space-between; background: var(--panel); }
+    .vid .meta span { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dl { border: 0; background: transparent; color: var(--accent); cursor: pointer; padding: 3px; border-radius: 4px; flex: none; }
+    .dl:hover { background: var(--accent-soft); }
+
+    .phonewrap { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 860px) { .phonewrap { grid-template-columns: 1fr; } }
+    .phone { border: 1px solid var(--line-2); border-radius: 22px; background: var(--panel); padding: 10px; box-shadow: var(--shadow); max-width: 340px; }
+    .pscreen { background: var(--panel-2); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+    .pbar { display: flex; justify-content: space-between; align-items: center; padding: 9px 14px 7px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); }
+    .pbody { padding: 0 14px 16px; }
+    .ptask { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 9px; padding: 13px; margin-bottom: 13px; }
+    .ptask .lb { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; display: flex; justify-content: space-between; margin-bottom: 7px; }
+    .ptask h3 { font-size: 15px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.015em; }
+    .ptask p { font-size: 12.5px; color: var(--ink-2); margin: 0; line-height: 1.45; }
+    .field { margin-bottom: 10px; }
+    .field label { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: block; margin-bottom: 5px; }
+    .inp { width: 100%; border: 1px solid var(--line-2); background: var(--panel); border-radius: 7px; padding: 9px 11px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink); }
+    .inp::placeholder { color: var(--idle); }
+    .inp:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+    .pearn { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 13px; margin-top: 13px; }
+    .pearn .row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+    .pearn .row:last-child { margin-bottom: 0; }
+    .pearn .k { font-size: 12px; color: var(--muted); }
+    .pearn .v { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+    .bar { height: 6px; background: var(--sunk); border-radius: 3px; overflow: hidden; margin: 4px 0 11px; }
+    .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+    .lead { border-top: 1px solid var(--line); margin-top: 11px; padding-top: 11px; }
+    .lead .lr { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; }
+    .lead .lr .rk { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); width: 16px; }
+    .lead .lr .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lead .lr .vv { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-variant-numeric: tabular-nums; }
+    .lead .lr.me { font-weight: 600; color: var(--accent); }
+
+    .notes { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 18px 20px; }
+    .notes h3 { font-size: 15px; font-weight: 700; margin: 0 0 10px; letter-spacing: -.015em; }
+    .notes h3 + ul { margin-top: 0; }
+    .notes ul { margin: 0 0 16px; padding-left: 19px; }
+    .notes li { font-size: 13.5px; margin-bottom: 7px; color: var(--ink-2); }
+    .notes li b { color: var(--ink); }
+    .notes h3:not(:first-child) { margin-top: 20px; }
+
+    footer { border-top: 1px solid var(--line); background: var(--panel); }
+    .foot-in { max-width: 1220px; margin: 0 auto; padding: 22px 20px 40px; color: var(--muted); font-size: 12.5px; }
+    .foot-in p { max-width: 78ch; margin: 0 0 10px; }
+    .foot-in a { color: var(--accent); }
+    .foot-nav { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+
+<body>
+
+  <div class="proto">
+    <span class="dot"></span>
+    <span><b>PROTOTİP</b> — tıklanabilir tasarım, canlı sistem değil</span>
+    <span>Tüm veriler ve isimler kurgudur</span>
+    <span><a href="/lab/">← Lab</a></span>
+  </div>
+
+  <div class="top">
+    <div class="top-in">
+      <div class="logo">
+        <svg class="leaf" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 22 C12 14 12 10 6 5 C14 5 20 8 20 14 C20 19 16 22 12 22 Z" fill="var(--accent)" />
+          <path d="M12 22 C12 16 10 10 6 5" stroke="var(--panel)" stroke-width="1.4" fill="none" stroke-linecap="round" />
+        </svg>
+        Filiz
+      </div>
+      <div class="camp"><span>Kampanya</span> <b>Kalorika · Kalori Takip</b></div>
+      <div class="tools">
+        <div class="switch" role="tablist" aria-label="Rol seçimi">
+          <button role="tab" data-r="a" aria-selected="true" aria-controls="v-a">Ajans</button>
+          <button role="tab" data-r="b" aria-selected="false" aria-controls="v-b">Marka</button>
+          <button role="tab" data-r="c" aria-selected="false" aria-controls="v-c">Üretici</button>
+        </div>
+        <button class="theme" id="themeBtn" type="button" aria-label="Temayı değiştir" title="Temayı değiştir">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ═════════ AJANS ═════════ -->
+    <div class="view" id="v-a" role="tabpanel" aria-label="Ajans görünümü">
+      <div class="vh">
+        <h1>Bugün</h1><span class="rolechip a">Ajans · iç görünüm</span>
+      </div>
+      <p class="vsub">17 Eylül, Çarşamba · 7 üretici · gün sonuna 6 sa 12 dk</p>
+
+      <div class="stats">
+        <div class="stat"><span class="k">Bugün gelen</span><span class="v">5<span style="color:var(--muted);font-size:17px">/7</span></span><span class="d dn">2 eksik · Nil, Ece</span></div>
+        <div class="stat"><span class="k">Bu ay video</span><span class="v">137</span><span class="d">210 hedef · %65</span></div>
+        <div class="stat"><span class="k">Toplam izlenme</span><span class="v">484.500</span><span class="d up">+38.200 dün</span></div>
+        <div class="stat"><span class="k">Video başı ort.</span><span class="v">3.536</span><span class="d">medyan 740</span></div>
+        <div class="stat"><span class="k">Ay sonu hakediş</span><span class="v">84.000<span style="font-size:15px;color:var(--muted)"> ₺</span></span><span class="d">+ 10.500 ₺ bonus havuzu</span></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>Günlük gönderi takibi <span class="cnt">IG · TT · YT</span></h2>
+          <div class="tw">
+            <table>
+              <thead>
+                <tr><th>Üretici</th><th>Platformlar</th><th class="n">Bugün</th><th class="n">Ay</th><th class="n">Toplam izlenme</th><th>Durum</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#2E7D5B">DY</span><span><span class="nm">Deniz Y.</span><span class="hd">@denizmutfak</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl done">TT</span><span class="pl done">YT</span></div></td>
+                  <td class="n">09:41</td><td class="n">24/30</td><td class="n">212.700</td>
+                  <td><span class="pill ok">yayında</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#4A6FA5">AD</span><span><span class="nm">Ayça D.</span><span class="hd">@ayca.gunluk</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl done">TT</span><span class="pl done">YT</span></div></td>
+                  <td class="n">11:08</td><td class="n">22/30</td><td class="n">78.200</td>
+                  <td><span class="pill ok">yayında</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#8A5A3B">KS</span><span><span class="nm">Kaan S.</span><span class="hd">@kaanolcuyor</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl done">TT</span><span class="pl done">YT</span></div></td>
+                  <td class="n">08:22</td><td class="n">23/30</td><td class="n">51.600</td>
+                  <td><span class="pill warn">etiket yok</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#7A4A86">SA</span><span><span class="nm">Selin A.</span><span class="hd">@selinnotdefteri</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl done">TT</span><span class="pl wait">YT</span></div></td>
+                  <td class="n">12:35</td><td class="n">21/30</td><td class="n">56.400</td>
+                  <td><span class="pill ok">yayında</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#2B5C8A">BM</span><span><span class="nm">Burak M.</span><span class="hd">@burakhafif</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl done">TT</span><span class="pl done">YT</span></div></td>
+                  <td class="n">10:57</td><td class="n">20/30</td><td class="n">41.300</td>
+                  <td><span class="pill ok">yayında</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#9A6A0B">ET</span><span><span class="nm">Ece T.</span><span class="hd">@ece.dnm</span></span></div></td>
+                  <td><div class="plats"><span class="pl done">IG</span><span class="pl err">TT</span><span class="pl wait">YT</span></div></td>
+                  <td class="n">—</td><td class="n">19/30</td><td class="n">34.900</td>
+                  <td><span class="pill warn">link kırık</span></td>
+                </tr>
+                <tr>
+                  <td><div class="who"><span class="av" style="background:#AC3A21">NÖ</span><span><span class="nm">Nil Ö.</span><span class="hd">@nil.deneme</span></span></div></td>
+                  <td><div class="plats"><span class="pl wait">IG</span><span class="pl wait">TT</span><span class="pl wait">YT</span></div></td>
+                  <td class="n">—</td><td class="n">8/30</td><td class="n">9.400</td>
+                  <td><span class="pill bad">3 gün sessiz</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <h2>Uyarılar <span class="cnt">3 açık</span></h2>
+            <div class="alerts">
+              <div class="al" data-l="bad"><div class="s"></div><div class="b">
+                <div class="t">Nil Ö. — 3 gündür gönderi yok</div>
+                <div class="m">Ay hedefinin %27'sinde. Sözleşme eşiği 26 gönderi; matematiksel olarak yetişemez.</div>
+                <div class="act"><button class="btn pri" type="button">Yerine ekle</button><button class="btn" type="button">Ara</button></div>
+              </div></div>
+              <div class="al" data-l="warn"><div class="s"></div><div class="b">
+                <div class="t">Kaan S. — son 4 gönderide #işbirliği yok</div>
+                <div class="m">1 Ağustos yönetmeliği gereği etiket zorunlu. Sorumluluk markaya da düşüyor.</div>
+                <div class="act"><button class="btn pri" type="button">Düzeltme iste</button></div>
+              </div></div>
+              <div class="al" data-l="warn"><div class="s"></div><div class="b">
+                <div class="t">Ece T. — TikTok linki 404</div>
+                <div class="m">Dünkü gönderi silinmiş ya da özel. Sayaç durdu.</div>
+                <div class="act"><button class="btn pri" type="button">Yeni link iste</button></div>
+              </div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Kampanya marjı <span class="cnt">Büyüme paketi</span></h2>
+            <div class="marj">
+              <div class="mrow"><span>Müşteri faturası · 4.200 $</span><b>202.860 ₺</b></div>
+              <div class="mrow"><span>Üretici ödemeleri · 7 kişi</span><b>−84.000 ₺</b></div>
+              <div class="mrow"><span>Bonus havuzu</span><b>−10.500 ₺</b></div>
+              <div class="mrow"><span>Koordinasyon + araçlar</span><b>−14.490 ₺</b></div>
+              <div class="mrow"><span>Brüt kâr · %46</span><b>93.870 ₺</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════ MARKA ═════════ -->
+    <div class="view" id="v-b" role="tabpanel" aria-label="Marka görünümü" hidden>
+      <div class="vh">
+        <h1>Kalorika · Eylül kampanyası</h1><span class="rolechip b">Marka görünümü</span>
+      </div>
+      <p class="vsub">7 üretici · 1–30 Eylül · gün 17/30</p>
+
+      <div class="stats">
+        <div class="stat"><span class="k">Yayınlanan video</span><span class="v">137</span><span class="d">210 taahhüt · %65</span></div>
+        <div class="stat"><span class="k">Toplam izlenme</span><span class="v">484.500</span><span class="d up">+38.200 dün</span></div>
+        <div class="stat"><span class="k">Video başı ort.</span><span class="v">3.536</span><span class="d">medyan 740</span></div>
+        <div class="stat"><span class="k">En iyi video</span><span class="v">142.300</span><span class="d">Deniz Y. · TikTok</span></div>
+        <div class="stat"><span class="k">İndirilebilir içerik</span><span class="v">137</span><span class="d">reklamda kullanım dahil</span></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>Günlük izlenme <span class="cnt">son 14 gün</span></h2>
+          <div class="chartbox">
+            <svg viewBox="0 0 620 210" role="img" aria-label="Son 14 günün günlük izlenme grafiği: 3 Eylül'de 11.400, 11 Eylül'de 50.400 zirve, 16 Eylül'de 38.200">
+              <line x1="52" y1="20" x2="606" y2="20" stroke="var(--line)" stroke-width="1" />
+              <line x1="52" y1="65" x2="606" y2="65" stroke="var(--line)" stroke-width="1" />
+              <line x1="52" y1="110" x2="606" y2="110" stroke="var(--line)" stroke-width="1" />
+              <line x1="52" y1="155" x2="606" y2="155" stroke="var(--line)" stroke-width="1" />
+              <line x1="52" y1="170" x2="606" y2="170" stroke="var(--line-2)" stroke-width="1" />
+              <text x="44" y="24" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">60k</text>
+              <text x="44" y="69" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">45k</text>
+              <text x="44" y="114" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">30k</text>
+              <text x="44" y="159" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">15k</text>
+              <text x="44" y="174" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">0</text>
+              <path fill="var(--accent-soft)" stroke="none"
+                d="M60,141.5 L101,146 L143,133 L184,138.5 L226,122 L267,127.5 L309,110.5 L350,101.5 L392,44 L433,71 L474,95.5 L516,88 L557,79 L598,74.5 L598,170 L60,170 Z" />
+              <path fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+                d="M60,141.5 L101,146 L143,133 L184,138.5 L226,122 L267,127.5 L309,110.5 L350,101.5 L392,44 L433,71 L474,95.5 L516,88 L557,79 L598,74.5" />
+              <circle cx="392" cy="44" r="4" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" />
+              <text x="392" y="34" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="var(--ink)">50.400</text>
+              <circle cx="598" cy="74.5" r="4" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" />
+              <text x="60" y="192" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">3 Eyl</text>
+              <text x="226" y="192" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">7 Eyl</text>
+              <text x="392" y="192" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">11 Eyl</text>
+              <text x="557" y="192" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">15 Eyl</text>
+              <text x="60" y="207" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">11 Eylül sıçraması: Deniz Y.'nin 142.300 izlenmeli videosu</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Üreticileriniz <span class="cnt">7 aktif</span></h2>
+          <div class="tw">
+            <table style="min-width:0">
+              <thead><tr><th>Üretici</th><th class="n">Video</th><th class="n">İzlenme</th></tr></thead>
+              <tbody>
+                <tr><td><div class="who"><span class="av" style="background:#2E7D5B">DY</span><span class="nm">Deniz Y.</span></div></td><td class="n">24</td><td class="n">212.700</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#4A6FA5">AD</span><span class="nm">Ayça D.</span></div></td><td class="n">22</td><td class="n">78.200</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#7A4A86">SA</span><span class="nm">Selin A.</span></div></td><td class="n">21</td><td class="n">56.400</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#8A5A3B">KS</span><span class="nm">Kaan S.</span></div></td><td class="n">23</td><td class="n">51.600</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#2B5C8A">BM</span><span class="nm">Burak M.</span></div></td><td class="n">20</td><td class="n">41.300</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#9A6A0B">ET</span><span class="nm">Ece T.</span></div></td><td class="n">19</td><td class="n">34.900</td></tr>
+                <tr><td><div class="who"><span class="av" style="background:#AC3A21">NÖ</span><span class="nm">Nil Ö.</span></div></td><td class="n">8</td><td class="n">9.400</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>İçerik kütüphanesi <span class="cnt">137 video · reklamda kullanım hakkı dahil</span></h2>
+        <div class="grid-lib">
+          <div class="vid"><div class="thumb"><span class="badge">TIKTOK</span><span class="play">▶</span><span class="vw">142.300</span></div>
+            <div class="meta"><span>deniz_11eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+          <div class="vid"><div class="thumb"><span class="badge">REELS</span><span class="play">▶</span><span class="vw">38.900</span></div>
+            <div class="meta"><span>ayca_14eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+          <div class="vid"><div class="thumb"><span class="badge">TIKTOK</span><span class="play">▶</span><span class="vw">27.100</span></div>
+            <div class="meta"><span>selin_09eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+          <div class="vid"><div class="thumb"><span class="badge">SHORTS</span><span class="play">▶</span><span class="vw">19.400</span></div>
+            <div class="meta"><span>kaan_12eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+          <div class="vid"><div class="thumb"><span class="badge">REELS</span><span class="play">▶</span><span class="vw">14.700</span></div>
+            <div class="meta"><span>burak_15eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+          <div class="vid"><div class="thumb"><span class="badge">TIKTOK</span><span class="play">▶</span><span class="vw">11.200</span></div>
+            <div class="meta"><span>deniz_06eyl.mp4</span><button class="dl" type="button" aria-label="İndir">↓</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════ ÜRETİCİ ═════════ -->
+    <div class="view" id="v-c" role="tabpanel" aria-label="Üretici görünümü" hidden>
+      <div class="vh">
+        <h1>Üretici ekranı</h1><span class="rolechip c">Mobil · giriş şifresiz</span>
+      </div>
+      <p class="vsub">Günde bir kez, çekimden hemen sonra. Hedef süre: 90 saniye.</p>
+
+      <div class="phonewrap">
+        <div class="phone">
+          <div class="pscreen">
+            <div class="pbar"><span>09:41</span><span>Filiz · Kalorika</span></div>
+            <div class="pbody">
+              <div class="ptask">
+                <div class="lb"><span>Bugünkü görev</span><span>6 sa 12 dk</span></div>
+                <h3>"Bir günde ne yediğimi çekiyorum"</h3>
+                <p>Sabah kahvaltıdan başla, her öğünü uygulamaya girerken göster. Kalori toplamını sonda söyle. 20–30 sn. Referans: 3 video ↗</p>
+              </div>
+
+              <div class="field"><label for="f1">Video</label>
+                <input class="inp" id="f1" type="text" value="drive.google.com/…/gun17.mp4" readonly /></div>
+              <div class="field"><label for="f2">Instagram Reels linki</label>
+                <input class="inp" id="f2" type="text" value="instagram.com/reel/C9x2…" readonly /></div>
+              <div class="field"><label for="f3">TikTok linki</label>
+                <input class="inp" id="f3" type="text" value="tiktok.com/@ayca.gunluk/…" readonly /></div>
+              <div class="field"><label for="f4">YouTube Shorts linki</label>
+                <input class="inp" id="f4" type="text" placeholder="yapıştır…" /></div>
+              <button class="btn pri wide" type="button">Gönder</button>
+
+              <div class="pearn">
+                <div class="row"><span class="k">Bu ay</span><span class="v">22 / 30</span></div>
+                <div class="bar"><i style="width:73%"></i></div>
+                <div class="row"><span class="k">Hakediş</span><span class="v">8.800 ₺</span></div>
+                <div class="row"><span class="k">Ay sonu</span><span class="v" style="color:var(--accent)">12.000 ₺</span></div>
+                <div class="lead">
+                  <div class="row" style="margin-bottom:6px"><span class="k">Bonus havuzu · 10.500 ₺</span></div>
+                  <div class="lr"><span class="rk">1.</span><span class="nm">Deniz Y.</span><span class="vv">142.300</span></div>
+                  <div class="lr me"><span class="rk">2.</span><span class="nm">Sen</span><span class="vv">38.900</span></div>
+                  <div class="lr"><span class="rk">3.</span><span class="nm">Selin A.</span><span class="vv">27.100</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          <h3>Neden bu ekran böyle</h3>
+          <ul>
+            <li><b>Şifre yok.</b> Magic link. Üreticinin panele girmemesi sistemin tek gerçek çöküş sebebi; her sürtünme noktası kaldırıldı.</li>
+            <li><b>Tek ekran, tek görev.</b> Menü, ayar, profil yok. Açılır, dört alan doldurulur, kapanır.</li>
+            <li><b>Para ekranda.</b> Hakediş ve bonus sıralaması burada görünüyor — kazancını görmek için girmesi gereken tek yer panel olsun.</li>
+            <li><b>Bonus sıralaması canlı.</b> Havuz mantığı görünmüyor, sadece üst sıra görünüyor. Motivasyon burada, maliyet tavanı ajans tarafında.</li>
+            <li><b>WhatsApp'tan gönderim kabul edilmez</b>, istisnasız. Bir kez izin verilirse sistem o gün ölür.</li>
+          </ul>
+
+          <h3>Hesap bağlama — mimarinin kritik parçası</h3>
+          <ul>
+            <li>Sözleşmede <b>"Instagram ve YouTube hesabını panele bağlarsın"</b> maddesi var. Bu, iki platformun verisini resmî API'den ücretsiz ve doğru hâle getiriyor.</li>
+            <li>Sadece <b>TikTok kazımada kalıyor</b> — resmî API üçüncü taraf izlenmesi vermiyor. Aylık maliyeti 5 üreticide ~5 $, 50 üreticide ~60 $.</li>
+            <li>Tokenlar şifreli saklanır, sözleşme bitiminde 30 günde silinir. Banka bilgisi panelde tutulmaz.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="foot-in">
+      <p><strong>Filiz nedir.</strong> Content seeding operasyonunun arayüzü: seçilmiş üreticiler sıfırdan sosyal medya hesabı açıp bir marka için her gün video atar. Üretici gönderir, marka izler, ajans yönetir. Bu sayfa o üç rolün ekran tasarımıdır.</p>
+      <p><strong>Kapsam notu.</strong> Buradaki ekranlar v1 kapsamıdır. Başvuru akışı, hook kütüphanesi, toplu ödeme dosyası ve marka arama korelasyonu v2'ye bırakıldı. Prototipin dışındaki her talep ayrıca fiyatlanır — kapsam kaymasına karşı tek savunma bu.</p>
+      <p>Veriler, isimler ve kampanya kurgudur. Gerçek bir marka, üretici veya kampanya temsil etmez.</p>
+      <div class="foot-nav">
+        <a href="/lab/">← Lab</a>
+        <a href="/">berkalparslan.github.io</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      /* ── rol geçişi ── */
+      var tabs = Array.prototype.slice.call(document.querySelectorAll(".switch button"));
+      function show(id) {
+        tabs.forEach(function (t) {
+          var on = t.getAttribute("aria-controls") === id;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          var v = document.getElementById(t.getAttribute("aria-controls"));
+          if (v) v.hidden = !on;
+        });
+        window.scrollTo({ top: 0 });
+      }
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function () { show(t.getAttribute("aria-controls")); });
+        t.addEventListener("keydown", function (e) {
+          var i = tabs.indexOf(t), n = null;
+          if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+          if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+          if (n) { e.preventDefault(); n.focus(); show(n.getAttribute("aria-controls")); }
+        });
+      });
+
+      /* ── tema ── */
+      var btn = document.getElementById("themeBtn");
+      btn.addEventListener("click", function () {
+        var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("filiz-theme", next); } catch (e) { }
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
