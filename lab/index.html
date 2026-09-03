@@ -553,15 +553,16 @@
 
   <!-- ── Kurulum uyarısı ──────────────────────────────────── -->
   <div class="setup" id="setup" style="display:none">
-    <h1>Lab is not configured yet</h1>
-    <p>This page is the front end of a private analytics dashboard, but it has no backend to talk
-      to yet. Two things are missing:</p>
-    <ol>
-      <li>A Supabase project, with the <code>app_metrics</code> table and its RLS policies.</li>
-      <li>A <code>lab/config.js</code> file — copy <code>lab/config.example.js</code> and fill in
-        the project URL and the anon key.</li>
-    </ol>
-    <p>Full instructions are in <code>README.md</code> at the root of the repository.</p>
+    <h1>Lab</h1>
+    <p><strong><a href="/lab/panel/">Panel →</a></strong> App Store and Google Play, daily.
+      Encrypted file, no backend.</p>
+    <p><strong><a href="/lab/mihenk/">Mihenk →</a></strong> App Store touchstone: estimates an
+      app's downloads and revenue.</p>
+    <hr style="border:0;border-top:1px solid var(--border);margin:26px 0">
+    <p style="font-size:14px;color:var(--faint)">This page was the front end of a Supabase-backed
+      dashboard that was never set up. <a href="/lab/panel/">Panel</a> replaced it — it reads the
+      App Store Connect and Play Console CLIs directly, so there is no server and no account.
+      Drop a <code>lab/config.js</code> in to bring this one back.</p>
     <p><a href="/">← Back to the site</a></p>
   </div>
 
@@ -992,13 +993,6 @@
       if (session && session.access_token) enter();
     })();
   </script>
-  <!-- Araçlar. Göze batmasın diye en altta, sade. -->
-  <footer style="max-width:1100px;margin:48px auto 40px;padding:18px 22px 0;
-                 border-top:1px solid var(--border);font:14px/1.6 system-ui,sans-serif;
-                 color:var(--faint)">
-    <a href="/lab/mihenk/" style="color:var(--accent);text-decoration:none">Mihenk</a>
-    — App Store ölçüm taşı: bir uygulamanın indirme ve gelirini tahmin eder.
-  </footer>
 </body>
 
 </html>
