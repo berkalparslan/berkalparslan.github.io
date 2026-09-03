@@ -7,7 +7,12 @@ hiçbir anahtar durmuyor.**
 
 ## Parola
 
-Keychain'de duruyor, servis adı `bamtech-lab-panel`. Okumak için:
+Mac'in **login keychain**'inde duruyor, servis adı `bamtech-lab-panel`.
+Bu iPhone ile paylaşılmıyor — `security` yerel keychain'i okuyor, iCloud
+Keychain ayrı bir depo. Telefonda ilk girişte parolayı elle yaz; Safari
+kaydetmeyi teklif eder, sonrası otomatik doldurur.
+
+Terminalde okumak için:
 
 ```
 security find-generic-password -s bamtech-lab-panel -w

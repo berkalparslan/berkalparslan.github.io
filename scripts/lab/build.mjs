@@ -68,12 +68,9 @@ if (!existsSync(VERI)) { console.error(`Ham veri yok: ${VERI}\nÖnce collect.mjs
 const KOVA_TANIMLI = !!(process.env.GPLAY_BUCKET_ID || existsSync(join(VERI, "gplay.json")));
 
 const dosyalar = readdirSync(VERI);
-const gunler = dosyalar.filter(d => /^ios-\d{4}-\d{2}-\d{2}\.json$/.test(d)).sort();
-
-const gunluk = [];        // { tarih, veri, apps: { slug: {...} } }
-for (const d of gunler) {
-  gunluk.push(JSON.parse(readFileSync(join(VERI, d), "utf8")));
-}
+const gunluk = dosyalar
+  .filter(d => /^ios-\d{4}-\d{2}-\d{2}\.json$/.test(d)).sort()
+  .map(d => JSON.parse(readFileSync(join(VERI, d), "utf8")));
 
 const android  = existsSync(join(VERI, "android-durum.json"))
   ? JSON.parse(readFileSync(join(VERI, "android-durum.json"), "utf8")) : { apps: {}, notlar: [] };
@@ -82,95 +79,68 @@ const yorumlar = existsSync(join(VERI, "ios-yorumlar.json"))
 const kova = existsSync(join(VERI, "android-kova.json"))
   ? JSON.parse(readFileSync(join(VERI, "android-kova.json"), "utf8")) : { gunluk: {}, yorumlar: {} };
 
-/* Android indirmesi gün+uygulama olarak geliyor; iOS'un gün listesine
-   hizalanıyor. Kova yetkisi yoksa hepsi boş kalıyor ve panel bunu
-   "eksik" olarak yazıyor — sıfır göstermiyor. */
 const androidGun = kova.gunluk || {};
 const androidVar = Object.keys(androidGun).length > 0;
 
-/* ── Özet ─────────────────────────────────────────────────────────────
-   Pencere toplamlarında "veri yok" günler paydadan düşülüyor. Apple bazı
-   günler hiç rapor üretmiyor; onları sıfır saymak ortalamayı aşağı çeker. */
+/* ── Günlük matris ────────────────────────────────────────────────────
+   Panel artık pencereleri (7/30/tümü) ve platform filtresini tarayıcıda
+   hesaplıyor, o yüzden burada özet değil **ham günlük matris** üretiliyor.
+   Yalnız dolu günler yazılıyor: 17 uygulama × 45 gün çoğunlukla sıfır,
+   seyrek nesne olarak tutmak dosyayı küçük tutuyor.
 
-function pencere(gunSayisi) {
-  const secili = gunluk.slice(-gunSayisi);
-  const veriliGun = secili.filter(g => g.veri).length;
-  const toplam = {
-    indirme: 0, guncelleme: 0, gelir: {}, ulkeler: {}, apps: {},
-    android: 0, androidKaldirma: 0
-  };
-  for (const g of secili) {
-    if (g.veri) {
-      for (const [slug, a] of Object.entries(g.apps)) {
-        const t = toplam.apps[slug] ||= { indirme: 0, guncelleme: 0, android: 0 };
-        t.indirme += a.indirme; t.guncelleme += a.guncelleme;
-        toplam.indirme += a.indirme; toplam.guncelleme += a.guncelleme;
-        for (const [u, n] of Object.entries(a.ulkeler || {})) toplam.ulkeler[u] = (toplam.ulkeler[u] || 0) + n;
-        for (const [p, v] of Object.entries(a.gelir || {})) toplam.gelir[p] = +((toplam.gelir[p] || 0) + v).toFixed(2);
-      }
-    }
-    /* Android günü iOS raporundan bağımsız — Apple o gün rapor üretmese de
-       Play verisi olabilir, o yüzden `g.veri` kontrolünün dışında. */
-    for (const [slug, a] of Object.entries(androidGun[g.tarih] || {})) {
-      const t = toplam.apps[slug] ||= { indirme: 0, guncelleme: 0, android: 0 };
-      t.android += a.indirme;
-      toplam.android += a.indirme;
-      toplam.androidKaldirma += a.kaldirma || 0;
+   gun indeksi = `gunler` dizisindeki sıra. Kısa anahtarlar bilinçli:
+   i=iOS indirme, g=iOS güncelleme, a=Android indirme, k=Android kaldırma,
+   u=ülkeler, p=gelir (para birimi → tutar). */
+
+const gunler = gunluk.map(g => g.tarih);
+const iosVeriYok = gunluk.map(g => !g.veri);
+
+const veri = {};
+gunluk.forEach((g, ix) => {
+  if (g.veri) {
+    for (const [slug, a] of Object.entries(g.apps)) {
+      if (!a.indirme && !a.guncelleme && !Object.keys(a.gelir || {}).length) continue;
+      const h = (veri[slug] ||= {})[ix] ||= {};
+      if (a.indirme)    h.i = a.indirme;
+      if (a.guncelleme) h.g = a.guncelleme;
+      if (Object.keys(a.ulkeler || {}).length) h.u = a.ulkeler;
+      if (Object.keys(a.gelir   || {}).length) h.p = a.gelir;
     }
   }
-  return { gun: gunSayisi, veriliGun, ...toplam };
-}
-
-const seri = gunluk.map(g => {
-  const and = androidGun[g.tarih];
-  return {
-    tarih: g.tarih,
-    veri: g.veri,
-    indirme: g.veri ? Object.values(g.apps).reduce((a, x) => a + x.indirme, 0) : null,
-    android: and ? Object.values(and).reduce((a, x) => a + x.indirme, 0) : null,
-    apps: g.veri ? Object.fromEntries(Object.entries(g.apps).map(([s, a]) => [s, a.indirme])) : {}
-  };
+  for (const [slug, a] of Object.entries(androidGun[g.tarih] || {})) {
+    if (!a.indirme && !a.kaldirma) continue;
+    const h = (veri[slug] ||= {})[ix] ||= {};
+    if (a.indirme)  h.a = a.indirme;
+    if (a.kaldirma) h.k = a.kaldirma;
+  }
 });
 
-const son7  = pencere(7);
-const son30 = pencere(30);
-const onceki7 = (() => {
-  const secili = gunluk.slice(-14, -7).filter(g => g.veri);
-  return secili.reduce((a, g) => a + Object.values(g.apps).reduce((b, x) => b + x.indirme, 0), 0);
-})();
-
-const satirlar = APPS.map(app => ({
+const apps = APPS.map(app => ({
   slug: app.slug,
   ad: app.ad,
   ios: app.ios?.bundle || null,
   android: app.android || null,
-  indirme7:  son7.apps[app.slug]?.indirme  ?? 0,
-  indirme30: son30.apps[app.slug]?.indirme ?? 0,
-  androidIndirme7:  son7.apps[app.slug]?.android  ?? 0,
-  androidIndirme30: son30.apps[app.slug]?.android ?? 0,
-  guncelleme30: son30.apps[app.slug]?.guncelleme ?? 0,
-  seri: seri.map(g => (g.veri ? (g.apps[app.slug] || 0) : null)),
   yorum: yorumlar[app.slug] || null,
   androidYorum: kova.yorumlar?.[app.slug] || null,
-  play: android.apps?.[app.slug] || null
-})).sort((a, b) => (b.indirme30 + b.androidIndirme30) - (a.indirme30 + a.androidIndirme30)
-                || a.ad.localeCompare(b.ad, "tr"));
+  play: android.apps?.[app.slug]?.tracks || null
+}));
 
 const notlar = [...(android.notlar || [])];
 if (kova.hata) notlar.push(`Play toplu raporları: ${kova.hata}`);
 else if (!androidVar && KOVA_TANIMLI) notlar.push(
   "Cloud Storage kovası tanımlı ama hiç indirme verisi gelmedi.");
-const veriYokGun = gunluk.filter(g => !g.veri).length;
-if (veriYokGun) notlar.push(`${veriYokGun} gün için Apple raporu yok — o günler ortalamaya katılmadı.`);
+const veriYokGun = iosVeriYok.filter(Boolean).length;
+if (veriYokGun) notlar.push(
+  `${veriYokGun} gün için Apple raporu yok — grafikte boşluk, ortalamada paydadan düşük.`);
 
 const panel = {
-  surum: 2,
+  surum: 3,
   uretim: new Date().toISOString(),
-  aralik: { bas: gunluk[0]?.tarih || null, son: gunluk.at(-1)?.tarih || null },
-  ozet: { son7, son30, onceki7 },
-  seri,
-  apps: satirlar,
-  android: { kova: android.kova, uretim: android.uretim, veriVar: androidVar },
+  gunler,
+  iosVeriYok,
+  apps,
+  veri,
+  androidVeriVar: androidVar,
   notlar
 };
 
@@ -199,7 +169,12 @@ writeFileSync(CIKTI, JSON.stringify({
   ct: b64(kapali)
 }, null, 0) + "\n");
 
+const son7 = (n, alan) => gunler.slice(-n).reduce((t, _, j) => {
+  const ix = gunler.length - n + j;
+  return t + Object.values(veri).reduce((x, g) => x + (g[ix]?.[alan] || 0), 0);
+}, 0);
+
 console.log(`${CIKTI}`);
-console.log(`  ${gunluk.length} gün · ${satirlar.length} uygulama · ${(kapali.length / 1024).toFixed(1)} KB şifreli`);
-console.log(`  son 7 gün ${son7.indirme} iOS + ${son7.android} Android (önceki 7 iOS: ${onceki7})`);
+console.log(`  ${gunler.length} gün · ${apps.length} uygulama · ${(kapali.length / 1024).toFixed(1)} KB şifreli`);
+console.log(`  son 7 gün: ${son7(7, "i")} iOS + ${son7(7, "a")} Android`);
 if (notlar.length) notlar.forEach(n => console.log(`  ! ${n}`));
