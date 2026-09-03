@@ -11,27 +11,77 @@
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <meta name="referrer" content="no-referrer" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#08080b" />
 
+  <script>
+    /* Tema seçimi CSS'ten önce uygulanıyor ki açılışta yanıp sönmesin. */
+    try {
+      var t = localStorage.getItem("bamtech-panel-tema");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
   <style>
+    /* Açık tema varsayılan; koyu hem sistem tercihine hem de yan menüdeki
+       düğmeye bakıyor. Her renk önce burada tanımlı, medya sorgusu yalnız
+       değerini değiştiriyor. */
     :root {
+      color-scheme: light;
+      --bg: #f6f6f9;
+      --surface: #ffffff;
+      --surface-2: #f0f0f4;
+      --surface-3: #e4e4ec;
+      --text: #16161c;
+      --subtle: #55555f;
+      --faint: #8a8a96;
+      --border: #e6e6ee;
+      --border-strong: #d2d2de;
+      --accent: #0a63cf;
+      --violet: #6d45cf;
+      --mint: #0d8f80;
+      --amber: #a45c07;
+      --rose: #cf3350;
+      --golge: 0 1px 2px rgba(16, 16, 30, .05);
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      --yan: 240px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #08080b;
+        --surface: #131318;
+        --surface-2: #1a1a21;
+        --surface-3: #262630;
+        --text: #f3f3f7;
+        --subtle: #9d9daa;
+        --faint: #62626f;
+        --border: #24242c;
+        --border-strong: #34343f;
+        --accent: #4da3ff;
+        --violet: #9d84ff;
+        --mint: #2dd4bf;
+        --amber: #fbbf24;
+        --rose: #fb7185;
+        --golge: none;
+      }
+    }
+
+    :root[data-theme="dark"] {
       color-scheme: dark;
       --bg: #08080b;
       --surface: #131318;
       --surface-2: #1a1a21;
-      --surface-3: #22222b;
+      --surface-3: #262630;
       --text: #f3f3f7;
       --subtle: #9d9daa;
       --faint: #62626f;
       --border: #24242c;
-      --border-strong: #33333d;
+      --border-strong: #34343f;
       --accent: #4da3ff;
       --violet: #9d84ff;
       --mint: #2dd4bf;
       --amber: #fbbf24;
       --rose: #fb7185;
-      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-      --yan: 236px;
+      --golge: none;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,20 +101,16 @@
 
     a { color: var(--accent); }
     button { font-family: inherit; cursor: pointer; }
+    code { font-family: var(--mono); font-size: .92em; }
 
     /* ── Parola ekranı ───────────────────────────────────────── */
-    .gate {
-      min-height: 100vh; display: grid; place-items: center; padding: 24px;
-      background-image:
-        radial-gradient(ellipse 70% 40% at 15% -5%, rgba(77, 163, 255, .13), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 85% 0%, rgba(157, 132, 255, .11), transparent 70%);
-    }
+    .gate { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
 
     .gate-card {
       width: 100%; max-width: 360px;
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 22px; padding: 32px 28px 26px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+      box-shadow: 0 18px 44px rgba(16, 16, 30, .10);
     }
 
     .gate-mark { font-size: 30px; line-height: 1; margin-bottom: 14px; }
@@ -81,7 +127,7 @@
 
     #go {
       width: 100%; margin-top: 10px;
-      background: var(--accent); color: #05131f;
+      background: var(--accent); color: #fff;
       border: 0; border-radius: 11px; padding: 12px;
       font-size: 15px; font-weight: 620;
     }
@@ -97,8 +143,8 @@
     aside {
       border-right: 1px solid var(--border);
       background: var(--surface);
-      padding: 22px 16px 20px;
-      display: flex; flex-direction: column; gap: 22px;
+      padding: 20px 15px 18px;
+      display: flex; flex-direction: column; gap: 20px;
       position: sticky; top: 0; height: 100vh; overflow-y: auto;
     }
 
@@ -111,14 +157,16 @@
       letter-spacing: .09em; color: var(--faint); margin-bottom: 9px;
     }
 
-    .seg { display: flex; gap: 4px; background: var(--surface-2); border-radius: 10px; padding: 3px; }
+    .seg { display: flex; gap: 3px; background: var(--surface-2); border-radius: 10px; padding: 3px; }
     .seg button {
       flex: 1; border: 0; background: none; color: var(--subtle);
       font-size: 12.5px; font-weight: 560; padding: 6px 4px; border-radius: 7px;
     }
-    .seg button[aria-pressed="true"] { background: var(--surface-3); color: var(--text); }
+    .seg button[aria-pressed="true"] {
+      background: var(--surface); color: var(--text); box-shadow: var(--golge);
+    }
 
-    .yig { display: grid; gap: 3px; }
+    .yig { display: grid; gap: 2px; }
     .yig button {
       display: flex; align-items: center; gap: 8px; width: 100%;
       border: 0; background: none; color: var(--subtle);
@@ -132,31 +180,43 @@
     .n-ios { background: var(--accent); } .n-and { background: var(--mint); }
     .n-iki { background: linear-gradient(90deg, var(--accent) 50%, var(--mint) 50%); }
     .n-yok { background: var(--border-strong); }
+    .rozet { font-size: 9px; font-family: var(--mono); padding: 0 4px; border-radius: 4px;
+             background: var(--rose); color: #fff; margin-left: 4px; }
 
-    .yan-alt { margin-top: auto; display: flex; justify-content: space-between; font-size: 11.5px; }
+    .yan-alt { margin-top: auto; display: flex; align-items: center; gap: 10px; font-size: 11.5px; }
     .yan-alt a, .yan-alt button { color: var(--faint); background: none; border: 0; font-size: 11.5px; padding: 0; }
+    .yan-alt .ara { margin-left: auto; }
 
-    main { padding: 26px 28px 70px; min-width: 0; }
+    main { padding: 22px 26px 70px; min-width: 0; }
 
-    .baslik { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .sekmeler { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .sekmeler button {
+      border: 0; background: none; color: var(--subtle);
+      font-size: 13.5px; font-weight: 560; padding: 8px 13px 10px;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .sekmeler button[aria-pressed="true"] { color: var(--text); border-bottom-color: var(--accent); }
+    .sekmeler .say { font-family: var(--mono); font-size: 10.5px; color: var(--faint); margin-left: 5px; }
+
+    .baslik { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
     .baslik h2 { font-size: 21px; font-weight: 650; letter-spacing: -.025em; }
     .baslik .alt { color: var(--faint); font-size: 12.5px; font-family: var(--mono); }
 
-    .cards { display: grid; gap: 12px; margin-bottom: 24px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px 14px; }
+    .cards { display: grid; gap: 12px; margin-bottom: 22px; grid-template-columns: repeat(auto-fit, minmax(162px, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px 14px; box-shadow: var(--golge); }
     .card .k { color: var(--subtle); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
     .card .v { font-size: 26px; font-weight: 640; letter-spacing: -.03em; margin-top: 3px; font-variant-numeric: tabular-nums; }
     .card .s { color: var(--faint); font-size: 12px; margin-top: 2px; }
     .card .s.mono { font-family: var(--mono); font-size: 10.5px; line-height: 1.45; }
     .up { color: var(--mint); } .down { color: var(--rose); } .flat { color: var(--faint); }
 
-    section { margin-bottom: 26px; }
+    section { margin-bottom: 24px; }
     section > h3 {
       font-size: 11.5px; font-weight: 620; text-transform: uppercase;
       letter-spacing: .07em; color: var(--subtle); margin-bottom: 11px;
     }
 
-    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 17px; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 17px; box-shadow: var(--golge); }
 
     .legend { display: flex; gap: 15px; margin-bottom: 9px; font-size: 11.5px; color: var(--subtle); }
     .legend i { display: inline-block; width: 15px; height: 2px; border-radius: 2px; vertical-align: 3px; margin-right: 6px; }
@@ -167,7 +227,7 @@
     .chart .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
     .chart .line.and { stroke: var(--mint); }
     .chart .dot { fill: var(--accent); } .chart .dot.and { fill: var(--mint); }
-    .chart .gap { fill: var(--faint); opacity: .3; }
+    .chart .gap { fill: var(--faint); opacity: .28; }
     .chart text { fill: var(--faint); font-size: 10px; font-family: var(--mono); }
 
     .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -189,8 +249,8 @@
 
     .plat { display: inline-flex; gap: 4px; margin-left: 7px; vertical-align: 1px; }
     .plat span { font-size: 9px; font-weight: 700; letter-spacing: .04em; padding: 1px 5px; border-radius: 5px; font-family: var(--mono); }
-    .plat .ios { background: rgba(77,163,255,.16); color: #8cc4ff; }
-    .plat .and { background: rgba(45,212,191,.15); color: #5eead4; }
+    .plat .ios { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
+    .plat .and { background: color-mix(in srgb, var(--mint) 16%, transparent); color: var(--mint); }
 
     .spark { display: block; }
     .spark path { fill: none; stroke: var(--violet); stroke-width: 1.5; stroke-linejoin: round; }
@@ -200,7 +260,7 @@
     .track { font-family: var(--mono); font-size: 10.5px; color: var(--subtle); }
     .track b { color: var(--mint); font-weight: 600; }
 
-    .ikili { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .ikili { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
 
     .bars { display: grid; gap: 7px; }
     .bar { display: grid; grid-template-columns: 32px 1fr 42px; gap: 10px; align-items: center; font-size: 12.5px; }
@@ -217,16 +277,59 @@
 
     .kv { display: grid; gap: 7px; font-size: 12.5px; }
     .kv div { display: flex; gap: 12px; }
-    .kv dt { color: var(--faint); min-width: 108px; }
-    .kv dd { color: var(--text); }
+    .kv dt { color: var(--faint); min-width: 112px; flex: none; }
+    .kv dd { color: var(--text); min-width: 0; }
 
-    /* ── Dar ekran: yan menü üstte yatay şerit ───────────────── */
-    @media (max-width: 780px) {
+    /* ── Yorumlar ────────────────────────────────────────────── */
+    .yorum { padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .yorum:first-child { padding-top: 0; }
+    .yorum:last-child { border-bottom: 0; padding-bottom: 0; }
+    .y-ust { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-bottom: 5px; }
+    .y-puan { color: var(--amber); font-size: 13px; letter-spacing: 1px; }
+    .y-baslik { font-weight: 600; font-size: 13.5px; }
+    .y-meta { color: var(--faint); font-size: 11.5px; font-family: var(--mono); margin-left: auto; }
+    .y-uyg { font-size: 11px; color: var(--accent); font-weight: 560; }
+    .y-metin { font-size: 13.5px; color: var(--subtle); line-height: 1.6; white-space: pre-wrap; }
+    .y-cevap {
+      margin-top: 9px; padding: 9px 12px; border-left: 2px solid var(--border-strong);
+      background: var(--surface-2); border-radius: 0 8px 8px 0;
+      font-size: 12.5px; color: var(--subtle); white-space: pre-wrap;
+    }
+    .y-cevap b { color: var(--text); font-weight: 600; font-size: 11px; display: block; margin-bottom: 3px; }
+    .y-bekliyor { color: var(--rose); font-size: 11px; font-family: var(--mono); margin-top: 7px; }
+
+    /* ── Görevler ────────────────────────────────────────────── */
+    .gorev-grup { margin-bottom: 18px; }
+    .gorev-grup:last-child { margin-bottom: 0; }
+    .gorev-grup > h4 {
+      font-size: 12px; font-weight: 620; margin-bottom: 7px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .gorev-grup > h4 .say { font-family: var(--mono); font-size: 10.5px; color: var(--faint); font-weight: 400; }
+    .gorev { display: flex; gap: 9px; align-items: flex-start; padding: 5px 0; font-size: 13px; }
+    .gorev input { margin-top: 4px; flex: none; accent-color: var(--accent); width: 14px; height: 14px; }
+    .gorev .yazi { line-height: 1.5; }
+    .gorev .bolum { font-size: 10.5px; color: var(--faint); font-family: var(--mono); }
+    .gorev.bitti .yazi { text-decoration: line-through; color: var(--faint); }
+    .gorev.yerel .yazi { color: var(--faint); }
+    .gorev.yerel .yazi::after { content: " · kenara çekildi"; font-size: 10.5px; font-family: var(--mono); }
+
+    /* ── Veri durumu ─────────────────────────────────────────── */
+    .kaynak { display: flex; gap: 11px; align-items: flex-start; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .kaynak:first-child { padding-top: 0; }
+    .kaynak:last-child { border-bottom: 0; padding-bottom: 0; }
+    .k-isik { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex: none; }
+    .k-ok { background: var(--mint); } .k-engel { background: var(--rose); } .k-yok { background: var(--border-strong); }
+    .kaynak .ad { font-size: 13.5px; font-weight: 550; }
+    .kaynak .arac { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+    .kaynak .not { font-size: 12.5px; color: var(--subtle); margin-top: 2px; }
+    .kaynak .son { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--faint); text-align: right; flex: none; }
+
+    @media (max-width: 800px) {
       .shell { grid-template-columns: 1fr; }
       aside {
         position: static; height: auto; border-right: 0;
-        border-bottom: 1px solid var(--border);
-        padding: 16px 14px; gap: 14px;
+        border-bottom: 1px solid var(--border); padding: 15px 14px; gap: 13px;
       }
       .grup.uyg .yig {
         display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
@@ -234,8 +337,11 @@
       }
       .grup.uyg .yig button { width: auto; white-space: nowrap; }
       .grup.uyg .yig .say { margin-left: 6px; }
-      main { padding: 20px 14px 60px; }
+      main { padding: 18px 14px 60px; }
       .card .v { font-size: 22px; }
+      .sekmeler { overflow-x: auto; }
+      .y-meta { margin-left: 0; width: 100%; }
+      .kaynak .son { margin-left: 0; }
     }
   </style>
 </head>
@@ -281,19 +387,21 @@
 
       <div class="yan-alt">
         <a href="/lab/">← lab</a>
+        <button class="ara" id="tema">tema</button>
         <button id="kilit">kilitle</button>
       </div>
     </aside>
 
     <main id="ana"></main>
   </div>
-
   <script>
     "use strict";
 
     const $ = s => document.querySelector(s);
     const OTURUM = "bamtech-panel-pw";
     const DURUM_KEY = "bamtech-panel-durum";
+    const GOREV_KEY = "bamtech-panel-gorev";
+    const TEMA_KEY = "bamtech-panel-tema";
 
     /* ── Şifre çözme ──────────────────────────────────────────
        build.mjs ile aynı parametreler: PBKDF2-SHA256 → AES-256-GCM.
@@ -317,24 +425,43 @@
     const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const sayi = n => (n ?? 0).toLocaleString("tr-TR");
+
+    /* Vault notları Markdown; görev satırlarında kalın yazı ve kod parçası
+       sık geçiyor. Önce kaçırılıyor, sonra bu ikisi geri açılıyor —
+       başka hiçbir etiket geçmiyor. */
+    const md = s => esc(s)
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
     const AY = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
     const gun = t => { const [, a, g] = t.split("-"); return `${Number(g)} ${AY[Number(a) - 1]}`; };
+    const tarihYazi = iso => {
+      if (!iso) return "—";
+      const d = new Date(iso);
+      return isNaN(d) ? String(iso).slice(0, 10)
+        : d.toLocaleDateString("tr-TR", { day: "numeric", month: "short", year: "numeric" });
+    };
+    const yildiz = n => "★".repeat(Math.round(n || 0)) + "☆".repeat(5 - Math.round(n || 0));
+
+    /* Görev metninden kısa, kararlı bir kimlik. localStorage'da bunu
+       işaretliyoruz; metin değişirse işaret düşer, bu bilinçli — değişen
+       görev yeniden görünsün. */
+    const kimlik = s => {
+      let h = 5381;
+      for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+      return h.toString(36);
+    };
 
     /* ── Durum ───────────────────────────────────────────────── */
 
     let D = null;
-    let S = { aralik: 30, platform: "hepsi", app: null };
+    let S = { aralik: 30, platform: "hepsi", app: null, sekme: "ozet", yorumSuzgec: "hepsi", gorevSuzgec: "acik" };
+    let YEREL = {};   /* kenara çekilen görevler */
 
     const ARALIKLAR = [{ v: 7, e: "7g" }, { v: 30, e: "30g" }, { v: 90, e: "90g" }, { v: 0, e: "Tümü" }];
     const PLATFORMLAR = [{ v: "hepsi", e: "Hepsi" }, { v: "ios", e: "iOS" }, { v: "and", e: "Play" }];
 
-    function durumYaz() { try { localStorage.setItem(DURUM_KEY, JSON.stringify(S)); } catch (e) {} }
-    function durumOku() {
-      try {
-        const k = JSON.parse(localStorage.getItem(DURUM_KEY) || "null");
-        if (k && typeof k === "object") S = { ...S, ...k };
-      } catch (e) {}
-    }
+    const yaz = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+    const oku = (k, y) => { try { return JSON.parse(localStorage.getItem(k)) ?? y; } catch (e) { return y; } };
 
     /* Seçili aralığın gün indeksleri. aralik=0 → tümü. */
     function pencere(kaydir = 0) {
@@ -344,21 +471,17 @@
       return { bas: Math.max(0, son - uzun), son: Math.max(0, son), uzun };
     }
 
-    const secili = () => D.apps.filter(a => {
-      if (S.app && a.slug !== S.app) return false;
-      if (S.platform === "ios") return !!a.ios;
-      if (S.platform === "and") return !!a.android;
-      return true;
-    });
+    const platUyar = a =>
+      S.platform === "ios" ? !!a.ios : S.platform === "and" ? !!a.android : true;
+    const secili = () => D.apps.filter(a => (!S.app || a.slug === S.app) && platUyar(a));
 
     /* Bir uygulamanın bir gündeki değeri. Platform filtresi burada uygulanıyor
-       ki hem kartlar hem grafik hem tablo aynı sayıyı görsün. */
+       ki kartlar, grafik ve tablo aynı sayıyı görsün. */
     function gunDeger(slug, ix, alan) {
       const h = D.veri[slug]?.[ix];
       if (!h) return 0;
-      if (alan === "indirme") {
+      if (alan === "indirme")
         return (S.platform === "and" ? 0 : (h.i || 0)) + (S.platform === "ios" ? 0 : (h.a || 0));
-      }
       return h[alan] || 0;
     }
 
@@ -375,6 +498,41 @@
         if (o) for (const [k, v] of Object.entries(o)) h[k] = +((h[k] || 0) + v).toFixed(2);
       }
       return h;
+    }
+
+    /* ── Para ────────────────────────────────────────────────────
+       Apple sekiz para biriminde ödüyor. Kur varsa hepsi TL'ye çevrilip tek
+       sayı gösteriliyor; kur yoksa uydurma bir toplam üretmek yerine para
+       birimleri ayrı kalıyor. Kurlar günlük, yani rakam yaklaşık. */
+    function paraOzet(harita) {
+      const g = Object.entries(harita || {}).filter(([, v]) => v).sort((a, b) => b[1] - a[1]);
+      if (!g.length) return { bas: "0 ₺", alt: "gelir yok", detay: [] };
+
+      const oran = D.kur?.oran;
+      if (!oran?.TRY) {
+        return {
+          bas: `${g[0][1].toFixed(2)} ${g[0][0]}`,
+          alt: g.slice(1).map(([p, v]) => `${v.toFixed(2)} ${p}`).join(" · ") || "kur çekilemedi",
+          detay: g
+        };
+      }
+
+      /* Kurlar USD tabanlı: 1 USD = oran[X] birim X. */
+      let tl = 0;
+      const detay = g.map(([p, v]) => {
+        const k = oran[p];
+        const t = k ? (v / k) * oran.TRY : null;
+        if (t !== null) tl += t;
+        return [p, v, t];
+      });
+
+      const eksik = detay.filter(d => d[2] === null).map(d => d[0]);
+      return {
+        bas: `≈ ${tl.toLocaleString("tr-TR", { maximumFractionDigits: 0 })} ₺`,
+        alt: `${g.length} para birimi · kur ${tarihYazi(D.kur.tarih)}` +
+             (eksik.length ? ` · ${eksik.join(", ")} çevrilemedi` : ""),
+        detay
+      };
     }
 
     /* ── Grafik ──────────────────────────────────────────────── */
@@ -449,50 +607,66 @@
       return `<svg class="spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><path d="M${p.join(" L")}" /></svg>`;
     }
 
-    /* ── Parçalar ────────────────────────────────────────────── */
-
-    /* Gelir birden çok para biriminde geliyor ve elimizde kur yok. Uydurup tek
-       sayıya indirmektense en büyük hacimli birim öne çıkarılıp gerisi altta. */
-    function paraBol(obj) {
-      const g = Object.entries(obj || {}).filter(([, v]) => v).sort((a, b) => b[1] - a[1]);
-      if (!g.length) return { bas: "0", alt: "geliştirici payı" };
-      const ana = g.find(([p]) => p === "USD") || g[0];
-      const kalan = g.filter(x => x !== ana);
-      return {
-        bas: `${ana[1].toFixed(2)} ${ana[0]}`,
-        alt: kalan.length ? kalan.map(([p, v]) => `${v.toFixed(2)} ${p}`).join(" · ") : "geliştirici payı"
-      };
-    }
+    /* ── Küçük parçalar ──────────────────────────────────────── */
 
     /* Bir uygulamada beş track birden dolu olabiliyor (telefon + Wear ayrı
        yayınlanıyor). Tabloyu boğmasın diye en ileri track gösteriliyor. */
     const TRACK_SIRA = ["production", "beta", "alpha", "internal"];
-    function trackSirala(t) {
+    const trackSirala = t => {
       const puan = x => { const i = TRACK_SIRA.findIndex(k => x.track.endsWith(k)); return i < 0 ? 99 : i; };
       return [...t].sort((a, b) => puan(a) - puan(b));
-    }
+    };
     function playYazi(a) {
       if (!a.play?.length) return a.android ? '<span class="zero">—</span>' : "";
       const s = trackSirala(a.play), b = s[0];
       const etiket = b.track.endsWith("production") ? `<b>${esc(b.track)}</b>` : esc(b.track);
-      const tumu = s.map(x => `${x.track} ${x.surum}`).join("\n");
-      return `<span title="${esc(tumu)}">${etiket} ${esc(b.surum)}` +
+      return `<span title="${esc(s.map(x => `${x.track} ${x.surum}`).join("\n"))}">${etiket} ${esc(b.surum)}` +
              `${s.length > 1 ? ` <span class="zero">+${s.length - 1}</span>` : ""}</span>`;
     }
 
     /* Puan iki mağazadan ayrı geliyor; ortalamalarını birleştirmek yanlış olur
        (ağırlıklar farklı), o yüzden alt alta duruyorlar. */
-    function puanSatir(y, etiket) {
-      if (!y?.adet) return "";
-      return `<div><span class="stars">${y.ortalama ?? "?"}★</span> ` +
-        `<span class="${y.cevapsiz ? "cevapsiz" : "zero"}">${y.adet}${y.cevapsiz ? ` (${y.cevapsiz}↩)` : ""}</span> ` +
-        `<span class="zero">${etiket}</span></div>`;
+    const puanSatir = (y, e) => !y?.adet ? "" :
+      `<div><span class="stars">${y.ortalama ?? "?"}★</span> ` +
+      `<span class="${y.cevapsiz ? "cevapsiz" : "zero"}">${y.adet}${y.cevapsiz ? ` (${y.cevapsiz}↩)` : ""}</span> ` +
+      `<span class="zero">${e}</span></div>`;
+    const puanYazi = a =>
+      ((S.platform !== "and" ? puanSatir(a.yorum, "iOS") : "") +
+       (S.platform !== "ios" ? puanSatir(a.androidYorum, "Play") : "")) || '<span class="zero">—</span>';
+
+    /* ── Toplu listeler ──────────────────────────────────────── */
+
+    function tumYorumlar() {
+      const l = [];
+      for (const a of D.apps) {
+        if (S.app && a.slug !== S.app) continue;
+        if (!platUyar(a)) continue;
+        for (const y of (a.yorum?.liste || [])) l.push({ ...y, uygulama: a.ad, slug: a.slug, magaza: "App Store" });
+      }
+      return l.sort((x, y) => String(y.tarih).localeCompare(String(x.tarih)));
     }
-    function puanYazi(a) {
-      const s = (S.platform !== "and" ? puanSatir(a.yorum, "iOS") : "") +
-                (S.platform !== "ios" ? puanSatir(a.androidYorum, "Play") : "");
-      return s || '<span class="zero">—</span>';
+
+    function tumGorevler() {
+      const gruplar = [];
+      for (const a of D.apps) {
+        if (S.app && a.slug !== S.app) continue;
+        if (!platUyar(a)) continue;
+        const g = a.vault?.gorevler || [];
+        if (g.length) gruplar.push({ ad: a.ad, slug: a.slug, gorevler: g });
+      }
+      if (!S.app && D.genelGorevler?.length) {
+        const konular = {};
+        for (const g of D.genelGorevler) (konular[g.konu] ||= []).push(g);
+        for (const [konu, g] of Object.entries(konular))
+          gruplar.push({ ad: konu, slug: `konu:${konu}`, gorevler: g, konu: true });
+      }
+      return gruplar;
     }
+
+    const gorevDurum = (slug, g) => {
+      const id = `${slug}|${kimlik(g.yazi)}`;
+      return { id, bitti: g.bitti, yerel: !!YEREL[id] };
+    };
 
     /* ── Yan menü ────────────────────────────────────────────── */
 
@@ -505,31 +679,30 @@
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p =>
         `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
 
-      /* Yan menüdeki sayılar seçili aralığı gösteriyor ama uygulama filtresinden
+      /* Menüdeki sayılar seçili aralığı gösteriyor ama uygulama filtresinden
          etkilenmiyor — yoksa seçili olmayanlar hep sıfır görünürdü. */
       const { bas, son } = pencere();
-      const hepsi = D.apps.filter(a =>
-        S.platform === "ios" ? !!a.ios : S.platform === "and" ? !!a.android : true);
+      const hepsi = D.apps.filter(platUyar);
       const say = a => topla("indirme", bas, son, [a]);
-
       const sirali = [...hepsi].sort((a, b) => say(b) - say(a) || a.ad.localeCompare(b.ad, "tr"));
-      const toplam = hepsi.reduce((t, a) => t + say(a), 0);
-
       const nokta = a => a.ios && a.android ? "n-iki" : a.ios ? "n-ios" : a.android ? "n-and" : "n-yok";
 
       $("#yigUyg").innerHTML =
         `<button data-app="" aria-pressed="${!S.app}">
-           <span class="nokta n-yok"></span>Tümü<span class="say">${sayi(toplam)}</span></button>` +
-        sirali.map(a => `
-          <button data-app="${esc(a.slug)}" aria-pressed="${S.app === a.slug}" title="${esc(a.ad)}">
+           <span class="nokta n-yok"></span>Tümü
+           <span class="say">${sayi(hepsi.reduce((t, a) => t + say(a), 0))}</span></button>` +
+        sirali.map(a => {
+          const cevapsiz = (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0);
+          return `<button data-app="${esc(a.slug)}" aria-pressed="${S.app === a.slug}" title="${esc(a.ad)}">
             <span class="nokta ${nokta(a)}"></span>${esc(a.ad)}
-            <span class="say">${sayi(say(a))}</span>
-          </button>`).join("");
+            ${cevapsiz ? `<span class="rozet" title="cevapsız yorum">${cevapsiz}</span>` : ""}
+            <span class="say">${sayi(say(a))}</span></button>`;
+        }).join("");
     }
 
-    /* ── Ana içerik ──────────────────────────────────────────── */
+    /* ── Sekme: özet ─────────────────────────────────────────── */
 
-    function anaCiz() {
+    function ozetCiz() {
       const { bas, son, uzun } = pencere();
       const onc = pencere(1);
       const slugs = secili();
@@ -538,31 +711,26 @@
       const oncekiI = topla("indirme", onc.bas, onc.son, slugs);
       const guncelleme = topla("g", bas, son, slugs);
       const kaldirma = topla("k", bas, son, slugs);
-      const gelir = paraBol(toplaHarita("p", bas, son, slugs));
-      const ulkeler = Object.entries(toplaHarita("u", bas, son, slugs))
-        .sort((a, b) => b[1] - a[1]).slice(0, 12);
+      const para = paraOzet(toplaHarita("p", bas, son, slugs));
+      const ulkeler = Object.entries(toplaHarita("u", bas, son, slugs)).sort((a, b) => b[1] - a[1]).slice(0, 12);
       const enCokUlke = ulkeler[0]?.[1] || 1;
 
       const tamOnceki = onc.son - onc.bas === uzun;
       const fark = tamOnceki && oncekiI ? Math.round((indirme - oncekiI) / oncekiI * 100) : null;
       const farkSinif = fark === null ? "flat" : fark > 0 ? "up" : fark < 0 ? "down" : "flat";
-      const farkYazi = fark === null
-        ? (S.aralik ? "karşılaştıracak önceki dönem yok" : `${D.gunler.length} günün tamamı`)
-        : `${fark > 0 ? "▲" : fark < 0 ? "▼" : "="} ${Math.abs(fark)}% · önceki ${uzun} gün ${sayi(oncekiI)}`;
+      /* Önceki dönem sıfırsa yüzde hesaplanamıyor (bölme sıfıra). "Karşılaştırma
+         yok" demek yanlış olur — bilgi orada, sadece oran yok. */
+      const farkYazi = fark !== null
+        ? `${fark > 0 ? "▲" : fark < 0 ? "▼" : "="} ${Math.abs(fark)}% · önceki ${uzun} gün ${sayi(oncekiI)}`
+        : !S.aralik ? `${D.gunler.length} günün tamamı`
+        : tamOnceki ? `önceki ${uzun} günde hiç indirme yok`
+        : `geçmiş ${uzun} güne yetmiyor`;
 
       const secApp = S.app ? D.apps.find(a => a.slug === S.app) : null;
-      const platEt = S.platform === "ios" ? "App Store" : S.platform === "and" ? "Google Play" : "iki mağaza";
-
-      const satirlar = [...slugs]
-        .map(a => ({ a, n: topla("indirme", bas, son, [a]) }))
+      const satirlar = slugs.map(a => ({ a, n: topla("indirme", bas, son, [a]) }))
         .sort((x, y) => y.n - x.n || x.a.ad.localeCompare(y.a.ad, "tr"));
 
-      $("#ana").innerHTML = `
-        <div class="baslik">
-          <h2>${esc(secApp ? secApp.ad : "Tüm uygulamalar")}</h2>
-          <span class="alt">${esc(D.gunler[bas])} → ${esc(D.gunler[son - 1])} · ${platEt}</span>
-        </div>
-
+      return `
         <div class="cards">
           <div class="card">
             <div class="k">İndirme</div>
@@ -578,9 +746,8 @@
           </div>
           <div class="card">
             <div class="k">Gelir</div>
-            <div class="v">${S.platform === "and" ? "—" : esc(gelir.bas)}</div>
-            <div class="s mono">${S.platform === "and"
-              ? "Play geliri henüz çekilmiyor" : esc(gelir.alt)}</div>
+            <div class="v">${S.platform === "and" ? "—" : esc(para.bas)}</div>
+            <div class="s mono">${S.platform === "and" ? "Play geliri henüz çekilmiyor" : esc(para.alt)}</div>
           </div>
           <div class="card">
             <div class="k">Kapsam</div>
@@ -595,7 +762,7 @@
             <div class="legend">
               ${S.platform !== "and" ? '<span><i class="i-ios"></i>App Store</span>' : ""}
               ${S.platform !== "ios" && D.androidVeriVar ? '<span><i class="i-and"></i>Google Play</span>' : ""}
-              ${!D.androidVeriVar && S.platform === "and" ? '<span>Play verisi yok</span>' : ""}
+              ${!D.androidVeriVar && S.platform === "and" ? "<span>Play verisi yok</span>" : ""}
             </div>
             ${grafik(bas, son, slugs)}
           </div>
@@ -606,17 +773,13 @@
           <div class="panel scroll">
             ${satirlar.length ? `
             <table>
-              <thead><tr>
-                <th>Uygulama</th><th>İndirme</th><th>Eğilim</th><th>Puan</th><th>Play</th>
-              </tr></thead>
+              <thead><tr><th>Uygulama</th><th>İndirme</th><th>Eğilim</th><th>Puan</th><th>Play</th></tr></thead>
               <tbody>${satirlar.map(({ a, n }) => {
                 const i = S.platform === "and" ? 0 : topla("i", bas, son, [a]);
                 const g = S.platform === "ios" ? 0 : topla("a", bas, son, [a]);
-                return `
-                <tr data-app="${esc(a.slug)}">
+                return `<tr data-app="${esc(a.slug)}">
                   <td class="ad">${esc(a.ad)}<span class="plat">${a.ios ? '<span class="ios">iOS</span>' : ""}${a.android ? '<span class="and">AND</span>' : ""}</span></td>
-                  <td class="${n ? "" : "zero"}">${sayi(n)}
-                    ${i && g ? `<div class="bolum">${sayi(i)} · ${sayi(g)}</div>` : ""}</td>
+                  <td class="${n ? "" : "zero"}">${sayi(n)}${i && g ? `<div class="bolum">${sayi(i)} · ${sayi(g)}</div>` : ""}</td>
                   <td>${sparkline(a.slug, bas, son)}</td>
                   <td>${puanYazi(a)}</td>
                   <td class="track">${playYazi(a)}</td>
@@ -631,57 +794,239 @@
             <h3>Ülkeler${S.platform === "and" ? "" : " — App Store"}</h3>
             <div class="panel">
               ${ulkeler.length ? `<div class="bars">${ulkeler.map(([u, n]) => `
-                <div class="bar">
-                  <span class="code">${esc(u)}</span>
+                <div class="bar"><span class="code">${esc(u)}</span>
                   <span class="rail"><span class="fill" style="width:${(n / enCokUlke * 100).toFixed(1)}%"></span></span>
-                  <span class="n">${sayi(n)}</span>
-                </div>`).join("")}</div>`
+                  <span class="n">${sayi(n)}</span></div>`).join("")}</div>`
               : `<div class="bos">${S.platform === "and"
-                  ? "Play ülke kırılımı toplu raporlarla gelecek."
-                  : "Bu aralıkta ülke verisi yok."}</div>`}
+                  ? "Play ülke kırılımı toplu raporlarla gelecek." : "Bu aralıkta ülke verisi yok."}</div>`}
             </div>
           </section>
 
           <section>
-            <h3>${secApp ? "Uygulama" : "Durum"}</h3>
+            <h3>${secApp ? "Uygulama" : "Gelir dökümü"}</h3>
             <div class="panel">
-              ${secApp ? `
-                <dl class="kv">
-                  <div><dt>App Store</dt><dd>${secApp.ios ? `<code>${esc(secApp.ios)}</code>` : "yok"}</dd></div>
-                  <div><dt>Google Play</dt><dd>${secApp.android ? `<code>${esc(secApp.android)}</code>` : "yok"}</dd></div>
-                  <div><dt>Play sürümleri</dt><dd>${secApp.play?.length
-                    ? trackSirala(secApp.play).map(t => `${esc(t.track)} ${esc(t.surum)}`).join("<br>") : "—"}</dd></div>
-                  <div><dt>iOS yorum</dt><dd>${secApp.yorum?.adet ?? "—"}${secApp.yorum?.ortalama ? ` · ${secApp.yorum.ortalama}★` : ""}</dd></div>
-                  <div><dt>Play yorum</dt><dd>${secApp.androidYorum?.adet ?? "—"}</dd></div>
-                </dl>`
-              : `<dl class="kv">
-                  <div><dt>Uygulama</dt><dd>${D.apps.length} · ${D.apps.filter(a => a.ios).length} iOS, ${D.apps.filter(a => a.android).length} Play</dd></div>
-                  <div><dt>Veri aralığı</dt><dd>${esc(D.gunler[0])} → ${esc(D.gunler.at(-1))}</dd></div>
-                  <div><dt>Play indirme</dt><dd>${D.androidVeriVar ? "akıyor" : "yetki bekliyor"}</dd></div>
-                  <div><dt>Cevapsız yorum</dt><dd>${D.apps.reduce((t, a) => t + (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0), 0)}</dd></div>
-                </dl>`}
+              ${secApp ? uygulamaKarti(secApp) : gelirDokumu(para)}
             </div>
           </section>
-        </div>
-
-        ${D.notlar?.length ? `
-        <section>
-          <h3>Eksikler</h3>
-          <div class="panel"><ul class="notes">${D.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul></div>
-        </section>` : ""}`;
+        </div>`;
     }
 
-    function ciz() { yanCiz(); anaCiz(); durumYaz(); }
+    function gelirDokumu(para) {
+      if (!para.detay.length) return '<div class="bos">Bu aralıkta gelir yok.</div>';
+      const enCok = Math.max(...para.detay.map(d => d[2] ?? 0), 1);
+      return `<div class="bars">${para.detay.map(([p, v, t]) => `
+        <div class="bar"><span class="code">${esc(p)}</span>
+          <span class="rail"><span class="fill" style="width:${t ? (t / enCok * 100).toFixed(1) : 0}%"></span></span>
+          <span class="n">${v.toFixed(2)}</span></div>
+        ${t ? `<div class="bar"><span></span><span style="font-size:11px;color:var(--faint);font-family:var(--mono)">≈ ${t.toLocaleString("tr-TR", { maximumFractionDigits: 0 })} ₺</span><span></span></div>` : ""}
+      `).join("")}</div>`;
+    }
+
+    function uygulamaKarti(a) {
+      const v = a.vault;
+      return `<dl class="kv">
+        <div><dt>Durum</dt><dd>${esc(v?.durum || "—")}${v?.platform ? ` · ${esc(v.platform)}` : ""}</dd></div>
+        <div><dt>App Store</dt><dd>${a.ios ? `<code>${esc(a.ios)}</code>` : "yok"}</dd></div>
+        <div><dt>Google Play</dt><dd>${a.android ? `<code>${esc(a.android)}</code>` : "yok"}</dd></div>
+        <div><dt>Play sürümleri</dt><dd>${a.play?.length
+          ? trackSirala(a.play).map(t => `${esc(t.track)} ${esc(t.surum)}`).join("<br>") : "—"}</dd></div>
+        <div><dt>Tanıtım sayfası</dt><dd>${v?.sayfa ? `<a href="${esc(v.sayfa)}">${esc(v.sayfa)}</a>` : "—"}</dd></div>
+        <div><dt>Vault güncelleme</dt><dd>${esc(v?.guncelleme || "—")}</dd></div>
+        ${v?.ozet ? `<div><dt>Özet</dt><dd>${md(v.ozet)}</dd></div>` : ""}
+      </dl>`;
+    }
+
+    /* ── Sekme: yorumlar ─────────────────────────────────────── */
+
+    function yorumCiz() {
+      let l = tumYorumlar();
+      const toplam = l.length;
+      if (S.yorumSuzgec === "cevapsiz") l = l.filter(y => !y.cevap);
+      if (S.yorumSuzgec === "dusuk") l = l.filter(y => (y.puan || 5) <= 3);
+
+      const suzgecler = [
+        { v: "hepsi", e: `Hepsi ${toplam}` },
+        { v: "cevapsiz", e: `Cevapsız ${tumYorumlar().filter(y => !y.cevap).length}` },
+        { v: "dusuk", e: `3★ ve altı ${tumYorumlar().filter(y => (y.puan || 5) <= 3).length}` }
+      ];
+
+      return `
+        <section>
+          <div class="seg" style="max-width:420px;margin-bottom:14px">
+            ${suzgecler.map(f => `<button data-yorum="${f.v}" aria-pressed="${S.yorumSuzgec === f.v}">${f.e}</button>`).join("")}
+          </div>
+          <div class="panel">
+            ${l.length ? l.map(y => `
+              <div class="yorum">
+                <div class="y-ust">
+                  <span class="y-puan" title="${y.puan} yıldız">${yildiz(y.puan)}</span>
+                  ${y.baslik ? `<span class="y-baslik">${esc(y.baslik)}</span>` : ""}
+                  ${!S.app ? `<span class="y-uyg">${esc(y.uygulama)}</span>` : ""}
+                  <span class="y-meta">${esc(y.ulke)} · ${tarihYazi(y.tarih)}${y.kisi ? ` · ${esc(y.kisi)}` : ""}</span>
+                </div>
+                <div class="y-metin">${esc(y.metin)}</div>
+                ${y.cevap
+                  ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}</b>${esc(y.cevap.metin)}</div>`
+                  : '<div class="y-bekliyor">cevap bekliyor</div>'}
+              </div>`).join("")
+            : '<div class="bos">Bu süzgece uyan yorum yok.</div>'}
+          </div>
+        </section>
+        ${D.apps.some(a => a.android) && !D.androidVeriVar ? `
+        <section><div class="panel"><ul class="notes"><li>Google Play yorumları burada yok.
+          Play API yalnızca son 7 günü veriyor, tüm geçmiş toplu raporlarda —
+          servis hesabının hesap geneli yetkisi açılınca buraya da düşecek.</li></ul></div></section>` : ""}`;
+    }
+
+    /* ── Sekme: görevler ─────────────────────────────────────── */
+
+    function gorevCiz() {
+      const gruplar = tumGorevler();
+      const suz = g => {
+        const d = gorevDurum("x", g);
+        return S.gorevSuzgec === "acik" ? !g.bitti : S.gorevSuzgec === "bitti" ? g.bitti : true;
+      };
+
+      const acikSay = gruplar.reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
+      const bittiSay = gruplar.reduce((t, gr) => t + gr.gorevler.filter(g => g.bitti).length, 0);
+      const suzgecler = [
+        { v: "acik", e: `Açık ${acikSay}` },
+        { v: "bitti", e: `Bitti ${bittiSay}` },
+        { v: "hepsi", e: `Hepsi ${acikSay + bittiSay}` }
+      ];
+
+      const dolu = gruplar.map(gr => ({ ...gr, gorevler: gr.gorevler.filter(suz) })).filter(gr => gr.gorevler.length);
+
+      return `
+        <section>
+          <div class="seg" style="max-width:340px;margin-bottom:14px">
+            ${suzgecler.map(f => `<button data-gorev="${f.v}" aria-pressed="${S.gorevSuzgec === f.v}">${f.e}</button>`).join("")}
+          </div>
+          <div class="panel">
+            ${dolu.length ? dolu.map(gr => `
+              <div class="gorev-grup">
+                <h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span></h4>
+                ${gr.gorevler.map(g => {
+                  const d = gorevDurum(gr.slug, g);
+                  return `<label class="gorev ${g.bitti ? "bitti" : ""} ${d.yerel ? "yerel" : ""}">
+                    <input type="checkbox" data-gorevid="${esc(d.id)}" ${g.bitti || d.yerel ? "checked" : ""} ${g.bitti ? "disabled" : ""} />
+                    <span class="yazi">${md(g.yazi)}${g.bolum ? `<div class="bolum">${esc(g.bolum)}</div>` : ""}</span>
+                  </label>`;
+                }).join("")}
+              </div>`).join("")
+            : '<div class="bos">Bu süzgece uyan görev yok.</div>'}
+          </div>
+        </section>
+        <section><div class="panel"><ul class="notes">
+          <li>Görevler vault'taki notlardan geliyor, kaynak orası. Buradaki işaret
+            yalnız bu tarayıcıda duruyor — "şimdilik kenara çek" içindir, vault'a
+            yazmaz. Kalıcı olması gereken değişikliği vault notuna işle.</li>
+        </ul></div></section>`;
+    }
+
+    /* ── Sekme: veri ─────────────────────────────────────────── */
+
+    function veriCiz() {
+      const sonIos = D.gunler.filter((_, i) => !D.iosVeriYok[i]).at(-1);
+      return `
+        <section>
+          <h3>Kaynaklar</h3>
+          <div class="panel">
+            ${D.kaynaklar.map(k => `
+              <div class="kaynak">
+                <span class="k-isik k-${esc(k.durum)}"></span>
+                <div style="min-width:0">
+                  <div class="ad">${esc(k.ad)}</div>
+                  <div class="arac">${esc(k.arac)}</div>
+                  <div class="not">${esc(k.not)}</div>
+                </div>
+                <div class="son">${k.son ? tarihYazi(k.son) : "—"}</div>
+              </div>`).join("")}
+          </div>
+        </section>
+
+        <div class="ikili">
+          <section>
+            <h3>Kapsam</h3>
+            <div class="panel"><dl class="kv">
+              <div><dt>Veri aralığı</dt><dd>${esc(D.gunler[0])} → ${esc(D.gunler.at(-1))} (${D.gunler.length} gün)</dd></div>
+              <div><dt>Son iOS raporu</dt><dd>${esc(sonIos || "—")}</dd></div>
+              <div><dt>Raporsuz gün</dt><dd>${D.iosVeriYok.filter(Boolean).length}</dd></div>
+              <div><dt>Uygulama</dt><dd>${D.apps.length} · ${D.apps.filter(a => a.ios).length} iOS, ${D.apps.filter(a => a.android).length} Play</dd></div>
+              <div><dt>Çekim</dt><dd>${new Date(D.uretim).toLocaleString("tr-TR")}</dd></div>
+              <div><dt>Kur</dt><dd>${D.kur ? `1 USD = ${D.kur.oran.TRY.toFixed(2)} ₺ · ${tarihYazi(D.kur.tarih)}` : "yok"}</dd></div>
+            </dl></div>
+          </section>
+
+          <section>
+            <h3>Eksikler</h3>
+            <div class="panel">
+              ${D.notlar?.length
+                ? `<ul class="notes">${D.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul>`
+                : '<div class="bos">Eksik yok.</div>'}
+            </div>
+          </section>
+        </div>`;
+    }
+
+    /* ── Çizim ───────────────────────────────────────────────── */
+
+    function anaCiz() {
+      const { bas, son } = pencere();
+      const secApp = S.app ? D.apps.find(a => a.slug === S.app) : null;
+      const platEt = S.platform === "ios" ? "App Store" : S.platform === "and" ? "Google Play" : "iki mağaza";
+
+      const yorumSay = tumYorumlar().length;
+      const cevapsizSay = tumYorumlar().filter(y => !y.cevap).length;
+      const acikGorev = tumGorevler().reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
+
+      const SEKMELER = [
+        { v: "ozet", e: "Özet", say: "" },
+        { v: "yorum", e: "Yorumlar", say: cevapsizSay ? `${cevapsizSay}↩` : yorumSay || "" },
+        { v: "gorev", e: "Görevler", say: acikGorev || "" },
+        { v: "veri", e: "Veri", say: D.notlar?.length || "" }
+      ];
+
+      const govde = S.sekme === "yorum" ? yorumCiz()
+                  : S.sekme === "gorev" ? gorevCiz()
+                  : S.sekme === "veri" ? veriCiz()
+                  : ozetCiz();
+
+      $("#ana").innerHTML = `
+        <div class="sekmeler">
+          ${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say">${t.say}</span>` : ""}</button>`).join("")}
+        </div>
+        <div class="baslik">
+          <h2>${esc(secApp ? secApp.ad : "Tüm uygulamalar")}</h2>
+          <span class="alt">${S.sekme === "ozet" || S.sekme === "veri"
+            ? `${esc(D.gunler[bas])} → ${esc(D.gunler[son - 1])} · ${platEt}` : platEt}</span>
+        </div>
+        ${govde}`;
+    }
+
+    function ciz() { yanCiz(); anaCiz(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
 
+    document.addEventListener("change", e => {
+      const c = e.target.closest("[data-gorevid]");
+      if (!c) return;
+      if (c.checked) YEREL[c.dataset.gorevid] = true; else delete YEREL[c.dataset.gorevid];
+      yaz(GOREV_KEY, YEREL);
+      ciz();
+    });
+
     document.addEventListener("click", e => {
-      const b = e.target.closest("[data-aralik],[data-platform],[data-app]");
+      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev]");
       if (!b || !D) return;
-      if (b.dataset.aralik !== undefined) S.aralik = Number(b.dataset.aralik);
-      else if (b.dataset.platform) S.platform = b.dataset.platform;
-      else if (b.dataset.app !== undefined) {
-        const yeni = b.dataset.app || null;
+      const d = b.dataset;
+      if (d.aralik !== undefined) S.aralik = Number(d.aralik);
+      else if (d.platform) S.platform = d.platform;
+      else if (d.sekme) S.sekme = d.sekme;
+      else if (d.yorum) S.yorumSuzgec = d.yorum;
+      else if (d.gorev) S.gorevSuzgec = d.gorev;
+      else if (d.app !== undefined) {
+        const yeni = d.app || null;
         S.app = (S.app === yeni) ? null : yeni;   /* aynısına basınca seçim kalkar */
       }
       ciz();
@@ -690,6 +1035,16 @@
     $("#kilit").onclick = () => {
       try { sessionStorage.removeItem(OTURUM); } catch (e) {}
       location.reload();
+    };
+
+    $("#tema").onclick = () => {
+      const su = document.documentElement.getAttribute("data-theme")
+        || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const yeni = su === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", yeni);
+      /* Ham metin olarak yazılıyor: <head>'teki tema betiği JSON çözmeden,
+         doğrudan getItem sonucuna bakıyor. */
+      try { localStorage.setItem(TEMA_KEY, yeni); } catch (e) {}
     };
 
     /* ── Açılış ──────────────────────────────────────────────── */
@@ -706,7 +1061,8 @@
     async function ac(parola) {
       D = await coz(await paketAl(), parola);
       try { sessionStorage.setItem(OTURUM, parola); } catch (e) {}
-      durumOku();
+      S = { ...S, ...oku(DURUM_KEY, {}) };
+      YEREL = oku(GOREV_KEY, {});
       if (S.app && !D.apps.some(a => a.slug === S.app)) S.app = null;
       $("#gate").hidden = true;
       $("#shell").hidden = false;

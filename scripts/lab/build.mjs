@@ -78,6 +78,10 @@ const yorumlar = existsSync(join(VERI, "ios-yorumlar.json"))
   ? JSON.parse(readFileSync(join(VERI, "ios-yorumlar.json"), "utf8")) : {};
 const kova = existsSync(join(VERI, "android-kova.json"))
   ? JSON.parse(readFileSync(join(VERI, "android-kova.json"), "utf8")) : { gunluk: {}, yorumlar: {} };
+const oku = (ad, bos) => existsSync(join(VERI, ad))
+  ? JSON.parse(readFileSync(join(VERI, ad), "utf8")) : bos;
+const kur   = oku("kurlar.json", null);
+const vault = oku("vault.json", { apps: {}, genel: [] });
 
 const androidGun = kova.gunluk || {};
 const androidVar = Object.keys(androidGun).length > 0;
@@ -122,8 +126,56 @@ const apps = APPS.map(app => ({
   android: app.android || null,
   yorum: yorumlar[app.slug] || null,
   androidYorum: kova.yorumlar?.[app.slug] || null,
-  play: android.apps?.[app.slug]?.tracks || null
+  play: android.apps?.[app.slug]?.tracks || null,
+  /* Vault notu adı slug ile eşleşiyor; eşleşmezse alan boş kalıyor.
+     Vault kaynak, panel ayna — panelden vault'a yazılmıyor. */
+  vault: vault.apps?.[app.slug] || null
 }));
+
+/* ── Veri durumu ──────────────────────────────────────────────────────
+   "Bu rakam ne kadar taze ve neyi kapsamıyor" sorusunun cevabı. Eksik veriyi
+   sıfır gibi göstermemek için panelin her yerinde buna bakılıyor. */
+
+const sonVeriliIos = [...gunluk].reverse().find(g => g.veri)?.tarih || null;
+
+const kaynaklar = [
+  {
+    ad: "App Store · satış raporları",
+    arac: "ascelerate reports sales",
+    durum: sonVeriliIos ? "ok" : "yok",
+    son: sonVeriliIos,
+    not: `${gunluk.length} gün, ${iosVeriYok.filter(Boolean).length} günde Apple raporu yok`
+  },
+  {
+    ad: "App Store · yorumlar",
+    arac: "ascelerate reviews list",
+    durum: Object.values(yorumlar).some(y => y?.adet) ? "ok" : "yok",
+    son: Object.values(yorumlar).map(y => y?.son).filter(Boolean).sort().at(-1) || null,
+    not: `${Object.values(yorumlar).reduce((t, y) => t + (y?.adet || 0), 0)} yorum, ` +
+         `${Object.values(yorumlar).reduce((t, y) => t + (y?.cevapsiz || 0), 0)} cevapsız`
+  },
+  {
+    ad: "Google Play · sürüm ve track",
+    arac: "gplay status",
+    durum: Object.values(android.apps || {}).some(a => a.tracks?.length) ? "ok" : "yok",
+    son: android.uretim || null,
+    not: `${Object.values(android.apps || {}).filter(a => a.tracks?.length).length} uygulamada sürüm okundu`
+  },
+  {
+    ad: "Google Play · indirme, gelir, yorum geçmişi",
+    arac: "Cloud Storage toplu raporlar",
+    durum: androidVar ? "ok" : "engel",
+    son: kova.uretim || null,
+    not: kova.hata || (androidVar ? "akıyor" : "kova tanımlı, veri yok")
+  },
+  {
+    ad: "Döviz kurları",
+    arac: "open.er-api.com",
+    durum: kur ? "ok" : "yok",
+    son: kur?.tarih || null,
+    not: kur ? `1 USD = ${kur.oran.TRY.toFixed(2)} TRY` : "çekilemedi, gelir ayrı para birimlerinde"
+  }
+];
 
 const notlar = [...(android.notlar || [])];
 if (kova.hata) notlar.push(`Play toplu raporları: ${kova.hata}`);
@@ -134,13 +186,16 @@ if (veriYokGun) notlar.push(
   `${veriYokGun} gün için Apple raporu yok — grafikte boşluk, ortalamada paydadan düşük.`);
 
 const panel = {
-  surum: 3,
+  surum: 4,
   uretim: new Date().toISOString(),
   gunler,
   iosVeriYok,
   apps,
   veri,
   androidVeriVar: androidVar,
+  kur,
+  genelGorevler: vault.genel || [],
+  kaynaklar,
   notlar
 };
 
@@ -176,5 +231,8 @@ const son7 = (n, alan) => gunler.slice(-n).reduce((t, _, j) => {
 
 console.log(`${CIKTI}`);
 console.log(`  ${gunler.length} gün · ${apps.length} uygulama · ${(kapali.length / 1024).toFixed(1)} KB şifreli`);
+console.log(`  ${apps.reduce((t, a) => t + (a.yorum?.liste?.length || 0), 0)} yorum metni · ` +
+            `${apps.reduce((t, a) => t + (a.vault?.gorevler?.filter(g => !g.bitti).length || 0), 0)} açık görev · ` +
+            `kur ${kur ? "var" : "yok"}`);
 console.log(`  son 7 gün: ${son7(7, "i")} iOS + ${son7(7, "a")} Android`);
 if (notlar.length) notlar.forEach(n => console.log(`  ! ${n}`));

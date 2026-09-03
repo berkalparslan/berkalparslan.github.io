@@ -60,6 +60,31 @@ açık — en az 5 kelimelik bir parola seç.
 | `collect.mjs` | ascelerate + gplay çağırır, ham JSON'ları vault'a yazar |
 | `gcs.mjs` | Cloud Storage'daki toplu raporları okur (yorum geçmişi, indirme) |
 | `csv.mjs` | Play'in UTF-16LE, tırnaklı CSV'lerini ayrıştırır |
+
+## Panelde ne var
+
+Dört sekme: **Özet** (kartlar, günlük grafik, uygulama tablosu, ülkeler),
+**Yorumlar** (tam metin + senin cevabın, cevapsız ve 3★ altı süzgeçleri),
+**Görevler** (vault notlarındaki `- [ ]` satırları), **Veri** (her kaynağın
+durumu ve son tarihi).
+
+Sol menüde üç filtre: aralık (7/30/90/tümü), platform (hepsi/iOS/Play),
+uygulama. Seçimler `localStorage`'da. Tema açık/koyu — varsayılan sistem
+tercihi, alttaki "tema" düğmesi kalıcı olarak değiştirir.
+
+### Gelir neden "≈ ... ₺"
+
+Apple sekiz para biriminde ödüyor. Kurlar `open.er-api.com`'dan günlük
+çekiliyor (anahtar gerekmiyor) ve hepsi TL'ye çevrilip tek sayı gösteriliyor.
+Rakam **yaklaşık** — kur günlük, Apple'ın gerçek ödeme kuru değil. Kur
+çekilemezse panel toplam üretmiyor, para birimlerini ayrı gösteriyor.
+
+### Görev işaretleri
+
+Görevler vault'tan geliyor, kaynak orası. Paneldeki kutucuk yalnız o
+tarayıcıda duruyor — "şimdilik kenara çek" içindir, **vault'a yazmaz**.
+Kalıcı olması gereken değişikliği vault notuna işle. Görev metni değişirse
+işaret düşer; bu bilinçli, değişen görev yeniden görünsün.
 | `build.mjs` | Ham dosyaları özetler, şifreler, `lab/panel/data.enc.json` üretir |
 
 Ham veri **vault'ta** (private depo) duruyor:

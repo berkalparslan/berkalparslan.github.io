@@ -236,22 +236,123 @@ async function androidKova(ay = 3) {
 function iosYorumlar() {
   const cikti = {};
   for (const app of APPS.filter(a => a.ios)) {
-    const r = sh("ascelerate", ["reviews", "list", app.ios.bundle, "--json"]);
-    let adet = null, ortalama = null, cevapsiz = null, son = null;
+    const r = sh("ascelerate", ["reviews", "list", app.ios.bundle, "--json", "--limit", "200"]);
+    let liste = [];
     if (r.ok) {
       try {
         const j = JSON.parse(r.out);
-        const liste = Array.isArray(j) ? j : (j.reviews || j.data || []);
-        adet = liste.length;
-        cevapsiz = liste.filter(x => x.response?.state !== "PUBLISHED").length;
-        const puanlar = liste.map(x => x.rating).filter(Number.isFinite);
-        if (puanlar.length) ortalama = +(puanlar.reduce((a, b) => a + b, 0) / puanlar.length).toFixed(2);
-        son = liste.map(x => x.createdDate).sort().at(-1) || null;
+        liste = Array.isArray(j) ? j : (j.reviews || j.data || []);
       } catch { /* json değilse atla */ }
     }
-    cikti[app.slug] = { adet, ortalama, cevapsiz, son };
-    log(`  yorum ${app.slug} ${adet ?? "?"}${cevapsiz ? ` (${cevapsiz} cevapsız)` : ""}`);
+    const puanlar = liste.map(x => x.rating).filter(Number.isFinite);
+    const cevapsiz = liste.filter(x => x.response?.state !== "PUBLISHED").length;
+    cikti[app.slug] = {
+      adet: r.ok ? liste.length : null,
+      ortalama: puanlar.length ? +(puanlar.reduce((a, b) => a + b, 0) / puanlar.length).toFixed(2) : null,
+      cevapsiz,
+      son: liste.map(x => x.createdDate).sort().at(-1) || null,
+      /* Tam metin panelde okunuyor. Yeniden eskiye; uzun metinler kırpılmıyor,
+         asıl iş cevap yazmak ve kırpılmış yorumdan cevap yazılmaz. */
+      liste: liste
+        .sort((a, b) => String(b.createdDate).localeCompare(String(a.createdDate)))
+        .map(x => ({
+          puan: x.rating ?? null,
+          baslik: x.title || "",
+          metin: x.body || "",
+          kisi: x.reviewerNickname || "",
+          ulke: x.territory || "",
+          tarih: x.createdDate || "",
+          cevap: x.response?.state === "PUBLISHED"
+            ? { metin: x.response.body || "", tarih: x.response.lastModifiedDate || "" } : null
+        }))
+    };
+    log(`  yorum ${app.slug} ${liste.length}${cevapsiz ? ` (${cevapsiz} cevapsız)` : ""}`);
   }
+  return cikti;
+}
+
+/* ── Döviz kurları ───────────────────────────────────────────────────────
+   Apple geliri sekiz para biriminde ödüyor ve elimizde kur yok. Panelde tek
+   bir "yaklaşık TL" görebilmek için günlük ücretsiz bir kaynaktan çekiliyor.
+   Çekilemezse alan boş kalıyor — panel o zaman para birimlerini ayrı gösterip
+   "kur yok" diyor, uydurma bir kurla toplam üretmiyor. */
+
+async function kurlar() {
+  try {
+    const r = await fetch("https://open.er-api.com/v6/latest/USD", { signal: AbortSignal.timeout(15000) });
+    const j = await r.json();
+    if (j.result !== "success" || !j.rates?.TRY) throw new Error("beklenmeyen yanıt");
+    log(`  kur ✓ 1 USD = ${j.rates.TRY.toFixed(2)} TRY (${j.time_last_update_utc})`);
+    return { taban: "USD", tarih: j.time_last_update_utc || null, kaynak: "open.er-api.com", oran: j.rates };
+  } catch (e) {
+    log(`  kur ✗ ${e.message}`);
+    return null;
+  }
+}
+
+/* ── Vault notları ───────────────────────────────────────────────────────
+   Uygulama notlarının frontmatter'ı, tek cümlelik özeti ve görev satırları
+   panele taşınıyor. Vault kaynak, panel ayna — buradan vault'a yazılmıyor. */
+
+function vaultNotlari() {
+  const kok = join(homedir(), "dev", "vault");
+  const cikti = { apps: {}, genel: [] };
+  if (!existsSync(join(kok, "uygulamalar"))) return cikti;
+
+  const gorevAyikla = (metin) => {
+    const gorevler = [];
+    let bolum = "";
+    for (const satir of metin.split("\n")) {
+      const b = satir.match(/^#{2,3}\s+(.+?)\s*$/);
+      if (b) { bolum = b[1].replace(/\[\[|\]\]/g, ""); continue; }
+      const g = satir.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+      if (!g) continue;
+      const yazi = g[2].replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1").trim();
+      if (!yazi || /^_?\(doldurulmadı\)_?$/.test(yazi)) continue;
+      gorevler.push({ bitti: g[1].toLowerCase() === "x", yazi, bolum });
+    }
+    return gorevler;
+  };
+
+  const onYuz = (metin) => {
+    const m = metin.match(/^---\n([\s\S]*?)\n---/);
+    if (!m) return {};
+    const o = {};
+    for (const satir of m[1].split("\n")) {
+      const k = satir.match(/^([a-zA-ZğüşıöçĞÜŞİÖÇ_]+):\s*(.*)$/);
+      if (k) o[k[1]] = k[2].trim().replace(/^["']|["']$/g, "");
+    }
+    return o;
+  };
+
+  for (const dosya of readdirSync(join(kok, "uygulamalar"))) {
+    if (!dosya.endsWith(".md") || dosya.startsWith("_")) continue;
+    const slug = dosya.replace(/\.md$/, "");
+    const metin = readFileSync(join(kok, "uygulamalar", dosya), "utf8");
+    const fm = onYuz(metin);
+    /* Başlıktan sonraki alıntı bloğu notun tek cümlelik özeti. */
+    const ozet = (metin.match(/^#\s+.+\n+((?:>\s?.*\n)+)/m)?.[1] || "")
+      .split("\n").map(x => x.replace(/^>\s?/, "").trim()).join(" ").trim();
+    cikti.apps[slug] = {
+      durum: fm.durum || null,
+      platform: fm.platform || null,
+      sayfa: fm.sayfa || null,
+      store: fm.store || null,
+      guncelleme: fm.guncelleme || null,
+      ozet: ozet || null,
+      gorevler: gorevAyikla(metin)
+    };
+  }
+
+  for (const dosya of readdirSync(join(kok, "konular"))) {
+    if (!dosya.endsWith(".md")) continue;
+    const konu = dosya.replace(/\.md$/, "");
+    for (const g of gorevAyikla(readFileSync(join(kok, "konular", dosya), "utf8")))
+      cikti.genel.push({ ...g, konu });
+  }
+
+  const acik = Object.values(cikti.apps).reduce((t, a) => t + a.gorevler.filter(g => !g.bitti).length, 0);
+  log(`  vault ${Object.keys(cikti.apps).length} not · ${acik} açık görev · ${cikti.genel.filter(g => !g.bitti).length} genel`);
   return cikti;
 }
 
@@ -279,6 +380,12 @@ writeFileSync(join(VERI, "android-durum.json"), JSON.stringify(androidDurum(), n
 
 log("iOS yorumları");
 writeFileSync(join(VERI, "ios-yorumlar.json"), JSON.stringify(iosYorumlar(), null, 2));
+
+log("Döviz kurları");
+writeFileSync(join(VERI, "kurlar.json"), JSON.stringify(await kurlar(), null, 2));
+
+log("Vault notları");
+writeFileSync(join(VERI, "vault.json"), JSON.stringify(vaultNotlari(), null, 2));
 
 log("Android toplu raporlar (Cloud Storage)");
 const kovaVeri = await androidKova(3);
