@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leafbook: Plant Tracker — BamTech</title>
+<meta name="description" content="A photo diary for your houseplants. Identify a plant from a photo, get a watering schedule, and take every next photo through a ghost overlay so you can see — and share — how much it grew.">
+<link rel="canonical" href="https://berkalparslan.github.io/leafbook/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Leafbook: Plant Tracker">
+<meta property="og:description" content="Same angle, months apart. Watch your plants grow.">
+<meta property="og:image" content="https://berkalparslan.github.io/leafbook/assets/icon-512.png">
+<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/leafbook/assets/icon.png">
+<script>
+  (function () {
+    var d = document.documentElement;
+    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+    catch (e) { d.setAttribute("data-theme", "light"); }
+    var lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang);
+    d.setAttribute("lang", lang);
+  })();
+</script>
+<link rel="stylesheet" href="/assets/tour.css">
+</head>
+<body style="--accent:#2e9e63;--accent-dark:#6fd08c">
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
+    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#nasil"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
+    <div class="bar-end">
+      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
+      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <img class="hero-icon" src="/leafbook/assets/icon.png" width="92" height="92" alt="Leafbook: Plant Tracker">
+  <div class="kicker"><span class="tr">iPhone · Türkçe ve İngilizce</span><span class="en">iPhone · English and Turkish</span></div>
+  <h1><span class="tr">Leafbook: Bitki Takibi</span><span class="en">Leafbook: Plant Tracker</span></h1>
+  <p class="lede tr">Aynı açı, aylar sonra. Bitkilerinin ne kadar büyüdüğünü gör — ve paylaş.</p>
+  <p class="lede en">Same angle, months apart. See how much your plants grew — and share it.</p>
+  <div class="pills"><span class="tr"><span class="pill">Hayalet kamera</span><span class="pill">119 tür</span><span class="pill">Reklamsız</span><span class="pill">Hesapsız</span></span><span class="en"><span class="pill">Ghost camera</span><span class="pill">119 species</span><span class="pill">No ads</span><span class="pill">No account</span></span></div>
+  <div class="cta">
+    <span class="btn primary" aria-disabled="true"><span class="tr">Yakında App Store'da</span><span class="en">Coming soon to the App Store</span></span>
+    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+  </div>
+</header>
+
+<section id="ozellikler">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
+    <h2><span class="tr">Ne yapıyor?</span><span class="en">What it does</span></h2>
+    <p class="sec-lede tr">Her bitkinin bir sayfası var: ne olduğu, ne zaman sulanacağı ve nasıl gittiğinin fotoğrafları.</p>
+    <p class="sec-lede en">Every plant gets a page: what it is, when to water, and photos of how it's doing.</p>
+    <div class="grid">
+      <div class="cell">
+        <h3><span class="ic">◎</span><span class="tr">Çek, öğren</span><span class="en">Snap it, know it</span></h3>
+        <p class="tr">Bir fotoğraf çek, tür önerisi ve o türe uygun sulama takvimi gelsin. Emin değilsen 119 türlük katalogda adıyla ara.</p>
+        <p class="en">Take a photo, get species suggestions and a matching watering schedule. Not sure? Search the 119-species catalog by name.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">◐</span><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></h3>
+        <p class="tr">Son fotoğrafın kameranın üstünde yarı saydam durur. Hizala, çek — her kare aynı açıdan.</p>
+        <p class="en">Your last photo floats over the camera. Line it up, shoot — every frame from the same angle.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">↗</span><span class="tr">Büyümeyi ölç</span><span class="en">Measure growth</span></h3>
+        <p class="tr">Hizalı fotoğraflar kıyaslanır: "60 günde %38 daha fazla yaprak". Kaydırıcıyla önce/sonra, tek dokunuşla hızlandırılmış tekrar.</p>
+        <p class="en">Aligned photos are compared: "+38% leaf area in 60 days". Before/after slider, one-tap timelapse replay.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">💧</span><span class="tr">Sulama listesi</span><span class="en">Watering list</span></h3>
+        <p class="tr">Bugün kim susamış, bu hafta kim sırada. Damlaya dokun, sonraki tarih kendiliğinden ilerler. Pro'da sabah hatırlatması.</p>
+        <p class="en">Who's thirsty today, who's due this week. Tap the drop and the next date moves on its own. Morning reminders with Pro.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">✿</span><span class="tr">Bakım rehberi</span><span class="en">Care guide</span></h3>
+        <p class="tr">Her tür için ışık, nem, evcil hayvan güvenliği ve işe yarayan ipuçları.</p>
+        <p class="en">Light, humidity, pet safety and tips that actually help, for every species.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="ic">↑</span><span class="tr">Biraz hava at</span><span class="en">Brag a little</span></h3>
+        <p class="tr">Tek bir bitkiyi ya da tüm koleksiyonu, arkadaşlarının gerçekten tepki vereceği bir karta çevir.</p>
+        <p class="en">Turn one plant or your whole collection into a card your friends will actually react to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nasil">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></div>
+    <h2><span class="tr">Üç adım</span><span class="en">Three steps</span></h2>
+    <div class="grid">
+      <div class="cell">
+        <h3><span class="tr">1 · Bitkiyi ekle</span><span class="en">1 · Add the plant</span></h3>
+        <p class="tr">Fotoğrafını çek ya da adıyla ara. Ad ver, sulama aralığını istersen değiştir.</p>
+        <p class="en">Take its photo or search by name. Name it, tweak the watering interval if you like.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="tr">2 · Aynı açıdan çek</span><span class="en">2 · Shoot from the same angle</span></h3>
+        <p class="tr">Birkaç haftada bir "Aynı açıdan fotoğraf çek"e dokun, hayaletle hizala.</p>
+        <p class="en">Every few weeks tap "Take a same-angle photo" and line it up with the ghost.</p>
+      </div>
+      <div class="cell">
+        <h3><span class="tr">3 · Büyümeyi izle</span><span class="en">3 · Watch it grow</span></h3>
+        <p class="tr">Büyüme kartı kendini günceller. Paylaş düğmesine dokun, gerisi arkadaşlarına kalsın.</p>
+        <p class="en">The growth card updates itself. Tap share and let your friends react.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gizlilik">
+  <div class="wrap">
+    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
+    <h2><span class="tr">Bitkilerin telefonunda kalır</span><span class="en">Your plants stay on your phone</span></h2>
+    <p class="sec-lede tr">Hesap yok, reklam yok. Bitkilerin, fotoğrafların ve sulama kayıtların cihazında durur. Yalnızca fotoğraftan tanıma istediğinde o tek fotoğraf tanıma hizmetine gönderilir; istemezsen katalogdan adıyla ekle, hiçbir şey cihazından çıkmaz.</p>
+    <p class="sec-lede en">No account, no ads. Your plants, photos and watering log stay on your device. Only when you ask for photo identification is that single photo sent to the identification service; otherwise add from the catalog and nothing leaves your phone.</p>
+    <p class="sec-lede tr"><a href="/privacy/leafbook/">Gizlilik politikasının tamamı →</a></p>
+    <p class="sec-lede en"><a href="/privacy/leafbook/">Read the full privacy policy →</a></p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 BamTech ·
+    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
+    <a href="/blog/">Blog</a> ·
+    <a href="/privacy/leafbook/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
+    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    var lang = d.getAttribute("data-lang");
+    var theme = d.getAttribute("data-theme");
+    var lb = document.getElementById("langBtn");
+    var tb = document.getElementById("themeBtn");
+    function paint() {
+      lb.textContent = lang === "tr" ? "EN" : "TR";
+      tb.textContent = theme === "dark" ? "☀︎" : "☾";
+    }
+    lb.addEventListener("click", function () {
+      lang = lang === "tr" ? "en" : "tr";
+      d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
+      paint();
+    });
+    tb.addEventListener("click", function () {
+      theme = theme === "dark" ? "light" : "dark";
+      d.setAttribute("data-theme", theme);
+      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
+      paint();
+    });
+    paint();
+  })();
+</script>
+</body>
+</html>
