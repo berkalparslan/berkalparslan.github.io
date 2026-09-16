@@ -12,7 +12,9 @@
      bedava    — para modeli yok
    reklam: AdMob reklamı var mı (gelir App Store raporunda GÖRÜNMEZ)
    maliyet: aylık USD, yalnız bu uygulamaya ait sabit gider (0 = ücretsiz katman)
-   servisler: SERVISLER tablosundaki anahtarlar */
+   servisler: SERVISLER tablosundaki anahtarlar
+   projeler: servis → proje kimliği (Firebase'de üç ayrı proje var; hangi
+             uygulamanın hangisinde olduğu konsolda görünmüyor, burada dursun) */
 
 export const SERVISLER = {
   asc: {
@@ -39,7 +41,7 @@ export const SERVISLER = {
   firebase: {
     ad: "Firebase Analytics",
     url: "https://console.firebase.google.com/",
-    bak: "DAU, D1/D7 tutunma, paywall_shown kaynağı, funnel. Events → paywall_shown / purchase.",
+    bak: "Üç ayrı proje: wallet-coach-87336 · bam-tech-sports (beş spor uygulaması) · bosyeryok-tycoon; O mu Bu mu thisone-ba533. Analytics → Events: in_app_purchase (iOS otomatik), purchase_completed, paywall_shown. Gelir/anomali bildirimleri (\"Insights\") Analytics ana sayfasında; ürün ve para birimi için Events → in_app_purchase → parametreler.",
     siklik: "Haftada bir",
     panel: "yok"
   },
@@ -127,61 +129,67 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/walletcoach/",
     diller: 7,
+    projeler: { firebase: "wallet-coach-87336" },
     not: "Onboarding + bağlama göre paywall var. Yedi dilde listeleme; ekran görüntüleri yalnız TR/EN. Shipaton girişi #1."
   },
   "tennis-padel": {
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass (aylık/yıllık/ömür boyu)",
-    servisler: ["asc", "play", "revenuecat", "admob", "cloudkit"],
+    servisler: ["asc", "play", "revenuecat", "admob", "cloudkit", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/tennis-padel/",
     diller: 1,
+    projeler: { firebase: "bam-tech-sports" },
     not: "Portföyün gelir tabanı. Birleştirmede taban bu olur, kapatılmaz. Anahtar kelime alanının yarısı boş."
   },
   "pickleball": {
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass",
-    servisler: ["asc", "admob", "cloudkit"],
+    servisler: ["asc", "admob", "cloudkit", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/pickleball/",
     diller: 1,
+    projeler: { firebase: "bam-tech-sports" },
     not: "Pass'i tenis satıyor, bu uygulama trafiği pass'e çeviremiyor. Galibiyet hatası kodda düzeltildi, sürüm 4.3'ü bekliyor."
   },
   "volleyball": {
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass",
-    servisler: ["asc", "admob", "cloudkit"],
+    servisler: ["asc", "admob", "cloudkit", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/volleyball/",
     diller: 1,
+    projeler: { firebase: "bam-tech-sports" },
     not: "Paylaşım ekranında bilinen çökme (Save/Stories). Sürüm 4.3'ü bekliyor."
   },
   "rally-badminton": {
     kategori: "Spor",
     model: "abonelik",
     fiyat: "—",
-    servisler: ["asc", "admob", "cloudkit"],
+    servisler: ["asc", "admob", "cloudkit", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/rally-badminton/",
     diller: 1,
+    projeler: { firebase: "bam-tech-sports" },
     not: "30 Ağustos'ta satıştan kaldırıldı (4.3 işaretini kırmak için). Pazarlama yapılmaz."
   },
   "rally-table-tennis": {
     kategori: "Spor",
     model: "abonelik",
     fiyat: "—",
-    servisler: ["asc", "admob", "cloudkit"],
+    servisler: ["asc", "admob", "cloudkit", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/rally-table-tennis/",
     diller: 1,
+    projeler: { firebase: "bam-tech-sports" },
     not: "30 Ağustos'ta satıştan kaldırıldı. Pazarlama yapılmaz."
   },
   "tasbih-tally": {
@@ -210,11 +218,12 @@ export const PROFIL = {
     kategori: "Eğlence",
     model: "bedava",
     fiyat: "Satın alma yok",
-    servisler: ["asc", "admob", "render", "mongodb"],
+    servisler: ["asc", "admob", "render", "mongodb", "firebase"],
     reklam: true,
     maliyet: 0,
     sayfa: "/o-mu-bu-mu/",
     diller: 1,
+    projeler: { firebase: "thisone-ba533" },
     not: "Sunucusu olan tek uygulama (Render ücretsiz katman uyuyor). İndirme var, para modeli yok — karar bekliyor."
   },
   "kit-qr": {
@@ -259,6 +268,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/bosyeryok/",
     diller: 2,
+    projeler: { firebase: "bosyeryok-tycoon" },
     not: "iOS 4.3(a) ile reddedildi, itiraz sürüyor. Android kapalı testte. Ekşi/Türkçe forumlar için doğal aday."
   },
   "daily-whisper": {

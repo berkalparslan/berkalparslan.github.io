@@ -512,11 +512,12 @@
       const gelirHarita = toplaHarita("p", bas, son, [a]);
       const gelirTl = tlCevir(gelirHarita);
       const gunSay = son - bas;
+      const satis = topla("s", bas, son, [a]);
       const puan = a.yorum?.ortalama ?? a.androidYorum?.ortalama ?? null;
       const yorumAdet = (a.yorum?.adet || 0) + (a.androidYorum?.adet || 0);
       const cevapsiz = (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0);
       const fark = tamOnceki && onceki ? Math.round((indirme - onceki) / onceki * 100) : null;
-      return { indirme, onceki, fark, gelirHarita, gelirTl, gunSay, puan, yorumAdet, cevapsiz, aylik: gunSay ? indirme / gunSay * 30 : 0 };
+      return { indirme, onceki, fark, gelirHarita, gelirTl, gunSay, satis, puan, yorumAdet, cevapsiz, aylik: gunSay ? indirme / gunSay * 30 : 0 };
     }
 
     /* ── Öncelik motoru ──────────────────────────────────────────
@@ -723,7 +724,7 @@
       return `
         <div class="cards">
           <div class="card"><div class="k">İndirme</div><div class="v">${sayi(indirme)}</div><div class="s ${farkSinif}">${farkYazi}</div></div>
-          <div class="card"><div class="k">Gelir</div><div class="v ${para.tl !== null && para.bas.length > 12 ? "kucuk" : ""}">${S.platform === "and" ? "—" : esc(para.bas)}</div><div class="s mono">${S.platform === "and" ? "Play geliri çekilmiyor" : esc(para.alt)}</div></div>
+          <div class="card"><div class="k">Gelir</div><div class="v ${para.tl !== null && para.bas.length > 12 ? "kucuk" : ""}">${S.platform === "and" ? "—" : esc(para.bas)}</div><div class="s mono">${S.platform === "and" ? "Play geliri çekilmiyor" : `${sayi(topla("s", bas, son, slugs))} satın alma · ${esc(para.alt)}`}</div></div>
           <div class="card"><div class="k">Gider</div><div class="v ${m.aralikTl === null ? "kucuk" : ""}">${m.aralikTl !== null ? `≈ ${tl(m.aralikTl)}` : `${m.aylikUsd.toFixed(2)} $/ay`}</div><div class="s">${son - bas} gün · sabit ${m.aylikUsd.toFixed(2)} $/ay${secim ? " · portföy geneli" : ""}</div></div>
           <div class="card ${net !== null && net < 0 ? "" : "vurgu"}"><div class="k">Net</div><div class="v ${net === null ? "kucuk" : net < 0 ? "down" : "up"}">${net === null ? "kur yok" : `${net < 0 ? "−" : "+"}${tl(Math.abs(net))}`}</div><div class="s">${birim !== null ? `indirme başına ≈ ${birim.toFixed(0)} ₺` : "gelir − sabit gider"}</div></div>
           <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz}↩` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı · " + sayi(guncelleme) + " güncelleme"}</div></div>
@@ -794,13 +795,14 @@
         <section>
           <h3>Portföy <span class="acik">— ${D.gunler[bas]} → ${D.gunler[son - 1]}</span></h3>
           <div class="panel scroll">
-            <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>Servisler</th><th>Dil</th></tr></thead>
+            <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>Servisler</th><th>Dil</th></tr></thead>
             <tbody>${l.map(({ a, d }) => { const p = a.profil || {}; return `<tr data-app="${esc(a.slug)}">
               <td>${esc(a.ad)}${platYazi(a)}<span class="alt">${esc(p.kategori || "—")}</span></td>
               <td>${katmanEtiket(d.katman)}</td>
               <td>${esc(a.vault?.durum || "—")}</td>
               <td><span class="etiket e-model">${MODEL[p.model] || "?"}</span>${p.reklam ? ' <span class="etiket e-gri" title="AdMob">reklam</span>' : ""}</td>
               <td class="num ${d.o.indirme ? "" : "zero"}">${sayi(d.o.indirme)}</td>
+              <td class="num ${d.o.satis ? "" : "zero"}">${sayi(d.o.satis)}</td>
               <td class="num ${d.o.gelirTl ? "" : "zero"}">${d.o.gelirTl ? tl(d.o.gelirTl) : "0"}</td>
               <td class="num ${d.o.gelirTl && d.o.indirme ? "" : "zero"}">${d.o.gelirTl && d.o.indirme ? (d.o.gelirTl / d.o.indirme).toFixed(0) : "—"}</td>
               <td>${puanYazi(a)}</td>
@@ -822,7 +824,7 @@
         <div class="cards">
           <div class="card"><div class="k">Katman</div><div class="v kucuk">${katmanEtiket(d.katman)}</div><div class="s">${esc(d.neden.join(" · "))}</div></div>
           <div class="card"><div class="k">İndirme</div><div class="v">${sayi(o.indirme)}</div><div class="s ${o.fark === null ? "" : o.fark > 0 ? "up" : o.fark < 0 ? "down" : ""}">${o.fark === null ? `${o.gunSay} gün` : `${o.fark > 0 ? "▲" : o.fark < 0 ? "▼" : "="} ${Math.abs(o.fark)}% · önceki ${sayi(o.onceki)}`}</div></div>
-          <div class="card"><div class="k">Gelir</div><div class="v ${o.gelirTl ? "" : "zero"}">${o.gelirTl ? `≈ ${tl(o.gelirTl)}` : "0 ₺"}</div><div class="s">${o.indirme && o.gelirTl ? `indirme başına ≈ ${(o.gelirTl / o.indirme).toFixed(0)} ₺` : p?.reklam ? "AdMob geliri hariç" : "App Store satış raporu"}</div></div>
+          <div class="card"><div class="k">Gelir</div><div class="v ${o.gelirTl ? "" : "zero"}">${o.gelirTl ? `≈ ${tl(o.gelirTl)}` : "0 ₺"}</div><div class="s">${o.satis ? `${sayi(o.satis)} satın alma · ` : ""}${o.indirme && o.gelirTl ? `indirme başına ≈ ${(o.gelirTl / o.indirme).toFixed(0)} ₺` : p?.reklam ? "AdMob geliri hariç" : "App Store satış raporu"}</div></div>
           <div class="card"><div class="k">Puan</div><div class="v ${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}</div><div class="s ${o.cevapsiz ? "down" : ""}">${o.yorumAdet} yorum${o.cevapsiz ? ` · ${o.cevapsiz} cevapsız` : ""}</div></div>
         </div>
         <div class="ikili">
@@ -838,7 +840,7 @@
               <div><dt>Durum</dt><dd>${esc(v.durum || "—")}${v.platform ? ` · ${esc(v.platform)}` : ""}</dd></div>
               <div><dt>Model</dt><dd>${p ? `${MODEL[p.model] || "?"} — ${esc(p.fiyat)}` : "profil yok"}</dd></div>
               <div><dt>Kategori</dt><dd>${esc(p?.kategori || "—")} · ${p?.diller ?? "?"} dil</dd></div>
-              <div><dt>Servisler</dt><dd>${(p?.servisler || []).map(s => { const sv = D.servisler?.[s]; return sv?.url ? `<a href="${esc(sv.url)}" target="_blank" rel="noopener">${esc(sv.ad)} ↗</a>` : esc(sv?.ad || s); }).join(" · ") || "—"}${p?.reklam ? " · AdMob" : ""}</dd></div>
+              <div><dt>Servisler</dt><dd>${(p?.servisler || []).map(s => { const sv = D.servisler?.[s]; const pr = p?.projeler?.[s]; return (sv?.url ? `<a href="${esc(sv.url)}" target="_blank" rel="noopener">${esc(sv.ad)} ↗</a>` : esc(sv?.ad || s)) + (pr ? ` <code>${esc(pr)}</code>` : ""); }).join(" · ") || "—"}${p?.reklam ? " · AdMob" : ""}</dd></div>
               <div><dt>Bağlantılar</dt><dd>${storeLink(a)}</dd></div>
               <div><dt>App Store</dt><dd>${a.ios ? `<code>${esc(a.ios)}</code>` : "yok"}</dd></div>
               <div><dt>Google Play</dt><dd>${a.android ? `<code>${esc(a.android)}</code>` : "yok"}${a.play?.length ? `<span class="alt">${trackSirala(a.play).map(t => `${esc(t.track)} ${esc(t.surum)}`).join(" · ")}</span>` : ""}</dd></div>
@@ -891,7 +893,7 @@
           <div class="ikili">
             <div class="panel">
               <div class="kural"><span class="ik">₺</span><div><b>Ödeyebileceğin tavan: ${birimUsd !== null ? `≈ ${birimUsd.toFixed(2)} $ / kurulum` : birimTl ? `≈ ${birimTl.toFixed(0)} ₺ / kurulum` : "hesaplanamadı"}</b>
-                <p>Seçili aralıkta Odak + Büyüt uygulamalarında indirme başına gelir (${sayi(topI)} indirme, ${tl(topG)}). Apple Ads'te gerçek CPI çoğu kategoride 1–3 $. <strong>Tavan CPI'ın altındaysa reklam para yakar.</strong> Abonelikte ömür boyu değer bunun üstüne çıkabilir ama önce RevenueCat'te deneme → ücretli dönüşümü görülmeli.</p></div></div>
+                <p>Seçili aralıkta Odak + Büyüt uygulamalarında indirme başına gelir (${sayi(topI)} indirme, ${tl(topG)}). Apple Ads'te gerçek CPI çoğu kategoride 1–3 $. <strong>Tavan CPI'ın altındaysa reklam para yakar.</strong> Abonelikte ömür boyu değer bunun üstüne çıkabilir; satın alma adedi artık panelde (satış raporundaki IAP satırları), deneme → ücretli dönüşümü RevenueCat'te.</p></div></div>
               <div class="kural"><span class="ik">🎯</span><div><b>Tek aday: ${aday ? esc(aday.a.ad) : "şu an yok"}</b>
                 <p>${aday ? `Abonelik var, puan ★${aday.d.o.puan}, ${aday.a.profil.diller} dilde listeleme, onboarding + paywall canlı. Şartları sağlayan tek uygulama.` : "Şart: abonelik/IAP + ★4,5 üstü + en az iki dil + çalışan paywall. Bunu sağlayan yok."} Ücretli 1 $'lık uygulamaya reklam <strong>hiçbir bütçede</strong> geri dönmez.</p></div></div>
               <div class="kural"><span class="ik">🧪</span><div><b>Test protokolü</b>
@@ -951,7 +953,7 @@
                 <span class="etiket ${s.panel === "tam" ? "e-odak" : s.panel === "kismi" ? "e-bakim" : "e-bekle"}">${s.panel === "tam" ? "panelde" : s.panel === "kismi" ? "kısmen panelde" : "panelde yok"}</span></div>
               <div class="bak">${esc(s.bak)}</div>
               <div class="meta"><span>⏱ ${esc(s.siklik)}</span></div>
-              <div class="uyg">${u.length ? u.map(a => `<span>${esc(a.ad)}</span>`).join("") : '<span class="zero">kullanan yok</span>'}</div>
+              <div class="uyg">${u.length ? u.map(a => `<span>${esc(a.ad)}${a.profil?.projeler?.[k] ? ` · ${esc(a.profil.projeler[k])}` : ""}</span>`).join("") : '<span class="zero">kullanan yok</span>'}</div>
             </div>`; }).join("")}</div>
         </section>
 

@@ -56,8 +56,13 @@ const iso = d => d.toISOString().slice(0, 10);
    Ürün tipi ayrımı kritik: "1" ile başlayanlar yeni indirme, "3" ve "7" ile
    başlayanlar güncelleme. Karıştırılırsa indirme sayısı iki katı görünür. */
 
-function indirmeMi(tip) { return /^1/.test(tip) || /^F1/.test(tip) || /^IA1/.test(tip); }
+function indirmeMi(tip) { return /^1/.test(tip) || /^F1/.test(tip); }
 function guncellemeMi(tip) { return /^3/.test(tip) || /^7/.test(tip); }
+/* Uygulama içi satın alma ve abonelik satırları: IA1 (tek seferlik), IAY
+   (otomatik yenilenen), IA9 (yenileme), IAC/FI1 vb. Bunlar indirme değil,
+   gelir. SKU'ları uygulamanınkinden farklı — eşleme "Parent Identifier"
+   sütunundan yapılıyor (aşağıda). */
+function iapMi(tip) { return /^(IA|FI)/.test(tip); }
 
 function iosGunuCek(tarih) {
   const r = sh("ascelerate", ["reports", "sales", "--frequency", "DAILY", "--date", tarih, "--raw"]);
@@ -73,25 +78,31 @@ function iosGunuCek(tarih) {
 
   const kolon = satirlar[bas].split("\t").map(s => s.trim());
   const ix = ad => kolon.indexOf(ad);
-  const [iSku, iTip, iAdet, iGelir, iUlke, iPara, iCihaz] =
+  const [iSku, iTip, iAdet, iGelir, iUlke, iPara, iCihaz, iEbeveyn] =
     ["SKU", "Product Type Identifier", "Units", "Developer Proceeds",
-     "Country Code", "Currency of Proceeds", "Device"].map(ix);
+     "Country Code", "Currency of Proceeds", "Device", "Parent Identifier"].map(ix);
 
   const apps = {};
   for (const satir of satirlar.slice(bas + 1)) {
     const h = satir.split("\t");
     const sku = (h[iSku] || "").trim();
-    const slug = SKU_SLUG.get(sku);
+    const tip   = (h[iTip] || "").trim();
+    /* IAP satırında SKU ürünün kendisi (örn. bamtech_allsports_monthly_tennis);
+       uygulama "Parent Identifier"da. 16 Eylül'e kadar bu satırlar düşüyordu
+       ve abonelik geliri panelde hiç görünmüyordu. */
+    const ebeveyn = iEbeveyn >= 0 ? (h[iEbeveyn] || "").trim() : "";
+    const slug = SKU_SLUG.get(sku) || (iapMi(tip) && ebeveyn ? SKU_SLUG.get(ebeveyn) : null);
     if (!slug) continue;
 
     const adet  = Number(h[iAdet]) || 0;
-    const tip   = (h[iTip] || "").trim();
     const ulke  = (h[iUlke] || "").trim() || "??";
     const para  = (h[iPara] || "").trim();
     const gelir = Number(h[iGelir]) || 0;
 
-    const a = apps[slug] ||= { indirme: 0, guncelleme: 0, gelir: {}, ulkeler: {}, cihazlar: {} };
-    if (indirmeMi(tip)) {
+    const a = apps[slug] ||= { indirme: 0, guncelleme: 0, gelir: {}, ulkeler: {}, cihazlar: {}, iap: 0 };
+    if (iapMi(tip)) {
+      a.iap += adet;                       /* satın alma sayısı; iade eksi düşer */
+    } else if (indirmeMi(tip)) {
       a.indirme += adet;
       a.ulkeler[ulke] = (a.ulkeler[ulke] || 0) + adet;
       const c = (h[iCihaz] || "").trim() || "?";

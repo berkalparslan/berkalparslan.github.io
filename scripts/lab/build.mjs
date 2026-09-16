@@ -94,8 +94,8 @@ const androidVar = Object.keys(androidGun).length > 0;
    seyrek nesne olarak tutmak dosyayı küçük tutuyor.
 
    gun indeksi = `gunler` dizisindeki sıra. Kısa anahtarlar bilinçli:
-   i=iOS indirme, g=iOS güncelleme, a=Android indirme, k=Android kaldırma,
-   u=ülkeler, p=gelir (para birimi → tutar). */
+   i=iOS indirme, g=iOS güncelleme, s=iOS satın alma (IAP/abonelik adedi),
+   a=Android indirme, k=Android kaldırma, u=ülkeler, p=gelir (para birimi → tutar). */
 
 const gunler = gunluk.map(g => g.tarih);
 const iosVeriYok = gunluk.map(g => !g.veri);
@@ -104,9 +104,10 @@ const veri = {};
 gunluk.forEach((g, ix) => {
   if (g.veri) {
     for (const [slug, a] of Object.entries(g.apps)) {
-      if (!a.indirme && !a.guncelleme && !Object.keys(a.gelir || {}).length) continue;
+      if (!a.indirme && !a.guncelleme && !a.iap && !Object.keys(a.gelir || {}).length) continue;
       const h = (veri[slug] ||= {})[ix] ||= {};
       if (a.indirme)    h.i = a.indirme;
+      if (a.iap)        h.s = a.iap;
       if (a.guncelleme) h.g = a.guncelleme;
       if (Object.keys(a.ulkeler || {}).length) h.u = a.ulkeler;
       if (Object.keys(a.gelir   || {}).length) h.p = a.gelir;
