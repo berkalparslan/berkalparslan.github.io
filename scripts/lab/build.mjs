@@ -24,6 +24,7 @@ import { homedir } from "node:os";
 import { webcrypto as crypto } from "node:crypto";
 
 import { APPS, SLUG_APP } from "./apps.mjs";
+import { PROFIL, SERVISLER, SABIT_GIDER, TAKVIM } from "./profil.mjs";
 
 const KOK  = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const VERI = join(homedir(), "dev", "vault", "metrikler", "veri");
@@ -129,8 +130,12 @@ const apps = APPS.map(app => ({
   play: android.apps?.[app.slug]?.tracks || null,
   /* Vault notu adı slug ile eşleşiyor; eşleşmezse alan boş kalıyor.
      Vault kaynak, panel ayna — panelden vault'a yazılmıyor. */
-  vault: vault.apps?.[app.slug] || null
+  vault: vault.apps?.[app.slug] || null,
+  /* Statik profil: para modeli, bağlı servisler, kategori. Rakam yok. */
+  profil: PROFIL[app.slug] || null
 }));
+
+const profilsiz = apps.filter(a => !a.profil).map(a => a.slug);
 
 /* ── Veri durumu ──────────────────────────────────────────────────────
    "Bu rakam ne kadar taze ve neyi kapsamıyor" sorusunun cevabı. Eksik veriyi
@@ -185,8 +190,10 @@ const veriYokGun = iosVeriYok.filter(Boolean).length;
 if (veriYokGun) notlar.push(
   `${veriYokGun} gün için Apple raporu yok — grafikte boşluk, ortalamada paydadan düşük.`);
 
+if (profilsiz.length) notlar.push(`Profili olmayan uygulama: ${profilsiz.join(", ")} (scripts/lab/profil.mjs)`);
+
 const panel = {
-  surum: 4,
+  surum: 5,
   uretim: new Date().toISOString(),
   gunler,
   iosVeriYok,
@@ -196,7 +203,10 @@ const panel = {
   kur,
   genelGorevler: vault.genel || [],
   kaynaklar,
-  notlar
+  notlar,
+  servisler: SERVISLER,
+  sabitGider: SABIT_GIDER,
+  takvim: TAKVIM
 };
 
 /* ── Şifrele ─────────────────────────────────────────────────────────── */

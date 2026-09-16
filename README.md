@@ -1,7 +1,7 @@
 # berkalparslan.github.io
 
-BamTech'in ana sayfası. Uygulamalar, blog, gizlilik ve
-destek sayfaları — hepsi tek adreste.
+BamTech'in ana sayfası. Uygulamalar, blog, gizlilik ve destek sayfaları — hepsi
+tek adreste. Bir de arama motorlarına kapalı `/lab/` var: iç panel ve araçlar.
 
 Düz HTML + CSS. Build adımı yok, bağımlılık yok, `npm install` yok. Dosyayı
 değiştir, push et, bir dakika içinde yayında.
@@ -14,231 +14,148 @@ değiştir, push et, bir dakika içinde yayında.
 index.html              Ana sayfa (kendi CSS/JS'ini içinde taşır)
 404.html                Bulunamadı sayfası
 robots.txt              /lab/ arama motorlarına kapalı
-sitemap.xml             Yeni sayfa eklersen buraya da satır ekle
+sitemap.xml             node scripts/sitemap.mjs üretir — elle düzenleme
 app-ads.txt             AdMob doğrulaması — dokunma
 
 assets/
-  site.css              Alt sayfaların ortak stili (gizlilik, destek, bodybook)
-  blog.css              Blog listesi ve yazı sayfalarının stili
+  site.css              Alt sayfaların ortak stili (gizlilik, destek, web)
+  blog.css              Blog listesi ve yazı sayfaları
+  brand/                favicon, apple-touch-icon, og:image
+
+<slug>/index.html       Uygulama tanıtım sayfası (walletcoach/ kalıp)
+privacy/<slug>/         Gizlilik politikası (istisnalar aşağıda)
+privacy/index.html      Politika dizini
+support/index.html      Destek
 
 blog/
   index.html            Yazı listesi — posts.json'dan okur
   posts.json            Yazı dizini. Yeni yazı = buraya bir satır
-  _template.html        Yeni yazı şablonu (kopyala, doldur)
+  _template.html        Yeni yazı şablonu
   2026/<slug>/index.html
 
-lab/
-  index.html            Gizli panel — Supabase auth + uygulama metrikleri
-  config.example.js     Kopyala → config.js, doldur
+web/
+  index.html            Web araçları listesi
+  store-mockup/         Ekran görüntüsü çerçeveleme aracı (tarayıcıda çalışır)
+
+lab/                    noindex — iç araçlar
+  index.html            Lab girişi: araçlar + dış panolara kısayol
+  panel/                App Store + Play panosu (şifreli veri, sunucusuz)
+  oncopace/             Oncopace yönetim paneli (Vite çıktısı, Supabase'e bağlı)
+  mihenk/               App Store tahmin aracı
+  filiz/                Content seeding prototipi
 
 scripts/
-  fetch-metrics.mjs     App Store Connect → Supabase toplayıcı
-
-.github/workflows/
-  metrics.yml           Toplayıcıyı her gün çalıştıran cron
+  sitemap.mjs           sitemap.xml üretir
+  lab/                  Panel veri boru hattı (aşağıda)
 ```
+
+### Mağazaya kayıtlı URL'ler — taşıma
+
+Üç gizlilik sayfası dizin kalıbının dışında duruyor ve **App Store Connect'te
+o adresle kayıtlı**. Taşınırsa mağaza linki kırılır; oldukları yerde kalıyor:
+
+| Uygulama | Adres |
+|---|---|
+| Wallet Coach | `/privacy.html` |
+| BodyBook | `/bodybook/privacy/` (+ `/bodybook/support/`) |
+| Yonca | `/yonca/privacy/` |
+
+Yeni uygulamada `privacy/<slug>/index.html` kalıbını kullan.
 
 ---
 
 ## Yeni blog yazısı eklemek
 
-1. `blog/_template.html` dosyasını `blog/2026/yazi-adresi/index.html` olarak kopyala.
-2. Başlık, tarih, etiket ve metni doldur. `canonical` linkini de güncelle.
-3. `blog/posts.json`'a bir nesne ekle:
+1. `blog/_template.html` → `blog/2026/yazi-adresi/index.html`.
+2. Başlık, tarih, etiket, metin. `canonical` linkini güncelle.
+3. `blog/posts.json`'a bir nesne ekle (`title`, `title_tr`, `url`, `date`,
+   `tag`, `tag_tr`, `lang`, `summary`, `summary_tr`).
+4. `node scripts/sitemap.mjs`, commit, push.
 
-```json
-{
-  "title": "Yazının başlığı",
-  "url": "/blog/2026/yazi-adresi/",
-  "date": "2026-09-14",
-  "tag": "ios",
-  "summary": "Listede görünecek bir iki cümle."
-}
-```
-
-4. `sitemap.xml`'e de bir `<url>` bloğu ekle.
-5. Commit + push.
-
-Liste tarihe göre kendini sıralar, JSON'daki sıra önemli değil. Ana sayfadaki
-"Notes" bölümü en yeni üç yazıyı otomatik çeker.
+Liste tarihe göre kendini sıralar. Ana sayfadaki "Notes" en yeni üçü çeker.
 
 ## Yeni uygulama eklemek
 
-`index.html` içindeki `#appGrid` bölümüne bir `<article class="card">` kopyala.
-Önemli olan iki attribute:
-
-- `data-tags` — filtre çubuğuyla eşleşir: `sport health tools fun watch ios android soon`
-- `data-name` — aramada eşleşsin diye ek anahtar kelimeler (Türkçe adlar dahil)
-
-Hero'daki sayaçlar (`Live apps`, `Watch apps`, `In the oven`) bu etiketlerden
-kendiliğinden hesaplanıyor, elle güncellemene gerek yok.
-
-Uygulama ikonu için App Store'daki `mzstatic` URL'ini kullanabilirsin;
-henüz yayında değilse `<div class="app-icon-ph">🩺</div>` gibi bir emoji koy.
+1. **Ana sayfa kartı:** `index.html` içindeki `#appGrid`'e bir
+   `<article class="card">` kopyala. `data-tags` filtre çubuğuyla eşleşir
+   (`sport health tools fun lifestyle watch ios android web soon retired`),
+   `data-name` aramada ek anahtar kelime. Hero sayaçları etiketlerden hesaplanır.
+2. **Tanıtım sayfası:** `walletcoach/index.html` kalıbından `<slug>/index.html`.
+3. **Gizlilik:** `privacy/<slug>/index.html`, dizine (`privacy/index.html`) satır.
+4. **Panel:** `scripts/lab/apps.mjs` (kimlikler) + `scripts/lab/profil.mjs`
+   (model, servisler, kategori). Vault'ta `uygulamalar/<slug>.md`.
+5. `<head>`'e favicon + apple-touch-icon üç satırı. `node scripts/sitemap.mjs`.
 
 ---
 
-## GitHub Pages hakkında bilinmesi gerekenler
+## `/lab/panel/` — nasıl çalışıyor
 
-Public repo'da tamamen ücretsiz. Yumuşak limitler:
-
-| | |
-|---|---|
-| Yayınlanan site | 1 GB |
-| Bant genişliği | 100 GB / ay |
-| Build | saatte 10 |
-
-Bu limitler aşıldığında fatura gelmez, GitHub uyarı maili atar. Şu anki site
-birkaç MB, yani sınırlardan çok uzak.
-
-Tek gerçek kısıt kullanım şartlarında: GitHub Pages "birincil olarak ticari
-işlem yapan" bir site için (e-ticaret, ödeme alma) kullanılamaz. Uygulama
-tanıtımı, blog, portfolyo, gizlilik/destek sayfaları tamamen serbest.
-
-**Sunucu kodu çalıştırılamaz.** PHP yok, veritabanı yok, gizli anahtar
-saklanamaz. Bu yüzden `/lab/` aşağıdaki mimariyi kullanıyor.
-
-### Kendi alan adını bağlamak (isteğe bağlı)
-
-Bir gün `berkalparslan.com` alırsan: repo köküne içinde sadece alan adı yazan
-bir `CNAME` dosyası koy, DNS'te `A` kayıtlarını GitHub'ın IP'lerine yönlendir.
-Eski `github.io` linkleri otomatik yönlenmeye devam eder — App Store'daki
-gizlilik/destek URL'leri kırılmaz.
-
----
-
-## `/lab/` — gizli panel kurulumu
-
-### Neden böyle?
-
-GitHub Pages statiktir. Sayfaya JavaScript ile şifre koymak güvenlik değildir;
-kaynak koda bakan herkes şifreyi görür. Gerçek koruma veritabanı tarafında
-olmak zorunda:
+Sunucu yok, veritabanı yok, GitHub Actions yok. Veri Mac'te iki CLI ile
+çekilir, şifrelenir, statik dosya olarak push edilir; çözme tarayıcıda olur.
 
 ```
-GitHub Actions (günlük cron)
-  └─ App Store Connect API              [.p8 anahtarı = Actions secret]
-      └─ Supabase / Postgres            [service_role anahtarı = Actions secret]
-           ▲
-           │  RLS: sadece giriş yapmış kullanıcı okuyabilir
-           │
-      /lab/ (GitHub Pages, public sayfa)
-           └─ Supabase Auth ile e-posta + şifre
+ascelerate (App Store Connect)  ─┐
+gplay (Play Console)             ├─ collect.mjs ─► ~/dev/vault/metrikler/veri/  (ham, private)
+vault notları (durum, görevler)  ─┘                        │
+                                                    build.mjs (+ profil.mjs)
+                                                           │
+                                         lab/panel/data.enc.json  (AES-256-GCM)
+                                                           │
+                                         tarayıcı: parola → PBKDF2 → çöz → çiz
 ```
 
-`/lab/index.html` herkese açık ama içi boş bir kabuk. Veri ancak Supabase'e
-giriş yapılınca geliyor; RLS politikası giriş yapmamış isteklere boş küme
-döndürüyor. Sayfadaki `anon` anahtar zaten tarayıcıya verilmek üzere
-tasarlanmış — tek başına hiçbir şeye erişim vermiyor.
-
-### 1. Supabase projesi
-
-[supabase.com](https://supabase.com) → yeni proje (ücretsiz plan yeterli).
-SQL Editor'de şunu çalıştır:
-
-```sql
-create table app_metrics (
-  date      date        not null,
-  app_id    text        not null,
-  app_name  text,
-  platform  text        not null default 'ios',
-  country   text        not null default 'ZZ',
-  units     integer     not null default 0,
-  proceeds  numeric(12,2) not null default 0,
-  primary key (date, app_id, platform, country)
-);
-
-create index app_metrics_date_idx on app_metrics (date desc);
-
-alter table app_metrics enable row level security;
-
--- Sadece giriş yapmış kullanıcı okuyabilir. Yazma yetkisi hiç kimsede yok;
--- toplayıcı RLS'i bypass eden service_role anahtarıyla yazıyor.
-create policy "signed-in read"
-  on app_metrics for select
-  to authenticated
-  using (true);
-```
-
-### 2. Kendi kullanıcını oluştur
-
-Supabase → **Authentication → Users → Add user**. E-posta + güçlü bir şifre.
-Bu tek kullanıcı senin. **Authentication → Providers → Email** altında
-"Enable email signups" seçeneğini **kapat** — böylece kimse kendine hesap
-açamaz.
-
-### 3. `lab/config.js`
+Her çekimde:
 
 ```bash
-cp lab/config.example.js lab/config.js
+node scripts/lab/collect.mjs --days 45
+node scripts/lab/build.mjs
+git add lab/panel/data.enc.json && git commit -m "panel verisi" && git push
 ```
 
-İçini doldur (Supabase → Project Settings → API):
+Parola macOS Keychain'de (`bamtech-lab-panel`). Ayrıntı: `scripts/lab/README.md`.
 
-- `supabaseUrl` — Project URL
-- `supabaseAnonKey` — `anon` / `public` anahtar
+Sekmeler: **Özet** (indirme, gelir, gider, net, bu hafta yapılacaklar, tarihli
+işler) · **Uygulamalar** (portföy tablosu, katman, ₺/indirme, servisler) ·
+**Pazarlama** (odak/büyüt/bakım/bekle kartları, sonraki adım, kanal, reklam
+kuralları) · **Takip** (hangi uygulama hangi servise bağlı, nereye ne sıklıkla
+bakılır, ölçüm boşlukları) · **Yorumlar** · **Görevler** (vault) · **Veri**.
 
-Bu dosya repoya commit edilir, gizli değildir.
-**`service_role` anahtarını buraya asla koyma** — o anahtar RLS'i tamamen
-bypass eder.
+Katman ve adımlar `lab/panel/index.html` içindeki `degerlendir()` kurallarından
+çıkıyor; rakam değişince kendiliğinden değişir. Sabit metinler (model, servis,
+not) `scripts/lab/profil.mjs`'te.
 
-### 4. App Store Connect API anahtarı
-
-App Store Connect → **Users and Access → Integrations → App Store Connect API**
-→ yeni anahtar, erişim seviyesi **Sales and Reports** (Admin gerekmiyor).
-`.p8` dosyası bir kez indirilir, kaybedersen yenisini üretmen gerekir.
-
-Vendor numarası: **Payments and Financial Reports** sayfasının üst kısmında,
-8 haneli.
-
-### 5. GitHub Actions secret'ları
-
-Repo → Settings → Secrets and variables → Actions → New repository secret:
-
-| Secret | Değer |
-|---|---|
-| `ASC_KEY_ID` | Anahtar ID (10 karakter) |
-| `ASC_ISSUER_ID` | Issuer ID (UUID) |
-| `ASC_PRIVATE_KEY` | `.p8` dosyasının tüm içeriği, `-----BEGIN...` satırı dahil |
-| `ASC_VENDOR_NUMBER` | Vendor numarası |
-| `SUPABASE_URL` | `https://xxxx.supabase.co` |
-| `SUPABASE_SERVICE_KEY` | `service_role` anahtarı |
-
-### 6. Test
-
-Actions sekmesi → **Collect app metrics** → **Run workflow**. Log'da günlük
-indirme sayılarını görmelisin. Sonra `berkalparslan.github.io/lab/` adresine
-gidip giriş yap.
-
-Oturum tarayıcıda saklanıyor, yani telefonda bir kez girdikten sonra ana
-ekrana kısayol ekleyip doğrudan açabilirsin.
-
-### Notlar
-
-- Apple raporları ~1 gün gecikmeli. O gün hiç satış yoksa API 404 döner;
-  script bunu hata saymaz.
-- `DAYS_BACK` (varsayılan 5) sayesinde her çalışmada son 5 gün yeniden
-  yazılır — Apple sonradan düzeltme yaparsa panel de düzelir.
-- Google Play tarafı henüz yok. Play, raporları bir Cloud Storage bucket'ına
-  CSV olarak bırakıyor; servis hesabı anahtarıyla aynı script'e eklenebilir.
-
-### `/lab/` linkini gizlemek
-
-Sayfa hiçbir menüde linkli değil ve `robots.txt` ile taramaya kapalı. Ana
-sayfada sadece komut paletinden (⌘K → "lab") erişilebiliyor. İstersen
-`index.html` içindeki `commands` dizisinden o satırı silebilirsin — sayfa yine
-doğrudan URL ile açılır.
-
-Bunların hiçbiri güvenlik önlemi değil, sadece göze batmasın diye.
-Güvenlik tamamen Supabase'in RLS politikasında.
+Eski Supabase + GitHub Actions boru hattı (Ağustos 2026) kaldırıldı; hiç
+kurulmamıştı ve panel onu gereksiz bıraktı.
 
 ---
 
-## Yerelde çalıştırmak
+## GitHub Pages hakkında
 
-```bash
-python3 -m http.server 8000
-```
+Public repoda ücretsiz. Yumuşak limitler: site 1 GB, bant genişliği 100 GB/ay,
+saatte 10 build. Aşılırsa fatura değil uyarı maili gelir. Tek kısıt: "birincil
+olarak ticari işlem yapan" site olamaz; uygulama tanıtımı, blog, gizlilik
+sayfaları serbest. Sunucu kodu çalışmaz — `/lab/` bu yüzden şifreli statik.
 
-Sonra `http://localhost:8000` — kök yollar (`/assets/...`) doğru çözülsün diye
-dosyayı doğrudan açmak yerine sunucu kullan.
+### Kendi alan adı
+
+Anonimlikteki üç sızıntıyı (alan adı, e-posta, GitHub kullanıcı adı) kapatmanın
+tek yolu. Kısa, marka adıyla aynı bir şey: `bamtech.app` / `bamtech.dev` /
+`bamtech.studio` — hangisi boşsa. `.app` ve `.dev` HTTPS zorunlu, GitHub Pages
+zaten sağlıyor.
+
+Bağlamak:
+
+1. Kayıt sağlayıcıda DNS: `A` kayıtları `185.199.108.153`, `.109.153`,
+   `.110.153`, `.111.153`; `www` için `CNAME` → `berkalparslan.github.io`.
+2. Repo köküne yalnız alan adını içeren `CNAME` dosyası (`bamtech.app`).
+3. Repo → Settings → Pages → Custom domain, "Enforce HTTPS" işaretle.
+4. Sertifika 10–60 dk içinde gelir.
+
+Eski `berkalparslan.github.io` linkleri **otomatik 301 ile yeni alana yönlenir** —
+App Store'daki gizlilik/destek URL'leri kırılmaz, ama boş vakitte App Store
+Connect'te yenileriyle değiştir. `canonical` ve `og:url` etiketlerini de
+`grep -rl "berkalparslan.github.io"` ile bul, değiştir; `scripts/sitemap.mjs`
+içindeki `SITE` sabitini güncelle.
+
+Alan adıyla birlikte marka e-postası (Cloudflare Email Routing ücretsiz:
+`hello@bamtech.app` → Gmail) sitedeki `mailto:` linklerini de anonimleştirir.
