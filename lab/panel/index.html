@@ -19,6 +19,9 @@
       try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
       if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", t);
+      var r = null;
+      try { r = localStorage.getItem("bamtech-panel-renk"); } catch (e) { }
+      if (r) document.documentElement.setAttribute("data-renk", r);
     })();
   </script>
 
@@ -48,7 +51,7 @@
       --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
       --r: 14px;
       --r-sm: 9px;
-      --yan: 236px;
+      --yan: 244px;
     }
 
     :root[data-theme="dark"] {
@@ -75,6 +78,18 @@
       --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
     }
 
+    /* Vurgu rengi: sol menüden seçilir, açık/koyu için ayrı ton. */
+    :root[data-renk="mor"] { --accent: #6d4fe0; --accent-soft: rgba(109, 79, 224, .11); }
+    :root[data-theme="dark"][data-renk="mor"] { --accent: #a28cff; --accent-soft: rgba(162, 140, 255, .14); }
+    :root[data-renk="yesil"] { --accent: #0f9f6e; --accent-soft: rgba(15, 159, 110, .12); }
+    :root[data-theme="dark"][data-renk="yesil"] { --accent: #34d399; --accent-soft: rgba(52, 211, 153, .14); }
+    :root[data-renk="turuncu"] { --accent: #d9640a; --accent-soft: rgba(217, 100, 10, .12); }
+    :root[data-theme="dark"][data-renk="turuncu"] { --accent: #ff9b4a; --accent-soft: rgba(255, 155, 74, .14); }
+    :root[data-renk="pembe"] { --accent: #d63a7a; --accent-soft: rgba(214, 58, 122, .11); }
+    :root[data-theme="dark"][data-renk="pembe"] { --accent: #ff7ab3; --accent-soft: rgba(255, 122, 179, .14); }
+    :root[data-renk="gri"] { --accent: #3f4351; --accent-soft: rgba(63, 67, 81, .12); }
+    :root[data-theme="dark"][data-renk="gri"] { --accent: #c9ccd8; --accent-soft: rgba(201, 204, 216, .14); }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     [hidden] { display: none !important; }
     html { -webkit-text-size-adjust: 100%; }
@@ -84,7 +99,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      font-size: 14px;
+      font-size: 15px;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
@@ -164,6 +179,35 @@
     .k-kapali { background: var(--rose); }
     .k-yok { background: transparent; border: 1px solid var(--border-2); }
 
+    .renkler { display: flex; gap: 8px; padding: 0 4px; }
+    .renkler button { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--border-2); }
+    .renkler button[aria-pressed="true"] { border-color: var(--surface); box-shadow: 0 0 0 2px var(--text); }
+
+    /* Özet: uygulama uygulama büyük kartlar */
+    .uyg-kartlar { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .uk { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: 16px 18px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 12px; transition: border-color .15s, transform .15s; min-width: 0; }
+    .uk:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .uk.secili { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .uk .ust { display: flex; align-items: center; gap: 11px; }
+    .uk .ikon { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; font-size: 24px; flex: none; }
+    .uk .adlar { min-width: 0; flex: 1; }
+    .uk .adlar b { display: block; font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -.01em; }
+    .uk .adlar small { color: var(--faint); font-size: 12px; display: flex; gap: 6px; align-items: center; }
+    .uk .buyuk { display: flex; align-items: baseline; gap: 10px; }
+    .uk .buyuk .n { font-size: 34px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .uk .buyuk .e { font-size: 12px; color: var(--faint); }
+    .uk .buyuk .f { font-size: 12.5px; font-weight: 600; margin-left: auto; }
+    .spark-genis { width: 100%; height: 44px; display: block; }
+    .spark-genis path.cizgi { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+    .spark-genis path.alan { fill: var(--accent-soft); stroke: none; }
+    .uk .mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .uk .mini div { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+    .uk .mini b { display: block; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .uk .mini small { font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); }
+    .uk .sonraki { font-size: 12.5px; color: var(--subtle); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .uk .sonraki::before { content: "→ "; color: var(--accent); font-weight: 700; }
+    .uk .sonraki code { font-size: .9em; }
+
     .yan-alt { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; }
     .yan-alt button, .yan-alt a {
       font-size: 12px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
@@ -171,7 +215,7 @@
     }
     .yan-alt a:hover, .yan-alt button:hover { color: var(--text); text-decoration: none; border-color: var(--border-2); }
 
-    main { min-width: 0; padding: 22px 28px 60px; max-width: 1180px; }
+    main { min-width: 0; padding: 22px 30px 60px; max-width: 1320px; }
 
     .sekmeler { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 5; background: var(--bg); padding-top: 4px; }
     .sekmeler button {
@@ -196,10 +240,10 @@
     .bos { color: var(--faint); font-size: 13px; padding: 8px 0; }
 
     /* KPI kartları */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px 12px; box-shadow: var(--shadow); min-width: 0; }
     .card .k { font-size: 11.5px; font-weight: 600; color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
-    .card .v { font-size: 26px; font-weight: 700; letter-spacing: -.02em; margin: 2px 0; font-variant-numeric: tabular-nums; }
+    .card .v { font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 2px 0; font-variant-numeric: tabular-nums; }
     .card .v.kucuk { font-size: 20px; }
     .card .s { font-size: 12px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card.vurgu { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
@@ -395,6 +439,7 @@
       <div class="yan-b"><h2>Aralık</h2><div class="seg" id="segAralik"></div></div>
       <div class="yan-b"><h2>Platform</h2><div class="seg" id="segPlatform"></div></div>
       <div class="yan-b"><h2>Uygulama</h2><div class="yig" id="yigUyg"></div></div>
+      <div class="yan-b"><h2>Renk</h2><div class="renkler" id="renkler"></div></div>
       <div class="yan-alt">
         <button id="tema">tema</button>
         <button id="kilit">kilitle</button>
@@ -449,6 +494,16 @@
       kapali: { e: "Kapalı", a: "Satıştan kaldırıldı.", s: "e-kapali" }
     };
     const MODEL = { ucretli: "Ücretli", abonelik: "Abonelik", iap: "IAP", bedava: "Bedava" };
+    const RENK_KEY = "bamtech-panel-renk";
+    const RENKLER = [
+      { v: "", e: "Mavi", c: "#0a6fe0" }, { v: "mor", e: "Mor", c: "#6d4fe0" }, { v: "yesil", e: "Yeşil", c: "#0f9f6e" },
+      { v: "turuncu", e: "Turuncu", c: "#d9640a" }, { v: "pembe", e: "Pembe", c: "#d63a7a" }, { v: "gri", e: "Gri", c: "#3f4351" }
+    ];
+    function renkCiz() {
+      const su = document.documentElement.getAttribute("data-renk") || "";
+      $("#renkler").innerHTML = RENKLER.map(r => `<button data-renk="${r.v}" aria-pressed="${su === r.v}" title="${r.e}" style="background:${r.c}"></button>`).join("");
+    }
+    const ikonHtml = a => { const i = a.profil?.ikon; if (!i) return `<div class="ikon">${esc((a.ad || "?")[0])}</div>`; return i.startsWith("/") ? `<img class="ikon" src="${esc(i)}" alt="" loading="lazy">` : `<div class="ikon">${esc(i)}</div>`; };
 
     /* ── Durum ───────────────────────────────────────────────── */
     let D = null;
@@ -627,6 +682,15 @@
       return `<svg class="spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><path d="M${p.join(" L")}" /></svg>`;
     }
 
+    function sparkGenis(slug, bas, son) {
+      const v = []; for (let i = bas; i < son; i++) v.push(gunDeger(slug, i, "indirme"));
+      const W = 300, H = 44, enCok = Math.max(1, ...v);
+      if (v.length < 2) return "";
+      const pt = v.map((x, i) => [(i / (v.length - 1) * W), (H - 3 - (x / enCok) * (H - 6))]);
+      const d = "M" + pt.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" L");
+      return `<svg class="spark-genis" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path class="alan" d="${d} L${W},${H} L0,${H} Z"/><path class="cizgi" d="${d}"/></svg>`;
+    }
+
     /* ── Küçük parçalar ──────────────────────────────────────── */
     const TRACK_SIRA = ["production", "beta", "alpha", "internal"];
     const trackSirala = t => { const puan = x => { const i = TRACK_SIRA.findIndex(k => x.track.endsWith(k)); return i < 0 ? 99 : i; }; return [...t].sort((a, b) => puan(a) - puan(b)); };
@@ -717,7 +781,8 @@
         .sort((x, y) => x.s.localeCompare(y.s)).slice(0, 8);
       const takvim = (D.takvim || []).map(t => ({ ...t, kalan: gunFarki(t.tarih, bugun()) })).filter(t => t.kalan >= -1).sort((a, b) => a.kalan - b.kalan).slice(0, 6);
 
-      const satirlar = slugs.map(a => ({ a, n: topla("indirme", bas, son, [a]), d: degerlendir(a) })).sort((x, y) => y.n - x.n || x.a.ad.localeCompare(y.a.ad, "tr"));
+      const satirlar = slugs.map(a => ({ a, n: topla("indirme", bas, son, [a]), d: degerlendir(a) }))
+        .sort((x, y) => SIRA.indexOf(x.d.katman) - SIRA.indexOf(y.d.katman) || y.n - x.n || x.a.ad.localeCompare(y.a.ad, "tr"));
       const ulkeler = Object.entries(toplaHarita("u", bas, son, slugs)).sort((a, b) => b[1] - a[1]).slice(0, 10);
       const enCokUlke = ulkeler[0]?.[1] || 1;
 
@@ -766,18 +831,24 @@
         </section>
 
         <section>
-          <h3>Uygulamalar <span class="acik">— satıra tıkla, sol menü seçer</span></h3>
-          <div class="panel scroll">
-            ${satirlar.length ? `<table><thead><tr><th>Uygulama</th><th>Katman</th><th class="num">İndirme</th><th>Eğilim</th><th class="num">Gelir</th><th>Puan</th><th>Play</th></tr></thead>
-              <tbody>${satirlar.map(({ a, n, d }) => `<tr data-app="${esc(a.slug)}" class="${S.app === a.slug ? "secili" : ""}">
-                <td>${esc(a.ad)}${platYazi(a)}</td>
-                <td>${katmanEtiket(d.katman)}</td>
-                <td class="num ${n ? "" : "zero"}">${sayi(n)}${d.o.fark !== null ? `<span class="alt ${d.o.fark > 0 ? "up" : d.o.fark < 0 ? "down" : ""}">${d.o.fark > 0 ? "▲" : d.o.fark < 0 ? "▼" : "="}${Math.abs(d.o.fark)}%</span>` : ""}</td>
-                <td>${sparkline(a.slug, bas, son)}</td>
-                <td class="num ${d.o.gelirTl ? "" : "zero"}">${d.o.gelirTl ? tl(d.o.gelirTl) : "0"}</td>
-                <td>${puanYazi(a)}</td>
-                <td>${playYazi(a)}</td></tr>`).join("")}</tbody></table>` : '<div class="bos">Bu filtreye uyan uygulama yok.</div>'}
-          </div>
+          <h3>Uygulamalar <span class="acik">— karta tıkla, detay açılır · tablo görünümü Uygulamalar sekmesinde</span></h3>
+          ${satirlar.length ? `<div class="uyg-kartlar">${satirlar.map(({ a, n, d }) => {
+            const p = a.profil || {}, o = d.o;
+            const f = o.fark;
+            return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
+              <div class="ust">${ikonHtml(a)}
+                <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "—")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
+                ${katmanEtiket(d.katman)}</div>
+              <div class="buyuk"><span class="n ${n ? "" : "zero"}">${sayi(n)}</span><span class="e">indirme</span>
+                ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
+              ${sparkGenis(a.slug, bas, son)}
+              <div class="mini">
+                <div><b class="${o.gelirTl ? "" : "zero"}">${o.gelirTl ? tl(o.gelirTl) : "0 ₺"}</b><small>gelir</small></div>
+                <div><b class="${o.satis ? "" : "zero"}">${sayi(o.satis)}</b><small>satın alma</small></div>
+                <div><b class="${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}${o.cevapsiz ? ` <span class="cevapsiz">${o.cevapsiz}↩</span>` : ""}</b><small>puan</small></div>
+              </div>
+              ${d.adimlar[0] ? `<div class="sonraki">${d.adimlar[0].ne}</div>` : ""}
+            </div>`; }).join("")}</div>` : '<div class="panel"><div class="bos">Bu filtreye uyan uygulama yok.</div></div>'}
         </section>`;
     }
 
@@ -1058,10 +1129,10 @@
       const altYazi = ["ozet", "portfoy", "pazarlama"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
       $("#ana").innerHTML = `
         <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
-        <div class="baslik"><h2>${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
+        <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:34px;height:34px;border-radius:9px;font-size:18px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2);border:1px solid var(--border)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
         ${govde}`;
     }
-    function ciz() { yanCiz(); anaCiz(); yaz(DURUM_KEY, S); }
+    function ciz() { yanCiz(); renkCiz(); anaCiz(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
     document.addEventListener("change", e => {
@@ -1071,9 +1142,14 @@
     });
     document.addEventListener("click", e => {
       if (e.target.closest("a[href^='http'], a[href^='/']") && !e.target.closest("[data-app]")) return;
-      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev]");
+      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-renk]");
       if (!b || !D) return;
       const d = b.dataset;
+      if (d.renk !== undefined) {
+        if (d.renk) document.documentElement.setAttribute("data-renk", d.renk); else document.documentElement.removeAttribute("data-renk");
+        try { if (d.renk) localStorage.setItem(RENK_KEY, d.renk); else localStorage.removeItem(RENK_KEY); } catch (e) { }
+        renkCiz(); return;
+      }
       if (d.aralik !== undefined) S.aralik = Number(d.aralik);
       else if (d.platform) S.platform = d.platform;
       else if (d.sekme) S.sekme = d.sekme;
@@ -1084,7 +1160,7 @@
         const yeni = d.app || null;
         /* Menüde aynısına basınca seçim kalkar; tablo/kart satırında seçer. */
         S.app = (b.closest("#yigUyg") && S.app === yeni) ? null : yeni;
-        if (b.closest(".uyg-satir, tr, .adim")) S.sekme = "portfoy";
+        if (b.closest(".uyg-satir, tr, .adim, .uk")) S.sekme = "portfoy";
         if (S.app) window.scrollTo({ top: 0 });
       }
       ciz();

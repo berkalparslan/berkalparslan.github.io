@@ -12,6 +12,7 @@
      bedava    — para modeli yok
    reklam: AdMob reklamı var mı (gelir App Store raporunda GÖRÜNMEZ)
    maliyet: aylık USD, yalnız bu uygulamaya ait sabit gider (0 = ücretsiz katman)
+   ikon: sitedeki ikon yolu ya da emoji (ikonu olmayan uygulama için)
    servisler: SERVISLER tablosundaki anahtarlar
    projeler: servis → proje kimliği (Firebase'de üç ayrı proje var; hangi
              uygulamanın hangisinde olduğu konsolda görünmüyor, burada dursun) */
@@ -121,6 +122,7 @@ export const SABIT_GIDER = [
 
 export const PROFIL = {
   "walletcoach": {
+    ikon: "/walletcoach/assets/icon-180.png",
     kategori: "Finans",
     model: "abonelik",
     fiyat: "Aylık · Yıllık · Ömür boyu 49 USD",
@@ -133,6 +135,7 @@ export const PROFIL = {
     not: "Onboarding + bağlama göre paywall var. Yedi dilde listeleme; ekran görüntüleri yalnız TR/EN. Shipaton girişi #1."
   },
   "tennis-padel": {
+    ikon: "/tennis-padel/assets/icon.webp",
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass (aylık/yıllık/ömür boyu)",
@@ -145,6 +148,7 @@ export const PROFIL = {
     not: "Portföyün gelir tabanı. Birleştirmede taban bu olur, kapatılmaz. Anahtar kelime alanının yarısı boş."
   },
   "pickleball": {
+    ikon: "/pickleball/assets/icon.webp",
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass",
@@ -157,6 +161,7 @@ export const PROFIL = {
     not: "Pass'i tenis satıyor, bu uygulama trafiği pass'e çeviremiyor. Galibiyet hatası kodda düzeltildi, sürüm 4.3'ü bekliyor."
   },
   "volleyball": {
+    ikon: "/volleyball/assets/icon.webp",
     kategori: "Spor",
     model: "abonelik",
     fiyat: "Bedava + All-Sports Pass",
@@ -169,6 +174,7 @@ export const PROFIL = {
     not: "Paylaşım ekranında bilinen çökme (Save/Stories). Sürüm 4.3'ü bekliyor."
   },
   "rally-badminton": {
+    ikon: "/rally-badminton/assets/icon.webp",
     kategori: "Spor",
     model: "abonelik",
     fiyat: "—",
@@ -181,6 +187,7 @@ export const PROFIL = {
     not: "30 Ağustos'ta satıştan kaldırıldı (4.3 işaretini kırmak için). Pazarlama yapılmaz."
   },
   "rally-table-tennis": {
+    ikon: "/rally-table-tennis/assets/icon.webp",
     kategori: "Spor",
     model: "abonelik",
     fiyat: "—",
@@ -193,6 +200,7 @@ export const PROFIL = {
     not: "30 Ağustos'ta satıştan kaldırıldı. Pazarlama yapılmaz."
   },
   "tasbih-tally": {
+    ikon: "/tasbih-tally/assets/icon.webp",
     kategori: "Araç",
     model: "ucretli",
     fiyat: "0,99 USD · IAP yok",
@@ -204,6 +212,7 @@ export const PROFIL = {
     not: "★1,0 — iki yorum da Double Tap eksikliği. Bedava+abonelik adayı ama önce puan düzelmeli."
   },
   "orbix-roulette": {
+    ikon: "/orbix-roulette/assets/icon.webp",
     kategori: "Eğlence",
     model: "ucretli",
     fiyat: "1,99 USD · IAP yok",
@@ -215,6 +224,7 @@ export const PROFIL = {
     not: "iOS 1.1'de dondu (simulated gambling reddi). Android yeniden gönderildi. Bedava+abonelik adayı."
   },
   "o-mu-bu-mu": {
+    ikon: "/o-mu-bu-mu/assets/icon.webp",
     kategori: "Eğlence",
     model: "bedava",
     fiyat: "Satın alma yok",
@@ -227,6 +237,7 @@ export const PROFIL = {
     not: "Sunucusu olan tek uygulama (Render ücretsiz katman uyuyor). İndirme var, para modeli yok — karar bekliyor."
   },
   "kit-qr": {
+    ikon: "/kit-qr/assets/icon.webp",
     kategori: "Araç",
     model: "iap",
     fiyat: "Bedava + Kit Pro (ömür boyu)",
@@ -238,6 +249,7 @@ export const PROFIL = {
     not: "Bakım modunda. Not neredeyse boş, ASO hiç yapılmadı."
   },
   "yonca": {
+    ikon: "🍀",
     kategori: "Araç",
     model: "abonelik",
     fiyat: "Yonca Pro 1,99 / 9,99 / 24,99 USD",
@@ -249,6 +261,7 @@ export const PROFIL = {
     not: "1.1 (çekiliş yapma + Pro) incelemede. Yılbaşı çekiliş sezonu için Türkçe ASO fırsatı. Shipaton girişi #3."
   },
   "bodybook": {
+    ikon: "🩺",
     kategori: "Sağlık",
     model: "abonelik",
     fiyat: "BodyBook Pro aylık / yıllık / ömür boyu (Play)",
@@ -260,6 +273,7 @@ export const PROFIL = {
     not: "Play'de yayında, iOS 4.3(a) ile kilitli. En yüksek RLTV kategorisindeki tek varlık. Shipaton girişi #2."
   },
   "bosyeryok": {
+    ikon: "/bosyeryok/assets/icon-180.png",
     kategori: "Oyun",
     model: "iap",
     fiyat: "9 IAP (Patron, nakit, altın)",
@@ -272,6 +286,7 @@ export const PROFIL = {
     not: "iOS 4.3(a) ile reddedildi, itiraz sürüyor. Android kapalı testte. Ekşi/Türkçe forumlar için doğal aday."
   },
   "daily-whisper": {
+    ikon: "/daily-whisper/assets/icon.webp",
     kategori: "Yaşam",
     model: "bedava",
     fiyat: "Satın alma yok",
@@ -283,6 +298,7 @@ export const PROFIL = {
     not: "iOS tarafı başka hesapta — buradan ölçülemiyor. Bakım modunda."
   },
   "leafbook": {
+    ikon: "/leafbook/assets/icon.png",
     kategori: "Yaşam",
     model: "abonelik",
     fiyat: "Aylık / yıllık (1 hafta deneme)",
@@ -294,6 +310,7 @@ export const PROFIL = {
     not: "Yayınlanmadı. Plant identifier kalıbı 4.3 için ekstra riskli. Play kapalı testi açılabilir."
   },
   "kirk-hafta": {
+    ikon: "/bumpline/assets/icon.webp",
     kategori: "Sağlık",
     model: "bedava",
     fiyat: "Henüz yok",
@@ -305,6 +322,7 @@ export const PROFIL = {
     not: "Yayınlanmadı (Bumpline). Analitik yok, ağ yok."
   },
   "oncopace": {
+    ikon: "🎗️",
     kategori: "Sağlık",
     model: "bedava",
     fiyat: "Henüz yok (RevenueCat sonra)",
@@ -316,6 +334,7 @@ export const PROFIL = {
     not: "TestFlight'ta. Supabase ücretsiz katman. Yönetim paneli /lab/oncopace/."
   },
   "loomi": {
+    ikon: "🧶",
     kategori: "—",
     model: "bedava",
     fiyat: "—",
@@ -327,6 +346,7 @@ export const PROFIL = {
     not: "Rafta, ortak proje."
   },
   "viral-sounds": {
+    ikon: "🔊",
     kategori: "—",
     model: "bedava",
     fiyat: "—",
