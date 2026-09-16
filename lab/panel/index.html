@@ -231,7 +231,7 @@
     .baslik .alt { color: var(--faint); font-size: 12.5px; font-family: var(--mono); }
 
     section { margin-bottom: 22px; }
-    section > h3 { font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    section > h3 { font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; white-space: nowrap; }
     section > h3 .acik { font-weight: 450; letter-spacing: 0; text-transform: none; color: var(--faint); }
     .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; box-shadow: var(--shadow); }
     .panel.scroll { overflow-x: auto; padding: 0; }
@@ -316,6 +316,14 @@
     .adim .kim a { color: var(--faint); }
     .adim .ne { line-height: 1.45; }
     .adim .ne code { font-size: .88em; }
+
+    .kopya { font-size: 11px; font-weight: 650; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--border-2); color: var(--subtle); background: var(--surface); white-space: nowrap; flex: none; }
+    .kopya:hover { color: var(--accent); border-color: var(--accent); }
+    .kopya.buyuk { font-size: 12px; padding: 4px 10px; }
+    .adim .kim { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 50; box-shadow: var(--shadow); max-width: 90vw; }
+    .toast.acik { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .h3-sag { margin-left: auto; display: flex; gap: 6px; }
 
     .takvim { display: grid; gap: 6px; }
     .takvim div { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: baseline; font-size: 13px; }
@@ -448,6 +456,7 @@
     </aside>
     <main id="ana"></main>
   </div>
+  <div class="toast" id="toast"></div>
 
   <script>
     "use strict";
@@ -503,6 +512,54 @@
       const su = document.documentElement.getAttribute("data-renk") || "";
       $("#renkler").innerHTML = RENKLER.map(r => `<button data-renk="${r.v}" aria-pressed="${su === r.v}" title="${r.e}" style="background:${r.c}"></button>`).join("");
     }
+    /* ── Claude'a komut ────────────────────────────────────────
+       Her adım için hazır bir Claude Code istemi: uygulama bağlamı + görev +
+       çalışma kuralları. Panoya kopyalanır; Claude Code'a yapıştırılır. */
+    let KOMUTLAR = [];
+    const duzMetin = h => { const d = document.createElement("div"); d.innerHTML = h; return d.textContent; };
+    function baglam(a) {
+      const v = a.vault || {}, p = a.profil || {}, o = appOzet(a);
+      const { bas, son } = pencere();
+      const s = [];
+      s.push(`Uygulama: ${a.ad} (slug: ${a.slug})`);
+      if (v.repo) s.push(`Repo: ${v.repo}`);
+      s.push(`Vault notu: ~/dev/vault/uygulamalar/${a.slug}.md — ÖNCE bunu oku, sonra ~/dev/vault/00-Panel.md`);
+      const m = [];
+      if (a.ios) m.push(`iOS ${a.ios}${/^id\d+/.test(v.store || "") ? ` (${v.store})` : ""}`);
+      if (a.android) m.push(`Play ${a.android}`);
+      if (m.length) s.push(`Mağaza: ${m.join(" · ")}`);
+      s.push(`Durum: ${v.durum || "?"} · ${MODEL[p.model] || "?"}${p.fiyat ? ` (${p.fiyat})` : ""}${p.servisler?.length ? ` · servisler: ${p.servisler.join(", ")}` : ""}`);
+      s.push(`Son ${son - bas} gün (${D.gunler[bas]} → ${D.gunler[son - 1]}): ${sayi(o.indirme)} indirme${o.fark !== null ? ` (${o.fark > 0 ? "+" : ""}${o.fark}%)` : ""}, ${sayi(o.satis)} satın alma, ${o.gelirTl ? `≈${tl(o.gelirTl)}` : "gelir yok"}${o.puan !== null ? `, ★${o.puan} (${o.yorumAdet} yorum` + (o.cevapsiz ? `, ${o.cevapsiz} cevapsız)` : ")") : ""}`);
+      if (p.not) s.push(`Not: ${p.not}`);
+      return s.join("\n");
+    }
+    const KURALLAR = `Kurallar:
+- Geliştirme durdu (25 Ağu 2026 kararı): yeni özellik yazma, kod değişikliği gerekiyorsa önce öner ve onay al. Hata düzeltmesi ve açıkça istenen iş bunun dışında.
+- App Review'a / Play incelemesine gönderme; her şeyi hazırla, Submit'i Berk yapar.
+- ascelerate ve gplay ile yapılabilen işleri sormadan yap, sonra ne yaptığını listele.
+- Sitede (berkalparslan.github.io) gerçek ad geçmez, marka BamTech.
+- Bitince vault notunun ilgili bölümüne kısa bir satır ekle ve guncelleme alanını bugünün tarihi yap. Notu baştan yazma.`;
+    function komut(a, adimlar, baslik) {
+      const g = adimlar.map((x, i) => `${adimlar.length > 1 ? `${i + 1}. ` : ""}${duzMetin(x.ne)}`).join("\n");
+      return `${baslik || "Görev"}:\n${g}\n\n${baglam(a)}\n\n${KURALLAR}`;
+    }
+    function komutTopla(liste) {
+      /* Birden çok uygulamanın adımları tek istemde: uygulama başına blok. */
+      const gruplar = new Map();
+      for (const x of liste) (gruplar.get(x.a) || gruplar.set(x.a, []).get(x.a)).push(x);
+      const b = [];
+      let n = 1;
+      for (const [a, adimlar] of gruplar) b.push(`## ${a.ad}\n${adimlar.map(x => `${n++}. ${duzMetin(x.ne)}`).join("\n")}\n\n${baglam(a)}`);
+      return `Bu hafta yapılacaklar (panel, ${new Date().toLocaleDateString("tr-TR")}). Sırayla ilerle, her maddeden sonra kısa rapor ver ve devam etmeden önce onay bekle.\n\n${b.join("\n\n")}\n\n${KURALLAR}`;
+    }
+    const kopyaDugme = (metin, etiket = "Claude'a", sinif = "") => { KOMUTLAR.push(metin); return `<button class="kopya ${sinif}" data-komut="${KOMUTLAR.length - 1}" title="Hazır istemi panoya kopyala, Claude Code'a yapıştır">${etiket}</button>`; };
+    let toastZ = null;
+    function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("acik"); clearTimeout(toastZ); toastZ = setTimeout(() => t.classList.remove("acik"), 2200); }
+    async function kopyala(metin) {
+      try { await navigator.clipboard.writeText(metin); toast("Kopyalandı — Claude Code'a yapıştır"); }
+      catch { const ta = document.createElement("textarea"); ta.value = metin; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Kopyalandı"); }
+    }
+
     const ikonHtml = a => { const i = a.profil?.ikon; if (!i) return `<div class="ikon">${esc((a.ad || "?")[0])}</div>`; return i.startsWith("/") ? `<img class="ikon" src="${esc(i)}" alt="" loading="lazy">` : `<div class="ikon">${esc(i)}</div>`; };
 
     /* ── Durum ───────────────────────────────────────────────── */
@@ -795,14 +852,35 @@
           <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz}↩` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı · " + sayi(guncelleme) + " güncelleme"}</div></div>
         </div>
 
+        <section>
+          <h3>Uygulamalar <span class="acik">— karta tıkla, detay açılır · tablo görünümü Uygulamalar sekmesinde</span></h3>
+          ${satirlar.length ? `<div class="uyg-kartlar">${satirlar.map(({ a, n, d }) => {
+            const p = a.profil || {}, o = d.o;
+            const f = o.fark;
+            return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
+              <div class="ust">${ikonHtml(a)}
+                <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "—")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
+                ${katmanEtiket(d.katman)}</div>
+              <div class="buyuk"><span class="n ${n ? "" : "zero"}">${sayi(n)}</span><span class="e">indirme</span>
+                ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
+              ${sparkGenis(a.slug, bas, son)}
+              <div class="mini">
+                <div><b class="${o.gelirTl ? "" : "zero"}">${o.gelirTl ? tl(o.gelirTl) : "0 ₺"}</b><small>gelir</small></div>
+                <div><b class="${o.satis ? "" : "zero"}">${sayi(o.satis)}</b><small>satın alma</small></div>
+                <div><b class="${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}${o.cevapsiz ? ` <span class="cevapsiz">${o.cevapsiz}↩</span>` : ""}</b><small>puan</small></div>
+              </div>
+              ${d.adimlar[0] ? `<div class="sonraki">${d.adimlar[0].ne}</div>` : ""}
+            </div>`; }).join("")}</div>` : '<div class="panel"><div class="bos">Bu filtreye uyan uygulama yok.</div></div>'}
+        </section>
+
         <div class="ikili">
           <section>
-            <h3>Bu hafta <span class="acik">— öncelik motorundan, seçili aralığa göre</span></h3>
+            <h3>Bu hafta <span class="acik">— öncelik motorundan, seçili aralığa göre</span>${adimListe.length ? `<span class="h3-sag">${kopyaDugme(komutTopla(adimListe), "Hepsini Claude'a", "buyuk")}</span>` : ""}</h3>
             <div class="panel">
               ${adimListe.length ? `<div class="adimlar">${adimListe.map((x, i) => `
                 <div class="adim"><span class="n ${x.s}">${i + 1}</span>
                   <span class="ne">${x.ne}</span>
-                  <span class="kim"><a href="#" data-app="${esc(x.a.slug)}">${esc(x.a.ad)}</a></span></div>`).join("")}</div>`
+                  <span class="kim"><a href="#" data-app="${esc(x.a.slug)}">${esc(x.a.ad)}</a>${kopyaDugme(komut(x.a, [x]))}</span></div>`).join("")}</div>`
                 : '<div class="bos">Açık adım yok.</div>'}
             </div>
           </section>
@@ -828,27 +906,6 @@
             <div class="legend">${S.platform !== "and" ? '<span><i></i>App Store</span>' : ""}${S.platform !== "ios" && D.androidVeriVar ? '<span><i class="i-and"></i>Google Play</span>' : ""}${!D.androidVeriVar && S.platform !== "ios" ? '<span class="zero">Play indirmesi yok (yetki bekliyor)</span>' : ""}</div>
             ${grafik(bas, son, slugs)}
           </div>
-        </section>
-
-        <section>
-          <h3>Uygulamalar <span class="acik">— karta tıkla, detay açılır · tablo görünümü Uygulamalar sekmesinde</span></h3>
-          ${satirlar.length ? `<div class="uyg-kartlar">${satirlar.map(({ a, n, d }) => {
-            const p = a.profil || {}, o = d.o;
-            const f = o.fark;
-            return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
-              <div class="ust">${ikonHtml(a)}
-                <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "—")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
-                ${katmanEtiket(d.katman)}</div>
-              <div class="buyuk"><span class="n ${n ? "" : "zero"}">${sayi(n)}</span><span class="e">indirme</span>
-                ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
-              ${sparkGenis(a.slug, bas, son)}
-              <div class="mini">
-                <div><b class="${o.gelirTl ? "" : "zero"}">${o.gelirTl ? tl(o.gelirTl) : "0 ₺"}</b><small>gelir</small></div>
-                <div><b class="${o.satis ? "" : "zero"}">${sayi(o.satis)}</b><small>satın alma</small></div>
-                <div><b class="${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}${o.cevapsiz ? ` <span class="cevapsiz">${o.cevapsiz}↩</span>` : ""}</b><small>puan</small></div>
-              </div>
-              ${d.adimlar[0] ? `<div class="sonraki">${d.adimlar[0].ne}</div>` : ""}
-            </div>`; }).join("")}</div>` : '<div class="panel"><div class="bos">Bu filtreye uyan uygulama yok.</div></div>'}
         </section>`;
     }
 
@@ -900,8 +957,8 @@
         </div>
         <div class="ikili">
           <section>
-            <h3>Sonraki adımlar</h3>
-            <div class="panel">${d.adimlar.length ? `<div class="adimlar">${d.adimlar.map((x, i) => `<div class="adim"><span class="n ${x.s}">${i + 1}</span><span class="ne">${x.ne}</span><span></span></div>`).join("")}</div>` : '<div class="bos">Kural motorundan adım çıkmadı.</div>'}</div>
+            <h3>Sonraki adımlar${d.adimlar.length ? `<span class="h3-sag">${kopyaDugme(komut(a, d.adimlar, `${a.ad} için yapılacaklar`), "Hepsini Claude'a", "buyuk")}</span>` : ""}</h3>
+            <div class="panel">${d.adimlar.length ? `<div class="adimlar">${d.adimlar.map((x, i) => `<div class="adim"><span class="n ${x.s}">${i + 1}</span><span class="ne">${x.ne}</span><span class="kim">${kopyaDugme(komut(a, [x]))}</span></div>`).join("")}</div>` : '<div class="bos">Kural motorundan adım çıkmadı.</div>'}</div>
             <h3 style="margin-top:16px">Kanal</h3>
             <div class="panel" style="font-size:13px">${esc(d.kanal)}</div>
           </section>
@@ -953,7 +1010,7 @@
             ${g.l.map(({ a, d }) => `<div class="uyg-satir" data-app="${esc(a.slug)}">
               <div class="ust"><b>${esc(a.ad)}</b><span class="rakam">${sayi(d.o.indirme)} indirme · ${d.o.gelirTl ? tl(d.o.gelirTl) : "0 ₺"}${d.o.puan !== null ? ` · ★${d.o.puan}` : ""}</span></div>
               <div class="neden">${esc(a.profil?.not || d.neden.join(" · "))}</div>
-              ${d.adimlar[0] ? `<div class="sonraki">${d.adimlar[0].ne}</div>` : ""}
+              ${d.adimlar[0] ? `<div class="sonraki" style="justify-content:space-between"><span>${d.adimlar[0].ne}</span>${kopyaDugme(komut(a, [d.adimlar[0]]))}</div>` : ""}
               ${g.k === "odak" || g.k === "buyut" ? `<div class="kanal">Kanal: ${esc(d.kanal)}</div>` : ""}
             </div>`).join("")}
           </div>`).join("")}</div>` : uygulamaDetay(secim)}
@@ -1073,7 +1130,7 @@
         <section>
           <div class="seg" style="max-width:340px;margin-bottom:14px">${suzgecler.map(f => `<button data-gorev="${f.v}" aria-pressed="${S.gorevSuzgec === f.v}">${f.e}</button>`).join("")}</div>
           <div class="panel">${dolu.length ? dolu.map(gr => `
-            <div class="gorev-grup"><h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span></h4>
+            <div class="gorev-grup"><h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span>${(() => { const ac = gr.gorevler.filter(g => !g.bitti); if (!ac.length) return ""; const a = D.apps.find(x => x.slug === gr.slug); const m = a ? komut(a, ac.map(g => ({ ne: md(g.yazi) })), `${a.ad} — vault'taki açık görevler`) : `Görevler (vault: ~/dev/vault/konular/${gr.ad}.md — önce bunu oku):\n${ac.map((g, i) => `${i + 1}. ${g.yazi}`).join("\n")}\n\n${KURALLAR}`; return `<span class="h3-sag">${kopyaDugme(m)}</span>`; })()}</h4>
               ${gr.gorevler.map(g => { const d = gorevDurum(gr.slug, g); return `<label class="gorev ${g.bitti ? "bitti" : ""} ${d.yerel ? "yerel" : ""}"><input type="checkbox" data-gorevid="${esc(d.id)}" ${g.bitti || d.yerel ? "checked" : ""} ${g.bitti ? "disabled" : ""} /><span class="yazi">${md(g.yazi)}${g.bolum ? `<div class="bolum">${esc(g.bolum)}</div>` : ""}</span></label>`; }).join("")}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan görev yok.</div>'}</div>
         </section>
@@ -1132,7 +1189,7 @@
         <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:34px;height:34px;border-radius:9px;font-size:18px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2);border:1px solid var(--border)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
         ${govde}`;
     }
-    function ciz() { yanCiz(); renkCiz(); anaCiz(); yaz(DURUM_KEY, S); }
+    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
     document.addEventListener("change", e => {
@@ -1142,6 +1199,8 @@
     });
     document.addEventListener("click", e => {
       if (e.target.closest("a[href^='http'], a[href^='/']") && !e.target.closest("[data-app]")) return;
+      const kb = e.target.closest("[data-komut]");
+      if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
       const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-renk]");
       if (!b || !D) return;
       const d = b.dataset;

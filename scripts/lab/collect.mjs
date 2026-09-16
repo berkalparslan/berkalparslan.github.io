@@ -349,6 +349,7 @@ function vaultNotlari() {
       platform: fm.platform || null,
       sayfa: fm.sayfa || null,
       store: fm.store || null,
+      repo: fm.repo || null,
       guncelleme: fm.guncelleme || null,
       ozet: ozet || null,
       gorevler: gorevAyikla(metin)
