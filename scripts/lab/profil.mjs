@@ -368,3 +368,7 @@ export const TAKVIM = [
   { tarih: "2026-10-15", ne: "Wallet Coach DEVPOST1 offer code'un süresi biter", konu: "walletcoach" },
   { tarih: "2026-11-01", ne: "Google Play Billing 8 zorunluluğu — Tennis Padel Android güncel, diğer Play uygulamalarını kontrol et", konu: "android-play" }
 ];
+
+/* Aylık hedef — "şirket" panosunun ölçüsü. Berk değiştirir; panel bu aya
+   göre ilerleme çubuğu çizer. USD, panelde kurla ₺'ye çevrilir. */
+export const HEDEF = { aylikGelirUsd: 100, aylikIndirme: 250, aylikSatinAlma: 25 };

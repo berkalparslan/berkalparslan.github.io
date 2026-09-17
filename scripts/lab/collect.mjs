@@ -301,6 +301,24 @@ async function kurlar() {
   }
 }
 
+/* ── iOS: App Store sürüm durumu ─────────────────────────────────────────
+   Hangi uygulama incelemede, hangisi reddedildi, hangisi yayın bekliyor.
+   Panelde "şirket" görünümünün mağaza sağlığı satırı. */
+function iosDurum() {
+  const cikti = { uretim: new Date().toISOString(), apps: {} };
+  for (const app of APPS.filter(a => a.ios)) {
+    const r = sh("ascelerate", ["apps", "versions", app.ios.bundle, "--json"]);
+    if (!r.ok) { log(`  sürüm ${app.slug} okunamadı`); continue; }
+    try {
+      const l = JSON.parse(r.out);
+      cikti.apps[app.slug] = (Array.isArray(l) ? l : []).slice(0, 4)
+        .map(v => ({ surum: v.version, durum: v.state, tarih: v.createdDate, platform: v.platform }));
+      log(`  sürüm ${app.slug} ${cikti.apps[app.slug][0]?.surum || "?"} ${cikti.apps[app.slug][0]?.durum || ""}`);
+    } catch { /* json değilse atla */ }
+  }
+  return cikti;
+}
+
 /* ── Vault notları ───────────────────────────────────────────────────────
    Uygulama notlarının frontmatter'ı, tek cümlelik özeti ve görev satırları
    panele taşınıyor. Vault kaynak, panel ayna — buradan vault'a yazılmıyor. */
@@ -356,6 +374,22 @@ function vaultNotlari() {
     };
   }
 
+  /* Kampanya günlüğü: pazarlama/kampanyalar.md içindeki tablo. Sütun sırası
+     sabit: tarih | kanal | uygulama | harcama | sonuc | not. */
+  cikti.kampanyalar = []; cikti.kampanyaSorular = [];
+  const kd = join(kok, "pazarlama", "kampanyalar.md");
+  if (existsSync(kd)) {
+    const metin = readFileSync(kd, "utf8");
+    for (const satir of metin.split("\n")) {
+      const h = satir.match(/^\|\s*(\d{4}-\d{2}-\d{2}[^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|/);
+      if (!h) continue;
+      const t = x => x.trim().replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1");
+      cikti.kampanyalar.push({ tarih: t(h[1]), kanal: t(h[2]), uygulama: t(h[3]), harcama: t(h[4]), sonuc: t(h[5]), not: t(h[6]) });
+    }
+    cikti.kampanyaSorular = gorevAyikla(metin).filter(g => !g.bitti).map(g => g.yazi);
+    log(`  kampanya ${cikti.kampanyalar.length} satır · ${cikti.kampanyaSorular.length} soru`);
+  }
+
   for (const dosya of readdirSync(join(kok, "konular"))) {
     if (!dosya.endsWith(".md")) continue;
     const konu = dosya.replace(/\.md$/, "");
@@ -389,6 +423,8 @@ for (let i = 1; i <= DAYS; i++) {
 
 log("Android durum");
 writeFileSync(join(VERI, "android-durum.json"), JSON.stringify(androidDurum(), null, 2));
+log("iOS sürüm durumu");
+writeFileSync(join(VERI, "ios-durum.json"), JSON.stringify(iosDurum(), null, 2));
 
 log("iOS yorumları");
 writeFileSync(join(VERI, "ios-yorumlar.json"), JSON.stringify(iosYorumlar(), null, 2));

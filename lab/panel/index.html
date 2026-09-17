@@ -292,8 +292,19 @@
     .bars { display: flex; flex-direction: column; gap: 7px; }
     .bar { display: grid; grid-template-columns: 44px 1fr 50px; align-items: center; gap: 10px; font-size: 12.5px; }
     .bar .code { font-family: var(--mono); color: var(--subtle); }
-    .bar .rail { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
-    .bar .fill { height: 100%; background: var(--accent); border-radius: 4px; }
+    .bar .rail { display: block; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+    .bar .fill { display: block; height: 100%; background: var(--accent); border-radius: 5px; min-width: 2px; }
+    .hedef { display: grid; gap: 10px; }
+    .hedef .satir { display: grid; grid-template-columns: 120px 1fr 110px; gap: 12px; align-items: center; font-size: 13px; }
+    .hedef .rail { display: block; height: 12px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+    .hedef .fill { display: block; height: 100%; background: var(--accent); border-radius: 6px; }
+    .hedef .fill.tam { background: var(--mint); }
+    .hedef .n { font-family: var(--mono); font-size: 12.5px; text-align: right; }
+    .surum { display: inline-block; font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 99px; white-space: nowrap; }
+    .s-ok { background: var(--mint-soft); color: var(--mint); }
+    .s-bekle { background: var(--amber-soft); color: var(--amber); }
+    .s-ret { background: var(--rose-soft); color: var(--rose); }
+    .s-gri { background: var(--surface-2); color: var(--subtle); border: 1px solid var(--border); }
     .bar .n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
     dl.kv { display: grid; gap: 8px; font-size: 13px; }
@@ -559,6 +570,22 @@
       try { await navigator.clipboard.writeText(metin); toast("Kopyalandı — Claude Code'a yapıştır"); }
       catch { const ta = document.createElement("textarea"); ta.value = metin; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Kopyalandı"); }
     }
+
+    /* App Store sürüm durumu → Türkçe + renk sınıfı */
+    const SURUM = {
+      READY_FOR_DISTRIBUTION: ["yayında", "s-ok"], READY_FOR_SALE: ["yayında", "s-ok"],
+      WAITING_FOR_REVIEW: ["inceleme bekliyor", "s-bekle"], IN_REVIEW: ["incelemede", "s-bekle"],
+      PENDING_DEVELOPER_RELEASE: ["onaylı, yayın bekliyor", "s-bekle"], PENDING_APPLE_RELEASE: ["Apple yayınlayacak", "s-bekle"],
+      PROCESSING_FOR_DISTRIBUTION: ["işleniyor", "s-bekle"], ACCEPTED: ["kabul edildi", "s-bekle"],
+      REJECTED: ["reddedildi", "s-ret"], METADATA_REJECTED: ["metin reddi", "s-ret"], INVALID_BINARY: ["geçersiz build", "s-ret"],
+      DEVELOPER_REJECTED: ["geri çekildi", "s-gri"], PREPARE_FOR_SUBMISSION: ["hazırlanıyor", "s-gri"],
+      REMOVED_FROM_SALE: ["satıştan kaldırıldı", "s-ret"], DEVELOPER_REMOVED_FROM_SALE: ["satıştan kaldırıldı", "s-ret"],
+      REPLACED_WITH_NEW_VERSION: ["eski sürüm", "s-gri"]
+    };
+    const surumSon = a => a.iosSurum?.[0] || null;
+    const surumEtiket = a => { const v = surumSon(a); if (!v) return ""; const [e, c] = SURUM[v.durum] || [v.durum, "s-gri"]; return `<span class="surum ${c}" title="${esc(v.durum)} · ${tarihYazi(v.tarih)}">${esc(v.surum)} · ${e}</span>`; };
+    /* Hazırlanıyor (PREPARE_FOR_SUBMISSION) sorun değil, taslak. */
+    const surumSorunlu = a => { const v = surumSon(a); return v && !/READY_FOR|REPLACED|PREPARE_FOR/.test(v.durum); };
 
     const ikonHtml = a => { const i = a.profil?.ikon; if (!i) return `<div class="ikon">${esc((a.ad || "?")[0])}</div>`; return i.startsWith("/") ? `<img class="ikon" src="${esc(i)}" alt="" loading="lazy">` : `<div class="ikon">${esc(i)}</div>`; };
 
@@ -850,6 +877,7 @@
           <div class="card"><div class="k">Gider</div><div class="v ${m.aralikTl === null ? "kucuk" : ""}">${m.aralikTl !== null ? `≈ ${tl(m.aralikTl)}` : `${m.aylikUsd.toFixed(2)} $/ay`}</div><div class="s">${son - bas} gün · sabit ${m.aylikUsd.toFixed(2)} $/ay${secim ? " · portföy geneli" : ""}</div></div>
           <div class="card ${net !== null && net < 0 ? "" : "vurgu"}"><div class="k">Net</div><div class="v ${net === null ? "kucuk" : net < 0 ? "down" : "up"}">${net === null ? "kur yok" : `${net < 0 ? "−" : "+"}${tl(Math.abs(net))}`}</div><div class="s">${birim !== null ? `indirme başına ≈ ${birim.toFixed(0)} ₺` : "gelir − sabit gider"}</div></div>
           <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz}↩` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı · " + sayi(guncelleme) + " güncelleme"}</div></div>
+          ${(() => { const l = D.apps.filter(a => (!secim || a.slug === secim.slug) && surumSorunlu(a)); return `<div class="card"><div class="k">App Store</div><div class="v ${l.length ? "down" : ""}">${l.length}</div><div class="s" title="${esc(l.map(a => `${a.ad}: ${(SURUM[surumSon(a).durum] || [surumSon(a).durum])[0]}`).join(" · "))}">${l.length ? l.map(a => `${a.ad}: ${(SURUM[surumSon(a).durum] || [surumSon(a).durum])[0]}`).join(" · ") : "sürümlerin hepsi yayında"}</div></div>`; })()}
         </div>
 
         <section>
@@ -860,7 +888,7 @@
             return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
               <div class="ust">${ikonHtml(a)}
                 <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "—")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
-                ${katmanEtiket(d.katman)}</div>
+                <span style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${katmanEtiket(d.katman)}${surumSorunlu(a) ? surumEtiket(a) : ""}</span></div>
               <div class="buyuk"><span class="n ${n ? "" : "zero"}">${sayi(n)}</span><span class="e">indirme</span>
                 ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
               ${sparkGenis(a.slug, bas, son)}
@@ -923,7 +951,7 @@
         <section>
           <h3>Portföy <span class="acik">— ${D.gunler[bas]} → ${D.gunler[son - 1]}</span></h3>
           <div class="panel scroll">
-            <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>Servisler</th><th>Dil</th></tr></thead>
+            <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>iOS sürüm</th><th>Servisler</th><th>Dil</th></tr></thead>
             <tbody>${l.map(({ a, d }) => { const p = a.profil || {}; return `<tr data-app="${esc(a.slug)}">
               <td>${esc(a.ad)}${platYazi(a)}<span class="alt">${esc(p.kategori || "—")}</span></td>
               <td>${katmanEtiket(d.katman)}</td>
@@ -934,6 +962,7 @@
               <td class="num ${d.o.gelirTl ? "" : "zero"}">${d.o.gelirTl ? tl(d.o.gelirTl) : "0"}</td>
               <td class="num ${d.o.gelirTl && d.o.indirme ? "" : "zero"}">${d.o.gelirTl && d.o.indirme ? (d.o.gelirTl / d.o.indirme).toFixed(0) : "—"}</td>
               <td>${puanYazi(a)}</td>
+              <td>${surumEtiket(a) || '<span class="zero">—</span>'}</td>
               <td>${(p.servisler || []).map(s => `<span class="etiket e-gri">${esc(D.servisler?.[s]?.ad || s)}</span>`).join(" ") || '<span class="zero">—</span>'}</td>
               <td class="num">${p.diller ?? "—"}</td></tr>`; }).join("")}</tbody></table>
           </div>
@@ -943,6 +972,15 @@
           <li><strong>₺/indirme</strong> = o aralıktaki gelir ÷ indirme. Reklamda ödeyebileceğin en yüksek kurulum maliyetinin tavanı budur — ayrıntı Pazarlama sekmesinde.</li>
           <li><strong>AdMob</strong> geliri App Store raporunda yok; reklamlı uygulamaların gerçek geliri burada görünenden fazla.</li>
         </ul></div></section>`;
+    }
+
+    function gelirDokumu(para) {
+      if (!para.detay.length) return '<div class="bos">Bu aralıkta gelir yok.</div>';
+      const enCok = Math.max(...para.detay.map(d => d[2] ?? 0), 1);
+      return `<div class="bars">${para.detay.map(([p, v, t]) => `
+        <div class="bar"><span class="code">${esc(p)}</span>
+          <span class="rail"><span class="fill" style="width:${t ? (t / enCok * 100).toFixed(1) : 0}%"></span></span>
+          <span class="n" title="${t ? `≈ ${tl(t)}` : ""}">${v.toFixed(2)}</span></div>`).join("")}</div>`;
     }
 
     function uygulamaDetay(a) {
@@ -970,7 +1008,7 @@
               <div><dt>Kategori</dt><dd>${esc(p?.kategori || "—")} · ${p?.diller ?? "?"} dil</dd></div>
               <div><dt>Servisler</dt><dd>${(p?.servisler || []).map(s => { const sv = D.servisler?.[s]; const pr = p?.projeler?.[s]; return (sv?.url ? `<a href="${esc(sv.url)}" target="_blank" rel="noopener">${esc(sv.ad)} ↗</a>` : esc(sv?.ad || s)) + (pr ? ` <code>${esc(pr)}</code>` : ""); }).join(" · ") || "—"}${p?.reklam ? " · AdMob" : ""}</dd></div>
               <div><dt>Bağlantılar</dt><dd>${storeLink(a)}</dd></div>
-              <div><dt>App Store</dt><dd>${a.ios ? `<code>${esc(a.ios)}</code>` : "yok"}</dd></div>
+              <div><dt>App Store</dt><dd>${a.ios ? `<code>${esc(a.ios)}</code>` : "yok"}${a.iosSurum?.length ? `<span class="alt">${a.iosSurum.map(v => `${esc(v.surum)} ${(SURUM[v.durum] || [v.durum])[0]} (${tarihYazi(v.tarih)})`).join(" · ")}</span>` : ""}</dd></div>
               <div><dt>Google Play</dt><dd>${a.android ? `<code>${esc(a.android)}</code>` : "yok"}${a.play?.length ? `<span class="alt">${trackSirala(a.play).map(t => `${esc(t.track)} ${esc(t.surum)}`).join(" · ")}</span>` : ""}</dd></div>
               <div><dt>Vault</dt><dd>${esc(v.guncelleme || "—")} · ${gorevler.length} açık görev</dd></div>
               ${p?.not ? `<div><dt>Not</dt><dd>${esc(p.not)}</dd></div>` : ""}
@@ -982,6 +1020,85 @@
           <h3>Günlük indirme</h3>
           <div class="panel">${grafik(pencere().bas, pencere().son, [a])}</div>
         </section>`;
+    }
+
+    /* ── Sekme: finans ───────────────────────────────────────────
+       Ay ay: indirme, satın alma, gelir, gider, net. Kümülatif ve hedef. */
+    function aylikTablo(slugs) {
+      const aylar = new Map();
+      D.gunler.forEach((t, ix) => {
+        const ay = t.slice(0, 7);
+        const h = aylar.get(ay) || aylar.set(ay, { ay, gun: 0, raporsuz: 0, i: 0, s: 0, p: {} }).get(ay);
+        h.gun++; if (D.iosVeriYok[ix]) h.raporsuz++;
+        for (const a of slugs) {
+          const g = D.veri[a.slug]?.[ix]; if (!g) continue;
+          h.i += (S.platform === "and" ? 0 : (g.i || 0)) + (S.platform === "ios" ? 0 : (g.a || 0));
+          h.s += g.s || 0;
+          if (g.p) for (const [k, v] of Object.entries(g.p)) h.p[k] = (h.p[k] || 0) + v;
+        }
+      });
+      const m = maliyet(30);
+      return [...aylar.values()].map(h => {
+        const gelirTl = tlCevir(h.p);
+        const giderTl = m.aylikTl !== null ? m.aylikTl * h.gun / 30 : null;
+        return { ...h, gelirTl, giderTl, net: gelirTl !== null && giderTl !== null ? gelirTl - giderTl : null };
+      });
+    }
+    function finansCiz() {
+      const slugs = secili();
+      const aylar = aylikTablo(slugs);
+      const oran = usdTl();
+      const buAy = bugun().slice(0, 7);
+      const simdi = aylar.find(h => h.ay === buAy) || { i: 0, s: 0, gelirTl: 0, gun: 0 };
+      const gunAy = new Date().getDate();
+      const hedef = D.hedef || {};
+      const topI = aylar.reduce((t, h) => t + h.i, 0), topS = aylar.reduce((t, h) => t + h.s, 0);
+      const topG = aylar.reduce((t, h) => t + (h.gelirTl || 0), 0), topM = aylar.reduce((t, h) => t + (h.giderTl || 0), 0);
+      const { bas, son } = pencere();
+      const paylar = slugs.map(a => ({ a, g: tlCevir(toplaHarita("p", bas, son, [a])) || 0 })).filter(x => x.g > 0).sort((x, y) => y.g - x.g);
+      const enCokPay = paylar[0]?.g || 1;
+      const para = paraOzet(toplaHarita("p", bas, son, slugs));
+      const cubuk = (deger, hedefD, etiket, yazi) => { const y = hedefD ? Math.min(100, deger / hedefD * 100) : 0; return `<div class="satir"><span>${etiket}</span><span class="rail"><span class="fill ${y >= 100 ? "tam" : ""}" style="width:${y.toFixed(1)}%"></span></span><span class="n">${yazi}</span></div>`; };
+      const hedefGelirTl = oran && hedef.aylikGelirUsd ? hedef.aylikGelirUsd * oran : null;
+      return `
+        <div class="cards">
+          <div class="card"><div class="k">Toplam gelir</div><div class="v">≈ ${tl(topG)}</div><div class="s">${aylar.length} ay · ${D.gunler[0]} → ${D.gunler.at(-1)}</div></div>
+          <div class="card"><div class="k">Toplam gider</div><div class="v">≈ ${tl(topM)}</div><div class="s">yalnız sabit üyelikler</div></div>
+          <div class="card ${topG - topM >= 0 ? "vurgu" : ""}"><div class="k">Net</div><div class="v ${topG - topM >= 0 ? "up" : "down"}">${topG - topM >= 0 ? "+" : "−"}${tl(Math.abs(topG - topM))}</div><div class="s">${sayi(topI)} indirme · ${sayi(topS)} satın alma</div></div>
+          <div class="card"><div class="k">Bu ay (${gunAy}. gün)</div><div class="v">≈ ${tl(simdi.gelirTl || 0)}</div><div class="s">${sayi(simdi.i)} indirme · ${sayi(simdi.s)} satın alma</div></div>
+        </div>
+
+        <div class="ikili">
+          <section>
+            <h3>Aylık hedef <span class="acik">— scripts/lab/profil.mjs HEDEF</span></h3>
+            <div class="panel"><div class="hedef">
+              ${cubuk(simdi.gelirTl || 0, hedefGelirTl, "Gelir", `${tl(simdi.gelirTl || 0)} / ${hedefGelirTl ? tl(hedefGelirTl) : "?"}`)}
+              ${cubuk(simdi.i, hedef.aylikIndirme, "İndirme", `${sayi(simdi.i)} / ${sayi(hedef.aylikIndirme)}`)}
+              ${cubuk(simdi.s, hedef.aylikSatinAlma, "Satın alma", `${sayi(simdi.s)} / ${sayi(hedef.aylikSatinAlma)}`)}
+            </div>
+            <div class="bos" style="margin-top:10px">Ayın ${gunAy}. günü; ay sonunda aynı hızla ≈ ${tl((simdi.gelirTl || 0) / Math.max(1, gunAy) * 30)} gelir, ${sayi(Math.round(simdi.i / Math.max(1, gunAy) * 30))} indirme.</div></div>
+          </section>
+          <section>
+            <h3>Gelir payı <span class="acik">— seçili aralık</span></h3>
+            <div class="panel">${paylar.length ? `<div class="bars">${paylar.map(x => `<div class="bar" style="grid-template-columns:110px 1fr 80px"><span class="code" style="font-family:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(x.a.ad)}</span><span class="rail"><span class="fill" style="width:${(x.g / enCokPay * 100).toFixed(1)}%"></span></span><span class="n">${tl(x.g)}</span></div>`).join("")}</div>` : '<div class="bos">Bu aralıkta gelir yok.</div>'}</div>
+            <h3 style="margin-top:16px">Para birimleri</h3>
+            <div class="panel">${gelirDokumu(para)}</div>
+          </section>
+        </div>
+
+        <section>
+          <h3>Ay ay</h3>
+          <div class="panel scroll">
+            <table><thead><tr><th>Ay</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">Gider</th><th class="num">Net</th><th class="num">Raporsuz gün</th></tr></thead>
+            <tbody>${[...aylar].reverse().map(h => `<tr><td>${esc(h.ay)}${h.ay === buAy ? ' <span class="zero">(devam)</span>' : ""}</td><td class="num">${sayi(h.i)}</td><td class="num ${h.s ? "" : "zero"}">${sayi(h.s)}</td><td class="num ${h.gelirTl ? "" : "zero"}">${h.gelirTl !== null ? tl(h.gelirTl) : "—"}</td><td class="num">${h.giderTl !== null ? tl(h.giderTl) : "—"}</td><td class="num ${h.net === null ? "" : h.net < 0 ? "down" : "up"}">${h.net === null ? "—" : `${h.net < 0 ? "−" : "+"}${tl(Math.abs(h.net))}`}</td><td class="num ${h.raporsuz ? "" : "zero"}">${h.raporsuz}</td></tr>`).join("")}</tbody></table>
+          </div>
+        </section>
+        <section><div class="panel"><ul class="notes">
+          <li><strong>Gelir</strong> = Apple'ın "Developer Proceeds" sütunu, yani Apple payı (%15) düşülmüş net; kullanıcının ödediği fiyat değil. Kurlar günlük, yaklaşık.</li>
+          <li><strong>Gider</strong> yalnız sabit üyelikler (Apple 99 $/yıl). Reklam harcaması Pazarlama → Günlük'te, otomatik toplanmıyor.</li>
+          <li><strong>AdMob</strong> ve <strong>Google Play</strong> geliri bu tabloda yok — biri hiçbir raporda, diğeri yetki bekliyor. Gerçek toplam burada görünenden yüksek.</li>
+          <li>Apple bazı günlerin raporunu 1–3 gün geç yayınlar; "raporsuz gün" o yüzden son ayda hep birkaç olur.</li>
+        </ul></div></section>`;
     }
 
     /* ── Sekme: pazarlama ────────────────────────────────────── */
@@ -1014,6 +1131,14 @@
               ${g.k === "odak" || g.k === "buyut" ? `<div class="kanal">Kanal: ${esc(d.kanal)}</div>` : ""}
             </div>`).join("")}
           </div>`).join("")}</div>` : uygulamaDetay(secim)}
+
+        <section style="margin-top:22px">
+          <h3>Günlük <span class="acik">— vault/pazarlama/kampanyalar.md</span><span class="h3-sag">${kopyaDugme(`Vault'taki ~/dev/vault/pazarlama/kampanyalar.md tablosuna yeni satır(lar) ekle. Aşağıdaki bilgiyi tablo sütunlarına (tarih | kanal | uygulama | harcama | sonuc | not) yerleştir; bilinmeyen alanı "?" bırak, uydurma. Eklediğin satırları göster.\n\nBilgi:\n(buraya yaz: ne zaman, hangi kanal, hangi uygulama, ne harcandı, ne oldu)\n\n${KURALLAR}`, "Kampanya ekle (Claude'a)", "buyuk")}</span></h3>
+          <div class="panel scroll">${(() => {
+            const l = (D.kampanyalar || []).filter(k => !secim || k.uygulama === secim.slug);
+            return l.length ? `<table><thead><tr><th>Tarih</th><th>Kanal</th><th>Uygulama</th><th class="num">Harcama</th><th>Sonuç</th><th>Not</th></tr></thead><tbody>${[...l].reverse().map(k => `<tr><td class="mono" style="font-size:12px">${esc(k.tarih)}</td><td><span class="etiket e-gri">${esc(k.kanal)}</span></td><td>${esc(D.apps.find(a => a.slug === k.uygulama)?.ad || k.uygulama)}</td><td class="num ${k.harcama === "0" ? "zero" : ""}">${esc(k.harcama)}</td><td class="${/^\?/.test(k.sonuc) ? "zero" : ""}">${esc(k.sonuc)}</td><td style="white-space:normal;min-width:260px;color:var(--subtle)">${md(k.not)}</td></tr>`).join("")}</tbody></table>` : '<div class="bos">Günlükte satır yok.</div>'; })()}</div>
+          ${D.kampanyaSorular?.length && !secim ? `<div class="uyari-kutu" style="margin-top:12px"><strong>Eksik bilgi — cevapları bana yaz, tabloya işlerim:</strong><ul class="notes" style="margin-top:6px">${D.kampanyaSorular.map(q => `<li>${md(q)}</li>`).join("")}</ul></div>` : ""}
+        </section>
 
         <section style="margin-top:22px">
           <h3>Reklam — ne zaman, hangi bütçeyle</h3>
@@ -1161,7 +1286,8 @@
           <h3 style="margin-top:16px">Eksikler</h3><div class="panel">${D.notlar?.length ? `<ul class="notes">${D.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : '<div class="bos">Eksik yok.</div>'}</div></section>
         </div>
         <section><div class="panel"><ul class="notes">
-          <li>Yenilemek: <code>node scripts/lab/collect.mjs --days 45</code> → <code>node scripts/lab/build.mjs</code> → commit + push. Ham veri vault'ta (private), buraya yalnız şifreli özet gider.</li>
+          <li><strong>Kendi kendine yenilenmiyor</strong> — sayfa statik, veri Mac'te çekilip push ediliyor. Günlük otomatik çekim için launchd tanımı hazır: <code>scripts/lab/com.bamtech.lab-panel.plist</code> (her gün 09:30, <code>gunluk.sh</code>, log <code>vault/metrikler/veri/gunluk.log</code>). Kurulum komutu README'de. Kurulana kadar elle: <code>sh scripts/lab/gunluk.sh</code>.</li>
+          <li>Elle yenilemek: <code>node scripts/lab/collect.mjs --days 45</code> → <code>node scripts/lab/build.mjs</code> → commit + push. Ham veri vault'ta (private), buraya yalnız şifreli özet gider.</li>
           <li>Yeni uygulama: <code>scripts/lab/apps.mjs</code> (kimlikler) + <code>scripts/lab/profil.mjs</code> (model, servisler) + vault notu.</li>
         </ul></div></section>`;
     }
@@ -1176,14 +1302,15 @@
       const SEKMELER = [
         { v: "ozet", e: "Özet" },
         { v: "portfoy", e: secim ? "Uygulama" : "Uygulamalar" },
+        { v: "finans", e: "Finans" },
         { v: "pazarlama", e: "Pazarlama" },
         { v: "takip", e: "Takip" },
         { v: "yorum", e: "Yorumlar", say: cevapsizSay ? `${cevapsizSay}↩` : tumYorumlar().length || "", uyari: !!cevapsizSay },
         { v: "gorev", e: "Görevler", say: acikGorev || "" },
         { v: "veri", e: "Veri", say: D.notlar?.length || "" }
       ];
-      const govde = ({ portfoy: portfoyCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
-      const altYazi = ["ozet", "portfoy", "pazarlama"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
+      const govde = ({ portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
+      const altYazi = ["ozet", "portfoy", "pazarlama", "finans"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
       $("#ana").innerHTML = `
         <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
         <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:34px;height:34px;border-radius:9px;font-size:18px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2);border:1px solid var(--border)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
@@ -1246,7 +1373,7 @@
       S = { ...S, ...oku(DURUM_KEY, {}) };
       YEREL = oku(GOREV_KEY, {});
       if (S.app && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "portfoy", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (!["ozet", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz();
     }
     $("#form").addEventListener("submit", async e => {

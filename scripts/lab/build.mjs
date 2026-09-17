@@ -24,7 +24,7 @@ import { homedir } from "node:os";
 import { webcrypto as crypto } from "node:crypto";
 
 import { APPS, SLUG_APP } from "./apps.mjs";
-import { PROFIL, SERVISLER, SABIT_GIDER, TAKVIM } from "./profil.mjs";
+import { PROFIL, SERVISLER, SABIT_GIDER, TAKVIM, HEDEF } from "./profil.mjs";
 
 const KOK  = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const VERI = join(homedir(), "dev", "vault", "metrikler", "veri");
@@ -82,6 +82,7 @@ const kova = existsSync(join(VERI, "android-kova.json"))
 const oku = (ad, bos) => existsSync(join(VERI, ad))
   ? JSON.parse(readFileSync(join(VERI, ad), "utf8")) : bos;
 const kur   = oku("kurlar.json", null);
+const iosDurum = oku("ios-durum.json", { apps: {} });
 const vault = oku("vault.json", { apps: {}, genel: [] });
 
 const androidGun = kova.gunluk || {};
@@ -129,6 +130,7 @@ const apps = APPS.map(app => ({
   yorum: yorumlar[app.slug] || null,
   androidYorum: kova.yorumlar?.[app.slug] || null,
   play: android.apps?.[app.slug]?.tracks || null,
+  iosSurum: iosDurum.apps?.[app.slug] || null,
   /* Vault notu adı slug ile eşleşiyor; eşleşmezse alan boş kalıyor.
      Vault kaynak, panel ayna — panelden vault'a yazılmıyor. */
   vault: vault.apps?.[app.slug] || null,
@@ -175,6 +177,13 @@ const kaynaklar = [
     not: kova.hata || (androidVar ? "akıyor" : "kova tanımlı, veri yok")
   },
   {
+    ad: "App Store · sürüm durumu",
+    arac: "ascelerate apps versions",
+    durum: Object.keys(iosDurum.apps || {}).length ? "ok" : "yok",
+    son: iosDurum.uretim || null,
+    not: `${Object.keys(iosDurum.apps || {}).length} uygulamada sürüm okundu`
+  },
+  {
     ad: "Döviz kurları",
     arac: "open.er-api.com",
     durum: kur ? "ok" : "yok",
@@ -207,7 +216,10 @@ const panel = {
   notlar,
   servisler: SERVISLER,
   sabitGider: SABIT_GIDER,
-  takvim: TAKVIM
+  takvim: TAKVIM,
+  hedef: HEDEF,
+  kampanyalar: vault.kampanyalar || [],
+  kampanyaSorular: vault.kampanyaSorular || []
 };
 
 /* ── Şifrele ─────────────────────────────────────────────────────────── */

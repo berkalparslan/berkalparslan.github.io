@@ -8,10 +8,12 @@
 # üretildiği için dosya hep farklı görünür, o yüzden özet karşılaştırılıyor.
 set -e
 cd "$(dirname "$0")/../.."
+echo "── $(date "+%Y-%m-%d %H:%M") çekim başladı"
 
 node scripts/lab/collect.mjs --days 45
 node scripts/lab/build.mjs
 
+git pull -q --rebase origin main || true
 git add lab/panel/data.enc.json
 if git diff --cached --quiet; then
   echo "değişiklik yok"

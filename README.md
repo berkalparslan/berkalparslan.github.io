@@ -114,6 +114,17 @@ git add lab/panel/data.enc.json && git commit -m "panel verisi" && git push
 
 Parola macOS Keychain'de (`bamtech-lab-panel`). Ayrıntı: `scripts/lab/README.md`.
 
+**Otomatik çekim** (her gün 09:30, Mac açıkken): `scripts/lab/gunluk.sh`
+aynı üç adımı yapar, veri değişmediyse commit atmaz. launchd ile kurmak:
+
+```bash
+cp scripts/lab/com.bamtech.lab-panel.plist ~/Library/LaunchAgents/ && launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.bamtech.lab-panel.plist
+```
+
+Hemen denemek `launchctl kickstart -k gui/$(id -u)/com.bamtech.lab-panel`,
+log `~/dev/vault/metrikler/veri/gunluk.log`. İlk çalışmada Keychain parola
+erişimi için macOS bir kez sorabilir ("Always Allow" de).
+
 Sekmeler: **Özet** (indirme, gelir, gider, net, bu hafta yapılacaklar, tarihli
 işler) · **Uygulamalar** (portföy tablosu, katman, ₺/indirme, servisler) ·
 **Pazarlama** (odak/büyüt/bakım/bekle kartları, sonraki adım, kanal, reklam
