@@ -19,7 +19,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync, existsSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
@@ -391,6 +391,57 @@ function vaultNotlari() {
     }
     cikti.kampanyaSorular = gorevAyikla(metin).filter(g => !g.bitti).map(g => g.yazi);
     log(`  kampanya ${cikti.kampanyalar.length} satır · ${cikti.kampanyaSorular.length} soru`);
+  }
+
+  /* Reklam dışa aktarımları: pazarlama/gelen/*.csv. Apple Ads ve Meta
+     Ads Manager formatları tanınıyor; aynı kampanya iki dosyadaysa en yeni
+     dosya kazanır. Bilinmeyen dosya sessizce atlanır. */
+  cikti.reklam = [];
+  const gd = join(kok, "pazarlama", "gelen");
+  if (existsSync(gd)) {
+    const csvSatir = (satir) => {
+      const h = []; let s = "", q = false;
+      for (const c of satir) {
+        if (c === '"') q = !q;
+        else if (c === "," && !q) { h.push(s); s = ""; }
+        else s += c;
+      }
+      h.push(s); return h.map(x => x.trim());
+    };
+    const dosyalar = readdirSync(gd).filter(d => d.endsWith(".csv"))
+      .map(d => ({ d, t: statSync(join(gd, d)).mtimeMs })).sort((a, b) => a.t - b.t);
+    const gorulen = new Map();
+    for (const { d } of dosyalar) {
+      const metin = readFileSync(join(gd, d), "utf8").replace(/^\uFEFF/, "");
+      const satirlar = metin.split(/\r?\n/).filter(Boolean);
+      const bas = satirlar.findIndex(x => /^"?Campaign ID"?,|^"?Reporting starts"?,/.test(x));
+      if (bas < 0) continue;
+      const kolon = csvSatir(satirlar[bas]);
+      const ix = ad => kolon.indexOf(ad);
+      const apple = kolon.includes("Campaign ID");
+      const kur = (metin.match(/^Currency:\s*(\w+)/m) || [])[1] || (kolon.find(k => /Amount spent \((\w+)\)/.test(k))?.match(/\((\w+)\)/)?.[1]) || "";
+      for (const satir of satirlar.slice(bas + 1)) {
+        const h = csvSatir(satir);
+        const ad = h[ix("Campaign Name") >= 0 ? ix("Campaign Name") : ix("Campaign name")];
+        if (!ad) continue;                       /* toplam satırı */
+        const n = k => Number(String(h[ix(k)] ?? "").replace(/,/g, "")) || 0;
+        const kayit = apple ? {
+          kaynak: "apple-ads", ad, uygulamaAdi: h[ix("App Name")] || "", ulke: h[ix("Country or Region")] || "",
+          durum: h[ix("Status")] || "", bas: h[ix("Start Date")] || "", son: h[ix("End Date")] || "",
+          gunluk: n("Daily Budget"), harcama: n("Spend"), para: kur, gosterim: n("Impressions"), tik: n("Taps"),
+          kurulum: n("Installs (Total)"), cpa: n("Avg CPA (Total)"), cpt: n("Average CPT"), donusum: n("CR (Total)")
+        } : {
+          kaynak: "meta-ads", ad, uygulamaAdi: "", ulke: "", durum: h[ix("Campaign delivery")] || "",
+          bas: h[ix("Reporting starts")] || "", son: h[ix("Reporting ends")] || "",
+          gunluk: n("Ad set budget"), harcama: n(kolon.find(k => k.startsWith("Amount spent")) || ""), para: kur,
+          gosterim: n("Impressions"), tik: 0, kurulum: h[ix("Results")] ? n("Results") : null, erisim: n("Reach"),
+          cpa: null, cpt: null, donusum: null
+        };
+        gorulen.set(`${kayit.kaynak}|${ad}`, { ...kayit, dosya: d });
+      }
+    }
+    cikti.reklam = [...gorulen.values()];
+    log(`  reklam ${cikti.reklam.length} kampanya (${dosyalar.length} dosya)`);
   }
 
   for (const dosya of readdirSync(join(kok, "konular"))) {

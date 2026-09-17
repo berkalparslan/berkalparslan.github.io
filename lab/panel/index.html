@@ -1141,6 +1141,24 @@
         </section>
 
         <section style="margin-top:22px">
+          <h3>Reklam kampanyaları <span class="acik">— vault/pazarlama/gelen/ dışa aktarımlarından</span></h3>
+          <div class="panel scroll">${(() => {
+            const l = (D.reklam || []).filter(r => !secim || (r.uygulamaAdi && r.uygulamaAdi.toLowerCase().includes(secim.ad.toLowerCase().split(" ")[0])) || /tennis/i.test(r.ad) && secim.slug === "tennis-padel");
+            if (!l.length) return '<div class="bos">Dışa aktarım yok. Apple Ads / Meta CSV\'lerini vault/pazarlama/gelen/ klasörüne at.</div>';
+            const p = (v, b = 2) => v === null || v === undefined ? '<span class="zero">—</span>' : Number(v).toLocaleString("tr-TR", { maximumFractionDigits: b });
+            return `<table><thead><tr><th>Kaynak</th><th>Kampanya</th><th>Uygulama / ülke</th><th>Dönem</th><th class="num">Günlük</th><th class="num">Harcama</th><th class="num">Gösterim</th><th class="num">Tık</th><th class="num">Kurulum</th><th class="num">CPA</th><th class="num">Dönüşüm</th><th>Durum</th></tr></thead><tbody>${l.map(r => `<tr>
+              <td><span class="etiket e-gri">${esc(r.kaynak)}</span></td><td>${esc(r.ad)}</td>
+              <td>${esc(r.uygulamaAdi || "—")}${r.ulke ? `<span class="alt">${esc(r.ulke)}</span>` : ""}</td>
+              <td class="mono" style="font-size:12px">${esc(r.bas)}${r.son && r.son !== "N/A" ? ` → ${esc(r.son)}` : ""}</td>
+              <td class="num">${p(r.gunluk)} ${esc(r.para)}</td><td class="num">${p(r.harcama)} ${esc(r.para)}</td>
+              <td class="num">${p(r.gosterim, 0)}</td><td class="num">${r.tik ? p(r.tik, 0) : '<span class="zero">—</span>'}</td>
+              <td class="num ${r.kurulum === null ? "" : ""}">${r.kurulum === null ? '<span class="zero" title="Meta SDK yok, kurulum atfedilemiyor">ölçülmedi</span>' : p(r.kurulum, 0)}</td>
+              <td class="num">${r.cpa ? `${p(r.cpa)} ${esc(r.para)}` : '<span class="zero">—</span>'}</td>
+              <td class="num">${r.donusum ? `%${(r.donusum * 100).toFixed(0)}` : '<span class="zero">—</span>'}</td>
+              <td>${esc(r.durum)}</td></tr>`).join("")}</tbody></table>`; })()}</div>
+        </section>
+
+        <section style="margin-top:22px">
           <h3>Reklam — ne zaman, hangi bütçeyle</h3>
           <div class="uyari-kutu"><strong>Kanıt:</strong> Ağustos'ta 10 gün Apple Ads + Meta, günde 100–200 ₺ (≈ 3–6 $, iki platforma bölünmüş) → <strong>0 kurulum</strong>. Kampanya bozuk değildi; bütçe ihaleyi kazanacak eşiğin altındaydı. Organik indirmeler o günlerde de devam etti.</div>
           <div class="ikili">
@@ -1170,7 +1188,7 @@
     function takipCiz() {
       const secim = secApp();
       const apps = D.apps.filter(a => (!secim || a.slug === secim.slug) && platUyar(a) && a.profil);
-      const SIRA = ["asc", "play", "revenuecat", "firebase", "crashlytics", "admob", "supabase", "render", "mongodb", "cloudkit", "gemini", "appleads", "web"];
+      const SIRA = ["asc", "play", "revenuecat", "firebase", "crashlytics", "admob", "supabase", "render", "mongodb", "cloudflare", "cloudkit", "gemini", "appleads", "web"];
       const servisler = SIRA.filter(k => D.servisler?.[k]);
       const kullanan = k => D.apps.filter(a => (a.profil?.servisler || []).includes(k) || (k === "admob" && a.profil?.reklam) || (k === "asc" && a.ios) || (k === "play" && a.android));
       const matrisKol = servisler.filter(k => k !== "appleads" && k !== "web");

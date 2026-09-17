@@ -88,6 +88,13 @@ export const SERVISLER = {
     siklik: "Sorun bildirilince",
     panel: "yok"
   },
+  cloudflare: {
+    ad: "Cloudflare",
+    url: "https://dash.cloudflare.com/",
+    bak: "CDN önbellek isabeti, istek sayısı, hata oranı (O mu Bu mu görselleri). Worker cron adayı: panel çekimini Mac yerine buradan yapmak.",
+    siklik: "Ayda bir",
+    panel: "yok"
+  },
   gemini: {
     ad: "Gemini API",
     url: "https://aistudio.google.com/",
@@ -228,7 +235,7 @@ export const PROFIL = {
     kategori: "Eğlence",
     model: "bedava",
     fiyat: "Satın alma yok",
-    servisler: ["asc", "admob", "render", "mongodb", "firebase"],
+    servisler: ["asc", "admob", "render", "mongodb", "firebase", "cloudflare"],
     reklam: true,
     maliyet: 0,
     sayfa: "/o-mu-bu-mu/",

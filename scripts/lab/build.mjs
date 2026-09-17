@@ -219,7 +219,8 @@ const panel = {
   takvim: TAKVIM,
   hedef: HEDEF,
   kampanyalar: vault.kampanyalar || [],
-  kampanyaSorular: vault.kampanyaSorular || []
+  kampanyaSorular: vault.kampanyaSorular || [],
+  reklam: vault.reklam || []
 };
 
 /* ── Şifrele ─────────────────────────────────────────────────────────── */
