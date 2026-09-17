@@ -256,7 +256,9 @@ function iosYorumlar() {
       } catch { /* json değilse atla */ }
     }
     const puanlar = liste.map(x => x.rating).filter(Number.isFinite);
-    const cevapsiz = liste.filter(x => x.response?.state !== "PUBLISHED").length;
+    /* PENDING_PUBLISH: cevap yazılmış, Apple henüz yayınlamamış — cevapsız değil. */
+    const cevapli = x => ["PUBLISHED", "PENDING_PUBLISH"].includes(x.response?.state);
+    const cevapsiz = liste.filter(x => !cevapli(x)).length;
     cikti[app.slug] = {
       adet: r.ok ? liste.length : null,
       ortalama: puanlar.length ? +(puanlar.reduce((a, b) => a + b, 0) / puanlar.length).toFixed(2) : null,
@@ -273,8 +275,9 @@ function iosYorumlar() {
           kisi: x.reviewerNickname || "",
           ulke: x.territory || "",
           tarih: x.createdDate || "",
-          cevap: x.response?.state === "PUBLISHED"
-            ? { metin: x.response.body || "", tarih: x.response.lastModifiedDate || "" } : null
+          cevap: cevapli(x)
+            ? { metin: x.response.body || "", tarih: x.response.lastModifiedDate || "",
+                bekliyor: x.response.state === "PENDING_PUBLISH" || undefined } : null
         }))
     };
     log(`  yorum ${app.slug} ${liste.length}${cevapsiz ? ` (${cevapsiz} cevapsız)` : ""}`);

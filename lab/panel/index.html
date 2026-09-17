@@ -1237,7 +1237,7 @@
             <div class="yorum">
               <div class="y-ust"><span class="y-puan" title="${y.puan} yıldız">${yildiz(y.puan)}</span>${y.baslik ? `<span class="y-baslik">${esc(y.baslik)}</span>` : ""}${!S.app ? `<span class="y-uyg">${esc(y.uygulama)}</span>` : ""}<span class="y-meta">${esc(y.ulke)} · ${tarihYazi(y.tarih)}${y.kisi ? ` · ${esc(y.kisi)}` : ""}</span></div>
               <div class="y-metin">${esc(y.metin)}</div>
-              ${y.cevap ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}</b>${esc(y.cevap.metin)}</div>` : '<div class="y-bekliyor">cevap bekliyor</div>'}
+              ${y.cevap ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}${y.cevap.bekliyor ? " · yayın bekliyor" : ""}</b>${esc(y.cevap.metin)}</div>` : '<div class="y-bekliyor">cevap bekliyor</div>'}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan yorum yok.</div>'}</div>
         </section>
         ${D.apps.some(a => a.android) && !D.androidVeriVar ? `<section><div class="panel"><ul class="notes"><li>Google Play yorumları burada yok — API yalnız son 7 günü veriyor, geçmiş toplu raporlarda; servis hesabı yetkisi açılınca düşer.</li></ul></div></section>` : ""}`;
