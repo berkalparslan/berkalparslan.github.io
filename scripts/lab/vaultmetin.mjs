@@ -7,20 +7,43 @@
      kampanyalar: markdown | null          (pazarlama/kampanyalar.md)
      gelen:       [{ ad, metin, t }]       (pazarlama/gelen/*.csv, t = mtime ms) */
 
+/* Görev satırının paneldeki hâli. Etiketler (#ios #android #watch #wear #web
+   #site #play #asc #pazarlama …) metinden ayrılır; "✅ 2026-09-17" bitiş tarihi
+   olarak okunur. Başlığında "kalıp" ya da "şablon" geçen bölümlerdeki kutular
+   görev değil, kontrol listesi — panele girmez. */
+export const ETIKETLER = ["ios", "android", "watch", "wear", "web", "site", "play", "asc", "pazarlama", "karar", "berk"];
+const etiketRe = new RegExp(`(?:^|\\s)#(${ETIKETLER.join("|")})\\b`, "gi");
+
+export function gorevSatiri(satir) {
+  const g = satir.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+  if (!g) return null;
+  let ham = g[2];
+  const etiket = [];
+  ham = ham.replace(etiketRe, (_, e) => { etiket.push(e.toLowerCase()); return ""; });
+  let tarih = null;
+  ham = ham.replace(/\s*✅\s*(\d{4}-\d{2}-\d{2})\s*$/, (_, t) => { tarih = t; return ""; });
+  const yazi = ham.replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1").replace(/\s+/g, " ").trim();
+  if (!yazi || /^_?\(doldurulmadı\)_?$/.test(yazi)) return null;
+  return { bitti: g[1].toLowerCase() === "x", yazi, etiket, tarih };
+}
+
 export function gorevAyikla(metin) {
   const gorevler = [];
-  let bolum = "";
+  let bolum = "", kalip = false;
   for (const satir of metin.split("\n")) {
     const b = satir.match(/^#{2,3}\s+(.+?)\s*$/);
-    if (b) { bolum = b[1].replace(/\[\[|\]\]/g, ""); continue; }
-    const g = satir.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+    if (b) { bolum = b[1].replace(/\[\[|\]\]/g, ""); kalip = /kalıp|şablon|template/i.test(bolum); continue; }
+    if (kalip) continue;
+    const g = gorevSatiri(satir);
     if (!g) continue;
-    const yazi = g[2].replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1").trim();
-    if (!yazi || /^_?\(doldurulmadı\)_?$/.test(yazi)) continue;
-    gorevler.push({ bitti: g[1].toLowerCase() === "x", yazi, bolum });
+    gorevler.push({ ...g, bolum });
   }
   return gorevler;
 }
+
+/* Paneldeki görev kimliği: slug + metnin kısa özeti. gorev-kapat.mjs aynı
+   fonksiyonla satırı bulur; tarayıcıdaki kimlik() ile birebir aynı olmalı. */
+export function kimlik(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) | 0; return (h >>> 0).toString(36); }
 
 export function onYuz(metin) {
   const m = metin.match(/^---\n([\s\S]*?)\n---/);

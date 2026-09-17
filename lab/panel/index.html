@@ -405,6 +405,9 @@
     .gorev input { margin-top: 3px; }
     .gorev.bitti .yazi, .gorev.yerel .yazi { color: var(--faint); text-decoration: line-through; }
     .gorev .bolum { font-size: 11.5px; color: var(--faint); font-family: var(--mono); }
+    .gorev .et { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 0 5px; border-radius: 4px; border: 1px solid var(--border-2); color: var(--subtle); margin-left: 6px; vertical-align: 1px; }
+    .gorev .et.ios { color: var(--text); } .gorev .et.android { color: var(--mint); border-color: color-mix(in srgb, var(--mint) 50%, transparent); }
+    .gorev .tarih { font-size: 11px; color: var(--faint); font-family: var(--mono); margin-left: 6px; }
 
     .kaynak { display: grid; grid-template-columns: 10px 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: start; }
     .kaynak:last-child { border-bottom: 0; }
@@ -592,7 +595,7 @@
 
     /* ── Durum ───────────────────────────────────────────────── */
     let D = null;
-    let S = { aralik: 30, platform: "hepsi", app: null, sekme: "ozet", yorumSuzgec: "hepsi", gorevSuzgec: "acik" };
+    let S = { aralik: 30, platform: "hepsi", app: null, sekme: "ozet", yorumSuzgec: "hepsi", gorevSuzgec: "acik", gorevEtiket: "hepsi" };
     let YEREL = {};
 
     const ARALIKLAR = [{ v: 7, e: "7g" }, { v: 30, e: "30g" }, { v: 90, e: "90g" }, { v: 0, e: "Tümü" }];
@@ -706,6 +709,7 @@
         if (!p.sayfa) adimlar.push({ s: "c", ne: "Tanıtım sayfası yok → walletcoach/index.html kalıbından türet" });
         if ((p.diller || 1) <= 1 && o.indirme > 0) adimlar.push({ s: "c", ne: "Listeleme tek dilde → en az EN + TR; 7 dil kalıbı Wallet Coach'ta hazır" });
         if (p.reklam) adimlar.push({ s: "c", ne: "AdMob geliri panelde görünmüyor → apps.admob.com'a ayda bir bak" });
+        if (a.ios && !a.android && o.aylik >= 5) adimlar.push({ s: "c", ne: `Yalnız iOS, ayda ≈${Math.round(o.aylik)} indirme → Android/Wear OS karşılığı değerlendir (Play'de rakip az mı, iOS talebi taşınır mı)` });
         if (monetize && !(p.servisler || []).includes("firebase")) adimlar.push({ s: "c", ne: "Paywall'un kaç kez göründüğü ölçülmüyor (analitik yok) — dönüşüm sadece RevenueCat'ten okunur" });
       }
       if (katman === "bekle" && durum === "engellendi") adimlar.push({ s: "a", ne: "Apple 4.3(a) — itiraz sürüyor, yeniden gönderim yok. Android tarafı bağımsız ilerler" });
@@ -1288,20 +1292,31 @@
     /* ── Sekme: görevler ─────────────────────────────────────── */
     function gorevCiz() {
       const gruplar = tumGorevler();
-      const suz = g => S.gorevSuzgec === "acik" ? !g.bitti : S.gorevSuzgec === "bitti" ? g.bitti : true;
+      const etiketUyar = g => S.gorevEtiket === "hepsi" ? true : S.gorevEtiket === "etiketsiz" ? !(g.etiket || []).length : (g.etiket || []).includes(S.gorevEtiket);
+      const suz = g => (S.gorevSuzgec === "acik" ? !g.bitti : S.gorevSuzgec === "bitti" ? g.bitti : true) && etiketUyar(g);
+      const ETIKET_SEG = [{ v: "hepsi", e: "Hepsi" }, { v: "ios", e: "iOS" }, { v: "android", e: "Android" }, { v: "site", e: "Site" }, { v: "pazarlama", e: "Pazarlama" }, { v: "berk", e: "Berk" }, { v: "etiketsiz", e: "Etiketsiz" }];
+      /* Bu tarayıcıda işaretlenip vault'a yazılmamış olanlar → tek komut */
+      const yerelIdler = Object.keys(YEREL).filter(id => gruplar.some(gr => gr.gorevler.some(g => !g.bitti && `${gr.slug}|${kimlik(g.yazi)}` === id)));
+      const vaultKomut = yerelIdler.length ? `cd ~/dev/web-githubpages/berkalparslan.github.io && node scripts/lab/gorev-kapat.mjs ${yerelIdler.map(i => `"${i}"`).join(" ")} && sh scripts/lab/gunluk.sh && git -C ~/dev/vault add -A && git -C ~/dev/vault commit -qm "görevler kapatıldı" && git -C ~/dev/vault push -q` : "";
       const acikSay = gruplar.reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
       const bittiSay = gruplar.reduce((t, gr) => t + gr.gorevler.filter(g => g.bitti).length, 0);
       const suzgecler = [{ v: "acik", e: `Açık ${acikSay}` }, { v: "bitti", e: `Bitti ${bittiSay}` }, { v: "hepsi", e: `Hepsi ${acikSay + bittiSay}` }];
       const dolu = gruplar.map(gr => ({ ...gr, gorevler: gr.gorevler.filter(suz) })).filter(gr => gr.gorevler.length);
       return `
         <section>
-          <div class="seg" style="max-width:340px;margin-bottom:14px">${suzgecler.map(f => `<button data-gorev="${f.v}" aria-pressed="${S.gorevSuzgec === f.v}">${f.e}</button>`).join("")}</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+            <div class="seg" style="width:300px">${suzgecler.map(f => `<button data-gorev="${f.v}" aria-pressed="${S.gorevSuzgec === f.v}">${f.e}</button>`).join("")}</div>
+            <div class="seg" style="width:470px">${ETIKET_SEG.map(f => `<button data-gorevet="${f.v}" aria-pressed="${S.gorevEtiket === f.v}">${f.e}</button>`).join("")}</div>
+            ${vaultKomut ? `<span style="margin-left:auto">${kopyaDugme(vaultKomut, `Vault'a yaz (${yerelIdler.length}) — komutu kopyala`, "buyuk")}</span>` : ""}
+          </div>
+          ${vaultKomut ? `<div class="bilgi-kutu">${yerelIdler.length} görev bu tarayıcıda işaretli ama vault'ta hâlâ açık. "Vault'a yaz" komutu notlarda <code>[x] … ✅ tarih</code> yapar, paneli yeniler ve vault'u push eder.</div>` : ""}
           <div class="panel">${dolu.length ? dolu.map(gr => `
             <div class="gorev-grup"><h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span>${(() => { const ac = gr.gorevler.filter(g => !g.bitti); if (!ac.length) return ""; const a = D.apps.find(x => x.slug === gr.slug); const m = a ? komut(a, ac.map(g => ({ ne: md(g.yazi) })), `${a.ad} — vault'taki açık görevler`) : `Görevler (vault: ~/dev/vault/konular/${gr.ad}.md — önce bunu oku):\n${ac.map((g, i) => `${i + 1}. ${g.yazi}`).join("\n")}\n\n${KURALLAR}`; return `<span class="h3-sag">${kopyaDugme(m)}</span>`; })()}</h4>
-              ${gr.gorevler.map(g => { const d = gorevDurum(gr.slug, g); return `<label class="gorev ${g.bitti ? "bitti" : ""} ${d.yerel ? "yerel" : ""}"><input type="checkbox" data-gorevid="${esc(d.id)}" ${g.bitti || d.yerel ? "checked" : ""} ${g.bitti ? "disabled" : ""} /><span class="yazi">${md(g.yazi)}${g.bolum ? `<div class="bolum">${esc(g.bolum)}</div>` : ""}</span></label>`; }).join("")}
+              ${gr.gorevler.map(g => { const d = gorevDurum(gr.slug, g); return `<label class="gorev ${g.bitti ? "bitti" : ""} ${d.yerel ? "yerel" : ""}"><input type="checkbox" data-gorevid="${esc(d.id)}" ${g.bitti || d.yerel ? "checked" : ""} ${g.bitti ? "disabled" : ""} /><span class="yazi">${md(g.yazi)}${(g.etiket || []).map(e => `<span class="et ${esc(e)}">${esc(e)}</span>`).join("")}${g.tarih ? `<span class="tarih">✅ ${esc(g.tarih)}</span>` : ""}${g.bolum ? `<div class="bolum">${esc(g.bolum)}</div>` : ""}</span></label>`; }).join("")}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan görev yok.</div>'}</div>
         </section>
-        <section><div class="panel"><ul class="notes"><li>Görevler vault notlarından geliyor, kaynak orası. Buradaki işaret yalnız bu tarayıcıda durur — "şimdilik kenara çek" içindir, vault'a yazmaz.</li></ul></div></section>`;
+        <section><div class="panel"><ul class="notes"><li>Görevler vault notlarından geliyor, kaynak orası. Kutucuğu işaretlemek önce yalnız bu tarayıcıda durur; üstteki <strong>Vault'a yaz</strong> komutu işaretlileri notlara <code>[x] … ✅ tarih</code> olarak işler, paneli yeniler, vault'u push eder.</li>
+          <li>Etiketler görev satırındaki <code>#ios #android #watch #wear #web #site #play #asc #pazarlama #karar #berk</code> sözcüklerinden geliyor. Başlığında "kalıp" geçen bölümlerdeki kutular panele girmez.</li></ul></div></section>`;
     }
 
     /* ── Sekme: veri ─────────────────────────────────────────── */
@@ -1371,7 +1386,7 @@
       if (e.target.closest("a[href^='http'], a[href^='/']") && !e.target.closest("[data-app]")) return;
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
-      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-renk]");
+      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-gorevet],[data-renk]");
       if (!b || !D) return;
       const d = b.dataset;
       if (d.renk !== undefined) {
@@ -1384,6 +1399,7 @@
       else if (d.sekme) S.sekme = d.sekme;
       else if (d.yorum) S.yorumSuzgec = d.yorum;
       else if (d.gorev) S.gorevSuzgec = d.gorev;
+      else if (d.gorevet) S.gorevEtiket = d.gorevet;
       else if (d.app !== undefined) {
         e.preventDefault();
         const yeni = d.app || null;
@@ -1432,6 +1448,9 @@
       try { sessionStorage.setItem(OTURUM, parola); } catch (e) { }
       S = { ...S, ...oku(DURUM_KEY, {}) };
       YEREL = oku(GOREV_KEY, {});
+      for (const a of D.apps) for (const g of a.vault?.gorevler || []) if (g.bitti) delete YEREL[`${a.slug}|${kimlik(g.yazi)}`];
+      for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
+      yaz(GOREV_KEY, YEREL);
       if (S.app && !D.apps.some(a => a.slug === S.app)) S.app = null;
       if (!["ozet", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz();

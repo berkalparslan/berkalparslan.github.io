@@ -369,6 +369,7 @@ export const PROFIL = {
 /* Tarihli işler — panelin "Özet" sekmesinde geri sayımla görünür.
    Geçmiş tarihler otomatik düşer. Kaynak vault notları; burası aynası. */
 export const TAKVIM = [
+  { tarih: "2026-09-18", ne: "Play toplu rapor kovasını tekrar dene (yetki 17 Eyl'de verildi, hâlâ 403): sh scripts/lab/gunluk.sh çıktısında 'kova' satırına bak", konu: "gplay" },
   { tarih: "2026-09-23", ne: "Shipaton: RevenueCat 'bu tarihe kadar yayında ol' diyor — Yonca 1.1 onayı bu tarihe yetişmeli", konu: "shipaton-2026" },
   { tarih: "2026-09-25", ne: "Apple 4.3 itirazı: cevap yoksa Developer Support'u ara (vaka 102959709295)", konu: "apple-4-3-sorunu" },
   { tarih: "2026-10-01", ne: "Shipaton son gün 09:45 TSİ — Devpost girişleri kilitlenir", konu: "shipaton-2026" },
