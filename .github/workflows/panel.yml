@@ -4,9 +4,12 @@ name: Panel verisi
 # çekip lab/panel/data.enc.json'ı yeniler. Mac'e bağımlı değil.
 # Elle: Actions sekmesi → "Panel verisi" → Run workflow. Panelin "Yenile"
 # düğmesi de aynı şeyi (workflow_dispatch) tetikler.
+#
+# 17 Eyl 2026: GitHub hesabı "billing issue" ile kilitli, işler başlamıyor ve
+# her deneme hata maili atıyor → workflow devre dışı (gh workflow disable).
+# Zamanlama da kapalı; açmak için cron satırını geri koy ve
+#   gh workflow enable panel.yml
 on:
-  schedule:
-    - cron: "30 6 * * *"        # 09:30 TSİ
   workflow_dispatch:
 
 permissions:

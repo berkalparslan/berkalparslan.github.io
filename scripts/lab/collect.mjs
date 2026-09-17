@@ -330,5 +330,15 @@ const kovaVeri = await androidKova(3);
 writeFileSync(join(VERI, "android-kova.json"), JSON.stringify(kovaVeri, null, 2));
 if (kovaVeri.hata) log(`  ! ${kovaVeri.hata}`);
 
+log("Firebase Analytics (GA4)");
+try {
+  const { googleIstemci } = await import("./uzak/google.mjs");
+  const { PROPERTIES, OLAYLAR } = await import("./ga4.mjs");
+  const cfg = JSON.parse(readFileSync(join(homedir(), ".gplay", "config.json"), "utf8"));
+  const profil = cfg.profiles.find(p => p.name === (cfg.default_profile || "default")) || cfg.profiles[0];
+  const ga = await googleIstemci({ GPLAY_SA_JSON: readFileSync(profil.key_path, "utf8") }).ga4(PROPERTIES, OLAYLAR, 45, log);
+  writeFileSync(join(VERI, "ga4.json"), JSON.stringify(ga, null, 2));
+} catch (e) { log(`  ga4 ✗ ${e.message}`); }
+
 log(`\nBitti. Ham veri: ${VERI}`);
 log("Sırada: node scripts/lab/build.mjs");

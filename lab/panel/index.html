@@ -460,7 +460,7 @@
       <div class="yan-b"><h2>Uygulama</h2><div class="yig" id="yigUyg"></div></div>
       <div class="yan-b"><h2>Renk</h2><div class="renkler" id="renkler"></div></div>
       <div class="yan-alt">
-        <button id="yenile" hidden title="GitHub Actions'ı tetikler; 3–5 dakika sonra sayfayı yenile">yenile</button>
+        <button id="yenile" title="Çekim komutunu kopyalar; terminale yapıştır">yenile</button>
         <button id="tema">tema</button>
         <button id="kilit">kilitle</button>
         <a href="/lab/">Lab</a>
@@ -820,7 +820,7 @@
     /* ── Yan menü ────────────────────────────────────────────── */
     function yanCiz() {
       $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
-      $("#yenile").hidden = !D.yenile;
+      $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3–5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
       const { bas, son } = pencere();
@@ -1328,6 +1328,7 @@
           <h3 style="margin-top:16px">Eksikler</h3><div class="panel">${D.notlar?.length ? `<ul class="notes">${D.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : '<div class="bos">Eksik yok.</div>'}</div></section>
         </div>
         <section><div class="panel"><ul class="notes">
+          <li><strong>Yenile</strong> (sol alt): GitHub Actions token'ı yoksa şu komutu kopyalar, terminale yapıştır: <code>${esc(YENILE_KOMUT)}</code>. Apple + Play + Firebase + vault + şifreleme + push; 3–5 dakika.</li>
           <li><strong>Kendi kendine yenilenmiyor</strong> — sayfa statik, veri Mac'te çekilip push ediliyor. Günlük otomatik çekim için launchd tanımı hazır: <code>scripts/lab/com.bamtech.lab-panel.plist</code> (her gün 09:30, <code>gunluk.sh</code>, log <code>vault/metrikler/veri/gunluk.log</code>). Kurulum komutu README'de. Kurulana kadar elle: <code>sh scripts/lab/gunluk.sh</code>.</li>
           <li>Elle yenilemek: <code>node scripts/lab/collect.mjs --days 45</code> → <code>node scripts/lab/build.mjs</code> → commit + push. Ham veri vault'ta (private), buraya yalnız şifreli özet gider.</li>
           <li>Yeni uygulama: <code>scripts/lab/apps.mjs</code> (kimlikler) + <code>scripts/lab/profil.mjs</code> (model, servisler) + vault notu.</li>
@@ -1395,8 +1396,12 @@
     });
     /* Yenile: şifreli pakette Actions token'ı varsa workflow_dispatch tetikler.
        Sonuç 3–5 dakika sonra data.enc.json'a düşer; sayfa yeniden açılır. */
+    const YENILE_KOMUT = "cd ~/dev/web-githubpages/berkalparslan.github.io && sh scripts/lab/gunluk.sh";
     $("#yenile").onclick = async () => {
-      const y = D?.yenile; if (!y) return;
+      const y = D?.yenile;
+      /* Actions token'ı yoksa (GitHub kilitli): Mac'te çalıştırılacak komutu kopyala.
+         collect + ga4 + build + push; 3–5 dakika sürer, sonra sayfayı yenile. */
+      if (!y) { await kopyala(YENILE_KOMUT); toast("Komut kopyalandı — terminale yapıştır, bitince sayfayı yenile"); return; }
       const b = $("#yenile"); b.disabled = true; b.textContent = "tetikleniyor…";
       try {
         const r = await fetch(`https://api.github.com/repos/${y.repo}/actions/workflows/${y.workflow}/dispatches`, {
