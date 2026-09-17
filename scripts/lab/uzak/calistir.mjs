@@ -86,7 +86,17 @@ export async function calistir(env, log = () => {}) {
 
   log("Vault (GitHub)");
   let vault = { apps: {}, genel: [] };
-  try { vault = vaultAyristir(await gh.vaultOku(log)); } catch (e) { log(`  vault ✗ ${e.message}`); }
+  try { vault = vaultAyristir(await gh.vaultOku(log)); }
+  catch (e) {
+    /* Vault okunamazsa (token yok / private repo) önceki paketteki vault
+       alanları korunur; katmanlar "bekle"ye düşmesin. */
+    log(`  vault ✗ ${e.message}${onceki ? " — önceki paketten devralındı" : ""}`);
+    if (onceki) vault = {
+      apps: Object.fromEntries(onceki.apps.filter(a => a.vault).map(a => [a.slug, a.vault])),
+      genel: onceki.genelGorevler || [], kampanyalar: onceki.kampanyalar || [],
+      kampanyaSorular: onceki.kampanyaSorular || [], reklam: onceki.reklam || []
+    };
+  }
 
   /* 4. Paket */
   const panel = panelOlustur({ gunluk, android, yorumlar, kova, kur, iosDurum, vault, ga4, kovaTanimli: !!env.GPLAY_BUCKET,

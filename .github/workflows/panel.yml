@@ -33,7 +33,8 @@ jobs:
           ASC_VENDOR: ${{ secrets.ASC_VENDOR }}
           GPLAY_SA_JSON: ${{ secrets.GPLAY_SA_JSON }}
           GPLAY_BUCKET: ${{ secrets.GPLAY_BUCKET }}
-          GITHUB_TOKEN: ${{ secrets.VAULT_TOKEN }}   # vault (private) okumak için PAT
+          # VAULT_TOKEN: vault (private) okumak için PAT; yoksa depo token'ı (vault okunamaz, öncekinden devralınır)
+          GITHUB_TOKEN: ${{ secrets.VAULT_TOKEN || github.token }}
           LAB_PASSPHRASE: ${{ secrets.LAB_PASSPHRASE }}
           ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
           KAYNAK_SISTEM: github-actions
