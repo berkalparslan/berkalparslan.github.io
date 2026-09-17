@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neden bunları yaptım — BamTech</title>
+<meta name="description" content="BamTech uygulamalarının arkasındaki gerçek sebepler: beş yıllık bir Excel, kortta tutulamayan bir skor, kuzenin gördüğü bir çekiliş.">
+<script>
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<style>
+  .story { display: flex; gap: 16px; align-items: flex-start; }
+  .story img, .story .ph { width: 52px; height: 52px; border-radius: 13px; flex: none; display: grid; place-items: center; font-size: 26px; background: var(--surface-2); border: 1px solid var(--border); }
+  .story h3 { margin: 2px 0 6px; }
+  .story p { margin: 0 0 8px; }
+  .story .you { color: var(--accent); font-style: italic; }
+  .story .go { font-size: .92rem; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Tech</span></a>
+    <nav>
+      <a href="/">Uygulamalar</a>
+      <a href="/blog/">Blog</a>
+      <a href="/support/">Destek</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Neden bunları yaptım</h1>
+<p class="lede">
+  Hiçbiri "pazar boşluğu" diye başlamadı. Bir şey lazımdı, yoktu, yaptım; sonra
+  "başkasına da lazımdır" dedim. Hepsi telefonda dursa yer kaplamayan küçük
+  araçlar — hesap yok, sunucu yok, veri cihazında.
+</p>
+
+<div class="card story">
+  <img src="/walletcoach/assets/icon-512.png" alt="">
+  <div>
+    <h3>Wallet Coach</h3>
+    <p><strong>Beş yıldır</strong> her ay ne geldi, ne gitti, nereye ne ödedim — hepsi Excel'de. Son üç dört yıldır yatırım da var. Bunu tam karşılayan bir uygulama bulamadım; kendim yaptım. O Excel hâlâ duruyor; uygulamaya Excel'den aktarma yolu da o yüzden kondu.</p>
+    <p class="you">Sen de ay sekmeli bir tabloyla yaşıyorsan, bu onun telefondaki hâli.</p>
+    <a class="go" href="/walletcoach/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <img src="/tennis-padel/assets/icon.webp" alt="">
+  <div>
+    <h3>Tenis &amp; Padel Score Keeper</h3>
+    <p>Kortta oynarken <strong>skoru tutamıyordum</strong>. Bileğime kendime özel bir sayaç yaptım; maçtaki odağım bir anda arttı. Sonra maç defteri geldi, sonra mağaza. Pickleball, voleybol ve badminton aynı ihtiyacın başka sporlara taşınması.</p>
+    <p class="you">Skoru tartışmak yerine oyuna bakmak istiyorsan.</p>
+    <a class="go" href="/tennis-padel/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <div class="ph">🩺</div>
+  <div>
+    <h3>BodyBook</h3>
+    <p>Vücudumda çok fazla ben var. Cildiyeci "takip edilmeli" dedi: <strong>ABCDE</strong> diye bir standart varmış, ben merkezleri varmış, üç altı ayda bir gidip fotoğraflatmak gerekiyormuş. Bunun için bir merkeze gitmek saçma geldi; hayalet kamerayı ve ABCDE listesini uygulamaya koydum. Tansiyon, ilaç, cilt rutini de aynı deftere girdi.</p>
+    <p class="you">Takip etmen gereken bir şey varsa ve bunun için bir yere gitmek istemiyorsan.</p>
+    <a class="go" href="/bodybook/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <div class="ph">🍀</div>
+  <div>
+    <h3>Yonca</h3>
+    <p>Bir su markasının çekilişinden <strong>Dyson</strong> kazanmıştım — şans eseri kuzenim listede adımı görmüş. Görmese kazandığım çekiliş yalan olacaktı. O günden sonra katıldığım çekilişleri, sonucun nerede açıklanacağını ve saklamam gereken fişi kapağı yazdığım bir uygulama yaptım.</p>
+    <p class="you">Katılıp unutan biriysen — hepimiz öyleyiz.</p>
+    <a class="go" href="/yonca/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <img src="/bosyeryok/assets/icon-512.png" alt="">
+  <div>
+    <h3>Boş Yer Yok</h3>
+    <p>Tycoon oyunlarını hep sevdim ama eksilerini de hep gördüm: şişen sayılar, satılan bekleme, önemi olmayan kararlar. <strong>Bir tane kendim yapayım</strong> dedim: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor, beklemek oynamaktan asla kazançlı değil. Geliştirmek için önerilere açık.</p>
+    <p class="you">Rakamları dürüst bir idle oyun arıyorsan.</p>
+    <a class="go" href="/bosyeryok/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <img src="/leafbook/assets/icon.png" alt="">
+  <div>
+    <h3>Leafbook</h3>
+    <p>Evdeki bitkilerin <strong>neye ihtiyacı olduğunu, ne zaman sulanacağını</strong> bilmiyordum. Fotoğraf günlüğü, sulama takvimi, büyümeyi gösteren hayalet kamera — bilmediğim her şeyi tek yere yazdım.</p>
+    <a class="go" href="/leafbook/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <img src="/bumpline/assets/icon.webp" alt="">
+  <div>
+    <h3>Bumpline</h3>
+    <p><strong>Hamile bir arkadaşım</strong> için yaptım: kırk hafta, tek bir tarihten. Hangi hafta, bebek ne kadar, doğuma kaç gün. Fazlası yok, çünkü fazlası gerekmiyordu.</p>
+    <a class="go" href="/bumpline/">Tanıtım →</a>
+  </div>
+</div>
+
+<div class="card story">
+  <img src="/o-mu-bu-mu/assets/icon.webp" alt="">
+  <div>
+    <h3>O mu Bu mu?</h3>
+    <p>Yıllar önce arkadaşlarla sıkılınca <strong>kendi aramızda oynadığımız</strong> oyun. Uygulama oldu, en çok yine ben kullanıyorum. Para kazandırmasını hiç düşünmedim.</p>
+    <p class="you">Masada sessizlik olduğunda.</p>
+    <a class="go" href="/o-mu-bu-mu/">Tanıtım →</a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p>© 2026 BamTech · <a href="/privacy/">Gizlilik politikaları</a> · <a href="/support/">Destek</a></p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>
