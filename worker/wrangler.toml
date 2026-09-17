@@ -1,0 +1,23 @@
+# Cloudflare Worker — panel çekimi. Kurulum (bir kez, bu klasörde):
+#   npm install
+#   npx wrangler login
+#   for k in ASC_KEY_ID ASC_ISSUER_ID ASC_VENDOR GPLAY_BUCKET GITHUB_TOKEN LAB_PASSPHRASE CEK_ANAHTARI; do npx wrangler secret put $k; done
+#   npx wrangler secret put ASC_PRIVATE_KEY < ~/.ascelerate/AuthKey_L3GTJHVT54.p8
+#   npx wrangler secret put GPLAY_SA_JSON   < ~/.gplay/bosyeryok-sa.json
+#   npx wrangler deploy
+# Denemek:  curl -X POST "https://bamtech-panel.<hesap>.workers.dev/cek?anahtar=<CEK_ANAHTARI>"
+# Not: PBKDF2 (250k tur) ücretsiz planın 10 ms CPU sınırını aşar → Workers Paid gerekir.
+name = "bamtech-panel"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+crons = ["30 6 * * *"]   # 09:30 TSİ
+
+[limits]
+cpu_ms = 30000
+
+[vars]
+DAYS = "5"
+KAYNAK_SISTEM = "cloudflare-worker"

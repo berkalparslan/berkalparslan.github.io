@@ -90,7 +90,7 @@ Liste tarihe göre kendini sıralar. Ana sayfadaki "Notes" en yeni üçü çeker
 
 ## `/lab/panel/` — nasıl çalışıyor
 
-Sunucu yok, veritabanı yok, GitHub Actions yok. Veri Mac'te iki CLI ile
+Sunucu yok, veritabanı yok. Mac yolunda veri iki CLI ile
 çekilir, şifrelenir, statik dosya olarak push edilir; çözme tarayıcıda olur.
 
 ```
@@ -114,7 +114,55 @@ git add lab/panel/data.enc.json && git commit -m "panel verisi" && git push
 
 Parola macOS Keychain'de (`bamtech-lab-panel`). Ayrıntı: `scripts/lab/README.md`.
 
-**Otomatik çekim** (her gün 09:30, Mac açıkken): `scripts/lab/gunluk.sh`
+### Mac'siz çekim — GitHub Actions ya da Cloudflare Worker
+
+`scripts/lab/uzak/` aynı işi doğrudan API'lerle yapar (App Store Connect,
+Android Publisher + Cloud Storage, GA4, GitHub). Durum deposu yok: geçmiş
+günler sitedeki şifreli dosyanın içinde; çalıştırıcı onu çözer, son günleri
+ekler, yeniden şifreler, commit eder.
+
+```
+scripts/lab/
+  satis.mjs · vaultmetin.mjs · ozet.mjs · kripto.mjs   saf çekirdek (üç yerde ortak)
+  collect.mjs · build.mjs                              Mac yolu (ascelerate/gplay + vault diski)
+  uzak/calistir.mjs                                    API yolu (Actions / Worker / yerel deneme)
+  uzak/asc.mjs · google.mjs · github.mjs · jwt.mjs     istemciler (fetch + WebCrypto)
+worker/                                                Cloudflare Worker girişi (wrangler)
+.github/workflows/panel.yml                            GitHub Actions girişi (09:30, elle de)
+```
+
+**GitHub Actions (ücretsiz, önerilen).** Repo → Settings → Secrets and
+variables → Actions → şu secret'lar:
+
+| Secret | Değer |
+|---|---|
+| `ASC_KEY_ID` | `~/.ascelerate/config.json` → keyId |
+| `ASC_ISSUER_ID` | → issuerId |
+| `ASC_VENDOR` | → vendorNumber |
+| `ASC_PRIVATE_KEY` | `.p8` dosyasının tamamı (BEGIN/END satırları dahil) |
+| `GPLAY_SA_JSON` | `~/.gplay/bosyeryok-sa.json` içeriği |
+| `GPLAY_BUCKET` | `gs://pubsite_prod_…` |
+| `VAULT_TOKEN` | Fine-grained PAT: `bamtech-vault` **Contents: Read** |
+| `LAB_PASSPHRASE` | panel parolası (Keychain'deki) |
+| `ACTIONS_TOKEN` | Fine-grained PAT: site deposu **Actions: Read and write** — panelin "Yenile" düğmesi için (isteğe bağlı) |
+
+Secret'lar girilince workflow her sabah çalışır; Actions sekmesinden elle de
+tetiklenir. Panelde **Yenile** düğmesi (sol alt) aynı tetiği atar; 3–5 dakika
+sonra veri gelir. `ACTIONS_TOKEN`'ı Mac tarafı için de
+`~/dev/vault/metrikler/veri/gizli.json` içine `{"actionsToken":"…"}` diye koy.
+
+**Cloudflare Worker.** `worker/wrangler.toml` başındaki adımlar. Uyarı:
+PBKDF2 (250 bin tur) ücretsiz planın 10 ms CPU sınırını aşar; **Workers Paid
+(5 $/ay)** gerekir. Kod aynı, yalnız giriş farklı.
+
+**Yerel deneme** (kimlikleri Mac'ten alır, yayınlamaz):
+`node scripts/lab/uzak/calistir.mjs --yerel --yaz`
+
+**Vault bağımlılığı:** uzak çekim vault'u GitHub'daki `bamtech-vault`
+deposundan okur. Notlar push edilmedikçe panel eski görevleri gösterir —
+vault'u sık push et.
+
+**Otomatik çekim, Mac'te** (her gün 09:30, Mac açıkken): `scripts/lab/gunluk.sh`
 aynı üç adımı yapar, veri değişmediyse commit atmaz. launchd ile kurmak:
 
 ```bash

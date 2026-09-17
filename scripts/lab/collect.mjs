@@ -52,69 +52,15 @@ function sh(cmd, argv) {
 
 const iso = d => d.toISOString().slice(0, 10);
 
-/* ── iOS: Sales & Trends günlük raporu ───────────────────────────────────
-   Ürün tipi ayrımı kritik: "1" ile başlayanlar yeni indirme, "3" ve "7" ile
-   başlayanlar güncelleme. Karıştırılırsa indirme sayısı iki katı görünür. */
-
-function indirmeMi(tip) { return /^1/.test(tip) || /^F1/.test(tip); }
-function guncellemeMi(tip) { return /^3/.test(tip) || /^7/.test(tip); }
-/* Uygulama içi satın alma ve abonelik satırları: IA1 (tek seferlik), IAY
-   (otomatik yenilenen), IA9 (yenileme), IAC/FI1 vb. Bunlar indirme değil,
-   gelir. SKU'ları uygulamanınkinden farklı — eşleme "Parent Identifier"
-   sütunundan yapılıyor (aşağıda). */
-function iapMi(tip) { return /^(IA|FI)/.test(tip); }
-
+/* ── iOS: Sales & Trends günlük raporu ─────────────────────────────────
+   Ayrıştırma satis.mjs'te (uzak çalıştırıcıyla ortak). Burada yalnız CLI. */
 function iosGunuCek(tarih) {
   const r = sh("ascelerate", ["reports", "sales", "--frequency", "DAILY", "--date", tarih, "--raw"]);
   if (!r.ok) {
-    /* Apple o gün için rapor üretmemişse 404 döner — hata değil, veri yokluğu. */
     const yok = /404|not found|no report|no data/i.test(r.out);
     return { tarih, veri: false, sebep: yok ? "apple-rapor-yok" : r.out.trim().slice(0, 300), apps: {} };
   }
-
-  const satirlar = r.out.split("\n").filter(s => s.includes("\t"));
-  const bas = satirlar.findIndex(s => s.startsWith("Provider\t"));
-  if (bas < 0) return { tarih, veri: false, sebep: "baslik-yok", apps: {} };
-
-  const kolon = satirlar[bas].split("\t").map(s => s.trim());
-  const ix = ad => kolon.indexOf(ad);
-  const [iSku, iTip, iAdet, iGelir, iUlke, iPara, iCihaz, iEbeveyn] =
-    ["SKU", "Product Type Identifier", "Units", "Developer Proceeds",
-     "Country Code", "Currency of Proceeds", "Device", "Parent Identifier"].map(ix);
-
-  const apps = {};
-  for (const satir of satirlar.slice(bas + 1)) {
-    const h = satir.split("\t");
-    const sku = (h[iSku] || "").trim();
-    const tip   = (h[iTip] || "").trim();
-    /* IAP satırında SKU ürünün kendisi (örn. bamtech_allsports_monthly_tennis);
-       uygulama "Parent Identifier"da. 16 Eylül'e kadar bu satırlar düşüyordu
-       ve abonelik geliri panelde hiç görünmüyordu. */
-    const ebeveyn = iEbeveyn >= 0 ? (h[iEbeveyn] || "").trim() : "";
-    const slug = SKU_SLUG.get(sku) || (iapMi(tip) && ebeveyn ? SKU_SLUG.get(ebeveyn) : null);
-    if (!slug) continue;
-
-    const adet  = Number(h[iAdet]) || 0;
-    const ulke  = (h[iUlke] || "").trim() || "??";
-    const para  = (h[iPara] || "").trim();
-    const gelir = Number(h[iGelir]) || 0;
-
-    const a = apps[slug] ||= { indirme: 0, guncelleme: 0, gelir: {}, ulkeler: {}, cihazlar: {}, iap: 0 };
-    if (iapMi(tip)) {
-      a.iap += adet;                       /* satın alma sayısı; iade eksi düşer */
-    } else if (indirmeMi(tip)) {
-      a.indirme += adet;
-      a.ulkeler[ulke] = (a.ulkeler[ulke] || 0) + adet;
-      const c = (h[iCihaz] || "").trim() || "?";
-      a.cihazlar[c] = (a.cihazlar[c] || 0) + adet;
-    } else if (guncellemeMi(tip)) {
-      a.guncelleme += adet;
-    }
-    /* Gelir para birimine göre ayrı toplanıyor — tek kura çevirmek için
-       kur verisi yok, uydurmaktansa ayrı gösteriliyor. */
-    if (gelir && para) a.gelir[para] = +((a.gelir[para] || 0) + gelir * adet).toFixed(4);
-  }
-  return { tarih, veri: true, apps };
+  return satisAyristir(r.out, tarih);
 }
 
 /* ── Android: sürüm/track durumu ve vitals ───────────────────────────────
@@ -323,136 +269,26 @@ function iosDurum() {
 }
 
 /* ── Vault notları ───────────────────────────────────────────────────────
-   Uygulama notlarının frontmatter'ı, tek cümlelik özeti ve görev satırları
-   panele taşınıyor. Vault kaynak, panel ayna — buradan vault'a yazılmıyor. */
-
+   Ayrıştırma vaultmetin.mjs'te (uzak çalıştırıcı GitHub API'den aynı
+   fonksiyona verir). Burada yalnız diskten okuma. */
 function vaultNotlari() {
   const kok = join(homedir(), "dev", "vault");
-  const cikti = { apps: {}, genel: [] };
-  if (!existsSync(join(kok, "uygulamalar"))) return cikti;
-
-  const gorevAyikla = (metin) => {
-    const gorevler = [];
-    let bolum = "";
-    for (const satir of metin.split("\n")) {
-      const b = satir.match(/^#{2,3}\s+(.+?)\s*$/);
-      if (b) { bolum = b[1].replace(/\[\[|\]\]/g, ""); continue; }
-      const g = satir.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
-      if (!g) continue;
-      const yazi = g[2].replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1").trim();
-      if (!yazi || /^_?\(doldurulmadı\)_?$/.test(yazi)) continue;
-      gorevler.push({ bitti: g[1].toLowerCase() === "x", yazi, bolum });
-    }
-    return gorevler;
-  };
-
-  const onYuz = (metin) => {
-    const m = metin.match(/^---\n([\s\S]*?)\n---/);
-    if (!m) return {};
-    const o = {};
-    for (const satir of m[1].split("\n")) {
-      const k = satir.match(/^([a-zA-ZğüşıöçĞÜŞİÖÇ_]+):\s*(.*)$/);
-      if (k) o[k[1]] = k[2].trim().replace(/^["']|["']$/g, "");
-    }
-    return o;
-  };
-
-  for (const dosya of readdirSync(join(kok, "uygulamalar"))) {
-    if (!dosya.endsWith(".md") || dosya.startsWith("_")) continue;
-    const slug = dosya.replace(/\.md$/, "");
-    const metin = readFileSync(join(kok, "uygulamalar", dosya), "utf8");
-    const fm = onYuz(metin);
-    /* Başlıktan sonraki alıntı bloğu notun tek cümlelik özeti. */
-    const ozet = (metin.match(/^#\s+.+\n+((?:>\s?.*\n)+)/m)?.[1] || "")
-      .split("\n").map(x => x.replace(/^>\s?/, "").trim()).join(" ").trim();
-    cikti.apps[slug] = {
-      durum: fm.durum || null,
-      platform: fm.platform || null,
-      sayfa: fm.sayfa || null,
-      store: fm.store || null,
-      repo: fm.repo || null,
-      guncelleme: fm.guncelleme || null,
-      ozet: ozet || null,
-      gorevler: gorevAyikla(metin)
-    };
-  }
-
-  /* Kampanya günlüğü: pazarlama/kampanyalar.md içindeki tablo. Sütun sırası
-     sabit: tarih | kanal | uygulama | harcama | sonuc | not. */
-  cikti.kampanyalar = []; cikti.kampanyaSorular = [];
+  if (!existsSync(join(kok, "uygulamalar"))) return { apps: {}, genel: [] };
+  const md = dir => Object.fromEntries(readdirSync(join(kok, dir))
+    .filter(d => d.endsWith(".md") && !d.startsWith("_"))
+    .map(d => [d.replace(/\.md$/, ""), readFileSync(join(kok, dir, d), "utf8")]));
   const kd = join(kok, "pazarlama", "kampanyalar.md");
-  if (existsSync(kd)) {
-    const metin = readFileSync(kd, "utf8");
-    for (const satir of metin.split("\n")) {
-      const h = satir.match(/^\|\s*(\d{4}-\d{2}-\d{2}[^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|/);
-      if (!h) continue;
-      const t = x => x.trim().replace(/\[\[([^\]|]+)(\|[^\]]+)?\]\]/g, "$1");
-      cikti.kampanyalar.push({ tarih: t(h[1]), kanal: t(h[2]), uygulama: t(h[3]), harcama: t(h[4]), sonuc: t(h[5]), not: t(h[6]) });
-    }
-    cikti.kampanyaSorular = gorevAyikla(metin).filter(g => !g.bitti).map(g => g.yazi);
-    log(`  kampanya ${cikti.kampanyalar.length} satır · ${cikti.kampanyaSorular.length} soru`);
-  }
-
-  /* Reklam dışa aktarımları: pazarlama/gelen/*.csv. Apple Ads ve Meta
-     Ads Manager formatları tanınıyor; aynı kampanya iki dosyadaysa en yeni
-     dosya kazanır. Bilinmeyen dosya sessizce atlanır. */
-  cikti.reklam = [];
   const gd = join(kok, "pazarlama", "gelen");
-  if (existsSync(gd)) {
-    const csvSatir = (satir) => {
-      const h = []; let s = "", q = false;
-      for (const c of satir) {
-        if (c === '"') q = !q;
-        else if (c === "," && !q) { h.push(s); s = ""; }
-        else s += c;
-      }
-      h.push(s); return h.map(x => x.trim());
-    };
-    const dosyalar = readdirSync(gd).filter(d => d.endsWith(".csv"))
-      .map(d => ({ d, t: statSync(join(gd, d)).mtimeMs })).sort((a, b) => a.t - b.t);
-    const gorulen = new Map();
-    for (const { d } of dosyalar) {
-      const metin = readFileSync(join(gd, d), "utf8").replace(/^\uFEFF/, "");
-      const satirlar = metin.split(/\r?\n/).filter(Boolean);
-      const bas = satirlar.findIndex(x => /^"?Campaign ID"?,|^"?Reporting starts"?,/.test(x));
-      if (bas < 0) continue;
-      const kolon = csvSatir(satirlar[bas]);
-      const ix = ad => kolon.indexOf(ad);
-      const apple = kolon.includes("Campaign ID");
-      const kur = (metin.match(/^Currency:\s*(\w+)/m) || [])[1] || (kolon.find(k => /Amount spent \((\w+)\)/.test(k))?.match(/\((\w+)\)/)?.[1]) || "";
-      for (const satir of satirlar.slice(bas + 1)) {
-        const h = csvSatir(satir);
-        const ad = h[ix("Campaign Name") >= 0 ? ix("Campaign Name") : ix("Campaign name")];
-        if (!ad) continue;                       /* toplam satırı */
-        const n = k => Number(String(h[ix(k)] ?? "").replace(/,/g, "")) || 0;
-        const kayit = apple ? {
-          kaynak: "apple-ads", ad, uygulamaAdi: h[ix("App Name")] || "", ulke: h[ix("Country or Region")] || "",
-          durum: h[ix("Status")] || "", bas: h[ix("Start Date")] || "", son: h[ix("End Date")] || "",
-          gunluk: n("Daily Budget"), harcama: n("Spend"), para: kur, gosterim: n("Impressions"), tik: n("Taps"),
-          kurulum: n("Installs (Total)"), cpa: n("Avg CPA (Total)"), cpt: n("Average CPT"), donusum: n("CR (Total)")
-        } : {
-          kaynak: "meta-ads", ad, uygulamaAdi: "", ulke: "", durum: h[ix("Campaign delivery")] || "",
-          bas: h[ix("Reporting starts")] || "", son: h[ix("Reporting ends")] || "",
-          gunluk: n("Ad set budget"), harcama: n(kolon.find(k => k.startsWith("Amount spent")) || ""), para: kur,
-          gosterim: n("Impressions"), tik: 0, kurulum: h[ix("Results")] ? n("Results") : null, erisim: n("Reach"),
-          cpa: null, cpt: null, donusum: null
-        };
-        gorulen.set(`${kayit.kaynak}|${ad}`, { ...kayit, dosya: d });
-      }
-    }
-    cikti.reklam = [...gorulen.values()];
-    log(`  reklam ${cikti.reklam.length} kampanya (${dosyalar.length} dosya)`);
-  }
-
-  for (const dosya of readdirSync(join(kok, "konular"))) {
-    if (!dosya.endsWith(".md")) continue;
-    const konu = dosya.replace(/\.md$/, "");
-    for (const g of gorevAyikla(readFileSync(join(kok, "konular", dosya), "utf8")))
-      cikti.genel.push({ ...g, konu });
-  }
-
+  const cikti = vaultAyristir({
+    uygulamalar: md("uygulamalar"),
+    konular: md("konular"),
+    kampanyalar: existsSync(kd) ? readFileSync(kd, "utf8") : null,
+    gelen: existsSync(gd) ? readdirSync(gd).filter(d => d.endsWith(".csv"))
+      .map(d => ({ ad: d, metin: readFileSync(join(gd, d), "utf8"), t: statSync(join(gd, d)).mtimeMs })) : []
+  });
   const acik = Object.values(cikti.apps).reduce((t, a) => t + a.gorevler.filter(g => !g.bitti).length, 0);
-  log(`  vault ${Object.keys(cikti.apps).length} not · ${acik} açık görev · ${cikti.genel.filter(g => !g.bitti).length} genel`);
+  log(`  vault ${Object.keys(cikti.apps).length} not · ${acik} açık görev · ${cikti.genel.filter(g => !g.bitti).length} genel · ` +
+      `${cikti.kampanyalar.length} kampanya · ${cikti.reklam.length} reklam`);
   return cikti;
 }
 

@@ -1,0 +1,47 @@
+name: Panel verisi
+
+# Her sabah App Store Connect, Google Play, Firebase Analytics ve vault'tan
+# çekip lab/panel/data.enc.json'ı yeniler. Mac'e bağımlı değil.
+# Elle: Actions sekmesi → "Panel verisi" → Run workflow. Panelin "Yenile"
+# düğmesi de aynı şeyi (workflow_dispatch) tetikler.
+on:
+  schedule:
+    - cron: "30 6 * * *"        # 09:30 TSİ
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: panel
+  cancel-in-progress: false
+
+jobs:
+  cek:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Çek ve şifrele
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          ASC_VENDOR: ${{ secrets.ASC_VENDOR }}
+          GPLAY_SA_JSON: ${{ secrets.GPLAY_SA_JSON }}
+          GPLAY_BUCKET: ${{ secrets.GPLAY_BUCKET }}
+          GITHUB_TOKEN: ${{ secrets.VAULT_TOKEN }}   # vault (private) okumak için PAT
+          LAB_PASSPHRASE: ${{ secrets.LAB_PASSPHRASE }}
+          ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          KAYNAK_SISTEM: github-actions
+        run: node scripts/lab/uzak/calistir.mjs --yaz
+      - name: Yayınla
+        run: |
+          git config user.name "panel-bot"
+          git config user.email "panel@bamtech.invalid"
+          git add lab/panel/data.enc.json
+          git commit -m "panel: $(date -u +%Y-%m-%d) verisi (actions)" || exit 0
+          git push

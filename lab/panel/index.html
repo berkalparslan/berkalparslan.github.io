@@ -460,6 +460,7 @@
       <div class="yan-b"><h2>Uygulama</h2><div class="yig" id="yigUyg"></div></div>
       <div class="yan-b"><h2>Renk</h2><div class="renkler" id="renkler"></div></div>
       <div class="yan-alt">
+        <button id="yenile" hidden title="GitHub Actions'ı tetikler; 3–5 dakika sonra sayfayı yenile">yenile</button>
         <button id="tema">tema</button>
         <button id="kilit">kilitle</button>
         <a href="/lab/">Lab</a>
@@ -818,7 +819,8 @@
 
     /* ── Yan menü ────────────────────────────────────────────── */
     function yanCiz() {
-      $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+      $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
+      $("#yenile").hidden = !D.yenile;
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
       const { bas, son } = pencere();
@@ -1019,7 +1021,23 @@
         <section>
           <h3>Günlük indirme</h3>
           <div class="panel">${grafik(pencere().bas, pencere().son, [a])}</div>
-        </section>`;
+        </section>
+        ${(() => {
+          const { bas, son } = pencere();
+          let au = 0, nu = 0, ga = 0, ar = 0, gunVar = 0; const olay = {};
+          for (let i = bas; i < son; i++) { const h = D.veri[a.slug]?.[i]; if (!h || h.au === undefined && !h.e) continue; gunVar++; au += h.au || 0; nu += h.nu || 0; ga += h.ga || 0; ar += h.ar || 0; for (const [k, v] of Object.entries(h.e || {})) olay[k] = (olay[k] || 0) + v; }
+          if (!gunVar) return a.ga4 || (a.profil?.servisler || []).includes("firebase")
+            ? `<section><h3>Kullanım — Firebase</h3><div class="panel"><div class="bos">Bu aralıkta GA4 verisi yok${D.kaynaklar?.find(k => k.ad.startsWith("Firebase"))?.durum === "engel" ? " — GA4 API'leri henüz açılmadı (Veri sekmesi)" : ""}.</div></div></section>` : "";
+          const ps = olay.paywall_shown || olay.paywall_viewed || 0, pc = olay.purchase_completed || olay.in_app_purchase || 0;
+          return `<section><h3>Kullanım — Firebase <span class="acik">— seçili aralık, ${gunVar} gün</span></h3>
+            <div class="cards" style="margin-bottom:0">
+              <div class="card"><div class="k">Aktif kullanıcı-gün</div><div class="v">${sayi(au)}</div><div class="s">günde ort. ${(au / gunVar).toFixed(1)}</div></div>
+              <div class="card"><div class="k">Yeni kullanıcı</div><div class="v">${sayi(nu)}</div><div class="s">first_open</div></div>
+              <div class="card"><div class="k">Paywall → satın alma</div><div class="v">${sayi(ps)} → ${sayi(pc)}</div><div class="s">${ps ? `dönüşüm %${(pc / ps * 100).toFixed(1)}` : "paywall olayı yok"}</div></div>
+              <div class="card"><div class="k">GA4 gelir</div><div class="v kucuk">${ga ? `${ga.toFixed(2)} $` : "0"}${ar ? ` + ${ar.toFixed(2)} $ reklam` : ""}</div><div class="s">kullanıcı fiyatı, Apple/Google payı düşülmemiş</div></div>
+            </div>
+            ${Object.keys(olay).length ? `<div class="panel" style="margin-top:12px"><div class="bars">${Object.entries(olay).sort((x, y) => y[1] - x[1]).map(([k, v], _, arr) => `<div class="bar" style="grid-template-columns:150px 1fr 60px"><span class="code" style="font-size:11.5px">${esc(k)}</span><span class="rail"><span class="fill" style="width:${(v / arr[0][1] * 100).toFixed(1)}%"></span></span><span class="n">${sayi(v)}</span></div>`).join("")}</div></div>` : ""}
+          </section>`; })()}`;
     }
 
     /* ── Sekme: finans ───────────────────────────────────────────
@@ -1085,6 +1103,12 @@
             <div class="panel">${gelirDokumu(para)}</div>
           </section>
         </div>
+
+        ${D.ga4Satinalma?.length ? `<section>
+          <h3>Firebase'de görünen satın almalar <span class="acik">— GA4, kullanıcı fiyatıyla, USD'ye çevrilmiş</span></h3>
+          <div class="panel scroll"><table><thead><tr><th>Tarih</th><th>Uygulama</th><th>Akış</th><th>Para</th><th class="num">Adet</th><th class="num">USD</th></tr></thead>
+          <tbody>${[...D.ga4Satinalma].sort((x, y) => y.tarih.localeCompare(x.tarih)).slice(0, 60).map(r => `<tr><td class="mono" style="font-size:12px">${esc(r.tarih)}</td><td>${esc(D.apps.find(a => a.slug === r.slug)?.ad || r.slug || "?")}</td><td>${esc(r.akis)}</td><td>${esc(r.para)}</td><td class="num">${sayi(r.adet)}</td><td class="num">${r.gelirUsd.toFixed(2)}</td></tr>`).join("")}</tbody></table></div>
+        </section>` : ""}
 
         <section>
           <h3>Ay ay</h3>
@@ -1369,6 +1393,19 @@
       }
       ciz();
     });
+    /* Yenile: şifreli pakette Actions token'ı varsa workflow_dispatch tetikler.
+       Sonuç 3–5 dakika sonra data.enc.json'a düşer; sayfa yeniden açılır. */
+    $("#yenile").onclick = async () => {
+      const y = D?.yenile; if (!y) return;
+      const b = $("#yenile"); b.disabled = true; b.textContent = "tetikleniyor…";
+      try {
+        const r = await fetch(`https://api.github.com/repos/${y.repo}/actions/workflows/${y.workflow}/dispatches`, {
+          method: "POST", headers: { Authorization: `Bearer ${y.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+          body: JSON.stringify({ ref: "main" }) });
+        if (r.status === 204) { toast("Çekim başladı — 3–5 dk sonra sayfayı yenile"); b.textContent = "başladı"; }
+        else { toast(`GitHub ${r.status}: token yetkisi?`); b.textContent = "yenile"; b.disabled = false; }
+      } catch (e) { toast("Ağ hatası"); b.textContent = "yenile"; b.disabled = false; }
+    };
     $("#kilit").onclick = () => { try { sessionStorage.removeItem(OTURUM); } catch (e) { } location.reload(); };
     $("#tema").onclick = () => {
       const su = document.documentElement.getAttribute("data-theme");
