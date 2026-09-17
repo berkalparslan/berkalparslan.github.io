@@ -24,6 +24,8 @@ import { join } from "node:path";
 import { homedir } from "node:os";
 
 import { APPS, SKU_SLUG, PKG_SLUG } from "./apps.mjs";
+import { satisAyristir } from "./satis.mjs";
+import { vaultAyristir } from "./vaultmetin.mjs";
 import { listele, indir, kovaAdi } from "./gcs.mjs";
 import { csvNesneler } from "./csv.mjs";
 
