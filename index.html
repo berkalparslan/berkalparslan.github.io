@@ -621,9 +621,7 @@
 
     .card {
       position: relative;
-      background: color-mix(in srgb, var(--surface) 82%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 20px;
@@ -645,11 +643,11 @@
       transition: opacity .25s;
       pointer-events: none;
       background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%),
-          color-mix(in srgb, var(--accent) 13%, transparent), transparent 65%);
+          color-mix(in srgb, var(--accent) 7%, transparent), transparent 65%);
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       border-color: var(--border-strong);
       box-shadow: var(--shadow-lg);
     }
@@ -737,6 +735,17 @@
       background: color-mix(in srgb, var(--mint) 15%, transparent);
       color: var(--mint);
     }
+
+    .why {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--subtle);
+      text-decoration: none;
+      border-left: 2px solid var(--accent-soft);
+      padding-left: 10px;
+      transition: color .15s, border-color .15s;
+    }
+    .why:hover { color: var(--accent); border-color: var(--accent); }
 
     .store-btns {
       display: flex;
@@ -1092,12 +1101,12 @@
   <section class="hero">
     <div class="eyebrow"><span class="pulse"></span><span class="eyebrow-rot" id="eyebrowText">Bağımsız · tek kişilik stüdyo</span></div>
     <h1><span class="tr">Bir işi<br /><em>hakkıyla yapan</em><br />küçük uygulamalar.</span><span class="en">Small apps that<br /><em>do one thing well.</em></span></h1>
-    <p class="tr">BamTech tek kişilik bir stüdyo. iPhone ve Apple&nbsp;Watch için bağımsız
-      uygulamalar: kortta skor tutanlar, sessiz sağlık araçları ve sırf keyif için yazılmış
-      birkaç şey.</p>
-    <p class="en">BamTech is a one-person studio building independent apps for iPhone and
-      Apple&nbsp;Watch — score keepers for the courts, quiet health tools, and a couple of
-      things purely for fun.</p>
+    <p class="tr">BamTech tek kişilik bir stüdyo. iPhone, Apple&nbsp;Watch ve Android için
+      bağımsız uygulamalar: ev ekonomisi, kortta skor tutanlar, sessiz sağlık araçları ve sırf
+      keyif için yazılmış birkaç şey. Hepsi önce bir ihtiyaçtan çıktı; hesap yok, veri cihazında.</p>
+    <p class="en">BamTech is a one-person studio building independent apps for iPhone,
+      Apple&nbsp;Watch and Android — household books, score keepers for the courts, quiet health
+      tools, and a couple of things purely for fun. Each one started as a need; no accounts, data stays on the device.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#apps"><span class="tr">Uygulamalara bak</span><span class="en">Browse the apps</span>
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
@@ -1111,7 +1120,7 @@
     <div class="stats">
       <div class="stat"><b id="statApps">8</b><small><span class="tr">Yayında</span><span class="en">Live apps</span></small></div>
       <div class="stat"><b id="statWatch">6</b><small><span class="tr">Watch uygulaması</span><span class="en">Watch apps</span></small></div>
-      <div class="stat"><b id="statPlat">3</b><small><span class="tr">Platform</span><span class="en">Platforms</span></small></div>
+      <div class="stat"><b id="statStores">2</b><small><span class="tr">Mağaza</span><span class="en">Stores</span></small></div>
       <div class="stat"><b id="statSoon">2</b><small><span class="tr">Yolda</span><span class="en">In the oven</span></small></div>
     </div>
   </section>
@@ -1154,13 +1163,14 @@
             <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Tycoon oyunlarını sevdim, eksiklerini de gördüm.</span><span class="en">Loved tycoon games, saw what they get wrong.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/bosyeryok/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
         </div>
       </article>
 
       <!-- Wallet Coach -->
-      <article class="card" data-tags="tools ios android finance" data-name="Wallet Coach WalletCoach butce bütçe ev ekonomisi household budget price in hours para aylik">
+      <article class="card" data-released="2026-08-08" data-tags="tools ios android finance" data-name="Wallet Coach WalletCoach butce bütçe ev ekonomisi household budget price in hours para aylik">
         <div class="card-top">
           <img class="app-icon" loading="lazy" alt="Wallet Coach icon"
             src="/walletcoach/assets/icon-512.png" />
@@ -1170,6 +1180,7 @@
             <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Beş yıl Excel'de tuttum, bulamayınca yaptım.</span><span class="en">Five years in a spreadsheet; built it when nothing fit.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/walletcoach/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
@@ -1186,7 +1197,7 @@
       </article>
 
       <!-- BodyBook -->
-      <article class="card" data-tags="health android" data-name="BodyBook Health Skincare sağlık cilt">
+      <article class="card" data-released="2026-09-03" data-tags="health android" data-name="BodyBook Health Skincare sağlık cilt">
         <div class="card-top">
           <div class="app-icon-ph">🩺</div>
           <div class="app-info">
@@ -1195,6 +1206,7 @@
             <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Altı ayda bir ben merkezine gitmek saçma geldi.</span><span class="en">Visiting a mole clinic every six months felt absurd.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/bodybook/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener">
@@ -1216,6 +1228,7 @@
             <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Kortta skoru tutamıyordum.</span><span class="en">I kept losing the score on court.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/tennis-padel/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
@@ -1283,6 +1296,7 @@
             <div class="app-desc"><span class="tr">İmkânsız tercihler oyunu. Arkadaşlarınla sesli oynanır, tartışma garantili.</span><span class="en">Would-you-rather, Turkish edition. Impossible choices, played out loud with friends.</span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Arkadaşlarla kendi aramızda oynadığımız oyun.</span><span class="en">A game we played among friends.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/o-mu-bu-mu/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
@@ -1314,7 +1328,7 @@
       </article>
 
       <!-- Yonca -->
-      <article class="card" data-tags="tools ios" data-name="Yonca çekiliş takip giveaway kampanya prize draw">
+      <article class="card" data-released="2026-08-26" data-tags="tools ios" data-name="Yonca çekiliş takip giveaway kampanya prize draw">
         <div class="card-top">
           <div class="app-icon-ph">🍀</div>
           <div class="app-info">
@@ -1323,6 +1337,7 @@
             <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Kazandığım çekilişi kuzenim görmese yalan olacaktı.</span><span class="en">My cousin spotted my name on a winners list by chance.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
           <a class="store-btn ios" href="https://apps.apple.com/app/id6802312123" target="_blank" rel="noopener">
@@ -1385,6 +1400,7 @@
             <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Bitkilerimin ne zaman sulanacağını bilmiyordum.</span><span class="en">I never knew when my plants needed water.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/leafbook/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
         </div>
@@ -1401,6 +1417,7 @@
             <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
           </div>
         </div>
+        <a class="why" href="/neden/"><span class="tr">Hamile bir arkadaşım için.</span><span class="en">For a friend who was expecting.</span></a>
         <div class="store-btns">
           <a class="store-btn ios" href="/bumpline/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
         </div>
@@ -1612,12 +1629,14 @@
       document.getElementById("statApps").textContent = live.length;
       document.getElementById("statWatch").textContent = cards.filter(c => tagsOf(c).includes("watch")).length;
       document.getElementById("statSoon").textContent = cards.filter(c => tagsOf(c).includes("soon")).length;
-      /* Platform sayısı da etiketlerden gelsin — elle güncellenmesin. */
-      const plats = new Set();
-      cards.forEach(c => tagsOf(c).forEach(t => {
-        if (t === "ios" || t === "android" || t === "web") plats.add(t);
-      }));
-      document.getElementById("statPlat").textContent = plats.size;
+      /* "Yeni" rozeti tarihe bağlı: yayından 45 gün sonra kendiliğinden düşer. */
+      const NEW_DAYS = 45;
+      cards.forEach(c => {
+        const d = c.dataset.released; if (!d) return;
+        const age = (Date.now() - new Date(d).getTime()) / 864e5;
+        if (age > NEW_DAYS) c.querySelectorAll(".badge.new").forEach(b => b.remove());
+      });
+      document.getElementById("statStores").textContent = new Set(cards.flatMap(c => tagsOf(c).filter(t => t === "ios" || t === "android"))).size;
 
       let activeFilter = "all";
 
