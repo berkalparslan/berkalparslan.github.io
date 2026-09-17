@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>O mu Bu mu? · Yönetim · Lab</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f4f7; --surface: #fff; --surface-2: #f7f7fa; --text: #14141a; --subtle: #5f6270; --faint: #9a9daa;
+      --border: #e2e3ea; --accent: #6d4fe0; --accent-soft: rgba(109, 79, 224, .10); --mint: #0f9f8a; --mint-soft: rgba(15, 159, 138, .12);
+      --amber: #c77d00; --amber-soft: rgba(199, 125, 0, .12); --rose: #d6455d; --rose-soft: rgba(214, 69, 93, .11);
+      --shadow: 0 1px 2px rgba(20, 20, 40, .05), 0 6px 20px rgba(20, 20, 40, .05); --r: 14px; --r-sm: 9px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; padding-block: 0 40px; padding-inline: 16px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; flex-wrap: wrap; }
+    h1 { font-size: 20px; margin: 0; } h1 small { color: var(--subtle); font-weight: 400; margin-left: 8px; }
+    .sag { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    button, .btn { font: inherit; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: var(--r-sm); padding: 7px 12px; cursor: pointer; }
+    button.ana { background: var(--accent); border-color: var(--accent); color: #fff; }
+    button.tehlike { color: var(--rose); border-color: var(--rose); }
+    button.kucuk { padding: 4px 8px; font-size: 12px; }
+    button:disabled { opacity: .5; cursor: default; }
+    nav.sekmeler { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 16px; }
+    nav.sekmeler button[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .kart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: 14px; }
+    .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .sayac { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); margin-bottom: 14px; }
+    .sayac .kart b { display: block; font-size: 24px; } .sayac .kart span { color: var(--subtle); font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; } th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    th { color: var(--subtle); font-weight: 600; font-size: 12px; } .tablo { overflow-x: auto; }
+    img.k { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; background: var(--surface-2); }
+    .rozet { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .rozet.approved { background: var(--mint-soft); color: var(--mint); } .rozet.pending { background: var(--amber-soft); color: var(--amber); } .rozet.rejected { background: var(--rose-soft); color: var(--rose); }
+    .rozet.public { background: var(--accent-soft); color: var(--accent); } .rozet.unlisted, .rozet.private { background: var(--surface-2); color: var(--subtle); }
+    input, select, textarea { font: inherit; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 7px 9px; background: var(--surface); color: var(--text); width: 100%; }
+    label { display: block; font-size: 12px; color: var(--subtle); margin: 8px 0 3px; }
+    .satir { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    dialog { border: 1px solid var(--border); border-radius: var(--r); padding: 18px; width: min(720px, 94vw); max-height: 90vh; overflow: auto; }
+    dialog::backdrop { background: rgba(0, 0, 0, .35); }
+    .arac { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    .arac input[type=search] { max-width: 280px; }
+    .ipucu { color: var(--subtle); font-size: 12px; }
+    .mono { font-family: var(--mono); font-size: 12px; }
+    #durum { color: var(--subtle); font-size: 12px; }
+    .secenekler { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .secenek { border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px; font-size: 12px; }
+    .secenek img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; background: var(--surface-2); }
+    .secenek input { margin-top: 4px; padding: 4px 6px; font-size: 12px; }
+    .kapali { display: none !important; }
+    .uyarı { background: var(--amber-soft); color: var(--amber); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 12px; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div><h1>O mu Bu mu? <small>yönetim · Firestore</small></h1><div id="durum">bağlanıyor…</div></div>
+    <div class="sag">
+      <label class="ipucu" style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" id="emu" style="width:auto"> emülatör</label>
+      <button id="giris" class="ana">Google ile giriş</button>
+      <button id="cikis" class="kapali">Çıkış</button>
+      <a class="btn" href="/lab/">← lab</a>
+    </div>
+  </header>
+
+  <div id="uyari" class="uyarı kapali"></div>
+
+  <main id="uygulama" class="kapali">
+    <div class="sayac" id="sayaclar"></div>
+    <nav class="sekmeler" role="tablist">
+      <button role="tab" data-sekme="onay" aria-selected="true">Onay kuyruğu</button>
+      <button role="tab" data-sekme="turnuvalar">Turnuvalar</button>
+      <button role="tab" data-sekme="sorular">Sorular</button>
+      <button role="tab" data-sekme="kategoriler">Kategoriler</button>
+      <button role="tab" data-sekme="kullanicilar">Kullanıcılar</button>
+      <button role="tab" data-sekme="raporlar">Raporlar</button>
+      <button role="tab" data-sekme="arac">Araçlar</button>
+    </nav>
+    <section id="icerik" class="kart"></section>
+  </main>
+
+  <dialog id="dlg"></dialog>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp, connectFirestoreEmulator, writeBatch } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+    // Proje kimliği herkese açık (istemci SDK'sı böyle çalışır); erişimi
+    // Firestore kuralları ve /admins/{uid} belgesi belirler.
+    const config = {
+      apiKey: "AIzaSyBv0heuN3iPZSBGhg3wCv2Itu5Tsdke2Qc",
+      authDomain: "thisone-ba533.firebaseapp.com",
+      projectId: "thisone-ba533",
+      storageBucket: "thisone-ba533.firebasestorage.app",
+      messagingSenderId: "1005769189464",
+      appId: "1:1005769189464:web:70e4831bdb45782b3e422d",
+    };
+
+    const emu = new URLSearchParams(location.search).has("emu") || localStorage.getItem("omubumu-emu") === "1";
+    document.getElementById("emu").checked = emu;
+    document.getElementById("emu").onchange = (e) => { localStorage.setItem("omubumu-emu", e.target.checked ? "1" : "0"); location.reload(); };
+
+    const app = initializeApp(config);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    if (emu) { connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true }); connectFirestoreEmulator(db, "127.0.0.1", 8080); }
+
+    const $ = (s) => document.querySelector(s);
+    const durum = (t) => ($("#durum").textContent = t);
+    const uyar = (t) => { const u = $("#uyari"); u.textContent = t; u.classList.toggle("kapali", !t); };
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const tarih = (ts) => ts?.toDate ? ts.toDate().toLocaleString("tr-TR") : "—";
+
+    // ---- giriş ---------------------------------------------------------
+    $("#giris").onclick = async () => {
+      try {
+        if (emu) {
+          // Emülatörde Google açılır penceresi yok; sabit bir yönetici hesabı kullan.
+          try { await signInWithEmailAndPassword(auth, "admin@local.test", "admin123"); }
+          catch { await createUserWithEmailAndPassword(auth, "admin@local.test", "admin123"); }
+        } else {
+          await signInWithPopup(auth, new GoogleAuthProvider());
+        }
+      } catch (e) { uyar("Giriş başarısız: " + e.message); }
+    };
+    $("#cikis").onclick = () => signOut(auth);
+
+    let benAdmin = false;
+    onAuthStateChanged(auth, async (user) => {
+      $("#giris").classList.toggle("kapali", !!user);
+      $("#cikis").classList.toggle("kapali", !user);
+      if (!user) { $("#uygulama").classList.add("kapali"); durum("giriş yapılmadı"); return; }
+      const a = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
+      benAdmin = !!a?.exists();
+      durum(`${user.email || user.uid} · ${benAdmin ? "yönetici" : "yetkisiz"}${emu ? " · emülatör" : ""}`);
+      if (!benAdmin) {
+        uyar(`Bu hesap yönetici değil. Firestore'da admins/${user.uid} belgesini oluştur (alanlar: email, role). Emülatörde: Emulator UI → Firestore → admins.`);
+        $("#uygulama").classList.add("kapali");
+        return;
+      }
+      uyar("");
+      $("#uygulama").classList.remove("kapali");
+      await yukle();
+      goster("onay");
+    });
+
+    // ---- veri ----------------------------------------------------------
+    const V = { brackets: [], questions: [], categories: [], users: [], reports: [] };
+    const okuHepsi = async (ad, ...kisit) => (await getDocs(kisit.length ? query(collection(db, ad), ...kisit) : collection(db, ad))).docs.map((d) => ({ id: d.id, ...d.data() }));
+
+    async function yukle() {
+      durum("yükleniyor…");
+      [V.brackets, V.questions, V.categories, V.users, V.reports] = await Promise.all([
+        okuHepsi("brackets"), okuHepsi("questions"), okuHepsi("categories", orderBy("order")),
+        okuHepsi("users", orderBy("lastSeenAt", "desc"), limit(500)).catch(() => okuHepsi("users")),
+        okuHepsi("reports", orderBy("createdAt", "desc")).catch(() => okuHepsi("reports")),
+      ]);
+      const say = (dizi, f) => dizi.filter(f).length;
+      $("#sayaclar").innerHTML = [
+        ["Genel turnuva", say(V.brackets, (b) => b.status === "approved" && b.visibility === "public")],
+        ["Onay bekleyen", say(V.brackets, (b) => b.status === "pending") + say(V.questions, (q) => q.status === "pending")],
+        ["Soru", V.questions.length],
+        ["Kategori", V.categories.length],
+        ["Kullanıcı", V.users.length],
+        ["Açık rapor", say(V.reports, (r) => r.status === "open")],
+      ].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("");
+      durum(`${auth.currentUser.email || auth.currentUser.uid} · yönetici${emu ? " · emülatör" : ""} · ${new Date().toLocaleTimeString("tr-TR")}`);
+    }
+
+    // ---- sekmeler ------------------------------------------------------
+    document.querySelectorAll("nav.sekmeler button").forEach((b) => (b.onclick = () => goster(b.dataset.sekme)));
+    let aktif = "onay";
+    function goster(sekme) {
+      aktif = sekme;
+      document.querySelectorAll("nav.sekmeler button").forEach((b) => b.setAttribute("aria-selected", b.dataset.sekme === sekme));
+      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      bagla();
+    }
+    const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
+    const durumSec = (tur, id, alan, deger) => `<select data-degistir="${tur}|${id}|${alan}">${(alan === "status" ? ["approved", "pending", "rejected"] : ["public", "unlisted", "private"]).map((v) => `<option ${v === deger ? "selected" : ""}>${v}</option>`).join("")}</select>`;
+
+    function onay() {
+      const b = V.brackets.filter((x) => x.status === "pending");
+      const q = V.questions.filter((x) => x.status === "pending");
+      if (!b.length && !q.length) return `<p class="ipucu">Onay bekleyen içerik yok.</p>`;
+      return `<p class="ipucu">Herkese açık akışa yalnız <b>approved + public</b> düşer. Kullanıcı içeriği varsayılan <b>unlisted</b> kalır; onaylamak onu herkese açmaz, ayrıca <b>public</b> yapman gerekir.</p>
+      <h3>Turnuvalar (${b.length})</h3><div class="tablo"><table><tr><th></th><th>Başlık</th><th>Seçenek</th><th>Sahip</th><th>Durum</th><th>Görünürlük</th><th></th></tr>
+      ${b.map((x) => `<tr><td>${kapak(x)}</td><td>${esc(x.emoji)} ${esc(x.title)}</td><td>${x.optionCount ?? x.options?.length ?? 0}</td><td class="mono">${esc((x.ownerId || x.legacyOwnerId || "—").slice(0, 10))}</td><td>${durumSec("brackets", x.id, "status", x.status)}</td><td>${durumSec("brackets", x.id, "visibility", x.visibility)}</td><td><button class="kucuk" data-duzenle="brackets|${x.id}">Aç</button> <button class="kucuk tehlike" data-sil="brackets|${x.id}">Sil</button></td></tr>`).join("")}</table></div>
+      <h3>Sorular (${q.length})</h3><div class="tablo"><table><tr><th>Soru</th><th>A</th><th>B</th><th>Durum</th><th>Görünürlük</th><th></th></tr>
+      ${q.map((x) => `<tr><td>${esc(x.text)}</td><td>${esc(x.a?.name)}</td><td>${esc(x.b?.name)}</td><td>${durumSec("questions", x.id, "status", x.status)}</td><td>${durumSec("questions", x.id, "visibility", x.visibility)}</td><td><button class="kucuk" data-duzenle="questions|${x.id}">Aç</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    const kapak = (b) => `<img class="k" src="${esc((b.cover || [])[0] || b.options?.find((o) => o.imageURL)?.imageURL || "")}" alt="" loading="lazy">`;
+
+    function turnuvalar() {
+      return `<div class="arac"><input type="search" id="ara" placeholder="Ara…"><button data-yeni="brackets">+ Yeni turnuva</button><span class="ipucu">${V.brackets.length} kayıt</span></div>
+      <div class="tablo"><table id="liste"><tr><th></th><th>Başlık</th><th>EN</th><th>Seçenek</th><th>Oyun</th><th>Düello</th><th>Durum</th><th>Görünürlük</th><th></th></tr>
+      ${V.brackets.sort((a, b) => (b.totalVotes || 0) - (a.totalVotes || 0)).map((x) => `<tr data-ara="${esc((x.title + " " + (x.titleEn || "")).toLowerCase())}"><td>${kapak(x)}</td><td>${esc(x.emoji)} ${esc(x.title)}</td><td class="ipucu">${esc(x.titleEn || "—")}</td><td>${x.optionCount ?? x.options?.length ?? 0}</td><td>${x.totalPlays ?? 0}</td><td>${x.totalVotes ?? 0}</td><td>${durumSec("brackets", x.id, "status", x.status)}</td><td>${durumSec("brackets", x.id, "visibility", x.visibility)}</td><td><button class="kucuk" data-duzenle="brackets|${x.id}">Düzenle</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    function sorular() {
+      return `<div class="arac"><input type="search" id="ara" placeholder="Ara…"><select id="kat"><option value="">Tüm kategoriler</option>${V.categories.map((c) => `<option>${esc(c.name)}</option>`).join("")}</select><button data-yeni="questions">+ Yeni soru</button><span class="ipucu">${V.questions.length} kayıt</span></div>
+      <div class="tablo"><table id="liste"><tr><th>A</th><th>B</th><th>Soru</th><th>EN</th><th>Kategori</th><th>Oy</th><th>Durum</th><th>Görünürlük</th><th></th></tr>
+      ${V.questions.map((x) => `<tr data-ara="${esc((x.text + " " + (x.textEn || "") + " " + x.a?.name + " " + x.b?.name).toLowerCase())}" data-kat="${esc((x.categories || []).join("|"))}"><td><img class="k" src="${esc(x.a?.imageURL || "")}" alt="" loading="lazy"></td><td><img class="k" src="${esc(x.b?.imageURL || "")}" alt="" loading="lazy"></td><td>${esc(x.text)}<br><span class="ipucu">${esc(x.a?.name)} / ${esc(x.b?.name)}</span></td><td class="ipucu">${esc(x.textEn || "—")}</td><td>${esc((x.categories || []).join(", "))}</td><td>${(x.votesA || 0) + (x.votesB || 0)}</td><td>${durumSec("questions", x.id, "status", x.status)}</td><td>${durumSec("questions", x.id, "visibility", x.visibility)}</td><td><button class="kucuk" data-duzenle="questions|${x.id}">Düzenle</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    function kategoriler() {
+      return `<div class="arac"><button data-yeni="categories">+ Yeni kategori</button></div>
+      <div class="tablo"><table><tr><th>Sıra</th><th>Ad</th><th>EN</th><th>Simge (SF Symbol)</th><th>Soru</th><th></th></tr>
+      ${V.categories.map((c) => `<tr><td>${c.order ?? 0}</td><td>${esc(c.name)}</td><td class="ipucu">${esc(c.nameEn || "—")}</td><td class="mono">${esc(c.symbol)}</td><td>${V.questions.filter((q) => (q.categories || []).includes(c.name)).length}</td><td><button class="kucuk" data-duzenle="categories|${c.id}">Düzenle</button> <button class="kucuk tehlike" data-sil="categories|${c.id}">Sil</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    function kullanicilar() {
+      const anon = V.users.filter((u) => u.isAnonymous).length;
+      return `<p class="ipucu">Firebase Auth'taki tam liste konsolda; burası uygulamanın <code>users/</code> profil belgeleri (son görülme sırasıyla, en çok 500). Anonim: ${anon} · Girişli: ${V.users.length - anon}</p>
+      <div class="tablo"><table><tr><th>Kimlik</th><th>Ad</th><th>Sağlayıcı</th><th>Platform</th><th>Sürüm</th><th>Son görülme</th><th>Kayıt</th><th></th></tr>
+      ${V.users.map((u) => `<tr><td class="mono">${esc(u.id.slice(0, 10))}</td><td>${esc(u.displayName || (u.isAnonymous ? "anonim" : "—"))}</td><td>${esc((u.providers || []).join(", ") || "anon")}</td><td>${esc(u.platform || "—")}</td><td>${esc(u.appVersion || "—")}</td><td>${tarih(u.lastSeenAt)}</td><td>${tarih(u.createdAt)}</td><td><button class="kucuk" data-kosular="${u.id}">Oyunlar</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    function raporlar() {
+      if (!V.reports.length) return `<p class="ipucu">Rapor yok.</p>`;
+      return `<div class="tablo"><table><tr><th>Tarih</th><th>Tür</th><th>Hedef</th><th>Sebep</th><th>Not</th><th>Bildiren</th><th>Durum</th><th></th></tr>
+      ${V.reports.map((r) => `<tr><td>${tarih(r.createdAt)}</td><td>${esc(r.type)}</td><td class="mono">${esc(r.targetId)}${r.optionId ? " / " + esc(r.optionId) : ""}</td><td>${esc(r.reason)}</td><td>${esc(r.note || "")}</td><td class="mono">${esc((r.uid || "").slice(0, 10))}</td><td>${rozet(r.status)}</td><td>${r.status === "open" ? `<button class="kucuk" data-kapat="${r.id}">Kapat</button>` : ""} <button class="kucuk" data-duzenle="${r.type === "question" ? "questions" : "brackets"}|${esc(r.targetId)}">İçeriği aç</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    function arac() {
+      return `<h3>Sayaçları yeniden hesapla</h3><p class="ipucu">Her turnuvanın <code>totalPlays</code>, <code>totalVotes</code>, <code>optionCount</code> ve <code>cover</code> alanlarını seçenek istatistiklerinden yeniden üretir; kategori soru sayılarını günceller.</p><button data-arac="sayac">Çalıştır</button>
+      <h3>İçe aktar (JSON)</h3><p class="ipucu">Firestore biçiminde dizi: <code>[{ "koleksiyon": "questions", "id": "...", ...alanlar }]</code>. Aynı id üzerine yazar.</p><input type="file" id="ice" accept="application/json"><div id="iceSonuc" class="ipucu"></div>
+      <h3>Dışa aktar</h3><button data-arac="disa">Tüm katalogu indir</button>
+      <h3>Nereye bakılır</h3><ul class="ipucu"><li>Firebase konsolu: <a href="https://console.firebase.google.com/project/thisone-ba533/firestore" target="_blank" rel="noopener">Firestore</a> · <a href="https://console.firebase.google.com/project/thisone-ba533/authentication/users" target="_blank" rel="noopener">Auth kullanıcıları</a> · <a href="https://console.firebase.google.com/project/thisone-ba533/analytics" target="_blank" rel="noopener">Analytics</a></li><li>Görseller: Cloudflare R2 <code>this-one-cdn</code></li><li>Kurallar ve göç betiği: <code>thisOneApp/firebase/</code></li></ul>`;
+    }
+
+    // ---- etkileşim -----------------------------------------------------
+    function bagla() {
+      const ara = $("#ara"), kat = $("#kat");
+      const suz = () => {
+        const t = (ara?.value || "").toLowerCase(), k = kat?.value || "";
+        document.querySelectorAll("#liste tr[data-ara]").forEach((tr) => tr.style.display = (tr.dataset.ara.includes(t) && (!k || tr.dataset.kat.split("|").includes(k))) ? "" : "none");
+      };
+      ara && (ara.oninput = suz); kat && (kat.onchange = suz);
+
+      document.querySelectorAll("[data-degistir]").forEach((s) => s.onchange = async () => {
+        const [tur, id, alan] = s.dataset.degistir.split("|");
+        await updateDoc(doc(db, tur, id), { [alan]: s.value, updatedAt: serverTimestamp() });
+        const kayit = V[tur].find((x) => x.id === id); if (kayit) kayit[alan] = s.value;
+        durum(`${alan} → ${s.value} kaydedildi`);
+      });
+      document.querySelectorAll("[data-duzenle]").forEach((b) => b.onclick = () => { const [tur, id] = b.dataset.duzenle.split("|"); duzenle(tur, V[tur].find((x) => x.id === id)); });
+      document.querySelectorAll("[data-yeni]").forEach((b) => b.onclick = () => duzenle(b.dataset.yeni, null));
+      document.querySelectorAll("[data-sil]").forEach((b) => b.onclick = async () => {
+        const [tur, id] = b.dataset.sil.split("|");
+        if (!confirm("Kalıcı olarak silinsin mi?")) return;
+        await deleteDoc(doc(db, tur, id)); await yukle(); goster(aktif);
+      });
+      document.querySelectorAll("[data-kapat]").forEach((b) => b.onclick = async () => { await updateDoc(doc(db, "reports", b.dataset.kapat), { status: "closed", closedAt: serverTimestamp() }); await yukle(); goster(aktif); });
+      document.querySelectorAll("[data-kosular]").forEach((b) => b.onclick = async () => {
+        const kosular = await okuHepsi(`users/${b.dataset.kosular}/runs`, orderBy("playedAt", "desc"), limit(50)).catch(() => []);
+        acDialog(`<h3>Oyunlar · ${esc(b.dataset.kosular.slice(0, 10))}</h3>${kosular.length ? `<table><tr><th>Tarih</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th></tr>${kosular.map((k) => `<tr><td>${tarih(k.playedAt)}</td><td>${esc(k.bracketTitle)}</td><td>${k.size}</td><td>${esc(k.championName)}</td></tr>`).join("")}</table>` : `<p class="ipucu">Kayıt yok.</p>`}<p><button data-kapa>Kapat</button></p>`);
+      });
+      document.querySelectorAll("[data-arac]").forEach((b) => b.onclick = () => ({ sayac: sayaclariYenile, disa: disaAktar })[b.dataset.arac]());
+      const ice = $("#ice"); ice && (ice.onchange = iceAktar);
+    }
+
+    function acDialog(html) {
+      const d = $("#dlg"); d.innerHTML = html; d.showModal();
+      d.querySelectorAll("[data-kapa]").forEach((b) => b.onclick = () => d.close());
+    }
+
+    // ---- düzenleme formu ----------------------------------------------
+    function duzenle(tur, kayit) {
+      const yeni = !kayit;
+      const k = kayit || {};
+      let form = "";
+      if (tur === "questions") {
+        form = `<div class="satir"><div><label>Soru (TR)</label><input name="text" value="${esc(k.text)}"></div><div><label>Soru (EN)</label><input name="textEn" value="${esc(k.textEn)}"></div></div>
+        <div class="satir"><div><label>A adı</label><input name="a.name" value="${esc(k.a?.name)}"><label>A adı (EN)</label><input name="a.nameEn" value="${esc(k.a?.nameEn)}"><label>A görsel URL</label><input name="a.imageURL" value="${esc(k.a?.imageURL)}"><img class="k" src="${esc(k.a?.imageURL || "")}" alt=""></div>
+        <div><label>B adı</label><input name="b.name" value="${esc(k.b?.name)}"><label>B adı (EN)</label><input name="b.nameEn" value="${esc(k.b?.nameEn)}"><label>B görsel URL</label><input name="b.imageURL" value="${esc(k.b?.imageURL)}"><img class="k" src="${esc(k.b?.imageURL || "")}" alt=""></div></div>
+        <label>Kategoriler</label><select name="categories" multiple size="5">${V.categories.map((c) => `<option ${(k.categories || []).includes(c.name) ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select>
+        <div class="satir"><div><label>Oy A</label><input name="votesA" type="number" value="${k.votesA ?? 0}"></div><div><label>Oy B</label><input name="votesB" type="number" value="${k.votesB ?? 0}"></div></div>`;
+      } else if (tur === "brackets") {
+        const opts = k.options || [];
+        form = `<div class="satir"><div><label>Emoji</label><input name="emoji" value="${esc(k.emoji || "🏆")}"></div><div><label>Görünürlük</label><select name="visibility">${["public", "unlisted", "private"].map((v) => `<option ${v === (k.visibility || "public") ? "selected" : ""}>${v}</option>`).join("")}</select></div></div>
+        <div class="satir"><div><label>Başlık (TR)</label><input name="title" value="${esc(k.title)}"></div><div><label>Başlık (EN)</label><input name="titleEn" value="${esc(k.titleEn)}"></div></div>
+        <label>Seçenekler (${opts.length}) — ad, EN ad, görsel URL. Yeni satır eklemek için alttaki düğme.</label>
+        <div class="secenekler" id="secenekler">${opts.map((o, i) => secenekHtml(o, i)).join("")}</div>
+        <p><button type="button" id="secenekEkle">+ Seçenek</button></p>`;
+      } else if (tur === "categories") {
+        form = `<div class="satir"><div><label>Ad (TR)</label><input name="name" value="${esc(k.name)}"></div><div><label>Ad (EN)</label><input name="nameEn" value="${esc(k.nameEn)}"></div></div>
+        <div class="satir"><div><label>Simge (SF Symbol adı)</label><input name="symbol" value="${esc(k.symbol || "sparkles")}"></div><div><label>Sıra</label><input name="order" type="number" value="${k.order ?? V.categories.length}"></div></div>`;
+      }
+      acDialog(`<h3>${yeni ? "Yeni" : "Düzenle"} · ${tur}${k.id ? ` · <span class="mono">${esc(k.id)}</span>` : ""}</h3><form id="form">${form}
+        <p style="margin-top:14px;display:flex;gap:8px"><button type="submit" class="ana">Kaydet</button><button type="button" data-kapa>Vazgeç</button>${!yeni && tur !== "categories" ? `<button type="button" class="tehlike" id="formSil" style="margin-left:auto">Sil</button>` : ""}</p></form>`);
+      const d = $("#dlg");
+      d.querySelector("#secenekEkle") && (d.querySelector("#secenekEkle").onclick = () => { const s = d.querySelector("#secenekler"); s.insertAdjacentHTML("beforeend", secenekHtml({ id: "", name: "", imageURL: "" }, s.children.length)); });
+      d.querySelector("#formSil") && (d.querySelector("#formSil").onclick = async () => { if (!confirm("Silinsin mi?")) return; await deleteDoc(doc(db, tur, k.id)); d.close(); await yukle(); goster(aktif); });
+      d.querySelector("#form").onsubmit = async (e) => {
+        e.preventDefault();
+        const f = new FormData(e.target);
+        const veri = { updatedAt: serverTimestamp() };
+        if (tur === "questions") {
+          Object.assign(veri, {
+            text: f.get("text"), textEn: f.get("textEn") || null,
+            a: { name: f.get("a.name"), nameEn: f.get("a.nameEn") || null, imageURL: f.get("a.imageURL") || null },
+            b: { name: f.get("b.name"), nameEn: f.get("b.nameEn") || null, imageURL: f.get("b.imageURL") || null },
+            categories: f.getAll("categories"), votesA: +f.get("votesA") || 0, votesB: +f.get("votesB") || 0,
+          });
+          if (yeni) Object.assign(veri, { status: "approved", visibility: "public", ownerId: null, source: "admin", createdAt: serverTimestamp() });
+        } else if (tur === "brackets") {
+          const kutular = [...d.querySelectorAll(".secenek")];
+          const used = new Set();
+          const options = kutular.map((s) => {
+            const name = s.querySelector("[name=oname]").value.trim(); if (!name) return null;
+            let id = s.querySelector("[name=oid]").value.trim() || slug(name); while (used.has(id)) id += "-2"; used.add(id);
+            return { id, name, nameEn: s.querySelector("[name=onameEn]").value.trim() || null, imageURL: s.querySelector("[name=oimg]").value.trim() || null };
+          }).filter(Boolean);
+          const stats = { ...(k.stats || {}) }; options.forEach((o) => { stats[o.id] ||= { wins: 0, votes: 0 }; });
+          Object.keys(stats).forEach((id) => { if (!options.find((o) => o.id === id)) delete stats[id]; });
+          Object.assign(veri, {
+            title: f.get("title"), titleEn: f.get("titleEn") || null, emoji: f.get("emoji") || "🏆", visibility: f.get("visibility"),
+            options, stats, optionCount: options.length, cover: kapakHesapla(options, stats),
+            totalPlays: Object.values(stats).reduce((s, x) => s + (x.wins || 0), 0), totalVotes: Object.values(stats).reduce((s, x) => s + (x.votes || 0), 0),
+          });
+          if (yeni) Object.assign(veri, { status: "approved", ownerId: null, inviteCode: null, source: "admin", createdAt: serverTimestamp() });
+        } else if (tur === "categories") {
+          Object.assign(veri, { name: f.get("name"), nameEn: f.get("nameEn") || null, symbol: f.get("symbol") || "sparkles", order: +f.get("order") || 0 });
+          if (yeni) Object.assign(veri, { questionCount: 0, createdAt: serverTimestamp() });
+        }
+        if (yeni) await addDoc(collection(db, tur), veri); else await updateDoc(doc(db, tur, k.id), veri);
+        d.close(); await yukle(); goster(aktif);
+      };
+    }
+    const secenekHtml = (o, i) => `<div class="secenek"><img src="${esc(o.imageURL || "")}" alt="" loading="lazy"><input name="oid" placeholder="id" value="${esc(o.id)}" class="mono"><input name="oname" placeholder="ad" value="${esc(o.name)}"><input name="onameEn" placeholder="ad (EN)" value="${esc(o.nameEn)}"><input name="oimg" placeholder="görsel URL" value="${esc(o.imageURL)}"></div>`;
+    const slug = (t) => t.replace(/[çğıöşüİÇĞÖŞÜ]/g, (c) => ({ ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", İ: "i", Ç: "c", Ğ: "g", Ö: "o", Ş: "s", Ü: "u" }[c])).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " ve ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "x";
+    const kapakHesapla = (options, stats) => [...options].sort((x, y) => ((stats[y.id]?.wins || 0) - (stats[x.id]?.wins || 0)) || ((stats[y.id]?.votes || 0) - (stats[x.id]?.votes || 0))).filter((o) => o.imageURL).slice(0, 4).map((o) => o.imageURL);
+
+    // ---- araçlar -------------------------------------------------------
+    async function sayaclariYenile() {
+      let n = 0;
+      for (const b of V.brackets) {
+        const stats = b.stats || {}, options = b.options || [];
+        await updateDoc(doc(db, "brackets", b.id), {
+          optionCount: options.length, cover: kapakHesapla(options, stats),
+          totalPlays: Object.values(stats).reduce((s, x) => s + (x.wins || 0), 0), totalVotes: Object.values(stats).reduce((s, x) => s + (x.votes || 0), 0),
+          updatedAt: serverTimestamp(),
+        }); n++;
+      }
+      for (const c of V.categories) await updateDoc(doc(db, "categories", c.id), { questionCount: V.questions.filter((q) => (q.categories || []).includes(c.name)).length });
+      durum(`${n} turnuva, ${V.categories.length} kategori güncellendi`); await yukle(); goster(aktif);
+    }
+    function disaAktar() {
+      const veri = { exportedAt: new Date().toISOString(), categories: V.categories, questions: V.questions, brackets: V.brackets };
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(veri, null, 2)], { type: "application/json" })); a.download = `omubumu-katalog-${new Date().toISOString().slice(0, 10)}.json`; a.click();
+    }
+    async function iceAktar(e) {
+      const dosya = e.target.files[0]; if (!dosya) return;
+      const kayitlar = JSON.parse(await dosya.text());
+      let batch = writeBatch(db), n = 0;
+      for (const k of kayitlar) {
+        const { koleksiyon, id, ...alanlar } = k; if (!koleksiyon || !id) continue;
+        batch.set(doc(db, koleksiyon, id), { ...alanlar, updatedAt: serverTimestamp() }, { merge: true });
+        if (++n % 400 === 0) { await batch.commit(); batch = writeBatch(db); }
+      }
+      await batch.commit(); $("#iceSonuc").textContent = `${n} kayıt yazıldı`; await yukle();
+    }
+  </script>
+</body>
+
+</html>
