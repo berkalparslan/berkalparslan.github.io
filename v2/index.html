@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BamTech — Önce kendim için yaptım</title>
+<meta name="description" content="Tek kişilik bir stüdyonun küçük uygulamaları: her biri önce bir ihtiyaçtan çıktı, sonra mağazaya gitti.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/brand/icon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e8; --paper-2:#efe8dc; --ink:#1b1a17; --ink-2:#4d4a43; --ink-3:#8a857a;
+  --line:#e2dacb; --card:#fffdf8; --green:#1e6b4a; --green-soft:rgba(30,107,74,.10);
+  --gold:#c98a1b; --rose:#b8472f;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --r:22px; --r-s:14px; --shadow:0 1px 2px rgba(40,30,10,.05),0 12px 32px rgba(40,30,10,.07);
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#15140f; --paper-2:#1c1a14; --ink:#f1ece2; --ink-2:#bdb6a8; --ink-3:#7e7869; --line:#2b2820; --card:#1f1d17;
+  --green:#5fbf8f; --green-soft:rgba(95,191,143,.14); --gold:#e2a83a; --rose:#e06a4f;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;margin:0}
+.eyebrow{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:20px}
+.brand img{width:28px;height:28px;border-radius:8px}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:15px;color:var(--ink-2)}
+nav ul a:hover{color:var(--ink)}
+@media(max-width:640px){nav ul{gap:16px;font-size:14px} nav ul li:nth-child(n+4){display:none}}
+
+/* hero */
+.hero{padding:96px 0 64px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-40% -20% auto;height:120%;background:radial-gradient(60% 50% at 30% 30%,var(--green-soft),transparent 70%),radial-gradient(40% 40% at 80% 20%,rgba(201,138,27,.12),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative}
+.hero h1{font-size:clamp(44px,7vw,92px);line-height:1.0;max-width:14ch;font-variation-settings:"SOFT" 80,"opsz" 144}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero p{font-size:clamp(18px,2vw,22px);color:var(--ink-2);max-width:56ch;margin:28px 0 36px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--card);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.facts{display:flex;gap:36px;margin-top:56px;flex-wrap:wrap}
+.fact b{display:block;font-family:var(--serif);font-size:34px;font-weight:500;line-height:1}
+.fact small{color:var(--ink-3);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+
+/* sections */
+section{padding:72px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(30px,4vw,44px);line-height:1.1}
+.sec-head p{margin:8px 0 0;color:var(--ink-2);max-width:56ch}
+.sec-head a.more{color:var(--green);font-weight:600;font-size:15px;white-space:nowrap}
+
+/* featured */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.feat{grid-template-columns:1fr}}
+.feat article{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow);transition:transform .2s}
+.feat article:hover{transform:translateY(-3px)}
+.feat .top{display:flex;align-items:center;gap:14px}
+.feat img{width:56px;height:56px;border-radius:15px}
+.feat h3{font-size:24px}
+.feat .why{font-family:var(--serif);font-size:19px;line-height:1.4;color:var(--ink);font-style:italic;flex:1}
+.feat .desc{color:var(--ink-2);font-size:15px;margin:0}
+.stores{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.store{font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper-2)}
+.store.ios{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.store.play{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* stories */
+.stories{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.story-list{display:grid;gap:0;border-top:1px solid var(--line)}
+.story{display:grid;grid-template-columns:64px 1fr auto;gap:22px;align-items:start;padding:30px 0;border-bottom:1px solid var(--line)}
+@media(max-width:640px){.story{grid-template-columns:48px 1fr}.story .go{grid-column:2}}
+.story img,.story .ph{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;font-size:30px;background:var(--card);border:1px solid var(--line)}
+@media(max-width:640px){.story img,.story .ph{width:48px;height:48px;border-radius:12px}}
+.story h3{font-size:22px;margin-bottom:6px}
+.story p{margin:0;color:var(--ink-2);max-width:64ch}
+.story p strong{color:var(--ink);font-weight:600}
+.story .you{margin-top:10px;font-family:var(--serif);font-style:italic;color:var(--green)}
+.story .go{align-self:center;color:var(--green);font-weight:600;font-size:14px;white-space:nowrap}
+
+/* all apps */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.app{display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--card);transition:transform .15s,box-shadow .15s}
+.app:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.app img,.app .ph{width:44px;height:44px;border-radius:11px;flex:none;display:grid;place-items:center;font-size:22px;background:var(--paper-2)}
+.app b{display:block;font-weight:600;font-size:15px;line-height:1.25}
+.app small{color:var(--ink-3);font-size:12.5px}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--green-soft);color:var(--green);margin-left:6px;vertical-align:middle}
+.tag.soon{background:rgba(201,138,27,.14);color:var(--gold)}
+.tag.off{background:rgba(184,71,47,.12);color:var(--rose)}
+
+/* notes */
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.notes{grid-template-columns:1fr}}
+.note{padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.note small{color:var(--ink-3);font-size:13px}
+.note h3{font-size:21px;margin:8px 0 8px}
+.note p{margin:0;color:var(--ink-2);font-size:15px}
+
+footer{padding:48px 0 64px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="/"><img src="/assets/brand/icon-180.png" alt="">BamTech</a>
+  <ul>
+    <li><a href="#apps">Uygulamalar</a></li>
+    <li><a href="#neden">Neden</a></li>
+    <li><a href="/blog/">Yazılar</a></li>
+    <li><a href="/support/">Destek</a></li>
+    <li><a href="/privacy/">Gizlilik</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Tek kişilik stüdyo · İstanbul</div>
+  <h1 style="margin-top:18px">Önce <em>kendim için</em> yaptım.</h1>
+  <p>Beş yıllık bir Excel, kortta tutamadığım bir skor, cildiyecinin "altı ayda bir gel" dediği benler, kuzenimin listede gördüğü bir çekiliş. Buradaki her uygulama böyle bir yerden çıktı; sonra telefonda dursa yer kaplamayan küçük araçlar oldu. Hesap yok, sunucu yok — veri cihazında.</p>
+  <div class="cta">
+    <a class="btn primary" href="#neden">Neden yaptım →</a>
+    <a class="btn" href="#apps">Uygulamalara bak</a>
+  </div>
+  <div class="facts">
+    <div class="fact"><b id="fLive">11</b><small>Yayında</small></div>
+    <div class="fact"><b>8</b><small>Watch uygulaması</small></div>
+    <div class="fact"><b>2</b><small>Mağaza</small></div>
+    <div class="fact"><b>0</b><small>Sunucu</small></div>
+  </div>
+</div></header>
+
+<section id="apps"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="eyebrow">Öne çıkanlar</div><h2>Şu an en çok kullandıklarım</h2></div>
+    <a class="more" href="#all">Hepsi ↓</a>
+  </div>
+  <div class="feat">
+    <article>
+      <div class="top"><img src="/walletcoach/assets/icon-512.png" alt=""><h3>Wallet Coach</h3></div>
+      <p class="why">"Beş yıl Excel'de tuttum, bulamayınca yaptım."</p>
+      <p class="desc">Ev ekonomisi, Excel'deki ay sekmeleri gibi: ayı bir kez yaz, ödedikçe işaretle, yeni ay öncekini kopyalasın. Üstüne defterler, portföy, hesap makineleri.</p>
+      <div class="stores"><a class="store ios" href="https://apps.apple.com/app/id6798041415">App Store</a><a class="store play" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach">Google Play</a><a class="store" href="/walletcoach/">Tanıtım</a></div>
+    </article>
+    <article>
+      <div class="top"><div class="ph" style="width:56px;height:56px;border-radius:15px;display:grid;place-items:center;font-size:28px;background:var(--paper-2)">🍀</div><h3>Yonca</h3></div>
+      <p class="why">"Kazandığım çekilişi kuzenim görmese yalan olacaktı."</p>
+      <p class="desc">Katıldığın çekilişleri takip eder, sonuç günü hatırlatır, saklaman gereken fişi ve kapağı nereye koyduğunu söyler. Kendi çekilişini de yapar.</p>
+      <div class="stores"><a class="store ios" href="https://apps.apple.com/app/id6802312123">App Store</a><a class="store" href="/yonca/">Tanıtım</a></div>
+    </article>
+    <article>
+      <div class="top"><div class="ph" style="width:56px;height:56px;border-radius:15px;display:grid;place-items:center;font-size:28px;background:var(--paper-2)">🩺</div><h3>BodyBook</h3></div>
+      <p class="why">"Altı ayda bir ben merkezine gitmek saçma geldi."</p>
+      <p class="desc">Tansiyon, kilo, ilaç, cilt rutini, ben fotoğrafları, su ve uyku tek panelde. Doktora PDF, hepsi telefonda.</p>
+      <div class="stores"><a class="store play" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook">Google Play</a><a class="store" href="/bodybook/">Tanıtım</a></div>
+    </article>
+  </div>
+</div></section>
+
+<section class="stories" id="neden"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="eyebrow">Neden bunları yaptım</div><h2>Hepsi bir ihtiyaçtan çıktı</h2>
+    <p>Pazar boşluğu diye başlamadı hiçbiri. Bir şey lazımdı, yoktu, yaptım. Sonra "başkasına da lazımdır" dedim.</p></div>
+  </div>
+  <div class="story-list">
+
+    <div class="story"><img src="/walletcoach/assets/icon-512.png" alt="">
+      <div><h3>Wallet Coach</h3>
+      <p><strong>Beş yıldır</strong> her ay ne geldi, ne gitti, nereye ne ödedim — hepsi Excel'de. Son üç dört yıldır yatırım da var. Bunu tam karşılayan bir uygulama bulamadım; kendim yaptım. O Excel hâlâ duruyor, uygulamaya Excel'den aktarma yolu da o yüzden kondu.</p>
+      <p class="you">Sen de ay sekmeli bir tabloyla yaşıyorsan, bu onun telefondaki hâli.</p></div>
+      <a class="go" href="/walletcoach/">Tanıtım →</a></div>
+
+    <div class="story"><img src="/tennis-padel/assets/icon.webp" alt="">
+      <div><h3>Tenis &amp; Padel Score Keeper</h3>
+      <p>Kortta oynarken <strong>skoru tutamıyordum</strong>. Bileğime kendime özel bir sayaç yaptım; maçtaki odağım bir anda arttı. Sonra maç defteri geldi, sonra mağaza. Pickleball, voleybol ve badminton aynı ihtiyacın başka sporlara taşınması.</p>
+      <p class="you">Skoru tartışmak yerine oyuna bakmak istiyorsan.</p></div>
+      <a class="go" href="/tennis-padel/">Tanıtım →</a></div>
+
+    <div class="story"><div class="ph">🩺</div>
+      <div><h3>BodyBook</h3>
+      <p>Vücudumda çok fazla ben var. Cildiyeci "takip edilmeli" dedi: <strong>ABCDE</strong> diye bir standart varmış, ben merkezleri varmış, üç altı ayda bir gidip fotoğraflatmak gerekiyormuş. Bunun için bir merkeze gitmek saçma geldi; hayalet kamerayı ve ABCDE listesini uygulamaya koydum. Tansiyon, ilaç, cilt rutini de aynı deftere girdi.</p>
+      <p class="you">Takip etmen gereken bir şey varsa ve bunun için bir yere gitmek istemiyorsan.</p></div>
+      <a class="go" href="/bodybook/">Tanıtım →</a></div>
+
+    <div class="story"><div class="ph">🍀</div>
+      <div><h3>Yonca</h3>
+      <p>Bir su markasının çekilişinden <strong>Dyson</strong> kazanmıştım — şans eseri kuzenim listede adımı görmüş. Görmese kazandığım çekiliş yalan olacaktı. O günden sonra katıldığım çekilişleri, sonucun nerede açıklanacağını ve saklamam gereken fişi kapağı yazdığım bir uygulama yaptım.</p>
+      <p class="you">Katılıp unutan biriysen — hepimiz öyleyiz.</p></div>
+      <a class="go" href="/yonca/">Tanıtım →</a></div>
+
+    <div class="story"><img src="/bosyeryok/assets/icon-512.png" alt="">
+      <div><h3>Boş Yer Yok</h3>
+      <p>Tycoon oyunlarını hep sevdim ama eksilerini de hep gördüm: şişen sayılar, satılan bekleme, önemi olmayan kararlar. <strong>Bir tane kendim yapayım</strong> dedim: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor, beklemek oynamaktan asla kazançlı değil. Geliştirmek için önerilere açık.</p>
+      <p class="you">Rakamları dürüst bir idle oyun arıyorsan.</p></div>
+      <a class="go" href="/bosyeryok/">Tanıtım →</a></div>
+
+    <div class="story"><img src="/leafbook/assets/icon.png" alt="">
+      <div><h3>Leafbook</h3>
+      <p>Evdeki bitkilerin <strong>neye ihtiyacı olduğunu, ne zaman sulanacağını</strong> bilmiyordum. Fotoğraf günlüğü, sulama takvimi, büyümeyi gösteren hayalet kamera — bilmediğim her şeyi tek yere yazdım.</p>
+      <p class="you">Yakında.</p></div>
+      <a class="go" href="/leafbook/">Tanıtım →</a></div>
+
+    <div class="story"><img src="/bumpline/assets/icon.webp" alt="">
+      <div><h3>Bumpline</h3>
+      <p><strong>Hamile bir arkadaşım</strong> için yaptım: kırk hafta, tek bir tarihten. Hangi hafta, bebek ne kadar, doğuma kaç gün. Fazlası yok, çünkü fazlası gerekmiyordu.</p>
+      <p class="you">Yakında.</p></div>
+      <a class="go" href="/bumpline/">Tanıtım →</a></div>
+
+    <div class="story"><img src="/o-mu-bu-mu/assets/icon.webp" alt="">
+      <div><h3>O mu Bu mu?</h3>
+      <p>Yıllar önce arkadaşlarla sıkılınca <strong>kendi aramızda oynadığımız</strong> oyun. Uygulama oldu, en çok yine ben kullanıyorum. Para kazandırmasını hiç düşünmedim.</p>
+      <p class="you">Masada sessizlik olduğunda.</p></div>
+      <a class="go" href="/o-mu-bu-mu/">Tanıtım →</a></div>
+
+  </div>
+</div></section>
+
+<section id="all"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Hepsi</div><h2>Bütün uygulamalar</h2></div></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Yazılar</div><h2>Mağazada öğrendiklerim</h2></div><a class="more" href="/blog/">Tüm yazılar →</a></div>
+  <div class="notes" id="notes"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>© BamTech · Tek kişilik stüdyo</div>
+  <div><a href="/privacy/">Gizlilik</a> · <a href="/support/">Destek</a> · <a href="https://apps.apple.com/developer/id1676787785">App Store</a></div>
+</div></footer>
+
+<script>
+const apps=[
+ ["Wallet Coach","Bütçe · iOS, Android","/walletcoach/assets/icon-512.png","/walletcoach/",""],
+ ["Yonca","Çekiliş takip · iOS","🍀","/yonca/","new"],
+ ["BodyBook","Sağlık · Android","🩺","/bodybook/","new"],
+ ["Tenis & Padel Score Keeper","Skor · Watch, Android","/tennis-padel/assets/icon.webp","/tennis-padel/",""],
+ ["Score Keeper for Pickleball","Skor · Watch","/pickleball/assets/icon.webp","/pickleball/",""],
+ ["Score Keeper for Volleyball","Skor · Watch","/volleyball/assets/icon.webp","/volleyball/",""],
+ ["Orbix Roulette","Karar çarkı · Watch, Android","/orbix-roulette/assets/icon.webp","/orbix-roulette/",""],
+ ["O mu Bu mu?","Oyun · iOS, Android","/o-mu-bu-mu/assets/icon.webp","/o-mu-bu-mu/",""],
+ ["Tasbih Tally","Sayaç · Watch","/tasbih-tally/assets/icon.webp","/tasbih-tally/",""],
+ ["Kit: QR","Araç · iOS","/kit-qr/assets/icon.webp","/kit-qr/",""],
+ ["Daily Whisper","Olumlama · Watch","/daily-whisper/assets/icon.webp","/daily-whisper/",""],
+ ["Boş Yer Yok","Tycoon · yakında","/bosyeryok/assets/icon-512.png","/bosyeryok/","soon"],
+ ["Leafbook","Bitki · yakında","/leafbook/assets/icon.png","/leafbook/","soon"],
+ ["Bumpline","Hamilelik · yakında","/bumpline/assets/icon.webp","/bumpline/","soon"],
+ ["Rally Table Tennis","Skor · mağazada değil","/rally-table-tennis/assets/icon.webp","/rally-table-tennis/","off"],
+ ["Rally Badminton","Skor · mağazada değil","/rally-badminton/assets/icon.webp","/rally-badminton/","off"],
+ ["Store Mockup Studio","Web aracı","🖼️","/web/store-mockup/","web"],
+];
+const tag={new:'<span class="tag">Yeni</span>',soon:'<span class="tag soon">Yakında</span>',off:'<span class="tag off">Mağazada değil</span>',web:'<span class="tag">Web</span>'};
+document.getElementById('grid').innerHTML=apps.map(([n,s,i,h,t])=>`<a class="app" href="${h}">${i.startsWith('/')?`<img src="${i}" alt="">`:`<div class="ph">${i}</div>`}<div><b>${n}${tag[t]||''}</b><small>${s}</small></div></a>`).join('');
+fetch('/blog/posts.json').then(r=>r.json()).then(p=>{document.getElementById('notes').innerHTML=p.slice(0,3).map(x=>`<a class="note" href="${x.url}"><small>${x.date} · ${x.tag_tr||x.tag}</small><h3>${x.title_tr||x.title}</h3><p>${(x.summary_tr||x.summary||'').slice(0,140)}</p></a>`).join('')}).catch(()=>{});
+</script>
+</body>
+</html>
