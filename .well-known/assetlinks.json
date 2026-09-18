@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.berkalparslan.thisOne",
+      "sha256_cert_fingerprints": [
+        "B5:95:E2:55:58:9C:6C:85:61:D9:8F:B5:D9:7E:39:9A:07:48:4A:08:6E:4B:B3:06:24:B1:76:BA:FA:47:F5:AE"
+      ]
+    }
+  }
+]
