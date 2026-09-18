@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["949JRVJB94.com.berkalparslan.thisOne"],
+        "components": [
+          { "/": "/o-mu-bu-mu/t/*", "comment": "O mu Bu mu? shared tournament" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": { "apps": ["949JRVJB94.com.berkalparslan.thisOne"] }
+}

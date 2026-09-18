@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O mu Bu mu? — Turnuvaya katıl</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Arkadaşın seni bir O mu Bu mu? turnuvasına çağırdı. Aynı kurayı oyna, şampiyonları karşılaştır.">
+<meta property="og:title" content="O mu Bu mu? — Turnuvaya katıl">
+<meta property="og:description" content="Arkadaşın seni bir turnuvaya çağırdı. Aynı kurayı oyna, şampiyonları karşılaştır.">
+<meta property="og:image" content="https://berkalparslan.github.io/o-mu-bu-mu/assets/icon.webp">
+<meta name="apple-itunes-app" content="app-id=6740251305">
+<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/o-mu-bu-mu/assets/icon.webp">
+<script>
+  // Dil: site geneliyle ortak anahtar (bb-lang). Metinler .tr/.en ile ikişer yazılır.
+  (function () {
+    var d = document.documentElement, lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+  })();
+</script>
+<style>
+  :root { --bg:#F6F5F2; --surface:#fff; --line:#E7E4DD; --text:#1B1A17; --muted:#6B675F; --accent:#8B5CF6; --a:#FF6B6B; --b:#4CC9F0; --gold:#FFC857; }
+  * { box-sizing:border-box }
+  html,body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded",Inter,system-ui,sans-serif; }
+  :root[data-lang="tr"] .en { display:none } :root[data-lang="en"] .tr { display:none }
+  .wrap { max-width:520px; margin:0 auto; padding:28px 20px 48px; min-height:100dvh; display:flex; flex-direction:column; gap:18px; }
+  .top { display:flex; align-items:center; justify-content:space-between }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; font-weight:800 }
+  .logo img { width:36px; height:36px; border-radius:10px }
+  .lang { border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:6px 12px; font-weight:700; font-size:13px; cursor:pointer }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:28px; padding:22px; }
+  .hero { position:relative; overflow:hidden; background:linear-gradient(135deg,#7C3AED,#C084FC); color:#fff; border:0 }
+  .hero .pill { display:inline-flex; gap:6px; align-items:center; background:rgba(255,255,255,.18); padding:6px 12px; border-radius:999px; font-size:13px; font-weight:700 }
+  .hero h1 { margin:12px 0 6px; font-size:28px; line-height:1.1; letter-spacing:-.02em }
+  .hero p { margin:0; opacity:.9; font-size:15px }
+  .tiles { position:absolute; right:-18px; top:-18px; display:grid; grid-template-columns:1fr 1fr; gap:6px; transform:rotate(12deg); opacity:.35 }
+  .tiles i { display:block; width:52px; height:52px; border-radius:14px; background:#fff }
+  .tiles i:nth-child(2){background:var(--a)} .tiles i:nth-child(3){background:var(--b)} .tiles i:nth-child(4){background:var(--gold)}
+  .code { text-align:center }
+  .code small { display:block; color:var(--muted); font-weight:700; font-size:12px; letter-spacing:.12em; text-transform:uppercase }
+  .code b { display:block; font-size:44px; letter-spacing:.22em; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; margin:6px 0 2px }
+  .btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px; border-radius:18px; font-weight:800; font-size:16px; text-decoration:none; border:1px solid var(--line); background:var(--surface); color:var(--text); cursor:pointer }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff }
+  .btn svg { width:20px; height:20px; fill:currentColor }
+  .row { display:flex; gap:10px } .row .btn { flex:1 }
+  .qr { display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center }
+  #qr { padding:12px; background:#fff; border-radius:20px; border:1px solid var(--line) }
+  #qr img, #qr canvas { display:block; width:200px !important; height:200px !important }
+  .muted { color:var(--muted); font-size:14px; margin:0 }
+  .hint { display:none; color:var(--muted); font-size:13px; text-align:center; margin:0 }
+  .hint.on { display:block }
+  .steps { margin:0; padding-left:20px; color:var(--muted); font-size:14px; line-height:1.55 }
+  .foot { margin-top:auto; text-align:center; font-size:13px; color:var(--muted) }
+  .foot a { color:inherit }
+  .desktop-only { display:none } @media (min-width: 720px) { .desktop-only { display:block } .mobile-only { display:none } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="/o-mu-bu-mu/"><img src="/o-mu-bu-mu/assets/icon.webp" alt=""><span>O mu Bu mu?</span></a>
+    <button class="lang" id="langBtn" type="button" aria-label="Language">TR</button>
+  </div>
+
+  <section class="card hero">
+    <div class="tiles"><i></i><i></i><i></i><i></i></div>
+    <span class="pill">🏆 <span class="tr">Arkadaş turnuvası</span><span class="en">Friend tournament</span></span>
+    <h1><span class="tr">Sana bir turnuva gönderildi</span><span class="en">You've been sent a tournament</span></h1>
+    <p><span class="tr">Aynı kurayı sen de oyna; şampiyonlar yan yana gelsin.</span><span class="en">Play the very same draw; champions land side by side.</span></p>
+  </section>
+
+  <section class="card code" id="codeCard">
+    <small><span class="tr">Katılım kodu</span><span class="en">Join code</span></small>
+    <b id="code">------</b>
+    <button class="btn" id="copyBtn" type="button" style="margin-top:10px">
+      <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+      <span class="tr">Kodu kopyala</span><span class="en">Copy code</span>
+    </button>
+  </section>
+
+  <div class="mobile-only" style="display:flex;flex-direction:column;gap:10px">
+    <a class="btn primary" id="openBtn" href="#">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <span class="tr">Uygulamada aç</span><span class="en">Open in the app</span>
+    </a>
+    <p class="hint" id="hint"><span class="tr">Açılmadı mı? Uygulama yüklü değil demektir; indir, sonra bu sayfaya geri gel.</span><span class="en">Nothing happened? The app isn't installed yet; get it, then come back to this page.</span></p>
+    <div class="row">
+      <a class="btn" href="https://apps.apple.com/app/id6740251305" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        App Store
+      </a>
+      <a class="btn" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>
+        Google Play
+      </a>
+    </div>
+  </div>
+
+  <section class="card qr desktop-only">
+    <div id="qr"></div>
+    <p class="muted"><span class="tr">Telefon kamerasıyla okut: uygulama yüklüyse turnuva açılır, değilse indirme sayfası.</span><span class="en">Scan with your phone camera: the tournament opens if the app is installed, the download page if not.</span></p>
+  </section>
+
+  <section class="card">
+    <ol class="steps">
+      <li><span class="tr">Uygulamayı aç (yoksa indir).</span><span class="en">Open the app (get it first if you need to).</span></li>
+      <li><span class="tr">Ana ekranda <b>Kodla katıl</b>'a dokun, kodu yaz.</span><span class="en">Tap <b>Join by code</b> on the home screen and type the code.</span></li>
+      <li><span class="tr">Aynı kurayı oyna; herkesin şampiyonu tek ekranda.</span><span class="en">Play the same draw; everyone's champion on one screen.</span></li>
+    </ol>
+  </section>
+
+  <p class="foot"><a href="/o-mu-bu-mu/">O mu Bu mu?</a> · <a href="/privacy/o-mu-bu-mu/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> · BamTech</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  (function () {
+    var d = document.documentElement;
+    var btn = document.getElementById("langBtn");
+    function paint() { btn.textContent = d.getAttribute("data-lang") === "tr" ? "EN" : "TR"; }
+    btn.addEventListener("click", function () {
+      var next = d.getAttribute("data-lang") === "tr" ? "en" : "tr";
+      d.setAttribute("data-lang", next); d.setAttribute("lang", next);
+      try { localStorage.setItem("bb-lang", next); } catch (e) {}
+      paint();
+    });
+    paint();
+
+    var m = location.search.match(/[?&]c=([A-Za-z0-9]{4,8})/);
+    var code = m ? m[1].toUpperCase() : null;
+    var codeEl = document.getElementById("code");
+    if (code) { codeEl.textContent = code; document.title = "O mu Bu mu? — " + code; }
+    else { document.getElementById("codeCard").style.display = "none"; }
+
+    var pageURL = "https://berkalparslan.github.io/o-mu-bu-mu/t/" + (code ? "?c=" + code : "");
+    var deep = "omubumu://t/" + (code || "");
+    var open = document.getElementById("openBtn");
+    var hint = document.getElementById("hint");
+    open.href = deep;
+    open.addEventListener("click", function () {
+      var t = setTimeout(function () { hint.classList.add("on"); }, 1500);
+      document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(t); }, { once: true });
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", function () {
+      if (!code) return;
+      var done = function () { codeEl.style.color = "#8B5CF6"; setTimeout(function () { codeEl.style.color = ""; }, 900); };
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done); else done();
+    });
+
+    if (window.QRCode) {
+      new QRCode(document.getElementById("qr"), { text: pageURL, width: 200, height: 200, colorDark: "#1B1A17", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+    }
+  })();
+</script>
+</body>
+</html>

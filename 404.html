@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+  <script>
+    // Eski paylaşım bağlantıları /o-mu-bu-mu/t/KOD biçimindeydi; katılım sayfasına yönlendir.
+    (function () {
+      var m = location.pathname.match(/^\/o-mu-bu-mu\/t\/([A-Za-z0-9]{4,8})\/?$/);
+      if (m) location.replace("/o-mu-bu-mu/t/?c=" + m[1].toUpperCase());
+    })();
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Not found — BamTech</title>
