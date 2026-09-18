@@ -28,6 +28,11 @@
     button.kucuk { padding: 4px 8px; font-size: 12px; }
     button:disabled { opacity: .5; cursor: default; }
     nav.sekmeler { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 16px; }
+    .ikili { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+    @media (max-width: 900px) { .ikili { grid-template-columns: 1fr; } }
+    .cubuklar { display: flex; gap: 4px; align-items: flex-end; height: 120px; padding: 8px 0 0; }
+    .cubuk { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 2px; position: relative; opacity: .85; }
+    .cubuk span { position: absolute; top: -16px; left: 0; right: 0; text-align: center; font-size: 10px; color: var(--muted); }
     nav.sekmeler button[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
     .kart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: 14px; }
     .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
@@ -78,6 +83,7 @@
       <button role="tab" data-sekme="turnuvalar">Turnuvalar</button>
       <button role="tab" data-sekme="sorular">Sorular</button>
       <button role="tab" data-sekme="gunun">Günün seçimi</button>
+      <button role="tab" data-sekme="istatistik">İstatistik</button>
       <button role="tab" data-sekme="kategoriler">Kategoriler</button>
       <button role="tab" data-sekme="kullanicilar">Kullanıcılar</button>
       <button role="tab" data-sekme="raporlar">Raporlar</button>
@@ -91,7 +97,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
-    import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp, connectFirestoreEmulator, writeBatch } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+    import { getFirestore, collection, collectionGroup, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp, connectFirestoreEmulator, writeBatch } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
 
     // Proje kimliği herkese açık (istemci SDK'sı böyle çalışır); erişimi
     // Firestore kuralları ve /admins/{uid} belgesi belirler.
@@ -153,7 +159,7 @@
     });
 
     // ---- veri ----------------------------------------------------------
-    const V = { brackets: [], questions: [], categories: [], users: [], reports: [], daily: {} };
+    const V = { brackets: [], questions: [], categories: [], users: [], reports: [], daily: {}, runs: null, friends: null };
     const okuHepsi = async (ad, ...kisit) => (await getDocs(kisit.length ? query(collection(db, ad), ...kisit) : collection(db, ad))).docs.map((d) => ({ id: d.id, ...d.data() }));
 
     async function yukle() {
@@ -182,8 +188,9 @@
     function goster(sekme) {
       aktif = sekme;
       document.querySelectorAll("nav.sekmeler button").forEach((b) => b.setAttribute("aria-selected", b.dataset.sekme === sekme));
-      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, gunun, istatistik, kategoriler, kullanicilar, raporlar, arac })[sekme]();
       bagla();
+      if (sekme === "istatistik" && !V.runs) istatistikYukle();
     }
     const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
     const durumSec = (tur, id, alan, deger) => `<select data-degistir="${tur}|${id}|${alan}">${(alan === "status" ? ["approved", "pending", "rejected"] : ["public", "unlisted", "private"]).map((v) => `<option ${v === deger ? "selected" : ""}>${v}</option>`).join("")}</select>`;
@@ -226,6 +233,68 @@
       <div class="tablo"><table><tr><th>Gün</th><th>Günün ikilemi</th><th>Günün turnuvası</th></tr>
       ${gunler.map((g) => `<tr><td>${g === gunler[0] ? "<b>Bugün</b> · " : ""}${adlar.format(new Date(g))}<br><span class="ipucu mono">${g}</span></td><td>${sec(g, "questionId", sorular, (q) => q.text)}</td><td>${sec(g, "bracketId", turlar, (b) => `${b.emoji || ""} ${b.title}`)}</td></tr>`).join("")}</table></div>
       <p class="ipucu">Geçmiş günler belgede kalır; temizlemek için <button class="kucuk" data-gun-temizle>eski günleri sil</button>.</p>`;
+    }
+
+    // ---- istatistik ----------------------------------------------------
+    // Firestore'dan türetilen oyun verisi: turnuva/soru popülerliği katalog
+    // sayaçlarından, günlük oyun ve oyuncu sayıları users/*/runs'tan (son 2000).
+    // Oturum/tutunma gibi davranış verisi Firebase Analytics'te (GA4).
+    async function istatistikYukle() {
+      try {
+        const [runs, friends] = await Promise.all([
+          getDocs(query(collectionGroup(db, "runs"), orderBy("playedAt", "desc"), limit(2000))),
+          getDocs(collection(db, "friendTournaments")),
+        ]);
+        V.runs = runs.docs.map((d) => ({ uid: d.ref.parent.parent.id, ...d.data() }));
+        V.friends = friends.docs.map((d) => ({ id: d.id, ...d.data() }));
+      } catch (e) { V.runs = []; V.friends = []; uyar("Oyun kayıtları okunamadı (dizin hazır olmayabilir): " + e.message); }
+      if (aktif === "istatistik") goster("istatistik");
+    }
+
+    function istatistik() {
+      const gun = (ts) => ts?.toDate ? ts.toDate().toISOString().slice(0, 10) : null;
+      const bugun = new Date(); const gunler = [...Array(14)].map((_, i) => { const d = new Date(bugun); d.setDate(d.getDate() - (13 - i)); return d.toISOString().slice(0, 10); });
+      const cubuk = (dizi, anahtar, etiket) => {
+        const say = Object.fromEntries(gunler.map((g) => [g, 0]));
+        for (const x of dizi) { const g = gun(x[anahtar]); if (g in say) say[g]++; }
+        const en = Math.max(1, ...Object.values(say));
+        return `<div class="cubuklar" title="${etiket}">${gunler.map((g) => `<div class="cubuk" style="height:${Math.round(100 * say[g] / en)}%" title="${g}: ${say[g]}"><span>${say[g] || ""}</span></div>`).join("")}</div><div class="ipucu">${etiket} · son 14 gün · toplam ${Object.values(say).reduce((a, b) => a + b, 0)}</div>`;
+      };
+      const pub = V.brackets.filter((b) => b.status === "approved" && b.visibility === "public");
+      const topB = [...pub].sort((a, b) => (b.totalPlays || 0) - (a.totalPlays || 0)).slice(0, 12);
+      const topQ = [...V.questions].sort((a, b) => ((b.votesA || 0) + (b.votesB || 0)) - ((a.votesA || 0) + (a.votesB || 0))).slice(0, 12);
+      const tartismali = V.questions.filter((q) => (q.votesA || 0) + (q.votesB || 0) >= 20).map((q) => ({ q, fark: Math.abs((q.votesA || 0) - (q.votesB || 0)) / ((q.votesA || 0) + (q.votesB || 0)) })).sort((a, b) => a.fark - b.fark).slice(0, 8);
+      const runs = V.runs || [];
+      const sonHafta = runs.filter((r) => r.playedAt?.toDate && (bugun - r.playedAt.toDate()) < 7 * 864e5);
+      const oyuncu7 = new Set(sonHafta.map((r) => r.uid)).size;
+      const boyut = {}; for (const r of runs) boyut[r.size] = (boyut[r.size] || 0) + 1;
+      const koşuPerBracket = {}; for (const r of runs) koşuPerBracket[r.bracketTitle || r.bracketId] = (koşuPerBracket[r.bracketTitle || r.bracketId] || 0) + 1;
+      const topRun = Object.entries(koşuPerBracket).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const yeniKullanici = V.users.filter((u) => u.createdAt?.toDate);
+      const aktif7 = V.users.filter((u) => u.lastSeenAt?.toDate && (bugun - u.lastSeenAt.toDate()) < 7 * 864e5).length;
+      const f = V.friends || [];
+      const fOynanan = f.reduce((a, t) => a + Object.keys(t.results || {}).length, 0);
+      return `<p class="ipucu">Buradaki her şey Firestore'dan türetilir: içerik sayaçları anlık, oyun kayıtları son 2000 turnuva. Oturum süresi, tutunma, ekran akışı gibi davranış verisi için Firebase Analytics (GA4) gerekir; <a href="https://console.firebase.google.com/project/thisone-ba533/analytics" target="_blank" rel="noopener">konsol</a>.</p>
+      <div class="sayac" id="sayaclar2">
+        ${[["Turnuva (son 7 gün)", sonHafta.length], ["Oyuncu (son 7 gün)", oyuncu7], ["Aktif kullanıcı (7 gün)", aktif7], ["Toplam turnuva oyunu", pub.reduce((a, b) => a + (b.totalPlays || 0), 0)], ["Toplam ikilem oyu", V.questions.reduce((a, q) => a + (q.votesA || 0) + (q.votesB || 0), 0)], ["Arkadaş turnuvası", `${f.length} · ${fOynanan} oynanış`]].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("")}
+      </div>
+      ${V.runs === null ? `<p class="ipucu">Oyun kayıtları yükleniyor…</p>` : ""}
+      <div class="ikili">
+        <div>${cubuk(runs, "playedAt", "Bitirilen turnuva / gün")}</div>
+        <div>${cubuk(yeniKullanici, "createdAt", "Yeni kullanıcı / gün")}</div>
+      </div>
+      <div class="ikili">
+        <div><h3>En çok oynanan turnuvalar</h3><div class="tablo"><table><tr><th></th><th>Turnuva</th><th>Oyun</th><th>Düello</th><th>Şampiyon</th></tr>
+        ${topB.map((b) => { const s = Object.entries(b.stats || {}).sort((x, y) => (y[1].wins || 0) - (x[1].wins || 0))[0]; const ad = (b.options || []).find((o) => o.id === s?.[0])?.name || s?.[0] || "—"; return `<tr><td>${kapak(b)}</td><td>${esc(b.emoji)} ${esc(b.title)}</td><td>${b.totalPlays || 0}</td><td>${b.totalVotes || 0}</td><td>${esc(ad)} <span class="ipucu">×${s?.[1]?.wins || 0}</span></td></tr>`; }).join("")}</table></div></div>
+        <div><h3>Son 2000 oyunda</h3><div class="tablo"><table><tr><th>Turnuva</th><th>Oyun</th></tr>${topRun.map(([t, n]) => `<tr><td>${esc(t)}</td><td>${n}</td></tr>`).join("")}</table></div>
+        <h3>Boyut dağılımı</h3><p class="ipucu">${Object.entries(boyut).sort((a, b) => a[0] - b[0]).map(([s, n]) => `Son ${s}: <b>${n}</b>`).join(" · ") || "—"}</p></div>
+      </div>
+      <div class="ikili">
+        <div><h3>En çok oylanan ikilemler</h3><div class="tablo"><table><tr><th>Soru</th><th>A</th><th>B</th><th>Oy</th></tr>
+        ${topQ.map((q) => { const t = (q.votesA || 0) + (q.votesB || 0); return `<tr><td>${esc(q.text)}</td><td>${esc(q.a?.name)} <span class="ipucu">%${Math.round(100 * (q.votesA || 0) / (t || 1))}</span></td><td>${esc(q.b?.name)} <span class="ipucu">%${Math.round(100 * (q.votesB || 0) / (t || 1))}</span></td><td>${t}</td></tr>`; }).join("")}</table></div></div>
+        <div><h3>En çekişmeli ikilemler</h3><p class="ipucu">20+ oyla, iki taraf birbirine en yakın.</p><div class="tablo"><table><tr><th>Soru</th><th>A / B</th><th>Oy</th></tr>
+        ${tartismali.map(({ q }) => `<tr><td>${esc(q.text)}</td><td>${q.votesA || 0} / ${q.votesB || 0}</td><td>${(q.votesA || 0) + (q.votesB || 0)}</td></tr>`).join("")}</table></div></div>
+      </div>`;
     }
 
     function kategoriler() {
