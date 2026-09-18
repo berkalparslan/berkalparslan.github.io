@@ -77,6 +77,7 @@
       <button role="tab" data-sekme="onay" aria-selected="true">Onay kuyruğu</button>
       <button role="tab" data-sekme="turnuvalar">Turnuvalar</button>
       <button role="tab" data-sekme="sorular">Sorular</button>
+      <button role="tab" data-sekme="gunun">Günün seçimi</button>
       <button role="tab" data-sekme="kategoriler">Kategoriler</button>
       <button role="tab" data-sekme="kullanicilar">Kullanıcılar</button>
       <button role="tab" data-sekme="raporlar">Raporlar</button>
@@ -152,7 +153,7 @@
     });
 
     // ---- veri ----------------------------------------------------------
-    const V = { brackets: [], questions: [], categories: [], users: [], reports: [] };
+    const V = { brackets: [], questions: [], categories: [], users: [], reports: [], daily: {} };
     const okuHepsi = async (ad, ...kisit) => (await getDocs(kisit.length ? query(collection(db, ad), ...kisit) : collection(db, ad))).docs.map((d) => ({ id: d.id, ...d.data() }));
 
     async function yukle() {
@@ -162,6 +163,7 @@
         okuHepsi("users", orderBy("lastSeenAt", "desc"), limit(500)).catch(() => okuHepsi("users")),
         okuHepsi("reports", orderBy("createdAt", "desc")).catch(() => okuHepsi("reports")),
       ]);
+      V.daily = (await getDoc(doc(db, "meta", "daily")).catch(() => null))?.data() || {};
       const say = (dizi, f) => dizi.filter(f).length;
       $("#sayaclar").innerHTML = [
         ["Genel turnuva", say(V.brackets, (b) => b.status === "approved" && b.visibility === "public")],
@@ -180,7 +182,7 @@
     function goster(sekme) {
       aktif = sekme;
       document.querySelectorAll("nav.sekmeler button").forEach((b) => b.setAttribute("aria-selected", b.dataset.sekme === sekme));
-      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
       bagla();
     }
     const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
@@ -209,6 +211,21 @@
       return `<div class="arac"><input type="search" id="ara" placeholder="Ara…"><select id="kat"><option value="">Tüm kategoriler</option>${V.categories.map((c) => `<option>${esc(c.name)}</option>`).join("")}</select><button data-yeni="questions">+ Yeni soru</button><span class="ipucu">${V.questions.length} kayıt</span></div>
       <div class="tablo"><table id="liste"><tr><th>A</th><th>B</th><th>Soru</th><th>EN</th><th>Kategori</th><th>Oy</th><th>Durum</th><th>Görünürlük</th><th></th></tr>
       ${V.questions.map((x) => `<tr data-ara="${esc((x.text + " " + (x.textEn || "") + " " + x.a?.name + " " + x.b?.name).toLowerCase())}" data-kat="${esc((x.categories || []).join("|"))}"><td><img class="k" src="${esc(x.a?.imageURL || "")}" alt="" loading="lazy"></td><td><img class="k" src="${esc(x.b?.imageURL || "")}" alt="" loading="lazy"></td><td>${esc(x.text)}<br><span class="ipucu">${esc(x.a?.name)} / ${esc(x.b?.name)}</span></td><td class="ipucu">${esc(x.textEn || "—")}</td><td>${esc((x.categories || []).join(", "))}</td><td>${(x.votesA || 0) + (x.votesB || 0)}</td><td>${durumSec("questions", x.id, "status", x.status)}</td><td>${durumSec("questions", x.id, "visibility", x.visibility)}</td><td><button class="kucuk" data-duzenle="questions|${x.id}">Düzenle</button></td></tr>`).join("")}</table></div>`;
+    }
+
+    // Günün ikilemi / turnuvası: uygulama meta/daily belgesinde gün anahtarı
+    // (yyyy-MM-dd, telefonun yerel günü) varsa onu gösterir, yoksa formülle
+    // katalogdan seçer. Boş bırakılan gün = otomatik.
+    function gunun() {
+      const gunler = [...Array(14)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() + i); return d.toISOString().slice(0, 10); });
+      const sorular = V.questions.filter((q) => q.status === "approved" && q.visibility === "public").sort((a, b) => a.text.localeCompare(b.text, "tr"));
+      const turlar = V.brackets.filter((b) => b.status === "approved" && b.visibility === "public").sort((a, b) => a.title.localeCompare(b.title, "tr"));
+      const sec = (gun, alan, liste, etiket) => `<select data-gun="${gun}|${alan}"><option value="">otomatik</option>${liste.map((x) => `<option value="${esc(x.id)}" ${V.daily[gun]?.[alan] === x.id ? "selected" : ""}>${esc(etiket(x))}</option>`).join("")}</select>`;
+      const adlar = new Intl.DateTimeFormat("tr-TR", { weekday: "short", day: "numeric", month: "short" });
+      return `<p class="ipucu">Uygulama her gün için önce buradaki seçimi kullanır; "otomatik" kalan günlerde katalogdan formülle seçer. Yayınlanmış bir şey değişmeden, canlıyken değiştirilebilir; kullanıcı uygulamayı bir sonraki açışında görür. Gün, telefonun yerel takvimine göre.</p>
+      <div class="tablo"><table><tr><th>Gün</th><th>Günün ikilemi</th><th>Günün turnuvası</th></tr>
+      ${gunler.map((g) => `<tr><td>${g === gunler[0] ? "<b>Bugün</b> · " : ""}${adlar.format(new Date(g))}<br><span class="ipucu mono">${g}</span></td><td>${sec(g, "questionId", sorular, (q) => q.text)}</td><td>${sec(g, "bracketId", turlar, (b) => `${b.emoji || ""} ${b.title}`)}</td></tr>`).join("")}</table></div>
+      <p class="ipucu">Geçmiş günler belgede kalır; temizlemek için <button class="kucuk" data-gun-temizle>eski günleri sil</button>.</p>`;
     }
 
     function kategoriler() {
@@ -245,6 +262,21 @@
         document.querySelectorAll("#liste tr[data-ara]").forEach((tr) => tr.style.display = (tr.dataset.ara.includes(t) && (!k || tr.dataset.kat.split("|").includes(k))) ? "" : "none");
       };
       ara && (ara.oninput = suz); kat && (kat.onchange = suz);
+
+      document.querySelectorAll("[data-gun]").forEach((s) => s.onchange = async () => {
+        const [gun, alan] = s.dataset.gun.split("|");
+        const mevcut = { ...(V.daily[gun] || {}) };
+        if (s.value) mevcut[alan] = s.value; else delete mevcut[alan];
+        V.daily[gun] = mevcut;
+        if (!Object.keys(mevcut).length) delete V.daily[gun];
+        await setDoc(doc(db, "meta", "daily"), V.daily);
+        durum(`${gun} kaydedildi · ${new Date().toLocaleTimeString("tr-TR")}`);
+      });
+      $("[data-gun-temizle]") && ($("[data-gun-temizle]").onclick = async () => {
+        const bugun = new Date().toISOString().slice(0, 10);
+        for (const g of Object.keys(V.daily)) if (g < bugun) delete V.daily[g];
+        await setDoc(doc(db, "meta", "daily"), V.daily); goster(aktif);
+      });
 
       document.querySelectorAll("[data-degistir]").forEach((s) => s.onchange = async () => {
         const [tur, id, alan] = s.dataset.degistir.split("|");
