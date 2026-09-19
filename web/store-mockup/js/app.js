@@ -987,7 +987,15 @@
     if (v.template) state.panorama = !!v.template.panorama; // şablon bütün bir stil: panorama da onun parçası
     rows.forEach((row, i) => {
       const s = state.slides[i];
-      if (v.template && !v.template.stickers) s.stickers = []; // şablon değişince eski öğeler kalmasın
+      if (v.template) {
+        // şablon bütün bir stil: önceki şablonun kutu/renk/öğe kalıntıları temizlenir
+        const fresh = newSlide();
+        s.bg = Object.assign(fresh.bg, { img: s.bg.img });
+        s.device = Object.assign(fresh.device, { fit: s.device.fit });
+        s.device2 = Object.assign(fresh.device2, { shot: s.device2 && s.device2.shot });
+        s.text = Object.assign(fresh.text, { title: s.text.title, sub: s.text.sub });
+        if (!v.template.stickers) s.stickers = [];
+      }
       applyTemplate(s, v.template);
       applyTemplate(s, row, !(v.template && v.template.textColor));
       if (row.title != null) s.text.title = String(txt(row.title)).replace(/\\n/g, '\n');
@@ -1152,6 +1160,78 @@
     $('#btnLang').textContent = l === 'tr' ? 'TR' : 'EN';
     state.slides.forEach((sl) => { if (isDefaultTitle(sl.text.title)) sl.text.title = defaultTitle(); });
     initExportSelect();
+    refreshAll();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* hızlı kurulum — modal ve paket (.json) yükleme aynı yolu kullanır    */
+  /* q = { name, lang, accent, template, lines[], rating, addIcon, icon } ; shots = File[] | dataURL[] */
+  /* ------------------------------------------------------------------ */
+  async function applyQuick(q, shots) {
+    const lines = (q.lines || []).map((x) => String(x).trim()).filter(Boolean);
+    snapshot('quick');
+    if (q.name) state.app.name = q.name;
+    if (q.lang) state.app.lang = q.lang;
+    if (q.accent) state.app.accent = q.accent;
+    if (q.icon) { await window.Store.loadImage(q.icon); state.app.icon = q.icon; }
+
+    const tpl = (window.TEMPLATES || []).find((x) => x.key === q.template);
+    const parsed = lines.map((ln) => {
+      const [a, b] = ln.split('|').map((x) => (x || '').trim());
+      return { title: a.replace(/\\n/g, '\n'), subtitle: b || '' };
+    });
+    if (tpl) {
+      const rows = (parsed.length ? parsed : tpl.slides).map((r, i) => {
+        const base = tpl.slides[Math.min(i, tpl.slides.length - 1)] || {};
+        const extra = Object.assign({}, base);
+        delete extra.title; delete extra.subtitle;
+        return Object.assign(extra, parsed.length ? r : { title: txt(base.title), subtitle: txt(base.subtitle) });
+      });
+      applyVariant({ template: tpl.template, slides: rows });
+    } else if (parsed.length) {
+      while (state.slides.length < parsed.length) state.slides.push(newSlide(state.slides[state.slides.length - 1]));
+      parsed.forEach((r, i) => { state.slides[i].text.title = r.title; state.slides[i].text.sub = r.subtitle; });
+    }
+    // metin sayısından fazla olan ve görseli olmayan slaytları kaldır
+    if (parsed.length) state.slides = state.slides.filter((sl, i) => i < parsed.length || sl.shot);
+    // vurgu rengi tüm slaytlara
+    state.slides.forEach((sl) => { sl.text.accent = state.app.accent; sl.stickers.forEach((st) => { if (st.type === 'icon' || st.type === 'note') st.iconBg = state.app.accent; }); });
+    // sosyal kanıt 1. slayta
+    const first = state.slides[0];
+    if (q.addIcon !== false && state.app.name) {
+      const hadIcon = first.stickers.some((st) => st.type === 'icon');
+      first.stickers = first.stickers.filter((st) => st.type !== 'icon');
+      if (!hadIcon && first.text.y <= 50) first.text.y = Math.min(90, first.text.y + 6);
+      addSticker('icon', { text: state.app.name, y: first.text.y > 50 ? 4 : Math.max(2, first.text.y - 10), iconBg: state.app.accent, color: first.text.color }, first);
+    }
+    if (q.rating) {
+      first.stickers = first.stickers.filter((st) => st.type !== 'rating');
+      const light = window.Render.contrastFor(first.text.color) === '#111214'; // metin açıksa arka plan koyu
+      addSticker('rating', { text: q.rating, y: first.text.y > 50 ? 6 : first.text.y + 13, bg: light ? '#ffffff' : '#111214', color: light ? '#111214' : '#ffffff' }, first);
+    }
+    state.cur = 0;
+    refreshAll();
+    if (shots && shots.length) {
+      if (shots[0] instanceof File) await addSlidesFromFiles(shots);
+      else await addSlidesFromDataUrls(shots);
+    }
+    if (!state.appId && state.app.name) await createApp(state.app.name, false);
+    else touchApp();
+  }
+
+  /** Paketten gelen data URL'leri boş slaytlara sırayla oturtur. */
+  async function addSlidesFromDataUrls(urls) {
+    const style = cur();
+    const emptySlots = state.slides.filter((sl) => !sl.shot);
+    for (const u of urls) {
+      const url = typeof u === 'string' ? u : u.data;
+      await window.Store.loadImage(url);
+      let target = emptySlots.shift();
+      if (!target) { target = newSlide(style); state.slides.push(target); }
+      target.shot = url;
+      if (u && u.name) target.name = String(u.name).replace(/\.[^.]+$/, '');
+      if (isDefaultTitle(target.text.title)) target.text.title = '';
+    }
     refreshAll();
   }
 
@@ -1323,56 +1403,17 @@
     $('#qShotsBtn').onclick = () => $('#qShots').click();
     $('#qShots').onchange = (e) => { $('#qShotsState').textContent = t('{n} görsel seçildi', { n: e.target.files.length }); };
     $('#qApply').onclick = async () => {
-      const name = $('#qName').value.trim();
-      const lines = $('#qLines').value.split('\n').map((x) => x.trim()).filter(Boolean);
-      const tplKey = $('#qTemplate').value;
-      const rating = $('#qRating').value.trim();
-      snapshot('quick');
-      state.app.name = name || state.app.name;
-      state.app.lang = $('#qLang').value;
-      state.app.accent = $('#qAccent').value;
-
-      const tpl = (window.TEMPLATES || []).find((x) => x.key === tplKey);
-      const parsed = lines.map((ln) => {
-        const [a, b] = ln.split('|').map((x) => (x || '').trim());
-        return { title: a.replace(/\\n/g, '\n'), subtitle: b || '' };
-      });
-      if (tpl) {
-        const rows = (parsed.length ? parsed : tpl.slides).map((r, i) => {
-          const base = tpl.slides[Math.min(i, tpl.slides.length - 1)] || {};
-          const extra = Object.assign({}, base);
-          delete extra.title; delete extra.subtitle;
-          return Object.assign(extra, parsed.length ? r : { title: txt(base.title), subtitle: txt(base.subtitle) });
-        });
-        applyVariant({ template: tpl.template, slides: rows });
-      } else if (parsed.length) {
-        while (state.slides.length < parsed.length) state.slides.push(newSlide(state.slides[state.slides.length - 1]));
-        parsed.forEach((r, i) => { state.slides[i].text.title = r.title; state.slides[i].text.sub = r.subtitle; });
-      }
-      // metin sayısından fazla olan ve görseli olmayan slaytları kaldır
-      if (parsed.length) state.slides = state.slides.filter((sl, i) => i < parsed.length || sl.shot);
-      // vurgu rengi tüm slaytlara
-      state.slides.forEach((sl) => { sl.text.accent = state.app.accent; sl.stickers.forEach((st) => { if (st.type === 'icon' || st.type === 'note') st.iconBg = state.app.accent; }); });
-      // sosyal kanıt 1. slayta
-      const first = state.slides[0];
-      if ($('#qAddIcon').checked && state.app.name) {
-        const hadIcon = first.stickers.some((st) => st.type === 'icon');
-        first.stickers = first.stickers.filter((st) => st.type !== 'icon');
-        if (!hadIcon && first.text.y <= 50) first.text.y = Math.min(90, first.text.y + 6);
-        addSticker('icon', { text: state.app.name, y: first.text.y > 50 ? 4 : Math.max(2, first.text.y - 10), iconBg: state.app.accent, color: first.text.color }, first);
-      }
-      if (rating) {
-        first.stickers = first.stickers.filter((st) => st.type !== 'rating');
-        const light = window.Render.contrastFor(first.text.color) === '#111214'; // metin açıksa arka plan koyu
-        addSticker('rating', { text: rating, y: first.text.y > 50 ? 6 : first.text.y + 13, bg: light ? '#ffffff' : '#111214', color: light ? '#111214' : '#ffffff' }, first);
-      }
-      const files = $('#qShots').files;
-      state.cur = 0;
-      refreshAll();
-      if (files && files.length) await addSlidesFromFiles(files);
+      const files = [...($('#qShots').files || [])];
+      await applyQuick({
+        name: $('#qName').value.trim(),
+        lang: $('#qLang').value,
+        accent: $('#qAccent').value,
+        template: $('#qTemplate').value,
+        lines: $('#qLines').value.split('\n'),
+        rating: $('#qRating').value.trim(),
+        addIcon: $('#qAddIcon').checked,
+      }, files);
       $('#qShots').value = ''; $('#qShotsState').textContent = '';
-      if (!state.appId && state.app.name) await createApp(state.app.name, false);
-      else touchApp();
       quick.classList.remove('open');
       toast(t('Kuruldu — şimdi görselleri ve metinleri ince ayarla'));
     };
@@ -1406,19 +1447,35 @@
       }
     };
 
+    async function loadProjectFile(f) {
+      try {
+        const p = JSON.parse(await f.text());
+        if (p.quick) {
+          // paket: { quick: {...}, shots: [dataURL | {name,data}], icon? } → temiz projede hızlı kurulum
+          if (p.icon) p.quick.icon = p.icon;
+          clearTimeout(saveTimer);
+          if (state.appId) await window.Store.set('app:' + state.appId, serialize()).catch(() => {});
+          const existing = (await listApps()).find((a) => a.name === p.quick.name);
+          state.slides = [newSlide()]; state.cur = 0; state.sticker = 0; state.panorama = false;
+          state.app = { name: '', lang: 'tr', accent: '#6366f1', icon: null };
+          state.appId = existing ? existing.id : null;
+          undoStack.length = 0; redoStack.length = 0;
+          await applyQuick(p.quick, p.shots || []);
+          refreshAppSelect();
+          toast(t('Paket kuruldu: {name}', { name: state.app.name }));
+          return;
+        }
+        hydrate(p);
+        state.cur = 0;
+        await preloadImages();
+        syncExportUI();
+        refreshAll();
+        toast(t('Proje yüklendi'));
+      } catch (err) { toast(t('Proje okunamadı')); }
+    }
     $('#projPick').onchange = async (e) => {
       const f = e.target.files[0];
-      if (f) {
-        try {
-          const p = JSON.parse(await f.text());
-          hydrate(p);
-          state.cur = 0;
-          await preloadImages();
-          syncExportUI();
-          refreshAll();
-          toast(t('Proje yüklendi'));
-        } catch (err) { toast(t('Proje okunamadı')); }
-      }
+      if (f) await loadProjectFile(f);
       e.target.value = '';
     };
 
@@ -1470,7 +1527,10 @@
       e.preventDefault();
       dragDepth = 0;
       $('#dropzone').classList.remove('on');
-      if (e.dataTransfer.files.length) addSlidesFromFiles(e.dataTransfer.files);
+      const files = [...e.dataTransfer.files];
+      const json = files.find((f) => /\.json$/i.test(f.name));
+      if (json) loadProjectFile(json);
+      else if (files.length) addSlidesFromFiles(files);
     });
 
     // panodan yapıştır

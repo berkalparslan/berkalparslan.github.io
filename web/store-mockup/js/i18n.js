@@ -286,6 +286,8 @@
     'Mercan': 'Coral',
     'Şeftali mesh': 'Peach mesh',
 
+    'Paket kuruldu: {name}': 'Package set up: {name}',
+
     /* mesajlar */
     '{n} görsel eklendi': '{n} screenshots added',
     'İndirildi': 'Downloaded',
