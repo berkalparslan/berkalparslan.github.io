@@ -42,6 +42,14 @@
     { k: 'forest', n: 'Orman', t: 'radial', c1: '#134e4a', c2: '#052e2b' },
     { k: 'cream', n: 'Krem', t: 'linear', c1: '#fdfcfb', c2: '#e2d1c3', a: 140 },
     { k: 'graphite-bg', n: 'Grafit', t: 'radial', c1: '#3a3f4b', c2: '#15171d' },
+    { k: 'white', n: 'Beyaz', t: 'solid', c1: '#ffffff', c2: '#ffffff' },
+    { k: 'paper', n: 'Kâğıt', t: 'solid', c1: '#f7f6f3', c2: '#f7f6f3' },
+    { k: 'black', n: 'Siyah', t: 'solid', c1: '#000000', c2: '#000000' },
+    { k: 'deep-violet', n: 'Derin mor', t: 'solid', c1: '#1a1033', c2: '#1a1033' },
+    { k: 'lime', n: 'Limon', t: 'solid', c1: '#c8f542', c2: '#c8f542' },
+    { k: 'coral', n: 'Mercan', t: 'linear', c1: '#ff4d6d', c2: '#ff8a5b', a: 150 },
+    { k: 'aurora', n: 'Aurora', t: 'mesh', c1: '#22d3ee', c2: '#a3e635', c3: '#0f172a' },
+    { k: 'peach-mesh', n: 'Şeftali mesh', t: 'mesh', c1: '#fdba74', c2: '#f9a8d4', c3: '#fff7ed' },
   ];
 
   const LAYOUT_PRESETS = [
@@ -53,6 +61,10 @@
     { k: 'left', n: 'Sola yaslı', p: { 'text.y': 8, 'text.align': 'right', 'device.x': -24, 'device.y': 34, 'device.w': 62, 'device.rot': -7 } },
     { k: 'small', n: 'Küçük cihaz', p: { 'text.y': 7, 'device.y': 40, 'device.w': 52, 'device.x': 0, 'device.rot': 0 } },
     { k: 'full', n: 'Çerçevesiz tam', p: { 'text.y': 4, 'device.frame': 'none', 'device.w': 100, 'device.x': 0, 'device.y': 0, 'device.rot': 0, 'device.shadow': 0, 'device.fit': 'cover' } },
+    { k: 'hero', n: 'Dev cihaz (eğik)', p: { 'text.y': 5, 'text.align': 'center', 'device.y': 30, 'device.w': 96, 'device.x': 6, 'device.rot': -7 } },
+    { k: 'span-left', n: 'İki kareye yay · sol', p: { 'text.y': 6, 'text.align': 'center', 'device.y': 30, 'device.w': 92, 'device.x': 46, 'device.rot': 0 } },
+    { k: 'span-right', n: 'İki kareye yay · sağ', p: { 'text.y': 6, 'text.align': 'center', 'device.y': 30, 'device.w': 92, 'device.x': -46, 'device.rot': 0 } },
+    { k: 'text-only', n: 'Sadece metin', p: { 'text.y': 40, 'text.align': 'center', 'device.frame': 'hidden' } },
   ];
 
   const FRAME_OPTS = Object.entries(window.Frames.FRAMES).map(([k, v]) => [k, v.label]);
@@ -61,10 +73,30 @@
     ['gold', 'Altın'], ['blue', 'Mavi'], ['white', 'Beyaz'],
   ];
   const FONT_OPTS = [
-    ['system', 'Sistem (SF Pro)'], ['helvetica-neue', 'Helvetica Neue'], ['avenir', 'Avenir Next'],
-    ['futura', 'Futura'], ['georgia', 'Georgia'], ['times', 'Times'],
-    ['courier', 'Courier'], ['impact', 'Impact'], ['custom', 'Yüklenen font'],
+    ['system', 'Sistem (SF Pro)'], ['inter', 'Inter'], ['manrope', 'Manrope'], ['plus-jakarta', 'Plus Jakarta Sans'],
+    ['outfit', 'Outfit'], ['sora', 'Sora'], ['space-grotesk', 'Space Grotesk'], ['bricolage', 'Bricolage Grotesque'],
+    ['nunito', 'Nunito (yuvarlak)'], ['unbounded', 'Unbounded (geniş)'], ['bebas', 'Bebas Neue (dar, büyük harf)'],
+    ['playfair', 'Playfair Display (serif)'], ['fraunces', 'Fraunces (serif)'], ['dm-serif', 'DM Serif Display'],
+    ['instrument-serif', 'Instrument Serif'], ['georgia', 'Georgia'], ['helvetica-neue', 'Helvetica Neue'],
+    ['avenir', 'Avenir Next'], ['futura', 'Futura'], ['times', 'Times'], ['courier', 'Courier'], ['impact', 'Impact'],
+    ['custom', 'Yüklenen font'],
   ];
+
+  const STICKER_TYPES = [
+    ['pill', 'Çip (emoji + metin)'], ['rating', 'Puan (yıldızlar)'], ['laurel', 'Laurel (ödül)'],
+    ['note', 'Bildirim kartı'], ['icon', 'Uygulama ikonu + ad'], ['text', 'Serbest metin'],
+    ['arrow', 'Ok'], ['ring', 'Halka'],
+  ];
+  const STICKER_DEFAULTS = {
+    pill: { text: '7 gün seri', emoji: '🔥', x: 28, y: 46, size: 3.2, rot: -6, bg: '#ffffff', color: '' },
+    rating: { text: '4.9 · 12K değerlendirme', x: 0, y: 21, size: 2.6, rot: 0, bg: '#ffffff', color: '' },
+    laurel: { text: 'Günün\nUygulaması', sub: 'App Store', x: 0, y: 12, size: 2.4, rot: 0, color: '' },
+    note: { text: 'Hedefe ulaştın', sub: 'Bugün 2.400 adım fazla', time: 'şimdi', x: 0, y: 84, size: 2.6, w: 74, rot: 0, bg: '#ffffff', color: '' },
+    icon: { text: 'Uygulama', emoji: '', x: 0, y: 8, size: 3, rot: 0, iconBg: '#6366f1', color: '#ffffff' },
+    text: { text: 'Yeni', x: 0, y: 50, size: 4, rot: 0, color: '', weight: 800 },
+    arrow: { x: 20, y: 40, size: 3, rot: 0, color: '' },
+    ring: { x: 0, y: 50, size: 4, rot: 0, color: '' },
+  };
 
   const DEFAULT_TITLES = ['Başlığını buraya yaz', 'Write your headline here'];
   const defaultTitle = () => t('Başlığını buraya yaz');
@@ -78,7 +110,8 @@
       bg: { type: 'linear', c1: '#6366f1', c2: '#22d3ee', c3: '#0b1020', angle: 135, variant: 0, img: null, blur: 0, dim: 25, pattern: 'none', patternOpacity: 12, patternColor: '#ffffff', noise: 0, vignette: 0 },
       device: { frame: 'iphone-pro', color: 'graphite', w: 66, x: 0, y: 27, rot: 0, shadow: 45, glare: true, homeIndicator: true, fit: 'top', screenBg: '#000000', above: false },
       device2: { on: false, shot: null, frame: 'watch', color: 'silver', w: 24, x: 20, y: 52, rot: 0, shadow: 45, glare: true, homeIndicator: false, fit: 'cover', screenBg: '#000000', front: true },
-      text: { title: defaultTitle(), sub: '', align: 'center', color: '#ffffff', subColor: '#ffffff', subOpacity: 85, font: 'system', weight: 700, subWeight: 400, titleSize: 6.2, subSize: 3.4, y: 6, pad: 9, lineHeight: 1.15, letterSpacing: 0, shadow: false },
+      text: { title: defaultTitle(), sub: '', align: 'center', color: '#ffffff', subColor: '#ffffff', subOpacity: 85, font: 'system', weight: 700, subWeight: 400, titleSize: 6.2, subSize: 3.4, y: 6, pad: 9, lineHeight: 1.15, letterSpacing: 0, shadow: false, accent: '#ffd60a', hlStyle: 'color', box: 'none', boxColor: '#ffffff', boxOpacity: 100, boxRadius: 3 },
+      stickers: [],
     };
     if (style) {
       base.bg = JSON.parse(JSON.stringify(style.bg));
@@ -88,6 +121,17 @@
       base.text.sub = '';
     }
     return base;
+  };
+  /* eski kayıtlarla uyum: yeni alanları tamamla */
+  const upgradeSlide = (s) => {
+    const fresh = newSlide();
+    const out = Object.assign(fresh, s);
+    out.text = Object.assign(fresh.text, s.text || {});
+    out.device = Object.assign(fresh.device, s.device || {});
+    out.device2 = Object.assign(fresh.device2, s.device2 || {});
+    out.bg = Object.assign(fresh.bg, s.bg || {});
+    if (!Array.isArray(out.stickers)) out.stickers = [];
+    return out;
   };
 
   /* ------------------------------------------------------------------ */
@@ -102,7 +146,13 @@
     lang: 'tr',
     screens: '',
     customFont: null,
+    panorama: false,
+    setView: false,
+    sticker: 0,          // seçili öğe indeksi
+    app: { name: '', lang: 'tr', accent: '#6366f1', icon: null }, // uygulama profili
+    appId: null,         // kayıtlı uygulama anahtarı
   };
+  const pan = (i) => (state.panorama && state.slides.length > 1 ? { i, n: state.slides.length, bg: state.slides[0].bg } : null);
 
   const cur = () => state.slides[state.cur];
 
@@ -178,21 +228,58 @@
     return {
       shot: window.Store.imageFor(s.shot),
       shot2: window.Store.imageFor(s.device2 && s.device2.shot),
-      bg: window.Store.imageFor(s.bg.img),
+      bg: window.Store.imageFor(state.panorama ? state.slides[0].bg.img : s.bg.img),
+      icon: window.Store.imageFor(state.app.icon),
     };
+  }
+
+  /** Slaytta kullanılan web fontlarını yükler; yeni yüklenen olursa yeniden çizer. */
+  function ensureFonts(s) {
+    const jobs = [window.Render.ensureFont(s.text.font, s.text.weight), window.Render.ensureFont(s.text.font, s.text.subWeight || 400)];
+    (s.stickers || []).forEach((st) => { if (st.font) jobs.push(window.Render.ensureFont(st.font, 700)); });
+    Promise.all(jobs).then((r) => { if (r.some(Boolean)) schedule(); });
+  }
+
+  const setCanvas = $('#setPreview');
+  function renderSet() {
+    const n = state.slides.length;
+    const gap = 8, cw = 210;
+    const ch = Math.round((cw * state.exp.h) / state.exp.w);
+    setCanvas.width = n * cw + (n - 1) * gap;
+    setCanvas.height = ch;
+    const ctx = setCanvas.getContext('2d');
+    ctx.clearRect(0, 0, setCanvas.width, ch);
+    state.slides.forEach((s, i) => {
+      const c = document.createElement('canvas');
+      c.width = cw; c.height = ch;
+      window.Render.renderSlide(c.getContext('2d'), cw, ch, s, imagesFor(s), pan(i));
+      ctx.drawImage(c, i * (cw + gap), 0);
+      if (i === state.cur) {
+        ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 4;
+        ctx.strokeRect(i * (cw + gap) + 2, 2, cw - 4, ch - 4);
+      }
+    });
   }
 
   function renderPreview() {
     const s = cur();
     if (!s) return;
-    const ratio = state.exp.h / state.exp.w;
-    const w = Math.min(PREVIEW_W, state.exp.w);
-    const h = Math.round(w * ratio);
-    previewCanvas.width = w;
-    previewCanvas.height = h;
-    window.Render.renderSlide(previewCanvas.getContext('2d'), w, h, s, imagesFor(s));
-    $('#stageInfo').textContent = `${state.exp.w} × ${state.exp.h} px · ${t(window.Frames.FRAMES[s.device.frame].label)}`;
+    ensureFonts(s);
+    previewCanvas.hidden = state.setView;
+    setCanvas.hidden = !state.setView;
+    if (state.setView) renderSet();
+    else {
+      const ratio = state.exp.h / state.exp.w;
+      const w = Math.min(PREVIEW_W, state.exp.w);
+      const h = Math.round(w * ratio);
+      previewCanvas.width = w;
+      previewCanvas.height = h;
+      window.Render.renderSlide(previewCanvas.getContext('2d'), w, h, s, imagesFor(s), pan(state.cur));
+    }
+    const frame = window.Frames.FRAMES[s.device.frame] || window.Frames.FRAMES['iphone-pro'];
+    $('#stageInfo').textContent = `${state.exp.w} × ${state.exp.h} px · ${t(frame.label)}${state.panorama ? ' · ' + t('panorama') : ''}`;
     $('#stageCount').textContent = `${state.cur + 1} / ${state.slides.length}`;
+    $('#btnSetView').classList.toggle('active', state.setView);
   }
 
   function renderThumbs() {
@@ -204,7 +291,7 @@
       const w = 148;
       const h = Math.round((w * state.exp.h) / state.exp.w);
       c.width = w; c.height = h;
-      window.Render.renderSlide(c.getContext('2d'), w, h, s, imagesFor(s));
+      window.Render.renderSlide(c.getContext('2d'), w, h, s, imagesFor(s), pan(i));
       item.appendChild(c);
       item.appendChild(el('span', 'num', String(i + 1)));
       const mv = el('div', 'mv');
@@ -264,6 +351,9 @@
       { k: 'text.y', type: 'range', label: 'Metin dikey konum', min: 0, max: 95, step: 0.5, unit: '%' },
       { k: 'text.pad', type: 'range', label: 'Kenar boşluğu', min: 0, max: 25, step: 0.5, unit: '%' },
       { k: 'device.above', type: 'check', label: 'Cihaz metnin üstünde çizilsin' },
+      { type: 'section', label: 'Set' },
+      { type: 'globalCheck', k: 'panorama', label: 'Panoramik arka plan (1. slaytın arka planı tüm kareler boyunca akar)' },
+      { type: 'hint', label: 'Panorama için cihazı bir karede sağa, sonrakinde sola taşır ("İki kareye yay" düzenleri) — App Store galerisinde tek parça görünür.' },
     ],
     bg: [
       { type: 'section', label: 'Hazır arka planlar' },
@@ -280,7 +370,7 @@
       { k: 'bg.blur', type: 'range', label: 'Bulanıklık', min: 0, max: 100, step: 1, when: (s) => s.bg.type === 'image' },
       { k: 'bg.dim', type: 'range', label: 'Karartma', min: 0, max: 90, step: 1, unit: '%', when: (s) => s.bg.type === 'image' },
       { type: 'section', label: 'Doku' },
-      { k: 'bg.pattern', type: 'select', label: 'Desen', opts: [['none', 'Yok'], ['dots', 'Noktalar'], ['grid', 'Izgara'], ['diagonal', 'Çapraz çizgi'], ['rings', 'Halkalar']] },
+      { k: 'bg.pattern', type: 'select', label: 'Desen', opts: [['none', 'Yok'], ['dots', 'Noktalar'], ['grid', 'Izgara'], ['diagonal', 'Çapraz çizgi'], ['rings', 'Halkalar'], ['waves', 'Dalgalar'], ['cross', 'Artılar']] },
       { k: 'bg.patternColor', type: 'color', label: 'Desen rengi', when: (s) => s.bg.pattern !== 'none' },
       { k: 'bg.patternOpacity', type: 'range', label: 'Desen opaklığı', min: 0, max: 60, step: 1, unit: '%', when: (s) => s.bg.pattern !== 'none' },
       { k: 'bg.noise', type: 'range', label: 'Grain / kumlanma', min: 0, max: 40, step: 1, unit: '%' },
@@ -335,7 +425,46 @@
       { k: 'text.subColor', type: 'color', label: 'Alt başlık rengi' },
       { k: 'text.subOpacity', type: 'range', label: 'Alt başlık opaklığı', min: 10, max: 100, step: 1, unit: '%' },
       { k: 'text.shadow', type: 'check', label: 'Metin gölgesi' },
+      { type: 'section', label: 'Vurgu' },
+      { type: 'hint', label: 'Başlıkta [köşeli parantez] içine aldığın kelimeler vurgu rengiyle çizilir: "Paranı [gör]"' },
+      { k: 'text.accent', type: 'color', label: 'Vurgu rengi' },
+      { k: 'text.hlStyle', type: 'seg', label: 'Vurgu biçimi', opts: [['color', 'Renk'], ['marker', 'Fosforlu'], ['underline', 'Alt çizgi']] },
+      { type: 'section', label: 'Metin kutusu' },
+      { k: 'text.box', type: 'seg', label: 'Kutu', opts: [['none', 'Yok'], ['solid', 'Dolu'], ['glass', 'Cam'], ['outline', 'Çerçeve']] },
+      { k: 'text.boxColor', type: 'color', label: 'Kutu rengi', when: (s) => ['solid', 'outline'].includes(s.text.box) },
+      { k: 'text.boxOpacity', type: 'range', label: 'Kutu opaklığı', min: 10, max: 100, step: 1, unit: '%', when: (s) => s.text.box && s.text.box !== 'none' },
+      { k: 'text.boxRadius', type: 'range', label: 'Köşe yuvarlaklığı', min: 0, max: 12, step: 0.5, unit: '%', when: (s) => s.text.box && s.text.box !== 'none' },
     ],
+    items: [
+      { type: 'section', label: 'Öğeler' },
+      { type: 'hint', label: 'Sosyal kanıt ve dikkat çekiciler: puan rozeti, ödül laureli, özellik çipi, bildirim kartı. Her slaytta 1-2 tane yeter.' },
+      { type: 'stickerAdd' },
+      { type: 'stickerList' },
+      { type: 'stickerEditor' },
+    ],
+  };
+
+  const STICKER_SCHEMA = (st) => {
+    const T = st.type;
+    const rows = [];
+    const has = (...k) => k.includes(T);
+    if (has('pill', 'rating', 'laurel', 'note', 'icon', 'text')) rows.push({ k: 'text', type: has('laurel', 'text') ? 'textarea' : 'text', label: T === 'rating' ? 'Puan metni' : T === 'icon' ? 'Uygulama adı' : 'Metin' });
+    if (has('laurel', 'note')) rows.push({ k: 'sub', type: 'text', label: T === 'laurel' ? 'Üst etiket (küçük)' : 'Alt metin' });
+    if (has('note')) rows.push({ k: 'time', type: 'text', label: 'Saat (sağ üst)' });
+    if (has('pill', 'note', 'icon')) rows.push({ k: 'emoji', type: 'text', label: 'Emoji' });
+    if (has('pill', 'rating', 'note')) rows.push({ k: 'bg', type: 'color', label: 'Arka plan' });
+    if (has('icon', 'note')) rows.push({ k: 'iconBg', type: 'color', label: 'İkon rengi (görsel yoksa)' });
+    if (has('pill', 'rating', 'note', 'laurel', 'icon', 'text', 'arrow', 'ring')) rows.push({ k: 'color', type: 'color', label: 'Metin / çizgi rengi' });
+    if (has('rating')) rows.push({ k: 'starColor', type: 'color', label: 'Yıldız rengi' });
+    if (has('pill')) rows.push({ k: 'outline', type: 'check', label: 'Kenarlık' });
+    if (has('note')) rows.push({ k: 'w', type: 'range', label: 'Genişlik', min: 30, max: 100, step: 1, unit: '%' });
+    rows.push({ k: 'size', type: 'range', label: 'Boyut', min: 1, max: 12, step: 0.1, unit: '%' });
+    rows.push({ k: 'x', type: 'range', label: 'Yatay', min: -60, max: 60, step: 0.5, unit: '%' });
+    rows.push({ k: 'y', type: 'range', label: 'Dikey', min: -10, max: 110, step: 0.5, unit: '%' });
+    rows.push({ k: 'rot', type: 'range', label: 'Eğim', min: -45, max: 45, step: 0.5, unit: '°' });
+    rows.push({ k: 'opacity', type: 'range', label: 'Opaklık', min: 10, max: 100, step: 1, unit: '%' });
+    rows.push({ k: 'font', type: 'select', label: 'Font', opts: FONT_OPTS });
+    return rows;
   };
 
   let panelRows = [];
@@ -346,10 +475,77 @@
     panelRows = [];
     const s = cur();
 
-    for (const def of SCHEMA[state.tab]) {
+    // öğe düzenleyici: seçili öğenin alanlarını şemaya genişlet
+    const defs = [];
+    for (const d of SCHEMA[state.tab]) {
+      if (d.type === 'stickerEditor') {
+        const st = (s.stickers || [])[state.sticker];
+        if (st) {
+          defs.push({ type: 'section', label: 'Seçili öğe' });
+          STICKER_SCHEMA(st).forEach((r) => defs.push(Object.assign({}, r, { k: `stickers.${state.sticker}.${r.k}` })));
+          defs.push({ type: 'stickerActions' });
+        }
+      } else defs.push(d);
+    }
+
+    for (const def of defs) {
       let node;
       if (def.type === 'section') {
         node = el('div', 'section-title', t(def.label));
+      } else if (def.type === 'hint') {
+        node = el('p', 'hint', t(def.label));
+      } else if (def.type === 'globalCheck') {
+        const wrap = el('label', 'check');
+        const c = el('input');
+        c.type = 'checkbox';
+        c.checked = !!state[def.k];
+        c.onchange = () => { state[def.k] = c.checked; refreshAll(); };
+        wrap.append(c, el('span', null, t(def.label)));
+        node = el('div', 'row');
+        node.appendChild(wrap);
+      } else if (def.type === 'stickerAdd') {
+        node = el('div', 'presets');
+        STICKER_TYPES.forEach(([k, l]) => {
+          const b = el('button', 'btn tiny', t(l));
+          b.onclick = () => { addSticker(k); };
+          node.appendChild(b);
+        });
+      } else if (def.type === 'stickerList') {
+        node = el('div', 'sticker-list');
+        (s.stickers || []).forEach((st, i) => {
+          const b = el('button', 'sticker-item' + (i === state.sticker ? ' sel' : ''));
+          const label = STICKER_TYPES.find(([k]) => k === st.type);
+          b.innerHTML = `<b>${t(label ? label[1] : st.type).split(' (')[0]}</b><span>${(st.text || st.sub || '').toString().replace(/\n/g, ' ').slice(0, 26)}</span>`;
+          b.onclick = () => { state.sticker = i; buildPanel(); };
+          node.appendChild(b);
+        });
+      } else if (def.type === 'stickerActions') {
+        node = el('div', 'presets');
+        const dup = el('button', 'btn tiny', t('Öğeyi kopyala'));
+        dup.onclick = () => {
+          snapshot('sticker-dup');
+          const c = JSON.parse(JSON.stringify(s.stickers[state.sticker]));
+          c.x = (c.x || 0) + 6; c.y = (c.y || 0) + 4;
+          s.stickers.splice(state.sticker + 1, 0, c);
+          state.sticker++;
+          refreshAll();
+        };
+        const all = el('button', 'btn tiny', t('Tüm slaytlara ekle'));
+        all.onclick = () => {
+          snapshot('sticker-all');
+          const c = s.stickers[state.sticker];
+          state.slides.forEach((sl) => { if (sl !== s) sl.stickers.push(JSON.parse(JSON.stringify(c))); });
+          refreshAll();
+          toast(t('Öğe tüm slaytlara eklendi'));
+        };
+        const del = el('button', 'btn tiny danger', t('Öğeyi sil'));
+        del.onclick = () => {
+          snapshot('sticker-del');
+          s.stickers.splice(state.sticker, 1);
+          state.sticker = Math.max(0, state.sticker - 1);
+          refreshAll();
+        };
+        node.append(dup, all, del);
       } else if (def.type === 'layoutPresets') {
         node = el('div', 'presets');
         LAYOUT_PRESETS.forEach((p) => {
@@ -452,6 +648,11 @@
           input = el('textarea');
           input.value = val || '';
           input.oninput = () => { snapshot('ctl:' + def.k); setP(cur(), def.k, input.value); schedule(); };
+        } else if (def.type === 'text') {
+          input = el('input');
+          input.type = 'text';
+          input.value = val || '';
+          input.oninput = () => { snapshot('ctl:' + def.k); setP(cur(), def.k, input.value); schedule(); };
         } else if (def.type === 'check') {
           const wrap = el('label', 'check');
           const c = el('input');
@@ -494,6 +695,17 @@
   /* ------------------------------------------------------------------ */
   let pickTarget = null;
 
+  function addSticker(type, extra, slide) {
+    const sl = slide || cur();
+    snapshot('sticker-add');
+    const st = Object.assign({ type, opacity: 100 }, JSON.parse(JSON.stringify(STICKER_DEFAULTS[type] || {})), extra || {});
+    if (type === 'icon' && state.app.name && !extra) st.text = state.app.name;
+    if (!st.color && ['laurel', 'text', 'arrow', 'ring'].includes(type)) st.color = sl.text.color;
+    sl.stickers.push(st);
+    if (!slide) { state.sticker = sl.stickers.length - 1; refreshAll(); }
+    return st;
+  }
+
   const actions = {
     'pick-shot': () => { pickTarget = 'shot'; $('#shotPick').click(); },
     'clear-shot': () => { snapshot('clear-shot'); cur().shot = null; refreshAll(); },
@@ -534,7 +746,7 @@
   function renderToCanvas(slide, w, h) {
     const c = document.createElement('canvas');
     c.width = w; c.height = h;
-    window.Render.renderSlide(c.getContext('2d'), w, h, slide, imagesFor(slide));
+    window.Render.renderSlide(c.getContext('2d'), w, h, slide, imagesFor(slide), pan(state.slides.indexOf(slide)));
     return c;
   }
 
@@ -581,21 +793,33 @@
   /* ------------------------------------------------------------------ */
   let saveTimer = null;
   function serialize() {
-    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens, lang: state.lang };
+    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens, lang: state.lang, panorama: state.panorama, app: state.app, appId: state.appId };
   }
   function autosave() {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => window.Store.set('project', serialize()).catch(() => {}), 500);
+    saveTimer = setTimeout(() => {
+      const data = serialize();
+      window.Store.set('project', data).catch(() => {});
+      if (state.appId) window.Store.set('app:' + state.appId, data).then(touchApp).catch(() => {});
+    }, 500);
+  }
+  function hydrate(p) {
+    state.exp = Object.assign(state.exp, p.exp || {});
+    state.slides = (p.slides || []).map(upgradeSlide);
+    if (!state.slides.length) state.slides = [newSlide()];
+    state.cur = Math.min(p.cur || 0, state.slides.length - 1);
+    state.sticker = 0;
+    state.appDesc = p.appDesc || '';
+    state.screens = p.screens || '';
+    state.panorama = !!p.panorama;
+    state.app = Object.assign({ name: '', lang: 'tr', accent: '#6366f1', icon: null }, p.app || {});
+    state.appId = p.appId || null;
+    if (p.lang) state.lang = p.lang;
   }
   async function loadSaved() {
     const p = await window.Store.get('project').catch(() => null);
     if (!p || !p.slides || !p.slides.length) return false;
-    state.exp = Object.assign(state.exp, p.exp || {});
-    state.slides = p.slides.map((s) => Object.assign(newSlide(), s));
-    state.cur = Math.min(p.cur || 0, state.slides.length - 1);
-    state.appDesc = p.appDesc || '';
-    state.screens = p.screens || '';
-    if (p.lang) state.lang = p.lang;
+    hydrate(p);
     await preloadImages();
     return true;
   }
@@ -606,7 +830,73 @@
       if (s.device2 && s.device2.shot) urls.push(s.device2.shot);
       if (s.bg.img) urls.push(s.bg.img);
     });
+    if (state.app.icon) urls.push(state.app.icon);
     await Promise.all(urls.map((u) => window.Store.loadImage(u)));
+  }
+
+  /* ---- uygulama profilleri: her uygulama ayrı kayıt ---- */
+  async function listApps() {
+    return (await window.Store.get('apps').catch(() => null)) || [];
+  }
+  async function touchApp() {
+    if (!state.appId) return;
+    const apps = await listApps();
+    const a = apps.find((x) => x.id === state.appId);
+    const name = state.app.name || t('Adsız');
+    if (a) { if (a.name === name && Date.now() - a.updated < 60000) return; a.name = name; a.updated = Date.now(); }
+    else apps.push({ id: state.appId, name, updated: Date.now() });
+    await window.Store.set('apps', apps);
+    refreshAppSelect(apps);
+  }
+  async function refreshAppSelect(apps) {
+    apps = apps || (await listApps());
+    const sel = $('#appSelect');
+    sel.innerHTML = '';
+    sel.appendChild(Object.assign(el('option', null, t('— uygulama seç —')), { value: '' }));
+    apps.sort((a, b) => b.updated - a.updated).forEach((a) => {
+      sel.appendChild(Object.assign(el('option', null, a.name), { value: a.id }));
+    });
+    sel.appendChild(Object.assign(el('option', null, t('＋ Yeni uygulama…')), { value: '__new' }));
+    sel.value = state.appId || '';
+  }
+  async function switchApp(id) {
+    if (state.appId === id) return;
+    clearTimeout(saveTimer);
+    if (state.appId) await window.Store.set('app:' + state.appId, serialize()).catch(() => {});
+    const p = await window.Store.get('app:' + id).catch(() => null);
+    if (!p) return toast(t('Kayıt bulunamadı'));
+    hydrate(p);
+    state.appId = id;
+    await preloadImages();
+    window.I18N.set(state.lang);
+    $('#btnLang').textContent = state.lang === 'tr' ? 'TR' : 'EN';
+    syncExportUI();
+    undoStack.length = 0; redoStack.length = 0;
+    refreshAll();
+    refreshAppSelect();
+    toast(t('{name} açıldı', { name: state.app.name }));
+  }
+  async function createApp(name, fresh) {
+    clearTimeout(saveTimer);
+    if (state.appId) await window.Store.set('app:' + state.appId, serialize()).catch(() => {});
+    const id = 'a' + Date.now().toString(36);
+    if (fresh) {
+      state.slides = [newSlide()];
+      state.slides[0].text.title = defaultTitle();
+      state.cur = 0; state.panorama = false; state.appDesc = ''; state.screens = '';
+      state.app = { name, lang: state.lang, accent: '#6366f1', icon: null };
+    } else state.app.name = name;
+    state.appId = id;
+    await window.Store.set('app:' + id, serialize());
+    await touchApp();
+    refreshAll();
+  }
+  async function deleteApp(id) {
+    const apps = (await listApps()).filter((a) => a.id !== id);
+    await window.Store.set('apps', apps);
+    await window.Store.set('app:' + id, null);
+    if (state.appId === id) state.appId = null;
+    refreshAppSelect(apps);
   }
 
   /* ------------------------------------------------------------------ */
@@ -649,7 +939,7 @@
     return v;
   }
 
-  function applyTemplate(slide, t) {
+  function applyTemplate(slide, t, autoColor) {
     if (!t) return;
     if (t.layout) applyLayoutKey(slide, t.layout);
     if (t.frame) slide.device.frame = t.frame;
@@ -663,13 +953,29 @@
     if (t.device2) Object.assign(slide.device2, t.device2);
     if (t.background) {
       resolveBg(t.background, slide.bg);
-      if (t.textColor == null) {
+      if (t.textColor == null && autoColor !== false) {
         const base = slide.bg.type === 'mesh' ? slide.bg.c3 : slide.bg.c1;
         const light = luminance(base) > 0.62;
         slide.text.color = slide.text.subColor = light ? '#111214' : '#ffffff';
       }
     }
     Object.entries(TEXT_MAP).forEach(([src, dst]) => { if (t[src] != null) slide.text[dst] = t[src]; });
+    if (t.accent) slide.text.accent = t.accent;
+    if (t.hlStyle) slide.text.hlStyle = t.hlStyle;
+    if (t.box) slide.text.box = t.box;
+    if (t.boxColor) slide.text.boxColor = t.boxColor;
+    if (t.boxOpacity != null) slide.text.boxOpacity = t.boxOpacity;
+    if (t.boxRadius != null) slide.text.boxRadius = t.boxRadius;
+    if (Array.isArray(t.stickers)) {
+      slide.stickers = t.stickers.map((st) => {
+        const o = Object.assign({ opacity: 100 }, JSON.parse(JSON.stringify(STICKER_DEFAULTS[st.type] || {})), st);
+        if (st.text != null) o.text = txt(st.text);
+        if (st.sub != null) o.sub = txt(st.sub);
+        if (o.type === 'icon' && state.app.name && st.text == null) o.text = state.app.name;
+        if (!o.color && ['laurel', 'text', 'arrow', 'ring', 'icon'].includes(o.type)) o.color = slide.text.color;
+        return o;
+      });
+    }
   }
 
   function applyVariant(v) {
@@ -678,10 +984,12 @@
     while (state.slides.length < rows.length) {
       state.slides.push(newSlide(state.slides[state.slides.length - 1]));
     }
+    if (v.template) state.panorama = !!v.template.panorama; // şablon bütün bir stil: panorama da onun parçası
     rows.forEach((row, i) => {
       const s = state.slides[i];
+      if (v.template && !v.template.stickers) s.stickers = []; // şablon değişince eski öğeler kalmasın
       applyTemplate(s, v.template);
-      applyTemplate(s, row);
+      applyTemplate(s, row, !(v.template && v.template.textColor));
       if (row.title != null) s.text.title = String(txt(row.title)).replace(/\\n/g, '\n');
       if (row.subtitle != null) s.text.sub = String(txt(row.subtitle)).replace(/\\n/g, '\n');
     });
@@ -759,7 +1067,7 @@
   function tplSlide(tpl, i) {
     const sl = newSlide();
     applyTemplate(sl, tpl.template);
-    applyTemplate(sl, tpl.slides[i]);
+    applyTemplate(sl, tpl.slides[i], !tpl.template.textColor);
     sl.text.title = String(txt(tpl.slides[i].title) || '');
     sl.text.sub = String(txt(tpl.slides[i].subtitle) || '');
     return sl;
@@ -959,20 +1267,140 @@
 
     $('#btnExportOne').onclick = exportOne;
     $('#btnExportAll').onclick = exportAll;
+    $('#btnSetView').onclick = () => { state.setView = !state.setView; renderPreview(); };
+    setCanvas.onclick = (e) => {
+      const r = setCanvas.getBoundingClientRect();
+      const scale = setCanvas.width / r.width;
+      const i = Math.floor(((e.clientX - r.left) * scale) / (210 + 8));
+      if (i >= 0 && i < state.slides.length) { state.cur = i; refreshAll(); }
+    };
+
+    // uygulama profilleri
+    $('#appSelect').onchange = async () => {
+      const v = $('#appSelect').value;
+      if (v === '__new') {
+        const name = prompt(t('Uygulamanın adı?'));
+        $('#appSelect').value = state.appId || '';
+        if (!name) return;
+        await createApp(name.trim(), true);
+        openQuick();
+      } else if (v) await switchApp(v);
+    };
+    $('#iconPick').onchange = async (e) => {
+      const f = e.target.files[0];
+      if (f) {
+        const url = await window.Store.fileToDataUrl(f);
+        await window.Store.loadImage(url);
+        state.app.icon = url;
+        refreshAll();
+        toast(t('Uygulama ikonu yüklendi'));
+      }
+      e.target.value = '';
+    };
+
+    // hızlı kurulum
+    const quick = $('#quickModal');
+    const fillTplSelect = () => {
+      const sel = $('#qTemplate');
+      sel.innerHTML = '';
+      sel.appendChild(Object.assign(el('option', null, t('Mevcut stili koru')), { value: 'keep' }));
+      (window.TEMPLATES || []).forEach((tp) => sel.appendChild(Object.assign(el('option', null, `${txt(tp.name)} — ${txt(tp.cat)}`), { value: tp.key })));
+    };
+    function openQuick() {
+      fillTplSelect();
+      $('#qName').value = state.app.name || '';
+      $('#qLang').value = state.app.lang || 'tr';
+      $('#qAccent').value = state.app.accent || '#6366f1';
+      const existing = state.slides.filter((sl) => sl.text.title && !isDefaultTitle(sl.text.title));
+      $('#qLines').value = existing.map((sl) => sl.text.title.replace(/\n/g, '\\n') + (sl.text.sub ? ' | ' + sl.text.sub : '')).join('\n');
+      $('#qIconState').textContent = state.app.icon ? t('ikon yüklü ✓') : t('ikon yok');
+      quick.classList.add('open');
+      $('#qName').focus();
+    }
+    $('#btnQuick').onclick = openQuick;
+    quick.onclick = (e) => { if (e.target === quick || e.target.hasAttribute('data-close')) quick.classList.remove('open'); };
+    $('#qIconBtn').onclick = () => $('#iconPick').click();
+    $('#qShotsBtn').onclick = () => $('#qShots').click();
+    $('#qShots').onchange = (e) => { $('#qShotsState').textContent = t('{n} görsel seçildi', { n: e.target.files.length }); };
+    $('#qApply').onclick = async () => {
+      const name = $('#qName').value.trim();
+      const lines = $('#qLines').value.split('\n').map((x) => x.trim()).filter(Boolean);
+      const tplKey = $('#qTemplate').value;
+      const rating = $('#qRating').value.trim();
+      snapshot('quick');
+      state.app.name = name || state.app.name;
+      state.app.lang = $('#qLang').value;
+      state.app.accent = $('#qAccent').value;
+
+      const tpl = (window.TEMPLATES || []).find((x) => x.key === tplKey);
+      const parsed = lines.map((ln) => {
+        const [a, b] = ln.split('|').map((x) => (x || '').trim());
+        return { title: a.replace(/\\n/g, '\n'), subtitle: b || '' };
+      });
+      if (tpl) {
+        const rows = (parsed.length ? parsed : tpl.slides).map((r, i) => {
+          const base = tpl.slides[Math.min(i, tpl.slides.length - 1)] || {};
+          const extra = Object.assign({}, base);
+          delete extra.title; delete extra.subtitle;
+          return Object.assign(extra, parsed.length ? r : { title: txt(base.title), subtitle: txt(base.subtitle) });
+        });
+        applyVariant({ template: tpl.template, slides: rows });
+      } else if (parsed.length) {
+        while (state.slides.length < parsed.length) state.slides.push(newSlide(state.slides[state.slides.length - 1]));
+        parsed.forEach((r, i) => { state.slides[i].text.title = r.title; state.slides[i].text.sub = r.subtitle; });
+      }
+      // metin sayısından fazla olan ve görseli olmayan slaytları kaldır
+      if (parsed.length) state.slides = state.slides.filter((sl, i) => i < parsed.length || sl.shot);
+      // vurgu rengi tüm slaytlara
+      state.slides.forEach((sl) => { sl.text.accent = state.app.accent; sl.stickers.forEach((st) => { if (st.type === 'icon' || st.type === 'note') st.iconBg = state.app.accent; }); });
+      // sosyal kanıt 1. slayta
+      const first = state.slides[0];
+      if ($('#qAddIcon').checked && state.app.name) {
+        const hadIcon = first.stickers.some((st) => st.type === 'icon');
+        first.stickers = first.stickers.filter((st) => st.type !== 'icon');
+        if (!hadIcon && first.text.y <= 50) first.text.y = Math.min(90, first.text.y + 6);
+        addSticker('icon', { text: state.app.name, y: first.text.y > 50 ? 4 : Math.max(2, first.text.y - 10), iconBg: state.app.accent, color: first.text.color }, first);
+      }
+      if (rating) {
+        first.stickers = first.stickers.filter((st) => st.type !== 'rating');
+        const light = window.Render.contrastFor(first.text.color) === '#111214'; // metin açıksa arka plan koyu
+        addSticker('rating', { text: rating, y: first.text.y > 50 ? 6 : first.text.y + 13, bg: light ? '#ffffff' : '#111214', color: light ? '#111214' : '#ffffff' }, first);
+      }
+      const files = $('#qShots').files;
+      state.cur = 0;
+      refreshAll();
+      if (files && files.length) await addSlidesFromFiles(files);
+      $('#qShots').value = ''; $('#qShotsState').textContent = '';
+      if (!state.appId && state.app.name) await createApp(state.app.name, false);
+      else touchApp();
+      quick.classList.remove('open');
+      toast(t('Kuruldu — şimdi görselleri ve metinleri ince ayarla'));
+    };
 
     $('#btnMore').onclick = (e) => { e.stopPropagation(); $('#moreMenu').classList.toggle('open'); };
     document.addEventListener('click', () => $('#moreMenu').classList.remove('open'));
     $('#moreMenu').onclick = (e) => {
       const act = e.target.dataset.act;
       if (act === 'save-proj') {
-        download(new Blob([JSON.stringify(serialize())], { type: 'application/json' }), 'store-mockup-projesi.json');
+        download(new Blob([JSON.stringify(serialize())], { type: 'application/json' }), (state.app.name ? state.app.name.replace(/\s+/g, '-').toLowerCase() : 'store-mockup') + '-projesi.json');
+      } else if (act === 'copy-copy') {
+        const lines = state.slides.map((sl, i) => `${i + 1}. ${sl.text.title.replace(/\n/g, ' / ')}${sl.text.sub ? ' | ' + sl.text.sub : ''}`).join('\n');
+        navigator.clipboard.writeText(lines).then(() => toast(t('Metinler kopyalandı'))).catch(() => toast(t('Panoya erişilemedi')));
+      } else if (act === 'pick-icon') {
+        $('#iconPick').click();
+      } else if (act === 'rename-app') {
+        const name = prompt(t('Uygulamanın adı?'), state.app.name || '');
+        if (name) { state.app.name = name.trim(); if (!state.appId) createApp(state.app.name, false); else { autosave(); touchApp(); } }
+      } else if (act === 'delete-app') {
+        if (state.appId && confirm(t('"{name}" kaydı silinsin mi? Slaytlar ekranda kalır.', { name: state.app.name }))) deleteApp(state.appId);
       } else if (act === 'load-proj') {
         $('#projPick').click();
       } else if (act === 'reset') {
         if (confirm(t('Tüm slaytlar silinsin mi?'))) {
           snapshot('reset');
           state.slides = [newSlide()];
-          state.cur = 0;
+          state.slides[0].text.title = defaultTitle();
+          state.cur = 0; state.panorama = false; state.sticker = 0;
           refreshAll();
         }
       }
@@ -983,9 +1411,7 @@
       if (f) {
         try {
           const p = JSON.parse(await f.text());
-          state.exp = Object.assign(state.exp, p.exp || {});
-          state.slides = (p.slides || []).map((s) => Object.assign(newSlide(), s));
-          if (!state.slides.length) state.slides = [newSlide()];
+          hydrate(p);
           state.cur = 0;
           await preloadImages();
           syncExportUI();
@@ -1083,6 +1509,7 @@
     if (!saved) state.slides.forEach((sl) => { sl.text.title = defaultTitle(); });
     syncExportUI();
     updateHistoryUI();
+    refreshAppSelect();
     refreshAll();
     // font yüklenince yeniden çiz
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);

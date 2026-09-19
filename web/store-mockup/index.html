@@ -4,13 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Store Mockup Studio</title>
-<link rel="stylesheet" href="css/style.css?v=1787084996">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Unbounded:wght@400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:wght@400;500;600;700;800;900&family=Fraunces:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Instrument+Serif&display=swap">
+<link rel="stylesheet" href="css/style.css?v=1789837758">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
 </head>
 <body>
 
 <header class="topbar">
   <div class="brand">📱 <b>Store Mockup Studio</b></div>
+  <select id="appSelect" class="app-select" title="Uygulama profili"></select>
+  <button id="btnQuick" class="btn primary" data-i18n>⚡ Hızlı kurulum</button>
 
   <div class="histo">
     <button id="btnUndo" class="btn icon" disabled data-i18n-title="Geri al (⌘Z)" title="Geri al (⌘Z)">↶</button>
@@ -38,13 +43,19 @@
   <button id="btnTemplates" class="btn" data-i18n>📐 Şablonlar</button>
   <button id="btnImport" class="btn" data-i18n>✨ AI metin</button>
   <button id="btnExportOne" class="btn" data-i18n>Bu slayt</button>
-  <button id="btnExportAll" class="btn primary" data-i18n>Tümünü indir (.zip)</button>
+  <button id="btnExportAll" class="btn" data-i18n>Tümünü indir (.zip)</button>
   <button id="btnLang" class="btn icon" title="Türkçe / English">TR</button>
   <div class="menu-wrap">
     <button id="btnMore" class="btn icon">⋯</button>
     <div id="moreMenu" class="menu">
+      <button data-act="pick-icon" data-i18n>Uygulama ikonu yükle</button>
+      <button data-act="rename-app" data-i18n>Uygulamayı yeniden adlandır</button>
+      <button data-act="delete-app" data-i18n>Uygulama kaydını sil</button>
+      <hr>
+      <button data-act="copy-copy" data-i18n>Metinleri kopyala (başlık | alt)</button>
       <button data-act="save-proj" data-i18n>Projeyi kaydet (.json)</button>
       <button data-act="load-proj" data-i18n>Proje yükle</button>
+      <hr>
       <button data-act="reset" data-i18n>Her şeyi sıfırla</button>
     </div>
   </div>
@@ -66,9 +77,11 @@
   <section class="stage">
     <div class="stage-inner">
       <canvas id="preview"></canvas>
+      <div class="set-wrap" id="setWrap"><canvas id="setPreview" hidden></canvas></div>
     </div>
     <div class="stage-bar">
       <span id="stageInfo"></span>
+      <button class="btn tiny" id="btnSetView" data-i18n-title="Tüm seti yan yana gör (App Store galerisi gibi)" title="Tüm seti yan yana gör (App Store galerisi gibi)">▦ <span data-i18n>Set</span></button>
       <span class="grow"></span>
       <button class="btn tiny" id="btnPrev">‹</button>
       <span id="stageCount" class="muted"></span>
@@ -82,6 +95,7 @@
       <button data-tab="bg" data-i18n>Arka plan</button>
       <button data-tab="device" data-i18n>Cihaz</button>
       <button data-tab="text" data-i18n>Metin</button>
+      <button data-tab="items" data-i18n>Öğeler</button>
     </nav>
     <div id="panelBody" class="panel-body"></div>
     <div class="panel-foot">
@@ -147,6 +161,68 @@
   </div>
 </div>
 
+<div id="quickModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <b data-i18n>⚡ Hızlı kurulum</b>
+      <span class="hint grow" data-i18n>Uygulamayı, dili, metinleri ve stili tek seferde ver; gerisi kurulur.</span>
+      <button class="btn tiny" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="grid2">
+        <div class="row">
+          <label class="lbl"><span data-i18n>Uygulama adı</span></label>
+          <input type="text" id="qName" data-i18n-ph placeholder="Wallet Coach">
+        </div>
+        <div class="row">
+          <label class="lbl"><span data-i18n>Metin dili</span></label>
+          <select id="qLang">
+            <option value="tr">Türkçe</option><option value="en">English</option><option value="de">Deutsch</option>
+            <option value="es">Español</option><option value="fr">Français</option><option value="it">Italiano</option>
+            <option value="pt">Português</option><option value="ar">العربية</option><option value="ja">日本語</option>
+            <option value="ko">한국어</option><option value="zh">中文</option><option value="ru">Русский</option>
+          </select>
+        </div>
+        <div class="row">
+          <label class="lbl"><span data-i18n>Vurgu rengi (marka)</span></label>
+          <div class="colors"><input type="color" id="qAccent" value="#6366f1"></div>
+        </div>
+        <div class="row">
+          <label class="lbl"><span data-i18n>Stil şablonu</span></label>
+          <select id="qTemplate"></select>
+        </div>
+      </div>
+      <div class="row">
+        <label class="lbl"><span data-i18n>Metinler — her satır bir slayt: Başlık | Alt başlık</span></label>
+        <textarea id="qLines" rows="7" data-i18n-ph placeholder="Paranı [gör] | Tüm hesapların tek ekranda&#10;Harcamanı çöz | Kategoriler kendiliğinden ayrılır&#10;Bütçen kontrolde | Ay sonunu önceden gör"></textarea>
+        <p class="hint" data-i18n>[köşeli parantez] içindeki kelime vurgu rengiyle çizilir. İki satırlı başlık için \n yaz. Satır sayısı = slayt sayısı.</p>
+      </div>
+      <div class="grid2">
+        <div class="row">
+          <label class="lbl"><span data-i18n>Puan rozeti (1. slayt, boş = yok)</span></label>
+          <input type="text" id="qRating" data-i18n-ph placeholder="4.9 · 2K değerlendirme">
+        </div>
+        <div class="row">
+          <label class="lbl"><span data-i18n>Uygulama ikonu</span> <span id="qIconState" class="val"></span></label>
+          <div class="presets">
+            <button class="btn tiny" id="qIconBtn" data-i18n>İkon yükle</button>
+            <label class="check"><input type="checkbox" id="qAddIcon" checked><span data-i18n>1. slayta ikon + ad</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="lbl"><span data-i18n>Ekran görüntüleri</span> <span id="qShotsState" class="val"></span></label>
+        <button class="btn tiny wide" id="qShotsBtn" data-i18n>Ekran görüntülerini seç (sıralı, dosya adına göre)</button>
+        <p class="hint" data-i18n>Sonradan da sürükleyip bırakabilirsin; boş slaytlara sırayla oturur.</p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="hint grow" data-i18n>Kurulum sonrası her şey elle değiştirilebilir. Uygulama adı verirsen profil olarak kaydedilir ve üstteki listeden geri açılır.</span>
+      <button class="btn primary" id="qApply" data-i18n>Kur</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <input type="file" id="filePick" accept="image/*" multiple hidden>
@@ -155,14 +231,16 @@
 <input type="file" id="bgPick" accept="image/*" hidden>
 <input type="file" id="fontPick" accept=".ttf,.otf,.woff,.woff2" hidden>
 <input type="file" id="projPick" accept="application/json,.json" hidden>
+<input type="file" id="iconPick" accept="image/*" hidden>
+<input type="file" id="qShots" accept="image/*" multiple hidden>
 
-<script src="js/i18n.js?v=1787084996"></script>
-<script src="js/zip.js?v=1787084996"></script>
-<script src="js/frames.js?v=1787084996"></script>
-<script src="js/render.js?v=1787084996"></script>
-<script src="js/store.js?v=1787084996"></script>
-<script src="js/prompt.js?v=1787084996"></script>
-<script src="js/templates.js?v=1787084996"></script>
-<script src="js/app.js?v=1787084996"></script>
+<script src="js/i18n.js?v=1789837758"></script>
+<script src="js/zip.js?v=1789837758"></script>
+<script src="js/frames.js?v=1789837758"></script>
+<script src="js/render.js?v=1789837758"></script>
+<script src="js/store.js?v=1789837758"></script>
+<script src="js/prompt.js?v=1789837758"></script>
+<script src="js/templates.js?v=1789837758"></script>
+<script src="js/app.js?v=1789837758"></script>
 </body>
 </html>

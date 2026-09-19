@@ -61,6 +61,12 @@ DESIGN RULES
   (e.g. slide 1 "bleed", the rest "text-top").
 - Text colour `#ffffff` on dark backgrounds, `#111214` on light ones.
 - `titleSize` between 5 and 7, `subSize` between 3 and 3.8. Shrink the size for long headlines.
+- HIGHLIGHT: wrap at most one word/phrase per headline in `[square brackets]`; it is drawn in the
+  `accent` colour (e.g. "[See] your money"). The 2026 top-chart pattern: one highlight, the benefit word.
+- SOCIAL PROOF: put one `rating` element on slide 1 (if you don't know the score, write a placeholder
+  like "4.9 · 2K ratings", I'll fix it). Add one `pill` (feature chip) or `note` (notification card)
+  where it helps; at most 2 elements per slide.
+- Make one of the variants `panorama: true` (the background flows across all frames).
 
 OUTPUT FORMAT
 Return a single JSON object matching the schema below. No commentary, no preamble.
@@ -82,11 +88,17 @@ Return a single JSON object matching the schema below. No commentary, no preambl
         "letterSpacing": 0,
         "textColor": "#ffffff",
         "subColor": "#ffffff",
-        "shadow": false
+        "shadow": false,
+        "accent": "#ffd60a",
+        "hlStyle": "color",
+        "box": "none",
+        "panorama": false
       },
       "slides": [
-        { "title": "Headline", "subtitle": "Subtitle", "layout": "bleed", "background": "indigo" },
-        { "title": "Headline", "subtitle": "Subtitle" }
+        { "title": "[See] your money", "subtitle": "Subtitle", "layout": "bleed", "background": "indigo",
+          "stickers": [ { "type": "rating", "text": "4.9 · 2K ratings", "x": 0, "y": 24, "size": 2.6, "bg": "#ffffff" } ] },
+        { "title": "Headline", "subtitle": "Subtitle",
+          "stickers": [ { "type": "pill", "emoji": "🔥", "text": "7-day streak", "x": 28, "y": 46, "size": 3.2, "rot": -6, "bg": "#ffffff" } ] }
       ]
     }
   ]
@@ -98,19 +110,33 @@ Return a single JSON object matching the schema below. No commentary, no preambl
   variant's `template` value is used.
 
 ALLOWED VALUES
-- `font`: system | helvetica-neue | avenir | futura | georgia | times | courier | impact
+- `font`: system | inter | manrope | plus-jakarta | outfit | sora | space-grotesk | bricolage |
+  nunito (rounded, playful) | unbounded (wide, gen-z) | bebas (condensed caps, sport) |
+  playfair | fraunces | dm-serif | instrument-serif (serifs) | helvetica-neue | avenir | futura |
+  georgia | times | courier | impact
 - `frame`: iphone-pro | iphone-notch | iphone-classic | android | tablet | watch | browser | none
 - `deviceColor`: graphite | black | silver | gold | blue | white
 - `layout`: text-top | text-bottom | bleed (device bleeds off the bottom) | tilt | right (device
-  right, copy left-aligned) | left | small | full (no frame, full bleed)
+  right, copy left-aligned) | left | small | full (no frame, full bleed) | hero (giant tilted
+  device) | span-left / span-right (device spans two frames; use on consecutive slides with
+  panorama) | text-only (no device)
 - `background`: a preset key → indigo | sunset | purple-night | mint | ocean | fire | rose |
-  night | dark | light | cyber-mesh | warm-mesh | ice-mesh | forest | cream | graphite-bg
+  night | dark | light | white | paper | black | deep-violet | lime | coral | cyber-mesh |
+  warm-mesh | ice-mesh | aurora | peach-mesh | forest | cream | graphite-bg
   **or** your own definition:
   `{ "type": "linear", "c1": "#6366f1", "c2": "#22d3ee", "angle": 135 }`
   (`type`: solid | linear | radial | mesh — mesh also needs `c3`; optional `pattern`:
   none|dots|grid|diagonal|rings, `noise`: 0-40, `vignette`: 0-80)
 - `weight`: 300 | 400 | 500 | 600 | 700 | 800 | 900
 - `letterSpacing`: -4 to 20 (letter spacing as a percentage of the font size)
+- `accent`: highlight colour (hex). `hlStyle`: color | marker (highlighter) | underline
+- `box`: none | solid | glass | outline (a box behind the copy; give `boxColor` for solid)
+- `stickers` (optional array per slide): each `{ type, text, sub, emoji, x, y, size, rot, bg, color }`
+  - `type`: rating (stars + `text`) | pill (`emoji` + `text` chip) | laurel (`sub` small top label,
+    `text` two-line award name with `\n`) | note (notification card: `text` title, `sub` body,
+    `time`) | icon (app icon + name) | text | arrow | ring
+  - `x`: -60..60 (0 = centre), `y`: 0..100 (percent from top), `size`: 2..5, `rot`: -20..20
+  - On dark backgrounds use a white `bg`, on light ones a dark `bg` (#111214).
 
 ---
 

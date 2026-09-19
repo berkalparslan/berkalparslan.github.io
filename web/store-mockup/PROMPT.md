@@ -58,6 +58,12 @@ TASARIM KURALLARI
   olsun (ör. 1. slayt "bleed", diğerleri "text-top").
 - Koyu arka planda metin rengi `#ffffff`, açık arka planda `#111214`.
 - `titleSize` 5–7 arası, `subSize` 3–3.8 arası. Başlık uzunsa boyutu küçült.
+- VURGU: her başlıkta en fazla bir kelimeyi/öbeği `[köşeli parantez]` içine al; o kısım `accent`
+  rengiyle çizilir (ör. "Paranı [gör]"). 2026 top-chart kalıbı: tek vurgu, benefit kelimesi.
+- SOSYAL KANIT: 1. slayta bir `rating` öğesi koy (puan metnini bilmiyorsan "4.9 · 2K değerlendirme"
+  gibi yer tutucu yaz, ben düzeltirim). Uygun slaytlara 1 adet `pill` (özellik çipi) ya da `note`
+  (bildirim kartı) ekleyebilirsin; slayt başına en fazla 2 öğe.
+- Varyantlardan biri `panorama: true` olsun (arka plan tüm kareler boyunca akar).
 
 ÇIKTI BİÇİMİ
 Sadece aşağıdaki şemaya uyan tek bir JSON döndür. Açıklama, yorum, giriş cümlesi yazma.
@@ -79,11 +85,17 @@ Sadece aşağıdaki şemaya uyan tek bir JSON döndür. Açıklama, yorum, giri�
         "letterSpacing": 0,
         "textColor": "#ffffff",
         "subColor": "#ffffff",
-        "shadow": false
+        "shadow": false,
+        "accent": "#ffd60a",
+        "hlStyle": "color",
+        "box": "none",
+        "panorama": false
       },
       "slides": [
-        { "title": "Başlık", "subtitle": "Alt başlık", "layout": "bleed", "background": "indigo" },
-        { "title": "Başlık", "subtitle": "Alt başlık" }
+        { "title": "Paranı [gör]", "subtitle": "Alt başlık", "layout": "bleed", "background": "indigo",
+          "stickers": [ { "type": "rating", "text": "4.9 · 2K değerlendirme", "x": 0, "y": 24, "size": 2.6, "bg": "#ffffff" } ] },
+        { "title": "Başlık", "subtitle": "Alt başlık",
+          "stickers": [ { "type": "pill", "emoji": "🔥", "text": "7 gün seri", "x": 28, "y": 46, "size": 3.2, "rot": -6, "bg": "#ffffff" } ] }
       ]
     }
   ]
@@ -95,20 +107,33 @@ Sadece aşağıdaki şemaya uyan tek bir JSON döndür. Açıklama, yorum, giri�
   yazılmazsa varyantın `template` değeri kullanılır.
 
 İZİN VERİLEN DEĞERLER
-- `font`: system | helvetica-neue | avenir | futura | georgia | times | courier | impact
+- `font`: system | inter | manrope | plus-jakarta | outfit | sora | space-grotesk | bricolage |
+  nunito (yuvarlak, oyunsu) | unbounded (geniş, gen-z) | bebas (dar büyük harf, spor) |
+  playfair | fraunces | dm-serif | instrument-serif (serifler) | helvetica-neue | avenir | futura |
+  georgia | times | courier | impact
 - `frame`: iphone-pro | iphone-notch | iphone-classic | android | tablet | watch | browser | none
 - `deviceColor`: graphite | black | silver | gold | blue | white
 - `layout`: text-top (metin üstte) | text-bottom (metin altta) | bleed (cihaz aşağı taşar) |
   tilt (eğik) | right (cihaz sağda, metin sola dayalı) | left | small (küçük cihaz) |
-  full (çerçevesiz tam ekran)
+  full (çerçevesiz tam ekran) | hero (dev eğik cihaz) | span-left / span-right (cihaz iki kareye
+  yayılır; panorama ile birlikte ardışık iki slaytta kullan) | text-only (cihazsız)
 - `background`: hazır palet anahtarı → indigo | sunset | purple-night | mint | ocean | fire |
-  rose | night | dark | light | cyber-mesh | warm-mesh | ice-mesh | forest | cream | graphite-bg
+  rose | night | dark | light | white | paper | black | deep-violet | lime | coral | cyber-mesh |
+  warm-mesh | ice-mesh | aurora | peach-mesh | forest | cream | graphite-bg
   **veya** kendi tanımın:
   `{ "type": "linear", "c1": "#6366f1", "c2": "#22d3ee", "angle": 135 }`
   (`type`: solid | linear | radial | mesh — mesh için `c3` de ver; ayrıca isteğe bağlı
   `pattern`: none|dots|grid|diagonal|rings, `noise`: 0-40, `vignette`: 0-80)
 - `weight`: 300 | 400 | 500 | 600 | 700 | 800 | 900
 - `letterSpacing`: -4 ile 20 arası (harf aralığı, punto yüzdesi)
+- `accent`: vurgu rengi (hex). `hlStyle`: color | marker (fosforlu) | underline
+- `box`: none | solid | glass | outline (metnin arkasına kutu; solid için `boxColor` ver)
+- `stickers` (slayt başına dizi, isteğe bağlı): her öğe `{ type, text, sub, emoji, x, y, size, rot, bg, color }`
+  - `type`: rating (yıldızlar + `text`) | pill (`emoji` + `text` çip) | laurel (`sub` küçük üst etiket,
+    `text` iki satır ödül adı, `\n` ile) | note (bildirim kartı: `text` başlık, `sub` alt metin,
+    `time`) | icon (uygulama ikonu + ad) | text | arrow | ring
+  - `x`: -60..60 (0 = orta), `y`: 0..100 (yüzde, üstten), `size`: 2..5, `rot`: -20..20
+  - Koyu arka planda `bg` beyaz, açık arka planda `bg` koyu (#111214) seç.
 
 ---
 

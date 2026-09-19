@@ -258,3 +258,28 @@ main {
 .tpl-shots canvas { width: 33%; border-radius: 5px; display: block; }
 .tpl-name { font-weight: 600; font-size: 12.5px; }
 .tpl-cat { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+/* ---------- v2: uygulama profili, set görünümü, öğeler, hızlı kurulum ---------- */
+.app-select { max-width: 190px; font-size: 12px; }
+.menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+.set-wrap { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
+.set-wrap:has(canvas:not([hidden])) { display: flex; }
+#setPreview { max-width: 100%; max-height: 100%; border-radius: 6px; cursor: pointer; box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+.sticker-list { display: flex; flex-direction: column; gap: 5px; margin: 10px 0; }
+.sticker-list:empty { display: none; }
+.sticker-item {
+  display: flex; gap: 8px; align-items: baseline; text-align: left;
+  background: var(--bg3); border: 1px solid var(--line); color: var(--fg);
+  padding: 7px 10px; border-radius: 8px; cursor: pointer; font: inherit;
+}
+.sticker-item b { font-size: 12px; }
+.sticker-item span { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sticker-item.sel { border-color: var(--accent); background: #232842; }
+.panel-body .hint { margin: 0 0 10px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.modal-body input[type=text] { width: 100%; }
+.lbl .val { color: var(--fg); font-size: 11px; }
+@media (max-width: 900px) {
+  main { grid-template-columns: 120px 1fr 280px; }
+  .grid2 { grid-template-columns: 1fr; }
+}

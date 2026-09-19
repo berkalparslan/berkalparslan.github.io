@@ -73,6 +73,14 @@
       screenRadius: 0.06,
       bare: true,
     },
+    hidden: {
+      label: 'Cihaz yok (sadece metin)',
+      screenRatio: 2796 / 1290,
+      bezel: { t: 0, r: 0, b: 0, l: 0 },
+      bodyRadius: 0,
+      screenRadius: 0,
+      bare: true,
+    },
   };
 
   const COLORS = {
