@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Şablonlar — Store Mockup Studio</title>
+<meta name="description" content="App Store ve Google Play ekran görüntüsü şablonları: seç, ekran görüntülerini bırak, metinleri yaz, zip al.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Unbounded:wght@400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:wght@400;500;600;700;800;900&family=Fraunces:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Instrument+Serif&display=swap">
+<link rel="stylesheet" href="../css/style.css?v=1789919104">
+<link rel="stylesheet" href="gallery.css?v=1789919104">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>">
+</head>
+<body class="gallery-body">
+
+<header class="gtop">
+  <a class="brand" href="./">🖼️ <b>Store Mockup Studio</b> <span class="muted">/ <span data-i18n>şablonlar</span></span></a>
+  <div class="grow"></div>
+  <button id="btnLang" class="btn icon" title="Türkçe / English">TR</button>
+  <a class="btn" href="../" data-i18n>Editörü aç ↗</a>
+</header>
+
+<!-- ============ GALERİ ============ -->
+<section id="viewGallery">
+  <div class="hero">
+    <div class="hero-text">
+      <small data-i18n>Ekran görüntüsü şablonları</small>
+      <h1><span data-i18n>Store görselleri için</span> <em data-i18n>hazır şablonlar</em></h1>
+      <p data-i18n>Bir şablon seç, ekran görüntülerini bırak, başlıkları yaz, App Store / Google Play boyutunda zip al. 2026'da listeleri tutan uygulamaların kalıplarıyla kuruldu: kare başına tek fayda, tek vurgulu kelime, sosyal kanıt, tutarlı palet. Her şey tarayıcında kalır.</p>
+      <p class="hero-meta"><b id="tplCount">0</b> <span data-i18n>şablon</span> · 6 <span data-i18n>slayt</span> · iPhone 6.9" / 6.5" · Play 1080×1920 · <span data-i18n>tamamen ücretsiz</span></p>
+    </div>
+    <div class="hero-art"><canvas id="heroCanvas"></canvas></div>
+  </div>
+
+  <div class="catalog">
+    <aside class="filters">
+      <input type="search" id="q" data-i18n-ph placeholder="Ara: finans, koyu, serif…">
+      <h4 data-i18n>Kategori</h4>
+      <div id="catChips" class="chips"></div>
+      <h4 data-i18n>Tema</h4>
+      <div id="themeChips" class="chips"></div>
+      <h4 data-i18n>Cihaz</h4>
+      <div id="devChips" class="chips"></div>
+      <p class="hint" data-i18n>Cihaz çerçevesi ve çıktı boyutu şablondan bağımsız; seçtikten sonra değiştirilir.</p>
+    </aside>
+    <main id="cards" class="cards"></main>
+  </div>
+</section>
+
+<!-- ============ DİREKT MOD ============ -->
+<section id="viewDirect" hidden>
+  <div class="dtop">
+    <a href="#" id="backToGallery" class="btn" data-i18n>← Şablonlar</a>
+    <select id="dTemplate" class="d-tpl"></select>
+    <div class="grow"></div>
+    <label class="field inline"><span data-i18n>Çıktı</span>
+      <select id="dSize">
+        <option value="1290x2796">App Store 6.9" — 1290×2796</option>
+        <option value="1284x2778">App Store 6.7" — 1284×2778</option>
+        <option value="1242x2688">App Store 6.5" — 1242×2688</option>
+        <option value="1080x1920">Play Store — 1080×1920</option>
+        <option value="1440x2560">Play Store — 1440×2560</option>
+        <option value="2048x2732">iPad 12.9" — 2048×2732</option>
+      </select>
+    </label>
+    <button id="dOpenEditor" class="btn" data-i18n>Editörde ince ayar ↗</button>
+    <button id="dExport" class="btn primary" data-i18n>Tümünü indir (.zip)</button>
+  </div>
+
+  <div class="dsettings">
+    <label class="field"><span data-i18n>Uygulama adı</span><input type="text" id="dName" data-i18n-ph placeholder="Wallet Coach"></label>
+    <label class="field"><span data-i18n>Vurgu rengi</span><div class="colors"><input type="color" id="dAccent"></div></label>
+    <label class="field"><span data-i18n>Puan rozeti (1. slayt)</span><input type="text" id="dRating" data-i18n-ph placeholder="4.8 · 1.2K değerlendirme"></label>
+    <label class="field"><span data-i18n>Uygulama ikonu</span>
+      <div class="presets"><button class="btn tiny" id="dIconBtn" data-i18n>İkon yükle</button><label class="check"><input type="checkbox" id="dAddIcon" checked><span data-i18n>ikon + ad</span></label></div>
+    </label>
+    <label class="field"><span data-i18n>Örnek metin dili</span>
+      <select id="dLang"><option value="tr">Türkçe</option><option value="en">English</option></select>
+    </label>
+    <label class="field"><span data-i18n>Cihaz</span>
+      <select id="dFrame"></select>
+    </label>
+  </div>
+
+  <div id="dDrop" class="ddrop">
+    <b data-i18n>Ekran görüntülerini buraya bırak</b>
+    <span data-i18n>dosya adına göre sıralanır, slaytlara sırayla oturur · ya da bir .paket.json</span>
+    <button class="btn tiny" id="dPick" data-i18n>Dosya seç</button>
+  </div>
+
+  <div id="dSlides" class="dslides"></div>
+  <div class="dfoot">
+    <button class="btn tiny" id="dAddSlide" data-i18n>+ Slayt ekle</button>
+    <button class="btn tiny" id="dReset" data-i18n>Metinleri şablona döndür</button>
+    <span class="hint grow" data-i18n>Başlıkta [köşeli parantez] içindeki kelime vurgu rengiyle çizilir. Enter = yeni satır.</span>
+  </div>
+</section>
+
+<div id="toast" class="toast"></div>
+<input type="file" id="dFiles" accept="image/*,.json,application/json" multiple hidden>
+<input type="file" id="dIcon" accept="image/*" hidden>
+<input type="file" id="dOneFile" accept="image/*" hidden>
+
+<script src="../js/i18n.js?v=1789919104"></script>
+<script src="../js/zip.js?v=1789919104"></script>
+<script src="../js/frames.js?v=1789919104"></script>
+<script src="../js/model.js?v=1789919104"></script>
+<script src="../js/render.js?v=1789919104"></script>
+<script src="../js/store.js?v=1789919104"></script>
+<script src="../js/templates.js?v=1789919104"></script>
+<script src="gallery.js?v=1789919104"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+/* Şablon galerisi + direkt mod */
+body.gallery-body { overflow: auto; display: block; }
+.gtop {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 10px; padding: 10px 22px;
+  background: rgba(21,23,29,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+}
+.gtop .brand { color: var(--fg); text-decoration: none; font-size: 14px; }
+.gtop a.btn { text-decoration: none; }
+
+/* ---------- hero ---------- */
+.hero {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; align-items: center;
+  padding: 44px 40px 26px; max-width: 1240px; margin: 0 auto;
+}
+.hero small { color: var(--muted); letter-spacing: .8px; text-transform: uppercase; font-size: 11px; }
+.hero h1 { font-size: clamp(30px, 4.4vw, 54px); line-height: 1.02; letter-spacing: -1.5px; margin: 8px 0 14px; font-weight: 800; }
+.hero h1 em { font-style: normal; color: #b4a7ff; }
+.hero p { color: #c3c7d4; font-size: 15px; line-height: 1.55; max-width: 560px; }
+.hero-meta { color: var(--muted) !important; font-size: 12.5px !important; }
+.hero-meta b { color: var(--fg); }
+.hero-art canvas { width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; display: block; }
+
+/* ---------- katalog ---------- */
+.catalog { display: grid; grid-template-columns: 220px 1fr; gap: 22px; max-width: 1240px; margin: 0 auto; padding: 10px 40px 80px; }
+.filters { position: sticky; top: 66px; align-self: start; }
+.filters input[type=search] { width: 100%; margin-bottom: 14px; background: var(--bg3); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; font: inherit; outline: none; -webkit-appearance: none; }
+.filters input[type=search]:focus { border-color: var(--accent); }
+.filters h4 { margin: 14px 0 8px; color: var(--muted); font-size: 10.5px; letter-spacing: .8px; text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: var(--bg3); border: 1px solid var(--line); border-radius: 20px; padding: 5px 11px;
+  font-size: 12px; cursor: pointer; color: var(--muted); user-select: none;
+}
+.chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip .n { opacity: .6; margin-left: 4px; font-size: 10.5px; }
+.cards { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.card {
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 12px;
+  transition: border-color .15s;
+}
+.card:hover { border-color: #3b4152; }
+.card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.card-head h3 { margin: 0; font-size: 16px; }
+.card-head .cat { color: var(--muted); font-size: 12px; }
+.card-head .tags { display: flex; gap: 4px; }
+.card-head .tags span { font-size: 10.5px; color: var(--muted); background: var(--bg3); border-radius: 6px; padding: 2px 6px; }
+.strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x proximity; }
+.strip canvas { height: 300px; width: auto; border-radius: 8px; flex: 0 0 auto; background: #0a0b0e; scroll-snap-align: start; cursor: pointer; }
+.strip.pan canvas { border-radius: 0; }
+.strip.pan canvas:first-child { border-radius: 8px 0 0 8px; }
+.strip.pan canvas:last-child { border-radius: 0 8px 8px 0; }
+.strip.pan { gap: 2px; }
+.empty { color: var(--muted); padding: 40px; text-align: center; }
+
+/* ---------- direkt mod ---------- */
+#viewDirect { max-width: 1240px; margin: 0 auto; padding: 18px 40px 80px; }
+.dtop { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.dtop a.btn { text-decoration: none; }
+.d-tpl { max-width: 340px; }
+.dsettings {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;
+}
+.dsettings .field { display: flex; flex-direction: column; gap: 5px; }
+.dsettings .field > span { color: var(--muted); font-size: 11.5px; }
+.dsettings input[type=text], .dsettings select { width: 100%; }
+.dsettings .presets { grid-template-columns: auto 1fr; align-items: center; }
+.ddrop {
+  border: 2px dashed #39404f; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 14px;
+  display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; color: var(--muted); font-size: 12.5px;
+  transition: .15s;
+}
+.ddrop b { color: var(--fg); }
+.ddrop.on { border-color: var(--accent); background: rgba(99,102,241,.08); }
+.dslides { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.dslide { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.dslide canvas { width: 100%; border-radius: 8px; display: block; cursor: pointer; background: #0a0b0e; }
+.dslide .num { color: var(--muted); font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+.dslide .num button { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 12px; padding: 0 4px; }
+.dslide .num button:hover { color: var(--fg); }
+.dslide textarea { width: 100%; min-height: 44px; font-weight: 600; resize: vertical; }
+.dslide input[type=text] { width: 100%; font-size: 12px; }
+.dslide .shot-actions { display: flex; gap: 6px; }
+.dslide .shot-actions .btn { flex: 1; }
+.dfoot { display: flex; gap: 10px; align-items: center; margin-top: 14px; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 28px 18px 10px; }
+  .hero-art { display: none; }
+  .catalog { grid-template-columns: 1fr; padding: 10px 18px 60px; }
+  .filters { position: static; }
+  #viewDirect { padding: 14px 18px 60px; }
+  .strip canvas { height: 220px; }
+}

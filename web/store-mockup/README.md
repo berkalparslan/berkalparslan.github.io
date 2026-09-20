@@ -1,8 +1,11 @@
 # Store Mockup Studio — diğer oturumlar için akış
 
-Araç tarayıcıda çalışır: https://berkalparslan.github.io/web/store-mockup/
+Araç tarayıcıda çalışır. İki giriş:
+- **Galeri / direkt mod** — https://berkalparslan.github.io/ss (→ `/web/store-mockup/templates/`):
+  şablonu seç, ss'leri bırak, metinleri yaz, zip al. Paket (.json) buraya da bırakılabilir.
+- **Editör** — https://berkalparslan.github.io/web/store-mockup/ : ince ayar, öğeler, uygulama profilleri.
 (yerel: `/Users/aberk/dev/web-githubpages/berkalparslan.github.io/web/store-mockup/`).
-Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi araca sürükler, zip alır.
+Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi galeriye/araca sürükler, zip alır.
 
 ## Claude oturumunda yapılacaklar (uygulama projesinin içinde)
 
@@ -35,8 +38,8 @@ Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi arac
    `--rating` yalnız gerçek puan varsa (App Store Connect'ten); yoksa verme. `--no-icon` ile
    1. slayttaki ikon+ad kapanır.
 
-4. Kullanıcıya paketin yolunu ver: **araca sürükle-bırak** (ya da ⋯ → Proje yükle) → set kurulur,
-   uygulama profili olarak kaydolur → "Tümünü indir (.zip)". Düzeltmeler araçta elle.
+4. Kullanıcıya paketin yolunu ver: **/ss galerisine ya da editöre sürükle-bırak** → set kurulur
+   → "Tümünü indir (.zip)". Düzeltmeler araçta elle (galeriden "Editörde ince ayar").
 
 ## Şablon anahtarları
 
@@ -53,6 +56,21 @@ Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi arac
 | `lux` | premium: siyah + altın, Playfair serif |
 | `paper` | günlük/yazı: krem, Instrument Serif, fosforlu vurgu |
 | `lime` | gen-z/sosyal: limon sarısı, Unbounded, siyah çipler |
+| `kova` | mor düz zemin, çerçevesiz kart (eğitim/verimlilik) |
+| `nysa` | lacivert + mavi lekeler, çift laurel (hava/araç) |
+| `vela` | koyu lacivert, büyük harf, sarı vurgu, laurel (eğitim) |
+| `innerglow` | siyah, cihaz arkasında renkli ışıma (sağlık/spor) |
+| `photoedit` | çerçevesiz tam ekran, serif; fotoğrafın kendisi zemin (foto) |
+| `blast` | oyun: turuncu-pembe, tam ekran, alt kutu |
+| `bank` | siyah + limon, dönüşümlü eğik, laurel (fintech) |
+| `pastel` | pembe-nane-lavanta dönüşümlü, yuvarlak font (yaşam) |
+| `terminal` | geliştirici: koyu ızgara, yeşil |
+| `sky` | açık mavi, beyaz daireler (hava/seyahat) |
+| `travel` | turkuaz-turuncu, çapraz şerit, eğik |
+| `food` | krem, turuncu, emoji çipler |
+| `news` | beyaz, serif manşet, kırmızı alt çizgi |
+| `kids` | sarı, turuncu lekeler, kalın yuvarlak |
+| `split` | panorama, cihaz iki kareye yayılır (3 çift) |
 | `court` `lingo` `pluto` `astra` `mono` `editorial` `neon` `sunset` `duo` `grid` `ocean` `night` | v1 şablonları |
 
 ## Paket biçimi (elle üretmek istersen)

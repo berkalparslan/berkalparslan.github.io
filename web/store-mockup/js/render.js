@@ -149,6 +149,32 @@
           for (let x = 0; x <= W; x += 6) ctx.lineTo(x, y + Math.sin((x / u) * 14) * step * 0.5);
           ctx.stroke();
         }
+      } else if (bg.pattern === 'blobs') {
+        // yumuşak organik lekeler (appscreens "blob" havası) — köşelerde büyük, ortada yok
+        const seeds = [[0.05, 0.12, 0.34], [0.95, 0.28, 0.26], [0.1, 0.78, 0.3], [0.9, 0.9, 0.36], [0.55, 1.02, 0.22]];
+        const reps = Math.max(1, Math.round(W / u));
+        for (let k = 0; k < reps; k++) seeds.forEach(([px, py, r], i) => {
+          const cx = (k + px) * (W / reps), cy = H * py, rr = u * r;
+          ctx.beginPath();
+          for (let a = 0; a <= Math.PI * 2 + 0.01; a += Math.PI / 24) {
+            const wob = 1 + 0.12 * Math.sin(a * 3 + i) + 0.06 * Math.cos(a * 5 + k);
+            const x = cx + Math.cos(a) * rr * wob, y = cy + Math.sin(a) * rr * wob;
+            a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.closePath(); ctx.fill();
+        });
+      } else if (bg.pattern === 'circles') {
+        // büyük, kaymış iç içe daireler
+        ctx.lineWidth = Math.max(1, u * 0.012);
+        for (let r = u * 0.12; r < u * 0.9; r += u * 0.14) {
+          ctx.beginPath(); ctx.arc(W * 0.78, H * 0.28, r, 0, Math.PI * 2); ctx.stroke();
+        }
+      } else if (bg.pattern === 'stripe') {
+        // alt üçte birde kalın çapraz şerit
+        ctx.save();
+        ctx.translate(W / 2, H * 0.62); ctx.rotate(-0.28);
+        ctx.fillRect(-W * 1.2, -u * 0.09, W * 2.4, u * 0.18);
+        ctx.restore();
       } else if (bg.pattern === 'cross') {
         ctx.lineWidth = Math.max(1, u * 0.002);
         const s = step * 1.3, a = u * 0.008;
@@ -576,6 +602,17 @@
       ctx.translate(cx, top + bodyH / 2);
       ctx.rotate((d.rot * Math.PI) / 180);
       ctx.translate(-cx, -(top + bodyH / 2));
+    }
+    if (d.glow && d.glowStrength > 0 && d.frame !== 'hidden') {
+      // cihazın arkasında renkli ışıma
+      ctx.save();
+      ctx.shadowColor = d.glow;
+      ctx.shadowBlur = bodyW * 0.35 * (d.glowStrength / 50);
+      ctx.fillStyle = d.glow;
+      ctx.globalAlpha = Math.min(1, d.glowStrength / 60);
+      roundRect(ctx, cx - bodyW / 2 + bodyW * 0.04, top + bodyW * 0.04, bodyW * 0.92, bodyH - bodyW * 0.08, bodyW * 0.14);
+      ctx.fill();
+      ctx.restore();
     }
     drawDevice(ctx, {
       x: cx - bodyW / 2,

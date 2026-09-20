@@ -288,6 +288,14 @@
 
     'Paket kuruldu: {name}': 'Package set up: {name}',
 
+    'Işıma (glow)': 'Glow',
+    'Işıma rengi': 'Glow color',
+    'Lekeler (blob)': 'Blobs',
+    'Büyük daireler': 'Big circles',
+    'Çapraz şerit': 'Diagonal stripe',
+
+    '🗂 Galeri': '🗂 Gallery',
+
     /* mesajlar */
     '{n} görsel eklendi': '{n} screenshots added',
     'İndirildi': 'Downloaded',
@@ -339,6 +347,7 @@
   global.t = t;
   global.I18N = {
     get lang() { return lang; },
+    extend(dict) { Object.assign(EN, dict); },
     set(l) { lang = l === 'en' ? 'en' : 'tr'; applyStatic(); },
     applyStatic,
     detect: () => (navigator.language || 'tr').toLowerCase().startsWith('tr') ? 'tr' : 'en',

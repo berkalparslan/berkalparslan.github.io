@@ -10,6 +10,7 @@
   global.TEMPLATES = [
     {
       key: 'court',
+      tags: ['spor', 'koyu'],
       name: { tr: 'Kort', en: 'Court' },
       cat: { tr: 'Spor · skor · telefon + saat', en: 'Sport · score · phone + watch' },
       template: {
@@ -31,6 +32,7 @@
     },
     {
       key: 'lingo',
+      tags: ['egitim', 'renkli'],
       name: { tr: 'Lingo', en: 'Lingo' },
       cat: { tr: 'Eğitim · mor gradyan', en: 'Learning · violet gradient' },
       template: {
@@ -51,6 +53,7 @@
     },
     {
       key: 'pluto',
+      tags: ['finans', 'acik'],
       name: { tr: 'Pluto', en: 'Pluto' },
       cat: { tr: 'Finans · açık, temiz', en: 'Finance · light and clean' },
       template: {
@@ -71,6 +74,7 @@
     },
     {
       key: 'astra',
+      tags: ['sosyal', 'koyu'],
       name: { tr: 'Astra', en: 'Astra' },
       cat: { tr: 'Sosyal · koyu lacivert · çift telefon', en: 'Social · deep navy · two phones' },
       template: {
@@ -92,6 +96,7 @@
     },
     {
       key: 'mono',
+      tags: ['verimlilik', 'koyu'],
       name: { tr: 'Mono', en: 'Mono' },
       cat: { tr: 'Minimal · siyah beyaz · çerçevesiz', en: 'Minimal · black & white · frameless' },
       template: {
@@ -112,6 +117,7 @@
     },
     {
       key: 'editorial',
+      tags: ['gunluk', 'acik'],
       name: { tr: 'Editöryel', en: 'Editorial' },
       cat: { tr: 'Günlük · krem · serif', en: 'Journal · cream · serif' },
       template: {
@@ -132,6 +138,7 @@
     },
     {
       key: 'neon',
+      tags: ['muzik', 'koyu'],
       name: { tr: 'Neon', en: 'Neon' },
       cat: { tr: 'Müzik · koyu · halka desen', en: 'Music · dark · ring pattern' },
       template: {
@@ -152,6 +159,7 @@
     },
     {
       key: 'sunset',
+      tags: ['spor', 'renkli'],
       name: { tr: 'Gün batımı', en: 'Sunset' },
       cat: { tr: 'Fitness · turuncu · dönüşümlü eğim', en: 'Fitness · orange · alternating tilt' },
       template: {
@@ -172,6 +180,7 @@
     },
     {
       key: 'duo',
+      tags: ['foto', 'koyu'],
       name: { tr: 'İkili', en: 'Duo' },
       cat: { tr: 'Fotoğraf · iki telefon · buz mesh', en: 'Photo · two phones · ice mesh' },
       template: {
@@ -193,6 +202,7 @@
     },
     {
       key: 'grid',
+      tags: ['verimlilik', 'acik'],
       name: { tr: 'Izgara', en: 'Grid' },
       cat: { tr: 'Verimlilik · açık gri · ızgara desen', en: 'Productivity · light grey · grid' },
       template: {
@@ -213,6 +223,7 @@
     },
     {
       key: 'ocean',
+      tags: ['saglik', 'renkli'],
       name: { tr: 'Okyanus', en: 'Ocean' },
       cat: { tr: 'Sağlık · metin altta · geniş harf aralığı', en: 'Wellness · text below · wide tracking' },
       template: {
@@ -233,6 +244,7 @@
     },
     {
       key: 'night',
+      tags: ['saglik', 'koyu'],
       name: { tr: 'Gece', en: 'Night' },
       cat: { tr: 'Gece · derin siyah · sakin', en: 'Night · deep black · quiet' },
       template: {
@@ -255,6 +267,7 @@
     /* ---------- v2: 2026 top-chart kalıpları ---------- */
     {
       key: 'indie',
+      tags: ['saglik', 'verimlilik', 'acik'],
       name: { tr: 'Indie hit', en: 'Indie hit' },
       cat: { tr: 'Beyaz · dev başlık · vurgulu kelime · puan rozeti', en: 'White · huge headline · accent word · rating badge' },
       template: {
@@ -277,6 +290,7 @@
     },
     {
       key: 'ledger',
+      tags: ['finans', 'koyu'],
       name: { tr: 'Defter', en: 'Ledger' },
       cat: { tr: 'Fintech · tek koyu mor · özellik çipleri', en: 'Fintech · one deep violet · feature chips' },
       template: {
@@ -299,6 +313,7 @@
     },
     {
       key: 'owl',
+      tags: ['egitim', 'renkli'],
       name: { tr: 'Baykuş', en: 'Owl' },
       cat: { tr: 'Eğitim · canlı düz renkler · metin altta kutuda', en: 'Learning · vivid flat colors · text in a box below' },
       template: {
@@ -321,6 +336,7 @@
     },
     {
       key: 'calm',
+      tags: ['saglik', 'koyu'],
       name: { tr: 'Dingin', en: 'Serene' },
       cat: { tr: 'Sağlık · panoramik gradyan · laurel', en: 'Wellness · panoramic gradient · laurel' },
       template: {
@@ -344,6 +360,7 @@
     },
     {
       key: 'neutral',
+      tags: ['verimlilik', 'acik'],
       name: { tr: 'Nötr', en: 'Neutral' },
       cat: { tr: 'Verimlilik · kâğıt beyazı · sıkı tipografi', en: 'Productivity · paper white · tight type' },
       template: {
@@ -365,6 +382,7 @@
     },
     {
       key: 'track',
+      tags: ['spor', 'koyu'],
       name: { tr: 'Pist', en: 'Track' },
       cat: { tr: 'Spor · siyah + turuncu · dar büyük harf', en: 'Sport · black + orange · condensed caps' },
       template: {
@@ -387,6 +405,7 @@
     },
     {
       key: 'glass',
+      tags: ['saglik', 'verimlilik', 'renkli'],
       name: { tr: 'Cam', en: 'Glass' },
       cat: { tr: 'Mesh gradyan · cam kart · bildirim', en: 'Mesh gradient · glass card · notification' },
       template: {
@@ -410,6 +429,7 @@
     },
     {
       key: 'strip',
+      tags: ['foto', 'renkli'],
       name: { tr: 'Şerit', en: 'Strip' },
       cat: { tr: 'Panoramik · sıcak gradyan · dönüşümlü eğik cihaz', en: 'Panoramic · warm gradient · alternating tilt' },
       template: {
@@ -432,6 +452,7 @@
     },
     {
       key: 'lux',
+      tags: ['verimlilik', 'koyu'],
       name: { tr: 'Lüks', en: 'Luxe' },
       cat: { tr: 'Premium · siyah + altın · serif', en: 'Premium · black + gold · serif' },
       template: {
@@ -454,6 +475,7 @@
     },
     {
       key: 'paper',
+      tags: ['gunluk', 'acik'],
       name: { tr: 'Kâğıt', en: 'Paper' },
       cat: { tr: 'Krem · serif · fosforlu vurgu', en: 'Cream · serif · marker highlight' },
       template: {
@@ -475,6 +497,7 @@
     },
     {
       key: 'lime',
+      tags: ['sosyal', 'finans', 'renkli'],
       name: { tr: 'Limon', en: 'Lime' },
       cat: { tr: 'Gen-Z · limon sarısı · geniş harf · siyah çipler', en: 'Gen-Z · lime · wide type · black chips' },
       template: {
@@ -493,6 +516,348 @@
         S(['Öde, [kapat]', 'Uygulamadan çıkmadan gönder'], ['Pay, [close]', 'Send without leaving the app']),
         S(['Geçmiş [temiz]', 'Her harcama, her ödeme kayıtlı'], ['History, [clean]', 'Every expense, every payment, logged']),
         S(['Ücretsiz', 'Reklam yok, abonelik yok'], ['Free', 'No ads, no subscription']),
+      ],
+    },
+
+    /* ---------- v3: galeri seti ---------- */
+    {
+      key: 'kova',
+      tags: ['verimlilik', 'egitim', 'renkli'],
+      name: { tr: 'Kova', en: 'Kova' },
+      cat: { tr: 'Mor düz zemin · çerçevesiz kart · yumuşak', en: 'Flat violet · frameless card · soft' },
+      template: {
+        font: 'plus-jakarta', frame: 'none', deviceColor: 'black', layout: 'text-top',
+        background: { type: 'solid', c1: '#6c5ce7' },
+        titleSize: 6.4, subSize: 3.1, weight: 800, letterSpacing: -1.5,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 80, textY: 7,
+        accent: '#ffd166', hlStyle: 'color',
+        deviceSize: 80, deviceY: 29, deviceRot: 0, deviceShadow: 55, fit: 'top',
+      },
+      slides: [
+        S(['Dilini [dakikalar]\niçinde öğren', 'Günde beş dakika yeter'], ['Learn a language\nin [minutes]', 'Five minutes a day is enough']),
+        S(['Konuşarak ilerle', 'Telaffuzun anında puanlanır'], ['Speak to progress', 'Pronunciation scored instantly'], { deviceRot: -6, deviceSize: 84 }),
+        S(['Seriyi [koru]', 'Küçük hedefler, her gün'], ['[Keep] the streak', 'Small goals, every day'], { background: { type: 'solid', c1: '#5b4bd6' } }),
+        S(['Kelimeleri hatırla', 'Aralıklı tekrar, kendiliğinden'], ['Remember the words', 'Spaced repetition, automatic'], { deviceRot: 6, deviceSize: 84 }),
+        S(['[40] dil', 'İstediğin an geç'], ['[40] languages', 'Switch whenever you like'], { background: { type: 'solid', c1: '#5b4bd6' } }),
+        S(['Bugün başla', 'İlk ders ücretsiz'], ['Start today', 'The first lesson is free']),
+      ],
+    },
+    {
+      key: 'nysa',
+      tags: ['hava', 'arac', 'koyu'],
+      name: { tr: 'Nysa', en: 'Nysa' },
+      cat: { tr: 'Lacivert · mavi lekeler · çift laurel', en: 'Navy · blue blobs · twin laurels' },
+      template: {
+        font: 'inter', frame: 'iphone-pro', deviceColor: 'black', layout: 'text-top',
+        background: { type: 'solid', c1: '#0f1b3d', pattern: 'blobs', patternColor: '#2f6bff', patternOpacity: 55, noise: 4 },
+        titleSize: 6.6, subSize: 3.0, weight: 800, letterSpacing: -1, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 75, textY: 6,
+        accent: '#8ab4ff', hlStyle: 'color',
+        deviceSize: 64, deviceY: 36, deviceRot: 0, deviceShadow: 60, fit: 'top',
+      },
+      slides: [
+        S(['SANA GÖRE\nHAVA', 'Konumuna ve gününe göre tahmin'], ['WEATHER MADE\nFOR YOU', 'Forecast for your place and your day'],
+          { stickers: [
+            { type: 'laurel', text: { tr: '4.6\nPuan', en: '4.6\nRating' }, x: -19, y: 27, size: 2.6 },
+            { type: 'laurel', text: { tr: 'Editör\nSeçimi', en: 'Editors\nChoice' }, x: 19, y: 27, size: 2.6 },
+          ], deviceY: 40 }),
+        S(['GECE GÖĞÜNÜ\nKEŞFET', 'Altın saat, ay evresi, yıldızlar'], ['DISCOVER THE\nNIGHT SKY', 'Golden hour, moon and stars'], { layout: 'text-bottom', textY: 74, deviceY: 4 }),
+        S(['TEK BAKIŞTA\nCANLI HAVA', 'Şu an ne oluyor, gör'], ['LIVE WEATHER\nAT A GLANCE', 'See what is happening right now']),
+        S(['SAATLİK\nPLANLA', 'Yağmur ne zaman başlar, biter'], ['PLAN BY\nTHE HOUR', 'When the rain starts and stops'], { layout: 'text-bottom', textY: 74, deviceY: 4 }),
+        S(['UYARILAR\nÖNDEN GELİR', 'Fırtına, don, rüzgâr bildirimi'], ['ALERTS COME\nFIRST', 'Storm, frost and wind notifications'], { stickers: [{ type: 'note', text: { tr: 'Yağmur 15 dk sonra', en: 'Rain in 15 min' }, sub: { tr: 'Şemsiyeni al', en: 'Take the umbrella' }, time: { tr: 'şimdi', en: 'now' }, x: 0, y: 87, size: 2.5, w: 74, bg: '#ffffff', iconBg: '#2f6bff', emoji: '🌧' }] }),
+        S(['ÜCRETSİZ\nBAŞLA', 'Reklam yok, hesap yok'], ['START\nFOR FREE', 'No ads, no account']),
+      ],
+    },
+    {
+      key: 'vela',
+      tags: ['egitim', 'verimlilik', 'koyu'],
+      name: { tr: 'Vela', en: 'Vela' },
+      cat: { tr: 'Koyu lacivert · büyük harf · sarı vurgu · laurel', en: 'Deep navy · caps · yellow accent · laurel' },
+      template: {
+        font: 'sora', frame: 'iphone-pro', deviceColor: 'black', layout: 'bleed',
+        background: { type: 'radial', c1: '#1f2b6b', c2: '#0a1030', noise: 6, vignette: 20 },
+        titleSize: 6.6, subSize: 3.0, weight: 800, letterSpacing: -1, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 75, textY: 6,
+        accent: '#facc15', hlStyle: 'color',
+        deviceSize: 82, deviceY: 30, deviceRot: 0, deviceShadow: 60, fit: 'top',
+      },
+      slides: [
+        S(['DAHA [KESKİN]\nBİR ZİHİN', 'Günde 15 dakikalık özetler'], ['A [SHARPER]\nMIND', '15-minute summaries a day'],
+          { stickers: [{ type: 'laurel', text: { tr: '1M+ MUTLU\nKULLANICI', en: '1M+ HAPPY\nCUSTOMERS' }, x: 0, y: 90, size: 2.4 }] }),
+        S(['KARMAŞIK FİKİR\n[NET] ANLATIM', 'Şemalar ve görsellerle'], ['COMPLEX IDEAS\nMADE [CLEAR]', 'With diagrams and visuals'], { stickers: [{ type: 'pill', text: { tr: '2 DAKİKA', en: '2 MINUTES' }, x: 0, y: 91, size: 2.6, bg: '#facc15', color: '#0a1030' }] }),
+        S(['GEL, [BÜYÜDÜĞÜNÜ]\nİZLE', 'Seri ve ilerleme tek ekranda'], ['SHOW UP AND\nWATCH IT [COMPOUND]', 'Streak and progress on one screen']),
+        S(['İLK ÖZETİNİ\n[BUGÜN] OKU', 'Kütüphane seni bekliyor'], ['READ YOUR FIRST\nSUMMARY [TODAY]', 'The library is waiting']),
+        S(['DİNLE YA DA\n[OKU]', 'Yolda sesli, evde yazılı'], ['LISTEN OR\n[READ]', 'Audio on the go, text at home']),
+        S(['ÜCRETSİZ\nBAŞLA', '7 gün, kart yok'], ['START\n[FREE]', '7 days, no card']),
+      ],
+    },
+    {
+      key: 'innerglow',
+      tags: ['saglik', 'spor', 'koyu'],
+      name: { tr: 'İç ışık', en: 'Inner glow' },
+      cat: { tr: 'Siyah · cihaz arkasında renkli ışıma', en: 'Black · coloured glow behind the device' },
+      template: {
+        font: 'inter', frame: 'iphone-pro', deviceColor: 'black', layout: 'text-top',
+        background: { type: 'solid', c1: '#050505', noise: 6 },
+        titleSize: 6.6, subSize: 3.0, weight: 700, letterSpacing: -2.5, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 65, textY: 7,
+        accent: '#4ade80', hlStyle: 'color',
+        deviceSize: 70, deviceY: 26, deviceRot: 0, deviceShadow: 0, glow: '#ef4444', glowStrength: 60, fit: 'top',
+      },
+      slides: [
+        S(['Nabzını\n[takip et]', 'Gün boyu, otomatik'], ['Keep track\nof your [heart]', 'All day, automatically'], { glow: '#ef4444' }),
+        S(['Uykunu\n[oku]', 'Evreler ve kalite skoru'], ['Read your\n[sleep]', 'Stages and a quality score'], { glow: '#3b82f6' }),
+        S(['Adımlarını\n[say]', 'Hedef, seri, rozet'], ['Count your\n[steps]', 'Goal, streak, badges'], { glow: '#4ade80' }),
+        S(['Antrenmanı\n[kaydet]', 'Koşu, bisiklet, yüzme'], ['Log the\n[workout]', 'Run, ride, swim'], { glow: '#f59e0b' }),
+        S(['Haftanı\n[karşılaştır]', 'Geçen haftaya göre nerede olduğun'], ['[Compare]\nyour week', 'Where you stand vs last week'], { glow: '#a855f7' }),
+        S(['Saatinle\n[eşle]', 'Veri anında telefonda'], ['[Pair] with\nyour watch', 'Data lands on the phone instantly'], { glow: '#22d3ee', device2: { on: true, frame: 'watch', color: 'black', w: 24, x: 24, y: 50, rot: 8, front: true, fit: 'cover', shadow: 50 } }),
+      ],
+    },
+    {
+      key: 'photoedit',
+      tags: ['foto', 'koyu'],
+      name: { tr: 'Fotoğraf', en: 'Photo edit' },
+      cat: { tr: 'Çerçevesiz tam ekran · serif başlık · fotoğrafın kendisi zemin', en: 'Frameless full-bleed · serif headline · the photo is the background' },
+      template: {
+        font: 'playfair', frame: 'none', deviceColor: 'black', layout: 'full',
+        background: 'black',
+        titleSize: 6.8, subSize: 3.0, weight: 700, letterSpacing: 0, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 80, textY: 5, shadow: true,
+        accent: '#ffffff', hlStyle: 'underline',
+        deviceSize: 100, deviceY: 0, deviceRot: 0, deviceShadow: 0, fit: 'cover',
+      },
+      slides: [
+        S(['KAMERAN\n[SİNEMATİK]', 'Tek dokunuşta film tonu'], ['YOUR CAMERA\nBUT [CINEMATIC]', 'Film tone in one tap']),
+        S(['FİLM DOKUSU\nTEK DOKUNUŞTA', 'Gren, kontrast, renk'], ['FILM LOOK\nON ONE TAP', 'Grain, contrast, colour']),
+        S(['[PRO] GİBİ\nÇEK', 'Manuel pozlama ve odak'], ['CAPTURE\nLIKE A [PRO]', 'Manual exposure and focus']),
+        S(['RENKLERİ\n[YÖNET]', 'Eğriler, HSL, ayrık ton'], ['[GRADE]\nTHE COLOUR', 'Curves, HSL, split tone']),
+        S(['ÖN AYARINI\nSAKLA', 'Bütün seriye aynı ton'], ['SAVE YOUR\nPRESET', 'One look across the whole set']),
+        S(['KAYIPSIZ\nDIŞA AKTAR', 'RAW ve ProRes desteği'], ['EXPORT\nLOSSLESS', 'RAW and ProRes support']),
+      ],
+    },
+    {
+      key: 'blast',
+      tags: ['oyun', 'renkli'],
+      name: { tr: 'Patlat', en: 'Blast' },
+      cat: { tr: 'Oyun · turuncu-pembe · çerçevesiz tam · alt kutu', en: 'Game · orange-pink · frameless full · bottom box' },
+      template: {
+        font: 'nunito', frame: 'none', deviceColor: 'black', layout: 'full',
+        background: { type: 'linear', c1: '#ff7a18', c2: '#ff2d95', angle: 160 },
+        titleSize: 7.2, subSize: 3.1, weight: 900, letterSpacing: -1, lineHeight: 1.0,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 90, textY: 76,
+        box: 'solid', boxColor: '#1a0b2e', boxOpacity: 85, boxRadius: 5,
+        accent: '#ffe066', hlStyle: 'color',
+        deviceSize: 100, deviceY: 0, deviceRot: 0, deviceShadow: 0, fit: 'cover',
+      },
+      slides: [
+        S(['[PATLAT]\nVE GEÇ', 'Binlerce bölüm seni bekliyor'], ['[BLAST]\nTHROUGH', 'Thousands of levels are waiting'],
+          { stickers: [{ type: 'pill', emoji: '⭐', text: { tr: 'YENİ', en: 'NEW' }, x: 30, y: 6, size: 3.2, rot: 8, bg: '#ffe066', color: '#1a0b2e' }] }),
+        S(['GÜÇLERİ\n[BİRLEŞTİR]', 'Roket + bomba = tahta temiz'], ['[COMBINE]\nPOWER-UPS', 'Rocket + bomb = clean board']),
+        S(['HER GÜN\n[HEDİYE]', 'Giriş yap, ödülünü al'], ['A [GIFT]\nEVERY DAY', 'Log in, collect the reward']),
+        S(['ARKADAŞLARINLA\n[YARIŞ]', 'Haftalık lig tabloları'], ['[RACE]\nYOUR FRIENDS', 'Weekly leaderboards']),
+        S(['ÇEVRİMDIŞI\nOYNA', 'İnternet gerekmez'], ['PLAY\nOFFLINE', 'No internet needed']),
+        S(['ŞİMDİ\n[İNDİR]', 'Ücretsiz'], ['[DOWNLOAD]\nNOW', 'Free to play']),
+      ],
+    },
+    {
+      key: 'bank',
+      tags: ['finans', 'koyu'],
+      name: { tr: 'Banka', en: 'Bank' },
+      cat: { tr: 'Siyah · limon vurgu · dönüşümlü eğik · laurel', en: 'Black · lime accent · alternating tilt · laurel' },
+      template: {
+        font: 'manrope', frame: 'iphone-pro', deviceColor: 'graphite', layout: 'right',
+        background: { type: 'solid', c1: '#000000', noise: 5 },
+        titleSize: 6.4, subSize: 3.0, weight: 800, letterSpacing: -2, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 65, textY: 8,
+        accent: '#c8f542', hlStyle: 'color',
+        deviceSize: 64, deviceY: 32, deviceShadow: 60, fit: 'top',
+      },
+      slides: [
+        S(['Maaşın\n[2 gün] erken', 'Doğrudan yatırma ile'], ['Get paid\n[2 days] early', 'With direct deposit'],
+          { stickers: [{ type: 'laurel', text: { tr: '250K\nKullanıcı', en: '250K\nUsers' }, x: -28, y: 78, size: 2.4 }] }),
+        S(['Ücret [yok]', 'Aylık ücret yok, minimum yok'], ['[No] fees', 'No monthly fee, no minimum'], { layout: 'left' }),
+        S(['Harcadıkça\n[kazan]', 'Her alışverişte puan'], ['[Earn] as\nyou spend', 'Points on every purchase'], { stickers: [{ type: 'pill', emoji: '💸', text: { tr: '+₺35 iade', en: '+$3.50 back' }, x: -26, y: 44, size: 3, rot: -6, bg: '#c8f542', color: '#000000' }] }),
+        S(['Kartı [dondur]', 'Tek dokunuş, anında'], ['[Freeze] the card', 'One tap, instantly'], { layout: 'left' }),
+        S(['Birikim [hedefleri]', 'Kovalara böl, otomatik doldur'], ['Savings [pods]', 'Split into pods, fill automatically']),
+        S(['[3 dakikada] aç', 'Kimlik ve selfie yeter'], ['Open in [3 minutes]', 'ID and a selfie are enough'], { layout: 'bleed', deviceSize: 84 }),
+      ],
+    },
+    {
+      key: 'pastel',
+      tags: ['yasam', 'gunluk', 'acik', 'renkli'],
+      name: { tr: 'Pastel', en: 'Pastel' },
+      cat: { tr: 'Pembe-nane-lavanta dönüşümlü · yuvarlak font', en: 'Pink-mint-lavender alternating · rounded type' },
+      template: {
+        font: 'nunito', frame: 'iphone-pro', deviceColor: 'white', layout: 'text-top',
+        background: { type: 'solid', c1: '#ffd6e7' },
+        titleSize: 6.4, subSize: 3.1, weight: 900, letterSpacing: -1,
+        textColor: '#3b2a3a', subColor: '#3b2a3a', subOpacity: 65, textY: 7,
+        accent: '#ff5c8a', hlStyle: 'marker', hlTextColor: '#ffffff',
+        deviceSize: 66, deviceY: 29, deviceRot: 0, deviceShadow: 35, fit: 'top',
+      },
+      slides: [
+        S(['Kendine [iyi] bak', 'Küçük alışkanlıklar, yumuşak hatırlatmalar'], ['Be [kind] to yourself', 'Small habits, gentle reminders']),
+        S(['Suyunu [iç]', 'Bardak bardak takip'], ['[Drink] your water', 'Glass by glass'], { background: { type: 'solid', c1: '#d6f5ea' }, accent: '#1fb98a' }),
+        S(['Ruh hâlini [yaz]', 'Bir emoji yeter'], ['[Log] your mood', 'One emoji is enough'], { background: { type: 'solid', c1: '#e6ddff' }, accent: '#7c5cff' }),
+        S(['Adetini [takip et]', 'Tahmin ve bildirim'], ['[Track] your cycle', 'Prediction and reminders'], { background: { type: 'solid', c1: '#ffd6e7' } }),
+        S(['Uykunu [koru]', 'Yatma saati ritüeli'], ['[Protect] your sleep', 'A bedtime ritual'], { background: { type: 'solid', c1: '#d6f5ea' }, accent: '#1fb98a' }),
+        S(['Bugün [başla]', 'Ücretsiz, reklamsız'], ['[Start] today', 'Free, no ads'], { background: { type: 'solid', c1: '#e6ddff' }, accent: '#7c5cff' }),
+      ],
+    },
+    {
+      key: 'terminal',
+      tags: ['arac', 'verimlilik', 'koyu'],
+      name: { tr: 'Terminal', en: 'Terminal' },
+      cat: { tr: 'Geliştirici · koyu ızgara · mono · yeşil', en: 'Developer · dark grid · mono · green' },
+      template: {
+        font: 'space-grotesk', frame: 'iphone-pro', deviceColor: 'black', layout: 'text-top',
+        background: { type: 'solid', c1: '#0d1117', pattern: 'grid', patternColor: '#58a6ff', patternOpacity: 10 },
+        titleSize: 6.0, subSize: 3.0, weight: 700, letterSpacing: -1.5,
+        textColor: '#e6edf3', subColor: '#8b949e', subOpacity: 100, textY: 7,
+        accent: '#3fb950', hlStyle: 'color',
+        deviceSize: 68, deviceY: 28, deviceRot: 0, deviceShadow: 50, glare: false, fit: 'top',
+      },
+      slides: [
+        S(['Sunucunu\n[cepten] izle', 'CPU, bellek, uptime — canlı'], ['Watch your server\nfrom your [pocket]', 'CPU, memory, uptime, live'],
+          { stickers: [{ type: 'pill', text: { tr: '● çevrimiçi', en: '● online' }, x: 27, y: 42, size: 2.8, bg: '#0d1117', color: '#3fb950', outline: true }] }),
+        S(['Loglar [akarken]', 'Filtrele, ara, işaretle'], ['Logs as they [stream]', 'Filter, search, flag']),
+        S(['Uyarı [önce] gelsin', 'Eşik aşılınca bildirim'], ['Alerts [first]', 'Notified when a threshold is crossed'], { stickers: [{ type: 'note', text: { tr: 'CPU %92', en: 'CPU 92%' }, sub: { tr: 'api-01 · 2 dk', en: 'api-01 · 2 min' }, time: { tr: 'şimdi', en: 'now' }, x: 0, y: 87, size: 2.5, w: 74, bg: '#161b22', color: '#e6edf3', iconBg: '#f85149', emoji: '!' }] }),
+        S(['SSH [tek] dokunuş', 'Anahtarların cihazında kalır'], ['SSH in [one] tap', 'Keys stay on the device']),
+        S(['Ekibinle [paylaş]', 'Panolar ve erişim rolleri'], ['[Share] with the team', 'Dashboards and access roles']),
+        S(['Açık kaynak', 'Kod GitHub\'da'], ['Open source', 'The code is on GitHub']),
+      ],
+    },
+    {
+      key: 'sky',
+      tags: ['hava', 'seyahat', 'acik'],
+      name: { tr: 'Gök', en: 'Sky' },
+      cat: { tr: 'Açık mavi gradyan · beyaz daireler · hafif', en: 'Light blue gradient · white circles · airy' },
+      template: {
+        font: 'outfit', frame: 'iphone-pro', deviceColor: 'silver', layout: 'text-top',
+        background: { type: 'linear', c1: '#bfe3ff', c2: '#eaf6ff', angle: 180, pattern: 'circles', patternColor: '#ffffff', patternOpacity: 45 },
+        titleSize: 6.4, subSize: 3.0, weight: 700, letterSpacing: -1.5,
+        textColor: '#0b2a4a', subColor: '#0b2a4a', subOpacity: 60, textY: 7,
+        accent: '#0a84ff', hlStyle: 'color',
+        deviceSize: 66, deviceY: 29, deviceRot: 0, deviceShadow: 30, fit: 'top',
+      },
+      slides: [
+        S(['Bugün [ne] giysem?', 'Havaya göre kombin önerisi'], ['[What] to wear today?', 'Outfit suggestion from the forecast']),
+        S(['Saatlik [yağış]', 'Dakikası dakikasına'], ['[Rain] by the hour', 'Down to the minute']),
+        S(['10 günlük [plan]', 'Hafta sonunu önceden gör'], ['A 10-day [plan]', 'See the weekend in advance']),
+        S(['Widget\'ta [hep] açık', 'Kilit ekranında bile'], ['[Always] on the widget', 'Even on the lock screen']),
+        S(['Seyahatte [yanında]', 'Gideceğin şehri ekle'], ['[With] you on trips', 'Add the city you are going to']),
+        S(['Ücretsiz [başla]', 'Reklamsız ilk ay'], ['[Start] free', 'Ad-free first month']),
+      ],
+    },
+    {
+      key: 'travel',
+      tags: ['seyahat', 'yasam', 'renkli'],
+      name: { tr: 'Yolculuk', en: 'Journey' },
+      cat: { tr: 'Turkuaz-turuncu · çapraz şerit · eğik', en: 'Teal-orange · diagonal stripe · tilted' },
+      template: {
+        font: 'bricolage', frame: 'iphone-pro', deviceColor: 'white', layout: 'tilt',
+        background: { type: 'linear', c1: '#0f766e', c2: '#134e4a', angle: 160, pattern: 'stripe', patternColor: '#f97316', patternOpacity: 90 },
+        titleSize: 6.6, subSize: 3.0, weight: 800, letterSpacing: -1.5, lineHeight: 1.05,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 80, textY: 6,
+        accent: '#fdba74', hlStyle: 'color',
+        deviceSize: 64, deviceY: 30, deviceRot: -7, deviceShadow: 60, fit: 'top',
+      },
+      slides: [
+        S(['Rotanı [çiz]', 'Şehirler, günler, duraklar'], ['[Draw] your route', 'Cities, days, stops'], { stickers: [{ type: 'pill', emoji: '✈️', text: { tr: '12 gün · 4 şehir', en: '12 days · 4 cities' }, x: 26, y: 44, size: 3, rot: 6, bg: '#ffffff', color: '#134e4a' }] }),
+        S(['Uçuşu [takip et]', 'Kapı, gecikme, bagaj bandı'], ['[Track] the flight', 'Gate, delay, carousel'], { deviceRot: 7 }),
+        S(['Çevrimdışı [harita]', 'İnternet olmadan yön bul'], ['Offline [maps]', 'Find your way without signal'], { deviceRot: -7 }),
+        S(['Bütçeyi [tut]', 'Döviz otomatik çevrilir'], ['[Keep] the budget', 'Currency converts itself'], { deviceRot: 7 }),
+        S(['Anıları [sakla]', 'Fotoğraf ve notlar güne bağlı'], ['[Keep] the memories', 'Photos and notes pinned to the day'], { deviceRot: -7 }),
+        S(['Yola [çık]', 'Ücretsiz plan'], ['[Go]', 'Free plan'], { deviceRot: 0, layout: 'bleed', deviceSize: 84 }),
+      ],
+    },
+    {
+      key: 'food',
+      tags: ['yemek', 'yasam', 'acik'],
+      name: { tr: 'Mutfak', en: 'Kitchen' },
+      cat: { tr: 'Krem · turuncu · yuvarlak · emoji çipler', en: 'Cream · orange · rounded · emoji chips' },
+      template: {
+        font: 'nunito', frame: 'iphone-pro', deviceColor: 'white', layout: 'text-top',
+        background: { type: 'solid', c1: '#fff4e6', pattern: 'dots', patternColor: '#f97316', patternOpacity: 12 },
+        titleSize: 6.6, subSize: 3.1, weight: 900, letterSpacing: -1,
+        textColor: '#2a1a0a', subColor: '#2a1a0a', subOpacity: 60, textY: 7,
+        accent: '#f97316', hlStyle: 'color',
+        deviceSize: 66, deviceY: 29, deviceRot: 0, deviceShadow: 35, fit: 'top',
+      },
+      slides: [
+        S(['Bu akşam [ne] var?', 'Dolabındakilerden tarif'], ['[What]\'s for dinner?', 'Recipes from what is in the fridge'], { stickers: [{ type: 'pill', emoji: '🍝', text: { tr: '20 dk', en: '20 min' }, x: 28, y: 44, size: 3.2, rot: -6, bg: '#ffffff', color: '#2a1a0a' }] }),
+        S(['Listeyi [kendisi] yazar', 'Tarifi seç, market listesi hazır'], ['The list [writes] itself', 'Pick the recipe, the shopping list is ready']),
+        S(['Adım [adım]', 'Ellerin hamurdayken sesle ilerle'], ['Step by [step]', 'Go by voice while your hands are busy']),
+        S(['Haftayı [planla]', 'Yedi gün, tek tabla'], ['[Plan] the week', 'Seven days, one board'], { stickers: [{ type: 'pill', emoji: '🥗', text: { tr: 'Salı · hafif', en: 'Tue · light' }, x: -26, y: 42, size: 3, rot: 6, bg: '#ffffff', color: '#2a1a0a' }] }),
+        S(['Kalori [görünür]', 'Porsiyon başına döküm'], ['Calories [visible]', 'Per-portion breakdown']),
+        S(['Bugün [pişir]', 'İlk 100 tarif ücretsiz'], ['[Cook] today', 'First 100 recipes free']),
+      ],
+    },
+    {
+      key: 'news',
+      tags: ['haber', 'gunluk', 'acik'],
+      name: { tr: 'Gazete', en: 'Gazette' },
+      cat: { tr: 'Beyaz · serif manşet · kırmızı alt çizgi', en: 'White · serif headline · red underline' },
+      template: {
+        font: 'dm-serif', frame: 'iphone-pro', deviceColor: 'black', layout: 'small',
+        background: { type: 'solid', c1: '#ffffff' },
+        titleSize: 7.6, subSize: 3.0, weight: 400, letterSpacing: -1.5, lineHeight: 1.0,
+        textColor: '#111111', subColor: '#111111', subOpacity: 55, textY: 7,
+        accent: '#d90429', hlStyle: 'underline',
+        deviceSize: 58, deviceY: 34, deviceRot: 0, deviceShadow: 40, fit: 'top',
+      },
+      slides: [
+        S(['Sabah [5] dakika', 'Günün özeti, reklamsız'], ['[5] minutes\nevery morning', 'The day in brief, no ads']),
+        S(['Kaynağı [gör]', 'Her haberde orijinal link'], ['[See] the source', 'The original link on every story']),
+        S(['Konuları [seç]', 'Sadece ilgilendiğin'], ['[Pick] your topics', 'Only what you care about']),
+        S(['Sesli [dinle]', 'Yolda, kulaklıkla'], ['[Listen] aloud', 'On the road, with headphones']),
+        S(['Sonra [oku]', 'Çevrimdışı kaydet'], ['Read [later]', 'Save offline']),
+        S(['Abone [ol]', 'İlk ay ücretsiz'], ['[Subscribe]', 'First month free']),
+      ],
+    },
+    {
+      key: 'kids',
+      tags: ['egitim', 'cocuk', 'oyun', 'renkli'],
+      name: { tr: 'Çocuk', en: 'Kids' },
+      cat: { tr: 'Sarı · turuncu lekeler · kalın yuvarlak', en: 'Yellow · orange blobs · chunky rounded' },
+      template: {
+        font: 'nunito', frame: 'iphone-pro', deviceColor: 'white', layout: 'text-top',
+        background: { type: 'solid', c1: '#ffd60a', pattern: 'blobs', patternColor: '#ff9500', patternOpacity: 70 },
+        titleSize: 7.0, subSize: 3.2, weight: 900, letterSpacing: -1.5, lineHeight: 1.0,
+        textColor: '#1d1d1f', subColor: '#1d1d1f', subOpacity: 70, textY: 7,
+        accent: '#ffffff', hlStyle: 'marker', hlTextColor: '#1d1d1f',
+        deviceSize: 66, deviceY: 30, deviceRot: -4, deviceShadow: 40, fit: 'top',
+      },
+      slides: [
+        S(['Oyunla [öğren]', 'Harfler, sayılar, renkler'], ['[Learn] by playing', 'Letters, numbers, colours'], { stickers: [{ type: 'pill', emoji: '🎈', text: { tr: '3-6 yaş', en: 'Ages 3-6' }, x: 27, y: 44, size: 3.2, rot: 8, bg: '#ffffff', color: '#1d1d1f' }] }),
+        S(['Reklam [yok]', 'Satın alma yok, güvenli'], ['[No] ads', 'No purchases, safe'], { deviceRot: 4 }),
+        S(['Kendi [hızında]', 'Zorluk kendini ayarlar'], ['At their own [pace]', 'Difficulty adjusts itself'], { deviceRot: -4 }),
+        S(['Ebeveyn [paneli]', 'Ne öğrendi, gör'], ['Parent [panel]', 'See what they learned'], { deviceRot: 4 }),
+        S(['Çevrimdışı [oyna]', 'Arabada, uçakta'], ['Play [offline]', 'In the car, on the plane'], { deviceRot: -4 }),
+        S(['Bugün [başla]', 'İlk 10 oyun ücretsiz'], ['[Start] today', 'First 10 games free'], { deviceRot: 0 }),
+      ],
+    },
+    {
+      key: 'split',
+      tags: ['verimlilik', 'sosyal', 'renkli'],
+      name: { tr: 'Çift kare', en: 'Split frames' },
+      cat: { tr: 'Panorama · cihaz iki kareye yayılır · 3 çift', en: 'Panorama · device spans two frames · 3 pairs' },
+      template: {
+        font: 'outfit', frame: 'iphone-pro', deviceColor: 'black', layout: 'span-left',
+        background: { type: 'linear', c1: '#4f46e5', c2: '#06b6d4', angle: 90, noise: 5 },
+        panorama: true,
+        titleSize: 6.4, subSize: 3.0, weight: 800, letterSpacing: -2,
+        textColor: '#ffffff', subColor: '#ffffff', subOpacity: 82, textY: 7,
+        accent: '#fde68a', hlStyle: 'color',
+        deviceSize: 96, deviceY: 26, deviceShadow: 60, fit: 'top',
+      },
+      slides: [
+        S(['Her şey\n[tek] yerde', 'Görevler, notlar, takvim'], ['Everything in\n[one] place', 'Tasks, notes, calendar'], { layout: 'span-left' }),
+        S(['Ekibinle\n[aynı] sayfada', 'Canlı düzenleme'], ['[Same] page\nas your team', 'Live editing'], { layout: 'span-right' }),
+        S(['Bugünü\n[planla]', 'Öncelik otomatik'], ['[Plan]\ntoday', 'Priority sorts itself'], { layout: 'span-left' }),
+        S(['Yarını\n[gör]', 'Takvim ve görev iç içe'], ['[See]\ntomorrow', 'Calendar and tasks together'], { layout: 'span-right' }),
+        S(['Cebinden\n[bitir]', 'Widget ve kısayollar'], ['[Finish] from\nyour pocket', 'Widgets and shortcuts'], { layout: 'span-left' }),
+        S(['Bugün\n[başla]', 'Ücretsiz plan'], ['[Start]\ntoday', 'Free plan'], { layout: 'span-right' }),
       ],
     },
   ];

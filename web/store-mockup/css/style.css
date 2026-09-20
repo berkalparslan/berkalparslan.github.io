@@ -283,3 +283,5 @@ main {
   main { grid-template-columns: 120px 1fr 280px; }
   .grid2 { grid-template-columns: 1fr; }
 }
+
+a.btn { text-decoration: none; display: inline-flex; align-items: center; }
