@@ -5,7 +5,7 @@
               subFont, subWeight, subSize, subColor, subOpacity, titleH, subGap },
      bg: {...ekran arka planı varsayılanı}, pbg: {...proje panoramik arka planı}, panorama: bool,
      device: { frame, color, shadow, glare, fit, glow, glowStrength, homeIndicator },
-     screens: [ { layout, title, sub, bg, dev, titleStyle, subStyle, els:[ {kind, x, y, size, text, ...} ], extra:[ham katmanlar] } ]
+     screens: [ { layout, title, sub, bg, dev, titleStyle, subStyle, under:[metnin altına çizilen öğeler], els:[ {kind, x, y, size, text, ...} ], extra:[ham katmanlar] } ]
    } */
 (function (global) {
   const { newLayer } = global.Model;
@@ -43,6 +43,7 @@
       const layers = [];
       const titleBox = Object.assign({}, lay.title, st.titleBox || {}, sc.titleBox || {});
       const subBox = Object.assign({}, lay.sub, st.subBox || {}, sc.subBox || {});
+      (sc.under || []).forEach((e) => layers.push(newLayer('element', Object.assign({}, e, { text: e.text == null ? undefined : (typeof e.text === 'string' ? { en: e.text } : e.text) }))));
       if (sc.title != null) layers.push(newLayer('text', Object.assign({ role: 'title', name: 'Title', text: typeof sc.title === 'string' ? { en: sc.title } : sc.title },
         { font: st.font, weight: st.weight, size: st.size, color: st.color, accent: st.accent, hlStyle: st.hlStyle, letterSpacing: st.letterSpacing, lineHeight: st.lineHeight, uppercase: !!st.uppercase, decoration: st.decoration || 'none', box: st.box || 'none', boxColor: st.boxColor || '#ffffff', boxOpacity: st.boxOpacity ?? 100, boxRadius: st.boxRadius ?? 3, shadow: !!st.shadow, hlTextColor: st.hlTextColor, gradient: st.gradient },
         titleBox, sc.titleStyle || {})));

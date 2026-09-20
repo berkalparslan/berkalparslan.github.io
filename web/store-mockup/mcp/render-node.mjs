@@ -14,6 +14,7 @@ let ctx = null;
 function engine() {
   if (ctx) return ctx;
   if (fs.existsSync(FONTS_DIR)) for (const f of fs.readdirSync(FONTS_DIR)) if (/\.(ttf|otf)$/i.test(f)) { try { GlobalFonts.registerFromPath(path.join(FONTS_DIR, f)); } catch (e) { /* atla */ } }
+  for (const ef of ['/System/Library/Fonts/Apple Color Emoji.ttc', '/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf']) if (fs.existsSync(ef)) { try { GlobalFonts.registerFromPath(ef); } catch (e) { /* atla */ } }
   const win = {};
   win.window = win; win.console = console; win.Image = Image;
   win.document = { createElement: (tag) => { if (tag !== 'canvas') throw new Error('shim: ' + tag); return createCanvas(1, 1); }, fonts: null, currentScript: null, write: () => {} };

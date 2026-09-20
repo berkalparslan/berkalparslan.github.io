@@ -295,7 +295,7 @@
   }
   /** Öğe: merkez (x,y %) + size (%W). L.kind: pill | rating | stars | laurel | note | icon | text | arrow | ring | sparkle | shape | emoji | quote */
   function drawElement(ctx, W, H, L, text, imgs) {
-    const cx = (W * L.x) / 100 + (L.w ? (W * L.w) / 200 : 0), cy = (H * L.y) / 100 + (L.h ? (H * L.h) / 200 : 0);
+    const cx = (W * L.x) / 100, cy = (H * L.y) / 100; // x,y = merkez (layerBox ile aynı)
     const sz = (W * (L.size ?? 4)) / 100;
     const family = FONTS[L.font] || FONTS.system;
     ctx.save(); ctx.translate(cx, cy); if (L.rot) ctx.rotate((L.rot * Math.PI) / 180);
@@ -344,7 +344,7 @@
       ctx.beginPath(); ctx.moveTo(Ln / 2 - sz * 0.9, -Ln * 0.55); ctx.lineTo(Ln / 2, -Ln * 0.1); ctx.lineTo(Ln / 2 - sz * 1.1, sz * 0.25); ctx.stroke();
     } else if (k === 'ring') { ctx.strokeStyle = L.color || '#ffffff'; ctx.lineWidth = sz * 0.2; ctx.beginPath(); ctx.arc(0, 0, sz * 2, 0, Math.PI * 2); ctx.stroke(); }
     else if (k === 'sparkle') { ctx.fillStyle = L.color || '#ffffff'; sparkle(ctx, 0, 0, sz); sparkle(ctx, sz * 1.1, -sz * 0.9, sz * 0.5); sparkle(ctx, -sz * 0.9, sz * 0.9, sz * 0.35); }
-    else if (k === 'emoji') { ctx.textAlign = 'center'; ctx.font = `${sz * 2}px ${family}`; ctx.fillText(text || '✨', 0, sz * 0.1); }
+    else if (k === 'emoji') { ctx.textAlign = 'center'; ctx.font = `${sz * 2}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", ${family}`; ctx.fillText(text || '✨', 0, sz * 0.1); }
     else if (k === 'text') { ctx.textAlign = 'center'; ctx.fillStyle = L.color || '#ffffff'; ctx.font = `${L.weight || 700} ${sz}px ${family}`; String(text || '').split('\n').forEach((ln, i) => ctx.fillText(ln, 0, i * sz * 1.15)); }
     else if (k === 'quote') {
       ctx.textAlign = 'center'; ctx.fillStyle = L.color || '#ffffff'; ctx.font = `italic 500 ${sz}px ${family}`;
