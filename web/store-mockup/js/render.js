@@ -414,28 +414,32 @@
     ctx.fill();
   }
 
-  function leafBranch(ctx, cx, cy, R, dir, color, lw) {
-    // dir = -1 sol, +1 sağ; alttan başlayıp yukarı doğru yaprak dizisi
+  /** Çelenk dalı: (0,0) merkezli R yarıçaplı çember üstünde, alttan başlayıp dir yönünde yukarı tırmanan
+      sap + sapın iki yanında dönüşümlü, büyüme yönüne bakan yaprak çiftleri. dir = -1 sol, +1 sağ. */
+  function leafBranch(ctx, R, dir, color, lw) {
     ctx.save();
     ctx.fillStyle = color;
     ctx.strokeStyle = color;
     ctx.lineWidth = lw;
+    ctx.lineCap = 'round';
+    const sweep = 1.95; // radyan: alttan yukarı ne kadar sarsın
+    const pt = (t) => { const a = Math.PI / 2 + dir * t * sweep; return [Math.cos(a) * R, Math.sin(a) * R, a]; };
     ctx.beginPath();
-    ctx.arc(cx, cy, R, dir < 0 ? Math.PI * 0.55 : Math.PI * 0.45, dir < 0 ? Math.PI * 1.25 : -Math.PI * 0.25, dir < 0);
+    for (let t = 0.02; t <= 1; t += 0.05) { const [x, y] = pt(t); t < 0.03 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
     ctx.stroke();
-    const n = 7;
+    const n = 9;
     for (let i = 0; i < n; i++) {
-      const a = dir < 0
-        ? Math.PI * 0.55 + (i / (n - 1)) * Math.PI * 0.7
-        : Math.PI * 0.45 - (i / (n - 1)) * Math.PI * 0.7;
-      const x = cx + Math.cos(a) * R, y = cy + Math.sin(a) * R;
-      const len = R * 0.28, wid = R * 0.11;
+      const t = 0.1 + (i / (n - 1)) * 0.86;
+      const [x, y, a] = pt(t);
+      const grow = Math.atan2(dir * Math.cos(a), -dir * Math.sin(a)); // teğet, büyüme yönü
+      const len = R * (0.30 - i * 0.012), wid = R * 0.085;
       for (const side of [-1, 1]) {
+        const ang = grow + side * 0.62;
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(a + side * 0.9 + (dir < 0 ? Math.PI : 0));
+        ctx.rotate(ang);
         ctx.beginPath();
-        ctx.ellipse(len / 2, 0, len / 2, wid, 0, 0, Math.PI * 2);
+        ctx.ellipse(len * 0.5, 0, len * 0.5, wid, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
@@ -488,20 +492,24 @@
       ctx.fillText(label, x - starR + sz * 0.5, sz * 0.05);
     } else if (s.type === 'laurel') {
       const col = s.color || '#ffffff';
-      const R = sz * 2.6;
-      leafBranch(ctx, -R * 0.55, R * 0.15, R, -1, col, sz * 0.08);
-      leafBranch(ctx, R * 0.55, R * 0.15, R, 1, col, sz * 0.08);
+      const R = sz * 3.1;
+      leafBranch(ctx, R, -1, col, sz * 0.1);
+      leafBranch(ctx, R, 1, col, sz * 0.1);
       ctx.textAlign = 'center';
       ctx.fillStyle = col;
-      if (s.sub) {
-        ctx.font = `600 ${sz * 0.62}px ${family}`;
-        ctx.letterSpacing = `${sz * 0.08}px`;
-        ctx.fillText(String(s.sub).toUpperCase(), 0, -sz * 0.55);
-        ctx.letterSpacing = '0px';
-      }
-      ctx.font = `800 ${sz * 1.05}px ${family}`;
       const lines = String(s.text || '').split('\n');
-      lines.forEach((ln, i) => ctx.fillText(ln, 0, sz * 0.45 + i * sz * 1.1));
+      const lh = sz * 1.0;
+      const blockH = (s.sub ? sz * 0.75 : 0) + lines.length * lh;
+      let ty = -blockH / 2 + sz * 0.1;
+      if (s.sub) {
+        ctx.font = `600 ${sz * 0.55}px ${family}`;
+        ctx.letterSpacing = `${sz * 0.08}px`;
+        ctx.fillText(String(s.sub).toUpperCase(), 0, ty + sz * 0.3);
+        ctx.letterSpacing = '0px';
+        ty += sz * 0.75;
+      }
+      ctx.font = `800 ${sz * 0.92}px ${family}`;
+      lines.forEach((ln, i) => ctx.fillText(ln, 0, ty + lh * 0.5 + i * lh));
     } else if (s.type === 'note') {
       // bildirim kartı: ikon + başlık + alt metin
       const w = (W * (s.w ?? 70)) / 100, h = sz * 3.6, r = sz * 0.9;

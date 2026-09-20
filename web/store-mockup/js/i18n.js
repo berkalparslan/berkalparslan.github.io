@@ -296,6 +296,8 @@
 
     '🗂 Galeri': '🗂 Gallery',
 
+    '← Proje': '← Project', '— proje seç —': '— pick a project —', '＋ Yeni proje…': '＋ New project…',
+
     /* mesajlar */
     '{n} görsel eklendi': '{n} screenshots added',
     'İndirildi': 'Downloaded',

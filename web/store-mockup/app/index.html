@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Store Mockup Studio</title>
+<meta name="description" content="App Store ve Google Play ekran görüntüleri: şablon seç ya da sıfırdan başla, metinleri AI ile doldur, ekran görüntülerini bırak, zip al. Tarayıcıda çalışır.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Unbounded:wght@400;500;600;700;800;900&family=Bebas+Neue&family=Playfair+Display:wght@400;500;600;700;800;900&family=Fraunces:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Instrument+Serif&display=swap">
+<link rel="stylesheet" href="../css/style.css?v=1789920832">
+<link rel="stylesheet" href="app.css?v=1789920832">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>">
+</head>
+<body class="app-body">
+
+<header class="gtop">
+  <a class="brand" href="#/">🖼️ <b>Store Mockup Studio</b></a>
+  <nav class="gnav">
+    <a href="#/" data-route="/" data-i18n>Projeler</a>
+    <a href="#/templates" data-route="/templates" data-i18n>Şablonlar</a>
+  </nav>
+  <div class="grow"></div>
+  <button id="btnSettings" class="btn icon" title="Ayarlar">⚙</button>
+  <button id="btnLang" class="btn icon" title="Türkçe / English">TR</button>
+  <a class="btn" href="../" data-i18n title="Gelişmiş editör">Editör ↗</a>
+</header>
+
+<main id="view"></main>
+
+<!-- ayarlar -->
+<div id="settingsModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-head"><b data-i18n>⚙ Ayarlar</b><button class="btn tiny" data-close>✕</button></div>
+    <div class="modal-body">
+      <div class="row">
+        <label class="lbl"><span data-i18n>Anthropic API anahtarı (AI ile doldurma için)</span></label>
+        <input type="password" id="sKey" placeholder="sk-ant-…" autocomplete="off">
+        <p class="hint" data-i18n>Sadece bu tarayıcıda saklanır, hiçbir sunucuya gitmez; çağrılar doğrudan Anthropic'e gider. Anahtar yoksa "Prompt'u kopyala" yolu her zaman çalışır.</p>
+      </div>
+      <div class="row">
+        <label class="lbl"><span data-i18n>Model</span></label>
+        <select id="sModel">
+          <option value="claude-opus-5">Claude Opus 5</option>
+          <option value="claude-sonnet-5">Claude Sonnet 5</option>
+        </select>
+      </div>
+      <div class="row">
+        <label class="lbl"><span data-i18n>Veri</span></label>
+        <div class="presets">
+          <button class="btn tiny" id="sExport" data-i18n>Tüm projeleri dışa aktar (.json)</button>
+          <button class="btn tiny" id="sImport" data-i18n>İçe aktar</button>
+        </div>
+        <p class="hint" data-i18n>Projeler tarayıcının IndexedDB'sinde. Hesapla senkron ileride; şimdilik yedeği buradan al.</p>
+      </div>
+    </div>
+    <div class="modal-foot"><span class="hint grow"></span><button class="btn primary" id="sSave" data-i18n>Kaydet</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<input type="file" id="fFiles" accept="image/*,.json,application/json" multiple hidden>
+<input type="file" id="fIcon" accept="image/*" hidden>
+<input type="file" id="fOne" accept="image/*" hidden>
+<input type="file" id="fImport" accept=".json,application/json" hidden>
+
+<script src="../js/i18n.js?v=1789920832"></script>
+<script src="../js/zip.js?v=1789920832"></script>
+<script src="../js/frames.js?v=1789920832"></script>
+<script src="../js/model.js?v=1789920832"></script>
+<script src="../js/render.js?v=1789920832"></script>
+<script src="../js/store.js?v=1789920832"></script>
+<script src="../js/templates.js?v=1789920832"></script>
+<script src="../js/prompt.js?v=1789920832"></script>
+<script src="app.js?v=1789920832"></script>
+</body>
+</html>

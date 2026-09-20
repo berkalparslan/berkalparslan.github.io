@@ -1,11 +1,13 @@
 # Store Mockup Studio — diğer oturumlar için akış
 
-Araç tarayıcıda çalışır. İki giriş:
-- **Galeri / direkt mod** — https://berkalparslan.github.io/ss (→ `/web/store-mockup/templates/`):
-  şablonu seç, ss'leri bırak, metinleri yaz, zip al. Paket (.json) buraya da bırakılabilir.
-- **Editör** — https://berkalparslan.github.io/web/store-mockup/ : ince ayar, öğeler, uygulama profilleri.
+Üç giriş:
+- **Uygulama** — https://berkalparslan.github.io/ss (→ `/web/store-mockup/app/`): projeler → şablon ya da boş →
+  kurulum → metinler (AI ile doldur / prompt) → görseller → indir. Paket (.json) buraya bırakılabilir.
+- **Editör** — https://berkalparslan.github.io/web/store-mockup/?p=<proje> : ince ayar, öğeler; aynı kayıt.
+- **MCP / CLI** — `web/store-mockup/mcp/` (bkz. `mcp/README.md`): bir Claude oturumu PNG'leri **doğrudan üretebilir**:
+  `node mcp/cli.mjs render --template indie --name … --lines lines.txt --shots ./ss --sizes 1290x2796,1080x1920 --out ./out`
+  (ya da MCP aracı `render_screenshots`). Paket yolu hâlâ geçerli: `make-package.mjs` / `cli.mjs package`.
 (yerel: `/Users/aberk/dev/web-githubpages/berkalparslan.github.io/web/store-mockup/`).
-Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi galeriye/araca sürükler, zip alır.
 
 ## Claude oturumunda yapılacaklar (uygulama projesinin içinde)
 
@@ -38,8 +40,8 @@ Bir Claude oturumu görsel üretemez; **paket** üretir, kullanıcı paketi gale
    `--rating` yalnız gerçek puan varsa (App Store Connect'ten); yoksa verme. `--no-icon` ile
    1. slayttaki ikon+ad kapanır.
 
-4. Kullanıcıya paketin yolunu ver: **/ss galerisine ya da editöre sürükle-bırak** → set kurulur
-   → "Tümünü indir (.zip)". Düzeltmeler araçta elle (galeriden "Editörde ince ayar").
+4. **Doğrudan PNG istiyorsa:** `node <yol>/mcp/cli.mjs render …` (ilk seferde `cd mcp && npm install && npm run fonts`).
+   **Tarayıcıda düzenleyecekse:** paketin yolunu ver → /ss'e sürükle-bırak → proje olarak kurulur → "İndir".
 
 ## Şablon anahtarları
 

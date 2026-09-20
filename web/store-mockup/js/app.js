@@ -74,7 +74,8 @@
     setView: false,
     sticker: 0,          // seçili öğe indeksi
     app: { name: '', lang: 'tr', accent: '#6366f1', icon: null }, // uygulama profili
-    appId: null,         // kayıtlı uygulama anahtarı
+    appId: null,         // kayıtlı proje anahtarı
+    meta: {},            // app/ sihirbazının alanları (tpl, copy, setup) — editör dokunmaz, taşır
   };
   const pan = (i) => (state.panorama && state.slides.length > 1 ? { i, n: state.slides.length, bg: state.slides[0].bg } : null);
 
@@ -712,14 +713,14 @@
   /* ------------------------------------------------------------------ */
   let saveTimer = null;
   function serialize() {
-    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens, lang: state.lang, panorama: state.panorama, app: state.app, appId: state.appId };
+    return { exp: state.exp, cur: state.cur, slides: state.slides, appDesc: state.appDesc, screens: state.screens, lang: state.lang, panorama: state.panorama, app: state.app, appId: state.appId, meta: state.meta };
   }
   function autosave() {
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
       const data = serialize();
       window.Store.set('project', data).catch(() => {});
-      if (state.appId) window.Store.set('app:' + state.appId, data).then(touchApp).catch(() => {});
+      if (state.appId) window.Store.saveProject(state.appId, data, projectMeta()).catch(() => {});
     }, 500);
   }
   function hydrate(p) {
@@ -733,6 +734,7 @@
     state.panorama = !!p.panorama;
     state.app = Object.assign({ name: '', lang: 'tr', accent: '#6366f1', icon: null }, p.app || {});
     state.appId = p.appId || null;
+    state.meta = p.meta || {};
     if (p.lang) state.lang = p.lang;
   }
   async function loadSaved() {
@@ -754,35 +756,33 @@
   }
 
   /* ---- uygulama profilleri: her uygulama ayrı kayıt ---- */
-  async function listApps() {
-    return (await window.Store.get('apps').catch(() => null)) || [];
-  }
+  /* ---- projeler (Store.listProjects / saveProject) — app/ ile aynı kayıt ---- */
+  const listApps = () => window.Store.listProjects();
+  const projectMeta = () => ({ name: state.app.name || t('Adsız'), lang: state.app.lang, tpl: state.meta.tpl || null });
   async function touchApp() {
     if (!state.appId) return;
-    const apps = await listApps();
-    const a = apps.find((x) => x.id === state.appId);
-    const name = state.app.name || t('Adsız');
-    if (a) { if (a.name === name && Date.now() - a.updated < 60000) return; a.name = name; a.updated = Date.now(); }
-    else apps.push({ id: state.appId, name, updated: Date.now() });
-    await window.Store.set('apps', apps);
-    refreshAppSelect(apps);
+    await window.Store.saveProject(state.appId, null, projectMeta());
+    refreshAppSelect();
   }
   async function refreshAppSelect(apps) {
     apps = apps || (await listApps());
     const sel = $('#appSelect');
     sel.innerHTML = '';
-    sel.appendChild(Object.assign(el('option', null, t('— uygulama seç —')), { value: '' }));
-    apps.sort((a, b) => b.updated - a.updated).forEach((a) => {
-      sel.appendChild(Object.assign(el('option', null, a.name), { value: a.id }));
-    });
-    sel.appendChild(Object.assign(el('option', null, t('＋ Yeni uygulama…')), { value: '__new' }));
+    sel.appendChild(Object.assign(el('option', null, t('— proje seç —')), { value: '' }));
+    apps.forEach((a) => sel.appendChild(Object.assign(el('option', null, a.name), { value: a.id })));
+    sel.appendChild(Object.assign(el('option', null, t('＋ Yeni proje…')), { value: '__new' }));
     sel.value = state.appId || '';
+    const back = $('#btnBackProject');
+    if (back) { back.hidden = !state.appId; back.href = 'app/#/p/' + (state.appId || ''); }
+  }
+  async function flushSave() {
+    clearTimeout(saveTimer);
+    if (state.appId) await window.Store.saveProject(state.appId, serialize(), projectMeta()).catch(() => {});
   }
   async function switchApp(id) {
     if (state.appId === id) return;
-    clearTimeout(saveTimer);
-    if (state.appId) await window.Store.set('app:' + state.appId, serialize()).catch(() => {});
-    const p = await window.Store.get('app:' + id).catch(() => null);
+    await flushSave();
+    const p = await window.Store.getProject(id).catch(() => null);
     if (!p) return toast(t('Kayıt bulunamadı'));
     hydrate(p);
     state.appId = id;
@@ -796,26 +796,23 @@
     toast(t('{name} açıldı', { name: state.app.name }));
   }
   async function createApp(name, fresh) {
-    clearTimeout(saveTimer);
-    if (state.appId) await window.Store.set('app:' + state.appId, serialize()).catch(() => {});
-    const id = 'a' + Date.now().toString(36);
+    await flushSave();
+    const id = window.Store.newId();
     if (fresh) {
       state.slides = [newSlide()];
       state.slides[0].text.title = defaultTitle();
-      state.cur = 0; state.panorama = false; state.appDesc = ''; state.screens = '';
+      state.cur = 0; state.panorama = false; state.appDesc = ''; state.screens = ''; state.meta = {};
       state.app = { name, lang: state.lang, accent: '#6366f1', icon: null };
     } else state.app.name = name;
     state.appId = id;
-    await window.Store.set('app:' + id, serialize());
-    await touchApp();
+    await window.Store.saveProject(id, serialize(), projectMeta());
+    refreshAppSelect();
     refreshAll();
   }
   async function deleteApp(id) {
-    const apps = (await listApps()).filter((a) => a.id !== id);
-    await window.Store.set('apps', apps);
-    await window.Store.set('app:' + id, null);
+    await window.Store.deleteProject(id);
     if (state.appId === id) state.appId = null;
-    refreshAppSelect(apps);
+    refreshAppSelect();
   }
 
   /* ------------------------------------------------------------------ */
@@ -1357,7 +1354,13 @@
 
   /* ------------------------------------------------------------------ */
   (async function init() {
-    const saved = await loadSaved();
+    const wantId = new URLSearchParams(location.search).get('p');
+    let saved = false;
+    if (wantId) {
+      const p = await window.Store.getProject(wantId).catch(() => null);
+      if (p) { hydrate(p); state.appId = wantId; await preloadImages(); saved = true; }
+    }
+    if (!saved) saved = await loadSaved();
     if (!saved) state.lang = window.I18N.detect();
     window.I18N.set(state.lang);
     initExportSelect();

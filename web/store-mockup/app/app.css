@@ -93,3 +93,53 @@ body.gallery-body { overflow: auto; display: block; }
   #viewDirect { padding: 14px 18px 60px; }
   .strip canvas { height: 220px; }
 }
+
+/* ---------- app: nav, pano, sihirbaz, adımlar ---------- */
+.gnav { display: flex; gap: 4px; margin-left: 14px; }
+.gnav a { color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: 13px; }
+.gnav a.on, .gnav a:hover { color: var(--fg); background: var(--bg3); }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 24px 40px 80px; }
+.page-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.page-head h1 { margin: 0; font-size: 24px; letter-spacing: -.5px; }
+.page-head p { margin: 0; color: var(--muted); font-size: 13px; }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.pcard { background: var(--bg2); border: 1px solid var(--line); border-radius: 14px; padding: 12px; cursor: pointer; transition: .12s; display: flex; flex-direction: column; gap: 8px; }
+.pcard:hover { border-color: var(--accent); transform: translateY(-1px); }
+.pcard .cover { display: flex; gap: 4px; overflow: hidden; border-radius: 8px; background: #0a0b0e; height: 150px; }
+.pcard .cover canvas { height: 100%; width: auto; flex: 0 0 auto; }
+.pcard .cover.empty { display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+.pcard b { font-size: 14px; }
+.pcard .meta { color: var(--muted); font-size: 11.5px; display: flex; gap: 8px; flex-wrap: wrap; }
+.pcard .acts { display: flex; gap: 6px; opacity: 0; transition: .12s; }
+.pcard:hover .acts { opacity: 1; }
+.pcard.new { border-style: dashed; align-items: center; justify-content: center; min-height: 230px; color: var(--muted); }
+.pcard.new b { font-size: 16px; color: var(--fg); }
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 900px; }
+.choice .pcard { min-height: 200px; }
+.choice .pcard p { color: var(--muted); font-size: 13px; margin: 0; }
+.steps { display: flex; gap: 4px; background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 5px; margin-bottom: 16px; flex-wrap: wrap; }
+.steps a { flex: 1; text-align: center; color: var(--muted); text-decoration: none; padding: 9px 8px; border-radius: 8px; font-size: 13px; min-width: 120px; }
+.steps a.on { background: var(--bg3); color: var(--fg); }
+.steps a .n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--line); font-size: 10.5px; margin-right: 6px; }
+.steps a.on .n, .steps a.done .n { background: var(--accent); color: #fff; }
+.two { display: grid; grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); gap: 16px; }
+.panelbox { min-width: 0; background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.panelbox h3 { margin: 0 0 10px; font-size: 13px; }
+.panelbox .row textarea { width: 100%; }
+.copy-table { display: grid; grid-template-columns: 34px 1fr 1fr; gap: 6px 8px; align-items: center; }
+.copy-table .i { color: var(--muted); font-size: 11.5px; text-align: right; }
+.copy-table input { width: 100%; }
+.copy-table .h { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+.foot-nav { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+.sizes { display: flex; flex-wrap: wrap; gap: 8px; }
+.sizes label { display: flex; align-items: center; gap: 6px; background: var(--bg3); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
+.strip-big { display: flex; gap: 10px; overflow-x: auto; padding: 6px 0 10px; }
+.strip-big canvas { height: 420px; width: auto; border-radius: 10px; flex: 0 0 auto; background: #0a0b0e; }
+.strip-big.pan { gap: 2px; }
+.busy { opacity: .6; pointer-events: none; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 12.5px; color: var(--muted); }
+.kv b { color: var(--fg); font-weight: 500; }
+@media (max-width: 900px) { .wrap { padding: 16px 18px 60px; } .two, .choice { grid-template-columns: 1fr; } .strip-big canvas { height: 300px; } }
+
+.name-in { font-size: 20px; font-weight: 700; background: none; border: 1px solid transparent; padding: 4px 8px; margin-left: -8px; min-width: 260px; }
+.name-in:hover, .name-in:focus { border-color: var(--line); background: var(--bg3); }
