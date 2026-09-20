@@ -14,6 +14,7 @@ const FAMILIES = [
   'Outfit:wght@400;500;600;700;800;900', 'Sora:wght@400;500;600;700;800', 'Space+Grotesk:wght@400;500;600;700',
   'Bricolage+Grotesque:wght@400;500;600;700;800', 'Nunito:wght@400;600;700;800;900', 'Unbounded:wght@400;500;600;700;800;900',
   'Bebas+Neue', 'Playfair+Display:wght@400;500;600;700;800;900', 'Fraunces:wght@400;500;600;700;800;900', 'DM+Serif+Display', 'Instrument+Serif',
+  'Rubik:wght@400;500;600;700;800;900', 'Poppins:wght@400;500;600;700;800;900', 'Montserrat:wght@400;500;600;700;800;900', 'DM+Sans:wght@400;500;600;700;800;900', 'Lexend:wght@400;500;600;700;800;900', 'Work+Sans:wght@400;500;600;700;800;900', 'Roboto:wght@400;500;700;900', 'Baloo+2:wght@400;500;600;700;800', 'Fredoka:wght@400;500;600;700', 'Lora:wght@400;500;600;700',
 ];
 const UA = 'Mozilla/4.0 (compatible; store-mockup-fonts)'; // eski UA → TTF
 

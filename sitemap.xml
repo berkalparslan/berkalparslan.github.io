@@ -10,19 +10,22 @@
   <url><loc>https://berkalparslan.github.io/bosyeryok/</loc><lastmod>2026-09-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/bumpline/</loc><lastmod>2026-09-03</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/daily-whisper/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
-  <url><loc>https://berkalparslan.github.io/</loc><lastmod>2026-09-16</lastmod><priority>1.0</priority></url>
+  <url><loc>https://berkalparslan.github.io/</loc><lastmod>2026-09-17</lastmod><priority>1.0</priority></url>
   <url><loc>https://berkalparslan.github.io/kit-qr/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/leafbook/</loc><lastmod>2026-09-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/neden/</loc><lastmod>2026-09-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/o-mu-bu-mu/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/o-mu-bu-mu/t/</loc><lastmod>2026-09-18</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/orbix-roulette/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/pickleball/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy.html</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/bosyeryok/</loc><lastmod>2026-08-31</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/bumpline/</loc><lastmod>2026-09-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/daily-whisper/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
-  <url><loc>https://berkalparslan.github.io/privacy/</loc><lastmod>2026-09-16</lastmod><priority>0.4</priority></url>
+  <url><loc>https://berkalparslan.github.io/privacy/</loc><lastmod>2026-09-21</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/kit-qr/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/leafbook/</loc><lastmod>2026-09-14</lastmod><priority>0.4</priority></url>
+  <url><loc>https://berkalparslan.github.io/privacy/nubi/</loc><lastmod>2026-09-21</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/o-mu-bu-mu/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/oncopace/</loc><lastmod>2026-09-16</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/privacy/orbix-roulette/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
@@ -34,14 +37,17 @@
   <url><loc>https://berkalparslan.github.io/privacy/volleyball/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/rally-badminton/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/rally-table-tennis/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
-  <url><loc>https://berkalparslan.github.io/neden/</loc><lastmod>2026-09-17</lastmod><priority>0.7</priority></url>
+  <url><loc>https://berkalparslan.github.io/ss/</loc><lastmod>2026-09-20</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/support/</loc><lastmod>2026-08-25</lastmod><priority>0.4</priority></url>
-  <url><loc>https://berkalparslan.github.io/tasbih-tally/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/tasbih-tally/</loc><lastmod>2026-09-18</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/tasbih-tally/privacy/</loc><lastmod>2026-09-18</lastmod><priority>0.4</priority></url>
   <url><loc>https://berkalparslan.github.io/tennis-padel/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/volleyball/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/walletcoach/</loc><lastmod>2026-09-16</lastmod><priority>0.8</priority></url>
-  <url><loc>https://berkalparslan.github.io/web/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
-  <url><loc>https://berkalparslan.github.io/web/store-mockup/</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/web/</loc><lastmod>2026-09-20</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/web/store-mockup/app/</loc><lastmod>2026-09-20</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/web/store-mockup/</loc><lastmod>2026-09-20</lastmod><priority>0.8</priority></url>
+  <url><loc>https://berkalparslan.github.io/web/store-mockup/templates/</loc><lastmod>2026-09-20</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/yonca/</loc><lastmod>2026-08-25</lastmod><priority>0.8</priority></url>
   <url><loc>https://berkalparslan.github.io/yonca/privacy/</loc><lastmod>2026-09-16</lastmod><priority>0.4</priority></url>
 </urlset>

@@ -2,11 +2,12 @@
 /* CLI: aynı motor, terminalden.
    node cli.mjs render --template indie --name "Wallet Coach" --lines lines.txt --shots ./ss [--icon icon.png]
         [--accent "#16a34a"] [--rating "4.8 · 1.2K"] [--lang tr] [--frame android] [--sizes 1290x2796,1080x1920] [--out ./out]
-   node cli.mjs package  (aynı argümanlar, --out paket.json)  → tarayıcıya sürüklenecek paket
+   node cli.mjs project  (aynı argümanlar, --out x.sms.json)  → tarayıcı uygulamasına içe aktarılacak proje
+   çok dil: --captions-tr lines.tr.txt --captions-de lines.de.txt (dosya adıyla dil) · --sizes iphone-6.9,ipad-13,android-phone
    node cli.mjs templates */
 import fs from 'node:fs';
 import path from 'node:path';
-import { listTemplates, renderSet, buildPackage } from './render-node.mjs';
+import { listTemplates, renderSet, buildBundle } from './render-node.mjs';
 
 const [cmd, ...rest] = process.argv.slice(2);
 const args = {};
@@ -30,23 +31,24 @@ function spec() {
     lines: args.lines ? fs.readFileSync(args.lines, 'utf8').split('\n').map((x) => x.trim()).filter(Boolean) : [],
     shots: shotsFrom(args.shots), icon: args.icon, accent: args.accent, rating: args.rating,
     addIcon: !args['no-icon'], frame: args.frame,
-    sizes: args.sizes ? String(args.sizes).split(',') : ['1290x2796'],
+    sizes: args.sizes ? String(args.sizes).split(',') : ['iphone-6.9'],
+    captions: Object.fromEntries(Object.entries(args).filter(([k]) => k.startsWith('captions-')).map(([k, v]) => [k.slice(9), fs.readFileSync(v, 'utf8').split('\n').map((x) => x.trim()).filter(Boolean)])),
     outDir: args.out || './store-screenshots',
   };
 }
 
 if (cmd === 'templates') {
-  for (const t of listTemplates()) console.log(`${t.key.padEnd(11)} ${(t.name.tr || '').padEnd(12)} ${(t.tags || []).join(',').padEnd(28)} ${t.description.tr || ''}`);
+  for (const t of listTemplates()) console.log(`${t.key.padEnd(18)} ${String(t.name).padEnd(32)} ${t.theme.padEnd(9)} ${(t.categories || []).join(',')}`);
 } else if (cmd === 'render') {
   const r = await renderSet(spec());
-  console.log(`${r.files.length} PNG → ${r.outDir}`);
+  console.log(`${r.files.length} PNG (${r.screens} screens × ${r.languages.length} lang × ${r.sizes.length} sizes) → ${r.outDir}`);
   r.files.forEach((f) => console.log('  ' + path.relative(process.cwd(), f)));
-} else if (cmd === 'package') {
+} else if (cmd === 'project') {
   const s = spec();
-  const out = args.out && args.out.endsWith('.json') ? args.out : `${(s.name || 'store-mockup').toLowerCase().replace(/\s+/g, '-')}.paket.json`;
-  fs.writeFileSync(out, JSON.stringify(buildPackage(s)));
-  console.log(`paket → ${path.resolve(out)}  (sürükle: https://berkalparslan.github.io/ss)`);
+  const out = args.out && args.out.endsWith('.json') ? args.out : `${(s.name || 'store-mockup').toLowerCase().replace(/\s+/g, '-')}.sms.json`;
+  fs.writeFileSync(out, JSON.stringify(await buildBundle(s)));
+  console.log(`proje → ${path.resolve(out)}  (içe aktar: https://berkalparslan.github.io/web/store-mockup/app/#/projects)`);
 } else {
-  console.log('kullanım: node cli.mjs templates | render --template … --name … --lines … --shots … | package …');
+  console.log('kullanım: node cli.mjs templates | render --template … --name … --lines … --shots … | project …');
   process.exit(1);
 }
