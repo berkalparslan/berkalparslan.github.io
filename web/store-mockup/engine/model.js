@@ -99,6 +99,7 @@
     project.template = tpl.key;
     if (tpl.background) project.background = Object.assign(defaultBg(), clone(tpl.background));
     if (tpl.orientation) project.orientation = tpl.orientation;
+    if (tpl.sizes && tpl.sizes.length) project.sizes = tpl.sizes.slice();
     return project;
   }
 

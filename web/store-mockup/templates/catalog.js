@@ -2,7 +2,15 @@
 (function () {
   const { $, el, esc, ROOT, renderNav, renderFooter, toast, CATEGORIES, catLabel, mockShot } = window.UI;
   const { Render, Model, Store, Devices } = window;
-  const TPL = window.TEMPLATES || [];
+  /* dolu/özenli şablonlar başa: katman, öğe, arka plan çeşitliliği ve eğik cihaz puanlanır */
+  const richness = (tpl) => {
+    let sc = 0; const bgs = new Set(); const rots = new Set();
+    tpl.screens.forEach((s) => { bgs.add(JSON.stringify(s.bg || {})); s.layers.forEach((L) => { sc += L.type === 'element' ? 1.6 : L.type === 'device' ? 1 : 0.6; if (L.type === 'device') rots.add(Math.round(L.rot || 0)); if (L.type === 'text' && L.box && L.box !== 'none') sc += 0.4; if (L.type === 'text' && L.decoration && L.decoration !== 'none') sc += 0.6; }); });
+    sc += Math.min(bgs.size, 4) * 1.5 + Math.min(rots.size, 3) * 1.2 + (tpl.background ? 2 : 0) + (tpl.skill === 'advanced' ? 2 : 0) - (tpl.free ? 4 : 0) - (tpl.key.startsWith('v2-') ? 1 : 0);
+    if (tpl.screens.length < 6) sc -= 3;
+    return sc;
+  };
+  const TPL = (window.TEMPLATES || []).slice().sort((a, b) => richness(b) - richness(a));
   const byKey = (k) => TPL.find((x) => x.key === k);
   const PAGE = 24;
   const DEV_FILTERS = [
@@ -126,6 +134,7 @@
     $('#startMenu').classList.remove('open');
     const project = Model.newProject(tpl.name, { lang: window.I18N.lang === 'tr' ? 'tr' : 'en', orientation: tpl.orientation });
     Model.applyTemplate(project, tpl);
+    project.quick = true;
     if (mode === 'sandbox') { await Store.kvSet('sandbox', project); location.href = ROOT + 'app/#/sandbox'; return; }
     await Store.putProject(project);
     toast(t('Project created from {name}', { name: tpl.name }));

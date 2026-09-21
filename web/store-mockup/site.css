@@ -2,9 +2,9 @@
 :root {
   --bg: #f6f6fa; --surface: #ffffff; --surface-2: #f1f1f7; --line: #e4e4ee; --line-2: #d3d3e0;
   --fg: #16161f; --muted: #6b6d80; --faint: #9b9db0;
-  --brand: #6d5ce7; --brand-2: #8f82ff; --brand-soft: rgba(109, 92, 231, .12); --brand-ink: #4b3ec7;
+  --brand: #12856f; --brand-2: #2bbf9c; --brand-soft: rgba(18, 133, 111, .12); --brand-ink: #0b5f50;
   --ok: #2fa25a; --warn: #e08a1e; --danger: #e04a5a;
-  --nav: #16161f; --nav-fg: #ffffff;
+  --nav: #0f1a1f; --nav-fg: #ffffff;
   --radius: 12px; --shadow: 0 1px 2px rgba(20,20,40,.05), 0 8px 24px rgba(20,20,40,.06); --shadow-lg: 0 20px 60px rgba(20,20,40,.18);
   --font: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
 }
@@ -43,7 +43,7 @@ img, canvas { max-width: 100%; }
 .btn.lg { padding: 12px 20px; font-size: 15px; border-radius: 11px; }
 .btn.icon { padding: 7px 9px; }
 .btn.soft { background: var(--brand-soft); border-color: transparent; color: var(--brand-ink); }
-.btn.soft:hover { background: rgba(109,92,231,.2); }
+.btn.soft:hover { background: rgba(18,133,111,.2); }
 .btn:disabled { opacity: .45; cursor: default; }
 .btn.link { border: 0; background: none; color: var(--brand-ink); padding: 4px 6px; }
 .btn.wide { width: 100%; }

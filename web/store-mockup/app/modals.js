@@ -312,6 +312,80 @@ Return ONLY JSON: {"translations":{"<lang>":{"<id>":"<text>"}}} with every langu
     if (mode === 'translate') $('#aiTranslate').focus();
   }
 
+
+  /* ================= HIZLI BAŞLANGIÇ: ad + açıklama + ss + diller → AI her şeyi yazar ================= */
+  function quick() {
+    const p = P(); const E_ = E();
+    let files = [];
+    const m = open('#modalAI', `<div class="modal-card wide"><div class="modal-head"><h2>⚡ ${t('Quick start')}</h2><button class="modal-close" data-close>✕</button></div>
+      <div class="modal-body">
+        <div class="qsteps"><span><b>1</b> ${t('Tell us about the app')}</span><span><b>2</b> ${t('Drop the screenshots')}</span><span><b>3</b> ${t('Pick languages')}</span><span><b>4</b> ${t('AI writes every caption')}</span></div>
+        <div class="quick-grid">
+          <div>
+            <div class="row2"><div class="field"><label>${t('App name')}</label><input type="text" id="qName" value="${esc(p.name || '')}"></div><div class="field"><label>${t('Brand colour')}</label><input type="color" id="qAccent" value="${esc(firstAccent(p))}" style="width:100%"></div></div>
+            <div class="field"><label>${t('Describe your app')}</label><textarea id="qDesc" placeholder="${esc(t('What it does, for whom, what is different. Brand names to keep. 2-4 sentences.'))}">${esc(p.aiContext || p.about || '')}</textarea></div>
+            <div class="row2"><div class="field"><label>${t('Tone')}</label><select id="qTone"><option value="benefit-led, calm confidence">${t('Benefit-led')}</option><option value="playful and warm">${t('Playful')}</option><option value="minimal, premium, understated">${t('Premium')}</option><option value="short imperatives">${t('Direct')}</option></select></div>
+            <div class="field"><label>${t('Default language')}</label><select id="qLang"></select></div></div>
+            <div class="field"><label>${t('Also translate to')}</label><div class="langchips" id="qLangs"></div></div>
+            <label class="check" style="margin-bottom:10px"><input type="checkbox" id="qIcon" checked><span>${t('Show app icon + name on the first screen')}</span> <button class="btn sm" id="qIconBtn" type="button">⇪ ${t('Upload icon')}</button></label>
+          </div>
+          <div>
+            <div class="field"><label>${t('Screenshots')} <span class="hint">(${t('in order, file names sort them')})</span></label>
+              <div class="qshots" id="qShots">${t('Drop raw screenshots here or click to choose')}<div class="thumbs" id="qThumbs"></div></div></div>
+            <div class="field"><label>${t('Anthropic API key')}</label><input type="password" id="qKey" value="${esc(keyGet())}" placeholder="sk-ant-…"><span class="hint">${t('Stored only in this browser. Calls go straight to Anthropic.')} ${t('No key? Use "Apply without AI" and write captions in the Text tab, or copy the prompt from ✨ AI captions.')}</span></div>
+          </div>
+        </div>
+        <p class="hint" id="qStatus"></p>
+      </div>
+      <div class="modal-foot"><button class="btn" data-close>${t('Cancel')}</button><span class="grow"></span><button class="btn" id="qApplyOnly">${t('Apply without AI')}</button><button class="btn primary lg" id="qGo">✨ ${t('Apply & write captions')}</button></div></div>`);
+    const status = $('#qStatus');
+    const langSel = $('#qLang'); Object.entries(Model.LANG_NAMES).forEach(([v, l]) => langSel.appendChild(Object.assign(el('option', null, `${Model.LANG_FLAGS[v] || ''} ${l}`), { value: v }))); langSel.value = p.languages.default;
+    const chips = $('#qLangs'); const extra = new Set((p.languages.list || []).filter((l) => l !== p.languages.default));
+    const drawChips = () => { chips.innerHTML = ''; Object.entries(Model.LANG_NAMES).filter(([v]) => v !== langSel.value).forEach(([v, l]) => { const c = el('span', 'chip' + (extra.has(v) ? ' on' : ''), `${Model.LANG_FLAGS[v] || ''} ${l}`); c.onclick = () => { extra.has(v) ? extra.delete(v) : extra.add(v); drawChips(); }; chips.appendChild(c); }); };
+    langSel.onchange = () => { extra.delete(langSel.value); drawChips(); }; drawChips();
+    $('#qIconBtn').onclick = (e) => { e.preventDefault(); E_.pickAsset((id) => { p.app.icon = id; $('#qIconBtn').textContent = '✓ ' + t('Upload icon'); }); };
+    const dz = $('#qShots'); const thumbs = $('#qThumbs');
+    const setFiles = (fl) => { files = fl.filter((f) => f.type.startsWith('image/')).sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true })); thumbs.innerHTML = ''; files.forEach((f) => { const im = el('img'); im.src = URL.createObjectURL(f); thumbs.appendChild(im); }); dz.firstChild.textContent = files.length ? t('{n} screenshots selected', { n: files.length }) : t('Drop raw screenshots here or click to choose'); };
+    dz.onclick = () => { const inp = $('#fileShots'); inp.value = ''; inp.onchange = () => setFiles([...inp.files]); inp.click(); };
+    dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('on'); }; dz.ondragleave = () => dz.classList.remove('on'); dz.ondrop = (e) => { e.preventDefault(); dz.classList.remove('on'); setFiles([...e.dataTransfer.files]); };
+    async function applyBasics() {
+      E_.snapshot('quick');
+      p.name = $('#qName').value.trim() || p.name; p.aiContext = $('#qDesc').value.trim();
+      const def = langSel.value; const old = p.languages.default;
+      if (def !== old) { p.languages.default = def; p.screens.forEach((s) => s.layers.forEach((L) => { if (L.text && typeof L.text === 'object' && L.text[def] == null && L.text[old] != null) L.text[def] = L.text[old]; })); }
+      p.languages.list = [def, ...extra];
+      const accent = $('#qAccent').value;
+      if (accent && accent !== firstAccent(p)) p.screens.forEach((s) => s.layers.forEach((L) => { if (L.type === 'text' && L.role !== 'subtitle') L.accent = accent; if (L.type === 'element' && (L.kind === 'icon' || L.kind === 'note')) L.iconBg = accent; }));
+      // ekran görüntüleri → sırayla; fazla ekranlar kırpılır, eksikse ekran eklenir
+      if (files.length) {
+        while (p.screens.length < files.length) { const ns = Model.clone(p.screens[p.screens.length - 1]); ns.id = Model.uid('s'); ns.layers.forEach((L) => { L.id = Model.uid(); if (L.type === 'device') L.shots = {}; }); p.screens.push(ns); }
+        if (p.screens.length > files.length && files.length >= 3) p.screens = p.screens.slice(0, files.length);
+        for (let i = 0; i < files.length; i++) { const dev = p.screens[i].layers.find((L) => L.type === 'device'); if (!dev) continue; const id = await Store.putAsset(await Store.fileToDataUrl(files[i]), { name: files[i].name }); Model.setShot(dev, 'global', id); }
+      }
+      // ikon + ad
+      const first = p.screens[0];
+      if (first) { first.layers = first.layers.filter((L) => !(L.type === 'element' && L.kind === 'icon')); if ($('#qIcon').checked && p.name) { const title = first.layers.find((L) => L.type === 'text'); first.layers.push(Model.newLayer('element', { kind: 'icon', text: { [def]: p.name }, x: 50, y: 3.5, size: 2.8, iconBg: accent || '#12856f', color: (title && title.color) || '#ffffff' })); } }
+      E_.lang = def; E_.refreshLangs(); E_.commit();
+    }
+    $('#qApplyOnly').onclick = async () => { await applyBasics(); close('#modalAI'); toast(t('Applied')); };
+    $('#qGo').onclick = async () => {
+      try { localStorage.setItem('sms-anthropic-key', $('#qKey').value.trim()); } catch (e) { }
+      $('#qGo').disabled = true; status.textContent = t('Applying…');
+      await applyBasics();
+      try {
+        status.textContent = t('Writing captions…');
+        const j = await callAI('You are a senior ASO copywriter. Follow length limits exactly. Return only JSON.', captionPrompt(p, $('#qTone').value), CAPTION_SCHEMA);
+        E_.snapshot('ai'); (j.screens || []).forEach((r, i) => { const s = p.screens[i]; if (!s) return; const T = s.layers.filter((L) => L.type === 'text'); if (T[0] && r.title) Model.setText(T[0], p.languages.default, String(r.title).replace(/\\n/g, '\n')); if (T[1] && r.subtitle) Model.setText(T[1], p.languages.default, r.subtitle); }); E_.commit();
+        const targets = p.languages.list.filter((l) => l !== p.languages.default);
+        if (targets.length) { status.textContent = t('Translating to {n} languages…', { n: targets.length }); const { prompt } = translatePrompt(p, targets); const tj = await callAI('You are a professional app-store localizer. Return only JSON.', prompt, TRANSLATE_SCHEMA); E_.snapshot('ai-tr'); Object.entries(tj.translations || {}).forEach(([lang, map]) => Object.entries(map).forEach(([id, text]) => { const [i, k] = id.split(':').map(Number); const L = p.screens[i] && p.screens[i].layers[k]; if (L) Model.setText(L, lang, text); })); E_.commit(); }
+        close('#modalAI'); toast(t('Done — review the captions in the Text tab'));
+      } catch (e) { status.textContent = '⚠︎ ' + e.message; $('#qGo').disabled = false; }
+    };
+  }
+  const firstAccent = (p) => { for (const s of p.screens) for (const L of s.layers) if (L.type === 'text' && L.accent && /^#[0-9a-f]{6}$/i.test(L.accent)) return L.accent; return '#12856f'; };
+  const CAPTION_SCHEMA = { type: 'object', additionalProperties: false, required: ['screens'], properties: { screens: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['title', 'subtitle'], properties: { title: { type: 'string' }, subtitle: { type: 'string' } } } } } };
+  const TRANSLATE_SCHEMA = { type: 'object', additionalProperties: false, required: ['translations'], properties: { translations: { type: 'object', additionalProperties: { type: 'object', additionalProperties: { type: 'string' } } } } };
+
   /* ================= FONTLAR / KISAYOLLAR ================= */
   function customFonts() {
     open('#modalFonts', `<div class="modal-card narrow"><div class="modal-head"><h2>${t('Custom fonts')}</h2><button class="modal-close" data-close>✕</button></div><div class="modal-body"><p class="hint">${t('Upload a .ttf/.otf/.woff2 file; it becomes the "Custom font" option for text layers in this browser session.')}</p><button class="btn primary" id="fontPick" style="margin-top:10px">⇪ ${t('Upload font')}</button><p class="hint" id="fontStatus" style="margin-top:8px"></p></div></div>`);
@@ -323,7 +397,7 @@ Return ONLY JSON: {"translations":{"<lang>":{"<id>":"<text>"}}} with every langu
     </div></div>`);
   }
 
-  window.I18N.extend({ 'What is this project for? (e.g. A/B test with a colourful template)': 'Bu proje ne için? (ör. renkli şablonla A/B testi)', 'Add the languages you export to. Captions are stored per language; use AI to translate or edit each language from the language switcher in the toolbar.': 'Dışa aktaracağın dilleri ekle. Metinler dil başına saklanır; AI ile çevir ya da araç çubuğundaki dil seçiciden her dili düzenle.', 'Advanced project settings for that fine tune.': 'İnce ayar için gelişmiş proje ayarları.', 'Backup': 'Yedek', 'Bulk upload: drop all screenshots here — they fill screens in file-name order': 'Toplu yükleme: tüm ekran görüntülerini buraya bırak — dosya adı sırasıyla ekranlara oturur', 'This screen has no device layer. Add one from the screen panel.': 'Bu ekranda cihaz katmanı yok. Ekran panelinden ekle.', 'Automatically upload your screenshots to App Store Connect and/or the Google Play Console.': 'Ekran görüntülerini App Store Connect ve/veya Google Play Console\'a otomatik yükle.', 'Tip: the zip is organised as language / size / screenshot, matching what the consoles expect.': 'İpucu: zip dil / boyut / ekran görüntüsü olarak düzenlenir; konsolların beklediği yapı.', 'No exports yet.': 'Henüz dışa aktarma yok.', 'images': 'görsel', 'sizes': 'boyut', 'What it does, for whom, what is different. Brand names to keep. 2-4 sentences.': 'Ne yapar, kime, neyi farklı yapar. Korunacak marka adları. 2-4 cümle.', 'No API key? Copy the prompt, paste the answer': 'API anahtarı yok mu? Prompt\'u kopyala, cevabı yapıştır', 'Copy captions prompt': 'Başlık prompt\'unu kopyala', 'Copy translation prompt': 'Çeviri prompt\'unu kopyala', 'Copied': 'Kopyalandı', 'Add languages in Setup → Languages first.': 'Önce Kurulum → Diller\'den dil ekle.', 'Upload a .ttf/.otf/.woff2 file; it becomes the "Custom font" option for text layers in this browser session.': '.ttf/.otf/.woff2 yükle; bu tarayıcı oturumunda metin katmanlarında "Custom font" seçeneği olur.', 'Upload font': 'Font yükle', 'layer': 'katman', 'Nudge layer': 'Katmanı kaydır', 'Close panel': 'Paneli kapat', 'Zoom': 'Yakınlaştır', 'Drag on canvas': 'Tuvalde sürükle', 'Move layer': 'Katmanı taşı', 'Drop images on a screen': 'Ekrana görsel bırak', 'Set screenshot': 'Ekran görüntüsü ata' });
+  window.I18N.extend({ 'Quick start': 'Hızlı başlangıç', 'Tell us about the app': 'Uygulamayı anlat', 'Drop the screenshots': 'Ekran görüntülerini bırak', 'Pick languages': 'Dilleri seç', 'AI writes every caption': 'Başlıkları AI yazar', 'App name': 'Uygulama adı', 'Brand colour': 'Marka rengi', 'Default language': 'Varsayılan dil', 'Also translate to': 'Şu dillere de çevir', 'Show app icon + name on the first screen': 'İlk ekranda ikon + ad göster', 'Screenshots': 'Ekran görüntüleri', 'in order, file names sort them': 'sırayla; dosya adları sıralar', 'Drop raw screenshots here or click to choose': 'Ham ekran görüntülerini buraya bırak ya da tıkla', '{n} screenshots selected': '{n} ekran görüntüsü seçildi', 'No key? Use "Apply without AI" and write captions in the Text tab, or copy the prompt from ✨ AI captions.': 'Anahtar yok mu? "AI olmadan uygula" de, başlıkları Metin sekmesinden yaz ya da ✨ AI başlıklar\'dan prompt\'u kopyala.', 'Apply without AI': 'AI olmadan uygula', 'Apply & write captions': 'Uygula ve başlıkları yaz', 'Applied': 'Uygulandı', 'Applying…': 'Uygulanıyor…', 'Writing captions…': 'Başlıklar yazılıyor…', 'Translating to {n} languages…': '{n} dile çevriliyor…', 'Done — review the captions in the Text tab': 'Bitti — başlıkları Metin sekmesinden gözden geçir', 'What is this project for? (e.g. A/B test with a colourful template)': 'Bu proje ne için? (ör. renkli şablonla A/B testi)', 'Add the languages you export to. Captions are stored per language; use AI to translate or edit each language from the language switcher in the toolbar.': 'Dışa aktaracağın dilleri ekle. Metinler dil başına saklanır; AI ile çevir ya da araç çubuğundaki dil seçiciden her dili düzenle.', 'Advanced project settings for that fine tune.': 'İnce ayar için gelişmiş proje ayarları.', 'Backup': 'Yedek', 'Bulk upload: drop all screenshots here — they fill screens in file-name order': 'Toplu yükleme: tüm ekran görüntülerini buraya bırak — dosya adı sırasıyla ekranlara oturur', 'This screen has no device layer. Add one from the screen panel.': 'Bu ekranda cihaz katmanı yok. Ekran panelinden ekle.', 'Automatically upload your screenshots to App Store Connect and/or the Google Play Console.': 'Ekran görüntülerini App Store Connect ve/veya Google Play Console\'a otomatik yükle.', 'Tip: the zip is organised as language / size / screenshot, matching what the consoles expect.': 'İpucu: zip dil / boyut / ekran görüntüsü olarak düzenlenir; konsolların beklediği yapı.', 'No exports yet.': 'Henüz dışa aktarma yok.', 'images': 'görsel', 'sizes': 'boyut', 'What it does, for whom, what is different. Brand names to keep. 2-4 sentences.': 'Ne yapar, kime, neyi farklı yapar. Korunacak marka adları. 2-4 cümle.', 'No API key? Copy the prompt, paste the answer': 'API anahtarı yok mu? Prompt\'u kopyala, cevabı yapıştır', 'Copy captions prompt': 'Başlık prompt\'unu kopyala', 'Copy translation prompt': 'Çeviri prompt\'unu kopyala', 'Copied': 'Kopyalandı', 'Add languages in Setup → Languages first.': 'Önce Kurulum → Diller\'den dil ekle.', 'Upload a .ttf/.otf/.woff2 file; it becomes the "Custom font" option for text layers in this browser session.': '.ttf/.otf/.woff2 yükle; bu tarayıcı oturumunda metin katmanlarında "Custom font" seçeneği olur.', 'Upload font': 'Font yükle', 'layer': 'katman', 'Nudge layer': 'Katmanı kaydır', 'Close panel': 'Paneli kapat', 'Zoom': 'Yakınlaştır', 'Drag on canvas': 'Tuvalde sürükle', 'Move layer': 'Katmanı taşı', 'Drop images on a screen': 'Ekrana görsel bırak', 'Set screenshot': 'Ekran görüntüsü ata' });
 
-  window.Modals = { setup, screens, exportModal, ai, customFonts, shortcuts };
+  window.Modals = { setup, screens, exportModal, ai, quick, customFonts, shortcuts };
 })();

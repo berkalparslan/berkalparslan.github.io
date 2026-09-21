@@ -13,16 +13,17 @@ appscreens.com tarzı, satılabilir bir App Store / Google Play screenshot ürü
 
 Yerel: `/Users/aberk/dev/web-githubpages/berkalparslan.github.io/web/store-mockup/`.
 
-## Editör (appscreens düzeni)
+## Editör (bizim üç sütunlu düzen, koyu tema)
 
-Araç çubuğu: **AI ile doldur** (açıklama → tüm ekranların başlık/alt başlıkları, her dilde; Anthropic anahtarı
-tarayıcıda kalır, ya da prompt kopyala) · **Genel** (font/renk/cihaz çerçevesi, tüm ekranlara) · **Kurulum**
-(Hakkında: ad, ikon · Çıktı boyutları · Diller · Gelişmiş) · **Arka plan** (projeye yayılan panorama) ·
-**Yerelleştir** · **Uygulama ekranları** (ekran başına cihaz ailesi slotları: global / iPhone / iPad / Watch /
-Android telefon / tablet / masaüstü; toplu yükleme) · **Önizle ve dışa aktar** (boyut × dil önizleme, zip:
-`<dil>/<boyut>/NN-slug.png`). Yatay ekran şeridi; ekrana tıklayınca katman paneli (metin, cihaz, görsel, öğe:
-çip, puan, yıldız, laurel, bildirim kartı, ikon+ad, ok, halka, ışıltı, emoji, alıntı, şekil). Sürükle/boyutlandır/ok
-tuşları, geri al/yinele, kısayollar `?`.
+Sol: ekran listesi (küçük resimler, ekle/kopyala/sil/taşı). Orta: seçili ekran büyük tuvalde (katmanı sürükle,
+köşeden boyutlandır, ok tuşlarıyla kaydır), altta ‹ › gezinme, **Set görünümü** (tüm set yan yana), yakınlaştırma,
+tek ekran indir. Sağ: sekmeler **Düzen** (katman listesi, hazır düzenler) · **Arka plan** (ekran + proje panoraması) ·
+**Cihaz** · **Metin** · **Öğeler** (çip, puan, yıldız, laurel, bildirim kartı, ikon+ad, ok, halka, ışıltı, emoji,
+alıntı, şekil); altta "stili tüm ekranlara uygula". Üst çubuk: proje adı, geri al/yinele, **⚡ Hızlı başlangıç**
+(ad + açıklama + ss'ler + diller → AI tüm başlıkları yazar ve çevirir; şablondan gelen her yeni projede kendiliğinden
+açılır), **✨ AI başlıklar**, **Uygulama ekranları** (cihaz ailesi slotları, toplu yükleme), **Kurulum** (ad/ikon,
+çıktı boyutları, diller, gelişmiş), **Genel** (font/renk/çerçeve tüm ekranlara), dil ve boyut seçici, **Önizle ve
+dışa aktar** (boyut × dil önizleme, zip: `<dil>/<boyut>/NN-slug.png`).
 
 Metin sözdizimi: başlıkta **tek** `[vurgu]` kelimesi (fayda kelimesi); `\n` satır kırar; alt başlık başlığın
 altına "akar". Konumlar tuvalin yüzdesi → her çıktı boyutunda aynı düzen.
@@ -66,12 +67,14 @@ altına "akar". Konumlar tuvalin yüzdesi → her çıktı boyutunda aynı düze
 
 ## Şablonlar
 
-`engine/templates/`: `legacy.js` (38 eski şablon, anahtar `v2-*`), `set-a.js` (appscreens'ten yeniden yapılan
-24: kova, photo-editor, pluto, astra, vela, planner, orin, roy-story, current-banking, inner-glow, bevel, nordvpn,
-sive, triton, zeus, eira, stripe, alora, jshealth, runa, brain-training, vanta, seed, claude-ai). Her şablon 8 ekran,
-EN+TR örnek metin. Yeni şablon: `Tpl.defineTemplate({...})` DSL'i (`engine/tpl-dsl.js`), dosyayı
-`templates/index.js` listesine ekle. appscreens kataloğu/önizlemeleri: bu oturumun scratchpad'inde
-(`appscreens/catalog.txt`, `previews/`).
+`engine/templates/`: `legacy.js` (38 eski, `v2-*`), `set-a.js`…`set-e.js` (appscreens kataloğundaki 140 dikey
+şablonun yeniden çizimi; adlar "Inspired by" öneksiz), `set-f.js` (9 yatay iPad/tablet, 6 Apple Watch, 3 Vision Pro,
+3 macOS — `sizes` ile çıktı boyutları şablondan gelir). Toplam 195. Örnek metinler: şablon kopyası "ASO/şablon/
+ekran görüntüsü" konuşuyorsa `tpl-dsl.js` içindeki kategori bankası (`BANK`) gerçek uygulama metniyle değiştirir;
+"appscreens" markası tüm metin/ikonlardan temizlenir (`sanitize`). Katalog sıralaması "dolu" şablonlar önce
+(`richness` puanı, `templates/catalog.js`). Yeni şablon: `defineTemplate({...})` DSL'i (`engine/tpl-dsl.js`; `under:`
+öğeleri metnin altına çizilir), dosyayı `templates/index.js` listesine ekle. appscreens kataloğu/önizlemeleri: bu
+oturumun scratchpad'inde (`appscreens/catalog.txt`, `previews/`).
 
 ## Yapı
 

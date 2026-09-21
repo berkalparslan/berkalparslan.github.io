@@ -24,90 +24,179 @@
   function syncUndo() { const u = $('#tbUndo'), r = $('#tbRedo'); if (u) u.disabled = !E.undo.length; if (r) r.disabled = !E.redo.length; }
   function commit() { E.app.save(); renderAll(); }
 
-  /* ---------- kurulum ---------- */
+  /* ---------- kurulum: üç sütun (ekran listesi · sahne · panel) ---------- */
   E.mount = function (root, app) {
-    E.app = app; E.P = app.project; E.root = root; E.sel = -1; E.layer = null; E.undo = []; E.redo = [];
+    E.app = app; E.P = app.project; E.root = root; E.sel = 0; E.layer = null; E.undo = []; E.redo = []; E.setView = false; E.tab = E.tab || 'layout';
     E.lang = E.P.languages.default;
     if (!E.P.sizes.includes(E.out)) E.out = E.P.sizes[0] || 'iphone-6.9';
-    root.innerHTML = '';
-    const ed = el('div', 'ed');
+    root.innerHTML = ''; document.body.classList.add('editing');
+    const ed = el('div', 'ed3');
     ed.appendChild(toolbar());
-    const canvas = el('div', 'ed-canvas'); canvas.id = 'edCanvas';
-    ed.appendChild(canvas);
-    const z = el('div', 'ed-zoom', `<button id="zOut" title="${t('Zoom out')}">−</button><b id="zVal">100%</b><button id="zIn" title="${t('Zoom in')}">+</button><button id="zFit" title="Fit">⤢</button><button id="zKeys" title="${t('Keyboard shortcuts')}">⌨</button>`);
-    ed.appendChild(z);
-    root.appendChild(ed);
-    $('#zOut').onclick = () => setZoom(E.zoom - 0.1); $('#zIn').onclick = () => setZoom(E.zoom + 0.1);
-    $('#zFit').onclick = () => { const h = canvas.clientHeight - 60; setZoom(Math.max(0.3, Math.min(2, h / 640))); };
-    $('#zKeys').onclick = () => window.Modals.shortcuts();
-    bindKeys();
-    bindDrop(canvas);
+    const main = el('div', 'ed3-main');
+    const rail = el('aside', 'rail'); rail.id = 'edRail';
+    const stage = el('section', 'stage'); stage.id = 'edStage';
+    const panel = el('aside', 'panel3'); panel.id = 'edPanel';
+    main.append(rail, stage, panel); ed.appendChild(main); root.appendChild(ed);
+    buildStage(stage); buildPanelShell(panel);
+    bindKeys(); bindDrop(stage);
     renderAll();
     Render.ensureScreenFonts(E.P.screens, renderAll);
     if (document.fonts) document.fonts.ready.then(renderAll);
+    if (E.P.quick) { delete E.P.quick; E.app.save(); setTimeout(() => window.Modals.quick(), 200); }
   };
-  function setZoom(z) { E.zoom = Math.max(0.25, Math.min(2.5, Math.round(z * 100) / 100)); $('#zVal').textContent = Math.round(E.zoom * 100) + '%'; renderStrip(); }
 
   function toolbar() {
     const tb = el('div', 'ed-tools');
     const b = (id, label, cls, fn, title) => { const x = el('button', 'tb ' + (cls || ''), label); x.id = id; x.onclick = fn; if (title) x.title = title; tb.appendChild(x); return x; };
     b('tbBack', '←', '', () => { E.app.save(true).then(() => E.app.go('/projects')); }, t('Back to projects'));
-    b('tbSave', '💾', '', () => { E.app.save(true); toast(t('Saved')); }, t('Save'));
+    const name = el('input', 'pname'); name.type = 'text'; name.value = E.P.name || ''; name.title = t('Project name'); name.oninput = () => { E.P.name = name.value; E.app.save(); }; tb.appendChild(name);
     b('tbUndo', '↶', '', undo, t('Undo')); b('tbRedo', '↷', '', redo, t('Redo'));
     tb.appendChild(el('span', 'sep'));
-    b('tbAI', '✨ ' + t('AI captions'), 'ai', () => window.Modals.ai());
-    b('tbGlobals', '◎ ' + t('Globals'), '', (e) => globalsPopover(e.currentTarget));
-    b('tbSetup', '⚙ ' + t('Setup'), '', () => window.Modals.setup('about'));
-    b('tbBg', '▦ ' + t('Background'), '', (e) => bgPopover(e.currentTarget));
-    b('tbLoc', '🌐 ' + t('Localize'), '', () => window.Modals.setup('languages'));
+    b('tbQuick', '⚡ ' + t('Quick start'), 'ai', () => window.Modals.quick(), t('App name, description, screenshots, languages → AI writes every caption'));
+    b('tbAI', '✨ ' + t('AI captions'), '', () => window.Modals.ai());
     b('tbShots', '📱 ' + t('App Screens'), '', () => window.Modals.screens(Math.max(0, E.sel)));
+    b('tbSetup', '⚙ ' + t('Setup'), '', () => window.Modals.setup('about'));
+    b('tbGlobals', '◎ ' + t('Globals'), '', (e) => globalsPopover(e.currentTarget));
     tb.appendChild(el('span', 'grow'));
     tb.appendChild(el('span', 'saved', '')).id = 'savedAt';
-    const lang = el('select'); lang.id = 'tbLang';
+    const lang = el('select'); lang.id = 'tbLang'; lang.title = t('Caption language');
     const fillLang = () => { lang.innerHTML = ''; (E.P.languages.list || [E.P.languages.default]).forEach((l) => lang.appendChild(Object.assign(el('option', null, `${Model.LANG_FLAGS[l] || '🌐'} ${Model.LANG_NAMES[l] || l}`), { value: l }))); lang.value = E.lang; };
     fillLang(); lang.onchange = () => { E.lang = lang.value; renderAll(); };
     E.refreshLangs = fillLang;
     tb.appendChild(lang);
-    const outSel = el('select'); outSel.id = 'tbOut';
+    const outSel = el('select'); outSel.id = 'tbOut'; outSel.title = t('Output size');
     const fillOut = () => { outSel.innerHTML = ''; (E.P.sizes || []).forEach((id) => { const o = Devices.byId(id); if (o) outSel.appendChild(Object.assign(el('option', null, o.label), { value: id })); }); outSel.value = E.out; };
     fillOut(); outSel.onchange = () => { E.out = outSel.value; renderAll(); };
     E.refreshOuts = fillOut;
     tb.appendChild(outSel);
     b('tbExport', '⬇ ' + t('Preview & Export'), 'primary', () => window.Modals.exportModal('preview'));
-    b('tbRefresh', '↻', '', () => renderAll(), 'Re-render');
     return tb;
   }
 
-  /* ---------- şerit ---------- */
-  function renderAll() { renderStrip(); syncUndo(); }
-  function renderStrip() {
-    const canvas = $('#edCanvas'); if (!canvas) return;
-    const st = canvas.scrollLeft;
-    canvas.innerHTML = '';
-    const strip = el('div', 'ed-strip' + (E.P.screens.some((s) => s.bg && s.bg.panorama) ? ' pan' : ''));
+  /* ---------- sahne ---------- */
+  function buildStage(stage) {
+    const inner = el('div', 'stage-inner'); inner.id = 'stageInner';
+    const bar = el('div', 'stage-bar');
+    const b = (id, label, fn, title) => { const x = el('button', 'btn tiny', label); x.id = id; x.onclick = fn; if (title) x.title = title; bar.appendChild(x); return x; };
+    b('stSet', '▦ ' + t('Set view'), () => { E.setView = !E.setView; renderStage(); }, t('See the whole set side by side, like the store'));
+    bar.appendChild(el('span', 'muted', '')).id = 'stageInfo';
+    bar.appendChild(el('span', 'grow'));
+    b('stPrev', '‹', () => select(Math.max(0, E.sel - 1)));
+    bar.appendChild(el('span', 'muted', '')).id = 'stageCount';
+    b('stNext', '›', () => select(Math.min(E.P.screens.length - 1, E.sel + 1)));
+    bar.appendChild(el('span', 'sep'));
+    b('stZoomOut', '−', () => setZoom(E.zoom - 0.1)); bar.appendChild(el('b', 'zv', '100%')).id = 'zVal'; b('stZoomIn', '+', () => setZoom(E.zoom + 0.1)); b('stFit', '⤢', () => setZoom(1), t('Fit'));
+    b('stDown', '⬇ ' + t('This screen'), () => downloadScreen(E.sel), t('Download this screen'));
+    b('stKeys', '⌨', () => window.Modals.shortcuts(), t('Keyboard shortcuts'));
+    stage.append(inner, bar);
+    if (window.ResizeObserver) new ResizeObserver(() => renderStage()).observe(inner);
+  }
+  function setZoom(z) { E.zoom = Math.max(0.3, Math.min(3, Math.round(z * 100) / 100)); const v = $('#zVal'); if (v) v.textContent = Math.round(E.zoom * 100) + '%'; renderStage(); }
+  function select(i) { if (i === E.sel) return; E.sel = i; E.layer = null; renderAll(); }
+  function stageSize() {
+    const inner = $('#stageInner'); const { W, H } = dims();
+    const aw = Math.max(200, (inner ? inner.clientWidth : 600) - 40), ah = Math.max(200, (inner ? inner.clientHeight : 700) - 40);
+    const k = Math.min(aw / W, ah / H) * E.zoom;
+    return { w: Math.round(W * k), h: Math.round(H * k) };
+  }
+  function renderStage() {
+    const inner = $('#stageInner'); if (!inner) return;
+    inner.innerHTML = '';
+    if (!E.P.screens.length) return;
+    if (E.sel < 0 || E.sel >= E.P.screens.length) E.sel = 0;
     const { W, H } = dims();
-    const h = dispH(), w = Math.round(h * (W / H));
-    E.P.screens.forEach((s, i) => {
-      const box = el('div', 'scr' + (i === E.sel ? ' sel' : '')); box.dataset.i = i; box.style.width = w + 'px'; box.style.height = h + 'px';
-      const c = el('canvas'); c.width = Math.round(w * (window.devicePixelRatio > 1 ? 2 : 1)); c.height = Math.round(h * (window.devicePixelRatio > 1 ? 2 : 1)); c.style.width = w + 'px'; c.style.height = h + 'px';
+    if (E.setView) {
+      inner.classList.add('set');
+      const strip = el('div', 'set-strip' + (E.P.screens.some((s) => s.bg && s.bg.panorama) ? ' pan' : ''));
+      const h = Math.max(160, inner.clientHeight - 40), w = Math.round(h * W / H);
+      E.P.screens.forEach((s, i) => { const box = el('div', 'scr' + (i === E.sel ? ' sel' : '')); box.style.width = w + 'px'; box.style.height = h + 'px'; const c = el('canvas'); c.width = w * 2; c.height = h * 2; c.style.width = w + 'px'; c.style.height = h + 'px'; Render.renderScreen(c.getContext('2d'), c.width, c.height, s, info(i)); box.appendChild(c); box.appendChild(el('span', 'num', String(i + 1))); box.onclick = () => { E.sel = i; E.setView = false; renderAll(); }; strip.appendChild(box); });
+      inner.appendChild(strip);
+    } else {
+      inner.classList.remove('set');
+      const { w, h } = stageSize();
+      const s = E.P.screens[E.sel], i = E.sel;
+      const box = el('div', 'scr big'); box.dataset.i = i; box.style.width = w + 'px'; box.style.height = h + 'px';
+      const c = el('canvas'); const dpr = Math.min(2, window.devicePixelRatio || 1); c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); c.style.width = w + 'px'; c.style.height = h + 'px';
       Render.renderScreen(c.getContext('2d'), c.width, c.height, s, info(i));
       box.appendChild(c);
-      box.appendChild(el('span', 'num', String(i + 1)));
-      const pen = el('button', 'pencil', i === E.sel ? '✓' : '✎'); pen.title = t('Edit screen');
-      pen.onclick = (e) => { e.stopPropagation(); if (E.sel === i) { E.sel = -1; E.layer = null; } else { E.sel = i; E.layer = null; } renderStrip(); };
-      box.appendChild(pen);
+      if (E.layer) { const L = s.layers.find((x) => x.id === E.layer); if (L) { const bb = Render.layerBox(w, h, L); const sb = el('div', 'sel-box'); sb.style.left = bb.x + 'px'; sb.style.top = bb.y + 'px'; sb.style.width = bb.w + 'px'; sb.style.height = bb.h + 'px'; if (L.type !== 'element') { const hd = el('div', 'h'); hd.onmousedown = (e) => onResizeDown(e, L, w, h); sb.appendChild(hd); } box.appendChild(sb); } }
       box.onmousedown = (e) => onCanvasDown(e, i, box, w, h);
-      box.onclick = () => { if (E.sel !== i && !E.moved) { E.sel = i; E.layer = null; renderStrip(); } E.moved = false; };
-      if (i === E.sel && E.layer) { const L = s.layers.find((x) => x.id === E.layer); if (L) { const bb = Render.layerBox(w, h, L); const sb = el('div', 'sel-box'); sb.style.left = bb.x + 'px'; sb.style.top = bb.y + 'px'; sb.style.width = bb.w + 'px'; sb.style.height = bb.h + 'px'; if (L.type !== 'element') { const hd = el('div', 'h'); hd.onmousedown = (e) => onResizeDown(e, L, w, h); sb.appendChild(hd); } box.appendChild(sb); } }
-      strip.appendChild(box);
-      if (i === E.sel) strip.appendChild(panel(s, i));
-    });
-    const add = el('div', 'scr-add', '＋ ' + t('Add screen')); add.style.height = h + 'px';
-    add.onclick = () => { snapshot('add'); const src = E.P.screens[E.P.screens.length - 1]; const ns = src ? Model.clone(src) : Model.newScreen(); ns.id = Model.uid('s'); ns.layers.forEach((L) => { L.id = Model.uid(); if (L.type === 'device') L.shots = {}; }); E.P.screens.push(ns); E.sel = E.P.screens.length - 1; commit(); };
-    strip.appendChild(add);
-    canvas.appendChild(strip);
-    canvas.scrollLeft = st;
+      inner.appendChild(box);
+    }
+    const info1 = $('#stageInfo'); if (info1) info1.textContent = `${out().label} · ${W}×${H}`;
+    const cnt = $('#stageCount'); if (cnt) cnt.textContent = `${E.sel + 1} / ${E.P.screens.length}`;
+    const sb = $('#stSet'); if (sb) sb.classList.toggle('active', !!E.setView);
   }
+
+  /* ---------- ekran listesi ---------- */
+  function renderRail() {
+    const rail = $('#edRail'); if (!rail) return;
+    const st = rail.querySelector('.slide-list'); const scroll = st ? st.scrollTop : 0;
+    rail.innerHTML = '';
+    const head = el('div', 'rail-head', `<span>${t('Screens')} · ${E.P.screens.length}</span>`);
+    const add = el('button', 'btn tiny primary', '＋ ' + t('Add')); add.onclick = addScreen; head.appendChild(add); rail.appendChild(head);
+    const list = el('div', 'slide-list');
+    const { W, H } = dims(); const w = 132, h = Math.round(w * H / W);
+    E.P.screens.forEach((s, i) => {
+      const it = el('div', 'slide-item' + (i === E.sel ? ' sel' : '')); it.dataset.i = i;
+      const c = el('canvas'); c.width = w * 2; c.height = h * 2; c.style.height = h + 'px'; Render.renderScreen(c.getContext('2d'), c.width, c.height, s, info(i)); it.appendChild(c);
+      it.appendChild(el('span', 'num', String(i + 1)));
+      const mv = el('div', 'mv');
+      const mk = (lab, fn, title) => { const x = el('button', null, lab); x.title = title; x.onclick = (e) => { e.stopPropagation(); fn(); }; mv.appendChild(x); };
+      mk('↑', () => moveScreen(i, -1), t('Move up')); mk('↓', () => moveScreen(i, 1), t('Move down')); mk('⧉', () => dupScreen(i), t('Duplicate'));
+      it.appendChild(mv);
+      it.onclick = () => { E.setView = false; select(i); };
+      list.appendChild(it);
+    });
+    rail.appendChild(list); list.scrollTop = scroll;
+    const foot = el('div', 'rail-foot');
+    const dup = el('button', 'btn tiny', t('Duplicate')); dup.onclick = () => dupScreen(E.sel);
+    const del = el('button', 'btn tiny danger', t('Delete')); del.onclick = () => delScreen(E.sel);
+    const copy = el('button', 'btn tiny', '📋'); copy.title = t('Copy screen'); copy.onclick = () => { E.clip = Model.clone(E.P.screens[E.sel]); toast(t('Copy screen')); };
+    const paste = el('button', 'btn tiny', '📥'); paste.title = t('Paste screen style'); paste.onclick = () => pasteStyle(E.sel);
+    foot.append(dup, del, el('span', 'grow'), copy, paste); rail.appendChild(foot);
+  }
+  function addScreen() { snapshot('add'); const src = E.P.screens[E.P.screens.length - 1]; const ns = src ? Model.clone(src) : Model.newScreen(); ns.id = Model.uid('s'); ns.layers.forEach((L) => { L.id = Model.uid(); if (L.type === 'device') L.shots = {}; }); E.P.screens.push(ns); E.sel = E.P.screens.length - 1; E.layer = null; commit(); }
+  function dupScreen(i) { snapshot('dup'); const ns = Model.clone(E.P.screens[i]); ns.id = Model.uid('s'); ns.layers.forEach((L) => L.id = Model.uid()); E.P.screens.splice(i + 1, 0, ns); E.sel = i + 1; E.layer = null; commit(); }
+  function delScreen(i) { if (E.P.screens.length <= 1) return; if (!confirm(t('Delete screen') + '?')) return; snapshot('del'); E.P.screens.splice(i, 1); E.sel = Math.max(0, i - 1); E.layer = null; commit(); }
+  function moveScreen(i, d) { const j = i + d; if (j < 0 || j >= E.P.screens.length) return; snapshot('move'); const [x] = E.P.screens.splice(i, 1); E.P.screens.splice(j, 0, x); E.sel = j; commit(); }
+  function pasteStyle(i) { if (!E.clip) return; snapshot('paste'); const s = E.P.screens[i]; const c = Model.clone(E.clip); const keep = s.layers.filter((L) => L.type === 'device').map((L) => L.shots); const keepText = s.layers.filter((L) => L.type === 'text').map((L) => L.text); s.bg = c.bg; s.layers = c.layers.map((L) => { L.id = Model.uid(); return L; }); s.layers.filter((L) => L.type === 'device').forEach((L, k) => { if (keep[k]) L.shots = keep[k]; }); s.layers.filter((L) => L.type === 'text').forEach((L, k) => { if (keepText[k]) L.text = keepText[k]; }); commit(); }
+
+  /* ---------- panel kabuğu ---------- */
+  const TABS = [['layout', 'Layout'], ['bg', 'Background'], ['device', 'Device'], ['text', 'Text'], ['items', 'Elements']];
+  function buildPanelShell(panel) {
+    const tabs = el('nav', 'tabs3');
+    TABS.forEach(([k, label]) => { const b = el('button', k === E.tab ? 'active' : '', t(label)); b.dataset.tab = k; b.onclick = () => { E.tab = k; renderPanel(); }; tabs.appendChild(b); });
+    const body = el('div', 'panel-body3'); body.id = 'panelBody';
+    const foot = el('div', 'panel-foot3');
+    const applyAll = el('button', 'btn tiny wide', t('Apply this screen\'s style to all screens')); applyAll.onclick = applyStyleAll; foot.appendChild(applyAll);
+    panel.append(tabs, body, foot);
+  }
+  function applyStyleAll() { const s = E.P.screens[E.sel]; snapshot('applyAll'); E.P.screens.forEach((o) => { if (o === s) return; o.bg = Model.clone(s.bg); const keepShots = o.layers.filter((L) => L.type === 'device').map((L) => L.shots); const keepText = o.layers.filter((L) => L.type === 'text').map((L) => L.text); o.layers = s.layers.map((L) => Object.assign(Model.clone(L), { id: Model.uid() })); o.layers.filter((L) => L.type === 'device').forEach((L, k) => { if (keepShots[k]) L.shots = keepShots[k]; }); o.layers.filter((L) => L.type === 'text').forEach((L, k) => { if (keepText[k]) L.text = keepText[k]; }); }); commit(); toast(t('Applied to all screens')); }
+  function renderPanel() {
+    const body = $('#panelBody'); if (!body) return;
+    document.querySelectorAll('.tabs3 button').forEach((b) => b.classList.toggle('active', b.dataset.tab === E.tab));
+    const scroll = body.scrollTop; body.innerHTML = '';
+    const s = E.P.screens[E.sel], i = E.sel; if (!s) return;
+    if (E.tab === 'layout') body.appendChild(accLayouts(s, i));
+    else if (E.tab === 'bg') { body.appendChild(accBackground(s, i)); body.appendChild(accProjectBg()); }
+    else if (E.tab === 'device') { const devs = s.layers.filter((L) => L.type === 'device'); if (!devs.length) { body.appendChild(el('p', 'hint', t('This screen has no device layer. Add one from the screen panel.'))); const b = F.btn('＋ ' + t('Device'), () => addLayer(s, 'device', { w: 50, x: 25, y: 40 }), 'wide'); body.appendChild(b); } devs.forEach((L) => body.appendChild(accLayer(s, i, L, true))); }
+    else if (E.tab === 'text') { const txt = s.layers.filter((L) => L.type === 'text'); txt.forEach((L) => body.appendChild(accLayer(s, i, L, true))); const b = F.btn('＋ ' + t('Text'), () => addLayer(s, 'text', { role: 'title', size: 5, y: 40, h: 10 }), 'wide'); b.style.marginTop = '6px'; body.appendChild(b); }
+    else { const els = s.layers.filter((L) => L.type === 'element' || L.type === 'image'); body.appendChild(addMenu(s)); els.forEach((L) => body.appendChild(accLayer(s, i, L, true))); }
+    body.scrollTop = scroll;
+  }
+  function addLayer(s, type, extra) { snapshot('addL'); const L = Model.newLayer(type, extra); if (L.type === 'text') L.text = { [E.P.languages.default]: t('New text') }; if (L.type === 'element' && L.text && L.text.en && E.P.languages.default !== 'en') L.text[E.P.languages.default] = L.text.en; s.layers.push(L); E.layer = L.id; E.layerOpen[L.id] = true; E.tab = L.type === 'text' ? 'text' : L.type === 'device' ? 'device' : 'items'; commit(); }
+  function addMenu(s) {
+    const wrap = el('div', 'acc open'); wrap.appendChild(el('div', 'acc-h', `<span class="ic">＋</span><span class="grow">${t('Add element')}</span>`));
+    const b = el('div', 'acc-b'); const menu = el('div', 'addmenu');
+    const addBtn = (label, icon, fn) => { const x = el('button', null, `<span>${icon}</span>${esc(label)}`); x.onclick = fn; menu.appendChild(x); };
+    addBtn(t('Image'), '🖼', () => addLayer(s, 'image'));
+    Model.ELEMENT_KINDS.forEach(([k, label]) => addBtn(t(label), { pill: '💊', rating: '⭐', stars: '✩', laurel: '🏆', note: '🔔', icon: '🅰', quote: '❝', text: 'Aa', sparkle: '✨', emoji: '😀', arrow: '↗', ring: '◯', shape: '◼' }[k] || '✦', () => addLayer(s, 'element', { kind: k })));
+    b.appendChild(menu); wrap.appendChild(b); return wrap;
+  }
+
+  function renderAll() { renderRail(); renderStage(); renderPanel(); syncUndo(); }
+  E.renderStrip = renderAll;
 
   /* ---------- sürükleme ---------- */
   function hitLayer(s, x, y, w, h) {
@@ -115,16 +204,15 @@
     return null;
   }
   function onCanvasDown(e, i, box, w, h) {
-    if (e.target.classList.contains('pencil') || e.target.classList.contains('h')) return;
+    if (e.target.classList.contains('h')) return;
     const r = box.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top;
     const s = E.P.screens[i];
     const L = hitLayer(s, x, y, w, h);
-    if (E.sel !== i) { E.sel = i; E.layer = L ? L.id : null; renderStrip(); if (!L) return; }
-    else if (!L) { if (E.layer) { E.layer = null; renderStrip(); } return; }
-    if (E.layer !== L.id) { E.layer = L.id; renderStrip(); }
+    if (!L) { if (E.layer) { E.layer = null; renderStage(); renderPanel(); } return; }
+    if (E.layer !== L.id) { E.layer = L.id; E.layerOpen[L.id] = true; E.tab = L.type === 'text' ? 'text' : L.type === 'device' ? 'device' : L.type === 'element' || L.type === 'image' ? 'items' : E.tab; renderStage(); renderPanel(); }
     const start = { x: e.clientX, y: e.clientY, lx: L.x, ly: L.y };
     E.moved = false;
-    const box2 = $(`.scr[data-i="${i}"]`);
+    const box2 = $('.scr.big');
     const cv = box2 && box2.querySelector('canvas');
     const mv = (ev) => {
       const dx = (ev.clientX - start.x) / w * 100, dy = (ev.clientY - start.y) / h * 100;
@@ -141,33 +229,13 @@
     e.stopPropagation(); e.preventDefault();
     const start = { x: e.clientX, y: e.clientY, lw: L.w, lh: L.h || 0 };
     snapshot('resize');
-    const mv = (ev) => { L.w = Math.max(5, Math.round((start.lw + (ev.clientX - start.x) / w * 100) * 10) / 10); if (L.type !== 'device') L.h = Math.max(2, Math.round((start.lh + (ev.clientY - start.y) / h * 100) * 10) / 10); renderStrip(); };
-    const up = () => { window.removeEventListener('mousemove', mv); window.removeEventListener('mouseup', up); E.app.save(); };
+    const mv = (ev) => { L.w = Math.max(5, Math.round((start.lw + (ev.clientX - start.x) / w * 100) * 10) / 10); if (L.type !== 'device') L.h = Math.max(2, Math.round((start.lh + (ev.clientY - start.y) / h * 100) * 10) / 10); repaint(); };
+    const up = () => { window.removeEventListener('mousemove', mv); window.removeEventListener('mouseup', up); E.app.save(); renderRail(); renderPanel(); };
     window.addEventListener('mousemove', mv); window.addEventListener('mouseup', up);
   }
 
-  /* ---------- panel ---------- */
+  /* ---------- panel içerikleri ---------- */
   const ICON = { text: 'T', device: '📱', image: '🖼', element: '✦' };
-  function panel(s, i) {
-    const p = el('div', 'panel');
-    const tools = el('div', 'panel-tools');
-    const tb = (label, cls, fn, title) => { const b = el('button', 'tb ' + (cls || ''), label); b.onclick = fn; b.title = title || ''; tools.appendChild(b); };
-    tb('✓', 'ok', () => { E.sel = -1; E.layer = null; renderStrip(); }, t('Done'));
-    tb('⧉', '', () => { snapshot('dup'); const ns = Model.clone(s); ns.id = Model.uid('s'); ns.layers.forEach((L) => L.id = Model.uid()); E.P.screens.splice(i + 1, 0, ns); E.sel = i + 1; commit(); }, t('Duplicate'));
-    tb('⬇', '', () => downloadScreen(i), t('Download this screen'));
-    tb('◀', '', () => { if (i > 0) { snapshot('move'); const [x] = E.P.screens.splice(i, 1); E.P.screens.splice(i - 1, 0, x); E.sel = i - 1; commit(); } }, 'Move left');
-    tb('▶', '', () => { if (i < E.P.screens.length - 1) { snapshot('move'); const [x] = E.P.screens.splice(i, 1); E.P.screens.splice(i + 1, 0, x); E.sel = i + 1; commit(); } }, 'Move right');
-    tb('📋', '', () => { E.clip = Model.clone(s); toast(t('Copy screen')); }, t('Copy screen'));
-    tb('📥', '', () => { if (!E.clip) return; snapshot('paste'); const c = Model.clone(E.clip); const keep = s.layers.filter((L) => L.type === 'device').map((L) => L.shots); s.bg = c.bg; s.layers = c.layers.map((L) => { L.id = Model.uid(); return L; }); s.layers.filter((L) => L.type === 'device').forEach((L, k) => { if (keep[k]) L.shots = keep[k]; }); commit(); }, t('Paste screen style'));
-    tb('🗑', 'del', () => { if (E.P.screens.length <= 1) return; if (!confirm(t('Delete screen') + '?')) return; snapshot('del'); E.P.screens.splice(i, 1); E.sel = Math.max(0, i - 1); E.layer = null; commit(); }, t('Delete screen'));
-    p.appendChild(tools);
-    const body = el('div', 'panel-body');
-    body.appendChild(accLayouts(s, i));
-    body.appendChild(accBackground(s, i));
-    s.layers.forEach((L) => body.appendChild(accLayer(s, i, L)));
-    p.appendChild(body);
-    return p;
-  }
   function acc(title, icon, open, right) {
     const a = el('div', 'acc' + (open ? ' open' : ''));
     const h = el('div', 'acc-h', `<span class="ic">${icon}</span><span class="grow">${esc(title)}</span>`);
@@ -188,9 +256,9 @@
   };
   const row = (...fs) => { const r = el('div', 'row' + (fs.length === 1 ? ' one' : fs.length === 3 ? ' three' : '')); fs.forEach((f) => r.appendChild(f)); return r; };
   const upd = (key) => { snapshot(key); E.app.save(); repaint(); };
-  function repaint() { const i = E.sel; if (i < 0) return; const box = $(`.scr[data-i="${i}"]`); const cv = box && box.querySelector('canvas'); if (cv) Render.renderScreen(cv.getContext('2d'), cv.width, cv.height, E.P.screens[i], info(i)); if (E.P.screens[i].bg && E.P.screens[i].bg.panorama) renderStripCanvasesOnly(); const sb = box && box.querySelector('.sel-box'); const L = E.layer && E.P.screens[i].layers.find((x) => x.id === E.layer); if (sb && L) { const bb = Render.layerBox(cv.clientWidth, cv.clientHeight, L); sb.style.left = bb.x + 'px'; sb.style.top = bb.y + 'px'; sb.style.width = bb.w + 'px'; sb.style.height = bb.h + 'px'; } }
-  function renderStripCanvasesOnly() { document.querySelectorAll('.scr').forEach((box) => { const i = +box.dataset.i; const cv = box.querySelector('canvas'); Render.renderScreen(cv.getContext('2d'), cv.width, cv.height, E.P.screens[i], info(i)); }); }
-  function refreshPanelFields() { renderStrip(); }
+  function repaint() { const i = E.sel; if (i < 0) return; const box = $('.scr.big'); const cv = box && box.querySelector('canvas'); if (cv) Render.renderScreen(cv.getContext('2d'), cv.width, cv.height, E.P.screens[i], info(i)); const sb = box && box.querySelector('.sel-box'); const L = E.layer && E.P.screens[i].layers.find((x) => x.id === E.layer); if (sb && L && cv) { const bb = Render.layerBox(cv.clientWidth, cv.clientHeight, L); sb.style.left = bb.x + 'px'; sb.style.top = bb.y + 'px'; sb.style.width = bb.w + 'px'; sb.style.height = bb.h + 'px'; } clearTimeout(E._railT); E._railT = setTimeout(() => { const it = $(`.slide-item[data-i="${i}"] canvas`); if (it) Render.renderScreen(it.getContext('2d'), it.width, it.height, E.P.screens[i], info(i)); if (E.P.screens[i].bg && E.P.screens[i].bg.panorama) renderRail(); }, 120); }
+  function renderStripCanvasesOnly() { repaint(); renderRail(); }
+  function refreshPanelFields() { renderPanel(); renderRail(); }
 
   function accLayouts(s, i) {
     const plus = el('button', 'mini', '＋'); plus.title = t('Add element');
@@ -209,26 +277,18 @@
       mk('⧉', () => { snapshot('dupL'); const c = Model.clone(L); c.id = Model.uid(); c.x = (c.x || 0) + 3; c.y = (c.y || 0) + 2; s.layers.push(c); E.layer = c.id; commit(); }, 'Duplicate');
       mk('🗑', () => { snapshot('delL'); s.layers.splice(s.layers.indexOf(L), 1); if (E.layer === L.id) E.layer = null; commit(); }, 'Delete');
       r.appendChild(acts);
-      r.onclick = () => { E.layer = E.layer === L.id ? null : L.id; E.layerOpen[L.id] = true; renderStrip(); };
+      r.onclick = () => { E.layer = E.layer === L.id ? null : L.id; E.layerOpen[L.id] = true; if (E.layer) E.tab = L.type === 'text' ? 'text' : L.type === 'device' ? 'device' : 'items'; renderStage(); renderPanel(); };
       list.appendChild(r);
     });
     a.body.appendChild(list);
-    const addMenu = el('div', 'addmenu'); addMenu.hidden = true;
-    const addBtn = (label, icon, fn) => { const b = el('button', null, `<span>${icon}</span>${esc(label)}`); b.onclick = fn; addMenu.appendChild(b); };
-    const addL = (type, extra) => { snapshot('addL'); const L = Model.newLayer(type, extra); if (L.type === 'text') L.text = { [E.P.languages.default]: t('New text') }; if (L.type === 'element' && L.text && L.text.en && E.P.languages.default !== 'en') L.text[E.P.languages.default] = L.text.en; s.layers.push(L); E.layer = L.id; E.layerOpen[L.id] = true; commit(); };
-    addBtn(t('Text'), 'T', () => addL('text', { role: 'title', size: 5, y: 40, h: 10 }));
-    addBtn(t('Image'), '🖼', () => addL('image'));
-    addBtn(t('Device'), '📱', () => addL('device', { w: 50, x: 25, y: 40 }));
-    Model.ELEMENT_KINDS.forEach(([k, label]) => addBtn(t(label), { pill: '💊', rating: '⭐', stars: '✩', laurel: '🏆', note: '🔔', icon: '🅰', quote: '❝', text: 'Aa', sparkle: '✨', emoji: '😀', arrow: '↗', ring: '◯', shape: '◼' }[k] || '✦', () => addL('element', { kind: k })));
-    a.body.appendChild(addMenu);
-    plus.onclick = (e) => { e.stopPropagation(); addMenu.hidden = !addMenu.hidden; };
+    const addRow = el('div', 'addrow');
+    [['T', t('Text'), () => addLayer(s, 'text', { role: 'title', size: 5, y: 40, h: 10 })], ['📱', t('Device'), () => addLayer(s, 'device', { w: 50, x: 25, y: 40 })], ['🖼', t('Image'), () => addLayer(s, 'image')], ['✦', t('Element'), () => { E.tab = 'items'; renderPanel(); }]].forEach(([ic, lab, fn]) => { const b = el('button', 'btn sm', ic + ' ' + lab); b.onclick = fn; addRow.appendChild(b); });
+    a.body.appendChild(addRow);
+    plus.onclick = (e) => { e.stopPropagation(); E.tab = 'items'; renderPanel(); };
     const presets = el('div', 'preset-grid');
     Model.LAYOUT_PRESETS.forEach((p) => { const b = el('button', null, t(p.name)); b.onclick = () => { snapshot('preset'); p.apply(s); commit(); }; presets.appendChild(b); });
     a.body.appendChild(el('div', 'section-title', t('Pick a Preset')));
     a.body.appendChild(presets);
-    const applyAll = F.btn(t('Apply this screen\'s layout to all screens'), () => { snapshot('applyAll'); E.P.screens.forEach((o) => { if (o === s) return; o.bg = Model.clone(s.bg); const keepShots = o.layers.filter((L) => L.type === 'device').map((L) => L.shots); const keepText = o.layers.filter((L) => L.type === 'text').map((L) => L.text); o.layers = s.layers.map((L) => Object.assign(Model.clone(L), { id: Model.uid() })); o.layers.filter((L) => L.type === 'device').forEach((L, k) => { if (keepShots[k]) L.shots = keepShots[k]; }); o.layers.filter((L) => L.type === 'text').forEach((L, k) => { if (keepText[k]) L.text = keepText[k]; }); }); commit(); toast(t('Applied to all screens')); }, 'wide');
-    applyAll.style.marginTop = '8px';
-    a.body.appendChild(applyAll);
     return a;
   }
   function layerName(L) { if (L.type === 'text') return Render.textOf(L.text, E.lang, E.P.languages.default).replace(/[\[\]\n]/g, ' ').slice(0, 26) || t('Text'); if (L.type === 'element') return (Model.ELEMENT_KINDS.find((e) => e[0] === L.kind) || [L.kind, L.kind])[1]; return L.name || L.type; }
@@ -261,16 +321,17 @@
     const pan = F.check(t('Panoramic background') + ' (' + t('project') + ')', s.bg.panorama, (v) => { snapshot('pan'); s.bg.panorama = v; commit(); });
     a.body.appendChild(pan);
     if (!s.bg.panorama) a.body.appendChild(bgFields(s.bg, (k) => upd('bg:' + k)));
-    else a.body.appendChild(el('p', 'hint', t('This screen uses the project background. Edit it from the Background button in the toolbar.')));
+    else a.body.appendChild(el('p', 'hint', t('This screen uses the project background (below).')));
     const applyAll = F.btn(t('Apply background to all screens'), () => { snapshot('bgall'); E.P.screens.forEach((o) => { o.bg = Model.clone(s.bg); }); commit(); }, 'wide'); applyAll.style.marginTop = '8px';
     a.body.appendChild(applyAll);
     return a;
   }
 
-  function accLayer(s, i, L) {
+  function accLayer(s, i, L, forceOpen) {
     const vis = el('button', 'mini' + (L.hidden ? ' off' : ''), L.hidden ? '🙈' : '👁'); vis.onclick = (e) => { e.stopPropagation(); snapshot('vis'); L.hidden = !L.hidden; commit(); };
-    const lock = el('button', 'mini' + (L.lock ? '' : ' off'), '🔒'); lock.onclick = (e) => { e.stopPropagation(); L.lock = !L.lock; E.app.save(); renderStrip(); };
-    const a = acc(layerName(L), ICON[L.type] || '•', !!E.layerOpen[L.id] || E.layer === L.id, [vis, lock]);
+    const lock = el('button', 'mini' + (L.lock ? '' : ' off'), '🔒'); lock.onclick = (e) => { e.stopPropagation(); L.lock = !L.lock; E.app.save(); renderAll(); };
+    const a = acc(layerName(L), ICON[L.type] || '•', forceOpen || !!E.layerOpen[L.id] || E.layer === L.id, [vis, lock]);
+    a.querySelector('.acc-h').addEventListener('click', () => { if (E.layer !== L.id) { E.layer = L.id; renderStage(); } });
     a.dataset.layer = L.id;
     const b = a.body;
     const u = (k) => upd(L.id + ':' + k);
@@ -344,16 +405,15 @@
   }
   function outside(e) { if (pop && !pop.contains(e.target)) closePop(); }
   function closePop() { if (pop) { pop.remove(); pop = null; document.removeEventListener('mousedown', outside); } }
-  function bgPopover(anchor) {
-    openPop(anchor, (p) => {
-      p.appendChild(el('h4', null, t('Project background') + ' · ' + t('Panoramic background')));
-      p.appendChild(el('p', 'hint', t('Applies to every screen that has "Panoramic background" turned on; it flows across the whole set.')));
-      E.P.background = E.P.background || Model.defaultBg();
-      p.appendChild(bgFields(E.P.background, () => { E.app.save(); renderStripCanvasesOnly(); }, true));
-      const all = F.btn(t('Use on all screens'), () => { snapshot('panall'); E.P.screens.forEach((s) => { s.bg = s.bg || Model.defaultBg(); s.bg.panorama = true; }); commit(); }, 'wide');
-      const none = F.btn(t('Turn off on all screens'), () => { snapshot('panoff'); E.P.screens.forEach((s) => { if (s.bg) s.bg.panorama = false; }); commit(); }, 'wide');
-      const r = el('div', 'row'); r.append(all, none); p.appendChild(r);
-    });
+  function accProjectBg() {
+    const a = acc(t('Project background') + ' · ' + t('Panoramic background'), '🌄', E.P.screens[E.sel].bg && E.P.screens[E.sel].bg.panorama);
+    a.body.appendChild(el('p', 'hint', t('Applies to every screen that has "Panoramic background" turned on; it flows across the whole set.')));
+    E.P.background = E.P.background || Model.defaultBg();
+    a.body.appendChild(bgFields(E.P.background, () => { E.app.save(); renderStripCanvasesOnly(); }, true));
+    const all = F.btn(t('Use on all screens'), () => { snapshot('panall'); E.P.screens.forEach((s) => { s.bg = s.bg || Model.defaultBg(); s.bg.panorama = true; }); commit(); }, 'wide');
+    const none = F.btn(t('Turn off on all screens'), () => { snapshot('panoff'); E.P.screens.forEach((s) => { if (s.bg) s.bg.panorama = false; }); commit(); }, 'wide');
+    const r = el('div', 'row'); r.append(all, none); a.body.appendChild(r);
+    return a;
   }
   function globalsPopover(anchor) {
     openPop(anchor, (p) => {
@@ -379,22 +439,23 @@
     download(blob, `${String(i + 1).padStart(2, '0')}-${slug(Render.textOf((E.P.screens[i].layers.find((L) => L.type === 'text') || {}).text, E.lang, E.P.languages.default))}-${W}x${H}.png`);
   }
   E.renderTo = (canvas, i, W, H, opts) => { canvas.width = W; canvas.height = H; const inf = info(i); if (opts) Object.assign(inf, opts); Render.renderScreen(canvas.getContext('2d'), W, H, E.P.screens[i], inf); };
-  E.renderAll = renderAll; E.snapshot = snapshot; E.commit = commit; E.dims = dims; E.info = info;
+  E.renderAll = renderAll; E.snapshot = snapshot; E.commit = commit; E.dims = dims; E.info = info; E.select = select; E.renderPanel = renderPanel;
 
   /* ---------- klavye & bırakma ---------- */
   function bindKeys() {
     if (E._keys) return; E._keys = true;
     window.addEventListener('keydown', (e) => {
-      if (!E.P || !$('#edCanvas')) return;
+      if (!E.P || !$('#edStage')) return;
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); E.app.save(true); toast(t('Saved')); return; }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'd' && E.layer) { e.preventDefault(); const s = E.P.screens[E.sel]; const L = s.layers.find((x) => x.id === E.layer); if (L) { snapshot('dupL'); const c = Model.clone(L); c.id = Model.uid(); c.x += 3; c.y += 2; s.layers.push(c); E.layer = c.id; commit(); } return; }
-      if (e.key === 'Escape') { E.layer = null; E.sel = -1; closePop(); renderStrip(); return; }
+      if (e.key === 'Escape') { E.layer = null; closePop(); renderStage(); renderPanel(); return; }
       if ((e.key === 'Delete' || e.key === 'Backspace') && E.layer) { const s = E.P.screens[E.sel]; snapshot('delL'); s.layers = s.layers.filter((x) => x.id !== E.layer); E.layer = null; commit(); return; }
       if (e.key.startsWith('Arrow') && E.layer) { const s = E.P.screens[E.sel]; const L = s.layers.find((x) => x.id === E.layer); if (!L) return; e.preventDefault(); snapshot('nudge'); const d = e.shiftKey ? 1 : 0.2; if (e.key === 'ArrowLeft') L.x -= d; if (e.key === 'ArrowRight') L.x += d; if (e.key === 'ArrowUp') L.y -= d; if (e.key === 'ArrowDown') L.y += d; E.app.save(); repaint(); return; }
       if (e.key === '+' || e.key === '=') setZoom(E.zoom + 0.1); if (e.key === '-') setZoom(E.zoom - 0.1);
+      if (e.key === 'PageDown' || (e.key === 'ArrowDown' && !E.layer)) { e.preventDefault(); select(Math.min(E.P.screens.length - 1, E.sel + 1)); } if (e.key === 'PageUp' || (e.key === 'ArrowUp' && !E.layer)) { e.preventDefault(); select(Math.max(0, E.sel - 1)); }
     });
   }
   function bindDrop(canvas) {
@@ -404,18 +465,18 @@
       const files = [...e.dataTransfer.files].filter((f) => f.type.startsWith('image/')).sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
       if (!files.length) return;
       const box = e.target.closest('.scr');
-      let idx = box ? +box.dataset.i : 0;
+      let idx = E.sel >= 0 ? E.sel : 0;
       snapshot('drop');
       for (const f of files) {
         while (idx >= E.P.screens.length) { const ns = Model.clone(E.P.screens[E.P.screens.length - 1]); ns.id = Model.uid('s'); ns.layers.forEach((L) => { L.id = Model.uid(); if (L.type === 'device') L.shots = {}; }); E.P.screens.push(ns); }
         const dev = E.P.screens[idx].layers.find((L) => L.type === 'device');
         const id = await Store.putAsset(await Store.fileToDataUrl(f), { name: f.name, type: f.type });
-        if (dev) Model.setShot(dev, files.length === 1 && box ? Devices.slotForOutput(E.out) : 'global', id);
+        if (dev) Model.setShot(dev, 'global', id);
         idx++;
       }
       commit(); toast(t('{n} screenshots added', { n: files.length }));
     });
   }
 
-  window.I18N.extend({ 'New text': 'Yeni metin', 'Apply this screen\'s layout to all screens': 'Bu ekranın düzenini tüm ekranlara uygula', 'Applied to all screens': 'Tüm ekranlara uygulandı', 'Apply background to all screens': 'Arka planı tüm ekranlara uygula', 'This screen uses the project background. Edit it from the Background button in the toolbar.': 'Bu ekran proje arka planını kullanıyor. Araç çubuğundaki Arka plan düğmesinden düzenle.', 'project': 'proje', 'Project background': 'Proje arka planı', 'Applies to every screen that has "Panoramic background" turned on; it flows across the whole set.': '"Panoramik arka plan" açık olan her ekrana uygulanır; set boyunca akar.', 'Use on all screens': 'Tüm ekranlarda kullan', 'Turn off on all screens': 'Tüm ekranlarda kapat', 'apply to every screen': 'tüm ekranlara uygula', 'Title font': 'Başlık fontu', 'Subtitle font': 'Alt başlık fontu', 'Title colour': 'Başlık rengi', 'Subtitle colour': 'Alt başlık rengi', 'Title size': 'Başlık boyutu', 'Subtitle size': 'Alt başlık boyutu', 'Device frame': 'Cihaz çerçevesi', 'Upload for this size': 'Bu boyut için yükle', 'Choose image': 'Görsel seç', 'Screen background': 'Ekran arka planı', 'Vertical align': 'Dikey hizalama', 'Middle': 'Orta', 'Decoration': 'Süs', 'Squiggle': 'Kıvrım', 'Line': 'Çizgi', 'Box colour': 'Kutu rengi', 'Auto-fit': 'Otomatik sığdır', 'Top label': 'Üst etiket', 'Secondary text': 'İkincil metin', 'Time': 'Saat', 'Icon colour': 'İkon rengi', 'Star colour': 'Yıldız rengi', 'Count': 'Adet', 'Flow under previous text': 'Önceki metnin altına aksın', 'Angle': 'Açı', 'Variant': 'Varyasyon', 'Blur': 'Bulanıklık', 'Dim': 'Karartma', 'Pattern colour': 'Desen rengi', 'Pattern opacity': 'Desen opaklığı', 'Pattern scale': 'Desen ölçeği', 'Noise': 'Grain', 'Vignette': 'Vinyet', 'Radial': 'Radyal', 'Dots': 'Noktalar', 'Grid': 'Izgara', 'Diagonal': 'Çapraz', 'Rings': 'Halkalar', 'Waves': 'Dalgalar', 'Crosses': 'Artılar', 'Blobs': 'Lekeler', 'Circles': 'Daireler', 'Stripe': 'Şerit', 'Sparkles': 'Işıltı', '{n} screenshots added': '{n} ekran görüntüsü eklendi', 'Chip': 'Çip', 'Rating badge': 'Puan rozeti', 'Stars': 'Yıldızlar', 'Laurel': 'Laurel', 'Notification': 'Bildirim', 'App icon + name': 'Uygulama ikonu + ad', 'Quote': 'Alıntı', 'Label': 'Etiket', 'Emoji': 'Emoji', 'Arrow': 'Ok', 'Ring': 'Halka', 'Blob': 'Leke', 'Circle': 'Daire', 'Rectangle': 'Dikdörtgen', 'Graphite': 'Grafit', 'Black': 'Siyah', 'Silver': 'Gümüş', 'Gold': 'Altın', 'Blue': 'Mavi', 'White': 'Beyaz', 'Text top': 'Metin üstte', 'Text bottom': 'Metin altta', 'Device bleed': 'Taşkın cihaz', 'Giant tilted': 'Dev eğik', 'Tilted': 'Eğik', 'Device right': 'Cihaz sağda', 'Device left': 'Cihaz solda', 'Small device': 'Küçük cihaz', 'Full bleed': 'Tam ekran', 'Span two frames · left': 'İki kareye yay · sol', 'Span two frames · right': 'İki kareye yay · sağ' });
+  window.I18N.extend({ 'Quick start': 'Hızlı başlangıç', 'App name, description, screenshots, languages → AI writes every caption': 'Uygulama adı, açıklama, ekran görüntüleri, diller → başlıkları AI yazar', 'Caption language': 'Başlık dili', 'Output size': 'Çıktı boyutu', 'Set view': 'Set görünümü', 'See the whole set side by side, like the store': 'Tüm seti mağazadaki gibi yan yana gör', 'This screen': 'Bu ekran', 'Fit': 'Sığdır', 'Screens': 'Ekranlar', 'Add': 'Ekle', 'Move up': 'Yukarı taşı', 'Move down': 'Aşağı taşı', 'Layout': 'Düzen', 'Background': 'Arka plan', 'Device': 'Cihaz', 'Text': 'Metin', 'Elements': 'Öğeler', 'Apply this screen\'s style to all screens': 'Bu ekranın stilini tüm ekranlara uygula', 'This screen uses the project background (below).': 'Bu ekran proje arka planını kullanıyor (aşağıda).', 'Element': 'Öğe', 'Image': 'Görsel', 'Add element': 'Öğe ekle', 'Project name': 'Proje adı', 'New text': 'Yeni metin', 'Apply this screen\'s layout to all screens': 'Bu ekranın düzenini tüm ekranlara uygula', 'Applied to all screens': 'Tüm ekranlara uygulandı', 'Apply background to all screens': 'Arka planı tüm ekranlara uygula', 'This screen uses the project background. Edit it from the Background button in the toolbar.': 'Bu ekran proje arka planını kullanıyor. Araç çubuğundaki Arka plan düğmesinden düzenle.', 'project': 'proje', 'Project background': 'Proje arka planı', 'Applies to every screen that has "Panoramic background" turned on; it flows across the whole set.': '"Panoramik arka plan" açık olan her ekrana uygulanır; set boyunca akar.', 'Use on all screens': 'Tüm ekranlarda kullan', 'Turn off on all screens': 'Tüm ekranlarda kapat', 'apply to every screen': 'tüm ekranlara uygula', 'Title font': 'Başlık fontu', 'Subtitle font': 'Alt başlık fontu', 'Title colour': 'Başlık rengi', 'Subtitle colour': 'Alt başlık rengi', 'Title size': 'Başlık boyutu', 'Subtitle size': 'Alt başlık boyutu', 'Device frame': 'Cihaz çerçevesi', 'Upload for this size': 'Bu boyut için yükle', 'Choose image': 'Görsel seç', 'Screen background': 'Ekran arka planı', 'Vertical align': 'Dikey hizalama', 'Middle': 'Orta', 'Decoration': 'Süs', 'Squiggle': 'Kıvrım', 'Line': 'Çizgi', 'Box colour': 'Kutu rengi', 'Auto-fit': 'Otomatik sığdır', 'Top label': 'Üst etiket', 'Secondary text': 'İkincil metin', 'Time': 'Saat', 'Icon colour': 'İkon rengi', 'Star colour': 'Yıldız rengi', 'Count': 'Adet', 'Flow under previous text': 'Önceki metnin altına aksın', 'Angle': 'Açı', 'Variant': 'Varyasyon', 'Blur': 'Bulanıklık', 'Dim': 'Karartma', 'Pattern colour': 'Desen rengi', 'Pattern opacity': 'Desen opaklığı', 'Pattern scale': 'Desen ölçeği', 'Noise': 'Grain', 'Vignette': 'Vinyet', 'Radial': 'Radyal', 'Dots': 'Noktalar', 'Grid': 'Izgara', 'Diagonal': 'Çapraz', 'Rings': 'Halkalar', 'Waves': 'Dalgalar', 'Crosses': 'Artılar', 'Blobs': 'Lekeler', 'Circles': 'Daireler', 'Stripe': 'Şerit', 'Sparkles': 'Işıltı', '{n} screenshots added': '{n} ekran görüntüsü eklendi', 'Chip': 'Çip', 'Rating badge': 'Puan rozeti', 'Stars': 'Yıldızlar', 'Laurel': 'Laurel', 'Notification': 'Bildirim', 'App icon + name': 'Uygulama ikonu + ad', 'Quote': 'Alıntı', 'Label': 'Etiket', 'Emoji': 'Emoji', 'Arrow': 'Ok', 'Ring': 'Halka', 'Blob': 'Leke', 'Circle': 'Daire', 'Rectangle': 'Dikdörtgen', 'Graphite': 'Grafit', 'Black': 'Siyah', 'Silver': 'Gümüş', 'Gold': 'Altın', 'Blue': 'Mavi', 'White': 'Beyaz', 'Text top': 'Metin üstte', 'Text bottom': 'Metin altta', 'Device bleed': 'Taşkın cihaz', 'Giant tilted': 'Dev eğik', 'Tilted': 'Eğik', 'Device right': 'Cihaz sağda', 'Device left': 'Cihaz solda', 'Small device': 'Küçük cihaz', 'Full bleed': 'Tam ekran', 'Span two frames · left': 'İki kareye yay · sol', 'Span two frames · right': 'İki kareye yay · sağ' });
 })();

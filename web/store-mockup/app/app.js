@@ -56,7 +56,7 @@
       window.Editor.mount(view, App);
       return;
     }
-    App.project = null;
+    App.project = null; document.body.classList.remove('editing');
     renderNav('Projects');
     if (r.view === 'new') return viewNew(view);
     return viewProjects(view);
@@ -146,6 +146,7 @@
     const p = Model.newProject(name.trim(), { lang: window.I18N.lang });
     for (let i = 0; i < 5; i++) p.screens.push(Model.newScreen());
     p.screens.forEach((s, i) => { s.layers.forEach((L) => { if (L.type === 'text' && L.role !== 'subtitle') L.text = { [p.languages.default]: t('Headline {n}', { n: i + 1 }) }; }); });
+    p.quick = true;
     await Store.putProject(p);
     App.go('/project/' + p.id);
   }
