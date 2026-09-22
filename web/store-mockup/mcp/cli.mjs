@@ -2,6 +2,7 @@
 /* CLI: aynı motor, terminalden.
    node cli.mjs render --template indie --name "Wallet Coach" --lines lines.txt --shots ./ss [--icon icon.png]
         [--accent "#16a34a"] [--rating "4.8 · 1.2K"] [--lang tr] [--frame android] [--sizes 1290x2796,1080x1920] [--out ./out]
+        [--dev-x 8 --dev-y 26 --dev-w 84]   cihaz kutusunu yeniden yerleştir (yüzde; kare/saat çıktılarında işe yarar)
    node cli.mjs project  (aynı argümanlar, --out x.sms.json)  → tarayıcı uygulamasına içe aktarılacak proje
    çok dil: --captions-tr lines.tr.txt --captions-de lines.de.txt (dosya adıyla dil) · --sizes iphone-6.9,ipad-13,android-phone
    node cli.mjs templates */
@@ -31,6 +32,7 @@ function spec() {
     lines: args.lines ? fs.readFileSync(args.lines, 'utf8').split('\n').map((x) => x.trim()).filter(Boolean) : [],
     shots: shotsFrom(args.shots), icon: args.icon, accent: args.accent, rating: args.rating,
     addIcon: !args['no-icon'], frame: args.frame,
+    device: (args['dev-x'] || args['dev-y'] || args['dev-w']) ? { x: args['dev-x'], y: args['dev-y'], w: args['dev-w'] } : undefined,
     sizes: args.sizes ? String(args.sizes).split(',') : ['iphone-6.9'],
     captions: Object.fromEntries(Object.entries(args).filter(([k]) => k.startsWith('captions-')).map(([k, v]) => [k.slice(9), fs.readFileSync(v, 'utf8').split('\n').map((x) => x.trim()).filter(Boolean)])),
     outDir: args.out || './store-screenshots',

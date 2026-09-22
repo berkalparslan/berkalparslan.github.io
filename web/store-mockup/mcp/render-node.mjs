@@ -41,7 +41,8 @@ const toData = (p) => (/^data:/.test(p) ? p : `data:${MIME[path.extname(p).toLow
 /**
  * spec = { template, name, lang:'en', languages?:['en','tr'], captions?: { en:['Title [x] | Subtitle',…], tr:[…] }, lines?:[…],
  *          shots: ['01.png',…] | { global:[…], iphone:[…], ipad:[…], 'android-phone':[…] }, icon?, accent?, rating?, addIcon?, frame?,
- *          sizes:['iphone-6.9'], exportLanguages?, outDir }
+ *          sizes:['iphone-6.9'], exportLanguages?, outDir, device?: { x?, y?, w? } (yüzde; kare çıktılarda
+ *          şablonun telefon için ayarlanmış cihaz kutusunu yeniden yerleştirmek için) }
  * Tarayıcıdaki Model ile birebir proje kurar.
  */
 export async function buildProject(spec) {
@@ -76,6 +77,7 @@ export async function buildProject(spec) {
   project.screens.forEach((s) => s.layers.forEach((L) => {
     if (accent && L.type === 'text' && L.role !== 'subtitle') L.accent = accent;
     if (spec.frame && L.type === 'device' && L.frame !== 'none') L.frame = spec.frame;
+    if (spec.device && L.type === 'device') ['x', 'y', 'w'].forEach((k) => { if (spec.device[k] != null) L[k] = Number(spec.device[k]); });
     if (accent && L.type === 'element' && (L.kind === 'icon' || L.kind === 'note')) L.iconBg = accent;
   }));
   const first = project.screens[0];

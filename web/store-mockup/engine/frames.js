@@ -57,6 +57,16 @@
       screenRadius: 0.22,
       crown: true,
     },
+    'watch-round': {
+      // Wear OS'un yuvarlak kadranı: kare ekran, tam daire gövde. Apple'ın
+      // yuvarlak-kare saatini bir Play listelemesine koymak yanlış olur.
+      label: 'Watch (yuvarlak)',
+      screenRatio: 1,
+      bezel: { t: 0.075, r: 0.075, b: 0.075, l: 0.075 },
+      bodyRadius: 0.5,
+      screenRadius: 0.5,
+      crown: true,
+    },
     browser: {
       label: 'Tarayıcı penceresi',
       screenRatio: 900 / 1440,

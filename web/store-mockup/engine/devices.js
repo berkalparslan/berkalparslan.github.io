@@ -21,7 +21,7 @@
     { id: 'android-tablet-7', store: 'google', group: 'Android', label: 'Android 7" Tablets - 16:9', w: 1080, h: 1920, frame: 'tablet', display: 'Galaxy Tab' },
     { id: 'android-tablet-10', store: 'google', group: 'Android', label: 'Android 10" Tablets - 16:9', w: 2160, h: 3840, frame: 'tablet', display: 'Galaxy Tab S8 Ultra', free: true },
     { id: 'play-feature', store: 'google', group: 'Google Play', label: 'Play feature graphic', w: 1024, h: 500, frame: 'none', display: '—', landscape: true },
-    { id: 'wearos', store: 'google', group: 'Wear OS', label: 'Wear OS', w: 512, h: 512, frame: 'watch', display: 'Pixel Watch' },
+    { id: 'wearos', store: 'google', group: 'Wear OS', label: 'Wear OS', w: 512, h: 512, frame: 'watch-round', display: 'Pixel Watch' },
     // Diğer
     { id: 'amazon', store: 'other', group: 'Amazon', label: 'Amazon Appstore', w: 1080, h: 1920, frame: 'android', display: 'Fire phone' },
     { id: 'huawei', store: 'other', group: 'Huawei', label: 'Huawei AppGallery', w: 1080, h: 1920, frame: 'android', display: 'Huawei' },
