@@ -60,6 +60,33 @@
     .secenek input { margin-top: 4px; padding: 4px 6px; font-size: 12px; }
     .kapali { display: none !important; }
     .uyarı { background: var(--amber-soft); color: var(--amber); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 12px; }
+    #girisKart { max-width: 360px; margin: 48px auto; display: grid; gap: 10px; }
+    #girisKart h2 { margin: 0; font-size: 17px; }
+    #girisKart button { width: 100%; }
+    .ayrac { display: flex; align-items: center; gap: 8px; color: var(--faint); font-size: 12px; }
+    .ayrac::before, .ayrac::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .hata { color: var(--rose); font-size: 12px; min-height: 16px; }
+    /* Telefon: tek sütun, kaydırılabilir sekmeler, tam ekran diyalog, 16px
+       yazı (iOS alan odaklanınca sayfayı yakınlaştırmasın). */
+    @media (max-width: 640px) {
+      body { padding-inline: 12px; }
+      header { padding: 12px 0; gap: 8px; }
+      h1 { font-size: 17px; } h1 small { display: block; margin: 2px 0 0; }
+      nav.sekmeler { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -12px; padding-inline: 12px; }
+      nav.sekmeler::-webkit-scrollbar { display: none; }
+      nav.sekmeler button { white-space: nowrap; }
+      .sayac { grid-template-columns: 1fr 1fr; }
+      .sayac .kart b { font-size: 19px; }
+      .kart { padding: 11px; }
+      table { font-size: 12px; } th, td { padding: 6px 4px; }
+      img.k { width: 36px; height: 36px; }
+      .satir, .ikili { grid-template-columns: 1fr; }
+      input, select, textarea, button, .btn { font-size: 16px; }
+      button.kucuk { font-size: 13px; padding: 6px 9px; }
+      .arac input[type=search] { max-width: none; }
+      dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; border: 0; }
+      .secenekler { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 
@@ -68,13 +95,26 @@
     <div><h1>O mu Bu mu? <small>yönetim · Firestore</small></h1><div id="durum">bağlanıyor…</div></div>
     <div class="sag">
       <label class="ipucu" style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" id="emu" style="width:auto"> emülatör</label>
-      <button id="giris" class="ana">Google ile giriş</button>
       <button id="cikis" class="kapali">Çıkış</button>
       <a class="btn" href="/lab/">← lab</a>
     </div>
   </header>
 
   <div id="uyari" class="uyarı kapali"></div>
+
+  <section id="girisKart" class="kart kapali">
+    <h2>Yönetim girişi</h2>
+    <form id="girisForm">
+      <label for="gEposta">E-posta</label>
+      <input id="gEposta" name="eposta" type="email" autocomplete="username" inputmode="email" required>
+      <label for="gSifre">Parola</label>
+      <input id="gSifre" name="sifre" type="password" autocomplete="current-password" required>
+      <p style="margin:12px 0 0"><button class="ana" type="submit">Giriş</button></p>
+    </form>
+    <div class="ayrac">veya</div>
+    <button id="girisGoogle">Google ile giriş</button>
+    <p id="girisHata" class="hata"></p>
+  </section>
 
   <main id="uygulama" class="kapali">
     <div class="sayac" id="sayaclar"></div>
@@ -126,24 +166,37 @@
     const tarih = (ts) => ts?.toDate ? ts.toDate().toLocaleString("tr-TR") : "—";
 
     // ---- giriş ---------------------------------------------------------
-    $("#giris").onclick = async () => {
+    // İki yol: e-posta + parola (telefonda açılır pencere derdi yok) ya da
+    // Google. Yetkiyi ikisinde de Firestore'daki admins/{uid} belgesi verir.
+    const girisHata = (t) => ($("#girisHata").textContent = t);
+    if (emu) { $("#gEposta").value = "admin@local.test"; $("#gSifre").value = "admin123"; }
+
+    $("#girisForm").onsubmit = async (e) => {
+      e.preventDefault();
+      girisHata("");
+      const eposta = $("#gEposta").value.trim(), sifre = $("#gSifre").value;
       try {
-        if (emu) {
-          // Emülatörde Google açılır penceresi yok; sabit bir yönetici hesabı kullan.
-          try { await signInWithEmailAndPassword(auth, "admin@local.test", "admin123"); }
-          catch { await createUserWithEmailAndPassword(auth, "admin@local.test", "admin123"); }
-        } else {
-          await signInWithPopup(auth, new GoogleAuthProvider());
+        await signInWithEmailAndPassword(auth, eposta, sifre);
+      } catch (err) {
+        // Emülatörde hesap yoksa oluştur; üretimde hata göster.
+        if (emu && (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential")) {
+          try { await createUserWithEmailAndPassword(auth, eposta, sifre); return; } catch (e2) { girisHata(e2.message); return; }
         }
-      } catch (e) { uyar("Giriş başarısız: " + e.message); }
+        girisHata(err.code === "auth/invalid-credential" ? "E-posta ya da parola hatalı." : err.message);
+      }
+    };
+    $("#girisGoogle").onclick = async () => {
+      girisHata("");
+      try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+      catch (e) { girisHata("Google girişi başarısız: " + e.message); }
     };
     $("#cikis").onclick = () => signOut(auth);
 
     let benAdmin = false;
     onAuthStateChanged(auth, async (user) => {
-      $("#giris").classList.toggle("kapali", !!user);
+      $("#girisKart").classList.toggle("kapali", !!user);
       $("#cikis").classList.toggle("kapali", !user);
-      if (!user) { $("#uygulama").classList.add("kapali"); durum("giriş yapılmadı"); return; }
+      if (!user) { $("#uygulama").classList.add("kapali"); uyar(""); durum("giriş yapılmadı"); return; }
       const a = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
       benAdmin = !!a?.exists();
       durum(`${user.email || user.uid} · ${benAdmin ? "yönetici" : "yetkisiz"}${emu ? " · emülatör" : ""}`);
@@ -230,9 +283,17 @@
       const sec = (gun, alan, liste, etiket) => `<select data-gun="${gun}|${alan}"><option value="">otomatik</option>${liste.map((x) => `<option value="${esc(x.id)}" ${V.daily[gun]?.[alan] === x.id ? "selected" : ""}>${esc(etiket(x))}</option>`).join("")}</select>`;
       const adlar = new Intl.DateTimeFormat("tr-TR", { weekday: "short", day: "numeric", month: "short" });
       return `<p class="ipucu">Uygulama her gün için önce buradaki seçimi kullanır; "otomatik" kalan günlerde katalogdan formülle seçer. Yayınlanmış bir şey değişmeden, canlıyken değiştirilebilir; kullanıcı uygulamayı bir sonraki açışında görür. Gün, telefonun yerel takvimine göre.</p>
-      <div class="tablo"><table><tr><th>Gün</th><th>Günün ikilemi</th><th>Günün turnuvası</th></tr>
-      ${gunler.map((g) => `<tr><td>${g === gunler[0] ? "<b>Bugün</b> · " : ""}${adlar.format(new Date(g))}<br><span class="ipucu mono">${g}</span></td><td>${sec(g, "questionId", sorular, (q) => q.text)}</td><td>${sec(g, "bracketId", turlar, (b) => `${b.emoji || ""} ${b.title}`)}</td></tr>`).join("")}</table></div>
-      <p class="ipucu">Geçmiş günler belgede kalır; temizlemek için <button class="kucuk" data-gun-temizle>eski günleri sil</button>.</p>`;
+      <div class="grid">
+      ${gunler.map((g) => `<div class="kart">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+          <b>${g === gunler[0] ? "Bugün" : esc(adlar.format(new Date(g)))}</b><span class="ipucu mono">${g}</span>
+        </div>
+        <label>Günün ikilemi</label>${sec(g, "questionId", sorular, (q) => q.text)}
+        <p style="margin:6px 0 0"><button class="kucuk" data-gun-yeni="${g}">+ Yeni ikilem yaz</button></p>
+        <label>Günün turnuvası</label>${sec(g, "bracketId", turlar, (b) => `${b.emoji || ""} ${b.title}`)}
+      </div>`).join("")}
+      </div>
+      <p class="ipucu" style="margin-top:14px">Yeni yazdığın ikilem <b>approved + public</b> olarak kaydedilir; hem o günün ikilemi olur hem de havuza girer. Geçmiş günler belgede kalır; temizlemek için <button class="kucuk" data-gun-temizle>eski günleri sil</button>.</p>`;
     }
 
     // ---- istatistik ----------------------------------------------------
@@ -341,6 +402,15 @@
         await setDoc(doc(db, "meta", "daily"), V.daily);
         durum(`${gun} kaydedildi · ${new Date().toLocaleTimeString("tr-TR")}`);
       });
+      document.querySelectorAll("[data-gun-yeni]").forEach((b) => b.onclick = () => {
+        const gun = b.dataset.gunYeni;
+        // Formu boş aç; kaydedince yeni soruyu doğrudan o güne ata.
+        duzenle("questions", null, async (id) => {
+          V.daily[gun] = { ...(V.daily[gun] || {}), questionId: id };
+          await setDoc(doc(db, "meta", "daily"), V.daily);
+          durum(`${gun} · yeni ikilem kaydedildi ve güne atandı`);
+        });
+      });
       $("[data-gun-temizle]") && ($("[data-gun-temizle]").onclick = async () => {
         const bugun = new Date().toISOString().slice(0, 10);
         for (const g of Object.keys(V.daily)) if (g < bugun) delete V.daily[g];
@@ -375,7 +445,7 @@
     }
 
     // ---- düzenleme formu ----------------------------------------------
-    function duzenle(tur, kayit) {
+    function duzenle(tur, kayit, sonra) {
       const yeni = !kayit;
       const k = kayit || {};
       let form = "";
@@ -433,7 +503,10 @@
           Object.assign(veri, { name: f.get("name"), nameEn: f.get("nameEn") || null, symbol: f.get("symbol") || "sparkles", order: +f.get("order") || 0 });
           if (yeni) Object.assign(veri, { questionCount: 0, createdAt: serverTimestamp() });
         }
-        if (yeni) await addDoc(collection(db, tur), veri); else await updateDoc(doc(db, tur, k.id), veri);
+        if (yeni) {
+          const ref = await addDoc(collection(db, tur), veri);
+          if (sonra) await sonra(ref.id);
+        } else await updateDoc(doc(db, tur, k.id), veri);
         d.close(); await yukle(); goster(aktif);
       };
     }
