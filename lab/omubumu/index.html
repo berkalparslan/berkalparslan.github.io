@@ -58,6 +58,8 @@
     .secenek { border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px; font-size: 12px; }
     .secenek img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; background: var(--surface-2); }
     .secenek input { margin-top: 4px; padding: 4px 6px; font-size: 12px; }
+    .yukle { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+    .yukle input[type=file] { width: auto; flex: 1; min-width: 150px; padding: 4px; font-size: 12px; }
     .kapali { display: none !important; }
     .uyarı { background: var(--amber-soft); color: var(--amber); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 12px; }
     #girisKart { max-width: 360px; margin: 48px auto; display: grid; gap: 10px; }
@@ -158,6 +160,32 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     if (emu) { connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true }); connectFirestoreEmulator(db, "127.0.0.1", 8080); }
+
+    // Görsel yükleme: dosya tarayıcıda 1200 px'e küçültülüp JPEG'e çevrilir,
+    // Worker Firebase kimliğini ve admins/{uid} belgesini doğrulayıp R2'ye
+    // yazar, geri dönen CDN adresi forma düşer.
+    const YUKLE_UC = "https://omubumu-upload.kittapcom.workers.dev";
+
+    async function kucult(dosya, enBuyuk = 1200, kalite = 0.82) {
+      const bitmap = await createImageBitmap(dosya);
+      const olcek = Math.min(1, enBuyuk / Math.max(bitmap.width, bitmap.height));
+      const tuval = document.createElement("canvas");
+      tuval.width = Math.round(bitmap.width * olcek);
+      tuval.height = Math.round(bitmap.height * olcek);
+      tuval.getContext("2d").drawImage(bitmap, 0, 0, tuval.width, tuval.height);
+      bitmap.close?.();
+      return new Promise((ok, hata) => tuval.toBlob((b) => (b ? ok(b) : hata(new Error("görsel dönüştürülemedi"))), "image/jpeg", kalite));
+    }
+
+    async function gorselYukle(dosya, tur, klasor, ad) {
+      const blob = await kucult(dosya);
+      const token = await auth.currentUser.getIdToken();
+      const yol = `${YUKLE_UC}/a/${tur}/${encodeURIComponent(klasor)}/${encodeURIComponent(ad)}`;
+      const y = await fetch(yol, { method: "PUT", headers: { Authorization: `Bearer ${token}`, "Content-Type": "image/jpeg" }, body: blob });
+      const veri = await y.json().catch(() => ({}));
+      if (!y.ok) throw new Error(veri.error || `HTTP ${y.status}`);
+      return { url: veri.url, kb: Math.round(blob.size / 1024) };
+    }
 
     const $ = (s) => document.querySelector(s);
     const durum = (t) => ($("#durum").textContent = t);
@@ -451,8 +479,8 @@
       let form = "";
       if (tur === "questions") {
         form = `<div class="satir"><div><label>Soru (TR)</label><input name="text" value="${esc(k.text)}"></div><div><label>Soru (EN)</label><input name="textEn" value="${esc(k.textEn)}"></div></div>
-        <div class="satir"><div><label>A adı</label><input name="a.name" value="${esc(k.a?.name)}"><label>A adı (EN)</label><input name="a.nameEn" value="${esc(k.a?.nameEn)}"><label>A görsel URL</label><input name="a.imageURL" value="${esc(k.a?.imageURL)}"><img class="k" src="${esc(k.a?.imageURL || "")}" alt=""></div>
-        <div><label>B adı</label><input name="b.name" value="${esc(k.b?.name)}"><label>B adı (EN)</label><input name="b.nameEn" value="${esc(k.b?.nameEn)}"><label>B görsel URL</label><input name="b.imageURL" value="${esc(k.b?.imageURL)}"><img class="k" src="${esc(k.b?.imageURL || "")}" alt=""></div></div>
+        <div class="satir"><div class="sutun"><label>A adı</label><input name="a.name" value="${esc(k.a?.name)}"><label>A adı (EN)</label><input name="a.nameEn" value="${esc(k.a?.nameEn)}"><label>A görsel URL</label><input name="a.imageURL" value="${esc(k.a?.imageURL)}">${dosyaAlani("a.imageURL", "a.name")}<img class="k" src="${esc(k.a?.imageURL || "")}" alt=""></div>
+        <div class="sutun"><label>B adı</label><input name="b.name" value="${esc(k.b?.name)}"><label>B adı (EN)</label><input name="b.nameEn" value="${esc(k.b?.nameEn)}"><label>B görsel URL</label><input name="b.imageURL" value="${esc(k.b?.imageURL)}">${dosyaAlani("b.imageURL", "b.name")}<img class="k" src="${esc(k.b?.imageURL || "")}" alt=""></div></div>
         <label>Kategoriler</label><select name="categories" multiple size="5">${V.categories.map((c) => `<option ${(k.categories || []).includes(c.name) ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select>
         <div class="satir"><div><label>Oy A</label><input name="votesA" type="number" value="${k.votesA ?? 0}"></div><div><label>Oy B</label><input name="votesB" type="number" value="${k.votesB ?? 0}"></div></div>`;
       } else if (tur === "brackets") {
@@ -469,7 +497,31 @@
       acDialog(`<h3>${yeni ? "Yeni" : "Düzenle"} · ${tur}${k.id ? ` · <span class="mono">${esc(k.id)}</span>` : ""}</h3><form id="form">${form}
         <p style="margin-top:14px;display:flex;gap:8px"><button type="submit" class="ana">Kaydet</button><button type="button" data-kapa>Vazgeç</button>${!yeni && tur !== "categories" ? `<button type="button" class="tehlike" id="formSil" style="margin-left:auto">Sil</button>` : ""}</p></form>`);
       const d = $("#dlg");
-      d.querySelector("#secenekEkle") && (d.querySelector("#secenekEkle").onclick = () => { const s = d.querySelector("#secenekler"); s.insertAdjacentHTML("beforeend", secenekHtml({ id: "", name: "", imageURL: "" }, s.children.length)); });
+      // Görselin gideceği klasör: turnuvada mevcut görsellerin yanına, yoksa
+      // başlıktan türetilen ada; ikilemde soru id'sinin klasörüne.
+      const klasorAdi = () => {
+        if (tur === "questions") return k.id || `n-${Date.now()}`;
+        const mevcut = (k.options || []).map((o) => o.imageURL).find(Boolean);
+        const m = mevcut?.match(/\/brackets\/([^/]+)\//);
+        return m ? m[1] : slug(d.querySelector("[name=title]")?.value || k.title || "turnuva");
+      };
+      const dosyalariBagla = () => d.querySelectorAll("input[type=file][data-hedef]").forEach((f) => f.onchange = async () => {
+        const dosya = f.files[0]; if (!dosya) return;
+        const kapsam = f.closest(".secenek, .sutun") || d;
+        const not = f.parentElement.querySelector("span");
+        const urlAlan = kapsam.querySelector(`[name="${f.dataset.hedef}"]`);
+        const ad = slug(kapsam.querySelector(`[name="${f.dataset.ad}"]`)?.value || "gorsel");
+        try {
+          not.textContent = "yükleniyor…";
+          const { url, kb } = await gorselYukle(dosya, tur === "questions" ? "questions" : "brackets", klasorAdi(), ad);
+          urlAlan.value = url;
+          const onizleme = kapsam.querySelector("img"); if (onizleme) onizleme.src = url;
+          not.textContent = `yüklendi · ${kb} KB`;
+        } catch (e) { not.textContent = "hata: " + e.message; }
+        f.value = "";
+      });
+      dosyalariBagla();
+      d.querySelector("#secenekEkle") && (d.querySelector("#secenekEkle").onclick = () => { const s = d.querySelector("#secenekler"); s.insertAdjacentHTML("beforeend", secenekHtml({ id: "", name: "", imageURL: "" }, s.children.length)); dosyalariBagla(); });
       d.querySelector("#formSil") && (d.querySelector("#formSil").onclick = async () => { if (!confirm("Silinsin mi?")) return; await deleteDoc(doc(db, tur, k.id)); d.close(); await yukle(); goster(aktif); });
       d.querySelector("#form").onsubmit = async (e) => {
         e.preventDefault();
@@ -510,7 +562,8 @@
         d.close(); await yukle(); goster(aktif);
       };
     }
-    const secenekHtml = (o, i) => `<div class="secenek"><img src="${esc(o.imageURL || "")}" alt="" loading="lazy"><input name="oid" placeholder="id" value="${esc(o.id)}" class="mono"><input name="oname" placeholder="ad" value="${esc(o.name)}"><input name="onameEn" placeholder="ad (EN)" value="${esc(o.nameEn)}"><input name="oimg" placeholder="görsel URL" value="${esc(o.imageURL)}"></div>`;
+    const secenekHtml = (o, i) => `<div class="secenek"><img src="${esc(o.imageURL || "")}" alt="" loading="lazy"><input name="oid" placeholder="id" value="${esc(o.id)}" class="mono"><input name="oname" placeholder="ad" value="${esc(o.name)}"><input name="onameEn" placeholder="ad (EN)" value="${esc(o.nameEn)}"><input name="oimg" placeholder="görsel URL" value="${esc(o.imageURL)}">${dosyaAlani("oimg", "oname")}</div>`;
+    const dosyaAlani = (hedef, ad) => `<div class="yukle"><input type="file" accept="image/*" data-hedef="${hedef}" data-ad="${ad}"><span class="ipucu"></span></div>`;
     const slug = (t) => t.replace(/[çğıöşüİÇĞÖŞÜ]/g, (c) => ({ ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", İ: "i", Ç: "c", Ğ: "g", Ö: "o", Ş: "s", Ü: "u" }[c])).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " ve ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "x";
     const kapakHesapla = (options, stats) => [...options].sort((x, y) => ((stats[y.id]?.wins || 0) - (stats[x.id]?.wins || 0)) || ((stats[y.id]?.votes || 0) - (stats[x.id]?.votes || 0))).filter((o) => o.imageURL).slice(0, 4).map((o) => o.imageURL);
 
