@@ -60,6 +60,14 @@
     .secenek input { margin-top: 4px; padding: 4px 6px; font-size: 12px; }
     .yukle { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
     .yukle input[type=file] { width: auto; flex: 1; min-width: 150px; padding: 4px; font-size: 12px; }
+    .arama { margin-top: 6px; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px; background: var(--surface-2); }
+    .arama .arac { margin-bottom: 0; }
+    .arama input[type=search] { flex: 1; min-width: 120px; }
+    .sonuclar { display: grid; gap: 6px; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); max-height: 280px; overflow: auto; margin-top: 8px; }
+    .sonuclar figure { margin: 0; cursor: pointer; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); }
+    .sonuclar figure:hover { border-color: var(--accent); }
+    .sonuclar img { width: 100%; height: 68px; object-fit: cover; display: block; background: var(--surface-2); }
+    .sonuclar figcaption { font-size: 10px; color: var(--subtle); padding: 3px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .kapali { display: none !important; }
     .uyarı { background: var(--amber-soft); color: var(--amber); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 12px; }
     #girisKart { max-width: 360px; margin: 48px auto; display: grid; gap: 10px; }
@@ -175,6 +183,40 @@
       tuval.getContext("2d").drawImage(bitmap, 0, 0, tuval.width, tuval.height);
       bitmap.close?.();
       return new Promise((ok, hata) => tuval.toBlob((b) => (b ? ok(b) : hata(new Error("görsel dönüştürülemedi"))), "image/jpeg", kalite));
+    }
+
+    /**
+     * Anahtarsız iki kaynakta arama: Openverse (ticari kullanıma ve
+     * değişikliğe izin veren lisanslarla süzülür) ve Wikimedia Commons.
+     * İstekler tarayıcıdan gider; kotalar kendi IP'ne yazılır.
+     */
+    async function gorselAra(q) {
+      const [ov, wm] = await Promise.allSettled([
+        fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(q)}&page_size=12&license_type=commercial,modification`).then((r) => r.json()),
+        fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=320&format=json&origin=*`).then((r) => r.json()),
+      ]);
+      const sonuc = [];
+      if (ov.status === "fulfilled") for (const r of ov.value?.results || []) {
+        sonuc.push({ kucuk: r.thumbnail || r.url, buyuk: r.url, ad: r.title || "", lisans: `${r.license || ""} ${r.license_version || ""}`.trim().toUpperCase(), kaynak: r.source || "openverse", sayfa: r.foreign_landing_url });
+      }
+      if (wm.status === "fulfilled") for (const sayfa of Object.values(wm.value?.query?.pages || {})) {
+        const ii = sayfa.imageinfo?.[0]; if (!ii) continue;
+        const kucuk = ii.thumburl || ii.url;
+        // Commons küçük resmi .../320px-Ad.jpg; aynı adresin 1200'lüğü katalog
+        // için doğru boy (özgün dosya 3000 px ve 5 MB olabiliyor).
+        sonuc.push({ kucuk, buyuk: kucuk.includes("/320px-") ? kucuk.replace("/320px-", "/1200px-") : ii.url, ad: String(sayfa.title).replace(/^File:/, ""), lisans: ii.extmetadata?.LicenseShortName?.value || "Commons", kaynak: "wikimedia", sayfa: ii.descriptionurl });
+      }
+      return sonuc;
+    }
+
+    /** Aramadan seçilen görseli Worker indirip R2'ye yazar (CORS derdi yok). */
+    async function gorselAktar(kaynakURL, tur, klasor, ad) {
+      const token = await auth.currentUser.getIdToken();
+      const yol = `${YUKLE_UC}/a/${tur}/${encodeURIComponent(klasor)}/${encodeURIComponent(ad)}`;
+      const y = await fetch(yol, { method: "PUT", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ url: kaynakURL }) });
+      const veri = await y.json().catch(() => ({}));
+      if (!y.ok) throw new Error(veri.error || `HTTP ${y.status}`);
+      return veri.url;
     }
 
     async function gorselYukle(dosya, tur, klasor, ad) {
@@ -505,21 +547,71 @@
         const m = mevcut?.match(/\/brackets\/([^/]+)\//);
         return m ? m[1] : slug(d.querySelector("[name=title]")?.value || k.title || "turnuva");
       };
-      const dosyalariBagla = () => d.querySelectorAll("input[type=file][data-hedef]").forEach((f) => f.onchange = async () => {
-        const dosya = f.files[0]; if (!dosya) return;
-        const kapsam = f.closest(".secenek, .sutun") || d;
-        const not = f.parentElement.querySelector("span");
-        const urlAlan = kapsam.querySelector(`[name="${f.dataset.hedef}"]`);
-        const ad = slug(kapsam.querySelector(`[name="${f.dataset.ad}"]`)?.value || "gorsel");
-        try {
-          not.textContent = "yükleniyor…";
-          const { url, kb } = await gorselYukle(dosya, tur === "questions" ? "questions" : "brackets", klasorAdi(), ad);
-          urlAlan.value = url;
-          const onizleme = kapsam.querySelector("img"); if (onizleme) onizleme.src = url;
-          not.textContent = `yüklendi · ${kb} KB`;
-        } catch (e) { not.textContent = "hata: " + e.message; }
-        f.value = "";
-      });
+      const kind = () => (tur === "questions" ? "questions" : "brackets");
+      // Bir görsel alanının çevresi: dosya seçici, arama kutusu, url alanı ve
+      // önizleme aynı kutuda (ikilemde sütun, turnuvada seçenek karesi).
+      const alanlar = (dugme) => {
+        const kapsam = dugme.closest(".secenek, .sutun") || d;
+        const f = kapsam.querySelector("input[type=file][data-hedef]");
+        return {
+          kapsam, not: kapsam.querySelector(".yukle span"),
+          urlAlan: kapsam.querySelector(`[name="${f.dataset.hedef}"]`),
+          adAlan: kapsam.querySelector(`[name="${f.dataset.ad}"]`),
+          onizleme: kapsam.querySelector("img"),
+          panel: kapsam.querySelector(".arama"),
+        };
+      };
+      const yerlestir = (a, url, not) => { a.urlAlan.value = url; if (a.onizleme) a.onizleme.src = url; a.not.textContent = not; };
+
+      const dosyalariBagla = () => {
+        d.querySelectorAll("input[type=file][data-hedef]").forEach((f) => f.onchange = async () => {
+          const dosya = f.files[0]; if (!dosya) return;
+          const a = alanlar(f);
+          try {
+            a.not.textContent = "yükleniyor…";
+            const { url, kb } = await gorselYukle(dosya, kind(), klasorAdi(), slug(a.adAlan?.value || "gorsel"));
+            yerlestir(a, url, `yüklendi · ${kb} KB`);
+          } catch (e) { a.not.textContent = "hata: " + e.message; }
+          f.value = "";
+        });
+
+        d.querySelectorAll("[data-arabul]").forEach((b) => b.onclick = () => {
+          const a = alanlar(b);
+          a.panel.classList.toggle("kapali");
+          if (a.panel.classList.contains("kapali")) return;
+          const q = a.panel.querySelector(".ara-q");
+          if (!q.value) q.value = a.adAlan?.value || "";
+          q.focus();
+          if (q.value) ara(b);
+        });
+        d.querySelectorAll("[data-ara-git]").forEach((b) => b.onclick = () => ara(b));
+        d.querySelectorAll(".ara-q").forEach((q) => q.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); ara(q); } });
+      };
+
+      async function ara(nereden) {
+        const a = alanlar(nereden);
+        const q = a.panel.querySelector(".ara-q").value.trim();
+        const not = a.panel.querySelector(".ara-not");
+        const kutu = a.panel.querySelector(".sonuclar");
+        if (!q) { not.textContent = "bir şey yaz"; return; }
+        not.textContent = "aranıyor…"; kutu.innerHTML = "";
+        let sonuc = [];
+        try { sonuc = await gorselAra(q); } catch (e) { not.textContent = "arama hatası: " + e.message; return; }
+        not.textContent = `${sonuc.length} sonuç · tıkla, CDN'e kopyalansın`;
+        kutu.innerHTML = sonuc.map((r, i) => `<figure data-i="${i}" title="${esc(r.ad)} · ${esc(r.lisans)} · ${esc(r.kaynak)}"><img src="${esc(r.kucuk)}" data-yedek="${esc(r.buyuk)}" alt="" loading="lazy"><figcaption>${esc(r.lisans || r.kaynak)}</figcaption></figure>`).join("");
+        kutu.querySelectorAll("img[data-yedek]").forEach((im) => im.onerror = () => { im.onerror = null; im.src = im.dataset.yedek; });
+        kutu.querySelectorAll("figure").forEach((fig) => fig.onclick = async () => {
+          const r = sonuc[+fig.dataset.i];
+          try {
+            not.textContent = "aktarılıyor…";
+            const url = await gorselAktar(r.buyuk, kind(), klasorAdi(), slug(a.adAlan?.value || r.ad || "gorsel"));
+            yerlestir(a, url, `aktarıldı · ${r.kaynak} · ${r.lisans}`);
+            not.textContent = "aktarıldı";
+            a.panel.classList.add("kapali");
+          } catch (e) { not.textContent = "hata: " + e.message; }
+        });
+      }
+
       dosyalariBagla();
       d.querySelector("#secenekEkle") && (d.querySelector("#secenekEkle").onclick = () => { const s = d.querySelector("#secenekler"); s.insertAdjacentHTML("beforeend", secenekHtml({ id: "", name: "", imageURL: "" }, s.children.length)); dosyalariBagla(); });
       d.querySelector("#formSil") && (d.querySelector("#formSil").onclick = async () => { if (!confirm("Silinsin mi?")) return; await deleteDoc(doc(db, tur, k.id)); d.close(); await yukle(); goster(aktif); });
@@ -563,7 +655,8 @@
       };
     }
     const secenekHtml = (o, i) => `<div class="secenek"><img src="${esc(o.imageURL || "")}" alt="" loading="lazy"><input name="oid" placeholder="id" value="${esc(o.id)}" class="mono"><input name="oname" placeholder="ad" value="${esc(o.name)}"><input name="onameEn" placeholder="ad (EN)" value="${esc(o.nameEn)}"><input name="oimg" placeholder="görsel URL" value="${esc(o.imageURL)}">${dosyaAlani("oimg", "oname")}</div>`;
-    const dosyaAlani = (hedef, ad) => `<div class="yukle"><input type="file" accept="image/*" data-hedef="${hedef}" data-ad="${ad}"><span class="ipucu"></span></div>`;
+    const dosyaAlani = (hedef, ad) => `<div class="yukle"><input type="file" accept="image/*" data-hedef="${hedef}" data-ad="${ad}"><button type="button" class="kucuk" data-arabul>Görsel ara</button><span class="ipucu"></span></div>
+      <div class="arama kapali"><div class="arac"><input type="search" class="ara-q" placeholder="ör. Fatih Terim"><button type="button" class="kucuk ana" data-ara-git>Ara</button><span class="ara-not ipucu"></span></div><div class="sonuclar"></div></div>`;
     const slug = (t) => t.replace(/[çğıöşüİÇĞÖŞÜ]/g, (c) => ({ ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", İ: "i", Ç: "c", Ğ: "g", Ö: "o", Ş: "s", Ü: "u" }[c])).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " ve ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "x";
     const kapakHesapla = (options, stats) => [...options].sort((x, y) => ((stats[y.id]?.wins || 0) - (stats[x.id]?.wins || 0)) || ((stats[y.id]?.votes || 0) - (stats[x.id]?.votes || 0))).filter((o) => o.imageURL).slice(0, 4).map((o) => o.imageURL);
 
