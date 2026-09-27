@@ -138,6 +138,24 @@
     <a href="/support/">Destek</a>
   </p>
 </footer>
-<script src="/assets/site.js"></script>
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
 </body>
 </html>
