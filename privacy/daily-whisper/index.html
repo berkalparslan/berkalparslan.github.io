@@ -44,7 +44,7 @@
 <p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
 
 <h2>Kısaca</h2>
-<p>Daily Whisper hesap açmanı gerektirmez ve senin adına bir sunucuda profil tutmaz. Uygulamaya verdiğin cevaplar telefonunda saklanır ve <strong>yalnızca sana özel hikâyeleri yazdırmak ve seslendirmek için</strong>, o an, yapay zekâ hizmetlerine gönderilir. Verilerin satılmaz, reklam amacıyla kullanılmaz, veri simsarlarıyla paylaşılmaz.</p>
+<p>Daily Whisper hesap açmanı gerektirmez. Giriş yapmazsan senin adına bir sunucuda profil tutulmaz. Uygulamaya verdiğin cevaplar telefonunda saklanır ve <strong>yalnızca sana özel hikâyeleri yazdırmak ve seslendirmek için</strong>, o an, yapay zekâ hizmetlerine gönderilir. Verilerin satılmaz, reklam amacıyla kullanılmaz, veri simsarlarıyla paylaşılmaz.</p>
 
 <h2>Cihazında kalan veriler</h2>
 <p>Aşağıdakiler yalnızca cihazında, uygulamanın kendi deposunda saklanır. Geliştirici dahil kimse bunlara erişemez:</p>
@@ -59,6 +59,10 @@
 <h2>Hikâyeyi yazan ve okuyan hizmetler</h2>
 <p>Bir hikâye yazılırken, profilindeki cevaplar ve varsa hikâye için yazdığın istek, metni üretmek üzere <strong>Google Gemini API</strong>'ye gönderilir. Hikâye sesli okunurken hikâyenin metni, seslendirme için <strong>Google Gemini</strong> ya da <strong>ElevenLabs</strong> hizmetine gönderilir. Bu isteklere e-postan, telefon numaran, konumun ya da cihaz kimliğin eklenmez; yalnızca hikâye için gereken bilgi gider.</p>
 <p>Uygulama bu içerikleri kendi sunucusunda tutmaz; hizmetlerin kendi saklama ve işleme koşulları için <a href="https://ai.google.dev/gemini-api/terms" rel="noopener">Google'ın Gemini API koşulları</a> ve <a href="https://elevenlabs.io/privacy-policy" rel="noopener">ElevenLabs gizlilik politikası</a> geçerlidir. Bir hikâye bir kez seslendirildikten sonra ses dosyası cihazında saklanır; tekrar dinlemek için yeniden gönderilmez.</p>
+
+<h2>İsteğe bağlı hesap ve bulut kaydı</h2>
+<p>İstersen Apple ya da Google hesabınla giriş yapabilirsin. Giriş yaparsan profilin, hikâyelerinin metinleri, şükran notların ve Vision Board'undaki yazılar <strong>Google Firebase</strong> (Firestore, Avrupa bölgesi) üzerinde, yalnızca senin hesabına bağlı olarak saklanır; böylece yeni bir telefonda geri gelir. Bu kayıtları senden başka kimse okuyamaz. Fotoğrafların ve ses dosyaların telefonunda kalır, yüklenmez. Giriş için e-posta adresin ve adın Apple ya da Google'dan alınır ve yalnızca hesabını tanımak için kullanılır.</p>
+<p>Uygulamada Ben &gt; Hesabı sil ile hesabını ve buluttaki tüm kayıtlarını istediğin an kalıcı olarak silebilirsin.</p>
 
 <h2>Satın almalar</h2>
 <p>Abonelik ve satın almalar Apple App Store üzerinden yapılır; kart bilgin uygulamaya hiç ulaşmaz. Satın alma durumunu doğrulamak için <a href="https://www.revenuecat.com/privacy" rel="noopener">RevenueCat</a> kullanılır; buraya Apple'ın anonim işlem kaydı ve rastgele üretilmiş bir uygulama kimliği gider, adın ya da e-postan gitmez.</p>
@@ -90,7 +94,7 @@
 <p class="updated">Last updated: 27 September 2026</p>
 
 <h2>In short</h2>
-<p>Daily Whisper does not require an account and keeps no profile of you on a server. The answers you give the app are stored on your phone and are sent to AI services <strong>only to write and voice your personal stories</strong>, at the moment a story is made. Your data is never sold, used for advertising, or shared with data brokers.</p>
+<p>Daily Whisper does not require an account. If you do not sign in, no profile of you is kept on a server. The answers you give the app are stored on your phone and are sent to AI services <strong>only to write and voice your personal stories</strong>, at the moment a story is made. Your data is never sold, used for advertising, or shared with data brokers.</p>
 
 <h2>Data that stays on your device</h2>
 <p>The following is stored only on your device, in the app's own storage. Nobody — including the developer — can reach it:</p>
@@ -103,8 +107,12 @@
 <p>Deleting the app deletes this data from your device. "Erase everything" in Settings does the same.</p>
 
 <h2>The services that write and read your story</h2>
-<p>When a story is written, your profile answers and, if you wrote one, your request for the story are sent to the <strong>Google Gemini API</strong> to generate the text. When a story is read aloud, its text is sent to <strong>Google Gemini</strong> or <strong>ElevenLabs</strong> for speech. These requests carry no email, phone number, location or device identifier — only what the story needs.</p>
+<p>When a story is written, your profile answers and, if you wrote one, your request for the story are sent to the <strong>Google Gemini API</strong> to generate the text. When a story is read aloud, its text is sent to <strong>Google Gemini</strong> or <strong>ElevenLabs</strong> for speech. These requests carry no email, phone number, location or device identifier; only what the story needs.</p>
 <p>The app keeps none of this on its own servers; the services' own retention and processing are governed by <a href="https://ai.google.dev/gemini-api/terms" rel="noopener">Google's Gemini API terms</a> and the <a href="https://elevenlabs.io/privacy-policy" rel="noopener">ElevenLabs privacy policy</a>. Once a story has been voiced, the audio is kept on your device and is not sent again to replay it.</p>
+
+<h2>Optional account and cloud backup</h2>
+<p>You can choose to sign in with Apple or Google. If you do, your profile, the text of your stories, your gratitude notes and the words on your Vision Board are stored in <strong>Google Firebase</strong> (Firestore, Europe region), tied only to your account, so they come back on a new phone. No one but you can read them. Your photos and audio stay on your phone and are not uploaded. Your email address and name are received from Apple or Google only to recognise your account.</p>
+<p>You can permanently delete your account and everything saved with it at any time in the app under Me &gt; Delete account.</p>
 
 <h2>Purchases</h2>
 <p>Subscriptions and purchases go through the Apple App Store; your card details never reach the app. <a href="https://www.revenuecat.com/privacy" rel="noopener">RevenueCat</a> is used to verify purchase status; it receives Apple's anonymous transaction record and a randomly generated app identifier, never your name or email.</p>

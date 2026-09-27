@@ -132,7 +132,7 @@ async function load() {
   const d = snap.exists() ? snap.data() : {};
   overrides = d.strings ? JSON.parse(d.strings) : {};
   const flags = d.flags ? JSON.parse(d.flags) : {};
-  $("hardPaywall").checked = flags.hardPaywall !== false;
+  $("hardPaywall").checked = flags.hardPaywall === true;
   version = d.version || 0;
   $("meta").textContent = snap.exists()
     ? `Sürüm ${version}` + (d.updatedAt ? ` · ${d.updatedAt.toDate().toLocaleString("tr-TR")}` : "")
