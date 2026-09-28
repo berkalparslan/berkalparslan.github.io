@@ -6,78 +6,89 @@
 <title>Matchday Admin</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
 <style>
-  :root { --ink: #0a0a0a; --paper: #fff; --grey: #8a8a8a; --red: #e2001a; --rule: rgba(0,0,0,.18); }
-  @media (prefers-color-scheme: dark) { :root { --ink: #f3f3f1; --paper: #0b0b0b; --rule: rgba(255,255,255,.2); } }
+  :root { --ink:#1c1c22; --muted:#76767f; --line:#e6e6eb; --card:#f6f6f8; --orange:#f26b21; --green:#23a55a; --blue:#2f7bea; --red:#e0345f; }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
-  h1 { font-size: 44px; letter-spacing: -1.3px; margin: 8px 0 24px; line-height: 1; }
-  h1::before { content: ""; display: block; width: 12px; height: 12px; background: var(--red); margin-bottom: 10px; }
-  .label { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--grey); font-weight: 500; }
-  .tabs { display: flex; gap: 24px; border-bottom: 2px solid var(--ink); margin: 28px 0 0; }
-  .tabs button { background: none; border: 0; padding: 0 0 10px; font: inherit; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--grey); cursor: pointer; font-weight: 500; }
-  .tabs button.on { color: var(--red); }
-  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
-  th { text-align: left; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--grey); font-weight: 500; padding: 12px 8px 8px 0; border-bottom: 2px solid var(--ink); }
-  td { padding: 12px 8px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-  td.num { font-variant-numeric: tabular-nums; font-weight: 700; }
-  .big { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-  button.btn { background: var(--ink); color: var(--paper); border: 0; padding: 14px 20px; font: inherit; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; cursor: pointer; font-weight: 500; }
-  button.btn.red { background: var(--red); color: #fff; }
-  button.btn.ghost { background: none; color: var(--ink); border: 1.5px solid var(--ink); }
-  button.btn:disabled { opacity: .35; cursor: default; }
-  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
-  .muted { color: var(--grey); font-size: 13px; }
-  #gate { padding-top: 80px; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 14px/1.45 -apple-system, system-ui, sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 24px; margin: 0; }
+  .muted { color: var(--muted); }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .tabs { display: flex; gap: 6px; margin: 18px 0 14px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; color: var(--muted); }
+  .tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .kpi b { display: block; font-size: 26px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px; background: var(--card); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .big { font-weight: 700; font-size: 16px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #eef3fd; color: var(--blue); }
+  .tag.g { background: #e7f6ee; color: var(--green); } .tag.o { background: #fdeee5; color: var(--orange); } .tag.m { background: var(--card); color: var(--muted); }
+  .btn { border: 0; border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; background: var(--ink); color: #fff; }
+  .btn.soft { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
+  input[type=search] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; min-width: 240px; }
   .hidden { display: none; }
-  input[type=search] { font: inherit; font-size: 16px; padding: 10px 0; border: 0; border-bottom: 2px solid var(--ink); background: none; color: var(--ink); width: 100%; outline: none; }
+  details { background: #fff; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+  summary { padding: 12px 14px; cursor: pointer; font-weight: 600; }
+  details > div { padding: 0 14px 14px; }
+  .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .team { background: var(--card); border-radius: 10px; padding: 10px; }
+  #gate { padding-top: 80px; max-width: 420px; }
 </style>
 </head>
 <body>
 <main>
   <div id="gate">
-    <h1>Matchday<br>Admin</h1>
-    <p class="muted">Yalnız <code>admins/{uid}</code> belgesi olan hesap girer. Google ile giriş.</p>
-    <div class="row"><button class="btn" id="signin">Google ile gir</button></div>
+    <h1>Matchday Admin</h1>
+    <p class="muted">Yalnız <code>admins/{uid}</code> belgesi olan hesap girer.</p>
+    <button class="btn" id="signin">Google ile gir</button>
     <p id="gate-msg" class="muted"></p>
   </div>
 
   <div id="app" class="hidden">
-    <div class="row" style="justify-content: space-between">
-      <div><span class="label">Matchday</span><h1 style="margin-bottom:0">Admin</h1></div>
-      <div><span id="who" class="muted"></span> <button class="btn ghost" id="signout">Çık</button></div>
+    <div class="top">
+      <div><h1>Matchday Admin</h1><span class="muted" id="who"></span></div>
+      <div class="row" style="margin:0"><button class="btn soft" id="reload">Yenile</button><button class="btn soft" id="signout">Çık</button></div>
     </div>
-
-    <div class="tabs">
-      <button data-tab="ratings" class="on">Puanlar</button>
-      <button data-tab="users">Oyuncular</button>
+    <div class="tabs" id="tabs">
+      <button data-tab="overview" class="on">Özet</button>
+      <button data-tab="board">Puan tablosu</button>
+      <button data-tab="given">Kim kime ne verdi</button>
       <button data-tab="matches">Maçlar</button>
-      <button data-tab="raw">Ham oylar</button>
+      <button data-tab="people">Kişiler</button>
     </div>
 
-    <section id="tab-ratings">
-      <p class="muted">Her oyuncunun aldığı tüm oyların ortalaması. <b>Yayınla</b> ortalamayı <code>users/{uid}.rating</code> alanına yazar; uygulama <code>AppConfig.showPublishedRatings</code> açıldığında profilde gösterir. Yayınlamak isteğe bağlı, oylar yine gizli kalır.</p>
+    <section id="tab-overview"></section>
+
+    <section id="tab-board" class="hidden">
+      <div class="card muted">Her oyuncunun aldığı oyların ortalaması. Hesapsız oyuncular (misafir) de puanlanır; bir hesaba bağlandıklarında puanları o hesaba eklenir. <b>Yayınla</b> ortalamayı hesabın profiline yazar (uygulamada şimdilik gizli).</div>
       <div class="row">
-        <input type="search" id="q-ratings" placeholder="Ara: ad veya @handle">
-        <button class="btn red" id="publish-all">Hepsini yayınla</button>
-        <button class="btn ghost" id="unpublish-all">Yayından kaldır</button>
-        <span class="muted">En az <input id="min-votes" type="number" value="3" style="width:50px"> oy alanlar yayınlanır.</span>
+        <input type="search" id="q-board" placeholder="Ara">
+        <span class="muted">En az</span><input id="min-votes" type="number" value="3" style="width:60px;padding:8px;border:1px solid var(--line);border-radius:10px"><span class="muted">oy</span>
+        <button class="btn" id="publish">Yayınla</button>
+        <button class="btn soft" id="unpublish">Yayından kaldır</button>
       </div>
-      <table id="t-ratings"></table>
+      <table id="t-board"></table>
     </section>
 
-    <section id="tab-users" class="hidden">
-      <input type="search" id="q-users" placeholder="Ara: ad veya @handle">
-      <table id="t-users"></table>
+    <section id="tab-given" class="hidden">
+      <div class="row"><input type="search" id="q-given" placeholder="Veren ya da alan ara"></div>
+      <div id="given"></div>
     </section>
 
-    <section id="tab-matches" class="hidden">
-      <table id="t-matches"></table>
-    </section>
+    <section id="tab-matches" class="hidden"><div id="matches"></div></section>
 
-    <section id="tab-raw" class="hidden">
-      <p class="muted">Tek tek oylar. Sadece burada görünür.</p>
-      <table id="t-raw"></table>
+    <section id="tab-people" class="hidden">
+      <div class="row"><input type="search" id="q-people" placeholder="Ara"></div>
+      <h3>Hesaplar</h3><table id="t-users"></table>
+      <h3 style="margin-top:22px">Organizatörlerin oyuncu listeleri (hesapsız)</h3>
+      <p class="muted">Bu listeyi yalnız ekleyen organizatör ve admin görür. Diğer kullanıcılar sadece hesapları görür.</p>
+      <table id="t-players"></table>
     </section>
   </div>
 </main>
@@ -85,132 +96,140 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteField, writeBatch, orderBy, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, writeBatch, deleteField } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
-const CATS = ["overall", "pace", "technique", "teamwork", "defense", "finishing", "fairplay"];
-const CAT_TR = { overall: "Genel", pace: "Hız", technique: "Teknik", teamwork: "Takım", defense: "Savunma", finishing: "Bitiricilik", fairplay: "Fair play" };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const $ = (s) => document.querySelector(s);
-
-let users = new Map(), matches = new Map(), ratings = [];
+const CATS = ["overall","pace","technique","teamwork","defense","finishing","fairplay"];
+const TR = { overall:"Genel", pace:"Hız", technique:"Teknik", teamwork:"Takım", defense:"Savunma", finishing:"Bitiricilik", fairplay:"Fair play" };
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let users = new Map(), players = new Map(), matches = new Map(), ratings = [];
 
 $("#signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => $("#gate-msg").textContent = e.message);
 $("#signout").onclick = () => signOut(auth);
-
-onAuthStateChanged(auth, async (user) => {
+$("#reload").onclick = () => load();
+onAuthStateChanged(auth, async user => {
   if (!user) { $("#gate").classList.remove("hidden"); $("#app").classList.add("hidden"); return; }
-  const admin = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
-  if (!admin || !admin.exists()) {
-    $("#gate-msg").innerHTML = `Bu hesap admin değil. Konsolda <code>admins/${user.uid}</code> belgesini oluştur (içerik: <code>{ok: true}</code>), sonra tekrar gir.`;
-    return;
-  }
-  $("#who").textContent = user.email;
-  $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden");
-  await loadAll();
+  const a = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
+  if (!a?.exists()) { $("#gate-msg").innerHTML = `Bu hesap admin değil (uid <code>${user.uid}</code>).`; return; }
+  $("#who").textContent = user.email; $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden");
+  load();
 });
-
-document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
-  document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
   document.querySelectorAll("section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + b.dataset.tab));
 });
 
-async function loadAll() {
-  const [u, m, r] = await Promise.all([
-    getDocs(collection(db, "users")),
-    getDocs(query(collection(db, "matches"), orderBy("startsAt", "desc"))),
-    getDocs(collection(db, "ratings")),
-  ]);
+async function load() {
+  const [u, p, m, r] = await Promise.all(["users","players","matches","ratings"].map(c => getDocs(collection(db, c))));
   users = new Map(u.docs.map(d => [d.id, d.data()]));
-  matches = new Map(m.docs.map(d => [d.id, d.data()]));
+  players = new Map(p.docs.map(d => [d.id, d.data()]));
+  matches = new Map(m.docs.map(d => [d.id, d.data()]).sort((a, b) => (b[1].startsAt?.seconds ?? 0) - (a[1].startsAt?.seconds ?? 0)));
   ratings = r.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderRatings(); renderUsers(); renderMatches(); renderRaw();
+  overview(); board(); given(); matchList(); people();
 }
 
-const name = (uid) => users.get(uid)?.name ?? "(silinmiş)";
-const handle = (uid) => users.get(uid) ? "@" + users.get(uid).handle : "";
-const fmtDate = (ts) => ts?.toDate ? ts.toDate().toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" }) : "";
+// A guest id resolves to the account it is linked to, so their votes merge.
+const resolve = id => players.get(id)?.linkedUid ?? id;
+const name = id => users.get(id)?.name ?? players.get(id)?.name ?? guestName(id) ?? "(silinmiş)";
+function guestName(id) { for (const m of matches.values()) { const g = (m.guests ?? []).find(g => g.id === id); if (g) return g.name; } return null; }
+const kind = id => users.has(id) ? `<span class="tag">@${esc(users.get(id).handle)}</span>` : `<span class="tag m">hesapsız</span>`;
+const when = ts => ts?.toDate ? ts.toDate().toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" }) : "";
+const matchName = id => { const m = matches.get(id); return m ? (m.title || m.venue) : id; };
+const match = (q, ...s) => !q || s.join(" ").toLocaleLowerCase("tr").includes(q.toLocaleLowerCase("tr"));
+
+function overview() {
+  const played = [...matches.values()].filter(m => m.status === "played");
+  const raters = new Set(ratings.map(r => r.raterUid));
+  const k = (label, v) => `<div class="kpi"><span class="muted">${label}</span><b>${v}</b></div>`;
+  $("#tab-overview").innerHTML = `<div class="kpis">${k("Hesap", users.size)}${k("Hesapsız oyuncu", players.size)}${k("Bağlı oyuncu", [...players.values()].filter(p => p.linkedUid).length)}${k("Maç", matches.size)}${k("Oynanan", played.length)}${k("Oy", ratings.length)}${k("Oy veren kişi", raters.size)}</div>
+  <h3 style="margin-top:22px">Son oynanan maçlar</h3>` + played.slice(0, 5).map(m => `<div class="card"><b>${esc(m.title || m.venue)}</b> <span class="muted">${when(m.startsAt)}</span> · ${esc(m.home?.name)} ${m.homeScore ?? "–"}:${m.awayScore ?? "–"} ${esc(m.away?.name)}</div>`).join("");
+}
 
 function aggregate() {
   const acc = new Map();
   for (const r of ratings) {
-    const a = acc.get(r.ratedUid) ?? { count: 0, sum: Object.fromEntries(CATS.map(c => [c, 0])), n: Object.fromEntries(CATS.map(c => [c, 0])), matches: new Set() };
-    a.count++; a.matches.add(r.matchId);
-    for (const c of CATS) if (typeof r.scores?.[c] === "number") { a.sum[c] += r.scores[c]; a.n[c]++; }
-    acc.set(r.ratedUid, a);
+    const id = resolve(r.ratedUid);
+    const a = acc.get(id) ?? { n: 0, sum: {}, cnt: {}, matches: new Set() };
+    a.n++; a.matches.add(r.matchId);
+    for (const c of CATS) if (typeof r.scores?.[c] === "number") { a.sum[c] = (a.sum[c] ?? 0) + r.scores[c]; a.cnt[c] = (a.cnt[c] ?? 0) + 1; }
+    acc.set(id, a);
   }
-  const rows = [];
-  for (const [uid, a] of acc) {
-    const avg = Object.fromEntries(CATS.map(c => [c, a.n[c] ? a.sum[c] / a.n[c] : null]));
-    rows.push({ uid, count: a.count, matches: a.matches.size, avg });
-  }
-  return rows.sort((x, y) => (y.avg.overall ?? 0) - (x.avg.overall ?? 0));
+  return [...acc].map(([id, a]) => ({ id, n: a.n, m: a.matches.size, avg: Object.fromEntries(CATS.map(c => [c, a.cnt[c] ? a.sum[c] / a.cnt[c] : null])) }))
+    .sort((x, y) => (y.avg.overall ?? 0) - (x.avg.overall ?? 0));
 }
-
-function matchFilter(q, uid) {
-  if (!q) return true;
-  const u = users.get(uid); if (!u) return false;
-  return (u.name + " @" + u.handle).toLowerCase().includes(q.toLowerCase());
+function goals(id) {
+  let g = 0, a = 0;
+  for (const m of matches.values()) for (const [k, s] of Object.entries(m.stats ?? {})) if (resolve(k) === id) { g += s.goals ?? 0; a += s.assists ?? 0; }
+  return [g, a];
 }
-
-function renderRatings() {
-  const q = $("#q-ratings").value;
-  const rows = aggregate().filter(r => matchFilter(q, r.uid));
-  $("#t-ratings").innerHTML = `<tr><th>Oyuncu</th><th>Oy</th><th>Maç</th>${CATS.map(c => `<th>${CAT_TR[c]}</th>`).join("")}<th>Yayın</th></tr>` +
-    rows.map(r => `<tr><td><b>${name(r.uid)}</b><br><span class="muted">${handle(r.uid)}</span></td><td class="num">${r.count}</td><td class="num">${r.matches}</td>` +
+function board() {
+  const q = $("#q-board").value;
+  const rows = aggregate().filter(r => match(q, name(r.id)));
+  $("#t-board").innerHTML = `<tr><th>#</th><th>Oyuncu</th><th class="num">Oy</th><th class="num">Maç</th><th class="num">Gol</th><th class="num">Asist</th>${CATS.map(c => `<th class="num">${TR[c]}</th>`).join("")}<th>Profilde</th></tr>` +
+    rows.map((r, i) => { const [g, a] = goals(r.id); const pub = users.get(r.id)?.rating;
+      return `<tr><td>${i + 1}</td><td><b>${esc(name(r.id))}</b> ${kind(r.id)}</td><td class="num">${r.n}</td><td class="num">${r.m}</td><td class="num">${g}</td><td class="num">${a}</td>` +
       CATS.map(c => `<td class="num ${c === "overall" ? "big" : ""}">${r.avg[c]?.toFixed(1) ?? "–"}</td>`).join("") +
-      `<td>${users.get(r.uid)?.rating ? `<span class="muted">${users.get(r.uid).rating.overall.toFixed(1)} (${users.get(r.uid).rating.count})</span>` : "<span class='muted'>yok</span>"}</td></tr>`).join("") ||
-    `<tr><td colspan="12" class="muted">Henüz oy yok.</td></tr>`;
+      `<td>${pub ? `<span class="tag g">${pub.overall.toFixed(1)}</span>` : `<span class="muted">–</span>`}</td></tr>`; }).join("") ||
+    `<tr><td colspan="14" class="muted">Henüz oy yok.</td></tr>`;
 }
-$("#q-ratings").oninput = renderRatings;
-
-$("#publish-all").onclick = async () => {
+$("#q-board").oninput = board;
+$("#publish").onclick = async () => {
   const min = Number($("#min-votes").value) || 1;
-  const rows = aggregate().filter(r => r.count >= min && users.has(r.uid));
-  if (!confirm(`${rows.length} oyuncunun ortalaması yayınlanacak. Devam?`)) return;
-  const batch = writeBatch(db);
-  for (const r of rows) {
-    batch.update(doc(db, "users", r.uid), { rating: {
-      overall: r.avg.overall ?? 0, count: r.count, publishedAt: new Date(),
-      categories: Object.fromEntries(CATS.filter(c => c !== "overall" && r.avg[c] != null).map(c => [c, r.avg[c]])) } });
-  }
-  await batch.commit(); await loadAll();
+  const rows = aggregate().filter(r => r.n >= min && users.has(r.id));
+  if (!confirm(`${rows.length} hesabın ortalaması profiline yazılacak.`)) return;
+  const b = writeBatch(db);
+  for (const r of rows) b.update(doc(db, "users", r.id), { rating: { overall: r.avg.overall ?? 0, count: r.n, publishedAt: new Date(),
+    categories: Object.fromEntries(CATS.filter(c => c !== "overall" && r.avg[c] != null).map(c => [c, r.avg[c]])) } });
+  await b.commit(); load();
 };
-$("#unpublish-all").onclick = async () => {
-  const withRating = [...users].filter(([, u]) => u.rating);
-  if (!withRating.length || !confirm(`${withRating.length} oyuncunun yayınlanmış puanı silinecek. Devam?`)) return;
-  const batch = writeBatch(db);
-  for (const [uid] of withRating) batch.update(doc(db, "users", uid), { rating: deleteField() });
-  await batch.commit(); await loadAll();
+$("#unpublish").onclick = async () => {
+  const list = [...users].filter(([, u]) => u.rating);
+  if (!list.length || !confirm(`${list.length} profildeki puan silinecek.`)) return;
+  const b = writeBatch(db); for (const [id] of list) b.update(doc(db, "users", id), { rating: deleteField() });
+  await b.commit(); load();
 };
 
-function renderUsers() {
-  const q = $("#q-users").value;
-  const list = [...users].filter(([uid]) => matchFilter(q, uid)).sort((a, b) => a[1].name.localeCompare(b[1].name, "tr"));
-  $("#t-users").innerHTML = `<tr><th>Ad</th><th>Handle</th><th>Mevki</th><th>Kayıt</th><th>Maç</th><th>UID</th></tr>` +
-    list.map(([uid, u]) => `<tr><td><b>${u.name}</b></td><td>@${u.handle}</td><td>${u.position ?? ""}</td><td>${fmtDate(u.createdAt)}</td>
-      <td class="num">${[...matches.values()].filter(m => m.memberUids?.includes(uid)).length}</td><td class="muted" style="font-size:11px">${uid}</td></tr>`).join("");
+function given() {
+  const q = $("#q-given").value;
+  const byRater = new Map();
+  for (const r of ratings) { if (!match(q, name(r.raterUid), name(r.ratedUid))) continue; (byRater.get(r.raterUid) ?? byRater.set(r.raterUid, []).get(r.raterUid)).push(r); }
+  $("#given").innerHTML = [...byRater].sort((a, b) => name(a[0]).localeCompare(name(b[0]), "tr")).map(([id, list]) => {
+    const avg = list.reduce((s, r) => s + (r.scores?.overall ?? 0), 0) / list.length;
+    return `<details><summary>${esc(name(id))} <span class="muted">· ${list.length} oy · verdiği genel ortalama ${avg.toFixed(1)}</span></summary><div>
+      <table><tr><th>Maç</th><th>Kime</th>${CATS.map(c => `<th class="num">${TR[c]}</th>`).join("")}</tr>` +
+      list.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0)).map(r => `<tr><td>${esc(matchName(r.matchId))}<br><span class="muted">${when(r.createdAt)}</span></td><td><b>${esc(name(r.ratedUid))}</b> ${kind(resolve(r.ratedUid))}</td>` +
+        CATS.map(c => `<td class="num ${c === "overall" ? "big" : ""}">${r.scores?.[c] ?? "–"}</td>`).join("") + `</tr>`).join("") + `</table></div></details>`;
+  }).join("") || `<p class="muted">Oy yok.</p>`;
 }
-$("#q-users").oninput = renderUsers;
+$("#q-given").oninput = given;
 
-function renderMatches() {
-  $("#t-matches").innerHTML = `<tr><th>Tarih</th><th>Maç</th><th>Organizatör</th><th>Durum</th><th>Skor</th><th>Kadro</th><th>Oy</th></tr>` +
-    [...matches].map(([id, m]) => `<tr><td>${fmtDate(m.startsAt)}</td><td><b>${m.title || m.venue}</b><br><span class="muted">${m.venue}, ${m.city} · ${m.visibility}</span></td>
-      <td>${name(m.adminUid)}</td><td>${m.status}</td><td class="num">${m.homeScore ?? "–"}:${m.awayScore ?? "–"}</td>
-      <td class="num">${m.memberUids?.length ?? 0}</td><td class="num">${ratings.filter(r => r.matchId === id).length}</td></tr>`).join("") ||
-    `<tr><td colspan="7" class="muted">Maç yok.</td></tr>`;
+function matchList() {
+  $("#matches").innerHTML = [...matches].map(([id, m]) => {
+    const votes = ratings.filter(r => r.matchId === id).length;
+    const col = t => (t?.uids ?? []).map(x => { const s = m.stats?.[x]; return `<div>${esc(name(x))}${s?.goals ? ` ⚽️${s.goals}` : ""}${s?.assists ? ` 🅰️${s.assists}` : ""}</div>`; }).join("") || `<span class="muted">–</span>`;
+    return `<details><summary>${esc(m.title || m.venue)} <span class="muted">· ${when(m.startsAt)} · ${esc(name(m.adminUid))}</span>
+      <span class="tag ${m.status === "played" ? "g" : m.status === "cancelled" ? "m" : "o"}">${m.status}</span> ${m.hasOwnProperty("homeScore") ? `<b>${m.homeScore ?? "–"}:${m.awayScore ?? "–"}</b>` : ""} <span class="muted">· ${(m.memberUids?.length ?? 0) + (m.guests?.length ?? 0)} oyuncu · ${votes} oy</span></summary>
+      <div><p class="muted">${esc(m.venue)}${m.address ? ", " + esc(m.address) : ""}${m.mapsURL ? ` · <a href="${esc(m.mapsURL)}" target="_blank">harita</a>` : ""}</p>
+      <div class="teams"><div class="team"><b>${esc(m.home?.name)}</b>${col(m.home)}</div><div class="team"><b>${esc(m.away?.name)}</b>${col(m.away)}</div></div></div></details>`;
+  }).join("") || `<p class="muted">Maç yok.</p>`;
 }
 
-function renderRaw() {
-  const sorted = [...ratings].sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
-  $("#t-raw").innerHTML = `<tr><th>Zaman</th><th>Maç</th><th>Veren</th><th>Alan</th>${CATS.map(c => `<th>${CAT_TR[c]}</th>`).join("")}</tr>` +
-    sorted.map(r => `<tr><td>${fmtDate(r.createdAt)}</td><td>${matches.get(r.matchId)?.title || matches.get(r.matchId)?.venue || r.matchId}</td>
-      <td>${name(r.raterUid)}</td><td><b>${name(r.ratedUid)}</b></td>${CATS.map(c => `<td class="num">${r.scores?.[c] ?? "–"}</td>`).join("")}</tr>`).join("") ||
-    `<tr><td colspan="11" class="muted">Oy yok.</td></tr>`;
+function people() {
+  const q = $("#q-people").value;
+  const linked = new Map([...players].filter(([, p]) => p.linkedUid).map(([id, p]) => [p.linkedUid, id]));
+  $("#t-users").innerHTML = `<tr><th>Ad</th><th>Kullanıcı adı</th><th>Mevki</th><th>Kayıt</th><th class="num">Maç</th><th>Bağlı oyuncu kaydı</th></tr>` +
+    [...users].filter(([, u]) => match(q, u.name, u.handle)).sort((a, b) => a[1].name.localeCompare(b[1].name, "tr")).map(([id, u]) =>
+      `<tr><td><b>${esc(u.name)}</b></td><td>@${esc(u.handle)}</td><td>${(u.positions ?? []).join(" · ")}</td><td>${when(u.createdAt)}</td>
+      <td class="num">${[...matches.values()].filter(m => m.memberUids?.includes(id)).length}</td><td>${linked.has(id) ? `<span class="tag g">evet</span>` : `<span class="muted">–</span>`}</td></tr>`).join("");
+  $("#t-players").innerHTML = `<tr><th>Ad</th><th>Mevki</th><th>Ekleyen</th><th>Durum</th><th class="num">Maç</th></tr>` +
+    [...players].filter(([, p]) => match(q, p.name)).sort((a, b) => a[1].name.localeCompare(b[1].name, "tr")).map(([id, p]) =>
+      `<tr><td><b>${esc(p.name)}</b>${p.notes ? `<br><span class="muted">${esc(p.notes)}</span>` : ""}</td><td>${(p.positions ?? []).join(" · ")}</td><td>${esc(name(p.ownerUid))}</td>
+      <td>${p.linkedUid ? `<span class="tag g">@${esc(users.get(p.linkedUid)?.handle ?? "?")} ile bağlı</span>` : `<span class="tag m">hesapsız</span>`}</td>
+      <td class="num">${[...matches.values()].filter(m => (m.guests ?? []).some(g => g.id === id)).length}</td></tr>`).join("");
 }
+$("#q-people").oninput = people;
 </script>
 </body>
 </html>
