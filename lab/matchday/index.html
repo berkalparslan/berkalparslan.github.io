@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchday Admin</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<style>
+  :root { --ink: #0a0a0a; --paper: #fff; --grey: #8a8a8a; --red: #e2001a; --rule: rgba(0,0,0,.18); }
+  @media (prefers-color-scheme: dark) { :root { --ink: #f3f3f1; --paper: #0b0b0b; --rule: rgba(255,255,255,.2); } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+  h1 { font-size: 44px; letter-spacing: -1.3px; margin: 8px 0 24px; line-height: 1; }
+  h1::before { content: ""; display: block; width: 12px; height: 12px; background: var(--red); margin-bottom: 10px; }
+  .label { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--grey); font-weight: 500; }
+  .tabs { display: flex; gap: 24px; border-bottom: 2px solid var(--ink); margin: 28px 0 0; }
+  .tabs button { background: none; border: 0; padding: 0 0 10px; font: inherit; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--grey); cursor: pointer; font-weight: 500; }
+  .tabs button.on { color: var(--red); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+  th { text-align: left; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--grey); font-weight: 500; padding: 12px 8px 8px 0; border-bottom: 2px solid var(--ink); }
+  td { padding: 12px 8px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .big { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  button.btn { background: var(--ink); color: var(--paper); border: 0; padding: 14px 20px; font: inherit; font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; cursor: pointer; font-weight: 500; }
+  button.btn.red { background: var(--red); color: #fff; }
+  button.btn.ghost { background: none; color: var(--ink); border: 1.5px solid var(--ink); }
+  button.btn:disabled { opacity: .35; cursor: default; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+  .muted { color: var(--grey); font-size: 13px; }
+  #gate { padding-top: 80px; }
+  .hidden { display: none; }
+  input[type=search] { font: inherit; font-size: 16px; padding: 10px 0; border: 0; border-bottom: 2px solid var(--ink); background: none; color: var(--ink); width: 100%; outline: none; }
+</style>
+</head>
+<body>
+<main>
+  <div id="gate">
+    <h1>Matchday<br>Admin</h1>
+    <p class="muted">Yalnız <code>admins/{uid}</code> belgesi olan hesap girer. Google ile giriş.</p>
+    <div class="row"><button class="btn" id="signin">Google ile gir</button></div>
+    <p id="gate-msg" class="muted"></p>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="row" style="justify-content: space-between">
+      <div><span class="label">Matchday</span><h1 style="margin-bottom:0">Admin</h1></div>
+      <div><span id="who" class="muted"></span> <button class="btn ghost" id="signout">Çık</button></div>
+    </div>
+
+    <div class="tabs">
+      <button data-tab="ratings" class="on">Puanlar</button>
+      <button data-tab="users">Oyuncular</button>
+      <button data-tab="matches">Maçlar</button>
+      <button data-tab="raw">Ham oylar</button>
+    </div>
+
+    <section id="tab-ratings">
+      <p class="muted">Her oyuncunun aldığı tüm oyların ortalaması. <b>Yayınla</b> ortalamayı <code>users/{uid}.rating</code> alanına yazar; uygulama <code>AppConfig.showPublishedRatings</code> açıldığında profilde gösterir. Yayınlamak isteğe bağlı, oylar yine gizli kalır.</p>
+      <div class="row">
+        <input type="search" id="q-ratings" placeholder="Ara: ad veya @handle">
+        <button class="btn red" id="publish-all">Hepsini yayınla</button>
+        <button class="btn ghost" id="unpublish-all">Yayından kaldır</button>
+        <span class="muted">En az <input id="min-votes" type="number" value="3" style="width:50px"> oy alanlar yayınlanır.</span>
+      </div>
+      <table id="t-ratings"></table>
+    </section>
+
+    <section id="tab-users" class="hidden">
+      <input type="search" id="q-users" placeholder="Ara: ad veya @handle">
+      <table id="t-users"></table>
+    </section>
+
+    <section id="tab-matches" class="hidden">
+      <table id="t-matches"></table>
+    </section>
+
+    <section id="tab-raw" class="hidden">
+      <p class="muted">Tek tek oylar. Sadece burada görünür.</p>
+      <table id="t-raw"></table>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteField, writeBatch, orderBy, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const CATS = ["overall", "pace", "technique", "teamwork", "defense", "finishing", "fairplay"];
+const CAT_TR = { overall: "Genel", pace: "Hız", technique: "Teknik", teamwork: "Takım", defense: "Savunma", finishing: "Bitiricilik", fairplay: "Fair play" };
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = (s) => document.querySelector(s);
+
+let users = new Map(), matches = new Map(), ratings = [];
+
+$("#signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => $("#gate-msg").textContent = e.message);
+$("#signout").onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { $("#gate").classList.remove("hidden"); $("#app").classList.add("hidden"); return; }
+  const admin = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
+  if (!admin || !admin.exists()) {
+    $("#gate-msg").innerHTML = `Bu hesap admin değil. Konsolda <code>admins/${user.uid}</code> belgesini oluştur (içerik: <code>{ok: true}</code>), sonra tekrar gir.`;
+    return;
+  }
+  $("#who").textContent = user.email;
+  $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden");
+  await loadAll();
+});
+
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+  document.querySelectorAll("section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + b.dataset.tab));
+});
+
+async function loadAll() {
+  const [u, m, r] = await Promise.all([
+    getDocs(collection(db, "users")),
+    getDocs(query(collection(db, "matches"), orderBy("startsAt", "desc"))),
+    getDocs(collection(db, "ratings")),
+  ]);
+  users = new Map(u.docs.map(d => [d.id, d.data()]));
+  matches = new Map(m.docs.map(d => [d.id, d.data()]));
+  ratings = r.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderRatings(); renderUsers(); renderMatches(); renderRaw();
+}
+
+const name = (uid) => users.get(uid)?.name ?? "(silinmiş)";
+const handle = (uid) => users.get(uid) ? "@" + users.get(uid).handle : "";
+const fmtDate = (ts) => ts?.toDate ? ts.toDate().toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" }) : "";
+
+function aggregate() {
+  const acc = new Map();
+  for (const r of ratings) {
+    const a = acc.get(r.ratedUid) ?? { count: 0, sum: Object.fromEntries(CATS.map(c => [c, 0])), n: Object.fromEntries(CATS.map(c => [c, 0])), matches: new Set() };
+    a.count++; a.matches.add(r.matchId);
+    for (const c of CATS) if (typeof r.scores?.[c] === "number") { a.sum[c] += r.scores[c]; a.n[c]++; }
+    acc.set(r.ratedUid, a);
+  }
+  const rows = [];
+  for (const [uid, a] of acc) {
+    const avg = Object.fromEntries(CATS.map(c => [c, a.n[c] ? a.sum[c] / a.n[c] : null]));
+    rows.push({ uid, count: a.count, matches: a.matches.size, avg });
+  }
+  return rows.sort((x, y) => (y.avg.overall ?? 0) - (x.avg.overall ?? 0));
+}
+
+function matchFilter(q, uid) {
+  if (!q) return true;
+  const u = users.get(uid); if (!u) return false;
+  return (u.name + " @" + u.handle).toLowerCase().includes(q.toLowerCase());
+}
+
+function renderRatings() {
+  const q = $("#q-ratings").value;
+  const rows = aggregate().filter(r => matchFilter(q, r.uid));
+  $("#t-ratings").innerHTML = `<tr><th>Oyuncu</th><th>Oy</th><th>Maç</th>${CATS.map(c => `<th>${CAT_TR[c]}</th>`).join("")}<th>Yayın</th></tr>` +
+    rows.map(r => `<tr><td><b>${name(r.uid)}</b><br><span class="muted">${handle(r.uid)}</span></td><td class="num">${r.count}</td><td class="num">${r.matches}</td>` +
+      CATS.map(c => `<td class="num ${c === "overall" ? "big" : ""}">${r.avg[c]?.toFixed(1) ?? "–"}</td>`).join("") +
+      `<td>${users.get(r.uid)?.rating ? `<span class="muted">${users.get(r.uid).rating.overall.toFixed(1)} (${users.get(r.uid).rating.count})</span>` : "<span class='muted'>yok</span>"}</td></tr>`).join("") ||
+    `<tr><td colspan="12" class="muted">Henüz oy yok.</td></tr>`;
+}
+$("#q-ratings").oninput = renderRatings;
+
+$("#publish-all").onclick = async () => {
+  const min = Number($("#min-votes").value) || 1;
+  const rows = aggregate().filter(r => r.count >= min && users.has(r.uid));
+  if (!confirm(`${rows.length} oyuncunun ortalaması yayınlanacak. Devam?`)) return;
+  const batch = writeBatch(db);
+  for (const r of rows) {
+    batch.update(doc(db, "users", r.uid), { rating: {
+      overall: r.avg.overall ?? 0, count: r.count, publishedAt: new Date(),
+      categories: Object.fromEntries(CATS.filter(c => c !== "overall" && r.avg[c] != null).map(c => [c, r.avg[c]])) } });
+  }
+  await batch.commit(); await loadAll();
+};
+$("#unpublish-all").onclick = async () => {
+  const withRating = [...users].filter(([, u]) => u.rating);
+  if (!withRating.length || !confirm(`${withRating.length} oyuncunun yayınlanmış puanı silinecek. Devam?`)) return;
+  const batch = writeBatch(db);
+  for (const [uid] of withRating) batch.update(doc(db, "users", uid), { rating: deleteField() });
+  await batch.commit(); await loadAll();
+};
+
+function renderUsers() {
+  const q = $("#q-users").value;
+  const list = [...users].filter(([uid]) => matchFilter(q, uid)).sort((a, b) => a[1].name.localeCompare(b[1].name, "tr"));
+  $("#t-users").innerHTML = `<tr><th>Ad</th><th>Handle</th><th>Mevki</th><th>Kayıt</th><th>Maç</th><th>UID</th></tr>` +
+    list.map(([uid, u]) => `<tr><td><b>${u.name}</b></td><td>@${u.handle}</td><td>${u.position ?? ""}</td><td>${fmtDate(u.createdAt)}</td>
+      <td class="num">${[...matches.values()].filter(m => m.memberUids?.includes(uid)).length}</td><td class="muted" style="font-size:11px">${uid}</td></tr>`).join("");
+}
+$("#q-users").oninput = renderUsers;
+
+function renderMatches() {
+  $("#t-matches").innerHTML = `<tr><th>Tarih</th><th>Maç</th><th>Organizatör</th><th>Durum</th><th>Skor</th><th>Kadro</th><th>Oy</th></tr>` +
+    [...matches].map(([id, m]) => `<tr><td>${fmtDate(m.startsAt)}</td><td><b>${m.title || m.venue}</b><br><span class="muted">${m.venue}, ${m.city} · ${m.visibility}</span></td>
+      <td>${name(m.adminUid)}</td><td>${m.status}</td><td class="num">${m.homeScore ?? "–"}:${m.awayScore ?? "–"}</td>
+      <td class="num">${m.memberUids?.length ?? 0}</td><td class="num">${ratings.filter(r => r.matchId === id).length}</td></tr>`).join("") ||
+    `<tr><td colspan="7" class="muted">Maç yok.</td></tr>`;
+}
+
+function renderRaw() {
+  const sorted = [...ratings].sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
+  $("#t-raw").innerHTML = `<tr><th>Zaman</th><th>Maç</th><th>Veren</th><th>Alan</th>${CATS.map(c => `<th>${CAT_TR[c]}</th>`).join("")}</tr>` +
+    sorted.map(r => `<tr><td>${fmtDate(r.createdAt)}</td><td>${matches.get(r.matchId)?.title || matches.get(r.matchId)?.venue || r.matchId}</td>
+      <td>${name(r.raterUid)}</td><td><b>${name(r.ratedUid)}</b></td>${CATS.map(c => `<td class="num">${r.scores?.[c] ?? "–"}</td>`).join("")}</tr>`).join("") ||
+    `<tr><td colspan="11" class="muted">Oy yok.</td></tr>`;
+}
+</script>
+</body>
+</html>
