@@ -6,45 +6,45 @@
 <title>Matchday Admin</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
 <style>
-  :root { --ink:#1c1c22; --muted:#76767f; --line:#e6e6eb; --card:#f6f6f8; --orange:#f26b21; --green:#23a55a; --blue:#2f7bea; --red:#e0345f; }
+  :root { --ink:#f2f5f2; --muted:#8b948b; --line:#242b24; --card:#151a15; --bg:#0a0d0a; --orange:#ffc53d; --green:#5be36a; --blue:#62a8ff; --red:#ff5c7a; }
   * { box-sizing: border-box; }
-  body { margin: 0; background: #fff; color: var(--ink); font: 14px/1.45 -apple-system, system-ui, sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 -apple-system, system-ui, sans-serif; }
   main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 60px; }
-  h1 { font-size: 24px; margin: 0; }
+  h1 { font-size: 22px; margin: 0; } h1 b { color: var(--green); }
   .muted { color: var(--muted); }
   .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
   .tabs { display: flex; gap: 6px; margin: 18px 0 14px; flex-wrap: wrap; }
-  .tabs button { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; color: var(--muted); }
-  .tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tabs button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; color: var(--muted); }
+  .tabs button.on { background: var(--green); color: #000; border-color: var(--green); }
   .kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
   .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
   .kpi b { display: block; font-size: 26px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px; background: var(--card); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px; background: #111511; border-bottom: 1px solid var(--line); white-space: nowrap; }
   td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
   .num { font-variant-numeric: tabular-nums; text-align: right; }
   .big { font-weight: 700; font-size: 16px; }
-  .tag { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #eef3fd; color: var(--blue); }
-  .tag.g { background: #e7f6ee; color: var(--green); } .tag.o { background: #fdeee5; color: var(--orange); } .tag.m { background: var(--card); color: var(--muted); }
-  .btn { border: 0; border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; background: var(--ink); color: #fff; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; background: rgba(98,168,255,.15); color: var(--blue); }
+  .tag.g { background: rgba(91,227,106,.15); color: var(--green); } .tag.o { background: rgba(255,197,61,.15); color: var(--orange); } .tag.m { background: #1c221c; color: var(--muted); }
+  .btn { border: 0; border-radius: 99px; padding: 10px 16px; font: inherit; font-weight: 700; cursor: pointer; background: var(--green); color: #000; }
   .btn.soft { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
-  input[type=search] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; min-width: 240px; }
+  input[type=search], input[type=number] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; min-width: 240px; background: var(--card); color: var(--ink); } input[type=number] { min-width: 0; }
   .hidden { display: none; }
-  details { background: #fff; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
   summary { padding: 12px 14px; cursor: pointer; font-weight: 600; }
   details > div { padding: 0 14px 14px; }
   .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .team { background: var(--card); border-radius: 10px; padding: 10px; }
+  .team { background: #1c221c; border-radius: 10px; padding: 10px; } .team.w { background: #e9ede9; color: #000; } a { color: var(--green); } .kpi b { color: var(--green); }
   #gate { padding-top: 80px; max-width: 420px; }
 </style>
 </head>
 <body>
 <main>
   <div id="gate">
-    <h1>Matchday Admin</h1>
+    <h1><b>matchday</b> admin</h1>
     <p class="muted">Yalnız <code>admins/{uid}</code> belgesi olan hesap girer.</p>
     <button class="btn" id="signin">Google ile gir</button>
     <p id="gate-msg" class="muted"></p>
@@ -52,7 +52,7 @@
 
   <div id="app" class="hidden">
     <div class="top">
-      <div><h1>Matchday Admin</h1><span class="muted" id="who"></span></div>
+      <div><h1><b>matchday</b> admin</h1><span class="muted" id="who"></span></div>
       <div class="row" style="margin:0"><button class="btn soft" id="reload">Yenile</button><button class="btn soft" id="signout">Çık</button></div>
     </div>
     <div class="tabs" id="tabs">
@@ -210,9 +210,9 @@ function matchList() {
     const votes = ratings.filter(r => r.matchId === id).length;
     const col = t => (t?.uids ?? []).map(x => { const s = m.stats?.[x]; return `<div>${esc(name(x))}${s?.goals ? ` ⚽️${s.goals}` : ""}${s?.assists ? ` 🅰️${s.assists}` : ""}</div>`; }).join("") || `<span class="muted">–</span>`;
     return `<details><summary>${esc(m.title || m.venue)} <span class="muted">· ${when(m.startsAt)} · ${esc(name(m.adminUid))}</span>
-      <span class="tag ${m.status === "played" ? "g" : m.status === "cancelled" ? "m" : "o"}">${m.status}</span> ${m.hasOwnProperty("homeScore") ? `<b>${m.homeScore ?? "–"}:${m.awayScore ?? "–"}</b>` : ""} <span class="muted">· ${(m.memberUids?.length ?? 0) + (m.guests?.length ?? 0)} oyuncu · ${votes} oy</span></summary>
+      <span class="tag ${m.status === "played" ? "g" : m.status === "cancelled" ? "m" : "o"}">${m.status}</span> ${m.hasOwnProperty("homeScore") ? `<b>${m.homeScore ?? "–"}:${m.awayScore ?? "–"}</b>` : ""} <span class="muted">· ${(m.memberUids?.length ?? 0) + (m.guests?.length ?? 0)} oyuncu · ${votes} oy${m.captainUid ? " · kaptan " + esc(name(m.captainUid)) : ""}${m.moments?.length ? " · " + m.moments.length + " an" : ""}</span></summary>
       <div><p class="muted">${esc(m.venue)}${m.address ? ", " + esc(m.address) : ""}${m.mapsURL ? ` · <a href="${esc(m.mapsURL)}" target="_blank">harita</a>` : ""}</p>
-      <div class="teams"><div class="team"><b>${esc(m.home?.name)}</b>${col(m.home)}</div><div class="team"><b>${esc(m.away?.name)}</b>${col(m.away)}</div></div></div></details>`;
+      <div class="teams"><div class="team"><b>${esc(m.home?.name)}</b>${col(m.home)}</div><div class="team w"><b>${esc(m.away?.name)}</b>${col(m.away)}</div></div></div></details>`;
   }).join("") || `<p class="muted">Maç yok.</p>`;
 }
 
