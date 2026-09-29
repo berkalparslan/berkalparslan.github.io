@@ -149,7 +149,13 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
       <div class="card">
         <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="hardPaywall" style="width:auto"> <span><b>Hard paywall</b>: açıkken paywall kapatılamaz. Kapalıyken köşede X çıkar, kullanıcı ücretsiz devam edebilir.</span></label>
       </div>
-      <p class="muted">Ayarlar ve metinler aynı kayıtta tutulur; alttaki "Kaydet ve yayınla" ikisini birlikte gönderir.</p>
+      <div class="card">
+        <h2 style="margin-top:0">Özel anlatıcı sesleri</h2>
+        <p class="muted">AI Studio'da Daily Whisper projesinde oluşturulan klon seslerin kimliği (<code>voice_</code> ile başlar). Buraya eklenen ses, uygulamanın anlatıcı listesinde bu adla görünür; yeni sürüm gerekmez.</p>
+        <div id="voices"></div>
+        <button class="ghost" id="addVoice" style="margin-top:8px">+ Ses ekle</button>
+      </div>
+      <p class="muted">Ayarlar ve metinler aynı kayıtta tutulur; alttaki "Kaydet ve yayınla" hepsini birlikte gönderir.</p>
     </section>
   </main>
 </div>
@@ -199,6 +205,20 @@ const day = d => d.toISOString().slice(0, 10);
 
 let overrides = {}, version = 0, current = SECTIONS[0][0], dirty = false;
 let installs = [], stats = [], charts = {};
+let voices = [];
+function renderVoices() {
+  $("voices").innerHTML = "";
+  voices.forEach((v, i) => {
+    const row = document.createElement("div"); row.className = "row"; row.style.marginBottom = "8px";
+    row.innerHTML = `<input placeholder="Görünen ad" value="${esc(v.name)}"><div style="display:flex;gap:8px"><input placeholder="voice_..." value="${esc(v.id)}" style="font-family:ui-monospace,Menlo,monospace"><button class="danger">Sil</button></div>`;
+    const [n, id] = row.querySelectorAll("input");
+    n.oninput = () => { v.name = n.value; dirty = true; status(); };
+    id.oninput = () => { v.id = id.value.trim(); id.style.borderColor = v.id && !v.id.startsWith("voice_") ? "var(--rose)" : ""; dirty = true; status(); };
+    row.querySelector("button").onclick = () => { voices.splice(i, 1); dirty = true; status(); renderVoices(); };
+    $("voices").appendChild(row);
+  });
+}
+document.getElementById("addVoice").onclick = () => { voices.push({ name: "", id: "" }); renderVoices(); };
 
 // ---------- Auth ----------
 $("signin").onclick = async () => {
@@ -393,6 +413,7 @@ async function loadConfig() {
   overrides = d.strings ? JSON.parse(d.strings) : {};
   const flags = d.flags ? JSON.parse(d.flags) : {};
   $("hardPaywall").checked = flags.hardPaywall === true;
+  voices = d.voices ? JSON.parse(d.voices) : []; renderVoices();
   version = d.version || 0;
   $("meta").textContent = snap.exists() ? `Sürüm ${version}` + (d.updatedAt ? ` · ${d.updatedAt.toDate().toLocaleString("tr-TR")}` : "") : "Henüz kayıt yok; uygulama kendi metinlerini kullanıyor.";
   dirty = false; status(); renderTabs(); render();
@@ -437,7 +458,8 @@ function status() { $("status").textContent = `${Object.keys(overrides).length} 
 $("save").onclick = async () => {
   $("save").disabled = true;
   try {
-    await setDoc(cfgRef, { strings: JSON.stringify(overrides), flags: JSON.stringify({ hardPaywall: $("hardPaywall").checked }), version: version + 1, updatedAt: serverTimestamp() });
+    const cleanVoices = voices.filter(v => v.name.trim() && v.id.startsWith("voice_")).map(v => ({ name: v.name.trim(), id: v.id }));
+    await setDoc(cfgRef, { strings: JSON.stringify(overrides), flags: JSON.stringify({ hardPaywall: $("hardPaywall").checked }), voices: JSON.stringify(cleanVoices), version: version + 1, updatedAt: serverTimestamp() });
     await loadConfig(); $("status").textContent = "Kaydedildi. Uygulama bir sonraki açılışta alır.";
   } catch (e) { $("status").textContent = "Kaydedilemedi: " + e.code; } finally { $("save").disabled = false; }
 };
