@@ -40,6 +40,7 @@
   .team { background: #1c221c; border-radius: 10px; padding: 10px; } .team.w { background: #e9ede9; color: #000; } a { color: var(--green); } .kpi b { color: var(--green); }
   #gate { padding-top: 80px; max-width: 420px; }
   label.set { display: block; margin: 12px 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+  label.set select { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); }
   label.set input { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); box-sizing: border-box; }
 </style>
 </head>
@@ -69,7 +70,7 @@
     <section id="tab-overview"></section>
 
     <section id="tab-board" class="hidden">
-      <div class="card muted">Her oyuncunun aldığı oyların ortalaması. Hesapsız oyuncular (misafir) de puanlanır; bir hesaba bağlandıklarında puanları o hesaba eklenir. <b>Yayınla</b> ortalamayı hesabın profiline yazar (uygulamada şimdilik gizli).</div>
+      <div class="card muted">Her oyuncunun aldığı oyların ortalaması. Hesapsız oyuncular (misafir) de puanlanır; bir hesaba bağlandıklarında puanları o hesaba eklenir. <b>Yayınla</b> ortalamayı hesabın profiline yazar; uygulamada kimin göreceğini <b>Ayarlar</b> sekmesinden seçersin. Yeni oylar gelince tekrar Yayınla.</div>
       <div class="row">
         <input type="search" id="q-board" placeholder="Ara">
         <span class="muted">En az</span><input id="min-votes" type="number" value="3" style="width:60px;padding:8px;border:1px solid var(--line);border-radius:10px"><span class="muted">oy</span>
@@ -92,6 +93,8 @@
       <h3 style="margin-top:22px">Organizatörlerin oyuncu listeleri (hesapsız)</h3>
       <p class="muted">Bu listeyi yalnız ekleyen organizatör ve admin görür. Diğer kullanıcılar sadece hesapları görür.</p>
       <table id="t-players"></table>
+      <h3 style="margin-top:22px">Şikayetler</h3>
+      <table id="t-reports"></table>
     </section>
     <section id="tab-settings" class="hidden">
       <div class="card">
@@ -100,6 +103,9 @@
         <label class="set">Kadro paylaşımındaki indirme linki<input type="url" id="c-join" placeholder="https://berkalparslan.github.io/matchday/"></label>
         <label class="set">iPhone (TestFlight ya da App Store)<input type="url" id="c-ios" placeholder="https://testflight.apple.com/join/EkCzWQEM"></label>
         <label class="set">Android (Play test ya da mağaza)<input type="url" id="c-android" placeholder="https://play.google.com/apps/testing/com.aberk.matchday"></label>
+        <label class="set">Profilde puan
+          <select id="c-ratings"><option value="off">Kapalı: kimse görmez</option><option value="self">Yalnız kişi kendi puanını görür</option><option value="all">Herkes herkesinkini görür</option></select>
+        </label>
         <div class="row"><button class="btn" id="c-save">Kaydet</button><span class="muted" id="c-msg"></span></div>
       </div>
     </section>
@@ -117,7 +123,7 @@ const TR = { overall:"Genel", pace:"Hız", technique:"Teknik", teamwork:"Takım"
 const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let users = new Map(), players = new Map(), matches = new Map(), ratings = [];
+let users = new Map(), players = new Map(), matches = new Map(), ratings = [], reports = [];
 
 $("#signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => $("#gate-msg").textContent = e.message);
 $("#signout").onclick = () => signOut(auth);
@@ -135,17 +141,18 @@ document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
 });
 
 async function load() {
-  const [u, p, m, r] = await Promise.all(["users","players","matches","ratings"].map(c => getDocs(collection(db, c))));
+  const [u, p, m, r, rep] = await Promise.all(["users","players","matches","ratings","reports"].map(c => getDocs(collection(db, c))));
+  reports = rep.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
   users = new Map(u.docs.map(d => [d.id, d.data()]));
   players = new Map(p.docs.map(d => [d.id, d.data()]));
   matches = new Map(m.docs.map(d => [d.id, d.data()]).sort((a, b) => (b[1].startsAt?.seconds ?? 0) - (a[1].startsAt?.seconds ?? 0)));
   ratings = r.docs.map(d => ({ id: d.id, ...d.data() }));
-  overview(); board(); given(); matchList(); people(); settings();
+  overview(); board(); given(); matchList(); people(); reportList(); settings();
 }
 
 async function settings() {
   const c = (await getDoc(doc(db, "config", "app")).catch(() => null))?.data() ?? {};
-  $("#c-join").value = c.joinURL ?? ""; $("#c-ios").value = c.iosURL ?? ""; $("#c-android").value = c.androidURL ?? "";
+  $("#c-join").value = c.joinURL ?? ""; $("#c-ios").value = c.iosURL ?? ""; $("#c-android").value = c.androidURL ?? ""; $("#c-ratings").value = c.ratings ?? "off";
 }
 $("#c-save").onclick = async () => {
   const v = id => $(id).value.trim();
@@ -153,6 +160,7 @@ $("#c-save").onclick = async () => {
   if (v("#c-join")) data.joinURL = v("#c-join");
   if (v("#c-ios")) data.iosURL = v("#c-ios");
   if (v("#c-android")) data.androidURL = v("#c-android");
+  data.ratings = $("#c-ratings").value;
   try { await setDoc(doc(db, "config", "app"), data); $("#c-msg").textContent = "Kaydedildi."; }
   catch (e) { $("#c-msg").textContent = e.message; }
 };
@@ -257,6 +265,11 @@ function people() {
       <td class="num">${[...matches.values()].filter(m => (m.guests ?? []).some(g => g.id === id)).length}</td></tr>`).join("");
 }
 $("#q-people").oninput = people;
+function reportList() {
+  $("#t-reports").innerHTML = reports.length ? `<tr><th>Tarih</th><th>Şikayet eden</th><th>Hakkında</th><th>Sebep</th></tr>` +
+    reports.map(x => `<tr><td>${when(x.createdAt)}</td><td>${esc(name(x.fromUid))}</td><td><b>${esc(name(x.targetUid))}</b> ${kind(x.targetUid)}</td><td>${esc(x.reason)}</td></tr>`).join("")
+    : `<tr><td class="muted">Şikayet yok.</td></tr>`;
+}
 </script>
 </body>
 </html>
