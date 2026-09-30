@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchday'e katıl</title>
+<meta name="description" content="Halısaha maçlarını tek yerde topla: kadro, saha, sonuç ve maçtan sonra gizli puanlama.">
+<meta property="og:title" content="Matchday: Halısaha">
+<meta property="og:description" content="Maça davet edildin. Uygulamayı indir, kadroyu gör.">
+<meta property="og:image" content="https://berkalparslan.github.io/matchday/assets/icon-512.png">
+<link rel="icon" href="/matchday/assets/icon-180.png">
+<link rel="apple-touch-icon" href="/matchday/assets/icon-180.png">
+<style>
+:root { color-scheme: dark; --bg:#0B0F0C; --card:#141A16; --line:#223027; --ink:#EEF5EF; --muted:#8FA096; --neon:#5BE36A; }
+* { box-sizing: border-box; }
+body { margin:0; min-height:100vh; display:grid; place-items:center; padding:16px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, #173a1f 0%, var(--bg) 60%); color:var(--ink); }
+.card { width:100%; max-width:420px; background:var(--card); border:1px solid var(--line); border-radius:24px; padding:26px 20px; }
+.logo { width:72px; height:72px; border-radius:18px; display:block; margin:0 auto 10px; }
+h1 { font-size:24px; margin:0 0 4px; text-align:center; letter-spacing:-.3px; }
+.sub { color:var(--muted); text-align:center; margin:0 0 20px; font-size:15px; line-height:1.5; }
+h2 { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:18px 0 8px; }
+ol { margin:0 0 12px; padding-left:20px; line-height:1.6; font-size:15px; }
+a.btn { display:block; text-align:center; text-decoration:none; font-weight:700; padding:14px; border-radius:14px; margin-bottom:8px; }
+a.main { background:var(--neon); color:#07210c; }
+a.soft { background:rgba(91,227,106,.12); color:var(--neon); }
+.note { color:var(--muted); font-size:13px; line-height:1.5; margin:4px 0 0; }
+.hide { display:none; }
+footer { text-align:center; margin-top:18px; font-size:12px; }
+footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+<main class="card">
+  <img class="logo" src="/matchday/assets/icon-180.png" alt="">
+  <h1>Matchday</h1>
+  <p class="sub">Halısaha maçların tek yerde: kadro, saha, sonuç ve maçtan sonra takım arkadaşlarını gizlice puanlama. Şu an deneme sürümünde.</p>
+
+  <section id="ios">
+    <h2>iPhone</h2>
+    <ol>
+      <li>App Store'dan TestFlight'ı indir.</li>
+      <li>Aşağıdaki bağlantıyla Matchday'i yükle.</li>
+    </ol>
+    <a class="btn soft" href="https://apps.apple.com/app/testflight/id899247664">TestFlight'ı indir</a>
+    <a class="btn main" id="iosLink" href="https://testflight.apple.com/join/EkCzWQEM">Matchday'i yükle</a>
+  </section>
+
+  <section id="android">
+    <h2>Android</h2>
+    <ol>
+      <li>Organizatöre Gmail adresini ver, test listesine eklesin.</li>
+      <li>Aşağıdaki bağlantıda "Test kullanıcısı ol" de, sonra Play'den yükle.</li>
+    </ol>
+    <a class="btn main" id="androidLink" href="https://play.google.com/apps/testing/com.aberk.matchday">Teste katıl ve yükle</a>
+    <p class="note">Listeye eklenmeden bu bağlantı "bulunamadı" der; bu normal, test bitince herkese açılacak.</p>
+  </section>
+
+  <h2>Sonra</h2>
+  <ol>
+    <li>Kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta "Bu benim" dersin.</li>
+  </ol>
+
+  <footer><a href="/privacy/matchday/">Gizlilik</a></footer>
+</main>
+<script>
+  // Show the visitor's own platform first; a desktop sees both.
+  (function () {
+    var ua = navigator.userAgent || "";
+    var ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);
+    if (ios) document.getElementById("android").classList.add("hide");
+    if (android) document.getElementById("ios").classList.add("hide");
+  })();
+  // Links come from the admin panel (Firestore config/app), so a new
+  // TestFlight or Play link needs no new page.
+  fetch("https://firestore.googleapis.com/v1/projects/matchday-bamtech/databases/(default)/documents/config/app?key=AIzaSyDWl7gAoXzKTTK5su2J56W1-_rTJ6shr_E")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var f = d && d.fields; if (!f) return;
+      if (f.iosURL && f.iosURL.stringValue) document.getElementById("iosLink").href = f.iosURL.stringValue;
+      if (f.androidURL && f.androidURL.stringValue) document.getElementById("androidLink").href = f.androidURL.stringValue;
+    })
+    .catch(function () {});
+</script>
+</body>
+</html>

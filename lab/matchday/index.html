@@ -39,6 +39,8 @@
   .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .team { background: #1c221c; border-radius: 10px; padding: 10px; } .team.w { background: #e9ede9; color: #000; } a { color: var(--green); } .kpi b { color: var(--green); }
   #gate { padding-top: 80px; max-width: 420px; }
+  label.set { display: block; margin: 12px 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+  label.set input { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); box-sizing: border-box; }
 </style>
 </head>
 <body>
@@ -61,6 +63,7 @@
       <button data-tab="given">Kim kime ne verdi</button>
       <button data-tab="matches">Maçlar</button>
       <button data-tab="people">Kişiler</button>
+      <button data-tab="settings">Ayarlar</button>
     </div>
 
     <section id="tab-overview"></section>
@@ -90,13 +93,23 @@
       <p class="muted">Bu listeyi yalnız ekleyen organizatör ve admin görür. Diğer kullanıcılar sadece hesapları görür.</p>
       <table id="t-players"></table>
     </section>
+    <section id="tab-settings" class="hidden">
+      <div class="card">
+        <h3 style="margin-top:0">Bağlantılar</h3>
+        <p class="muted">Uygulamalar ve katılım sayfası bunları her açılışta buradan okur; değiştirince yeni sürüm gerekmez. Boş bırakılan alan varsayılana döner.</p>
+        <label class="set">Kadro paylaşımındaki indirme linki<input type="url" id="c-join" placeholder="https://berkalparslan.github.io/matchday/"></label>
+        <label class="set">iPhone (TestFlight ya da App Store)<input type="url" id="c-ios" placeholder="https://testflight.apple.com/join/EkCzWQEM"></label>
+        <label class="set">Android (Play test ya da mağaza)<input type="url" id="c-android" placeholder="https://play.google.com/apps/testing/com.aberk.matchday"></label>
+        <div class="row"><button class="btn" id="c-save">Kaydet</button><span class="muted" id="c-msg"></span></div>
+      </div>
+    </section>
   </div>
 </main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, getDoc, writeBatch, deleteField } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc, writeBatch, deleteField } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
 const CATS = ["overall","pace","technique","teamwork","defense","finishing","fairplay"];
@@ -127,8 +140,22 @@ async function load() {
   players = new Map(p.docs.map(d => [d.id, d.data()]));
   matches = new Map(m.docs.map(d => [d.id, d.data()]).sort((a, b) => (b[1].startsAt?.seconds ?? 0) - (a[1].startsAt?.seconds ?? 0)));
   ratings = r.docs.map(d => ({ id: d.id, ...d.data() }));
-  overview(); board(); given(); matchList(); people();
+  overview(); board(); given(); matchList(); people(); settings();
 }
+
+async function settings() {
+  const c = (await getDoc(doc(db, "config", "app")).catch(() => null))?.data() ?? {};
+  $("#c-join").value = c.joinURL ?? ""; $("#c-ios").value = c.iosURL ?? ""; $("#c-android").value = c.androidURL ?? "";
+}
+$("#c-save").onclick = async () => {
+  const v = id => $(id).value.trim();
+  const data = {};
+  if (v("#c-join")) data.joinURL = v("#c-join");
+  if (v("#c-ios")) data.iosURL = v("#c-ios");
+  if (v("#c-android")) data.androidURL = v("#c-android");
+  try { await setDoc(doc(db, "config", "app"), data); $("#c-msg").textContent = "Kaydedildi."; }
+  catch (e) { $("#c-msg").textContent = e.message; }
+};
 
 // A guest id resolves to the account it is linked to, so their votes merge.
 const resolve = id => players.get(id)?.linkedUid ?? id;
