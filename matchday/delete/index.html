@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchday: Hesap silme / Delete account</title>
+<meta name="description" content="Matchday hesabını ve verilerini nasıl silersin.">
+<link rel="canonical" href="https://berkalparslan.github.io/matchday/delete/">
+<script>
+  (function () {
+    try { document.documentElement.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+    catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Tech</span></a>
+    <nav>
+      <a href="/matchday/">Katıl</a>
+      <a href="/">Uygulamalar</a>
+      <a href="/privacy/">Tüm politikalar</a>
+      <a href="/support/">Destek</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+<h1>Matchday: Hesabını silmek</h1>
+<p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
+<h2>Uygulamadan</h2>
+<ol>
+  <li>Matchday'i aç, alttaki <b>Profil</b> sekmesine git.</li>
+  <li>Sayfanın en altındaki <b>Hesabı sil</b> düğmesine dokun ve onayla.</li>
+</ol>
+<h2>Uygulamaya erişemiyorsan</h2>
+<p>Hesabında kullandığın e-posta adresinden <a href="mailto:aberkalparslan@gmail.com?subject=Matchday%20hesap%20silme">aberkalparslan@gmail.com</a> adresine "Matchday hesap silme" konulu bir e-posta gönder. Talebin 30 gün içinde yerine getirilir.</p>
+<h2>Neler silinir, neler kalır</h2>
+<ul>
+  <li><b>Silinir:</b> profilin, kullanıcı adın, profil fotoğrafın, giriş hesabın, engellediğin kişiler listesi.</li>
+  <li><b>Kalır:</b> organizatörü olduğun maçlar diğer oyuncular için kalır. Verdiğin puanlar adın olmadan, yalnız ortalamalarda kalır. Bir maçın kadrosunda ya da skorunda adın geçiyorsa o maç kaydı diğer oyuncular için durur.</li>
+</ul>
+<p>Ayrıntılar için <a href="/privacy/matchday/">gizlilik politikası</a>.</p>
+<hr>
+<h1 id="en">Matchday: Deleting your account</h1>
+<h2>In the app</h2>
+<ol>
+  <li>Open Matchday and go to the <b>Profile</b> tab.</li>
+  <li>Tap <b>Delete account</b> at the bottom and confirm.</li>
+</ol>
+<h2>If you cannot open the app</h2>
+<p>Email <a href="mailto:aberkalparslan@gmail.com?subject=Matchday%20account%20deletion">aberkalparslan@gmail.com</a> from the address you signed up with, subject "Matchday account deletion". The request is completed within 30 days.</p>
+<h2>What is deleted and what stays</h2>
+<ul>
+  <li><b>Deleted:</b> your profile, handle, profile photo, sign in account and your block list.</li>
+  <li><b>Kept:</b> matches you organised stay for the other players. Ratings you gave stay only inside averages, without your name. Match records that list you in a lineup or score stay for the other players.</li>
+</ul>
+<p>See the <a href="/privacy/matchday/#en">privacy policy</a> for details.</p>
+</main>
+
+<footer>
+  <p>© 2026 BamTech ·
+    <a href="/privacy/">Tüm politikalar</a> ·
+    <a href="/support/">Destek</a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>
