@@ -12,9 +12,10 @@ echo "── $(date "+%Y-%m-%d %H:%M") çekim başladı"
 
 node scripts/lab/collect.mjs --days 45
 node scripts/lab/build.mjs
+node scripts/lab/walletcoach.mjs --days 90 || echo "wallet-coach çekimi başarısız"
 
 git pull -q --rebase --autostash origin main || true
-git add lab/panel/data.enc.json
+git add lab/panel/data.enc.json lab/wallet-coach/data.enc.json
 if git diff --cached --quiet; then
   echo "değişiklik yok"
 else
