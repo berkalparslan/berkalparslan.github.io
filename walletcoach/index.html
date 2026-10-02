@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wallet Coach — Ekran ekran tanıtım</title>
-<meta name="description" content="Ev ekonomisini aylık bir tablo gibi tut: gelir ve giderleri listele, ödedikçe işaretle, yeni ay öncekini kopyalasın. Her şey telefonunda kalır.">
-<meta property="og:title" content="Wallet Coach — Ay ay ev ekonomisi">
+<title>Wallet Coach · Ekran ekran tanıtım</title>
+<meta name="description" content="Ayın faturalarını, kredilerini ve gelirini tek sayfada planla; fişi okut, fiyatları takip et, paranın nereye gittiğini grafiklerle gör.">
+<meta property="og:title" content="Wallet Coach: Aylık plan ve harcama koçu">
 <meta property="og:description" content="Excel'deki ay sekmelerinin yerini alan uygulama. Veriler cihazında kalır.">
 <meta property="og:image" content="https://berkalparslan.github.io/walletcoach/assets/screens/tr/panel.webp">
 <meta property="og:type" content="website">
 <link rel="icon" href="/walletcoach/assets/icon-180.png">
 <link rel="apple-touch-icon" href="/walletcoach/assets/icon-180.png">
 <script>
-  // Tema ve dil sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi ve
+  // Tema ve dil sayfa boyanmadan uygulanır, aksi halde açık/koyu geçişi ve
   // dil değişimi gözle görülür bir sıçrama yapıyor.
   (function () {
     var d = document.documentElement;
@@ -142,7 +142,7 @@ ul.feat li::before{
   background:var(--c,var(--accent))
 }
 ul.feat strong{color:var(--ink);font-weight:600}
-/* Tek görsel bir sütunu kaplayınca metni eziyor; her hâlükârda telefon
+/* Tek görsel bir sütunu kaplayınca metni eziyor; her halükarda telefon
    boyunda kalsın diye üstten sınırlı. */
 .shots{display:flex;gap:16px;justify-content:center}
 .shots .shot{flex:1;min-width:0;max-width:330px}
@@ -185,6 +185,14 @@ footer a:hover{color:var(--accent)}
   .shots .shot{max-width:300px}
   .shots{justify-content:center}
 }
+/* Görsel şeridi ve oran güvencesi (2 Eki 2026) */
+.shot{height:auto;object-fit:contain}
+.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:8px 22px 44px;max-width:1120px;margin:0 auto;scrollbar-width:thin}
+.strip .shot{flex:none;width:min(240px,62vw);scroll-snap-align:center}
+.strip-hint{text-align:center;color:var(--ink3);font-size:.8rem;margin:-30px 0 34px}
+.shots{align-items:flex-start}
+.shots .shot{max-width:280px}
 </style>
 <link rel="stylesheet" href="/assets/catalogue.css">
 </head>
@@ -195,12 +203,11 @@ footer a:hover{color:var(--accent)}
     <a class="logo" href="/">Bam<b>Tech</b></a>
     <nav>
       <a href="#panel"><span class="tr">Panel</span><span class="en">Dashboard</span></a>
-      <a href="#ay"><span class="tr">Ay tablosu</span><span class="en">The sheet</span></a>
-      <a href="#yeniay"><span class="tr">Yeni ay</span><span class="en">New month</span></a>
-      <a href="#takvim"><span class="tr">Takvim</span><span class="en">Calendar</span></a>
-      <a href="#defter"><span class="tr">Alacak-verecek</span><span class="en">Ledger</span></a>
-      <a href="#varliklar"><span class="tr">Varlıklar</span><span class="en">Assets</span></a>
+      <a href="#analiz"><span class="tr">Analiz</span><span class="en">Analysis</span></a>
+      <a href="#fis"><span class="tr">Fiş ve fiyat</span><span class="en">Receipts</span></a>
+      <a href="#ay"><span class="tr">Ay planı</span><span class="en">Monthly plan</span></a>
       <a href="#birikim"><span class="tr">Birikim</span><span class="en">Savings</span></a>
+      <a href="#projeler"><span class="tr">Projeler</span><span class="en">Projects</span></a>
       <a href="#cuzdan"><span class="tr">Araçlar</span><span class="en">Tools</span></a>
       <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       <a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a>
@@ -217,15 +224,15 @@ footer a:hover{color:var(--accent)}
   <header class="hero">
     <img class="hero-icon" src="assets/icon-512.png" width="88" height="88" alt="Wallet Coach">
     <span class="kicker">
-      <span class="tr">iPhone · App Store'da</span><span class="en">iPhone · On the App Store</span>
+      <span class="tr">iPhone · Apple Watch</span><span class="en">iPhone · Apple Watch</span>
     </span>
     <h1>Wallet Coach</h1>
-    <p class="tr">Ev ekonomisini bir bütçe uygulaması gibi değil, <strong>Excel'deki ay
-      sekmeleri</strong> gibi tutar. Ayın gelirini ve giderini bir kez yazarsın, geldikçe
-      ödedikçe işaretlersin, yeni ay tek dokunuşla öncekini kopyalar.</p>
-    <p class="en">Keeps the household books the way a <strong>spreadsheet with a tab per
-      month</strong> does, not the way a budgeting app does. You write the month down once,
-      tick things off as they come in and go out, and the next month copies itself.</p>
+    <p class="tr">Paran gerçekte nereye gidiyor: gör, planla, paylaş. Ayın faturalarını, kredilerini
+      ve gelirini <strong>tek bir sayfada</strong> planlar, market fişini okuyup fiyatları takip eder,
+      hepsini anlaşılır grafiklerle analiz eder.</p>
+    <p class="en">See where your money really goes, plan it, share it. Your month's bills, loans and
+      income on <strong>one page</strong>, receipts read and prices tracked, and all of it
+      explained in clear charts.</p>
 
     <div class="cta">
       <a class="btn primary" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
@@ -238,78 +245,175 @@ footer a:hover{color:var(--accent)}
         <span class="tr">Ekranları gez</span><span class="en">Take the tour</span>
       </a>
     </div>
-
-    <div class="hero-shots">
-      <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" alt="Panel">
-      <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" alt="Ay tablosu">
-      <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" alt="Cüzdan">
-    </div>
   </header>
+</div>
+
+<div class="strip" role="list">
+  <img class="shot" data-screen="promo-01" src="assets/screens/tr/promo-01.webp" width="600" height="1304" decoding="async" alt="Paran nereye gitti">
+  <img class="shot" data-screen="promo-02" src="assets/screens/tr/promo-02.webp" width="600" height="1304" decoding="async" alt="Senin enflasyonun">
+  <img class="shot" data-screen="promo-03" src="assets/screens/tr/promo-03.webp" width="600" height="1304" decoding="async" alt="Fiş okuma">
+  <img class="shot" data-screen="promo-04" src="assets/screens/tr/promo-04.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiyat geçmişi">
+  <img class="shot" data-screen="promo-05" src="assets/screens/tr/promo-05.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay planı">
+  <img class="shot" data-screen="promo-06" src="assets/screens/tr/promo-06.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Birikim">
+  <img class="shot" data-screen="promo-07" src="assets/screens/tr/promo-07.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Projeler">
+  <img class="shot" data-screen="promo-08" src="assets/screens/tr/promo-08.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Öne çıkanlar">
+  <img class="shot" data-screen="promo-09" src="assets/screens/tr/promo-09.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay sonu">
+  <img class="shot" data-screen="promo-10" src="assets/screens/tr/promo-10.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşım">
+</div>
+<p class="strip-hint"><span class="tr">Kaydırarak gez</span><span class="en">Swipe to browse</span></p>
+
+<div class="wrap">
 
   <!-- ── Panel ── -->
   <section id="panel" style="--c:var(--panel)">
     <div class="row">
       <div class="txt">
         <span class="tag"><span class="tr">Panel</span><span class="en">Dashboard</span></span>
-        <h2 class="tr">Tek soru: ay sonunda ne kalıyor?</h2>
-        <h2 class="en">One question: what is left at the end of the month?</h2>
-        <p class="lede tr">Ekranın tepesindeki rakam <em>bakiyen</em> değil — <strong>her şey
-          ödendikten sonra</strong> elinde kalacak olan. Bütçe uygulamaları bunu genelde
-          söylemez; asıl merak edilen şey budur.</p>
-        <p class="lede en">The figure at the top is not your balance — it is what will be left
-          <strong>once everything is paid</strong>. Budgeting apps rarely say this outright, and
-          it is the thing people actually want to know.</p>
+        <h2 class="tr">Ay sonunda ne kalacak, şimdiden gör</h2>
+        <h2 class="en">See what's left before the month ends</h2>
+        <p class="lede tr">Ekranın tepesindeki rakam bakiyen değil; <strong>her şey ödendikten sonra</strong> elinde kalacak olan.</p>
+        <p class="lede en">The figure at the top is not your balance; it is what will be left <strong>once everything is paid</strong>.</p>
         <ul class="feat">
-          <li class="tr"><strong>Ödenecek</strong> ve <strong>gelecek</strong> yan yana: ne kadarı hâlâ havada</li>
-          <li class="en"><strong>Still to pay</strong> and <strong>still to come</strong>, side by side</li>
-          <li class="tr"><strong>Nereye gidiyor</strong> halkası: gider dağılımı bölüm bölüm</li>
-          <li class="en"><strong>Where it goes</strong> ring: the month's spend broken down by block</li>
-          <li class="tr"><strong>Yaklaşanlar</strong>: vadesi gelen satırlar, gecikenler kırmızı</li>
-          <li class="en"><strong>Coming up</strong>: what falls due next, overdue lines in red</li>
-          <li class="tr">Her satır <strong>panelden işaretlenebilir</strong> — ödemek için ay tablosuna gitmezsin</li>
-          <li class="en">Every line <strong>ticks off here</strong> — you never have to go to the sheet to do it</li>
+          <li class="tr"><strong>Ödenecek</strong> ve <strong>gelecek</strong> tutarlar, ilerleme çubuğuyla</li>
+          <li class="en"><strong>Still to pay</strong> and <strong>still to come</strong>, with a progress bar</li>
+          <li class="tr">Paranın bloklara dağılımı halka grafikte</li>
+          <li class="en">Where the month goes, block by block, in a ring</li>
+          <li class="tr">Yaklaşan ve geciken ödemeler, gelmesi beklenen gelirler</li>
+          <li class="en">Upcoming and overdue payments, income still to arrive</li>
+          <li class="tr">Her satır panelden işaretlenir</li>
+          <li class="en">Tick any line off right here</li>
         </ul>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" alt="Panel">
+        <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Panel">
       </div>
     </div>
   </section>
 
-  <!-- ── Ay ── -->
+  <!-- ── Analiz ── -->
+  <section id="analiz" style="--c:var(--month)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Analiz</span><span class="en">Analysis</span></span>
+        <h2 class="tr">Ayını üç cümlede anla</h2>
+        <h2 class="en">Your month in three sentences</h2>
+        <p class="lede tr">Tek bir ay ya da son 3 ay, 6 ay, 1 yıl ve tüm zamanlar. Özet halkası gelirin ne kadarının kaldığını, öne çıkanlar ise rakamlardan çıkan üç cümleyi gösterir: "Araç kredisi Aralık'ta bitiyor, ayda 6.450 TL serbest kalıyor" gibi.</p>
+        <p class="lede en">A single month or the last 3 months, 6 months, a year or all time. The summary ring shows how much of your income is left, and the highlights put your numbers into three sentences, like "The car loan ends in December, freeing up 6,450 a month".</p>
+        <ul class="feat">
+          <li class="tr"><strong>Para nereye gitti</strong>: plan blokları büyüklüğüne göre baloncuklar; dokununca tutar, pay ve değişim</li>
+          <li class="en"><strong>Where it went</strong>: your blocks as bubbles sized by spend; tap for amount, share and change</li>
+          <li class="tr">Ay ay gelir ve gider çubukları</li>
+          <li class="en">Income and spending, month by month</li>
+          <li class="tr">Her kartta (i) ile hesabın nasıl yapıldığı yazar; veri azsa tahmin etmez</li>
+          <li class="en">Every card explains its maths behind (i); with too little data it says so instead of guessing</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="analysis" src="assets/screens/tr/analysis.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Analiz">
+        <img class="shot" data-screen="where-it-went" src="assets/screens/tr/where-it-went.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Para nereye gitti">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Senin enflasyonun ── -->
+  <section id="enflasyon" style="--c:var(--savings)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Senin enflasyonun</span><span class="en">Your inflation</span></span>
+        <h2 class="tr">Senin enflasyonun resmi rakam değil</h2>
+        <h2 class="en">Your inflation isn't the official one</h2>
+        <p class="lede tr">Kira, fatura, sigorta gibi düzenli giderlerin bir yılda ne kadar arttı; resmi enflasyon ve gelirinle yan yana, aylık çizgi grafikte. Sonuç tek cümle: "Gelirin fiyatların %2 önünde" gibi.</p>
+        <p class="lede en">How much your regular costs such as rent, bills and insurance rose in a year, next to your income on a monthly line chart. The verdict is one sentence, like "Your income is 2% ahead of prices".</p>
+        <ul class="feat">
+          <li class="tr">En çok artan kalemler ayrı listelenir</li>
+          <li class="en">The biggest risers are listed on their own</li>
+          <li class="tr"><strong>Öneriler</strong>: borç yükü, acil durum fonu, biten taksiti birikime yönlendirme, gecikmiş ödemeler</li>
+          <li class="en"><strong>Tips</strong>: debt load, an emergency fund, moving a finished instalment into savings, overdue payments</li>
+          <li class="tr"><strong>Alışkanlıklar</strong>: zamanında ödeme oranı, sabit gider payı, aboneliklere yılda giden</li>
+          <li class="en"><strong>Habits</strong>: on-time payment rate, fixed-cost share, what subscriptions cost a year</li>
+          <li class="tr"><strong>Servet</strong>: net servet ve kaç aylık güvencen olduğu</li>
+          <li class="en"><strong>Wealth</strong>: net worth and how many months of cover you have</li>
+        </ul>
+        <div class="note tr">Öneriler genel bilgilendirmedir, yatırım tavsiyesi değildir.</div>
+        <div class="note en">Tips are general information, not investment advice.</div>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="your-inflation" src="assets/screens/tr/your-inflation.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Senin enflasyonun">
+        <img class="shot" data-screen="suggestions" src="assets/screens/tr/suggestions.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Öneriler">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Fiyat takibi ve fiş ── -->
+  <section id="fis" style="--c:var(--ledger)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Fiyat takibi ve fiş</span><span class="en">Prices and receipts</span></span>
+        <h2 class="tr">Fişi tara, alışveriş bir anda insin</h2>
+        <h2 class="en">Scan the receipt, done</h2>
+        <p class="lede tr">Fişi çek ya da fotoğraflardan seç, köşeleri ayarla, satırlar okunsun. Market, tarih, toplam ve indirim de okunur. Hangi satırın fiyat takibine gireceğini sen seçersin.</p>
+        <p class="lede en">Snap a receipt or pick it from Photos, adjust the corners and the lines are read, along with the shop, date, total and discount. You choose which lines go into the price log.</p>
+        <ul class="feat">
+          <li class="tr">Aynı ürünün her alımı yan yana: son birim fiyat, ilk alımdan beri değişim, en ucuz market</li>
+          <li class="en">Every purchase of a product side by side: latest unit price, change since the first, cheapest shop</li>
+          <li class="tr">"En ucuzu Pazar Yeri, 11,28 TL fark" gibi kaçırılan tasarruf uyarısı</li>
+          <li class="en">A missed-saving hint, like "Cheapest at Market Hall, 11.28 less"</li>
+          <li class="tr">"Sadece fiyat": rafta gördüğün fiyatı harcamaya eklemeden takip et</li>
+          <li class="en">"Price only": track a shelf price without logging a purchase</li>
+          <li class="tr">Yapay zeka destekli ad düzeltme; fişin fotoğrafı değil, yalnızca okunan metin gönderilir ve kapatılabilir</li>
+          <li class="en">AI name clean-up sends only the text it read, never the photo, and can be switched off</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="price-log" src="assets/screens/tr/price-log.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiyat takibi">
+        <img class="shot" data-screen="receipt-scan" src="assets/screens/tr/receipt-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiş okuma">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Paylaşım kartları ── -->
+  <section id="paylas" style="--c:var(--pro)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Paylaşım kartları</span><span class="en">Share cards</span></span>
+        <h2 class="tr">Zammı paylaş, herkes görsün</h2>
+        <h2 class="en">Share the price hike</h2>
+        <p class="lede tr">Projeden, fiyat takibindeki üründen, birikimden, varlıklardan ve analizden tek dokunuşla paylaşılacak görsel. Hazır başlıklar ("Süt %24 zamlandı") ya da kendi başlığın.</p>
+        <p class="lede en">One tap turns a project, a tracked product, savings, assets or the analysis into an image to share, with a ready headline ("Milk is up 24%") or your own.</p>
+        <ul class="feat">
+          <li class="tr">Gönderi (4:5) ya da Hikaye (9:16), 4 renk teması, istersen arkasına fotoğraf</li>
+          <li class="en">Post (4:5) or Story (9:16), 4 colour themes, an optional photo behind</li>
+          <li class="tr">"Tutarları gizle" ile yalnızca yüzdeler görünür; varlıklarda varsayılan olarak gizli</li>
+          <li class="en">"Hide amounts" leaves only percentages; on by default for assets</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="share" src="assets/screens/tr/share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşım kartı">
+        <img class="shot" data-screen="shared-price" src="assets/screens/tr/shared-price.webp" width="600" height="750" loading="lazy" decoding="async" alt="Paylaşılan fiyat kartı">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ay planı ── -->
   <section id="ay" style="--c:var(--month)">
     <div class="row flip">
       <div class="txt">
-        <span class="tag"><span class="tr">Ay tablosu</span><span class="en">The monthly sheet</span></span>
-        <h2 class="tr">Her ay kendi başına bir sayfa</h2>
-        <h2 class="en">Each month is its own page</h2>
-        <p class="lede tr">Yerini aldığı Excel'deki gibi: Ağustos'u düzenlemek Temmuz'u
-          değiştirmez. Satırlar <strong>bölümler</strong> altında toplanır — kredi kartları,
-          krediler, ev, sigorta, abonelikler, gelirler.</p>
-        <p class="lede en">Like the spreadsheet it replaces: editing August does not touch July.
-          Lines sit under <strong>blocks</strong> — cards, loans, home, insurance,
-          subscriptions, income.</p>
+        <span class="tag"><span class="tr">Ay planı</span><span class="en">The monthly plan</span></span>
+        <h2 class="tr">Bütün faturalar tek sayfada</h2>
+        <h2 class="en">Every bill on one page</h2>
+        <p class="lede tr">Ayın bütün satırları bloklarda: kredi kartları (asgari ödemesiyle), krediler, ev, sigorta, abonelikler, diğer giderler, gelirler. Kendi bloğunu da eklersin.</p>
+        <p class="lede en">Every line of the month in blocks: credit cards (with the minimum payment), loans, home, insurance, subscriptions, other costs and income. Add your own blocks too.</p>
         <ul class="feat">
-          <li class="tr">Satır başına <strong>tutar, asgari, vade günü, işaret ve not</strong></li>
-          <li class="en">Per line: <strong>amount, minimum, due day, tick and note</strong></li>
-          <li class="tr"><strong>Asgari tutar</strong> yalnızca kredi kartı bölümlerinde çıkar</li>
-          <li class="en">The <strong>minimum payment</strong> only appears on card blocks</li>
-          <li class="tr"><strong>Bitiş ayı</strong>: kredinin son taksiti. Satır "kaç ay kaldı" der ve o ay geçince kopyalanmayı bırakır</li>
-          <li class="en"><strong>Ends on</strong>: the final instalment. The line counts down the months and stops copying itself afterwards</li>
-          <li class="tr"><strong>Kartla ödeme</strong>: bir gider kredi kartı satırına bağlanır. Bölümünde görünür ama ay toplamına ikinci kez girmez</li>
-          <li class="en"><strong>Paid by card</strong>: a bill can point at a card's own line. It still shows in its block but is not counted twice</li>
-          <li class="tr">Bölümler senin: sırasını değiştir, yenisini ekle, kullanmadığını kapat</li>
-          <li class="en">The blocks are yours: reorder them, add your own, switch off the ones you do not have</li>
+          <li class="tr">Her satırın günü, "ödendi / geldi" işareti ve kaç gün kaldığı ya da geciktiği</li>
+          <li class="en">Each line shows its day, a paid or received tick, and how many days are left or overdue</li>
+          <li class="tr"><strong>Kartla ödeme</strong>: karta yazılan harcama kartın ekstresiyle birlikte bir kez sayılır, çift sayım olmaz</li>
+          <li class="en"><strong>Paid by card</strong>: a bill on a card is counted once, with the card statement, never twice</li>
+          <li class="tr"><strong>Bitiş ayı</strong>: "3 yıl 6 ay kaldı", "4 ay kaldı"</li>
+          <li class="en"><strong>Ends on</strong>: "3 years 6 months left", "4 months left"</li>
         </ul>
-        <div class="note tr">Kartla ödeme, bir tablonun en kolay yalan söylediği yer. Sigorta primi
-          hem "Sigorta" bölümünde hem de kartın ekstresinde duruyorsa ay toplamı iki katı
-          gösterir. Uygulama parayı kartın satırında sayar, gideri de yerinde bırakır.</div>
-        <div class="note en">Paying by card is where a sheet most easily lies. If the insurance
-          premium sits under "Insurance" and inside the card statement, the month reads double.
-          The app counts the money on the card's line and still leaves the bill where it belongs.</div>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" alt="Ay tablosu">
+        <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay planı">
       </div>
     </div>
   </section>
@@ -319,23 +423,19 @@ footer a:hover{color:var(--accent)}
     <div class="row">
       <div class="txt">
         <span class="tag"><span class="tr">Yeni ay</span><span class="en">Rolling over</span></span>
-        <h2 class="tr">Yeni ay öncekini kopyalar, işaretleri sıfırlar</h2>
-        <h2 class="en">The new month copies the last one and clears the ticks</h2>
-        <p class="lede tr">"Her ay tekrarlansın" işaretli satırlar yeni aya geçer; tek seferlik
-          olanlar geçmez. Ay başında sıfırdan yazmazsın, sadece değişeni düzeltirsin.</p>
-        <p class="lede en">Lines marked "repeats every month" come across; one-offs do not. You do
-          not start the month from a blank page, you only correct what changed.</p>
+        <h2 class="tr">Yeni ay öncekini kopyalar</h2>
+        <h2 class="en">The new month copies the last one</h2>
+        <p class="lede tr">Yeni ay tek dokunuşla önceki aydan kopyalanır; geçen ayla fark (gider %, gelir %) üstte yazar. Ay başında sıfırdan yazmazsın, sadece değişeni düzeltirsin.</p>
+        <p class="lede en">A new month copies the last one in a tap, with the change against last month (spending %, income %) on top. You only fix what changed.</p>
         <ul class="feat">
-          <li class="tr"><strong>Vade gün olarak saklanır</strong>, tarih olarak değil — yeni aya taşınınca kendiliğinden o aya oturur</li>
-          <li class="en"><strong>Due dates are stored as a day</strong>, not a date — so they move with the month on their own</li>
-          <li class="tr">Ayın 31'i Şubat'ta <strong>ayın son gününe kırpılır</strong></li>
-          <li class="en">The 31st <strong>clamps to the last day</strong> in February</li>
-          <li class="tr">Son taksitini geçmiş krediler yeni aya hiç gelmez</li>
-          <li class="en">A loan past its final instalment simply does not arrive</li>
+          <li class="tr">Vade gün olarak saklanır, yeni aya taşınınca kendiliğinden o aya oturur</li>
+          <li class="en">Due dates are stored as a day, so they move with the month</li>
+          <li class="tr">Son taksitini geçmiş krediler yeni aya gelmez</li>
+          <li class="en">A loan past its final instalment does not come across</li>
         </ul>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="next-month" src="assets/screens/tr/next-month.webp" alt="Yeni ay oluştur">
+        <img class="shot" data-screen="next-month" src="assets/screens/tr/next-month.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Yeni ay oluştur">
       </div>
     </div>
   </section>
@@ -347,51 +447,84 @@ footer a:hover{color:var(--accent)}
         <span class="tag"><span class="tr">Takvim</span><span class="en">Calendar</span></span>
         <h2 class="tr">Hangi gün ne ödenecek</h2>
         <h2 class="en">What falls due, and when</h2>
-        <p class="lede tr">Panel ve Ay sekmelerinin sağ üstündeki takvim düğmesi ayı gün gün
-          açar. Dolu günler işaretli; bir güne dokununca o günün satırları gelir.</p>
-        <p class="lede en">The calendar button at the top of the dashboard and the sheet opens the
-          month day by day. Days with something on them are marked; tap one to see its lines.</p>
+        <p class="lede tr">Vade takvimi ayı gün gün açar; dolu günler renkli, bir güne dokununca o günün satırları gelir.</p>
+        <p class="lede en">The due calendar opens the month day by day; busy days are coloured, tap one to see its lines.</p>
         <ul class="feat">
-          <li class="tr"><strong>Vade hatırlatmaları</strong>: kaç gün önce ve saat kaçta, sen seçersin</li>
-          <li class="en"><strong>Due reminders</strong>: how many days ahead and at what hour, your choice</li>
+          <li class="tr">Vadesi gelmeden bildirimle hatırlatma</li>
+          <li class="en">A notification before something falls due</li>
           <li class="tr">Gecikmiş satırlar hem takvimde hem panelde ayrı renkte</li>
           <li class="en">Overdue lines stand out in both the calendar and the dashboard</li>
-          <li class="tr">Hatırlatmalar <strong>ücretsiz</strong> — alışkanlığı kuran şey bu</li>
-          <li class="en">Reminders are <strong>free</strong> — they are what builds the habit</li>
-          <li class="tr">Başlığa dokun, <strong>yıl ve ay çarkı</strong> açılır: geçen marta da gelecek yıla da bir hareketle</li>
-          <li class="en">Tap the title for a <strong>year and month wheel</strong>: last March or next year in one flick</li>
         </ul>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="calendar" src="assets/screens/tr/calendar.webp" alt="Takvim">
+        <img class="shot" data-screen="calendar" src="assets/screens/tr/calendar.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Takvim">
       </div>
     </div>
   </section>
 
-  <!-- ── Defter ── -->
+  <!-- ── Birikim ── -->
+  <section id="birikim" style="--c:var(--savings)">
+    <div class="row">
+      <div class="txt">
+        <span class="tag"><span class="tr">Birikim</span><span class="en">Savings</span></span>
+        <h2 class="tr">Kutu kutu biriktir</h2>
+        <h2 class="en">Save it square by square</h2>
+        <p class="lede tr">Hedefli birikim kapları: para, gram altın, döviz ya da kendi birimin. Birikim panosu ise 100 kutuluk bir meydan okuma: her kutuda rastgele bir tutar, biriktirdikçe çarpılır.</p>
+        <p class="lede en">Goal-based savings pots in money, grams of gold, currency or a unit of your own. The savings board is a 100-square challenge: each square holds a random amount and gets crossed off as you save.</p>
+        <ul class="feat">
+          <li class="tr">"En küçük kutu" ve "Benim yerime seç"</li>
+          <li class="en">"Smallest square" and "Pick for me"</li>
+          <li class="tr">Pano widget'tan ve Apple Watch'tan da işaretlenir</li>
+          <li class="en">Tick the board from a widget or Apple Watch too</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="savings-board" src="assets/screens/tr/savings-board.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Birikim panosu">
+        <img class="shot" data-screen="savings-detail" src="assets/screens/tr/savings-detail.webp" width="620" height="1344" loading="lazy" decoding="async" alt="Birikim kabı">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projeler ── -->
+  <section id="projeler" style="--c:var(--assets)">
+    <div class="row flip">
+      <div class="txt">
+        <span class="tag"><span class="tr">Projeler</span><span class="en">Projects</span></span>
+        <h2 class="tr">Tadilatın gerçek maliyeti</h2>
+        <h2 class="en">What a renovation really costs</h2>
+        <p class="lede tr">Tadilat, tatil, düğün, taşınma, araba gibi planların bütçesi ve harcaması bir arada.</p>
+        <p class="lede en">Budget and spending for plans like a renovation, a holiday, a wedding, a move or a car.</p>
+        <ul class="feat">
+          <li class="tr">Kategori halkası: malzeme, işçilik, nakliye...</li>
+          <li class="en">A category ring: materials, labour, delivery...</li>
+          <li class="tr">Aylara göre dağılım ve bütçenin ne kadarı kaldı</li>
+          <li class="en">Spend by month and how much budget is left</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img class="shot" data-screen="project" src="assets/screens/tr/project.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Proje">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Alacak-Verecek ── -->
   <section id="defter" style="--c:var(--ledger)">
     <div class="row">
       <div class="txt">
         <span class="tag"><span class="tr">Alacak-Verecek</span><span class="en">Ledger</span></span>
         <h2 class="tr">Kim sana borçlu, sen kime borçlusun</h2>
         <h2 class="en">Who owes you, and who you owe</h2>
-        <p class="lede tr">Ay tablosundan ayrı bir defter, bilerek. Arkadaşına verdiğin borç bu
-          ayın gideri değil; ay toplamına karıştırmak ikisini de bozardı.</p>
-        <p class="lede en">A separate book from the monthly sheet, on purpose. Money you lent a
-          friend is not this month's expense, and folding it in would wreck both figures.</p>
+        <p class="lede tr">Kişi ve markalarla hesaplar: kim kime ne kadar borçlu, KDV'li faturalar, kısmi ödemeler, vade ve gecikme.</p>
+        <p class="lede en">Accounts with people and companies: who owes what, invoices with VAT, partial payments, due dates and delays.</p>
         <ul class="feat">
-          <li class="tr"><strong>Kişi ve kurum ayrı durur</strong> — bir markanın faturası arkadaş borcunun yanına düşmez</li>
-          <li class="en"><strong>People and companies stay apart</strong> — an invoice never sits next to money lent to a friend</li>
           <li class="tr"><strong>Parçalı tahsilat</strong>: elli bin liralık işin yirmisi geldiyse kalanı görürsün</li>
           <li class="en"><strong>Partial settlements</strong>: if twenty of fifty came in, you see what is left</li>
-          <li class="tr"><strong>KDV</strong> dahil/hariç hesaplanır; matrah, vergi ve brüt ayrı ayrı</li>
+          <li class="tr"><strong>KDV</strong> dahil ya da hariç; matrah, vergi ve brüt ayrı ayrı</li>
           <li class="en"><strong>VAT</strong> in or out; net, tax and gross shown separately</li>
-          <li class="tr"><strong>Fatura kesildi mi?</strong> — kesilmeyi bekleyen işler ayrı listelenir</li>
-          <li class="en"><strong>Invoiced yet?</strong> — work still waiting to be billed is listed on its own</li>
         </ul>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="ledger" src="assets/screens/tr/ledger.webp" alt="Alacak-Verecek">
+        <img class="shot" data-screen="ledger" src="assets/screens/tr/ledger.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Alacak-Verecek">
       </div>
     </div>
   </section>
@@ -403,92 +536,41 @@ footer a:hover{color:var(--accent)}
         <span class="tag"><span class="tr">Varlıklar</span><span class="en">Assets</span></span>
         <h2 class="tr">Neyin var, ne kadar ediyor</h2>
         <h2 class="en">What you own, and what it is worth</h2>
-        <p class="lede tr">Ev, arsa, araç, altın, döviz, hisse, fon, kripto, mevduat. Değeri sen
-          girersin — uygulama canlı bir kur servisi çağırmaz.</p>
-        <p class="lede en">Property, land, vehicles, gold, currency, shares, funds, crypto,
-          savings. You set the values yourself — the app does not call a live price feed.</p>
+        <p class="lede tr">Ev, araba, arsa, altın, döviz, hisse, fon, kripto. Toplam değer, dolar karşılığı ve türe göre dağılım.</p>
+        <p class="lede en">Home, car, land, gold, currency, shares, funds, crypto. Total value, its dollar equivalent and a split by type.</p>
         <ul class="feat">
-          <li class="tr">Aldığın fiyatı da girersen <strong>kazancı</strong> hem tutar hem yüzde olarak çıkar</li>
-          <li class="en">Add what you paid and the <strong>gain</strong> appears in both money and per cent</li>
-          <li class="tr"><strong>"Bunun yerine altın alsaydım?"</strong> — aynı parayı aynı sürede nakit, dolar ya da altında tutsaydın ne olurdu</li>
-          <li class="en"><strong>"What if I had bought gold instead?"</strong> — the same money over the same months in cash, dollars or gold</li>
-          <li class="tr">Karşılaştırma <strong>aylık TCMB serisine</strong> dayanır, anlık kura değil</li>
-          <li class="en">The comparison runs on the <strong>monthly central-bank series</strong>, not a spot rate</li>
+          <li class="tr">Getiri dört şekilde: nominal, enflasyona göre reel, dolara göre, altına göre</li>
+          <li class="en">Return four ways: nominal, real after inflation, against the dollar and against gold</li>
         </ul>
-        <div class="note tr">Anlık kur bilerek yok. Reel getiri geçmiş aylık seriye dayanıyor;
-          yanına canlı bir kur konsa iki kaynak birbirini tutmaz ve hangisinin doğru olduğu
-          belirsizleşir.</div>
-        <div class="note en">The spot rate is left out deliberately. Real return is computed from a
-          monthly series; putting a live rate beside it would give two numbers that disagree and
-          no way to tell which is right.</div>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="assets" src="assets/screens/tr/assets.webp" alt="Varlıklar">
+        <img class="shot" data-screen="assets" src="assets/screens/tr/assets.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Varlıklar">
       </div>
     </div>
   </section>
 
-  <!-- ── Birikim ── -->
-  <section id="birikim" style="--c:var(--savings)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Birikim</span><span class="en">Savings</span></span>
-        <h2 class="tr">Neyle biriktiriyorsan onunla say</h2>
-        <h2 class="en">Count it in whatever you actually save in</h2>
-        <p class="lede tr">Gram altın, dolar, bir fon ya da düpedüz para. Bir kap tek bir birim
-          tutar, çünkü gramlar grama toplandığında ortaya anlamlı bir sayı çıkar. İki şeyle
-          biriktiriyorsan iki kap açarsın.</p>
-        <p class="lede en">Grams of gold, dollars, a fund, or plain money. A pot holds one unit,
-          because grams add up to grams and that total means something. Saving in two things
-          means two pots.</p>
-        <ul class="feat">
-          <li class="tr"><strong>Kur, katkının kendi satırında durur</strong> — iki gramın alındığı gün ne tuttuğu bir olgudur, bugünkü kurla yeniden fiyatlamak o geçmişi sessizce değiştirirdi</li>
-          <li class="en"><strong>The rate lives on the deposit</strong> — what two grams cost on the day is a fact, and re-pricing that history against today's rate would quietly rewrite it</li>
-          <li class="tr"><strong>Bugünkü değer ayrı bir şey</strong>: senin onayladığın kur, girildiği tarih ekranda yazılı. Uygulamadaki aylık seri yalnızca öneri; iki aydan eskiyse ekran bunu söyler</li>
-          <li class="en"><strong>Today's worth is a separate thing</strong>: the rate you confirmed, with the date you entered it. The bundled monthly series is only a suggestion, and the screen says so when it is months old</li>
-          <li class="tr"><strong>Kuru bilinmeyen katkı bedava sayılmaz</strong> — ortalama maliyet ve kazanç yalnızca kuru olan satırlardan hesaplanır</li>
-          <li class="en"><strong>A deposit with no rate is not counted as free</strong> — the average cost and the gain come only from the rows that recorded one</li>
-          <li class="tr"><strong>Hedef ve aylık hatırlatıcı</strong> isteğe bağlı; hedef paradan değil, kabın kendi biriminden girilir</li>
-          <li class="en"><strong>A target and a monthly nudge</strong>, both optional; the target is in the pot's own unit, not in money</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="savings" src="assets/screens/tr/savings.webp" alt="Birikim">
-        <img class="shot" data-screen="savings-detail" src="assets/screens/tr/savings-detail.webp" alt="Birikim detayı">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Cüzdan ── -->
+  <!-- ── Cüzdan ve hesaplayıcılar ── -->
   <section id="cuzdan" style="--c:var(--wallet)">
     <div class="row">
       <div class="txt">
-        <span class="tag"><span class="tr">Cüzdan</span><span class="en">Wallet</span></span>
+        <span class="tag"><span class="tr">Cüzdan ve hesaplayıcılar</span><span class="en">Wallet and calculators</span></span>
         <h2 class="tr">Harcamadan önce bakılacak yer</h2>
         <h2 class="en">The tab you open before you spend</h2>
-        <p class="lede tr">Defterler üstte — alacak-verecek, varlıklar, projeler, birikim, fiyat
-          takibi. Ara sıra açılan hesaplayıcılar altta. Hepsi tek bir soruya bakıyor: bu para
-          gerçekten neye mal oluyor?</p>
-        <p class="lede en">The books at the top — what you are owed, what you own, jobs, savings,
-          the price log. The occasional calculators underneath. All of them ask one question:
-          what does this money actually cost you?</p>
+        <p class="lede tr">Defterler, birikim, projeler ve fiyat takibi üstte; ara sıra açılan hesaplayıcılar altta.</p>
+        <p class="lede en">Ledgers, savings, projects and the price log on top; the occasional calculators underneath.</p>
         <ul class="feat">
-          <li class="tr"><strong>Fiyatı saate çevir</strong> — 8.000 liralık koltuk, senin saat ücretinle kaç saatlik çalışma</li>
-          <li class="en"><strong>Price in hours</strong> — an 8,000 sofa, in hours of your own work</li>
-          <li class="tr"><strong>Listem</strong> — almaya karar vermediklerin. Vazgeçtiklerinin toplamı "kurtardığın zaman" olarak birikir</li>
-          <li class="en"><strong>Wishlist</strong> — the things you have not decided on. What you skip adds up as time you kept</li>
-          <li class="tr"><strong>Şimdi ne kadar?</strong> — 2019'daki 5.000 lira bugünün parasıyla ne eder</li>
-          <li class="en"><strong>What is it worth now?</strong> — 5,000 in 2019, in today's money</li>
-          <li class="tr"><strong>Brütten nete</strong> — brüt maaşın ay ay eline ne geçirdiği; vergi dilimi atlayınca düşüş görünür</li>
-          <li class="en"><strong>Gross to net</strong> — what a gross salary actually pays month by month, tax bands and all</li>
-          <li class="tr"><strong>Zam hesaplayıcı</strong> — enflasyonun altında mı üstünde mi</li>
-          <li class="en"><strong>Raise calculator</strong> — above or below inflation</li>
-          <li class="tr"><strong>Öğren</strong> — kısa ekonomi yazıları, hepsi çevrimdışı</li>
-          <li class="en"><strong>Learn</strong> — short economics reads, all offline</li>
+          <li class="tr"><strong>Fiyatı saate çevir</strong>: bir alışveriş kaç saatlik çalışma</li>
+          <li class="en"><strong>Price in hours</strong>: a purchase in hours of your own work</li>
+          <li class="tr"><strong>Şimdi ne kadar?</strong>: geçmişteki bir tutarın bugünkü karşılığı (enflasyon, dolar, altın)</li>
+          <li class="en"><strong>What is it worth now?</strong>: an old amount in today's money (inflation, dollar, gold)</li>
+          <li class="tr"><strong>Brütten nete</strong> maaş ve <strong>zam hesaplayıcı</strong></li>
+          <li class="en"><strong>Gross to net</strong> salary and a <strong>raise calculator</strong></li>
+          <li class="tr">İstek listesi, abonelik takibi ve kısa finans okumaları</li>
+          <li class="en">A wishlist, subscription tracking and short money reads</li>
         </ul>
       </div>
       <div class="shots">
-        <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" alt="Cüzdan">
+        <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Cüzdan">
       </div>
     </div>
   </section>
@@ -499,32 +581,26 @@ footer a:hover{color:var(--accent)}
       <span class="tag"><span class="tr">Veri ve gizlilik</span><span class="en">Data and privacy</span></span>
       <h2 class="tr">Rakamların telefonunda kalır</h2>
       <h2 class="en">Your figures stay on your phone</h2>
-      <p class="lede tr">Hesap açmak yok, giriş yapmak yok. Ne kadar kazandığın ve neye borçlu
-        olduğun hiçbir sunucuya gitmiyor.</p>
-      <p class="lede en">No account, no sign-in. What you earn and what you owe never reach a
-        server.</p>
+      <p class="lede tr">Hesap açmak yok, giriş yapmak yok. Veriler telefonda durur, iCloud Drive'a otomatik yedeklenir.
+        Yapay zekalı fiş okumada fişin fotoğrafı değil, yalnızca okunan metin gönderilir.</p>
+      <p class="lede en">No account, no sign-in. Your data lives on the phone with automatic iCloud Drive backup.
+        AI receipt reading sends only the text it read, never the photo.</p>
     </div>
     <div class="grid">
       <div class="cell" style="--c:var(--panel)">
         <h3><span class="dot"></span><span class="tr">Gizli mod</span><span class="en">Hidden mode</span></h3>
-        <p class="tr">Her ekranın sağ üstündeki göz düğmesi bütün rakamları <strong>***</strong> yapar.
-          Otobüste açmak için.</p>
-        <p class="en">The eye button on every screen turns every figure into <strong>***</strong>.
-          For opening it on the bus.</p>
+        <p class="tr">Göz düğmesi bütün tutarları tek dokunuşla gizler. Otobüste açmak için.</p>
+        <p class="en">The eye button hides every amount in one tap. For opening it on the bus.</p>
       </div>
       <div class="cell" style="--c:var(--ledger)">
         <h3><span class="dot"></span><span class="tr">Yedekleme</span><span class="en">Backup</span></h3>
-        <p class="tr">iCloud Drive'a otomatik, ya da düz bir dosya olarak kendine gönder. Sunucu yok,
-          şema yok — dosyayı yeni telefonda açarsın.</p>
-        <p class="en">Automatic to iCloud Drive, or a plain file you mail to yourself. No server, no
-          schema — you just open it on the new phone.</p>
+        <p class="tr">iCloud Drive'a otomatik yedek. Sunucu yok, hesap yok.</p>
+        <p class="en">Automatic backup to iCloud Drive. No server, no account.</p>
       </div>
       <div class="cell" style="--c:var(--cal)">
-        <h3><span class="dot"></span><span class="tr">Dışa aktarma</span><span class="en">Export</span></h3>
-        <p class="tr">Seçtiğin aylar PDF ya da CSV olarak çıkar: ay tablosu, defter ve varlıklar
-          birlikte.</p>
-        <p class="en">Any range of months as PDF or CSV: the sheet, the ledger and the portfolio
-          together.</p>
+        <h3><span class="dot"></span><span class="tr">Dışa ve içe aktarma</span><span class="en">Export and import</span></h3>
+        <p class="tr">PDF ya da tablo olarak dışa aktar; başka uygulamadaki tabloyu yapay zeka komutuyla içe al.</p>
+        <p class="en">Export as PDF or a spreadsheet; bring a sheet from another app in with an AI prompt.</p>
       </div>
       <div class="cell" style="--c:var(--month)">
         <h3><span class="dot"></span><span class="tr">Yedi dil</span><span class="en">Seven languages</span></h3>
@@ -540,33 +616,30 @@ footer a:hover{color:var(--accent)}
   <section id="fiyat">
     <div class="txt" style="max-width:760px">
       <span class="tag" style="--c:var(--pro)"><span class="tr">Fiyat</span><span class="en">Pricing</span></span>
-      <h2 class="tr">İki ay ücretsiz, sonrası sende</h2>
-      <h2 class="en">Two months free, then it is up to you</h2>
-      <p class="lede tr">Ücretsiz sınır bir deneme süresi değil: hatırlatmalar, takvim ve gizli mod
-        hep ücretsiz. Alışkanlığı kuran şeyler bunlar.</p>
-      <p class="lede en">The free tier is not a countdown: reminders, the calendar and hidden mode
-        stay free for good. Those are the parts that build the habit.</p>
+      <h2 class="tr">Ücretsiz başla, Pro ile sınırları kaldır</h2>
+      <h2 class="en">Start free, lift the limits with Pro</h2>
     </div>
     <div class="plans">
       <div class="plan">
         <h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3>
         <p class="price"><span class="tr">Süresiz</span><span class="en">No time limit</span></p>
         <ul>
-          <li class="tr">İki ay tablosu</li><li class="en">Two monthly sheets</li>
-          <li class="tr">Vade hatırlatmaları ve takvim</li><li class="en">Due reminders and the calendar</li>
-          <li class="tr">Gizli mod</li><li class="en">Hidden mode</li>
-          <li class="tr">Üç varlık, üç alacak-verecek hesabı</li><li class="en">Three assets, three ledger accounts</li>
-          <li class="tr">Bütün hesaplayıcılar ve yazılar</li><li class="en">Every calculator and article</li>
+          <li class="tr">2 ay plan</li><li class="en">2 months of plans</li>
+          <li class="tr">1 proje, 1 birikim kabı, 1 birikim panosu</li><li class="en">1 project, 1 savings pot, 1 savings board</li>
+          <li class="tr">3 varlık, alacak-verecekte 3 hesap</li><li class="en">3 assets, 3 ledger accounts</li>
+          <li class="tr">Ayda 2 yapay zekalı fiş ya da etiket okuma</li><li class="en">2 AI receipt or label reads a month</li>
+          <li class="tr">Analizde özet, öne çıkanlar, "para nereye gitti" ve ay ay grafik</li><li class="en">Analysis summary, highlights, "where it went" and the monthly chart</li>
         </ul>
       </div>
       <div class="plan pro">
         <h3>Wallet Coach Pro</h3>
-        <p class="price"><span class="tr">Aylık abonelik ya da tek seferlik ömür boyu</span><span class="en">Monthly, or a one-off lifetime purchase</span></p>
+        <p class="price"><span class="tr">Aylık, yıllık ya da ömür boyu</span><span class="en">Monthly, yearly or lifetime</span></p>
         <ul>
-          <li class="tr">Sınırsız ay</li><li class="en">Unlimited months</li>
-          <li class="tr">PDF ve CSV dışa aktarma</li><li class="en">PDF and CSV export</li>
-          <li class="tr">Sınırsız varlık ve hesap</li><li class="en">Unlimited assets and accounts</li>
-          <li class="tr">Kendi bölümlerini oluşturma</li><li class="en">Your own blocks</li>
+          <li class="tr">Her şey sınırsız</li><li class="en">Everything unlimited</li>
+          <li class="tr">Analizin tamamı: senin enflasyonun, öneriler, alışkanlıklar, servet</li><li class="en">The full analysis: your inflation, tips, habits, wealth</li>
+          <li class="tr">PDF ve tablo dışa aktarma</li><li class="en">PDF and spreadsheet export</li>
+          <li class="tr">Vade hatırlatmaları</li><li class="en">Due-date reminders</li>
+          <li class="tr">Reklam yok</li><li class="en">No ads</li>
         </ul>
       </div>
     </div>
@@ -611,7 +684,7 @@ footer a:hover{color:var(--accent)}
     // ── Dil ──
     // Metin CSS ile değişiyor; burada yalnızca ekran görüntülerinin kaynağını
     // ve düğmenin etiketini güncellemek kalıyor. JS çalışmazsa sayfa Türkçe
-    // kalır ve okunur — görseller de öyle.
+    // kalır ve okunur, görseller de öyle.
     var langBtn = document.getElementById("langToggle");
     var shots = document.querySelectorAll("img[data-screen]");
 

@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=JetBrains+Mono:wght@400&display=swap");
-/* Kendi <style>'ını taşıyan tanıtım sayfaları için katalog katmanı.
-   Uygulamanın kendi vurgu rengi kalır; köşe, gölge ve sistem fontu gider. */
-:root { --r: 0px; --paper: #f6f8f7; }
-body { font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 300; }
-h1, h2, h3, h4 { font-weight: 300; letter-spacing: -.02em; }
-h1 { font-weight: 200; letter-spacing: -.035em; }
-b, strong { font-weight: 500; }
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@500;700&display=swap");
+/* Kendi <style>'ını taşıyan tanıtım sayfaları için Slush katmanı.
+   Uygulamanın kendi vurgu rengi kalır; siyah kontur, hap düğme, gölgesiz. */
+body { font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; letter-spacing: -.01em; }
+h1 { font-family: "Bricolage Grotesque", "Arial Black", sans-serif; font-weight: 800; letter-spacing: -.02em; line-height: .95; }
+h2, h3 { font-weight: 700; letter-spacing: -.02em; }
 *, *::before, *::after { box-shadow: none !important; text-shadow: none !important; }
-*:not(img):not(video):not(svg) { border-radius: 0 !important; }
+.btn { border: 1.5px solid #000 !important; border-radius: 999px !important; font-weight: 700; }
+.btn:hover { transform: translateY(-2px) rotate(-1deg); }
+.hero-icon { border: 2px solid #000 !important; border-radius: 24% !important; transform: rotate(-4deg); }
