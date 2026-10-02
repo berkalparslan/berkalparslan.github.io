@@ -58,6 +58,20 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
 .toolbar input,.toolbar select{width:auto;min-width:200px}
 .rates{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .rates label{font-size:12px;color:var(--soft)}
+.topbar{position:sticky;top:0;z-index:3;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:-26px -24px 14px;padding:12px 24px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar select{width:auto}
+.topbar .muted{margin-right:auto}
+aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--soft);margin:14px 12px 4px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.brow{display:grid;grid-template-columns:minmax(120px,210px) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.brow .track{height:12px;border-radius:999px;background:color-mix(in srgb,var(--soft) 14%,transparent);overflow:hidden}
+.brow .fill{height:100%;border-radius:999px;background:var(--accent)}
+.brow small{color:var(--soft);white-space:nowrap}
+.note{background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:12px;padding:10px 12px;font-size:13px;margin:8px 0}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+.tl{font-size:13px;border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl div{padding:3px 0}.tl time{color:var(--soft);font-size:11px;margin-right:8px;font-variant-numeric:tabular-nums}
+.langs{display:flex;gap:12px;flex-wrap:wrap}.langs label{display:flex;gap:6px;align-items:center;font-size:13px}.langs input{width:auto}
 </style>
 </head>
 <body>
@@ -73,9 +87,17 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
 <div class="layout hidden" id="app">
   <aside>
     <div class="brand">Daily Whisper</div>
+    <div class="navlabel">ANALİZ</div>
     <a data-page="overview" class="on">Genel bakış</a>
+    <a data-page="live">Canlı</a>
+    <a data-page="onb">Onboarding</a>
+    <a data-page="revenue">Paywall ve satın alma</a>
+    <a data-page="engage">Kullanım</a>
+    <a data-page="notifs">Bildirimler</a>
     <a data-page="users">Kullanıcılar</a>
     <a data-page="ai">AI kullanımı</a>
+    <div class="navlabel">YÖNET</div>
+    <a data-page="push">Bildirim gönder</a>
     <a data-page="affirmations">Olumlamalar</a>
     <a data-page="zodiac">Burçlar</a>
     <a data-page="content">Metinler</a>
@@ -85,18 +107,123 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
     <a id="signout">Çıkış</a>
   </aside>
   <main>
+    <div class="topbar"><span class="muted" id="topMeta"></span><select id="range"><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option></select><button id="refreshTop">Yenile</button></div>
     <!-- Overview -->
     <section data-view="overview">
       <h1>Genel bakış</h1>
       <p class="muted" id="ovMeta"></p>
-      <div class="toolbar"><select id="range"><option value="7">Son 7 gün</option><option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option></select></div>
       <div class="kpis" id="kpis"></div>
       <div class="grid2">
         <div class="card"><h2 style="margin-top:0">Günlük aktiflik</h2><canvas id="chActive"></canvas></div>
         <div class="card"><h2 style="margin-top:0">Hikayeler ve dinlemeler</h2><canvas id="chStories"></canvas></div>
         <div class="card"><h2 style="margin-top:0">Dönüşüm hunisi</h2><canvas id="chFunnel"></canvas></div>
         <div class="card"><h2 style="margin-top:0">Diller</h2><canvas id="chLang"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Geri dönüş (kurulum gününe göre)</h2><canvas id="chRet"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Sürüm ve platform</h2><canvas id="chVer"></canvas></div>
       </div>
+    </section>
+
+    <!-- Live -->
+    <section data-view="live" class="hidden">
+      <h1>Canlı</h1>
+      <p class="muted">Şu an uygulamayı açık tutanlar ve hangi ekranda oldukları. Sayfa açıkken 30 saniyede bir kendini yeniler. 2.1 ve sonrası sürümler bildirir; 2.0 kullanıcıları yalnız açılışta görünür.</p>
+      <div class="kpis" id="liveKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2 style="margin-top:0">Online olanlar nerede?</h2><div class="bars" id="liveScreens"></div></div>
+        <div class="card"><h2 style="margin-top:0">Son kapatılan ekran (son 24 saat)</h2><p class="muted" style="margin-top:-6px">Uygulamayı en son nerede bırakıp çıktılar.</p><div class="bars" id="liveLeft"></div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th></th><th>Kişi</th><th>Ekran</th><th>Durum</th><th>Dil</th><th>Son sinyal</th><th>Uygulamada toplam</th></tr></thead><tbody id="liveRows"></tbody></table></div>
+    </section>
+
+    <!-- Onboarding -->
+    <section data-view="onb" class="hidden">
+      <h1>Onboarding</h1>
+      <p class="muted">Seçili dönemde kurulan uygulamalar. Her adımda kaç kişinin geldiği, ne kadar kaldığı, kaç kişinin atladığı. Adımlar 2.1 ve sonrasından ölçülür.</p>
+      <div class="kpis" id="onbKpis"></div>
+      <div class="card"><h2 style="margin-top:0">Adım adım huni</h2><div class="tablewrap" style="max-height:none;border:0"><table><thead><tr><th>Adım</th><th>Gelen</th><th>Başlayanların</th><th>Önceki adımdan kayıp</th><th>Ort. süre</th><th>Atlayan</th><th>Geri dönen</th></tr></thead><tbody id="onbRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2 style="margin-top:0">Yarım bırakanlar nerede kaldı?</h2><p class="muted" style="margin-top:-6px">Onboarding'i bitirmemiş ve 1 saattir girmemiş kurulumların en son geldiği adım.</p><div class="bars" id="onbStuck"></div></div>
+        <div class="card"><h2 style="margin-top:0">En çok atlanan sorular</h2><div class="bars" id="onbSkips"></div></div>
+      </div>
+    </section>
+
+    <!-- Revenue -->
+    <section data-view="revenue" class="hidden">
+      <h1>Paywall ve satın alma</h1>
+      <p class="muted">Paywall'un hangi ekrandan açıldığı ve satın almanın nereden geldiği. Kaynaklar 2.1 ve sonrasından ölçülür; toplamlar 2.0'dan beri var.</p>
+      <div class="kpis" id="revKpis"></div>
+      <div class="card"><h2 style="margin-top:0">Kaynağa göre</h2><div class="tablewrap" style="max-height:none;border:0"><table><thead><tr><th>Nereden açıldı</th><th>Gösterim</th><th>Kapatan</th><th>Satın alma</th><th>Dönüşüm</th><th>Şu an Premium</th></tr></thead><tbody id="revRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2 style="margin-top:0">Günlük gösterim ve satın alma</h2><canvas id="chRev"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Plan seçimi</h2><div class="bars" id="revPlans"></div></div>
+      </div>
+    </section>
+
+    <!-- Engagement -->
+    <section data-view="engage" class="hidden">
+      <h1>Kullanım</h1>
+      <p class="muted">Ne kadar kaldılar, ne kadar dinlediler, hangi özellikleri kullandılar. 2.1 ve sonrasından ölçülür.</p>
+      <div class="kpis" id="engKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2 style="margin-top:0">Kişi başı toplam süre</h2><p class="muted" style="margin-top:-6px">Kaç kişi uygulamada toplam ne kadar durdu (seçili dönemde kurulanlar).</p><canvas id="chTime"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Günlük oturum ve dinleme dakikası</h2><canvas id="chEng"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Ekranlarda geçen süre</h2><div class="bars" id="engScreens"></div></div>
+        <div class="card"><h2 style="margin-top:0">Özellikler</h2><div class="bars" id="engFeatures"></div></div>
+        <div class="card"><h2 style="margin-top:0">Seçilen arka plan sesi</h2><div class="bars" id="engAmbient"></div></div>
+        <div class="card"><h2 style="margin-top:0">Widget, saat, giriş</h2><div class="bars" id="engAdopt"></div></div>
+      </div>
+    </section>
+
+    <!-- Notifications -->
+    <section data-view="notifs" class="hidden">
+      <h1>Bildirimler</h1>
+      <p class="muted">İzin durumu, hangi bildirimin kaç kez gittiği ve kaç kez açıldığı. 2.1 ve sonrasından ölçülür.</p>
+      <div class="kpis" id="ntKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2 style="margin-top:0">İzin durumu (kurulumlar)</h2><canvas id="chPerm"></canvas></div>
+        <div class="card"><h2 style="margin-top:0">Onboarding'deki izin sorusu</h2><div class="bars" id="ntAsk"></div></div>
+      </div>
+      <div class="card"><h2 style="margin-top:0">Türe göre gönderim ve açılma</h2><div class="tablewrap" style="max-height:none;border:0"><table><thead><tr><th>Bildirim</th><th>Giden</th><th>Açılan</th><th>Açılma oranı</th></tr></thead><tbody id="ntRows"></tbody></table></div></div>
+    </section>
+
+    <!-- Push -->
+    <section data-view="push" class="hidden">
+      <h1>Bildirim gönder</h1>
+      <p class="muted">Panelden anlık bildirim. Her kişiye kendi dilindeki metin gider; o dilde metin yoksa İngilizcesi, o da yoksa yazdığın ilk metin. Bildirim alabilmek için kişinin 2.1 ve sonrası sürümde olması ve bildirim izni vermiş olması gerekir.</p>
+      <div id="pushSetup" class="note hidden"></div>
+      <div class="card">
+        <p><input id="pNote" placeholder="Kendin için not (kullanıcı görmez), örn. Dolunay duyurusu"></p>
+        <div class="row">
+          <div><p class="lang">TÜRKÇE</p><input id="pTitle_tr" placeholder="Başlık"><textarea id="pBody_tr" placeholder="Metin" style="margin-top:6px"></textarea></div>
+          <div><p class="lang">ENGLISH</p><input id="pTitle_en" placeholder="Title"><textarea id="pBody_en" placeholder="Text" style="margin-top:6px"></textarea></div>
+        </div>
+        <details style="margin-top:10px"><summary class="muted" style="cursor:pointer">Diğer diller (boş bırakırsan İngilizcesi gider)</summary>
+          <div class="row" style="margin-top:10px" id="pOther"></div>
+        </details>
+        <h2>Kime</h2>
+        <div class="rates">
+          <div><label>Platform</label><select id="pPlatform"><option value="all">Hepsi</option><option value="ios">iOS</option><option value="android">Android</option></select></div>
+          <div><label>Premium</label><select id="pPremium"><option value="any">Hepsi</option><option value="yes">Yalnız Premium</option><option value="no">Premium olmayanlar</option></select></div>
+          <div><label>Onboarding</label><select id="pOnb"><option value="any">Hepsi</option><option value="yes">Bitirmiş</option><option value="no">Yarım bırakmış</option></select></div>
+          <div><label>Son X günde açmış</label><input id="pActive" type="number" min="0" placeholder="boş: hepsi"></div>
+          <div><label>X gündür açmamış</label><input id="pInactive" type="number" min="0" placeholder="boş: hepsi"></div>
+          <div><label>Açınca gideceği yer</label><select id="pLink"><option value="">Ana sayfa</option><option value="dailywhisper://zodiac">Burç sayfası</option><option value="dailywhisper://affirmations">Olumlamalar</option></select></div>
+        </div>
+        <p style="margin-top:10px"><label class="muted">Dil (hiçbiri seçilmezse hepsi)</label></p><div class="langs" id="pLangs"></div>
+        <p class="muted" id="pOne"></p>
+        <div class="toolbar" style="margin-top:14px">
+          <button class="ghost" id="pPreview">Kaç kişiye gider?</button>
+          <span class="muted" id="pCount"></span>
+        </div>
+        <div class="toolbar">
+          <button id="pSend">Şimdi gönder</button>
+          <input type="datetime-local" id="pAt" style="min-width:220px">
+          <button class="ghost" id="pSchedule">Zamanla</button>
+          <span class="muted" id="pStatus"></span>
+        </div>
+      </div>
+      <h2>Gönderilenler</h2>
+      <div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Not / başlık</th><th>Kime</th><th>Durum</th><th>Ulaşan</th><th>Açan</th><th>Açılma</th><th></th></tr></thead><tbody id="pRows"></tbody></table></div>
     </section>
 
     <!-- Users -->
@@ -109,7 +236,7 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
         <span class="muted" id="uCount"></span>
       </div>
       <div class="tablewrap"><table><thead><tr>
-        <th>Son görülme</th><th>Hesap</th><th>Durum</th><th>Dil</th><th>Bölge</th><th>Sürüm</th><th>Hikaye</th><th>Dinleme</th><th>AI istek</th><th>Ses dk</th><th>İlk görülme</th>
+        <th>Son görülme</th><th>Hesap</th><th>Durum</th><th>Ekran / adım</th><th>Dil</th><th>Bölge</th><th>Sürüm</th><th>Hikaye</th><th>Dinleme</th><th>Uygulamada</th><th>Bildirim</th><th>AI istek</th><th>İlk görülme</th>
       </tr></thead><tbody id="uRows"></tbody></table></div>
     </section>
 
@@ -214,7 +341,8 @@ nav.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, query, where, orderBy, limit, documentId, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, where, orderBy, limit, documentId, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
 
 const firebaseConfig = {
   "apiKey": "AIzaSyD65wOZfptvTw6IPgtAYqpAdkvCgq9Jvak",
@@ -243,6 +371,7 @@ const SECTIONS = [
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const fns = getFunctions(app, "europe-west1");
 const cfgRef = doc(db, "config", "app");
 const $ = id => document.getElementById(id);
 const fmt = n => (n ?? 0).toLocaleString("tr-TR");
@@ -250,7 +379,7 @@ const money = n => "$" + (n ?? 0).toFixed(n < 1 ? 3 : 2);
 const day = d => d.toISOString().slice(0, 10);
 
 let overrides = {}, version = 0, current = SECTIONS[0][0], dirty = false;
-let installs = [], stats = [], charts = {};
+let installs = [], stats = [], pushes = [], charts = {};
 let voices = [];
 function renderVoices() {
   $("voices").innerHTML = "";
@@ -280,7 +409,17 @@ $("forgot").onclick = async () => {
 };
 $("pass").addEventListener("keydown", e => { if (e.key === "Enter") $("signin").click(); });
 $("signout").onclick = () => signOut(auth);
-$("refresh").onclick = () => loadData();
+$("refresh").onclick = () => refreshAll();
+$("refreshTop").onclick = () => refreshAll();
+async function refreshAll() {
+  $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
+  try {
+    await loadData();
+    if (!dirty) await loadConfig();
+    if (!afDirty) await loadAffirmations();
+    await loadZodiac();
+  } finally { $("refreshTop").disabled = false; }
+}
 
 onAuthStateChanged(auth, async user => {
   if (!user) { $("login").classList.remove("hidden"); $("app").classList.add("hidden"); $("bar").classList.add("hidden"); return; }
@@ -298,24 +437,33 @@ function go(page) {
   document.querySelectorAll("main section[data-view]").forEach(s => s.classList.toggle("hidden", s.dataset.view !== page));
   $("bar").classList.toggle("hidden", !(page === "content" || page === "settings"));
   if (page === "affirmations") renderAffirmations();
+  currentPage = page;
   location.hash = page;
 }
+let currentPage = "overview";
 if (location.hash) setTimeout(() => go(location.hash.slice(1)), 0);
+// The live page refreshes itself while it is open.
+setInterval(() => { if (currentPage === "live" && !document.hidden && auth.currentUser) loadData(); }, 30000);
 
 // ---------- Data ----------
 async function loadData() {
   const days = +$("range").value;
   const from = new Date(Date.now() - (days - 1) * 864e5);
-  const [iSnap, sSnap] = await Promise.all([
-    getDocs(query(collection(db, "installs"), orderBy("lastSeen", "desc"), limit(2000))).catch(() => getDocs(collection(db, "installs"))),
+  const [iSnap, sSnap, pSnap] = await Promise.all([
+    getDocs(query(collection(db, "installs"), orderBy("lastSeen", "desc"), limit(5000))).catch(() => getDocs(collection(db, "installs"))),
     getDocs(query(collection(db, "stats"), where(documentId(), ">=", day(from)))),
+    getDocs(query(collection(db, "pushes"), orderBy("createdAt", "desc"), limit(100))).catch(() => ({ docs: [] })),
   ]);
-  installs = iSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+  installs = iSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(i => i.platform !== "test");
+  pushes = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
   const byDay = Object.fromEntries(sSnap.docs.map(d => [d.id, d.data()]));
   stats = [];
   for (let i = 0; i < days; i++) { const k = day(new Date(from.getTime() + i * 864e5)); stats.push({ day: k, ...(byDay[k] || {}) }); }
-  $("ovMeta").textContent = `${installs.length} kurulum · son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
-  renderOverview(); renderUsers(); renderAI();
+  $("ovMeta").textContent = `${installs.length} kurulum`;
+  $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
+  for (const f of [renderOverview, renderUsers, renderAI, renderLive, renderOnb, renderRevenue, renderEngage, renderNotifs, renderPushes]) {
+    try { f(); } catch (e) { console.error(f.name, e); }
+  }
 }
 $("range").onchange = loadData;
 
@@ -337,6 +485,7 @@ function renderOverview() {
   const onb = installs.filter(i => i.onboarded).length;
   const kpi = (label, value, sub = "") => `<div class="kpi"><span>${label}</span><b>${value}</b><small>${sub}</small></div>`;
   $("kpis").innerHTML = [
+    kpi("Şu an online", fmt(onlineNow().length), "son 2 dakikada sinyal"),
     kpi("Toplam kurulum", fmt(installs.length), `${fmt(sum(stats, "installs_new"))} yeni (dönem)`),
     kpi("Bugün aktif", fmt(active(1))),
     kpi("7 gün aktif", fmt(active(7))),
@@ -364,6 +513,14 @@ function renderOverview() {
     { indexAxis: "y", plugins: { legend: { display: false } } });
   const langs = {}; installs.forEach(i => langs[i.language || "?"] = (langs[i.language || "?"] || 0) + 1);
   chart("chLang", "doughnut", Object.keys(langs), [{ data: Object.values(langs), backgroundColor: C }]);
+  // Came back: lastSeen at least N days after the first launch.
+  const co = cohort(), back = d => co.filter(i => ts(i.lastSeen) - ts(i.firstSeen) >= d * 864e5).length;
+  chart("chRet", "bar", ["1 gün sonra", "3 gün sonra", "7 gün sonra", "14 gün sonra", "30 gün sonra"],
+    [{ label: `% (${co.length} kurulum)`, data: [1, 3, 7, 14, 30].map(d => pct(back(d), co.length)), backgroundColor: C[3] }],
+    { plugins: { legend: { display: true } }, scales: { y: { max: 100, ticks: { callback: v => v + "%" } } } });
+  const vers = {}; installs.forEach(i => { const k = `${i.platform || "?"} ${i.appVersion || ""} (${i.build || ""})`; vers[k] = (vers[k] || 0) + 1; });
+  const vk = Object.keys(vers).sort((a, b) => vers[b] - vers[a]).slice(0, 8);
+  chart("chVer", "bar", vk, [{ label: "Kurulum", data: vk.map(k => vers[k]), backgroundColor: C[4] }], { indexAxis: "y", plugins: { legend: { display: false } } });
 }
 
 // ---------- Users ----------
@@ -381,10 +538,12 @@ function renderUsers() {
   $("uRows").innerHTML = rows.map(i => `<tr class="click" data-id="${i.id}">
     <td>${ago(ts(i.lastSeen))}</td>
     <td>${i.email ? esc(i.email) : `<span class="muted">anonim · ${i.id.slice(0, 8)}</span>`}</td>
-    <td>${i.premium ? '<span class="pill pro">Premium</span> ' : ''}${i.onboarded ? '<span class="pill ok">Onboarding</span>' : '<span class="pill no">Yarım</span>'}</td>
+    <td>${isOnline(i) ? '<span class="dot"></span>' : ''}${i.premium ? '<span class="pill pro">Premium</span> ' : ''}${i.onboarded ? '<span class="pill ok">Onboarding</span>' : '<span class="pill no">Yarım</span>'}</td>
+    <td>${esc(whereIs(i))}</td>
     <td>${esc(i.language || "")}</td><td>${esc(i.region || "")}</td><td>${esc(i.appVersion || "")} (${esc(i.build || "")})</td>
     <td>${fmt((i.stories_moment || 0) + (i.stories_custom || 0))}</td><td>${fmt(i.listens)}</td>
-    <td>${fmt((i.ai_text_requests || 0) + (i.ai_tts_requests || 0))}</td><td>${((i.ai_tts_seconds || 0) / 60).toFixed(1)}</td>
+    <td>${i.ev ? mins(ev(i, "session_sec")) : "-"}</td><td>${NOTIF[i.notif] || "-"}</td>
+    <td>${fmt((i.ai_text_requests || 0) + (i.ai_tts_requests || 0))}</td>
     <td>${ts(i.firstSeen)?.toLocaleDateString("tr-TR") || "-"}</td></tr>`).join("");
   document.querySelectorAll("#uRows tr").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
 }
@@ -393,7 +552,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 async function openUser(id) {
   const i = installs.find(x => x.id === id); if (!i) return;
   const d = $("drawer"); d.classList.remove("hidden");
-  const counters = Object.keys(i).filter(k => typeof i[k] === "number").sort();
+  const counters = Object.keys(i).filter(k => typeof i[k] === "number" && k !== "widgets").sort();
   d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">${i.email ? esc(i.email) : "Anonim kurulum"}</h2><button class="ghost" id="dClose">Kapat</button></div>
     <p class="muted">Kurulum: ${id}${i.uid ? `<br>Hesap: ${i.uid} (${esc(i.provider || "")})` : ""}</p>
     <div class="dl">
@@ -402,12 +561,27 @@ async function openUser(id) {
       <div>Platform</div><div>${esc(i.platform || "")} ${esc(i.appVersion || "")} (${esc(i.build || "")})</div>
       <div>Dil / bölge</div><div>${esc(i.language || "")} / ${esc(i.region || "")}</div>
       <div>Premium</div><div>${i.premium ? "Evet" : "Hayır"}</div>
-      <div>Onboarding</div><div>${i.onboarded ? "Bitti" : "Yarım"}</div>
+      <div>Onboarding</div><div>${i.onboarded ? "Bitti" : "Yarım" + (i.onbStep ? `, ${esc(STEP_NAMES[slug(i.onbStep)] || i.onbStep)} adımında` : "")}</div>
+      <div>Şu an</div><div>${isOnline(i) ? '<span class="dot"></span>' : ''}${esc(whereIs(i))}</div>
+      <div>Uygulamada toplam</div><div>${i.ev ? mins(ev(i, "session_sec")) + ` · ${fmt(ev(i, "session"))} oturum` : "-"}</div>
+      <div>Dinleme</div><div>${i.ev ? mins(ev(i, "listen_end_sec")) + ` · ${fmt(ev(i, "listen_end_complete"))} sonuna kadar` : "-"}</div>
+      <div>Bildirim izni</div><div>${NOTIF[i.notif] || "-"}${i.apns || i.fcm ? " · push alabilir" : ""}</div>
+      <div>Widget / saat</div><div>${i.widgets ?? "-"} / ${i.watch ? "var" : "yok"}</div>
+      <div>Satın alma</div><div>${i.plan ? `${esc(i.plan)} · ${esc(SOURCES[i.buySource] || i.buySource || "")}` : "-"}</div>
+      <div>Cihaz</div><div>${esc(i.device || "")} ${i.os ? "· iOS " + esc(i.os) : ""} ${i.tz ? "· " + esc(i.tz) : ""}</div>
       ${counters.map(k => `<div>${k}</div><div>${fmt(i[k])}</div>`).join("")}
     </div>
+    ${i.apns || i.fcm ? '<p><button class="ghost" id="dPush">Bu kişiye bildirim gönder</button></p>' : ''}
+    <h2>Zaman çizelgesi</h2><div id="dTimeline" class="muted">Yükleniyor…</div>
     <div id="dAccount"></div>
     <p style="margin-top:22px"><button class="danger" id="dDelete">Kurulum kaydını sil</button></p>`;
   $("dClose").onclick = () => d.classList.add("hidden");
+  if ($("dPush")) $("dPush").onclick = () => { pushOne = id; d.classList.add("hidden"); go("push"); renderPushTarget(); };
+  getDocs(query(collection(db, "installs", id, "events"), orderBy("t", "desc"), limit(300))).then(snap => {
+    const evs = snap.docs.map(x => x.data());
+    $("dTimeline").innerHTML = evs.length ? `<div class="tl">${evs.map(e => `<div><time>${ts(e.t)?.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" })}</time>${esc(eventText(e))}</div>`).join("")}</div>`
+      : "Zaman çizelgesi yok (2.1 öncesi sürüm ya da hiç olay yok).";
+  }).catch(e => $("dTimeline").textContent = "Okunamadı: " + e.code);
   $("dDelete").onclick = async () => { if (!confirm("Bu kurulumun istatistik kaydı silinsin mi?")) return; await deleteDoc(doc(db, "installs", id)); d.classList.add("hidden"); installs = installs.filter(x => x.id !== id); renderUsers(); };
   if (i.uid) {
     $("dAccount").innerHTML = `<h2>Hesaptaki veriler</h2><p class="muted">Yükleniyor…</p>`;
@@ -457,6 +631,282 @@ function renderAI() {
     { label: "Hikaye hatası", data: stats.map(s => s.stories_failed || 0), backgroundColor: C[1] },
     { label: "Ses hatası", data: stats.map(s => s.ai_tts_failed || 0), backgroundColor: C[2] },
   ]);
+}
+
+// ---------- Analysis (2.1 events) ----------
+const ev = (o, k) => +(o?.ev?.[k] || 0);
+const evSum = (arr, k) => arr.reduce((a, x) => a + ev(x, k), 0);
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const slug = s => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "_");
+const mins = sec => { sec = +sec || 0; return sec < 60 ? `${Math.round(sec)} sn` : sec < 3600 ? `${(sec / 60).toFixed(sec < 600 ? 1 : 0)} dk` : `${(sec / 3600).toFixed(1)} sa`; };
+const rangeFrom = () => Date.now() - (+$("range").value) * 864e5;
+const cohort = () => installs.filter(i => ts(i.firstSeen) && ts(i.firstSeen) >= rangeFrom());
+const tracked = arr => arr.filter(i => i.ev);
+const isOnline = i => !!ts(i.lastSeen) && Date.now() - ts(i.lastSeen) < 150e3 && !!i.screen && i.screen !== "closed";
+const onlineNow = () => installs.filter(isOnline);
+const kpiH = (label, value, sub = "") => `<div class="kpi"><span>${label}</span><b>${value}</b><small>${sub}</small></div>`;
+function evPrefix(arr, prefix) {
+  const m = {};
+  for (const x of arr) for (const [k, v] of Object.entries(x.ev || {}))
+    if (k.startsWith(prefix) && !k.endsWith("_sec")) { const n = k.slice(prefix.length); m[n] = (m[n] || 0) + (+v || 0); }
+  return m;
+}
+function bars(id, rows, emptyText = "Henüz veri yok. 2.1 sürümüyle dolmaya başlar.") {
+  const max = Math.max(1, ...rows.map(r => r.value));
+  $(id).innerHTML = rows.length ? rows.map(r => `<div class="brow"><span>${esc(r.label)}</span><div class="track"><div class="fill" style="width:${r.value / max * 100}%${r.color ? ";background:" + r.color : ""}"></div></div><small>${r.sub ?? fmt(r.value)}</small></div>`).join("")
+    : `<p class="muted">${emptyText}</p>`;
+}
+const sorted = (m, names = {}) => Object.entries(m).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: names[k] || k, value: v }));
+
+const STEPS = ["welcome", "introa", "introb", "introc", "name", "city", "birth", "gender", "work", "workfeel", "lifefeel", "relationship", "people", "change", "reflectchange", "why", "reflectwhy", "obstacle", "reflectobstacle", "priorities", "selfdescription", "dreama", "dreamgate", "dreamb", "dreamplace", "dreamhome", "dreamperson", "dream", "reminder", "notifications", "building"];
+const STEP_NAMES = { welcome: "Karşılama", introa: "Hoş geldin", introb: "Kendinden bahset", introc: "Gizlilik", name: "İsim", city: "Şehir", birth: "Doğum tarihi", gender: "Cinsiyet", work: "İş", workfeel: "İşi nasıl hissettiriyor", lifefeel: "Hayatı nasıl gidiyor", relationship: "İlişki durumu", people: "Değer verdiği kişiler", change: "Değiştirmek istediği", reflectchange: "AI cevabı: değişim", why: "Neden istiyor", reflectwhy: "AI cevabı: neden", obstacle: "Engel", reflectobstacle: "AI cevabı: engel", priorities: "Öncelikler", selfdescription: "Kendini tarif", dreama: "Hayal girişi", dreamgate: "Nefes / geçiş", dreamb: "Hayaldeki sabah", dreamplace: "Hayaldeki yer", dreamhome: "Hayaldeki ev", dreamperson: "Hayaldeki kişi", dream: "Hayalini anlat", reminder: "Hatırlatma saati", notifications: "Bildirim izni", building: "Hazırlanıyor (son ekran)" };
+const SOURCES = { onboarding: "Onboarding sonu", launch: "Açılışta (sonraki girişler)", locked: "Kilitli hikaye kartı", teaser: "Hikaye önizlemesi (teaser)", new_story: "Yeni manifest kartı", board_share: "Vision board paylaş", board_wallpaper: "Vision board duvar kağıdı", board_screenshot: "Vision board ekran görüntüsü", voice: "Anlatıcı sesi seçimi", hz: "Hz sesi", me: "Ben sekmesi Premium kartı", unknown: "Bilinmiyor" };
+const SCREENS = { today: "Bugün", stories: "Hikayeler", affirmations: "Olumlamalar", board: "Vision board", me: "Ben", player: "Oynatıcı (dinliyor)", read: "Hikayeyi okuyor", zodiac: "Burç detayı", new_story: "Yeni hikaye yazıyor", gratitude: "Şükran", manifest: "Manifest", profile_edit: "Profil düzenleme", sign_in: "Giriş", paywall: "Paywall" };
+const NOTIF = { on: "Açık", off: "Kapalı", quiet: "Sessiz", unasked: "Sorulmadı" };
+const NOTIF_KINDS = { story: "Günlük hikaye (Premium)", back: "Geri dön (Premium olmayan)", gift: "Hediye hikaye", zodiac: "Akşam burç notu", grat: "Şükran hatırlatması", push: "Panelden gönderilen" };
+const FEATURES = { board_add: "Vision board'a ekleme", board_wallpaper: "Vision board duvar kağıdı", board_share: "Vision board paylaşma", grat_add: "Şükran yazma", aff_fav: "Olumlama favorileme", aff_share: "Olumlama paylaşma", story_fav: "Hikaye favorileme", story_share: "Hikaye paylaşma", story_new_custom: "Kendi hikayesini yazma", sign_in: "Hesapla giriş" };
+const AMBIENTS = { rain: "Yağmur", ocean: "Okyanus", night: "Gece", hz528: "528 Hz", hz432: "432 Hz", none: "Sessiz", "": "Sessiz" };
+
+function screenName(sc) {
+  if (!sc) return "-";
+  if (sc.startsWith("onb_")) return "Onboarding: " + (STEP_NAMES[slug(sc.slice(4))] || sc.slice(4));
+  return SCREENS[sc] || sc;
+}
+function whereIs(i) {
+  if (i.screen === "closed") return "Kapattı · " + screenName(i.lastScreen);
+  if (i.screen) return screenName(i.screen);
+  if (!i.onboarded && i.onbStep) return "Onboarding: " + (STEP_NAMES[slug(i.onbStep)] || i.onbStep);
+  return "-";
+}
+function eventText(e) {
+  const p = e.p || "", s = +e.s || 0;
+  switch (e.e) {
+    case "screen": return "Ekran: " + screenName(p);
+    case "onb_step": return "Onboarding adımı: " + (STEP_NAMES[slug(p)] || p);
+    case "onb_skip": return "Atladı: " + (STEP_NAMES[slug(p)] || p);
+    case "onb_back": return "Geri döndü: " + (STEP_NAMES[slug(p)] || p);
+    case "onb_done": return "✓ Onboarding bitti";
+    case "pw_view": return "Paywall açıldı · " + (SOURCES[p] || p);
+    case "pw_close": return "Paywall'u kapattı";
+    case "pw_tap": return "Plana dokundu: " + p;
+    case "pw_cancel": return "Satın almadan vazgeçti: " + p;
+    case "pw_fail": return "Satın alma hatası: " + p;
+    case "pw_buy": return "★ SATIN ALDI · " + (SOURCES[p] || p);
+    case "pw_restore": return "Geri yükleme: " + (p === "ok" ? "Premium geldi" : "bir şey yok");
+    case "pw_code": return "Kod kullandı";
+    case "story_new": return "Yeni hikaye yazıldı (" + (p === "custom" ? "kendi hedefi" : "günlük") + ")";
+    case "story_fail": return "Hikaye yazılamadı";
+    case "listen_start": return "Dinlemeye başladı";
+    case "listen_end": return `Dinledi: ${mins(s)} (${p === "complete" ? "sonuna kadar" : "yarıda bıraktı"})`;
+    case "session": return `Uygulamadan çıktı · oturum ${mins(s)}`;
+    case "notif_perm": return "Bildirim izni sorusu: " + ({ on: "açtı", off: "reddetti", later: "şimdi değil" }[p] || p);
+    case "notif_status": return "Bildirim izni değişti: " + (NOTIF[p] || p);
+    case "notif_open": return "Bildirimden açtı: " + (NOTIF_KINDS[p] || p);
+    case "notif_sent": return "Bildirim gitti: " + (NOTIF_KINDS[p] || p);
+    case "push_open": return "Panel bildirimini açtı";
+    case "ambient": return "Arka plan sesi: " + (AMBIENTS[p] ?? p);
+    case "voice": return "Anlatıcı: " + p;
+    case "speed": return "Hız: " + p.replace("_", ".") + "x";
+    case "language": return "Dil: " + p;
+    case "sign_in": return "Giriş yaptı: " + p;
+    default: return (FEATURES[e.e] || e.e) + (p ? " · " + p : "");
+  }
+}
+
+// ---------- Live ----------
+function renderLive() {
+  const on = onlineNow().sort((a, b) => ts(b.lastSeen) - ts(a.lastSeen)), now = Date.now();
+  const within = m => installs.filter(i => ts(i.lastSeen) && now - ts(i.lastSeen) < m * 6e4).length;
+  $("liveKpis").innerHTML = [
+    kpiH("Şu an online", fmt(on.length)), kpiH("Son 15 dakika", fmt(within(15))), kpiH("Son 1 saat", fmt(within(60))), kpiH("Son 24 saat", fmt(within(1440))),
+    kpiH("Onboarding'de", fmt(on.filter(i => (i.screen || "").startsWith("onb_")).length)), kpiH("Dinliyor", fmt(on.filter(i => i.screen === "player").length)),
+    kpiH("Paywall'da", fmt(on.filter(i => i.screen === "paywall").length)),
+  ].join("");
+  const by = {}; on.forEach(i => { const k = whereIs(i); by[k] = (by[k] || 0) + 1; });
+  bars("liveScreens", sorted(by), "Şu an uygulamayı açık tutan yok.");
+  const left = {}; installs.filter(i => i.screen === "closed" && i.lastScreen && now - ts(i.lastSeen) < 864e5).forEach(i => { const k = screenName(i.lastScreen); left[k] = (left[k] || 0) + 1; });
+  bars("liveLeft", sorted(left));
+  $("liveRows").innerHTML = on.length ? on.map(i => `<tr class="click" data-id="${i.id}"><td><span class="dot"></span></td>
+    <td>${i.email ? esc(i.email) : `<span class="muted">anonim · ${i.id.slice(0, 8)}</span>`}</td><td>${esc(whereIs(i))}</td>
+    <td>${i.premium ? '<span class="pill pro">Premium</span> ' : ''}${i.onboarded ? '' : '<span class="pill no">Onboarding</span>'}</td>
+    <td>${esc(i.language || "")}</td><td>${ago(ts(i.lastSeen))}</td><td>${mins(ev(i, "session_sec"))}</td></tr>`).join("")
+    : `<tr><td colspan="7" class="muted">Şu an kimse yok.</td></tr>`;
+  document.querySelectorAll("#liveRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Onboarding ----------
+function renderOnb() {
+  const co = cohort(), tr = tracked(co);
+  const started = tr.filter(i => ev(i, "onb_step")).length;
+  const done = tr.filter(i => ev(i, "onb_done")).length;
+  const onbTime = i => STEPS.reduce((a, s) => a + ev(i, `screen_onb_${s}_sec`), 0);
+  const finishers = tr.filter(i => ev(i, "onb_done"));
+  $("onbKpis").innerHTML = [
+    kpiH("Kurulum (dönem)", fmt(co.length)),
+    kpiH("Bitiren (tüm sürümler)", fmt(co.filter(i => i.onboarded).length), `%${pct(co.filter(i => i.onboarded).length, co.length)}`),
+    kpiH("2.1+ ile başlayan", fmt(started)),
+    kpiH("2.1+ tamamlama", started ? `%${pct(done, started)}` : "-", `${fmt(done)} kişi`),
+    kpiH("Ortalama süre", finishers.length ? mins(finishers.reduce((a, i) => a + onbTime(i), 0) / finishers.length) : "-", "bitirenlerde"),
+    kpiH("Toplam atlama", fmt(evSum(tr, "onb_skip"))),
+  ].join("");
+  let prev = null;
+  $("onbRows").innerHTML = tr.length ? STEPS.map(s => {
+    const reached = tr.filter(i => ev(i, `onb_step_${s}`) > 0).length;
+    const views = evSum(tr, `screen_onb_${s}`), secs = evSum(tr, `screen_onb_${s}_sec`);
+    const lost = prev != null && prev > 0 ? prev - reached : 0;
+    const row = `<tr><td>${STEP_NAMES[s]}</td><td>${fmt(reached)}</td><td>%${pct(reached, started)}</td>
+      <td>${lost > 0 ? `<b style="color:var(--rose)">-${fmt(lost)} (%${pct(lost, prev)})</b>` : "-"}</td>
+      <td>${views ? mins(secs / views) : "-"}</td><td>${evSum(tr, `onb_skip_${s}`) ? fmt(evSum(tr, `onb_skip_${s}`)) : "-"}</td><td>${evSum(tr, `onb_back_${s}`) ? fmt(evSum(tr, `onb_back_${s}`)) : "-"}</td></tr>`;
+    prev = reached; return row;
+  }).join("") : `<tr><td colspan="7" class="muted">Bu dönemde 2.1+ kurulum yok. Adım adım huni 2.1 sürümüyle dolmaya başlar.</td></tr>`;
+  const stuck = {};
+  co.filter(i => !i.onboarded && ts(i.lastSeen) && Date.now() - ts(i.lastSeen) > 36e5).forEach(i => {
+    const k = i.onbStep ? (STEP_NAMES[slug(i.onbStep)] || i.onbStep) : "Adım bilinmiyor (2.0)"; stuck[k] = (stuck[k] || 0) + 1;
+  });
+  bars("onbStuck", sorted(stuck), "Yarım bırakan yok.");
+  bars("onbSkips", sorted(evPrefix(tr, "onb_skip_"), STEP_NAMES));
+}
+
+// ---------- Revenue ----------
+function renderRevenue() {
+  const views = evPrefix(stats, "pw_view_"), closes = evPrefix(stats, "pw_close_"), buys = evPrefix(stats, "pw_buy_");
+  const premiumBy = {}; installs.filter(i => i.premium && i.buySource).forEach(i => premiumBy[i.buySource] = (premiumBy[i.buySource] || 0) + 1);
+  const pv = sum(stats, "paywall_views"), pu = sum(stats, "purchases");
+  $("revKpis").innerHTML = [
+    kpiH("Paywall gösterimi", fmt(pv), "dönem"), kpiH("Satın alma / deneme", fmt(pu), "dönem"), kpiH("Dönüşüm", pv ? `%${(pu / pv * 100).toFixed(1)}` : "-", "satın alma / gösterim"),
+    kpiH("Premium kişi", fmt(installs.filter(i => i.premium).length), "şu an"),
+    kpiH("Vazgeçen", fmt(evSum(stats, "pw_cancel")), "Apple ekranında"), kpiH("Satın alma hatası", fmt(evSum(stats, "pw_fail"))),
+    kpiH("Kod kullanan", fmt(evSum(stats, "pw_code"))), kpiH("Geri yükleme", fmt(evSum(stats, "pw_restore_ok")), "Premium'u geri gelen"),
+  ].join("");
+  const keys = [...new Set([...Object.keys(views), ...Object.keys(buys), ...Object.keys(premiumBy)])].sort((a, b) => (buys[b] || 0) - (buys[a] || 0) || (views[b] || 0) - (views[a] || 0));
+  $("revRows").innerHTML = keys.length ? keys.map(k => `<tr><td>${esc(SOURCES[k] || k)}</td><td>${fmt(views[k])}</td><td>${fmt(closes[k])}</td><td><b>${fmt(buys[k])}</b></td><td>${views[k] ? `%${((buys[k] || 0) / views[k] * 100).toFixed(1)}` : "-"}</td><td>${fmt(premiumBy[k])}</td></tr>`).join("")
+    : `<tr><td colspan="6" class="muted">Kaynak verisi 2.1 sürümüyle gelir. Şimdilik toplamlar yukarıda.</td></tr>`;
+  const labels = stats.map(s => s.day.slice(5));
+  chart("chRev", "bar", labels, [
+    { label: "Paywall gösterimi", data: stats.map(s => s.paywall_views || 0), backgroundColor: C[0] },
+    { label: "Satın alma", data: stats.map(s => s.purchases || 0), backgroundColor: C[3] },
+  ]);
+  const plans = {}; installs.filter(i => i.premium && i.plan).forEach(i => plans[i.plan] = (plans[i.plan] || 0) + 1);
+  const taps = evPrefix(stats, "pw_tap_");
+  bars("revPlans", [...new Set([...Object.keys(taps), ...Object.keys(plans)])].map(k => ({ label: k.replace("dw_premium_", ""), value: taps[k] || 0, sub: `${fmt(taps[k])} dokunma · ${fmt(plans[k])} Premium` })).sort((a, b) => b.value - a.value));
+}
+
+// ---------- Engagement ----------
+function renderEngage() {
+  const sess = evSum(stats, "session"), sessSec = evSum(stats, "session_sec");
+  const le = evSum(stats, "listen_end"), leSec = evSum(stats, "listen_end_sec"), comp = evSum(stats, "listen_end_complete");
+  $("engKpis").innerHTML = [
+    kpiH("Oturum", fmt(sess), "dönem"), kpiH("Ortalama oturum", sess ? mins(sessSec / sess) : "-"), kpiH("Toplam süre", mins(sessSec), "herkes, dönem"),
+    kpiH("Dinleme başlatma", fmt(evSum(stats, "listen_start"))), kpiH("Dinlenen süre", mins(leSec)), kpiH("Ortalama dinleme", le ? mins(leSec / le) : "-"),
+    kpiH("Sonuna kadar", le ? `%${pct(comp, le)}` : "-", `${fmt(comp)} dinleme`), kpiH("Okuma", fmt(evSum(stats, "screen_read")), "tam metni açan"),
+  ].join("");
+  const tr = tracked(cohort()), buckets = [["1 dk altı", 0, 60], ["1-5 dk", 60, 300], ["5-15 dk", 300, 900], ["15-30 dk", 900, 1800], ["30-60 dk", 1800, 3600], ["1 saat üstü", 3600, 1e12]];
+  chart("chTime", "bar", buckets.map(b => b[0]), [{ label: `Kişi (${tr.length} kurulum)`, data: buckets.map(([, a, b]) => tr.filter(i => ev(i, "session_sec") >= a && ev(i, "session_sec") < b).length), backgroundColor: C[5] }], { plugins: { legend: { display: true } } });
+  const labels = stats.map(s => s.day.slice(5));
+  chart("chEng", "bar", labels, [
+    { label: "Oturum", data: stats.map(s => ev(s, "session")), backgroundColor: C[0], yAxisID: "y" },
+    { label: "Dinleme dk", data: stats.map(s => +(ev(s, "listen_end_sec") / 60).toFixed(1)), type: "line", borderColor: C[1], tension: .3, yAxisID: "y1" },
+  ], { scales: { y: { position: "left" }, y1: { position: "right", grid: { drawOnChartArea: false } } } });
+  const sc = evPrefix(stats, "screen_");
+  bars("engScreens", Object.keys(sc).filter(k => !k.startsWith("onb_")).map(k => ({ label: SCREENS[k] || k, value: evSum(stats, `screen_${k}_sec`), sub: `${mins(evSum(stats, `screen_${k}_sec`))} · ${fmt(sc[k])} kez` })).sort((a, b) => b.value - a.value));
+  bars("engFeatures", Object.keys(FEATURES).map(k => ({ label: FEATURES[k], value: evSum(stats, k) })).filter(r => r.value).sort((a, b) => b.value - a.value));
+  bars("engAmbient", sorted(evPrefix(stats, "ambient_"), AMBIENTS), "Henüz kimse arka plan sesini değiştirmedi.");
+  const t2 = tracked(installs);
+  bars("engAdopt", t2.length ? [
+    { label: "Widget ekleyen", value: t2.filter(i => i.widgets > 0).length, sub: `${t2.filter(i => i.widgets > 0).length} / ${t2.length}` },
+    { label: "Saat uygulaması olan", value: t2.filter(i => i.watch).length, sub: `${t2.filter(i => i.watch).length} / ${t2.length}` },
+    { label: "Hesapla giriş yapan", value: t2.filter(i => i.uid).length, sub: `${t2.filter(i => i.uid).length} / ${t2.length}` },
+    { label: "Bildirimi açık", value: t2.filter(i => i.notif === "on").length, sub: `${t2.filter(i => i.notif === "on").length} / ${t2.length}` },
+  ] : []);
+}
+
+// ---------- Notifications ----------
+function renderNotifs() {
+  const t2 = tracked(installs), perm = {}; t2.forEach(i => { const k = NOTIF[i.notif] || "Bilinmiyor"; perm[k] = (perm[k] || 0) + 1; });
+  const kinds = [...new Set([...Object.keys(NOTIF_KINDS), ...Object.keys(evPrefix(stats, "notif_sent_")), ...Object.keys(evPrefix(stats, "notif_open_"))])];
+  const sent = kinds.reduce((a, k) => a + evSum(stats, `notif_sent_${k}`), 0), opened = kinds.reduce((a, k) => a + evSum(stats, `notif_open_${k}`), 0);
+  $("ntKpis").innerHTML = [
+    kpiH("İzni açık", t2.length ? `%${pct(t2.filter(i => i.notif === "on").length, t2.length)}` : "-", `${t2.length} kurulumda`),
+    kpiH("Giden bildirim", fmt(sent), "dönem"), kpiH("Açılan", fmt(opened)), kpiH("Açılma oranı", sent ? `%${(opened / sent * 100).toFixed(1)}` : "-"),
+    kpiH("İzni sonradan kapatan", fmt(evSum(stats, "notif_status_off"))), kpiH("Push alabilen", fmt(installs.filter(i => i.apns || i.fcm).length)),
+  ].join("");
+  chart("chPerm", "doughnut", Object.keys(perm), [{ data: Object.values(perm), backgroundColor: [C[3], C[1], C[2], C[7], C[4]] }]);
+  bars("ntAsk", [["on", "İzin verdi", C[3]], ["off", "Reddetti", C[1]], ["later", "Şimdi değil", C[7]]].map(([k, label, color]) => ({ label, value: evSum(stats, `notif_perm_${k}`), color })).filter(r => r.value));
+  $("ntRows").innerHTML = kinds.map(k => { const s = evSum(stats, `notif_sent_${k}`), o = evSum(stats, `notif_open_${k}`); return `<tr><td>${NOTIF_KINDS[k] || k}</td><td>${fmt(s)}</td><td>${fmt(o)}</td><td>${s ? `%${(o / s * 100).toFixed(1)}` : "-"}</td></tr>`; }).join("");
+}
+
+// ---------- Push ----------
+let pushOne = null;
+const PUSH_LANGS = { tr: "Türkçe", en: "English", es: "Español", de: "Deutsch", fr: "Français", it: "Italiano" };
+$("pOther").innerHTML = ["es", "de", "fr", "it"].map(l => `<div><p class="lang">${PUSH_LANGS[l].toUpperCase()}</p><input id="pTitle_${l}" placeholder="Başlık"><textarea id="pBody_${l}" placeholder="Metin" style="margin-top:6px"></textarea></div>`).join("");
+$("pLangs").innerHTML = Object.entries(PUSH_LANGS).map(([l, n]) => `<label><input type="checkbox" value="${l}"> ${n}</label>`).join("");
+function renderPushTarget() {
+  $("pOne").innerHTML = pushOne ? `Yalnız tek kişiye gidecek: <b>${esc(installs.find(i => i.id === pushOne)?.email || pushOne.slice(0, 8))}</b> <button class="ghost" id="pOneClear">Filtreye dön</button>` : "";
+  if ($("pOneClear")) $("pOneClear").onclick = () => { pushOne = null; renderPushTarget(); };
+}
+function pushTarget() {
+  if (pushOne) return { installIds: [pushOne] };
+  return { platform: $("pPlatform").value, premium: $("pPremium").value, onboarded: $("pOnb").value,
+    languages: [...document.querySelectorAll("#pLangs input:checked")].map(x => x.value),
+    activeDays: +$("pActive").value || null, inactiveDays: +$("pInactive").value || null };
+}
+function pushDraft() {
+  const pick = f => Object.fromEntries(Object.keys(PUSH_LANGS).map(l => [l, $(`p${f}_${l}`).value.replace(/\s*[—–]\s*/g, ", ").trim()]).filter(([, v]) => v));
+  return { title: pick("Title"), body: pick("Body"), link: $("pLink").value || null, note: $("pNote").value.trim(), target: pushTarget() };
+}
+function pushErr(e) {
+  const missing = /not-found|internal|unavailable/.test(e.code || "");
+  $("pStatus").textContent = missing ? "" : "Olmadı: " + (e.message || e.code);
+  if (missing) { $("pushSetup").classList.remove("hidden"); $("pushSetup").innerHTML = "Gönderme sunucusu henüz kurulmadı. Apple'dan push anahtarı (.p8) gelince kuruluyor."; }
+}
+$("pPreview").onclick = async () => {
+  $("pCount").textContent = "Hesaplanıyor…";
+  try { const r = (await httpsCallable(fns, "pushPreview")({ target: pushTarget() })).data; $("pCount").textContent = `${fmt(r.total)} kişi (${fmt(r.ios)} iOS, ${fmt(r.android)} Android)`; }
+  catch (e) { $("pCount").textContent = ""; pushErr(e); }
+};
+async function sendPush(scheduleAt) {
+  const d = pushDraft();
+  if (!Object.keys(d.title).length || !Object.keys(d.body).length) { $("pStatus").textContent = "En az bir dilde başlık ve metin yaz."; return; }
+  if (!confirm(scheduleAt ? `Bildirim ${new Date(scheduleAt).toLocaleString("tr-TR")} için zamanlansın mı?` : "Bildirim şimdi gönderilsin mi? Geri alınamaz.")) return;
+  $("pSend").disabled = $("pSchedule").disabled = true; $("pStatus").textContent = "Gönderiliyor…";
+  try {
+    const r = (await httpsCallable(fns, "pushSend")({ ...d, scheduleAt })).data;
+    $("pStatus").textContent = r.scheduled ? "Zamanlandı." : `Gönderildi: ${fmt(r.ios)} iOS, ${fmt(r.android)} Android${r.failed ? `, ${fmt(r.failed)} ulaşmadı` : ""}.`;
+    await loadData();
+  } catch (e) { pushErr(e); } finally { $("pSend").disabled = $("pSchedule").disabled = false; }
+}
+$("pSend").onclick = () => sendPush(null);
+$("pSchedule").onclick = () => { if (!$("pAt").value) { $("pStatus").textContent = "Önce tarih ve saat seç."; return; } sendPush(new Date($("pAt").value).toISOString()); };
+function targetText(t = {}) {
+  if (t.installIds?.length) return "Tek kişi";
+  const parts = [];
+  if (t.platform && t.platform !== "all") parts.push(t.platform === "ios" ? "iOS" : "Android");
+  if (t.languages?.length) parts.push(t.languages.join(", "));
+  if (t.premium === "yes") parts.push("Premium"); if (t.premium === "no") parts.push("Premium olmayan");
+  if (t.onboarded === "yes") parts.push("onboarding bitmiş"); if (t.onboarded === "no") parts.push("onboarding yarım");
+  if (t.activeDays) parts.push(`son ${t.activeDays} günde açan`); if (t.inactiveDays) parts.push(`${t.inactiveDays}+ gündür açmayan`);
+  return parts.join(" · ") || "Herkes";
+}
+const PUSH_STATUS = { scheduled: "Zamanlandı", queued: "Sırada", sending: "Gidiyor", sent: "Gönderildi", failed: "Hata", cancelled: "İptal" };
+function renderPushes() {
+  renderPushTarget();
+  if (!installs.some(i => i.apns || i.fcm) && !pushes.length) {
+    $("pushSetup").classList.remove("hidden");
+    $("pushSetup").innerHTML = "Şu an hiçbir kurulumda push adresi yok. Push 2.1 sürümüyle gelir: kişi 2.1'i açıp bildirime izin verdiğinde burada sayılır.";
+  }
+  $("pRows").innerHTML = pushes.length ? pushes.map(p => {
+    const reach = (p.ios || 0) + (p.android || 0), opens = installs.reduce((a, i) => a + ev(i, `push_open_${p.id}`), 0);
+    const when = ts(p.status === "scheduled" ? p.scheduleAt : (p.sentAt || p.createdAt));
+    return `<tr><td>${when?.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) || "-"}</td>
+      <td style="white-space:normal;min-width:200px">${p.note ? `<b>${esc(p.note)}</b><br>` : ""}${esc(p.title?.tr || p.title?.en || Object.values(p.title || {})[0] || "")}</td>
+      <td>${esc(targetText(p.target))}</td><td>${PUSH_STATUS[p.status] || p.status}${p.failed ? ` <span class="muted">(${p.failed} ulaşmadı)</span>` : ""}</td>
+      <td>${p.status === "sent" ? fmt(reach) : "-"}</td><td>${fmt(opens)}</td><td>${reach ? `%${pct(opens, reach)}` : "-"}</td>
+      <td>${p.status === "scheduled" ? `<button class="danger" data-cancel="${p.id}">İptal</button>` : ""}</td></tr>`;
+  }).join("") : `<tr><td colspan="8" class="muted">Henüz gönderilmiş bildirim yok.</td></tr>`;
+  document.querySelectorAll("[data-cancel]").forEach(b => b.onclick = async () => {
+    if (!confirm("Zamanlanmış bildirim iptal edilsin mi?")) return;
+    await updateDoc(doc(db, "pushes", b.dataset.cancel), { status: "cancelled" }); await loadData();
+  });
 }
 
 // ---------- Affirmations ----------
