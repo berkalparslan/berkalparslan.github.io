@@ -6,8 +6,8 @@
   "en": "Leafbook: Plant Tracker"
  },
  "description": {
-  "tr": "Saksı bitkilerin için fotoğraflı bir günlük. Fotoğraftan tür öner, sulama takvimi al, her yeni kareyi hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü gör ve paylaş.",
-  "en": "A photo diary for your houseplants. Identify a plant from a photo, get a watering schedule and take every next photo through a ghost overlay to see, and share, how much it grew."
+  "tr": "Ev bitkilerinin defteri. Fotoğraftan tanır, sulamayı bitkinin durduğu yere göre ayarlar, hayalet kamerayla aynı açıdan çektiğin fotoğraflardan büyümeyi yüzde olarak ölçer.",
+  "en": "A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera."
  },
  "icon": "/leafbook/assets/icon-512.png",
  "color": "#55db9c",
@@ -18,8 +18,8 @@
   "en": "iPhone · English and Turkish"
  },
  "lede": {
-  "tr": "Aynı açı, aylar sonra. Bitkilerinin ne kadar büyüdüğünü gör ve paylaş.",
-  "en": "Same angle, months apart. See how much your plants grew, and share it."
+  "tr": "Bitkilerinin defteri: ne olduğunu, ne zaman sulanacağını ve ne kadar büyüdüğünü tutar. Takvime göre değil, bitkinin gerçekten yaşadığı köşeye göre.",
+  "en": "A notebook for your plants: what they are, when to water them and how much they have grown. Built around the corner each plant actually lives in, not a calendar."
  },
  "pills": [
   {
@@ -27,16 +27,20 @@
    "en": "Ghost camera"
   },
   {
-   "tr": "119 tür",
-   "en": "119 species"
+   "tr": "119+ tür",
+   "en": "119+ species"
   },
   {
    "tr": "Reklamsız",
    "en": "No ads"
   },
   {
-   "tr": "Hesapsız",
+   "tr": "Hesap yok",
    "en": "No account"
+  },
+  {
+   "tr": "iCloud eşitleme",
+   "en": "iCloud sync"
   }
  ],
  "platforms": [
@@ -53,46 +57,159 @@
   "🍃"
  ],
  "promo": {
-  "any": [
-   "/assets/home/leafbook-shot-1.webp",
-   "/assets/home/leafbook-shot-2.webp",
-   "/assets/home/leafbook-shot-3.webp"
+  "tr": [
+   "/leafbook/assets/promo/tr/01.webp",
+   "/leafbook/assets/promo/tr/02.webp",
+   "/leafbook/assets/promo/tr/03.webp",
+   "/leafbook/assets/promo/tr/04.webp",
+   "/leafbook/assets/promo/tr/05.webp",
+   "/leafbook/assets/promo/tr/06.webp"
+  ],
+  "en": [
+   "/leafbook/assets/promo/en/01.webp",
+   "/leafbook/assets/promo/en/02.webp",
+   "/leafbook/assets/promo/en/03.webp",
+   "/leafbook/assets/promo/en/04.webp",
+   "/leafbook/assets/promo/en/05.webp",
+   "/leafbook/assets/promo/en/06.webp"
   ]
  },
  "sections": [
   {
    "id": "bitkiler",
    "kicker": {
-    "tr": "Çek, öğren",
-    "en": "Snap it, know it"
+    "tr": "Koleksiyon",
+    "en": "Your collection"
    },
    "title": {
     "tr": "Her bitkinin bir sayfası",
     "en": "Every plant gets a page"
    },
    "text": {
-    "tr": "Bir fotoğraf çek, tür önerisi ve o türe uygun sulama takvimi gelsin. Emin değilsen 119 türlük katalogda adıyla ara.",
-    "en": "Take a photo, get species suggestions and a matching watering schedule. Not sure? Search the 119-species catalog by name."
+    "tr": "Bitkilerin tek ekranda: kaç tanesi büyüyor, kaçı susamış, hangisine kaç gün sonra su lazım. Bir bitkiye dokun; son fotoğrafı, büyüme kartı, bakım günlüğü, türün bakım rehberi ve notların orada.",
+    "en": "All your plants on one screen: how many are growing, how many are thirsty and which one needs water in how many days. Tap a plant for its latest photo, growth card, care log, species care guide and your notes."
    },
    "bullets": [
     {
-     "tr": "Ad ver, sulama aralığını istersen değiştir",
-     "en": "Name it, tweak the watering interval if you like"
+     "tr": "Sulandı ve gübrelendi düğmeleri, her işlem saatiyle kayıtlı",
+     "en": "Watered and fertilized buttons, every action logged with its time"
     },
     {
-     "tr": "Her tür için ışık, nem ve evcil hayvan güvenliği",
-     "en": "Light, humidity and pet safety for every species"
+     "tr": "\"Bilinmesi gerekenler\": AI'nın o bitki için yazdığı kısa notlar",
+     "en": "\"Good to know\": short notes the AI writes for that plant"
     }
    ],
    "device": "phone",
    "images": {
     "tr": [
-     "/assets/home/screens/leafbook/tr/01.webp"
+     "/leafbook/assets/screens/tr/01-plants.webp"
     ],
     "en": [
-     "/assets/home/screens/leafbook/en/01.webp"
+     "/leafbook/assets/screens/en/01-plants.webp"
     ]
-   }
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "tanima",
+   "kicker": {
+    "tr": "Tanıma ve katalog",
+    "en": "Identify and catalog"
+   },
+   "title": {
+    "tr": "Fotoğrafını çek, adını söylesin",
+    "en": "Snap it, get its name"
+   },
+   "text": {
+    "tr": "Fotoğraftan türü bulur ve üç tahmini güven yüzdesiyle sıralar. Fotoğraf çekmek istemezsen \"Ne olduğunu biliyorum\" de, 119+ türlük katalogdan ara.",
+    "en": "Identifies the species from a photo and ranks three guesses with a confidence score. Don't want a photo? Say \"I know what it is\" and search the catalog of 119+ species."
+   },
+   "bullets": [
+    {
+     "tr": "Her türde ışık, nem, evcil hayvana zehirli mi, sulama ve gübreleme aralığı",
+     "en": "Light, humidity, pet safety, watering and feeding intervals for every species"
+    },
+    {
+     "tr": "Her tür için elle çizilmiş illüstrasyon",
+     "en": "A hand-drawn illustration for every species"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/leafbook/assets/screens/tr/04-catalog.webp"
+    ],
+    "en": [
+     "/leafbook/assets/screens/en/04-catalog.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "sulama",
+   "kicker": {
+    "tr": "Sulama",
+    "en": "Watering"
+   },
+   "title": {
+    "tr": "Takvim değil, köşe",
+    "en": "Not a calendar, a corner"
+   },
+   "text": {
+    "tr": "Bitki eklerken nerede durduğunu ve en son ne zaman sulandığını sorar. Kitaptaki aralığı o köşeye göre düzeltir ve gerekçesini tek satırda yazar: \"Pencereden uzakta toprak daha geç kuruyor, 7 yerine 9 günde bir.\"",
+    "en": "When you add a plant it asks where it sits and when it was last watered. It adjusts the textbook interval to that spot and tells you why in one line: \"Away from the window the soil dries slower, every 9 days instead of 7.\""
+   },
+   "bullets": [
+    {
+     "tr": "Bugün sulanacaklar ve önümüzdeki 7 gün tek listede",
+     "en": "Today's watering and the next 7 days in one list"
+    },
+    {
+     "tr": "Aralığı elle değiştirirsen uygulama geri almaz",
+     "en": "Change the interval yourself and it stays that way"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/leafbook/assets/screens/tr/03-care.webp"
+    ],
+    "en": [
+     "/leafbook/assets/screens/en/03-care.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "nemli",
+   "kicker": {
+    "tr": "Hatırlatmalar",
+    "en": "Reminders"
+   },
+   "title": {
+    "tr": "\"Toprak hala nemli\"",
+    "en": "\"Soil is still wet\""
+   },
+   "text": {
+    "tr": "Sulama günü sabah seçtiğin saatte bildirim gelir, üstünde iki düğme: Suladım ve Toprak hala nemli. İkincisi sulamayı iki gün erteler; üst üste ikinci kez basarsan aralığı kalıcı olarak uzatır. Uygulama evini zamanla öğrenir.",
+    "en": "On watering day a notification arrives at the hour you pick, with two buttons: Watered and Soil is still wet. The second one pushes watering back two days; press it twice in a row and the interval grows for good. The app learns your home over time."
+   },
+   "bullets": [
+    {
+     "tr": "Uygulamayı açmadan bildirimden hallet",
+     "en": "Handle it from the notification, no need to open the app"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "tr": [
+     "/leafbook/assets/promo/tr/04.webp"
+    ],
+    "en": [
+     "/leafbook/assets/promo/en/04.webp"
+    ]
+   },
+   "color": "#e9ccff"
   },
   {
    "id": "hayalet",
@@ -105,115 +222,211 @@
     "en": "Same angle, every time"
    },
    "text": {
-    "tr": "Son fotoğrafın kameranın üstünde yarı saydam durur. Hizala, çek; her kare aynı açıdan.",
-    "en": "Your last photo floats over the camera. Line it up, shoot; every frame from the same angle."
+    "tr": "Son fotoğrafın yarı saydam olarak canlı görüntünün üstünde durur; yeni kareyi ona hizalarsın. Saydamlığı ayarlanır, istersen kapanır. Çekimden sonra kırpma ekranında bitkiyi çerçeveye oturtursun.",
+    "en": "Your last photo floats half-transparent over the live camera, so you line up the new shot with it. Adjust the opacity or turn it off. After the shot, a crop screen lets you fit the plant to the frame."
    },
    "bullets": [
     {
-     "tr": "Birkaç haftada bir \"Aynı açıdan fotoğraf çek\"e dokun",
-     "en": "Every few weeks tap \"Take a same-angle photo\""
+     "tr": "Kaydet ile fotoğraf telefonun galerisine de gider",
+     "en": "Save also writes the photo to your phone's library"
+    },
+    {
+     "tr": "Galeriden fotoğraf ekleyebilirsin",
+     "en": "Add photos from your library too"
     }
    ],
    "device": "image",
    "images": {
-    "any": [
-     "/assets/home/leafbook-shot-2.webp"
+    "tr": [
+     "/leafbook/assets/promo/tr/02.webp",
+     "/leafbook/assets/screens/tr/06-ghost.webp"
+    ],
+    "en": [
+     "/leafbook/assets/promo/en/02.webp"
     ]
-   }
+   },
+   "color": "#ffd731"
   },
   {
    "id": "buyume",
    "kicker": {
-    "tr": "Büyümeyi ölç",
-    "en": "Measure growth"
+    "tr": "Büyüme",
+    "en": "Growth"
    },
    "title": {
     "tr": "Büyüdüğünün kanıtı",
-    "en": "Proof it's growing"
+    "en": "Proof it is growing"
    },
    "text": {
-    "tr": "Hizalı fotoğraflar kıyaslanır: \"60 günde %38 daha fazla yaprak\". Kaydırıcıyla önce ve sonra, tek dokunuşla hızlandırılmış tekrar.",
-    "en": "Aligned photos are compared: \"+38% leaf area in 60 days\". A before and after slider, and a one-tap timelapse replay."
+    "tr": "Aynı çerçeveden çekilen fotoğraflarda yaprak alanı karşılaştırılır ve büyüme yüzde olarak çıkar: \"84 günde %151 daha fazla yaprak alanı\". İki fotoğrafı kaydırarak karşılaştır, baştan sona oynat ya da AI'ya ne değiştiğini sor.",
+    "en": "Photos taken from the same frame are compared by leaf area, and growth comes out as a percentage: \"151% more leaf area in 84 days\". Slide between two photos, replay the whole series or ask the AI what changed."
    },
    "bullets": [
     {
-     "tr": "Büyüme kartı kendini günceller",
-     "en": "The growth card updates itself"
+     "tr": "Karşılaştırma için en az 7 gün arayla iki fotoğraf",
+     "en": "Two photos at least 7 days apart to compare"
     }
    ],
-   "device": "phone",
+   "device": "image",
    "images": {
     "tr": [
-     "/assets/home/screens/leafbook/tr/02.webp"
+     "/leafbook/assets/promo/tr/01.webp"
     ],
     "en": [
-     "/assets/home/screens/leafbook/en/02.webp"
+     "/leafbook/assets/promo/en/01.webp"
     ]
-   }
+   },
+   "color": "#c8f560"
   },
   {
-   "id": "sulama",
+   "id": "kurtarma",
    "kicker": {
-    "tr": "Sulama listesi",
-    "en": "Watering list"
+    "tr": "Renk uyarısı ve kurtarma planı · 1.1 ile geliyor",
+    "en": "Colour alerts and rescue plans · coming in 1.1"
    },
    "title": {
-    "tr": "Bugün kim susamış?",
-    "en": "Who's thirsty today?"
+    "tr": "Sararmayı senden önce görür",
+    "en": "Spots yellowing before you do"
    },
    "text": {
-    "tr": "Bugün kim susamış, bu hafta kim sırada. Damlaya dokun, sonraki tarih kendiliğinden ilerler.",
-    "en": "Who's thirsty today, who's due this week. Tap the drop and the next date moves on its own."
+    "tr": "Her fotoğrafta yaprakların ne kadarının sarıya kaydığı ölçülür; bir hafta boyunca belirgin artış varsa uyarır. \"Bir sorun var gibi\" dersen üç soru sorar, cevapları sulama programı, konum ve renk eğrisiyle birleştirip sebebi söyler: fazla su, az su, yetersiz ışık, kuru hava ya da zararlı.",
+    "en": "Every photo measures how much of the foliage has shifted towards yellow, and a clear rise over a week triggers an alert. Say \"Something seems wrong\" and it asks three questions, combines the answers with the watering schedule, location and colour trend and names the cause: too much water, too little, low light, dry air or pests."
    },
    "bullets": [
     {
-     "tr": "Pro'da sabah hatırlatması",
-     "en": "Morning reminders with Pro"
+     "tr": "Bugün yapılacak tek iş, sonra 14 güne yayılmış tarihli adımlar",
+     "en": "One thing to do today, then dated steps over 14 days"
+    },
+    {
+     "tr": "Plan sulama programını da ona göre ayarlar ve önceden söyler",
+     "en": "The plan adjusts the watering schedule and tells you first"
     }
    ],
    "device": "phone",
    "images": {
     "tr": [
-     "/assets/home/screens/leafbook/tr/03.webp"
+     "/leafbook/assets/screens/tr/02-growth.webp"
     ],
     "en": [
-     "/assets/home/screens/leafbook/en/03.webp"
+     "/leafbook/assets/screens/en/02-growth.webp"
     ]
-   }
+   },
+   "color": "#ffb3d9"
   },
   {
    "id": "paylas",
    "kicker": {
-    "tr": "Biraz hava at",
-    "en": "Brag a little"
+    "tr": "Paylaş",
+    "en": "Share"
    },
    "title": {
-    "tr": "Koleksiyonunu paylaş",
+    "tr": "Koleksiyonunu göster",
     "en": "Show off your collection"
    },
    "text": {
-    "tr": "Tek bir bitkiyi ya da tüm koleksiyonu, arkadaşlarının gerçekten tepki vereceği bir karta çevir.",
-    "en": "Turn one plant or your whole collection into a card your friends will actually react to."
+    "tr": "Tek bitki ya da bütün koleksiyon için kart: fotoğraf, büyüme yüzdesi, bitki sayısı, takip edilen gün. Hazır başlıklardan seç ya da kendin yaz, sosyal medyaya uygun boyutta paylaş.",
+    "en": "A card for one plant or the whole collection: photo, growth percentage, plant count and days tracked. Pick a ready caption or write your own and share it at a size made for social media."
    },
    "device": "phone",
    "images": {
     "tr": [
-     "/assets/home/screens/leafbook/tr/04.webp"
+     "/leafbook/assets/screens/tr/05-share.webp"
     ],
     "en": [
-     "/assets/home/screens/leafbook/en/04.webp"
+     "/leafbook/assets/screens/en/05-share.webp"
     ]
-   }
+   },
+   "color": "#dceeff"
   }
  ],
+ "pricing": {
+  "title": {
+   "tr": "Ücretsiz başla",
+   "en": "Start for free"
+  },
+  "lede": {
+   "tr": "Ücretsiz planda 3 bitki, 1 AI tanıma ve 1 kurtarma planı var; katalog, büyüme ölçümü ve paylaşım kartları da ücretsiz. Leafbook Pro sınırları kaldırır. Kurtarma planı ve ömür boyu plan 1.1 sürümüyle geliyor.",
+   "en": "The free plan keeps 3 plants, 1 AI identification and 1 rescue plan; the catalog, growth measurement and share cards are free too. Leafbook Pro removes the limits. Rescue plans and the lifetime plan arrive with version 1.1."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "0 $",
+     "en": "$0"
+    },
+    "items": [
+     {
+      "tr": "3 bitki",
+      "en": "3 plants"
+     },
+     {
+      "tr": "1 AI tanıma, 1 kurtarma planı",
+      "en": "1 AI identification, 1 rescue plan"
+     },
+     {
+      "tr": "Katalog, büyüme ölçümü, paylaşım kartları",
+      "en": "Catalog, growth measurement, share cards"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Leafbook Pro",
+     "en": "Leafbook Pro"
+    },
+    "price": {
+     "tr": "Aylık 2,99 $ · Yıllık 19,99 $",
+     "en": "$2.99 monthly · $19.99 yearly"
+    },
+    "items": [
+     {
+      "tr": "Sınırsız bitki ve tanıma",
+      "en": "Unlimited plants and identifications"
+     },
+     {
+      "tr": "Sulama hatırlatmaları",
+      "en": "Watering reminders"
+     },
+     {
+      "tr": "Sınırsız kurtarma planı",
+      "en": "Unlimited rescue plans"
+     },
+     {
+      "tr": "Yıllık planda 7 gün ücretsiz deneme",
+      "en": "7-day free trial on the yearly plan"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Ömür boyu",
+     "en": "Lifetime"
+    },
+    "price": {
+     "tr": "39,99 $ bir kez",
+     "en": "$39.99 once"
+    },
+    "items": [
+     {
+      "tr": "Bir kez al, hep senin",
+      "en": "Buy once, keep forever"
+     }
+    ]
+   }
+  ]
+ },
  "privacy": {
   "title": {
    "tr": "Bitkilerin telefonunda",
    "en": "Your plants stay on your phone"
   },
   "text": {
-   "tr": "Hesap yok, reklam yok. Bitkilerin, fotoğrafların ve sulama kayıtların cihazında durur. Yalnızca fotoğraftan tanıma istediğinde o tek fotoğraf tanıma hizmetine gönderilir; istemezsen katalogdan adıyla ekle, hiçbir şey cihazından çıkmaz.",
-   "en": "No account, no ads. Your plants, photos and watering log stay on your device. Only when you ask for photo identification is that single photo sent to the identification service; otherwise add from the catalog and nothing leaves your phone."
+   "tr": "Hesap yok, reklam yok, analitik yok. Bitkilerin, fotoğrafların ve kayıtların cihazında durur, iPhone'da kendi iCloud hesabınla eşitlenir. Dışarı giden tek şey tanıma için gönderilen fotoğraf (Google Gemini) ve abonelik doğrulaması (RevenueCat).",
+   "en": "No account, no ads, no analytics. Your plants, photos and logs stay on your device and sync through your own iCloud on iPhone. The only things that leave are the photo sent for identification (Google Gemini) and subscription checks (RevenueCat)."
   },
   "href": "/privacy/leafbook/"
  },

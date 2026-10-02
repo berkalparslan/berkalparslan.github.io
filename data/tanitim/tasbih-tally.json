@@ -2,12 +2,12 @@
  "slug": "tasbih-tally",
  "name": "Tasbih Tally",
  "title": {
-  "tr": "Tasbih Tally: Zikir & Namaz",
-  "en": "Tasbih Tally: Dhikr & Prayer App"
+  "tr": "Tasbih Tally: Zikir ve Namaz",
+  "en": "Tasbih Tally: Dhikr & Prayer"
  },
  "description": {
-  "tr": "Namaz vakitleri, ezan hatırlatıcı, kıble, zikirmatik, 99 isim ve Hicri takvim; telefonda ve saatte. Reklamsız.",
-  "en": "Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar, on your phone and your watch. No ads."
+  "tr": "Zikirmatik, namaz vakitleri ve ezan hatırlatıcı, kıble, 99 isim, sabah akşam ezkarı ve Hicri takvim; iPhone, Apple Watch ve widget'ta. Reklamsız, hesapsız.",
+  "en": "Tasbih counter, prayer times and adhan reminders, Qibla, 99 Names, morning and evening adhkar and a Hijri calendar on iPhone, Apple Watch and widgets. No ads, no account."
  },
  "icon": "/tasbih-tally/assets/icon.webp",
  "color": "#55db9c",
@@ -15,11 +15,11 @@
  "status": "live",
  "kicker": {
   "tr": "iPhone · Apple Watch · Widget",
-  "en": "iPhone · Apple Watch · Widget"
+  "en": "iPhone · Apple Watch · Widgets"
  },
  "lede": {
-  "tr": "Sakin, reklamsız bir İslami yol arkadaşı. Namaz vakitleri, kıble, zikir setleri, ezkar, 99 isim ve Hicri takvim; telefonunda ve saatinde.",
-  "en": "A calm, ad-free Islamic companion. Prayer times, Qibla, dhikr sets, adhkar, 99 Names and a Hijri calendar, on your phone and your watch."
+  "tr": "Sakin, reklamsız bir İslami yol arkadaşı. Ekrana dokun, zikrini say; vakti, kıbleyi, günün ismini ve duasını tek yerde gör. Telefonunda da saatinde de.",
+  "en": "A calm, ad-free Islamic companion. Tap the screen to count your dhikr, and see the prayer time, the Qibla, the Name and the dua of the day in one place. On your phone and on your watch."
  },
  "pills": [
   {
@@ -31,12 +31,16 @@
    "en": "No account"
   },
   {
-   "tr": "İnternetsiz",
+   "tr": "İnternetsiz çalışır",
    "en": "Works offline"
   },
   {
    "tr": "9 dil",
    "en": "9 languages"
+  },
+  {
+   "tr": "Açık ve koyu tema",
+   "en": "Light and dark"
   }
  ],
  "platforms": [
@@ -54,13 +58,108 @@
   "🕋"
  ],
  "promo": {
-  "any": [
-   "/tasbih-tally/assets/shot-1.webp",
-   "/tasbih-tally/assets/shot-2.webp",
-   "/tasbih-tally/assets/shot-3.webp"
+  "tr": [
+   "/tasbih-tally/assets/promo/tr/01-counter.webp",
+   "/tasbih-tally/assets/promo/tr/02-daily.webp",
+   "/tasbih-tally/assets/promo/tr/03-prayer.webp",
+   "/tasbih-tally/assets/promo/tr/04-names.webp",
+   "/tasbih-tally/assets/promo/tr/05-adhkar.webp",
+   "/tasbih-tally/assets/promo/tr/06-qibla.webp",
+   "/tasbih-tally/assets/promo/tr/07-calendar.webp"
+  ],
+  "en": [
+   "/tasbih-tally/assets/promo/en/01-counter.webp",
+   "/tasbih-tally/assets/promo/en/02-daily.webp",
+   "/tasbih-tally/assets/promo/en/03-prayer.webp",
+   "/tasbih-tally/assets/promo/en/04-names.webp",
+   "/tasbih-tally/assets/promo/en/05-adhkar.webp",
+   "/tasbih-tally/assets/promo/en/06-qibla.webp",
+   "/tasbih-tally/assets/promo/en/07-calendar.webp"
   ]
  },
  "sections": [
+  {
+   "id": "zikir",
+   "kicker": {
+    "tr": "Zikirmatik",
+    "en": "Tasbih counter"
+   },
+   "title": {
+    "tr": "Dokun, say, akışta kal",
+    "en": "Tap, count, stay in flow"
+   },
+   "text": {
+    "tr": "Ekranın her yerine dokunarak say. Her dokunuşta titreşim, her turda uyarı. Setler kendiliğinden akar: namaz sonrası 33·33·34 tesbihat, tehlil, günlük yüzlükler; biri bitince sıradaki başlar.",
+    "en": "Tap anywhere on the screen to count. A haptic on every tap, an alert at every cycle. Sets flow on their own: 33·33·34 after prayer, tahlil, daily hundreds; when one ends, the next one starts."
+   },
+   "bullets": [
+    {
+     "tr": "Arapçası, okunuşu ve anlamıyla 10 zikir",
+     "en": "10 dhikr with Arabic, transliteration and meaning"
+    },
+    {
+     "tr": "Kendi zikrini kendi hedef sayısıyla ekle",
+     "en": "Add your own dhikr with its own target"
+    },
+    {
+     "tr": "Arapça metni sesli dinle",
+     "en": "Listen to the Arabic read aloud"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/02-counter.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/02-counter.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "bugun",
+   "kicker": {
+    "tr": "Bugün ve widget",
+    "en": "Today and widgets"
+   },
+   "title": {
+    "tr": "Günün tek bakışta",
+    "en": "Your day at a glance"
+   },
+   "text": {
+    "tr": "Bugün ekranında Hicri tarih, sıradaki vakte geri sayım, günlük hedefin ve serin, Kur'an'dan günün duası, günün ismi ve yaklaşan mübarek gün bir arada.",
+    "en": "The Today screen brings together the Hijri date, a countdown to the next prayer, your daily goal and streak, the dua of the day from the Qur'an, the Name of the day and the next blessed day."
+   },
+   "bullets": [
+    {
+     "tr": "Günlük hedef, seri ve haftalık geçmiş",
+     "en": "Daily goal, streak and weekly history"
+    },
+    {
+     "tr": "Her sabah günün ismi ve kısa bir dua bildirimi",
+     "en": "A morning notification with the Name of the day and a short dua"
+    },
+    {
+     "tr": "Vakit widget'ı sıradaki namaza geri sayar (küçük, orta)",
+     "en": "The prayer widget counts down to the next prayer (small, medium)"
+    },
+    {
+     "tr": "Günün duası widget'ı her gece yarısı yenilenir (orta, büyük)",
+     "en": "The Dua of the day widget renews every midnight (medium, large)"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/01-today.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/01-today.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
   {
    "id": "vakitler",
    "kicker": {
@@ -72,58 +171,135 @@
     "en": "Never miss the adhan"
    },
    "text": {
-    "tr": "Konumuna göre doğru vakitler; yöntem otomatik seçilir (Diyanet, Umm al-Qura, MWL, ISNA). Her vakitte ezan hatırlatıcı, istersen vakitten önce bir uyarı.",
-    "en": "Accurate prayer times for your location, method chosen automatically (Diyanet, Umm al-Qura, MWL, ISNA). An adhan reminder at every prayer, with an optional heads-up before."
+    "tr": "Konumuna göre vakitler; hesap yöntemi bulunduğun ülkeye göre kendiliğinden seçilir (Diyanet, Umm al-Qura, MWL, ISNA ve diğerleri). Her vakitte ezan hatırlatıcı, istersen vakitten önce bir uyarı.",
+    "en": "Prayer times for your location, with the calculation method chosen automatically for your country (Diyanet, Umm al-Qura, MWL, ISNA and more). An adhan reminder at every prayer, plus an optional heads-up before the time."
    },
    "bullets": [
     {
-     "tr": "Bugün ekranında ve widget'ta sonraki vakte geri sayım",
-     "en": "Next prayer countdown on Today and the widget"
+     "tr": "Ramazan'da imsak ve iftar geri sayımı",
+     "en": "Imsak and iftar countdown in Ramadan"
     },
     {
-     "tr": "Ramazan'da imsak ve iftar geri sayımı",
-     "en": "Ramadan: imsak and iftar countdown"
+     "tr": "Konum yalnız hesap için, cihazda kalır",
+     "en": "Location is used only for the calculation and stays on the device"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/tasbih-tally/assets/shot-3.webp"
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/03-prayer.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/03-prayer.webp"
     ]
    },
    "color": "#55db9c"
   },
   {
-   "id": "zikir",
+   "id": "kible",
    "kicker": {
-    "tr": "Zikirmatik",
-    "en": "Tasbih counter"
+    "tr": "Kıble",
+    "en": "Qibla"
    },
    "title": {
-    "tr": "Dokun, say, akışta kal",
-    "en": "Tap, count, flow"
+    "tr": "Yönün hep belli",
+    "en": "Always facing the Kaaba"
    },
    "text": {
-    "tr": "Ekranın her yerine dokunarak say; titreşimli geri bildirim ve tur uyarıları. Setler kendiliğinden akar: namaz sonrası 33·33·34, tehlil, günlük yüzlükler.",
-    "en": "Tap anywhere to count, with haptic feedback and cycle alerts. Sets flow on their own: 33·33·34 after prayer, tahlil, daily hundreds."
+    "tr": "Kabe'yi gösteren canlı pusula, derecesiyle birlikte. İnternet gerekmez; konumun ve telefonun pusulası yeter.",
+    "en": "A live compass pointing to the Kaaba, with the exact bearing. No internet needed; your location and the phone's compass are enough."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/04-qibla.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/04-qibla.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "esma",
+   "kicker": {
+    "tr": "Esmaü'l-Hüsna",
+    "en": "Asma ul-Husna"
+   },
+   "title": {
+    "tr": "Her gün bir isim",
+    "en": "A Name every day"
+   },
+   "text": {
+    "tr": "Allah'ın 99 ismi, Arapçası ve anlamıyla. Niyetine göre süz: rızık ve iş, şifa ve sağlık, huzur, bağışlanma, aile, korunma. Bir isme dokun, okunma sayısıyla zikirmatikte aç.",
+    "en": "The 99 Names of Allah with Arabic and meaning. Filter by intention: provision and work, healing and health, peace, forgiveness, family, protection. Tap a name to open it on the counter with its count."
    },
    "bullets": [
     {
-     "tr": "Arapça, okunuş ve anlamıyla 10 zikir; kendininkini ekle",
-     "en": "10 dhikr with Arabic, transliteration and meaning; add your own"
-    },
-    {
-     "tr": "Günlük hedef, seri ve haftalık geçmiş",
-     "en": "Daily goal, streak and weekly history"
+     "tr": "Her ismi sesli dinle",
+     "en": "Listen to every name"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/tasbih-tally/assets/shot-2.webp"
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/05-names.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/05-names.webp"
     ]
    },
-   "color": "#ffd731"
+   "color": "#e9ccff"
+  },
+  {
+   "id": "ezkar",
+   "kicker": {
+    "tr": "Sabah ve akşam ezkarı",
+    "en": "Morning and evening adhkar"
+   },
+   "title": {
+    "tr": "Sabahın ve akşamın zikri",
+    "en": "Remembrance, morning and evening"
+   },
+   "text": {
+    "tr": "Peygamberimizin her sabah ve akşam okuduğu zikirler, Hisnü'l-Müslim'den. Arapçası, okunuşu ve anlamı yanında; karta dokunarak say. Sabah: imsaktan güneş doğana, akşam: ikindiden akşama.",
+    "en": "The remembrances the Prophet recited every morning and evening, from Hisn al-Muslim. Arabic, transliteration and meaning side by side; tap the card to count. Morning: from Fajr to sunrise. Evening: from Asr to Maghrib."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/06-adhkar.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/06-adhkar.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "takvim",
+   "kicker": {
+    "tr": "Hicri takvim",
+    "en": "Hijri calendar"
+   },
+   "title": {
+    "tr": "Kandiller geri sayımda",
+    "en": "Blessed days, counted down"
+   },
+   "text": {
+    "tr": "Bugünün Hicri tarihi ve önündeki mübarek günler: Regaib, Miraç, Berat, Kadir Gecesi, Ramazan başlangıcı, Arefe ve bayramlar, kaç gün kaldığıyla.",
+    "en": "Today's Hijri date and the blessed days ahead: Laylat al-Raghaib, Isra and Mi'raj, Laylat al-Bara'at, Laylat al-Qadr, the start of Ramadan, the Day of Arafah and both Eids, with how many days are left."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/tasbih-tally/assets/screens/tr/07-calendar.webp"
+    ],
+    "en": [
+     "/tasbih-tally/assets/screens/en/07-calendar.webp"
+    ]
+   },
+   "color": "#dceeff"
   },
   {
    "id": "saat",
@@ -136,87 +312,122 @@
     "en": "Dhikr on your wrist"
    },
    "text": {
-    "tr": "Saatte kaydırarak zikrini seç, Digital Crown ya da Double Tap ile say. Namaz vakitleri de bileğinde.",
-    "en": "Swipe on the watch to choose a dhikr, count with the Digital Crown or Double Tap. Prayer times on your wrist too."
+    "tr": "Saatte kaydırarak zikrini seç, ekrana dokunarak, Digital Crown'u çevirerek ya da Double Tap ile say. Her tur titreşimle haber verir; namaz vakitleri de bileğinde.",
+    "en": "Swipe on the watch to choose a dhikr, then count by tapping, turning the Digital Crown or with Double Tap. Every cycle taps your wrist, and prayer times are on your wrist too."
    },
-   "device": "image",
+   "device": "watch",
    "images": {
     "any": [
-     "/tasbih-tally/assets/icon.webp"
+     "/tasbih-tally/assets/watch/any/01-count.webp",
+     "/tasbih-tally/assets/watch/any/02-cycle.webp",
+     "/tasbih-tally/assets/watch/any/03-target.webp"
     ]
    },
-   "color": "#dceeff"
-  },
-  {
-   "id": "esma",
-   "kicker": {
-    "tr": "99 isim ve ezkar",
-    "en": "99 Names and adhkar"
-   },
-   "title": {
-    "tr": "Her gün bir isim",
-    "en": "A Name every day"
-   },
-   "text": {
-    "tr": "Esmaü'l-Hüsna'nın her birinin anlamı ve her gün bir isim. Niyetlere göre: rızık ve iş, şifa, huzur, bağışlanma, aile, korunma. Bir isme dokun, sayısıyla zikirmatikte oku.",
-    "en": "The meaning of every name, and a name each day. By intention: provision and work, healing, peace, forgiveness, family, protection. Tap a name to recite it on the counter with its count."
-   },
-   "bullets": [
-    {
-     "tr": "Sabah ve akşam ezkarı sayaçlarıyla (Hisnü'l-Müslim)",
-     "en": "Morning and evening adhkar with counters (Hisn al-Muslim)"
-    }
-   ],
-   "device": "phone",
-   "images": {
-    "any": [
-     "/tasbih-tally/assets/shot-1.webp"
-    ]
-   },
-   "color": "#e9ccff"
-  },
-  {
-   "id": "takvim",
-   "kicker": {
-    "tr": "Kıble ve Hicri takvim",
-    "en": "Qibla and Hijri calendar"
-   },
-   "title": {
-    "tr": "Yönün ve günün belli",
-    "en": "Your direction, your day"
-   },
-   "text": {
-    "tr": "Kabe'yi gösteren canlı pusula, internetsiz çalışır. Bugünün Hicri tarihi, kandiller ve bayramlar geri sayımıyla, Kur'an'dan günün duası.",
-    "en": "A live compass to the Kaaba that works offline. Today's Hijri date, blessed nights and Eid days with countdowns, and the dua of the day from the Qur'an."
-   },
-   "bullets": [
-    {
-     "tr": "Açık ve koyu tema",
-     "en": "Light and dark theme"
-    },
-    {
-     "tr": "Türkçe, İngilizce, Arapça, Farsça, Urduca, Endonezce, Malayca, Fransızca, Almanca",
-     "en": "English, Turkish, Arabic, Persian, Urdu, Indonesian, Malay, French, German"
-    }
-   ],
-   "device": "phone",
-   "images": {
-    "any": [
-     "/tasbih-tally/assets/shot-1.webp"
-    ]
-   },
-   "color": "#c8f560"
+   "color": "#4da2ff"
   }
  ],
+ "pricing": {
+  "title": {
+   "tr": "Ücretsiz başla",
+   "en": "Start for free"
+  },
+  "lede": {
+   "tr": "Zikirmatik, namaz vakitleri, ezan hatırlatıcı, kıble ve Hicri takvim ücretsiz. Reklam yok. Tasbih Tally Pro günlük ibadetin için gerisini açar.",
+   "en": "The tasbih counter, prayer times, adhan reminders, Qibla and the Hijri calendar are free. No ads. Tasbih Tally Pro unlocks the rest of your daily worship."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "Her zaman",
+     "en": "Forever"
+    },
+    "items": [
+     {
+      "tr": "Zikirmatik",
+      "en": "Tasbih counter"
+     },
+     {
+      "tr": "Namaz vakitleri ve ezan hatırlatıcı",
+      "en": "Prayer times and adhan reminders"
+     },
+     {
+      "tr": "Kıble ve Hicri takvim",
+      "en": "Qibla and Hijri calendar"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Tasbih Tally Pro",
+     "en": "Tasbih Tally Pro"
+    },
+    "price": {
+     "tr": "Aylık · Yıllık · Ömür boyu",
+     "en": "Monthly · Yearly · Lifetime"
+    },
+    "items": [
+     {
+      "tr": "Tüm zikir setleri (33·33·34, tehlil, günlük 100'ler)",
+      "en": "All dhikr sets (33·33·34, tahlil, daily 100s)"
+     },
+     {
+      "tr": "Sınırsız özel zikir",
+      "en": "Unlimited custom dhikr"
+     },
+     {
+      "tr": "Sabah ve akşam ezkarı",
+      "en": "Morning and evening adhkar"
+     },
+     {
+      "tr": "99 ismin tamamı, anlamlarıyla",
+      "en": "All 99 Names with meanings"
+     },
+     {
+      "tr": "Geçmiş, haftalık grafik ve istatistik",
+      "en": "History, weekly chart and statistics"
+     },
+     {
+      "tr": "Vakitten önce hatırlatma",
+      "en": "Reminders before prayer time"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Dokuz dil",
+     "en": "Nine languages"
+    },
+    "price": {
+     "tr": "TR · EN · AR · FA · UR · ID · MS · FR · DE",
+     "en": "EN · TR · AR · FA · UR · ID · MS · FR · DE"
+    },
+    "items": [
+     {
+      "tr": "Arapça, Farsça ve Urducada sağdan sola",
+      "en": "Right to left in Arabic, Persian and Urdu"
+     },
+     {
+      "tr": "Uygulama içinden değişir",
+      "en": "Switch inside the app"
+     }
+    ]
+   }
+  ]
+ },
  "privacy": {
   "title": {
    "tr": "Verilerin sende kalır",
    "en": "Your data stays yours"
   },
   "text": {
-   "tr": "Konum yalnız vakit ve kıble için kullanılır, cihazda kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.",
-   "en": "Location is used only for prayer times and Qibla, on the device. No account, no server, no ads, no tracking. Works with no connection at all."
+   "tr": "Konum yalnız vakit ve kıble hesabı için kullanılır, cihazından çıkmaz. Hesap yok, reklam yok, takip yok. İnternet olmadan da çalışır.",
+   "en": "Location is used only to calculate prayer times and the Qibla, and never leaves your device. No account, no ads, no tracking. Works with no connection at all."
   },
   "href": "/tasbih-tally/privacy/"
- }
+ },
+ "support": "/support/"
 }

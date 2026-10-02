@@ -43,11 +43,11 @@
     var spots = [[6, 18], [86, 14], [12, 66], [82, 62], [30, 84], [66, 86], [48, 8]];
     var cols = ["#ffd731", "#e9ccff", "#55db9c", "#ffb3d9", "#dceeff", "#c8f560", "#fff"];
     var narrow = innerWidth < 640;
-    em.slice(0, narrow ? 4 : 7).forEach(function (g, i) {
+    em.slice(0, narrow ? 2 : 7).forEach(function (g, i) {
       var s = document.createElement("span");
       s.className = "fly"; s.textContent = g; s.setAttribute("aria-hidden", "true");
       var p = spots[i % spots.length];
-      s.style.left = (narrow ? [4, 80, 6, 78][i] : p[0]) + "%"; s.style.top = (narrow ? [12, 10, 78, 80][i] : p[1]) + "%";
+      s.style.left = (narrow ? [4, 80][i] : p[0]) + "%"; s.style.top = (narrow ? [9, 10][i] : p[1]) + "%";
       s.style.setProperty("--c", cols[i % cols.length]); s.style.setProperty("--r", ((i % 2 ? 1 : -1) * (6 + i * 2)) + "deg");
       s.style.setProperty("--d", (5 + i * .7) + "s");
       hero.appendChild(s); drag(s);

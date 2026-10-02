@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tasbih Tally: Dhikr &amp; Prayer App · BamTech</title>
-<meta name="description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar, on your phone and your watch. No ads." />
+<title>Tasbih Tally: Dhikr &amp; Prayer · BamTech</title>
+<meta name="description" content="Tasbih counter, prayer times and adhan reminders, Qibla, 99 Names, morning and evening adhkar and a Hijri calendar on iPhone, Apple Watch and widgets. No ads, no account." />
 <link rel="canonical" href="https://berkalparslan.github.io/tasbih-tally/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Tasbih Tally: Dhikr &amp; Prayer App" />
-<meta property="og:description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar, on your phone and your watch. No ads." />
+<meta property="og:title" content="Tasbih Tally: Dhikr &amp; Prayer" />
+<meta property="og:description" content="Tasbih counter, prayer times and adhan reminders, Qibla, 99 Names, morning and evening adhkar and a Hijri calendar on iPhone, Apple Watch and widgets. No ads, no account." />
 <meta property="og:image" content="https://berkalparslan.github.io/tasbih-tally/assets/icon.webp" />
 <meta name="theme-color" content="#55db9c" />
 <link rel="icon" href="/tasbih-tally/assets/icon.webp" />
@@ -21,25 +21,25 @@
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
     d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
-    d.setAttribute("data-title-tr", "Tasbih Tally: Zikir & Namaz · BamTech");
-    d.setAttribute("data-title-en", "Tasbih Tally: Dhikr & Prayer App · BamTech");
+    d.setAttribute("data-title-tr", "Tasbih Tally: Zikir ve Namaz · BamTech");
+    d.setAttribute("data-title-en", "Tasbih Tally: Dhikr & Prayer · BamTech");
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=cb7693a9" />
 
 </head>
 <body style="--app:#55db9c;--acc:#ffd731">
 
-<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Widget&quot;, &quot;Tasbih Tally&quot;, &quot;iPhone · Apple Watch · Widget&quot;]"></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Widget&quot;, &quot;Tasbih Tally&quot;, &quot;iPhone · Apple Watch · Widgets&quot;]"></div></div>
 
 <header class="top">
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="BamTech">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#vakitler"><span class="tr">Namaz vakitleri</span><span class="en">Prayer times</span></a><a href="#zikir"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></a><a href="#saat">Apple Watch</a><a href="#esma"><span class="tr">99 isim ve ezkar</span><span class="en">99 Names and adhkar</span></a></nav>
+    <nav class="nav"><a href="#zikir"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></a><a href="#bugun"><span class="tr">Bugün ve widget</span><span class="en">Today and widgets</span></a><a href="#vakitler"><span class="tr">Namaz vakitleri</span><span class="en">Prayer times</span></a><a href="#kible"><span class="tr">Kıble</span><span class="en">Qibla</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
@@ -49,79 +49,119 @@
     <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
     <div class="wrap hero-in">
       <img class="app-icon" src="/tasbih-tally/assets/icon.webp" alt="" width="180" height="180" />
-      <p class="kick">iPhone · Apple Watch · Widget </p>
+      <p class="kick"><span class="tr">iPhone · Apple Watch · Widget</span><span class="en">iPhone · Apple Watch · Widgets</span> </p>
       <h1 class="disp" lang="en">Tasbih Tally</h1>
-      <p class="lede"><span class="tr">Sakin, reklamsız bir İslami yol arkadaşı. Namaz vakitleri, kıble, zikir setleri, ezkar, 99 isim ve Hicri takvim; telefonunda ve saatinde.</span><span class="en">A calm, ad-free Islamic companion. Prayer times, Qibla, dhikr sets, adhkar, 99 Names and a Hijri calendar, on your phone and your watch.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">İnternetsiz</span><span class="en">Works offline</span></span><span class="pill-s"><span class="tr">9 dil</span><span class="en">9 languages</span></span></div>
+      <p class="lede"><span class="tr">Sakin, reklamsız bir İslami yol arkadaşı. Ekrana dokun, zikrini say; vakti, kıbleyi, günün ismini ve duasını tek yerde gör. Telefonunda da saatinde de.</span><span class="en">A calm, ad-free Islamic companion. Tap the screen to count your dhikr, and see the prayer time, the Qibla, the Name and the dua of the day in one place. On your phone and on your watch.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">İnternetsiz çalışır</span><span class="en">Works offline</span></span><span class="pill-s"><span class="tr">9 dil</span><span class="en">9 languages</span></span><span class="pill-s"><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark</span></span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
       <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
     </div>
   </section>
 
-  <div class="promo "><div class="promo-track"><img src="/tasbih-tally/assets/shot-1.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/shot-2.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-3.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo tr"><div class="promo-track"><img src="/tasbih-tally/assets/promo/tr/01-counter.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/02-daily.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/03-prayer.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/04-names.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/05-adhkar.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/06-qibla.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/tr/07-calendar.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/01-counter.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/02-daily.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/03-prayer.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/04-names.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/05-adhkar.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/06-qibla.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/tr/07-calendar.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/tasbih-tally/assets/promo/en/01-counter.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/02-daily.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/03-prayer.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/04-names.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/05-adhkar.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/06-qibla.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/promo/en/07-calendar.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/01-counter.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/02-daily.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/03-prayer.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/04-names.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/05-adhkar.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/06-qibla.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/promo/en/07-calendar.webp" alt="" loading="lazy" /></div></div>
 
+  <section class="z z-l" id="zikir">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/02-counter.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/02-counter.webp" alt="Tap, count, stay in flow" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/02-counter.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/02-counter.webp" alt="Tap, count, stay in flow" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></p>
+        <h2 class="disp"><span class="tr">Dokun, say, akışta kal</span><span class="en">Tap, count, stay in flow</span></h2>
+        <p class="z-p"><span class="tr">Ekranın her yerine dokunarak say. Her dokunuşta titreşim, her turda uyarı. Setler kendiliğinden akar: namaz sonrası 33·33·34 tesbihat, tehlil, günlük yüzlükler; biri bitince sıradaki başlar.</span><span class="en">Tap anywhere on the screen to count. A haptic on every tap, an alert at every cycle. Sets flow on their own: 33·33·34 after prayer, tahlil, daily hundreds; when one ends, the next one starts.</span></p>
+        <ul class="bul"><li><span class="tr">Arapçası, okunuşu ve anlamıyla 10 zikir</span><span class="en">10 dhikr with Arabic, transliteration and meaning</span></li><li><span class="tr">Kendi zikrini kendi hedef sayısıyla ekle</span><span class="en">Add your own dhikr with its own target</span></li><li><span class="tr">Arapça metni sesli dinle</span><span class="en">Listen to the Arabic read aloud</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="bugun">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/01-today.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/01-today.webp" alt="Your day at a glance" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/01-today.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/01-today.webp" alt="Your day at a glance" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Bugün ve widget</span><span class="en">Today and widgets</span></p>
+        <h2 class="disp"><span class="tr">Günün tek bakışta</span><span class="en">Your day at a glance</span></h2>
+        <p class="z-p"><span class="tr">Bugün ekranında Hicri tarih, sıradaki vakte geri sayım, günlük hedefin ve serin, Kur&#x27;an&#x27;dan günün duası, günün ismi ve yaklaşan mübarek gün bir arada.</span><span class="en">The Today screen brings together the Hijri date, a countdown to the next prayer, your daily goal and streak, the dua of the day from the Qur&#x27;an, the Name of the day and the next blessed day.</span></p>
+        <ul class="bul"><li><span class="tr">Günlük hedef, seri ve haftalık geçmiş</span><span class="en">Daily goal, streak and weekly history</span></li><li><span class="tr">Her sabah günün ismi ve kısa bir dua bildirimi</span><span class="en">A morning notification with the Name of the day and a short dua</span></li><li><span class="tr">Vakit widget&#x27;ı sıradaki namaza geri sayar (küçük, orta)</span><span class="en">The prayer widget counts down to the next prayer (small, medium)</span></li><li><span class="tr">Günün duası widget&#x27;ı her gece yarısı yenilenir (orta, büyük)</span><span class="en">The Dua of the day widget renews every midnight (medium, large)</span></li></ul>
+      </div>
+    </div>
+  </section>
   <section class="z z-l" id="vakitler">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-3.webp&quot;]"><img src="/tasbih-tally/assets/shot-3.webp" alt="Never miss the adhan" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/03-prayer.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/03-prayer.webp" alt="Never miss the adhan" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/03-prayer.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/03-prayer.webp" alt="Never miss the adhan" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
         <p class="kick"><span class="tr">Namaz vakitleri</span><span class="en">Prayer times</span></p>
         <h2 class="disp"><span class="tr">Ezanı kaçırma</span><span class="en">Never miss the adhan</span></h2>
-        <p class="z-p"><span class="tr">Konumuna göre doğru vakitler; yöntem otomatik seçilir (Diyanet, Umm al-Qura, MWL, ISNA). Her vakitte ezan hatırlatıcı, istersen vakitten önce bir uyarı.</span><span class="en">Accurate prayer times for your location, method chosen automatically (Diyanet, Umm al-Qura, MWL, ISNA). An adhan reminder at every prayer, with an optional heads-up before.</span></p>
-        <ul class="bul"><li><span class="tr">Bugün ekranında ve widget&#x27;ta sonraki vakte geri sayım</span><span class="en">Next prayer countdown on Today and the widget</span></li><li><span class="tr">Ramazan&#x27;da imsak ve iftar geri sayımı</span><span class="en">Ramadan: imsak and iftar countdown</span></li></ul>
+        <p class="z-p"><span class="tr">Konumuna göre vakitler; hesap yöntemi bulunduğun ülkeye göre kendiliğinden seçilir (Diyanet, Umm al-Qura, MWL, ISNA ve diğerleri). Her vakitte ezan hatırlatıcı, istersen vakitten önce bir uyarı.</span><span class="en">Prayer times for your location, with the calculation method chosen automatically for your country (Diyanet, Umm al-Qura, MWL, ISNA and more). An adhan reminder at every prayer, plus an optional heads-up before the time.</span></p>
+        <ul class="bul"><li><span class="tr">Ramazan&#x27;da imsak ve iftar geri sayımı</span><span class="en">Imsak and iftar countdown in Ramadan</span></li><li><span class="tr">Konum yalnız hesap için, cihazda kalır</span><span class="en">Location is used only for the calculation and stays on the device</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="zikir">
+  <section class="z z-r" id="kible">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-2.webp&quot;]"><img src="/tasbih-tally/assets/shot-2.webp" alt="Tap, count, flow" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/04-qibla.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/04-qibla.webp" alt="Always facing the Kaaba" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/04-qibla.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/04-qibla.webp" alt="Always facing the Kaaba" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></p>
-        <h2 class="disp"><span class="tr">Dokun, say, akışta kal</span><span class="en">Tap, count, flow</span></h2>
-        <p class="z-p"><span class="tr">Ekranın her yerine dokunarak say; titreşimli geri bildirim ve tur uyarıları. Setler kendiliğinden akar: namaz sonrası 33·33·34, tehlil, günlük yüzlükler.</span><span class="en">Tap anywhere to count, with haptic feedback and cycle alerts. Sets flow on their own: 33·33·34 after prayer, tahlil, daily hundreds.</span></p>
-        <ul class="bul"><li><span class="tr">Arapça, okunuş ve anlamıyla 10 zikir; kendininkini ekle</span><span class="en">10 dhikr with Arabic, transliteration and meaning; add your own</span></li><li><span class="tr">Günlük hedef, seri ve haftalık geçmiş</span><span class="en">Daily goal, streak and weekly history</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-l" id="saat">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-image" data-cycle="[&quot;/tasbih-tally/assets/icon.webp&quot;]"><img src="/tasbih-tally/assets/icon.webp" alt="Dhikr on your wrist" loading="lazy" /></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick">Apple Watch</p>
-        <h2 class="disp"><span class="tr">Zikir bileğinde</span><span class="en">Dhikr on your wrist</span></h2>
-        <p class="z-p"><span class="tr">Saatte kaydırarak zikrini seç, Digital Crown ya da Double Tap ile say. Namaz vakitleri de bileğinde.</span><span class="en">Swipe on the watch to choose a dhikr, count with the Digital Crown or Double Tap. Prayer times on your wrist too.</span></p>
+        <p class="kick"><span class="tr">Kıble</span><span class="en">Qibla</span></p>
+        <h2 class="disp"><span class="tr">Yönün hep belli</span><span class="en">Always facing the Kaaba</span></h2>
+        <p class="z-p"><span class="tr">Kabe&#x27;yi gösteren canlı pusula, derecesiyle birlikte. İnternet gerekmez; konumun ve telefonun pusulası yeter.</span><span class="en">A live compass pointing to the Kaaba, with the exact bearing. No internet needed; your location and the phone&#x27;s compass are enough.</span></p>
         
       </div>
     </div>
   </section>
-  <section class="z z-r" id="esma">
+  <section class="z z-l" id="esma">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-1.webp&quot;]"><img src="/tasbih-tally/assets/shot-1.webp" alt="A Name every day" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/05-names.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/05-names.webp" alt="A Name every day" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/05-names.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/05-names.webp" alt="A Name every day" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">99 isim ve ezkar</span><span class="en">99 Names and adhkar</span></p>
+        <p class="kick"><span class="tr">Esmaü&#x27;l-Hüsna</span><span class="en">Asma ul-Husna</span></p>
         <h2 class="disp"><span class="tr">Her gün bir isim</span><span class="en">A Name every day</span></h2>
-        <p class="z-p"><span class="tr">Esmaü&#x27;l-Hüsna&#x27;nın her birinin anlamı ve her gün bir isim. Niyetlere göre: rızık ve iş, şifa, huzur, bağışlanma, aile, korunma. Bir isme dokun, sayısıyla zikirmatikte oku.</span><span class="en">The meaning of every name, and a name each day. By intention: provision and work, healing, peace, forgiveness, family, protection. Tap a name to recite it on the counter with its count.</span></p>
-        <ul class="bul"><li><span class="tr">Sabah ve akşam ezkarı sayaçlarıyla (Hisnü&#x27;l-Müslim)</span><span class="en">Morning and evening adhkar with counters (Hisn al-Muslim)</span></li></ul>
+        <p class="z-p"><span class="tr">Allah&#x27;ın 99 ismi, Arapçası ve anlamıyla. Niyetine göre süz: rızık ve iş, şifa ve sağlık, huzur, bağışlanma, aile, korunma. Bir isme dokun, okunma sayısıyla zikirmatikte aç.</span><span class="en">The 99 Names of Allah with Arabic and meaning. Filter by intention: provision and work, healing and health, peace, forgiveness, family, protection. Tap a name to open it on the counter with its count.</span></p>
+        <ul class="bul"><li><span class="tr">Her ismi sesli dinle</span><span class="en">Listen to every name</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="ezkar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/06-adhkar.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/06-adhkar.webp" alt="Remembrance, morning and evening" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/06-adhkar.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/06-adhkar.webp" alt="Remembrance, morning and evening" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Sabah ve akşam ezkarı</span><span class="en">Morning and evening adhkar</span></p>
+        <h2 class="disp"><span class="tr">Sabahın ve akşamın zikri</span><span class="en">Remembrance, morning and evening</span></h2>
+        <p class="z-p"><span class="tr">Peygamberimizin her sabah ve akşam okuduğu zikirler, Hisnü&#x27;l-Müslim&#x27;den. Arapçası, okunuşu ve anlamı yanında; karta dokunarak say. Sabah: imsaktan güneş doğana, akşam: ikindiden akşama.</span><span class="en">The remembrances the Prophet recited every morning and evening, from Hisn al-Muslim. Arabic, transliteration and meaning side by side; tap the card to count. Morning: from Fajr to sunrise. Evening: from Asr to Maghrib.</span></p>
+        
       </div>
     </div>
   </section>
   <section class="z z-l" id="takvim">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-1.webp&quot;]"><img src="/tasbih-tally/assets/shot-1.webp" alt="Your direction, your day" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/tr/07-calendar.webp&quot;]"><img src="/tasbih-tally/assets/screens/tr/07-calendar.webp" alt="Blessed days, counted down" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/screens/en/07-calendar.webp&quot;]"><img src="/tasbih-tally/assets/screens/en/07-calendar.webp" alt="Blessed days, counted down" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Kıble ve Hicri takvim</span><span class="en">Qibla and Hijri calendar</span></p>
-        <h2 class="disp"><span class="tr">Yönün ve günün belli</span><span class="en">Your direction, your day</span></h2>
-        <p class="z-p"><span class="tr">Kabe&#x27;yi gösteren canlı pusula, internetsiz çalışır. Bugünün Hicri tarihi, kandiller ve bayramlar geri sayımıyla, Kur&#x27;an&#x27;dan günün duası.</span><span class="en">A live compass to the Kaaba that works offline. Today&#x27;s Hijri date, blessed nights and Eid days with countdowns, and the dua of the day from the Qur&#x27;an.</span></p>
-        <ul class="bul"><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark theme</span></li><li><span class="tr">Türkçe, İngilizce, Arapça, Farsça, Urduca, Endonezce, Malayca, Fransızca, Almanca</span><span class="en">English, Turkish, Arabic, Persian, Urdu, Indonesian, Malay, French, German</span></li></ul>
+        <p class="kick"><span class="tr">Hicri takvim</span><span class="en">Hijri calendar</span></p>
+        <h2 class="disp"><span class="tr">Kandiller geri sayımda</span><span class="en">Blessed days, counted down</span></h2>
+        <p class="z-p"><span class="tr">Bugünün Hicri tarihi ve önündeki mübarek günler: Regaib, Miraç, Berat, Kadir Gecesi, Ramazan başlangıcı, Arefe ve bayramlar, kaç gün kaldığıyla.</span><span class="en">Today&#x27;s Hijri date and the blessed days ahead: Laylat al-Raghaib, Isra and Mi&#x27;raj, Laylat al-Bara&#x27;at, Laylat al-Qadr, the start of Ramadan, the Day of Arafah and both Eids, with how many days are left.</span></p>
+        
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="saat">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/watch/any/01-count.webp&quot;, &quot;/tasbih-tally/assets/watch/any/02-cycle.webp&quot;, &quot;/tasbih-tally/assets/watch/any/03-target.webp&quot;]"><img src="/tasbih-tally/assets/watch/any/01-count.webp" alt="Dhikr on your wrist" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick">Apple Watch</p>
+        <h2 class="disp"><span class="tr">Zikir bileğinde</span><span class="en">Dhikr on your wrist</span></h2>
+        <p class="z-p"><span class="tr">Saatte kaydırarak zikrini seç, ekrana dokunarak, Digital Crown&#x27;u çevirerek ya da Double Tap ile say. Her tur titreşimle haber verir; namaz vakitleri de bileğinde.</span><span class="en">Swipe on the watch to choose a dhikr, then count by tapping, turning the Digital Crown or with Double Tap. Every cycle taps your wrist, and prayer times are on your wrist too.</span></p>
+        
       </div>
     </div>
   </section>
 
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Ücretsiz başla</span><span class="en">Start for free</span></h2>
+      <p class="band-p"><span class="tr">Zikirmatik, namaz vakitleri, ezan hatırlatıcı, kıble ve Hicri takvim ücretsiz. Reklam yok. Tasbih Tally Pro günlük ibadetin için gerisini açar.</span><span class="en">The tasbih counter, prayer times, adhan reminders, Qibla and the Hijri calendar are free. No ads. Tasbih Tally Pro unlocks the rest of your daily worship.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">Her zaman</span><span class="en">Forever</span></p><ul><li><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></li><li><span class="tr">Namaz vakitleri ve ezan hatırlatıcı</span><span class="en">Prayer times and adhan reminders</span></li><li><span class="tr">Kıble ve Hicri takvim</span><span class="en">Qibla and Hijri calendar</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3>Tasbih Tally Pro</h3><p class="price"><span class="tr">Aylık · Yıllık · Ömür boyu</span><span class="en">Monthly · Yearly · Lifetime</span></p><ul><li><span class="tr">Tüm zikir setleri (33·33·34, tehlil, günlük 100&#x27;ler)</span><span class="en">All dhikr sets (33·33·34, tahlil, daily 100s)</span></li><li><span class="tr">Sınırsız özel zikir</span><span class="en">Unlimited custom dhikr</span></li><li><span class="tr">Sabah ve akşam ezkarı</span><span class="en">Morning and evening adhkar</span></li><li><span class="tr">99 ismin tamamı, anlamlarıyla</span><span class="en">All 99 Names with meanings</span></li><li><span class="tr">Geçmiş, haftalık grafik ve istatistik</span><span class="en">History, weekly chart and statistics</span></li><li><span class="tr">Vakitten önce hatırlatma</span><span class="en">Reminders before prayer time</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Dokuz dil</span><span class="en">Nine languages</span></h3><p class="price"><span class="tr">TR · EN · AR · FA · UR · ID · MS · FR · DE</span><span class="en">EN · TR · AR · FA · UR · ID · MS · FR · DE</span></p><ul><li><span class="tr">Arapça, Farsça ve Urducada sağdan sola</span><span class="en">Right to left in Arabic, Persian and Urdu</span></li><li><span class="tr">Uygulama içinden değişir</span><span class="en">Switch inside the app</span></li></ul></div></div>
+    </div>
+  </section>
 
 
   <section class="band band-mint" id="gizlilik">
     <div class="wrap pv">
       <h2 class="disp big"><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
-      <div><p class="band-p"><span class="tr">Konum yalnız vakit ve kıble için kullanılır, cihazda kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.</span><span class="en">Location is used only for prayer times and Qibla, on the device. No account, no server, no ads, no tracking. Works with no connection at all.</span></p>
+      <div><p class="band-p"><span class="tr">Konum yalnız vakit ve kıble hesabı için kullanılır, cihazından çıkmaz. Hesap yok, reklam yok, takip yok. İnternet olmadan da çalışır.</span><span class="en">Location is used only to calculate prayer times and the Qibla, and never leaves your device. No account, no ads, no tracking. Works with no connection at all.</span></p>
       <p class="row-btns"><a class="pill" href="/tasbih-tally/privacy/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
       <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
     </div>
@@ -153,7 +193,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v=c62837a7"></script>
 
 </body>
 </html>

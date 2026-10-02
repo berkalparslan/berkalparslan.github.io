@@ -2,15 +2,15 @@
  "slug": "orbix-roulette",
  "name": "Orbix Roulette",
  "title": {
-  "tr": "Orbix Roulette: Bilekte Çark",
+  "tr": "Orbix Roulette: Bilekte Rulet Çarkı",
   "en": "Orbix Roulette: Physics on Your Wrist"
  },
  "description": {
-  "tr": "Saatinde gerçekçi fizikle dönen bir rulet çarkı. Dokun ya da Crown'u çevir, top dursun, sayı ve renk ekranda. Bahis yok, para yok.",
-  "en": "A roulette wheel that spins with realistic physics on your watch. Tap or turn the Crown, the ball settles, number and colour on screen. No betting, no money."
+  "tr": "Saatinde gerçekçi fizikle dönen bir rulet çarkı. Dokun ya da Crown'u çevir, top dursun, sayı ve renk ekranda. Apple Watch ve Wear OS. Bahis yok, para yok.",
+  "en": "A roulette wheel that spins with realistic physics on your watch. Tap or turn the Crown, the ball settles, number and colour on screen. Apple Watch and Wear OS. No betting, no money."
  },
  "icon": "/orbix-roulette/assets/icon.webp",
- "color": "#55db9c",
+ "color": "#c8f560",
  "accent": "#fb4903",
  "status": "live",
  "kicker": {
@@ -18,13 +18,17 @@
   "en": "Apple Watch · Wear OS"
  },
  "lede": {
-  "tr": "Gerçekçi fizik bileğinde. Çark döner, top ters yönde koşar, sonunda bir sayıda durur. Rastgele bir sayı seçmek ya da sadece dönüşü izlemek için.",
-  "en": "Realistic physics on your wrist. The wheel spins, the ball runs the other way and settles on a number. Pick a random number, or just enjoy the spin."
+  "tr": "Gerçekçi fizik, bileğinde. Çark döner, top ters yönde koşar, sonunda bir cebe düşer. Rastgele bir sayı seçmek ya da sadece dönüşü izlemek için. Telefon gerekmez.",
+  "en": "Realistic physics on your wrist. The wheel spins, the ball runs the other way and drops into a pocket. Pick a random number or just enjoy the spin. No phone needed."
  },
  "pills": [
   {
-   "tr": "Bağımsız saat uygulaması",
-   "en": "Standalone watch app"
+   "tr": "Yalnız saatte",
+   "en": "Watch only"
+  },
+  {
+   "tr": "Bağımsız çalışır",
+   "en": "Standalone"
   },
   {
    "tr": "İnternetsiz",
@@ -51,101 +55,195 @@
   "🔴",
   "🟢",
   "⌚",
-  "✨"
+  "✨",
+  "🔊"
  ],
+ "promo": {
+  "any": [
+   "/orbix-roulette/assets/watch/en/01-tap.webp",
+   "/orbix-roulette/assets/watch/en/02-spin.webp",
+   "/orbix-roulette/assets/watch/en/03-red.webp",
+   "/orbix-roulette/assets/watch/en/04-black.webp"
+  ]
+ },
  "sections": [
+  {
+   "id": "cevir",
+   "kicker": {
+    "tr": "Dokun ya da çevir",
+    "en": "Tap or turn"
+   },
+   "title": {
+    "tr": "Bir dokunuş, bir tur",
+    "en": "One tap, one spin"
+   },
+   "text": {
+    "tr": "Ekranın herhangi bir yerine dokun ya da Digital Crown'u çevir; çark dönmeye başlar. Wear OS'ta döner taç ya da çerçeve aynı işi görür. Bir daha çevirmek için yine dokun.",
+    "en": "Tap anywhere on the screen or turn the Digital Crown and the wheel starts spinning. On Wear OS the rotating crown or bezel does the same. Tap again for another go."
+   },
+   "device": "watch",
+   "images": {
+    "any": [
+     "/orbix-roulette/assets/watch/en/01-tap.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
   {
    "id": "fizik",
    "kicker": {
-    "tr": "Fizik",
-    "en": "Physics"
+    "tr": "Gerçekçi fizik",
+    "en": "Realistic physics"
    },
    "title": {
     "tr": "Top gerçekten döner",
     "en": "The ball really spins"
    },
    "text": {
-    "tr": "Top saat yönünün tersine, gerçek bir momentumla döner. İster rastgele bir sayı seç, ister sadece dönüşün mekaniğini izle.",
-    "en": "The ball spins counter-clockwise with authentic momentum. Pick a random number, or just enjoy the visual mechanics."
+    "tr": "Çark saat yönünde, top tersine döner ve gerçek bir momentumla yavaşlar. 0 ile 36 arası 37 cep, Avrupa ruletindeki gerçek sırasıyla dizili.",
+    "en": "The wheel turns clockwise, the ball runs counter-clockwise and slows with real momentum. 37 pockets from 0 to 36, laid out in the true European roulette order."
    },
-   "device": "image",
+   "device": "watch",
    "images": {
     "any": [
-     "/orbix-roulette/assets/icon.webp"
+     "/orbix-roulette/assets/watch/en/02-spin.webp"
     ]
    },
-   "color": "#55db9c"
+   "color": "#dceeff"
   },
   {
-   "id": "cevir",
+   "id": "sonuc",
    "kicker": {
-    "tr": "Kontroller",
-    "en": "Controls"
+    "tr": "Sonuç",
+    "en": "The result"
    },
    "title": {
-    "tr": "Dokun ya da çevir",
-    "en": "Tap or turn"
+    "tr": "Kırmızı mı, siyah mı?",
+    "en": "Red or black?"
    },
    "text": {
-    "tr": "Ekranın herhangi bir yerine dokun ya da Digital Crown'u çevir, çark dönmeye başlasın. Durunca kazanan sayı ve rengi ekranda: kırmızı, siyah ya da yeşil.",
-    "en": "Tap anywhere on the screen or turn the Digital Crown to start the spin. When it stops, the winning number and colour show up: red, black or green."
+    "tr": "Top durduğunda kazanan sayı ve rengi (kırmızı, siyah, yeşil) ekranın üstünde büyükçe yazar; Apple Watch'ta sonuç sesli de söylenir. Kim başlayacak, hangi sayı, kim ödeyecek: çark konuştu.",
+    "en": "When the ball settles, the winning number and its colour (red, black or green) appear big at the top of the screen; on Apple Watch the result is read out loud too. Who goes first, which number, who pays: the wheel has spoken."
    },
-   "bullets": [
-    {
-     "tr": "Tekrar dokun, yeniden dene",
-     "en": "Tap again to try your luck"
-    }
-   ],
-   "color": "#ffd731"
+   "device": "watch",
+   "images": {
+    "any": [
+     "/orbix-roulette/assets/watch/en/03-red.webp",
+     "/orbix-roulette/assets/watch/en/04-black.webp"
+    ]
+   },
+   "color": "#ffb3d9"
   },
   {
-   "id": "his",
+   "id": "ses",
    "kicker": {
     "tr": "Ses ve titreşim",
     "en": "Sound and haptics"
    },
    "title": {
-    "tr": "Her sekmeyi hisset",
-    "en": "Feel every bounce"
+    "tr": "Bileğinde hissedersin",
+    "en": "Feel it on your wrist"
    },
    "text": {
-    "tr": "Top sekerken bilekte tık tık titreşim, dönerken tatmin edici bir ses. Sessiz olman gerekirse sesi tek dokunuşla kapat.",
-    "en": "A haptic click on your wrist as the ball bounces, a satisfying sound while it spins. Need quiet? Mute it with one tap."
+    "tr": "Dönerken tatmin edici bir çark sesi, top otururken bileğinde titreşim. Toplantıdaysan hoparlör simgesine dokun, ses kapanır.",
+    "en": "A satisfying spinning sound while it turns, and a tap on your wrist as the ball lands. In a meeting? Tap the speaker icon to mute it."
    },
-   "color": "#dceeff"
-  },
-  {
-   "id": "oyuncak",
-   "kicker": {
-    "tr": "Sadece eğlence",
-    "en": "Just for fun"
-   },
-   "title": {
-    "tr": "Bahis yok, para yok",
-    "en": "No bets, no money"
-   },
-   "text": {
-    "tr": "Orbix Roulette bir fizik oyuncağıdır. Bahis, para, sanal para ya da kumar mekaniği içermez; tamamen görsel eğlence için.",
-    "en": "Orbix Roulette is a physics toy. It involves no betting, wagering, currency or simulated gambling mechanics; it is purely for visual entertainment."
-   },
-   "device": "image",
+   "device": "watch",
    "images": {
     "any": [
-     "/orbix-roulette/assets/icon.webp"
+     "/orbix-roulette/assets/watch/en/04-black.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Yalnız saat",
+    "en": "Watch only"
+   },
+   "title": {
+    "tr": "Telefona gerek yok",
+    "en": "No phone required"
+   },
+   "text": {
+    "tr": "Orbix Roulette bir saat uygulaması: doğrudan Apple Watch'ta ya da Wear OS saatinde çalışır, telefon ya da internet bağlantısı istemez.",
+    "en": "Orbix Roulette is a watch app: it runs right on your Apple Watch or Wear OS watch, with no phone and no internet connection needed."
+   },
+   "bullets": [
+    {
+     "tr": "Bir fizik simülasyonu oyuncağıdır",
+     "en": "A physics simulation toy"
+    },
+    {
+     "tr": "Bahis, para ya da sanal kumar yok",
+     "en": "No betting, no currency, no simulated gambling"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/orbix-roulette/assets/watch/en/02-spin.webp",
+     "/orbix-roulette/assets/watch/en/01-tap.webp"
     ]
    },
    "color": "#e9ccff"
   }
  ],
+ "pricing": {
+  "title": {
+   "tr": "Bir kez al, hep çevir",
+   "en": "Buy once, spin forever"
+  },
+  "lede": {
+   "tr": "Tek seferlik ücretli bir uygulama. Abonelik yok, uygulama içi satın alma yok, reklam yok.",
+   "en": "A one-time paid app. No subscription, no in-app purchases, no ads."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Apple Watch",
+     "en": "Apple Watch"
+    },
+    "price": {
+     "tr": "App Store",
+     "en": "App Store"
+    },
+    "items": [
+     {
+      "tr": "watchOS için bağımsız uygulama",
+      "en": "Standalone app for watchOS"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Wear OS",
+     "en": "Wear OS"
+    },
+    "price": {
+     "tr": "Google Play",
+     "en": "Google Play"
+    },
+    "items": [
+     {
+      "tr": "Wear OS saatlerde çalışır",
+      "en": "Runs on Wear OS watches"
+     }
+    ]
+   }
+  ]
+ },
  "privacy": {
   "title": {
    "tr": "Verilerin sende kalır",
    "en": "Your data stays yours"
   },
   "text": {
-   "tr": "Her şey cihazında kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.",
-   "en": "Everything stays on your device. No account, no server, no ads, no tracking. Works with no connection at all."
+   "tr": "Her şey saatinde kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.",
+   "en": "Everything stays on your watch. No account, no server, no ads, no tracking. Works with no connection at all."
   },
   "href": "/privacy/orbix-roulette/"
- }
+ },
+ "support": "/support/"
 }

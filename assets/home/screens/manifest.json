@@ -90,29 +90,49 @@
    "/assets/home/screens/leafbook/tr/01.webp",
    "/assets/home/screens/leafbook/tr/02.webp",
    "/assets/home/screens/leafbook/tr/03.webp",
-   "/assets/home/screens/leafbook/tr/04.webp"
+   "/assets/home/screens/leafbook/tr/04.webp",
+   "/assets/home/screens/leafbook/tr/05.webp"
   ],
   "en": [
    "/assets/home/screens/leafbook/en/01.webp",
    "/assets/home/screens/leafbook/en/02.webp",
    "/assets/home/screens/leafbook/en/03.webp",
-   "/assets/home/screens/leafbook/en/04.webp"
+   "/assets/home/screens/leafbook/en/04.webp",
+   "/assets/home/screens/leafbook/en/05.webp"
   ]
  },
  "tasbih-tally": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/tasbih-tally/any/01.webp",
-   "/assets/home/screens/tasbih-tally/any/02.webp",
-   "/assets/home/screens/tasbih-tally/any/03.webp"
+  "tr": [
+   "/assets/home/screens/tasbih-tally/tr/01.webp",
+   "/assets/home/screens/tasbih-tally/tr/02.webp",
+   "/assets/home/screens/tasbih-tally/tr/03.webp",
+   "/assets/home/screens/tasbih-tally/tr/04.webp",
+   "/assets/home/screens/tasbih-tally/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/tasbih-tally/en/01.webp",
+   "/assets/home/screens/tasbih-tally/en/02.webp",
+   "/assets/home/screens/tasbih-tally/en/03.webp",
+   "/assets/home/screens/tasbih-tally/en/04.webp",
+   "/assets/home/screens/tasbih-tally/en/05.webp"
   ]
  },
  "o-mu-bu-mu": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/o-mu-bu-mu/any/01.webp",
-   "/assets/home/screens/o-mu-bu-mu/any/02.webp",
-   "/assets/home/screens/o-mu-bu-mu/any/03.webp"
+  "tr": [
+   "/assets/home/screens/o-mu-bu-mu/tr/01.webp",
+   "/assets/home/screens/o-mu-bu-mu/tr/02.webp",
+   "/assets/home/screens/o-mu-bu-mu/tr/03.webp",
+   "/assets/home/screens/o-mu-bu-mu/tr/04.webp",
+   "/assets/home/screens/o-mu-bu-mu/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/o-mu-bu-mu/en/01.webp",
+   "/assets/home/screens/o-mu-bu-mu/en/02.webp",
+   "/assets/home/screens/o-mu-bu-mu/en/03.webp",
+   "/assets/home/screens/o-mu-bu-mu/en/04.webp",
+   "/assets/home/screens/o-mu-bu-mu/en/05.webp"
   ]
  },
  "bumpline": {
@@ -164,47 +184,73 @@
  },
  "tennis-padel": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/tennis-padel/any/01.webp",
-   "/assets/home/screens/tennis-padel/any/02.webp",
-   "/assets/home/screens/tennis-padel/any/03.webp",
-   "/assets/home/screens/tennis-padel/any/04.webp",
-   "/assets/home/screens/tennis-padel/any/05.webp"
+  "tr": [
+   "/assets/home/screens/tennis-padel/en/01.webp",
+   "/assets/home/screens/tennis-padel/en/02.webp",
+   "/assets/home/screens/tennis-padel/en/03.webp",
+   "/assets/home/screens/tennis-padel/en/04.webp",
+   "/assets/home/screens/tennis-padel/en/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/tennis-padel/en/01.webp",
+   "/assets/home/screens/tennis-padel/en/02.webp",
+   "/assets/home/screens/tennis-padel/en/03.webp",
+   "/assets/home/screens/tennis-padel/en/04.webp",
+   "/assets/home/screens/tennis-padel/en/05.webp"
   ]
  },
  "pickleball": {
-  "kind": "screen",
-  "any": [
-   "/assets/home/screens/pickleball/any/01.webp",
-   "/assets/home/screens/pickleball/any/02.webp"
+  "kind": "watch",
+  "tr": [
+   "/assets/home/screens/pickleball/en/01.webp",
+   "/assets/home/screens/pickleball/en/02.webp",
+   "/assets/home/screens/pickleball/en/03.webp"
+  ],
+  "en": [
+   "/assets/home/screens/pickleball/en/01.webp",
+   "/assets/home/screens/pickleball/en/02.webp",
+   "/assets/home/screens/pickleball/en/03.webp"
   ]
  },
  "volleyball": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/volleyball/any/01.webp",
-   "/assets/home/screens/volleyball/any/02.webp",
-   "/assets/home/screens/volleyball/any/03.webp",
-   "/assets/home/screens/volleyball/any/04.webp",
-   "/assets/home/screens/volleyball/any/05.webp"
+  "tr": [
+   "/assets/home/screens/volleyball/en/01.webp",
+   "/assets/home/screens/volleyball/en/02.webp",
+   "/assets/home/screens/volleyball/en/03.webp",
+   "/assets/home/screens/volleyball/en/04.webp"
+  ],
+  "en": [
+   "/assets/home/screens/volleyball/en/01.webp",
+   "/assets/home/screens/volleyball/en/02.webp",
+   "/assets/home/screens/volleyball/en/03.webp",
+   "/assets/home/screens/volleyball/en/04.webp"
   ]
  },
  "rally-table-tennis": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/rally-table-tennis/any/01.webp",
-   "/assets/home/screens/rally-table-tennis/any/02.webp",
-   "/assets/home/screens/rally-table-tennis/any/03.webp",
-   "/assets/home/screens/rally-table-tennis/any/04.webp"
+  "tr": [
+   "/assets/home/screens/rally-table-tennis/en/01.webp",
+   "/assets/home/screens/rally-table-tennis/en/02.webp",
+   "/assets/home/screens/rally-table-tennis/en/03.webp"
+  ],
+  "en": [
+   "/assets/home/screens/rally-table-tennis/en/01.webp",
+   "/assets/home/screens/rally-table-tennis/en/02.webp",
+   "/assets/home/screens/rally-table-tennis/en/03.webp"
   ]
  },
  "rally-badminton": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/rally-badminton/any/01.webp",
-   "/assets/home/screens/rally-badminton/any/02.webp",
-   "/assets/home/screens/rally-badminton/any/03.webp",
-   "/assets/home/screens/rally-badminton/any/04.webp"
+  "tr": [
+   "/assets/home/screens/rally-badminton/en/01.webp",
+   "/assets/home/screens/rally-badminton/en/02.webp",
+   "/assets/home/screens/rally-badminton/en/03.webp"
+  ],
+  "en": [
+   "/assets/home/screens/rally-badminton/en/01.webp",
+   "/assets/home/screens/rally-badminton/en/02.webp",
+   "/assets/home/screens/rally-badminton/en/03.webp"
   ]
  },
  "store-mockup": {
@@ -222,6 +268,12 @@
   ]
  },
  "orbix-roulette": {
-  "kind": "watch"
+  "kind": "watch",
+  "any": [
+   "/assets/home/screens/orbix-roulette/any/01.webp",
+   "/assets/home/screens/orbix-roulette/any/02.webp",
+   "/assets/home/screens/orbix-roulette/any/03.webp",
+   "/assets/home/screens/orbix-roulette/any/04.webp"
+  ]
  }
 }

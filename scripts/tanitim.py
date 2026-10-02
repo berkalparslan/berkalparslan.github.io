@@ -47,7 +47,7 @@ düz string de olur):
   "extra_script": "..."               # ham JS, sayfa sonunda
 }
 """
-import html, json, pathlib, sys
+import hashlib, html, json, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "tanitim"
@@ -104,7 +104,7 @@ def device(sec, alt):
         if kind == "phone":
             inner = f'<span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="{data}">{first}</span></span>'
         elif kind == "watch":
-            inner = f'<span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="{data}">{first}</span></span><span class="band b2"></span><span class="crown"></span></span>'
+            inner = f'<span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="{data}">{first}</span></span><span class="strap b2"></span><span class="crown"></span></span>'
         elif kind == "laptop":
             inner = f'<span class="m-laptop"><span class="lid"><span class="scr" data-cycle="{data}">{first}</span></span><span class="base"></span></span>'
         else:
@@ -127,6 +127,11 @@ def store_buttons(d, big=False):
         ext = "" if b["href"].startswith(("/", "#")) else ' target="_blank" rel="noopener"'
         out.append(f'<a class="{c}" href="{e(b["href"])}"{ext}>{t(b["label"])}</a>')
     return "".join(out)
+
+
+def ver(rel):
+    """Önbellek kırıcı: dosya değişince adres değişir."""
+    return hashlib.md5((ROOT / rel).read_bytes()).hexdigest()[:8]
 
 
 def render(d):
@@ -256,7 +261,7 @@ def render(d):
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v={ver("assets/tanitim.css")}" />
 {d.get("extra_head", "")}
 </head>
 <body style="--app:{color};--acc:{accent}">
@@ -309,7 +314,7 @@ def render(d):
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v={ver("assets/tanitim.js")}"></script>
 {f"<script>{d['extra_script']}</script>" if d.get("extra_script") else ""}
 </body>
 </html>

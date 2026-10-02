@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Score Keeper for Pickleball · BamTech</title>
-<meta name="description" content="Pickleball&#x27;s serve and side-out logic is the confusing part. Let the app follow it while you play." />
+<meta name="description" content="Pickleball score keeper for Apple Watch. Side-out and rally scoring, server 1 and 2, right and left positions run themselves; voice umpire and logbook on iPhone." />
 <link rel="canonical" href="https://berkalparslan.github.io/pickleball/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Score Keeper for Pickleball" />
-<meta property="og:description" content="Pickleball&#x27;s serve and side-out logic is the confusing part. Let the app follow it while you play." />
+<meta property="og:description" content="Pickleball score keeper for Apple Watch. Side-out and rally scoring, server 1 and 2, right and left positions run themselves; voice umpire and logbook on iPhone." />
 <meta property="og:image" content="https://berkalparslan.github.io/pickleball/assets/icon.webp" />
 <meta name="theme-color" content="#55db9c" />
 <link rel="icon" href="/pickleball/assets/icon.webp" />
@@ -28,83 +28,123 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=cb7693a9" />
 
 </head>
 <body style="--app:#55db9c;--acc:#ffd731">
 
-<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch&quot;, &quot;Pickleball&quot;, &quot;iPhone · Apple Watch&quot;]"></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;Apple Watch · iPhone&quot;, &quot;Pickleball&quot;, &quot;Apple Watch · iPhone&quot;]"></div></div>
 
 <header class="top">
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="BamTech">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#servis"><span class="tr">Servis ve side-out</span><span class="en">Serve and side-out</span></a><a href="#saat">Apple Watch</a><a href="#defter"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></a><a href="#rakip"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></a></nav>
+    <nav class="nav"><a href="#canli"><span class="tr">Canlı skor</span><span class="en">Live score</span></a><a href="#kurallar"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></a><a href="#saat">Apple Watch</a><a href="#defter"><span class="tr">Maç defteri ve istatistik</span><span class="en">Logbook and stats</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
 <main>
-  <section class="hero" data-emoji="[&quot;🥒&quot;, &quot;🏆&quot;, &quot;⏱️&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;📊&quot;]">
+  <section class="hero" data-emoji="[&quot;🥒&quot;, &quot;🏓&quot;, &quot;🏆&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;📊&quot;]">
     <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
     <div class="wrap hero-in">
       <img class="app-icon" src="/pickleball/assets/icon.webp" alt="" width="180" height="180" />
-      <p class="kick">iPhone · Apple Watch </p>
+      <p class="kick">Apple Watch · iPhone </p>
       <h1 class="disp" lang="en">Pickleball</h1>
-      <p class="lede"><span class="tr">Pickleball&#x27;un servis ve side-out mantığı kafa karıştırıcı. Uygulama takip etsin, sen oynamaya bak.</span><span class="en">Pickleball&#x27;s serve and side-out logic is the confusing part. Let the app follow it while you play.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Watch uygulaması</span><span class="en">Watch app</span></span><span class="pill-s"><span class="tr">Türkçe sesli anons</span><span class="en">Turkish voice umpire</span></span><span class="pill-s"><span class="tr">QR ile rakip senkronu</span><span class="en">QR opponent sync</span></span></div>
+      <p class="lede"><span class="tr">Pickleball&#x27;un kafa karıştıran kısmı servis sırası. 5-3-2 skorunu, kimin servis attığını ve nereden atacağını saat söylesin; sen oyuna bak.</span><span class="en">The confusing part of pickleball is the serve order. Let the watch tell you the 5-3-2 score, who serves and from where; you just play.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Side-out ve rally</span><span class="en">Side-out and rally</span></span><span class="pill-s"><span class="tr">Tekler ve çiftler</span><span class="en">Singles and doubles</span></span><span class="pill-s"><span class="tr">12 dilde sesli hakem</span><span class="en">Voice umpire in 12 languages</span></span><span class="pill-s">Apple Health</span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
       <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
     </div>
   </section>
 
-  <div class="promo "><div class="promo-track"><img src="/pickleball/assets/shot-1.webp" alt="" loading="lazy" /><img src="/pickleball/assets/shot-2.webp" alt="" loading="lazy" /><img src="/pickleball/assets/shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/shot-3.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo "><div class="promo-track"><img src="/pickleball/assets/promo/en/01-share.webp" alt="" loading="lazy" /><img src="/pickleball/assets/screens/en/01-setup.webp" alt="" loading="lazy" /><img src="/pickleball/assets/promo/en/02-rules.webp" alt="" loading="lazy" /><img src="/pickleball/assets/screens/en/02-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/promo/en/01-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/screens/en/01-setup.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/promo/en/02-rules.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/pickleball/assets/screens/en/02-share.webp" alt="" loading="lazy" /></div></div>
 
-  <section class="z z-l" id="servis">
+  <section class="z z-l" id="canli">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/pickleball/any/01.webp&quot;]"><img src="/assets/home/screens/pickleball/any/01.webp" alt="Whose serve? It knows." loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/pickleball/assets/watch/en/01-your-serve.webp&quot;, &quot;/pickleball/assets/watch/en/02-server-two.webp&quot;]"><img src="/pickleball/assets/watch/en/01-your-serve.webp" alt="Three numbers, one glance" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Servis ve side-out</span><span class="en">Serve and side-out</span></p>
-        <h2 class="disp"><span class="tr">Kimin servisi? Bilir.</span><span class="en">Whose serve? It knows.</span></h2>
-        <p class="z-p"><span class="tr">Kimin servisi, kaçıncı servisçi ve hangi taraftan: sayıyı verdiğin anda hepsi güncellenir.</span><span class="en">Who serves, which server, from which side: all of it updates the moment you award a point.</span></p>
-        <ul class="bul"><li><span class="tr">Side-out ya da ralli puanlaması</span><span class="en">Side-out or rally scoring</span></li><li><span class="tr">11, 15 ya da 21 sayı; iki fark kuralı her zaman</span><span class="en">11, 15 or 21 points; win by two always applies</span></li></ul>
+        <p class="kick"><span class="tr">Canlı skor</span><span class="en">Live score</span></p>
+        <h2 class="disp"><span class="tr">Üç sayı, tek bakış</span><span class="en">Three numbers, one glance</span></h2>
+        <p class="z-p"><span class="tr">Saatte klasik pickleball skoru: senin sayın, rakibin sayısı ve servisçi numarası, ör. 3-1-2. Servis sende mi, rakipte mi, ekranda yazar.</span><span class="en">The classic pickleball score on your wrist: your points, their points and the server number, like 3-1-2. Whether you or they have the serve is right on screen.</span></p>
+        <ul class="bul"><li><span class="tr">+US ile sayı, +THEM ile side-out ya da rakibe sayı</span><span class="en">+US for a point, +THEM for a side-out or their point</span></li><li><span class="tr">Sağ (çift) ya da sol (tek) taraf: nereden servis atacağını gösterir</span><span class="en">Right (even) or left (odd): it shows where to serve from</span></li><li><span class="tr">Her sayıda titreşim, geri al tuşu</span><span class="en">A haptic on every point, plus undo</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="saat">
+  <section class="z z-r" id="kurallar">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/pickleball/assets/watch-1.webp&quot;, &quot;/pickleball/assets/watch-2.webp&quot;, &quot;/pickleball/assets/watch-3.webp&quot;]"><img src="/pickleball/assets/watch-1.webp" alt="Score from your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/pickleball/assets/screens/en/01-setup.webp&quot;]"><img src="/pickleball/assets/screens/en/01-setup.webp" alt="Side-out or rally, pick one" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></p>
+        <h2 class="disp"><span class="tr">Side-out mu rally mi, seç</span><span class="en">Side-out or rally, pick one</span></h2>
+        <p class="z-p"><span class="tr">Maçı iPhone&#x27;da kurarsın: puanlama modu, kaça oynandığı, format, oyuncular ve ilk servis. İki sayı fark kuralı her zaman geçerli.</span><span class="en">Set up the match on iPhone: scoring mode, points to win, format, players and first serve. The win-by-two rule always applies.</span></p>
+        <ul class="bul"><li><span class="tr">Side-out (yalnız servis atan sayı alır) ya da rally (her ralli sayı)</span><span class="en">Side-out (only the serving side scores) or rally (every rally scores)</span></li><li><span class="tr">11, 15 ya da 21 sayı</span><span class="en">Play to 11, 15 or 21</span></li><li><span class="tr">Tek oyun, Bo3, Bo5 ya da sınırsız</span><span class="en">One game, best of 3, best of 5 or unlimited</span></li><li><span class="tr">Çiftlerde dört isim; maç 0-0-2 ile başlar, servis sırası kendiliğinden döner</span><span class="en">Four names in doubles; the game starts at 0-0-2 and the server rotation runs itself</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="saat">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/pickleball/assets/watch/en/03-setup.webp&quot;]"><img src="/pickleball/assets/watch/en/03-setup.webp" alt="Leave the phone in your bag" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span></span></div>
       <div class="z-txt reveal">
         <p class="kick">Apple Watch</p>
-        <h2 class="disp"><span class="tr">Sayı bilekten</span><span class="en">Score from your wrist</span></h2>
-        <p class="z-p"><span class="tr">Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.</span><span class="en">The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag.</span></p>
-        <ul class="bul"><li><span class="tr">Sesli hakem: her sayıdan sonra skoru yüksek sesle söyler, istersen tamamen kapalı</span><span class="en">Voice umpire: calls the score out loud after every point, or off entirely</span></li><li><span class="tr">Servis, taraf değişimi ve set sonu kendi işler</span><span class="en">Serve, side changes and set endings take care of themselves</span></li><li><span class="tr">İzin verirsen maç Apple Health&#x27;e antrenman olarak yazılır</span><span class="en">With your permission the match is logged to Apple Health as a workout</span></li></ul>
+        <h2 class="disp"><span class="tr">Telefon çantada kalsın</span><span class="en">Leave the phone in your bag</span></h2>
+        <p class="z-p"><span class="tr">Saat uygulaması tek başına çalışır: maçı saatte kur, başlat, kaydet. İstersen iPhone&#x27;da kurup tek dokunuşla saate gönderirsin.</span><span class="en">The Watch app runs on its own: set up, start and save the match on your wrist. Or set it up on iPhone and send it over with one tap.</span></p>
+        <ul class="bul"><li><span class="tr">Her maç Apple Health&#x27;e Pickleball antrenmanı olarak yazılır: nabız, kalori, mesafe</span><span class="en">Every match is saved to Apple Health as a Pickleball workout: heart rate, calories, distance</span></li><li><span class="tr">Antrenman modu maç hakkından düşmez</span><span class="en">Practice mode never uses a match</span></li><li><span class="tr">Kimin başlayacağına zar karar versin</span><span class="en">Let the built-in dice decide who serves first</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-l" id="defter">
+  <section class="z z-r" id="defter">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-image" data-cycle="[&quot;/pickleball/assets/shot-3.webp&quot;]"><img src="/pickleball/assets/shot-3.webp" alt="Every match on file" loading="lazy" /></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-image" data-cycle="[&quot;/pickleball/assets/promo/en/w3-health.webp&quot;]"><img src="/pickleball/assets/promo/en/w3-health.webp" alt="Every match on file" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></p>
+        <p class="kick"><span class="tr">Maç defteri ve istatistik</span><span class="en">Logbook and stats</span></p>
         <h2 class="disp"><span class="tr">Her maç kayıtta</span><span class="en">Every match on file</span></h2>
-        <p class="z-p"><span class="tr">Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.</span><span class="en">Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile.</span></p>
-        <ul class="bul"><li><span class="tr">Kazanma oranı, kazanılan ve kaybedilen sayılar</span><span class="en">Win rate, points won and lost</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında</span><span class="en">Phone and Watch share one history, synced in your own iCloud</span></li><li><span class="tr">Academy: kural, teknik ve taktik rehberleri</span><span class="en">Academy: rule, technique and tactics guides</span></li></ul>
+        <p class="z-p"><span class="tr">Biten her maç tarihi, süresi, skoru ve rakibiyle deftere düşer. Nabız, kalori ve mesafe maç detayında, saatte ise canlı görünür.</span><span class="en">Every finished match lands in your logbook with its date, duration, score and opponent. Heart rate, calories and distance show in the match details, and live on the watch.</span></p>
+        <ul class="bul"><li><span class="tr">Profilde kazanma oranı, kazanılan ve kaybedilen sayı</span><span class="en">Profile shows win rate, points won and lost</span></li><li><span class="tr">Erken biten maç &quot;Ended Early&quot; olarak ayrı görünür</span><span class="en">Matches ended early show as &quot;Ended Early&quot;</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, iCloud ile eşitlenir</span><span class="en">Phone and Watch share one history, synced through iCloud</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="rakip">
+  <section class="z z-l" id="paylas">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/pickleball/any/02.webp&quot;]"><img src="/assets/home/screens/pickleball/any/02.webp" alt="Let it call the score" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/pickleball/assets/screens/en/02-share.webp&quot;]"><img src="/pickleball/assets/screens/en/02-share.webp" alt="Share the win" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></p>
+        <p class="kick"><span class="tr">Paylaşım ve rakip</span><span class="en">Share and opponent</span></p>
+        <h2 class="disp"><span class="tr">Zaferi paylaş</span><span class="en">Share the win</span></h2>
+        <p class="z-p"><span class="tr">Maç bitince kendi fotoğrafınla bir sonuç kartı çıkar: skor, süre ve toplam sayı üstünde. Instagram Hikayeler&#x27;e gönder ya da kaydet.</span><span class="en">When it ends you get a result card over your own photo: score, duration and total points on top. Send it to Instagram Stories or save it.</span></p>
+        <ul class="bul"><li><span class="tr">Rakibin QR kodu ya da bağlantıyı açar, skor onun tarafından görünerek aktarılır</span><span class="en">Your opponent opens a QR code or link and the score flips to their side</span></li><li><span class="tr">Hesap ya da sunucu gerekmez</span><span class="en">No account or server needed</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="hakem">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev "><span class="m-image" data-cycle="[&quot;/pickleball/assets/promo/en/w2-voice.webp&quot;]"><img src="/pickleball/assets/promo/en/w2-voice.webp" alt="Let it call the score" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Sesli hakem</span><span class="en">Voice umpire</span></p>
         <h2 class="disp"><span class="tr">Skoru o söylesin</span><span class="en">Let it call the score</span></h2>
-        <p class="z-p"><span class="tr">Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.</span><span class="en">It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side.</span></p>
-        <ul class="bul"><li><span class="tr">Hesap ya da sunucu yok</span><span class="en">No account, no server</span></li><li><span class="tr">Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde</span><span class="en">A result card over your own photo, with duration and total points</span></li></ul>
+        <p class="z-p"><span class="tr">Her sayıdan sonra skoru saatin hoparlöründen okur: servis atan, karşılayan ve çiftlerde servisçi numarası. Saate bakmana gerek kalmaz.</span><span class="en">After every point it reads the score from the watch speaker: server, receiver and, in doubles, the server number. No need to look at your wrist.</span></p>
+        <ul class="bul"><li><span class="tr">12 dil: Türkçe, İngilizce, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Felemenkçe, Rusça, Arapça, Japonca, Çince</span><span class="en">12 languages: Turkish, English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Arabic, Japanese, Chinese</span></li><li><span class="tr">İstersen tamamen kapalı</span><span class="en">Or switch it off entirely</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="rehber">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-image" data-cycle="[&quot;/pickleball/assets/promo/en/02-rules.webp&quot;]"><img src="/pickleball/assets/promo/en/02-rules.webp" alt="Learn the rules in the app" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Akademi</span><span class="en">Academy</span></p>
+        <h2 class="disp"><span class="tr">Kuralı uygulamada öğren</span><span class="en">Learn the rules in the app</span></h2>
+        <p class="z-p"><span class="tr">Uygulamanın içinde kısa rehberler var: side-out ve rally puanlama, çiftlerde iki servisçi sistemi, ilk servisi kim atar, mutfak (non-volley zone), çift sekme kuralı, üçüncü vuruş drop&#x27;u ve dink stratejisi.</span><span class="en">Short guides live inside the app: side-out vs rally scoring, the two-server system in doubles, who serves first, the kitchen (non-volley zone), the double-bounce rule, the third shot drop and dinking strategy.</span></p>
+        <ul class="bul"><li><span class="tr">Rehberler, kurallar ve taktik diye ayrılmış</span><span class="en">Split into app guide, rules and tactics</span></li><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark mode</span></li></ul>
       </div>
     </div>
   </section>
 
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Önce dene, sonra Pass</span><span class="en">Try it, then get the Pass</span></h2>
+      <p class="band-p"><span class="tr">İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik Tennis &amp; Padel, Pickleball ve Volleyball&#x27;u birlikte açar. Fiyatlar App Store&#x27;da gösterilir.</span><span class="en">Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription covers Tennis &amp; Padel, Pickleball and Volleyball together. Prices are shown in the App Store.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">2 maç</span><span class="en">2 matches</span></p><ul><li><span class="tr">Kısa video izle, +1 maç</span><span class="en">Watch a short clip, +1 match</span></li><li><span class="tr">Antrenman modu maç hakkından düşmez</span><span class="en">Practice mode never uses a match</span></li><li><span class="tr">Hesap yok, kayıt yok</span><span class="en">No account, no sign-up</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3><span class="tr">Aylık ya da yıllık</span><span class="en">Monthly or yearly</span></h3><p class="price"><span class="tr">49,99 ₺/ay · 399,99 ₺/yıl</span><span class="en">$0.99/mo · $7.99/yr</span></p><ul><li><span class="tr">Sınırsız maç</span><span class="en">Unlimited matches</span></li><li><span class="tr">İstediğin an Ayarlar&#x27;dan iptal</span><span class="en">Cancel anytime in Settings</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Ömür boyu</span><span class="en">Lifetime</span></h3><p class="price"><span class="tr">2.499,99 ₺ tek sefer</span><span class="en">$49.99 once</span></p><ul><li><span class="tr">Bir kez öde, hep senin</span><span class="en">Pay once, keep it forever</span></li><li><span class="tr">Satın alımı geri yükle her cihazda</span><span class="en">Restore on every device</span></li></ul></div></div>
+    </div>
+  </section>
 
 
   <section class="band band-mint" id="gizlilik">
@@ -142,7 +182,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v=c62837a7"></script>
 
 </body>
 </html>

@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Leafbook: Plant Tracker · BamTech</title>
-<meta name="description" content="A photo diary for your houseplants. Identify a plant from a photo, get a watering schedule and take every next photo through a ghost overlay to see, and share, how much it grew." />
+<meta name="description" content="A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera." />
 <link rel="canonical" href="https://berkalparslan.github.io/leafbook/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Leafbook: Plant Tracker" />
-<meta property="og:description" content="A photo diary for your houseplants. Identify a plant from a photo, get a watering schedule and take every next photo through a ghost overlay to see, and share, how much it grew." />
+<meta property="og:description" content="A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera." />
 <meta property="og:image" content="https://berkalparslan.github.io/leafbook/assets/icon-512.png" />
 <meta name="theme-color" content="#55db9c" />
 <link rel="icon" href="/leafbook/assets/icon-512.png" />
@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=cb7693a9" />
 
 </head>
 <body style="--app:#55db9c;--acc:#c8f560">
@@ -39,7 +39,7 @@
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="BamTech">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#bitkiler"><span class="tr">Çek, öğren</span><span class="en">Snap it, know it</span></a><a href="#hayalet"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></a><a href="#buyume"><span class="tr">Büyümeyi ölç</span><span class="en">Measure growth</span></a><a href="#sulama"><span class="tr">Sulama listesi</span><span class="en">Watering list</span></a></nav>
+    <nav class="nav"><a href="#bitkiler"><span class="tr">Koleksiyon</span><span class="en">Your collection</span></a><a href="#tanima"><span class="tr">Tanıma ve katalog</span><span class="en">Identify and catalog</span></a><a href="#sulama"><span class="tr">Sulama</span><span class="en">Watering</span></a><a href="#nemli"><span class="tr">Hatırlatmalar</span><span class="en">Reminders</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
@@ -51,77 +51,117 @@
       <img class="app-icon" src="/leafbook/assets/icon-512.png" alt="" width="180" height="180" />
       <p class="kick"><span class="tr">iPhone · Türkçe ve İngilizce</span><span class="en">iPhone · English and Turkish</span> <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
       <h1 class="disp" lang="en">Leafbook</h1>
-      <p class="lede"><span class="tr">Aynı açı, aylar sonra. Bitkilerinin ne kadar büyüdüğünü gör ve paylaş.</span><span class="en">Same angle, months apart. See how much your plants grew, and share it.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></span><span class="pill-s"><span class="tr">119 tür</span><span class="en">119 species</span></span><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesapsız</span><span class="en">No account</span></span></div>
+      <p class="lede"><span class="tr">Bitkilerinin defteri: ne olduğunu, ne zaman sulanacağını ve ne kadar büyüdüğünü tutar. Takvime göre değil, bitkinin gerçekten yaşadığı köşeye göre.</span><span class="en">A notebook for your plants: what they are, when to water them and how much they have grown. Built around the corner each plant actually lives in, not a calendar.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></span><span class="pill-s"><span class="tr">119+ tür</span><span class="en">119+ species</span></span><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">iCloud eşitleme</span><span class="en">iCloud sync</span></span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
       <div class="chips"><span class="chip">iOS</span></div>
     </div>
   </section>
 
-  <div class="promo "><div class="promo-track"><img src="/assets/home/leafbook-shot-1.webp" alt="" loading="lazy" /><img src="/assets/home/leafbook-shot-2.webp" alt="" loading="lazy" /><img src="/assets/home/leafbook-shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/assets/home/leafbook-shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/assets/home/leafbook-shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/assets/home/leafbook-shot-3.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo tr"><div class="promo-track"><img src="/leafbook/assets/promo/tr/01.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/02.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/03.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/04.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/05.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/06.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/leafbook/assets/promo/en/01.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/02.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/03.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/04.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/05.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/06.webp" alt="" loading="lazy" /></div></div>
 
   <section class="z z-l" id="bitkiler">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/tr/01.webp&quot;]"><img src="/assets/home/screens/leafbook/tr/01.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/en/01.webp&quot;]"><img src="/assets/home/screens/leafbook/en/01.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/01-plants.webp&quot;]"><img src="/leafbook/assets/screens/tr/01-plants.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/01-plants.webp&quot;]"><img src="/leafbook/assets/screens/en/01-plants.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Çek, öğren</span><span class="en">Snap it, know it</span></p>
+        <p class="kick"><span class="tr">Koleksiyon</span><span class="en">Your collection</span></p>
         <h2 class="disp"><span class="tr">Her bitkinin bir sayfası</span><span class="en">Every plant gets a page</span></h2>
-        <p class="z-p"><span class="tr">Bir fotoğraf çek, tür önerisi ve o türe uygun sulama takvimi gelsin. Emin değilsen 119 türlük katalogda adıyla ara.</span><span class="en">Take a photo, get species suggestions and a matching watering schedule. Not sure? Search the 119-species catalog by name.</span></p>
-        <ul class="bul"><li><span class="tr">Ad ver, sulama aralığını istersen değiştir</span><span class="en">Name it, tweak the watering interval if you like</span></li><li><span class="tr">Her tür için ışık, nem ve evcil hayvan güvenliği</span><span class="en">Light, humidity and pet safety for every species</span></li></ul>
+        <p class="z-p"><span class="tr">Bitkilerin tek ekranda: kaç tanesi büyüyor, kaçı susamış, hangisine kaç gün sonra su lazım. Bir bitkiye dokun; son fotoğrafı, büyüme kartı, bakım günlüğü, türün bakım rehberi ve notların orada.</span><span class="en">All your plants on one screen: how many are growing, how many are thirsty and which one needs water in how many days. Tap a plant for its latest photo, growth card, care log, species care guide and your notes.</span></p>
+        <ul class="bul"><li><span class="tr">Sulandı ve gübrelendi düğmeleri, her işlem saatiyle kayıtlı</span><span class="en">Watered and fertilized buttons, every action logged with its time</span></li><li><span class="tr">&quot;Bilinmesi gerekenler&quot;: AI&#x27;nın o bitki için yazdığı kısa notlar</span><span class="en">&quot;Good to know&quot;: short notes the AI writes for that plant</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="hayalet">
+  <section class="z z-r" id="tanima">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-image" data-cycle="[&quot;/assets/home/leafbook-shot-2.webp&quot;]"><img src="/assets/home/leafbook-shot-2.webp" alt="Same angle, every time" loading="lazy" /></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/04-catalog.webp&quot;]"><img src="/leafbook/assets/screens/tr/04-catalog.webp" alt="Snap it, get its name" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/04-catalog.webp&quot;]"><img src="/leafbook/assets/screens/en/04-catalog.webp" alt="Snap it, get its name" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Tanıma ve katalog</span><span class="en">Identify and catalog</span></p>
+        <h2 class="disp"><span class="tr">Fotoğrafını çek, adını söylesin</span><span class="en">Snap it, get its name</span></h2>
+        <p class="z-p"><span class="tr">Fotoğraftan türü bulur ve üç tahmini güven yüzdesiyle sıralar. Fotoğraf çekmek istemezsen &quot;Ne olduğunu biliyorum&quot; de, 119+ türlük katalogdan ara.</span><span class="en">Identifies the species from a photo and ranks three guesses with a confidence score. Don&#x27;t want a photo? Say &quot;I know what it is&quot; and search the catalog of 119+ species.</span></p>
+        <ul class="bul"><li><span class="tr">Her türde ışık, nem, evcil hayvana zehirli mi, sulama ve gübreleme aralığı</span><span class="en">Light, humidity, pet safety, watering and feeding intervals for every species</span></li><li><span class="tr">Her tür için elle çizilmiş illüstrasyon</span><span class="en">A hand-drawn illustration for every species</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="sulama">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/03-care.webp&quot;]"><img src="/leafbook/assets/screens/tr/03-care.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/03-care.webp&quot;]"><img src="/leafbook/assets/screens/en/03-care.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Sulama</span><span class="en">Watering</span></p>
+        <h2 class="disp"><span class="tr">Takvim değil, köşe</span><span class="en">Not a calendar, a corner</span></h2>
+        <p class="z-p"><span class="tr">Bitki eklerken nerede durduğunu ve en son ne zaman sulandığını sorar. Kitaptaki aralığı o köşeye göre düzeltir ve gerekçesini tek satırda yazar: &quot;Pencereden uzakta toprak daha geç kuruyor, 7 yerine 9 günde bir.&quot;</span><span class="en">When you add a plant it asks where it sits and when it was last watered. It adjusts the textbook interval to that spot and tells you why in one line: &quot;Away from the window the soil dries slower, every 9 days instead of 7.&quot;</span></p>
+        <ul class="bul"><li><span class="tr">Bugün sulanacaklar ve önümüzdeki 7 gün tek listede</span><span class="en">Today&#x27;s watering and the next 7 days in one list</span></li><li><span class="tr">Aralığı elle değiştirirsen uygulama geri almaz</span><span class="en">Change the interval yourself and it stays that way</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="nemli">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/04.webp&quot;]"><img src="/leafbook/assets/promo/tr/04.webp" alt="&quot;Soil is still wet&quot;" loading="lazy" /></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/04.webp&quot;]"><img src="/leafbook/assets/promo/en/04.webp" alt="&quot;Soil is still wet&quot;" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Hatırlatmalar</span><span class="en">Reminders</span></p>
+        <h2 class="disp"><span class="tr">&quot;Toprak hala nemli&quot;</span><span class="en">&quot;Soil is still wet&quot;</span></h2>
+        <p class="z-p"><span class="tr">Sulama günü sabah seçtiğin saatte bildirim gelir, üstünde iki düğme: Suladım ve Toprak hala nemli. İkincisi sulamayı iki gün erteler; üst üste ikinci kez basarsan aralığı kalıcı olarak uzatır. Uygulama evini zamanla öğrenir.</span><span class="en">On watering day a notification arrives at the hour you pick, with two buttons: Watered and Soil is still wet. The second one pushes watering back two days; press it twice in a row and the interval grows for good. The app learns your home over time.</span></p>
+        <ul class="bul"><li><span class="tr">Uygulamayı açmadan bildirimden hallet</span><span class="en">Handle it from the notification, no need to open the app</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="hayalet">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/02.webp&quot;, &quot;/leafbook/assets/screens/tr/06-ghost.webp&quot;]"><img src="/leafbook/assets/promo/tr/02.webp" alt="Same angle, every time" loading="lazy" /></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/02.webp&quot;]"><img src="/leafbook/assets/promo/en/02.webp" alt="Same angle, every time" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
         <p class="kick"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></p>
         <h2 class="disp"><span class="tr">Her seferinde aynı açı</span><span class="en">Same angle, every time</span></h2>
-        <p class="z-p"><span class="tr">Son fotoğrafın kameranın üstünde yarı saydam durur. Hizala, çek; her kare aynı açıdan.</span><span class="en">Your last photo floats over the camera. Line it up, shoot; every frame from the same angle.</span></p>
-        <ul class="bul"><li><span class="tr">Birkaç haftada bir &quot;Aynı açıdan fotoğraf çek&quot;e dokun</span><span class="en">Every few weeks tap &quot;Take a same-angle photo&quot;</span></li></ul>
+        <p class="z-p"><span class="tr">Son fotoğrafın yarı saydam olarak canlı görüntünün üstünde durur; yeni kareyi ona hizalarsın. Saydamlığı ayarlanır, istersen kapanır. Çekimden sonra kırpma ekranında bitkiyi çerçeveye oturtursun.</span><span class="en">Your last photo floats half-transparent over the live camera, so you line up the new shot with it. Adjust the opacity or turn it off. After the shot, a crop screen lets you fit the plant to the frame.</span></p>
+        <ul class="bul"><li><span class="tr">Kaydet ile fotoğraf telefonun galerisine de gider</span><span class="en">Save also writes the photo to your phone&#x27;s library</span></li><li><span class="tr">Galeriden fotoğraf ekleyebilirsin</span><span class="en">Add photos from your library too</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-l" id="buyume">
+  <section class="z z-r" id="buyume">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/tr/02.webp&quot;]"><img src="/assets/home/screens/leafbook/tr/02.webp" alt="Proof it&#x27;s growing" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/en/02.webp&quot;]"><img src="/assets/home/screens/leafbook/en/02.webp" alt="Proof it&#x27;s growing" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/01.webp&quot;]"><img src="/leafbook/assets/promo/tr/01.webp" alt="Proof it is growing" loading="lazy" /></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/01.webp&quot;]"><img src="/leafbook/assets/promo/en/01.webp" alt="Proof it is growing" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Büyümeyi ölç</span><span class="en">Measure growth</span></p>
-        <h2 class="disp"><span class="tr">Büyüdüğünün kanıtı</span><span class="en">Proof it&#x27;s growing</span></h2>
-        <p class="z-p"><span class="tr">Hizalı fotoğraflar kıyaslanır: &quot;60 günde %38 daha fazla yaprak&quot;. Kaydırıcıyla önce ve sonra, tek dokunuşla hızlandırılmış tekrar.</span><span class="en">Aligned photos are compared: &quot;+38% leaf area in 60 days&quot;. A before and after slider, and a one-tap timelapse replay.</span></p>
-        <ul class="bul"><li><span class="tr">Büyüme kartı kendini günceller</span><span class="en">The growth card updates itself</span></li></ul>
+        <p class="kick"><span class="tr">Büyüme</span><span class="en">Growth</span></p>
+        <h2 class="disp"><span class="tr">Büyüdüğünün kanıtı</span><span class="en">Proof it is growing</span></h2>
+        <p class="z-p"><span class="tr">Aynı çerçeveden çekilen fotoğraflarda yaprak alanı karşılaştırılır ve büyüme yüzde olarak çıkar: &quot;84 günde %151 daha fazla yaprak alanı&quot;. İki fotoğrafı kaydırarak karşılaştır, baştan sona oynat ya da AI&#x27;ya ne değiştiğini sor.</span><span class="en">Photos taken from the same frame are compared by leaf area, and growth comes out as a percentage: &quot;151% more leaf area in 84 days&quot;. Slide between two photos, replay the whole series or ask the AI what changed.</span></p>
+        <ul class="bul"><li><span class="tr">Karşılaştırma için en az 7 gün arayla iki fotoğraf</span><span class="en">Two photos at least 7 days apart to compare</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="sulama">
+  <section class="z z-l" id="kurtarma">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/tr/03.webp&quot;]"><img src="/assets/home/screens/leafbook/tr/03.webp" alt="Who&#x27;s thirsty today?" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/en/03.webp&quot;]"><img src="/assets/home/screens/leafbook/en/03.webp" alt="Who&#x27;s thirsty today?" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/02-growth.webp&quot;]"><img src="/leafbook/assets/screens/tr/02-growth.webp" alt="Spots yellowing before you do" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/02-growth.webp&quot;]"><img src="/leafbook/assets/screens/en/02-growth.webp" alt="Spots yellowing before you do" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Sulama listesi</span><span class="en">Watering list</span></p>
-        <h2 class="disp"><span class="tr">Bugün kim susamış?</span><span class="en">Who&#x27;s thirsty today?</span></h2>
-        <p class="z-p"><span class="tr">Bugün kim susamış, bu hafta kim sırada. Damlaya dokun, sonraki tarih kendiliğinden ilerler.</span><span class="en">Who&#x27;s thirsty today, who&#x27;s due this week. Tap the drop and the next date moves on its own.</span></p>
-        <ul class="bul"><li><span class="tr">Pro&#x27;da sabah hatırlatması</span><span class="en">Morning reminders with Pro</span></li></ul>
+        <p class="kick"><span class="tr">Renk uyarısı ve kurtarma planı · 1.1 ile geliyor</span><span class="en">Colour alerts and rescue plans · coming in 1.1</span></p>
+        <h2 class="disp"><span class="tr">Sararmayı senden önce görür</span><span class="en">Spots yellowing before you do</span></h2>
+        <p class="z-p"><span class="tr">Her fotoğrafta yaprakların ne kadarının sarıya kaydığı ölçülür; bir hafta boyunca belirgin artış varsa uyarır. &quot;Bir sorun var gibi&quot; dersen üç soru sorar, cevapları sulama programı, konum ve renk eğrisiyle birleştirip sebebi söyler: fazla su, az su, yetersiz ışık, kuru hava ya da zararlı.</span><span class="en">Every photo measures how much of the foliage has shifted towards yellow, and a clear rise over a week triggers an alert. Say &quot;Something seems wrong&quot; and it asks three questions, combines the answers with the watering schedule, location and colour trend and names the cause: too much water, too little, low light, dry air or pests.</span></p>
+        <ul class="bul"><li><span class="tr">Bugün yapılacak tek iş, sonra 14 güne yayılmış tarihli adımlar</span><span class="en">One thing to do today, then dated steps over 14 days</span></li><li><span class="tr">Plan sulama programını da ona göre ayarlar ve önceden söyler</span><span class="en">The plan adjusts the watering schedule and tells you first</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-l" id="paylas">
+  <section class="z z-r" id="paylas">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/tr/04.webp&quot;]"><img src="/assets/home/screens/leafbook/tr/04.webp" alt="Show off your collection" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/en/04.webp&quot;]"><img src="/assets/home/screens/leafbook/en/04.webp" alt="Show off your collection" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/05-share.webp&quot;]"><img src="/leafbook/assets/screens/tr/05-share.webp" alt="Show off your collection" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/05-share.webp&quot;]"><img src="/leafbook/assets/screens/en/05-share.webp" alt="Show off your collection" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Biraz hava at</span><span class="en">Brag a little</span></p>
-        <h2 class="disp"><span class="tr">Koleksiyonunu paylaş</span><span class="en">Show off your collection</span></h2>
-        <p class="z-p"><span class="tr">Tek bir bitkiyi ya da tüm koleksiyonu, arkadaşlarının gerçekten tepki vereceği bir karta çevir.</span><span class="en">Turn one plant or your whole collection into a card your friends will actually react to.</span></p>
+        <p class="kick"><span class="tr">Paylaş</span><span class="en">Share</span></p>
+        <h2 class="disp"><span class="tr">Koleksiyonunu göster</span><span class="en">Show off your collection</span></h2>
+        <p class="z-p"><span class="tr">Tek bitki ya da bütün koleksiyon için kart: fotoğraf, büyüme yüzdesi, bitki sayısı, takip edilen gün. Hazır başlıklardan seç ya da kendin yaz, sosyal medyaya uygun boyutta paylaş.</span><span class="en">A card for one plant or the whole collection: photo, growth percentage, plant count and days tracked. Pick a ready caption or write your own and share it at a size made for social media.</span></p>
         
       </div>
     </div>
   </section>
 
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Ücretsiz başla</span><span class="en">Start for free</span></h2>
+      <p class="band-p"><span class="tr">Ücretsiz planda 3 bitki, 1 AI tanıma ve 1 kurtarma planı var; katalog, büyüme ölçümü ve paylaşım kartları da ücretsiz. Leafbook Pro sınırları kaldırır. Kurtarma planı ve ömür boyu plan 1.1 sürümüyle geliyor.</span><span class="en">The free plan keeps 3 plants, 1 AI identification and 1 rescue plan; the catalog, growth measurement and share cards are free too. Leafbook Pro removes the limits. Rescue plans and the lifetime plan arrive with version 1.1.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">0 $</span><span class="en">$0</span></p><ul><li><span class="tr">3 bitki</span><span class="en">3 plants</span></li><li><span class="tr">1 AI tanıma, 1 kurtarma planı</span><span class="en">1 AI identification, 1 rescue plan</span></li><li><span class="tr">Katalog, büyüme ölçümü, paylaşım kartları</span><span class="en">Catalog, growth measurement, share cards</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3>Leafbook Pro</h3><p class="price"><span class="tr">Aylık 2,99 $ · Yıllık 19,99 $</span><span class="en">$2.99 monthly · $19.99 yearly</span></p><ul><li><span class="tr">Sınırsız bitki ve tanıma</span><span class="en">Unlimited plants and identifications</span></li><li><span class="tr">Sulama hatırlatmaları</span><span class="en">Watering reminders</span></li><li><span class="tr">Sınırsız kurtarma planı</span><span class="en">Unlimited rescue plans</span></li><li><span class="tr">Yıllık planda 7 gün ücretsiz deneme</span><span class="en">7-day free trial on the yearly plan</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Ömür boyu</span><span class="en">Lifetime</span></h3><p class="price"><span class="tr">39,99 $ bir kez</span><span class="en">$39.99 once</span></p><ul><li><span class="tr">Bir kez al, hep senin</span><span class="en">Buy once, keep forever</span></li></ul></div></div>
+    </div>
+  </section>
 
 
   <section class="band band-mint" id="gizlilik">
     <div class="wrap pv">
       <h2 class="disp big"><span class="tr">Bitkilerin telefonunda</span><span class="en">Your plants stay on your phone</span></h2>
-      <div><p class="band-p"><span class="tr">Hesap yok, reklam yok. Bitkilerin, fotoğrafların ve sulama kayıtların cihazında durur. Yalnızca fotoğraftan tanıma istediğinde o tek fotoğraf tanıma hizmetine gönderilir; istemezsen katalogdan adıyla ekle, hiçbir şey cihazından çıkmaz.</span><span class="en">No account, no ads. Your plants, photos and watering log stay on your device. Only when you ask for photo identification is that single photo sent to the identification service; otherwise add from the catalog and nothing leaves your phone.</span></p>
+      <div><p class="band-p"><span class="tr">Hesap yok, reklam yok, analitik yok. Bitkilerin, fotoğrafların ve kayıtların cihazında durur, iPhone&#x27;da kendi iCloud hesabınla eşitlenir. Dışarı giden tek şey tanıma için gönderilen fotoğraf (Google Gemini) ve abonelik doğrulaması (RevenueCat).</span><span class="en">No account, no ads, no analytics. Your plants, photos and logs stay on your device and sync through your own iCloud on iPhone. The only things that leave are the photo sent for identification (Google Gemini) and subscription checks (RevenueCat).</span></p>
       <p class="row-btns"><a class="pill" href="/privacy/leafbook/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
       <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
     </div>
@@ -153,7 +193,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v=c62837a7"></script>
 
 </body>
 </html>

@@ -1,35 +1,46 @@
 {
  "slug": "tennis-padel",
  "name": "Tennis & Padel",
- "title": "Tennis & Padel Score Keeper",
+ "title": {
+  "tr": "Tennis Padel Score Keeper",
+  "en": "Tennis Padel Score Keeper"
+ },
  "description": {
-  "tr": "Tenis ve padel maçlarının skorunu tut, kurallar kendi işlesin. 15-30-40, deuce, altın sayı ve tiebreak, hepsi otomatik.",
-  "en": "Keep score for tennis and padel and let the rules run themselves. 15-30-40, deuce, golden point and tiebreaks, all handled."
+  "tr": "Tenis ve padel için Apple Watch ve Wear OS skor tutucu. 15-30-40, deuce, altın sayı ve tiebreak kendi işler; maç defteri, sesli hakem ve paylaşım kartı iPhone'da.",
+  "en": "Tennis and padel score keeper for Apple Watch and Wear OS. 15-30-40, deuce, golden point and tiebreaks run themselves; logbook, voice umpire and share cards on iPhone."
  },
  "icon": "/tennis-padel/assets/icon.webp",
  "color": "#c8f560",
  "accent": "#fb4903",
  "status": "live",
  "kicker": {
-  "tr": "iPhone · Apple Watch · Android",
-  "en": "iPhone · Apple Watch · Android"
+  "tr": "Apple Watch · iPhone · Wear OS",
+  "en": "Apple Watch · iPhone · Wear OS"
  },
  "lede": {
-  "tr": "Tenis ve padel maçlarının skorunu tut, kurallar kendi işlesin. 15-30-40, deuce, altın sayı ve tiebreak, hepsi otomatik.",
-  "en": "Keep score for tennis and padel and let the rules run themselves. 15-30-40, deuce, golden point and tiebreaks, all handled."
+  "tr": "Bilekteki hakemin. Sen sayıyı ver; 15-30-40, deuce, altın sayı, tiebreak, servis ve set sonu kendi işlesin. Maç bitince iPhone'da defterine düşer.",
+  "en": "Your umpire on your wrist. Award the point; 15-30-40, deuce, golden point, tiebreaks, serve and set endings take care of themselves. When it ends, it lands in your logbook on iPhone."
  },
  "pills": [
   {
-   "tr": "Watch uygulaması",
-   "en": "Watch app"
+   "tr": "Tenis ve padel",
+   "en": "Tennis and padel"
   },
   {
-   "tr": "Türkçe sesli anons",
-   "en": "Turkish voice umpire"
+   "tr": "4 deuce kuralı",
+   "en": "4 deuce rules"
   },
   {
-   "tr": "QR ile rakip senkronu",
-   "en": "QR opponent sync"
+   "tr": "12 dilde sesli hakem",
+   "en": "Voice umpire in 12 languages"
+  },
+  {
+   "tr": "Apple Health",
+   "en": "Apple Health"
+  },
+  {
+   "tr": "Wear OS",
+   "en": "Wear OS"
   }
  ],
  "platforms": [
@@ -43,174 +54,415 @@
  "emoji": [
   "🎾",
   "🏆",
-  "⏱️",
   "⌚",
   "🔊",
-  "📊"
+  "📊",
+  "⏱️",
+  "🥇"
  ],
  "promo": {
   "any": [
-   "/tennis-padel/assets/shot-1.webp",
-   "/tennis-padel/assets/shot-2.webp",
-   "/tennis-padel/assets/shot-3.webp"
+   "/tennis-padel/assets/promo/en/01-logbook.webp",
+   "/tennis-padel/assets/promo/en/02-rules.webp",
+   "/tennis-padel/assets/promo/en/03-academy.webp",
+   "/tennis-padel/assets/promo/en/04-watch-sync.webp"
   ]
  },
- "privacy": {
-  "text": {
-   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
-   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
-  },
-  "href": "/privacy/tennis-padel/"
- },
- "support": "/support/",
  "sections": [
   {
-   "id": "kurallar",
+   "id": "canli",
    "kicker": {
-    "tr": "Tenis ve padel",
-    "en": "Tennis and padel"
-   },
-   "title": {
-    "tr": "Kurallar kendi işler",
-    "en": "The rules run themselves"
-   },
-   "text": {
-    "tr": "Tiebreak, deuce ve altın sayı kuralları formatına göre değişir; padelde altın sayı, teniste avantaj. Sen sadece sayıyı ver.",
-    "en": "Tiebreak, deuce and golden-point rules switch with the format: golden point for padel, advantage for tennis. You just award the point."
-   },
-   "bullets": [
-    {
-     "tr": "Tek set, Bo3, Bo3 + süper tiebreak, Bo5 ya da sınırsız",
-     "en": "One set, best of 3, best of 3 with super tiebreak, best of 5 or unlimited"
-    },
-    {
-     "tr": "Academy: puanlama, tiebreak, altın sayı ve padel rehberleri",
-     "en": "Academy: guides to scoring, tiebreaks, golden point and padel"
-    }
-   ],
-   "device": "phone",
-   "images": {
-    "any": [
-     "/assets/home/screens/tennis-padel/any/02.webp"
-    ]
-   }
-  },
-  {
-   "id": "saat",
-   "kicker": {
-    "tr": "Apple Watch",
-    "en": "Apple Watch"
+    "tr": "Canlı skor",
+    "en": "Live score"
    },
    "title": {
     "tr": "Sayı bilekten",
     "en": "Score from your wrist"
    },
    "text": {
-    "tr": "Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.",
-    "en": "The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag."
+    "tr": "Maç boyunca telefona dokunmazsın. Sana ya da rakibe tek dokunuş; skor, oyun ve set saatte büyük ve net. Her sayıda titreşim gelir, ekrana bakmana gerek kalmaz.",
+    "en": "You never touch your phone mid-match. One tap for you or your opponent; score, games and sets sit big and clear on the watch. Every point comes with a haptic, so you barely need to look."
    },
    "bullets": [
     {
-     "tr": "Servis, taraf değişimi ve set sonu kendi işler",
-     "en": "Serve, side changes and set endings take care of themselves"
+     "tr": "BREAK POINT, SET POINT ve MATCH POINT ekranda uyarı olarak çıkar",
+     "en": "BREAK POINT, SET POINT and MATCH POINT flash up as alerts"
     },
     {
-     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır",
-     "en": "With your permission the match is logged to Apple Health as a workout"
+     "tr": "Servis oku kimin servis attığını ve hangi taraftan gösterir",
+     "en": "A serve arrow shows who serves and from which side"
+    },
+    {
+     "tr": "Yanlış dokunuşu geri al tuşu düzeltir",
+     "en": "An undo button fixes a mistaken tap"
+    },
+    {
+     "tr": "OLED dostu koyu arayüz, uzun maçlarda pili korur",
+     "en": "OLED-friendly dark interface saves battery on long matches"
     }
    ],
    "device": "watch",
    "images": {
     "any": [
-     "/tennis-padel/assets/watch-1.webp",
-     "/tennis-padel/assets/watch-2.webp",
-     "/tennis-padel/assets/watch-3.webp"
+     "/tennis-padel/assets/watch/en/01-break-point.webp",
+     "/tennis-padel/assets/watch/en/02-set-point.webp",
+     "/tennis-padel/assets/watch/en/03-tiebreak.webp"
     ]
-   }
+   },
+   "color": "#c8f560"
   },
   {
-   "id": "rakip",
+   "id": "kurallar",
    "kicker": {
-    "tr": "Hakem ve rakip",
-    "en": "Umpire and opponent"
+    "tr": "Kurallar otomatik",
+    "en": "Rules on autopilot"
    },
    "title": {
-    "tr": "Skoru o söylesin",
-    "en": "Let it call the score"
+    "tr": "Tenis mi padel mi, seç",
+    "en": "Tennis or padel, pick one"
    },
    "text": {
-    "tr": "Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.",
-    "en": "It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side."
+    "tr": "Maçı iPhone'da tek ekranda kurarsın: spor, format, deuce kuralı, oyuncular ve ilk servis. Tiebreak 6-6'da kendiliğinden başlar, süper tiebreak 1-1 sette devreye girer.",
+    "en": "Set up the match on one iPhone screen: sport, format, deuce rule, players and first serve. The tiebreak starts by itself at 6-6, and the super tiebreak kicks in at one set all."
    },
    "bullets": [
     {
-     "tr": "Hesap ya da sunucu yok",
-     "en": "No account, no server"
+     "tr": "Formatlar: 1 set, Bo3, Bo3 + süper tiebreak, Bo5 (Grand Slam) ve sınırsız",
+     "en": "Formats: 1 set, best of 3, best of 3 + super tiebreak, best of 5 (Grand Slam) and unlimited"
     },
     {
-     "tr": "Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde",
-     "en": "A result card over your own photo, with duration and total points"
+     "tr": "Tiebreak 7 ya da 10 sayı",
+     "en": "Tiebreak to 7 or 10 points"
+    },
+    {
+     "tr": "Çiftlerde dört oyuncu adı, kayıtlı rakiplerden seçim",
+     "en": "Four player names for doubles, pick from saved opponents"
+    },
+    {
+     "tr": "Kimin başlayacağına zar karar versin",
+     "en": "Let the built-in dice decide who serves first"
     }
    ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/tennis-padel/any/03.webp"
+     "/tennis-padel/assets/screens/en/01-setup.webp"
     ]
-   }
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "deuce",
+   "kicker": {
+    "tr": "Padel ve kulüp kuralları",
+    "en": "Padel and club rules"
+   },
+   "title": {
+    "tr": "Dört deuce kuralı",
+    "en": "Four deuce rules"
+   },
+   "text": {
+    "tr": "40-40'ta ne olacağını sen seçersin. Klasik avantaj, padelin altın sayısı ya da ikisinin arası; uygulama seçtiğin kurala göre sayar.",
+    "en": "You decide what happens at 40-40. Classic advantage, padel's golden point or something in between; the app counts by the rule you pick."
+   },
+   "bullets": [
+    {
+     "tr": "Standart: avantajla, iki sayı farkla",
+     "en": "Standard: advantage, win by two"
+    },
+    {
+     "tr": "Altın (No-Ad): 40-40'ta sıradaki sayı oyunu alır",
+     "en": "Gold (No-Ad): at 40-40 the next point wins"
+    },
+    {
+     "tr": "Gümüş: bir avantaj, sonra altın sayı",
+     "en": "Silver: one advantage, then golden point"
+    },
+    {
+     "tr": "Bronz: iki avantaj, sonra altın sayı",
+     "en": "Bronze: two advantages, then golden point"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "any": [
+     "/tennis-padel/assets/promo/en/w3-advanced.webp",
+     "/tennis-padel/assets/promo/en/w5-golden.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch ve Wear OS",
+    "en": "Apple Watch and Wear OS"
+   },
+   "title": {
+    "tr": "Telefon çantada kalsın",
+    "en": "Leave the phone in your bag"
+   },
+   "text": {
+    "tr": "Saat uygulaması tek başına çalışır; maçı saatte kurup başlatabilirsin ya da iPhone'da kurup tek dokunuşla saate gönderirsin. Maç bitince sonuç kendiliğinden telefona geçer.",
+    "en": "The Watch app runs on its own; set up and start the match on the watch, or set it up on iPhone and send it over with one tap. When it ends, the result moves to your phone by itself."
+   },
+   "bullets": [
+    {
+     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır: nabız, kalori, mesafe",
+     "en": "With your permission the match is saved to Apple Health as a workout: heart rate, calories, distance"
+    },
+    {
+     "tr": "Antrenman modu: skor tut, maç hakkından düşmesin",
+     "en": "Practice mode: keep score without using a match"
+    },
+    {
+     "tr": "Android telefon ve Wear OS saat için de Google Play'de",
+     "en": "Also on Google Play for Android phones and Wear OS watches"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/tennis-padel/assets/watch/en/04-setup.webp",
+     "/tennis-padel/assets/watch/en/06-advantage.webp",
+     "/tennis-padel/assets/watch/en/05-completed.webp"
+    ]
+   },
+   "color": "#e9ccff"
   },
   {
    "id": "defter",
    "kicker": {
-    "tr": "Maç defteri ve profil",
-    "en": "Logbook and profile"
+    "tr": "Maç defteri ve istatistik",
+    "en": "Logbook and stats"
    },
    "title": {
     "tr": "Her maç kayıtta",
     "en": "Every match on file"
    },
    "text": {
-    "tr": "Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.",
-    "en": "Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile."
+    "tr": "Biten her maç tarihi, süresi, set skorları ve rakibiyle deftere düşer. Maça başlık, yer, not ve fotoğraf eklersin; Apple Health verisi maçın altında durur.",
+    "en": "Every finished match lands in your logbook with its date, duration, set scores and opponent. Add a title, location, notes and a photo; Apple Health data sits under the match."
    },
    "bullets": [
     {
-     "tr": "Kazanma oranı, kazanılan ve kaybedilen sayılar",
-     "en": "Win rate, points won and lost"
+     "tr": "Profilde kazanma oranı, toplam maç, kazanılan ve kaybedilen sayı",
+     "en": "Profile shows win rate, total matches, points won and lost"
     },
     {
-     "tr": "Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında",
-     "en": "Phone and Watch share one history, synced in your own iCloud"
+     "tr": "Tüm zamanlar, son 30 gün ya da bu yıl",
+     "en": "All time, last 30 days or this year"
+    },
+    {
+     "tr": "Rakibe göre süz, seviyeni ve oyun stilini profiline yaz",
+     "en": "Filter by opponent, add your level and playing style"
+    },
+    {
+     "tr": "Telefon ve saat aynı geçmişi görür, iCloud ile eşitlenir",
+     "en": "Phone and Watch share one history, synced through iCloud"
     }
    ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/tennis-padel/any/01.webp",
-     "/assets/home/screens/tennis-padel/any/04.webp"
+     "/tennis-padel/assets/screens/en/02-victory.webp",
+     "/tennis-padel/assets/screens/en/04-logbook.webp"
     ]
-   }
+   },
+   "color": "#55db9c"
   },
   {
    "id": "paylas",
    "kicker": {
-    "tr": "Paylaş",
-    "en": "Share"
+    "tr": "Paylaşım ve rakip",
+    "en": "Share and opponent"
    },
    "title": {
-    "tr": "Maç kartı hazır",
-    "en": "Your match card, ready"
+    "tr": "Zaferi paylaş",
+    "en": "Share the win"
    },
    "text": {
-    "tr": "Bitince kendi fotoğrafınla bir sonuç kartı üretir: süre ve toplam sayı üstünde.",
-    "en": "At the final point it builds a result card over your own photo, duration and total points included."
+    "tr": "Maç bitince kendi fotoğrafınla bir hikaye kartı çıkar: skor, setler, süre ve toplam sayı üstünde. Instagram Hikayeler'e tek dokunuşla gönder ya da kaydet.",
+    "en": "When it ends you get a story card over your own photo: score, sets, duration and total points on top. Send it straight to Instagram Stories or save it."
    },
+   "bullets": [
+    {
+     "tr": "Rakibin QR kodu okutur, maç onun telefonuna kendi tarafından görünerek aktarılır",
+     "en": "Your opponent scans a QR code and the match imports to their phone, flipped to their side"
+    },
+    {
+     "tr": "Hesap, sunucu ya da internet gerekmez",
+     "en": "No account, server or internet needed"
+    },
+    {
+     "tr": "Mesajlar ve sosyal medya için hazır özet",
+     "en": "A ready summary for Messages and social media"
+    }
+   ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/tennis-padel/any/05.webp"
+     "/tennis-padel/assets/screens/en/03-share.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "hakem",
+   "kicker": {
+    "tr": "Sesli hakem",
+    "en": "Voice umpire"
+   },
+   "title": {
+    "tr": "Skoru o söylesin",
+    "en": "Let it call the score"
+   },
+   "text": {
+    "tr": "Her sayıdan sonra skoru saatin hoparlöründen yüksek sesle söyler; \"fifteen, thirty\" ya da kendi dilinde. Bluetooth hoparlöre bağlanınca ilk anonsta gecikme olmaz.",
+    "en": "After every point it calls the score out loud from the watch speaker, in English or your own language. With a Bluetooth speaker the first call comes without delay."
+   },
+   "bullets": [
+    {
+     "tr": "12 dil: Türkçe, İngilizce, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Felemenkçe, Rusça, Arapça, Japonca, Çince",
+     "en": "12 languages: Turkish, English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Arabic, Japanese, Chinese"
+    },
+    {
+     "tr": "Oyuncu adları da seçilen dilde okunur",
+     "en": "Player names are read in the chosen language too"
+    },
+    {
+     "tr": "İstersen tamamen kapalı",
+     "en": "Or switch it off entirely"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "any": [
+     "/tennis-padel/assets/promo/en/w4-voice.webp"
+    ]
+   },
+   "color": "#4da2ff"
+  },
+  {
+   "id": "rehber",
+   "kicker": {
+    "tr": "Akademi",
+    "en": "Academy"
+   },
+   "title": {
+    "tr": "Kuralı uygulamada öğren",
+    "en": "Learn the rules in the app"
+   },
+   "text": {
+    "tr": "Uygulamanın içinde kısa rehberler var: tenis puanlaması, tiebreak, padel ile tenis farkı, dört deuce kuralı, çiftlerde taktik ve padelde camı kullanmak.",
+    "en": "Short guides live inside the app: tennis scoring, tiebreaks, how padel differs from tennis, the four deuce rules, doubles tactics and using the glass in padel."
+   },
+   "bullets": [
+    {
+     "tr": "Başlangıç rehberi: hareketler, eşitleme ve tuşlar",
+     "en": "Getting started: gestures, sync and buttons"
+    },
+    {
+     "tr": "Açık ve koyu tema",
+     "en": "Light and dark mode"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/tennis-padel/assets/screens/en/05-academy.webp",
+     "/tennis-padel/assets/screens/en/06-welcome.webp"
+    ]
+   },
+   "color": "#c8f560"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Önce dene, sonra Pass",
+   "en": "Try it, then get the Pass"
+  },
+  "lede": {
+   "tr": "İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik Tennis & Padel, Pickleball ve Volleyball'u birlikte açar. Fiyatlar App Store'da gösterilir.",
+   "en": "Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription covers Tennis & Padel, Pickleball and Volleyball together. Prices are shown in the App Store."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "2 maç",
+     "en": "2 matches"
+    },
+    "items": [
+     {
+      "tr": "Kısa video izle, +1 maç",
+      "en": "Watch a short clip, +1 match"
+     },
+     {
+      "tr": "Antrenman modu maç hakkından düşmez",
+      "en": "Practice mode never uses a match"
+     },
+     {
+      "tr": "Hesap yok, kayıt yok",
+      "en": "No account, no sign-up"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Aylık ya da yıllık",
+     "en": "Monthly or yearly"
+    },
+    "price": {
+     "tr": "49,99 ₺/ay · 399,99 ₺/yıl",
+     "en": "$0.99/mo · $7.99/yr"
+    },
+    "items": [
+     {
+      "tr": "Sınırsız maç",
+      "en": "Unlimited matches"
+     },
+     {
+      "tr": "İstediğin an Ayarlar'dan iptal",
+      "en": "Cancel anytime in Settings"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Ömür boyu",
+     "en": "Lifetime"
+    },
+    "price": {
+     "tr": "2.499,99 ₺ tek sefer",
+     "en": "$49.99 once"
+    },
+    "items": [
+     {
+      "tr": "Bir kez öde, hep senin",
+      "en": "Pay once, keep it forever"
+     },
+     {
+      "tr": "Satın alımı geri yükle her cihazda",
+      "en": "Restore on every device"
+     }
     ]
    }
-  }
- ]
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Verin sende",
+   "en": "Your data stays yours"
+  },
+  "text": {
+   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
+   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
+  },
+  "href": "/privacy/tennis-padel/"
+ },
+ "support": "/support/"
 }

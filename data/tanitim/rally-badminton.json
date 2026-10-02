@@ -1,10 +1,13 @@
 {
  "slug": "rally-badminton",
- "name": "Rally Badminton",
- "title": "Rally Badminton",
+ "name": "Rally: Badminton",
+ "title": {
+  "tr": "Rally: Badminton",
+  "en": "Rally: Badminton"
+ },
  "description": {
-  "tr": "BWF ralli puanlamasıyla badminton skoru. 15 veya 21 sayı, üç ya da beş oyunluk maç, iki sayı farkı kuralı dahil.",
-  "en": "Badminton scoring with proper BWF rally rules. 15 or 21 points, best of three or five, two-point margin included."
+  "tr": "Badminton için iPhone ve Apple Watch skor tutucu. BWF rally puanlama, Bo3 ve Bo5 kendi işler. Maç defteri, sesli hakem ve paylaşım kartı.",
+  "en": "Badminton score keeper for iPhone and Apple Watch. BWF rally-point scoring, best of 3 and 5 handled. Logbook, voice umpire and share cards."
  },
  "icon": "/rally-badminton/assets/icon.webp",
  "color": "#ffb3d9",
@@ -15,21 +18,25 @@
   "en": "iPhone · Apple Watch"
  },
  "lede": {
-  "tr": "BWF ralli puanlamasıyla badminton skoru. 15 veya 21 sayı, üç ya da beş oyunluk maç, iki sayı farkı kuralı dahil.",
-  "en": "Badminton scoring with proper BWF rally rules. 15 or 21 points, best of three or five, two-point margin included."
+  "tr": "Her ralli sayılır. BWF kurallarıyla skor tut, maçı bilekten takip et, galibiyeti kartla paylaş.",
+  "en": "Every rally counts. Keep score by BWF rules, follow the match from your wrist and share the win as a card."
  },
  "pills": [
   {
-   "tr": "Watch uygulaması",
-   "en": "Watch app"
+   "tr": "BWF kuralları",
+   "en": "BWF rules"
   },
   {
-   "tr": "Türkçe sesli anons",
-   "en": "Turkish voice umpire"
+   "tr": "Tekler ve çiftler",
+   "en": "Singles and doubles"
   },
   {
-   "tr": "Hesap yok",
-   "en": "No account"
+   "tr": "7 dilde sesli hakem",
+   "en": "Voice umpire in 7 languages"
+  },
+  {
+   "tr": "Apple Health",
+   "en": "Apple Health"
   }
  ],
  "platforms": [
@@ -40,53 +47,92 @@
  "emoji": [
   "🏸",
   "🏆",
-  "⏱️",
   "⌚",
   "🔊",
-  "📊"
+  "📊",
+  "⏱️"
  ],
  "promo": {
   "any": [
-   "/rally-badminton/assets/shot-1.webp",
-   "/rally-badminton/assets/shot-2.webp",
-   "/rally-badminton/assets/shot-3.webp"
+   "/rally-badminton/assets/promo/en/01-every-rally.webp",
+   "/rally-badminton/assets/promo/en/02-rules.webp",
+   "/rally-badminton/assets/promo/en/03-wrist.webp",
+   "/rally-badminton/assets/promo/en/04-track.webp",
+   "/rally-badminton/assets/promo/en/05-share.webp",
+   "/rally-badminton/assets/promo/en/06-bwf.webp",
+   "/rally-badminton/assets/promo/en/07-watch.webp",
+   "/rally-badminton/assets/promo/en/08-stats.webp"
   ]
  },
- "privacy": {
-  "text": {
-   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
-   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
-  },
-  "href": "/privacy/rally-badminton/"
- },
- "support": "/support/",
  "sections": [
   {
-   "id": "bwf",
+   "id": "canli",
    "kicker": {
-    "tr": "BWF ralli puanlaması",
-    "en": "BWF rally scoring"
+    "tr": "Canlı skor",
+    "en": "Live score"
    },
    "title": {
-    "tr": "21'e kadar, iki fark",
-    "en": "Up to 21, two clear"
+    "tr": "Sayı bilekten",
+    "en": "Score from your wrist"
    },
    "text": {
-    "tr": "15 ya da 21 sayı, Bo3 veya Bo5. Tekler ya da çiftler. Beraberlikte iki sayı farkı kuralı ve tavan sayı otomatik uygulanır.",
-    "en": "15 or 21 points, best of three or five, singles or doubles. The two-point margin and the cap are applied for you."
+    "tr": "Maçı iPhone'da başlat, bilekten takip et. Sayılar, kazanılan oyunlar ve maç süresi saatte büyük ve net; servisin kimde olduğu işaretli. Ralliler arasında telefona dokunmazsın.",
+    "en": "Start the match on iPhone and follow it from your wrist. Points, games won and match time sit big and clear on the watch; the server is marked. No touching your phone between rallies."
    },
    "bullets": [
     {
-     "tr": "Sesli hakem: her sayıdan sonra skoru yüksek sesle söyler, istersen tamamen kapalı",
-     "en": "Voice umpire: calls the score out loud after every point, or off entirely"
+     "tr": "Tek dokunuş bir sayı, geri al tuşu",
+     "en": "One tap per point, plus undo"
+    },
+    {
+     "tr": "Maç sonunda istatistik: oyunlar, nabız, kalori, süre",
+     "en": "Match stats at the end: games, heart rate, calories, time"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/rally-badminton/assets/watch/en/01-live.webp",
+     "/rally-badminton/assets/watch/en/03-stats.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "kurallar",
+   "kicker": {
+    "tr": "Kurallar otomatik",
+    "en": "Rules on autopilot"
+   },
+   "title": {
+    "tr": "BWF kuralı hazır",
+    "en": "BWF rules built in"
+   },
+   "text": {
+    "tr": "Maçı iPhone'da kurarsın: format, oyunun kaça oynandığı, tekler ya da çiftler, oyuncular ve ilk servis. Her ralli sayıdır; 20-20'den sonra iki sayı fark gerekir, 29-29'da sıradaki sayı oyunu alır.",
+    "en": "Set up the match on iPhone: format, points per game, singles or doubles, players and first server. Every rally is a point; from 20-20 you need a two-point lead, and at 29-29 the next point wins."
+   },
+   "bullets": [
+    {
+     "tr": "Bo3 ya da Bo5",
+     "en": "Best of 3 or best of 5"
+    },
+    {
+     "tr": "21 sayı (BWF standardı) ya da 11 sayı (hızlı oyun)",
+     "en": "21 points (BWF standard) or 11 points (fast game)"
+    },
+    {
+     "tr": "Kendi adın ve rakibin adı skor kartında",
+     "en": "Your name and your opponent's on the scoreboard"
     }
    ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/rally-badminton/any/02.webp"
+     "/rally-badminton/assets/screens/en/01-setup.webp"
     ]
-   }
+   },
+   "color": "#dceeff"
   },
   {
    "id": "saat",
@@ -95,88 +141,246 @@
     "en": "Apple Watch"
    },
    "title": {
-    "tr": "Sayı bilekten",
-    "en": "Score from your wrist"
+    "tr": "Saat elinin altında",
+    "en": "The watch has it covered"
    },
    "text": {
-    "tr": "Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.",
-    "en": "The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag."
+    "tr": "Maçı iPhone'da kurup tek dokunuşla saate gönderirsin ya da doğrudan saatte format ve sayıyı seçip başlatırsın. Kimin başlayacağına zar karar verir.",
+    "en": "Set up the match on iPhone and send it to your wrist with one tap, or pick the format and points right on the watch and start. The built-in dice decides who serves first."
    },
    "bullets": [
     {
-     "tr": "Servis, taraf değişimi ve set sonu kendi işler",
-     "en": "Serve, side changes and set endings take care of themselves"
+     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır: nabız ve kalori",
+     "en": "With your permission the match is saved to Apple Health as a workout: heart rate and calories"
     },
     {
-     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır",
-     "en": "With your permission the match is logged to Apple Health as a workout"
+     "tr": "Antrenman modu maç hakkından düşmez",
+     "en": "Practice mode never uses a match"
     }
    ],
    "device": "watch",
    "images": {
     "any": [
-     "/rally-badminton/assets/watch-1.webp",
-     "/rally-badminton/assets/watch-2.webp",
-     "/rally-badminton/assets/watch-3.webp"
+     "/rally-badminton/assets/watch/en/02-setup.webp"
     ]
-   }
+   },
+   "color": "#e9ccff"
   },
   {
    "id": "defter",
    "kicker": {
-    "tr": "Maç defteri ve profil",
-    "en": "Logbook and profile"
+    "tr": "Maç defteri ve istatistik",
+    "en": "Logbook and stats"
    },
    "title": {
     "tr": "Her maç kayıtta",
     "en": "Every match on file"
    },
    "text": {
-    "tr": "Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.",
-    "en": "Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile."
+    "tr": "Biten her maç rakibi, skoru ve oyun oyun dökümüyle deftere düşer. Maç detayında süre, sayı dağılımı, nabız ve kalori durur.",
+    "en": "Every finished match lands in your logbook with the opponent, score and a game-by-game breakdown. Match details show duration, points split, heart rate and calories."
    },
    "bullets": [
     {
-     "tr": "İzin verirsen nabız ve kalori maç özetine düşer",
-     "en": "With your permission heart rate and calories land in the summary"
+     "tr": "Profilde zaman içinde kazanma oranı, kazanılan ve kaybedilen sayı",
+     "en": "Profile shows win rate over time, points won and lost"
     },
     {
-     "tr": "Bitince kendi fotoğrafınla sonuç kartı paylaş",
-     "en": "Share a result card over your own photo"
+     "tr": "Sık oynadığın rakiplerle karşılıklı skor",
+     "en": "Head-to-head records with regular opponents"
     },
     {
-     "tr": "Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında",
-     "en": "Phone and Watch share one history, synced in your own iCloud"
+     "tr": "Rakibe göre süz, maça ad ver",
+     "en": "Filter by opponent, name your matches"
     }
    ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/rally-badminton/any/01.webp",
-     "/assets/home/screens/rally-badminton/any/03.webp"
+     "/rally-badminton/assets/screens/en/02-details.webp"
     ]
-   }
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "paylas",
+   "kicker": {
+    "tr": "Paylaşım ve rakip",
+    "en": "Share and opponent"
+   },
+   "title": {
+    "tr": "Zaferi paylaş",
+    "en": "Share the win"
+   },
+   "text": {
+    "tr": "Galibiyeti göz alıcı bir karta çevir: maçtan bir fotoğraf ekle, kart stilini seç, Instagram Hikayeler'e ya da iMessage'a gönder.",
+    "en": "Turn a win into an eye-catching card: add a photo from the match, pick a card style and send it to Instagram Stories or iMessage."
+   },
+   "bullets": [
+    {
+     "tr": "Maçtan sonra rakibine QR kodu göster; okutunca maç onun defterine düşer",
+     "en": "Show your opponent a QR code after the match; they scan it and it lands in their logbook"
+    },
+    {
+     "tr": "Hesap ya da internet gerekmez",
+     "en": "No account or internet needed"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "any": [
+     "/rally-badminton/assets/promo/en/05-share.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "hakem",
+   "kicker": {
+    "tr": "Sesli hakem",
+    "en": "Voice umpire"
+   },
+   "title": {
+    "tr": "Skoru o söylesin",
+    "en": "Let it call the score"
+   },
+   "text": {
+    "tr": "Her sayıdan sonra skoru gerçek bir hakem gibi yüksek sesle söyler. Servisler arasında aşağı bakmadan maçta kalırsın.",
+    "en": "After every point it calls the score out loud, just like a real umpire. You stay in the match without looking down between serves."
+   },
+   "bullets": [
+    {
+     "tr": "7 dil: Türkçe, İngilizce, Endonezce, Çince, Korece, Malayca, Almanca",
+     "en": "7 languages: Turkish, English, Indonesian, Chinese, Korean, Malay, German"
+    },
+    {
+     "tr": "İstersen tamamen kapalı",
+     "en": "Or switch it off entirely"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "any": [
+     "/rally-badminton/assets/promo/en/07-watch.webp"
+    ]
+   },
+   "color": "#4da2ff"
   },
   {
    "id": "rehber",
    "kicker": {
-    "tr": "Academy",
-    "en": "Academy"
+    "tr": "Rehber",
+    "en": "Guide"
    },
    "title": {
-    "tr": "Kuralı içeride öğren",
-    "en": "Learn the rules inside"
+    "tr": "Badmintonu uygulamada öğren",
+    "en": "Learn badminton in the app"
    },
    "text": {
-    "tr": "Uygulamanın içinde kural, teknik ve taktik rehberleri: kim servis atar, let nedir, hangi vuruş ne zaman.",
-    "en": "Rule, technique and tactics guides built in: who serves, what a let is, which shot when."
+    "tr": "Uygulamanın içinde kısa rehberler var: puanlama nasıl işler, servis kuralları, teklerle çiftlerin farkı, let ve hata, ayak çalışması.",
+    "en": "Short guides live inside the app: how scoring works, service rules, singles vs doubles, lets and faults, footwork basics."
    },
+   "bullets": [
+    {
+     "tr": "Kurallar, strateji ve teknik diye ayrılmış",
+     "en": "Split into rules, strategy and technique"
+    }
+   ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/rally-badminton/any/04.webp"
+     "/rally-badminton/assets/screens/en/03-guide.webp"
+    ]
+   },
+   "color": "#c8f560"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Önce dene, sonra Pass",
+   "en": "Try it, then get the Pass"
+  },
+  "lede": {
+   "tr": "İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik BamTech'in bütün spor uygulamalarında geçerli. Fiyatlar App Store'da gösterilir.",
+   "en": "Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription works across every BamTech sports app. Prices are shown in the App Store."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "2 maç",
+     "en": "2 matches"
+    },
+    "items": [
+     {
+      "tr": "Kısa video izle, +1 maç",
+      "en": "Watch a short clip, +1 match"
+     },
+     {
+      "tr": "Antrenman modu maç hakkından düşmez",
+      "en": "Practice mode never uses a match"
+     },
+     {
+      "tr": "Hesap yok, kayıt yok",
+      "en": "No account, no sign-up"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Aylık ya da yıllık",
+     "en": "Monthly or yearly"
+    },
+    "price": {
+     "tr": "49,99 ₺/ay · 399,99 ₺/yıl",
+     "en": "$0.99/mo · $7.99/yr"
+    },
+    "items": [
+     {
+      "tr": "Sınırsız maç",
+      "en": "Unlimited matches"
+     },
+     {
+      "tr": "İstediğin an Ayarlar'dan iptal",
+      "en": "Cancel anytime in Settings"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Ömür boyu",
+     "en": "Lifetime"
+    },
+    "price": {
+     "tr": "2.499,99 ₺ tek sefer",
+     "en": "$49.99 once"
+    },
+    "items": [
+     {
+      "tr": "Bir kez öde, hep senin",
+      "en": "Pay once, keep it forever"
+     },
+     {
+      "tr": "Satın alımı geri yükle her cihazda",
+      "en": "Restore on every device"
+     }
     ]
    }
-  }
- ]
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Verin sende",
+   "en": "Your data stays yours"
+  },
+  "text": {
+   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
+   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
+  },
+  "href": "/privacy/rally-badminton/"
+ },
+ "support": "/support/"
 }

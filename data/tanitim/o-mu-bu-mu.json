@@ -6,20 +6,20 @@
   "en": "O mu Bu mu? This or That"
  },
  "description": {
-  "tr": "İkilemler ve eleme turnuvaları. İki fotoğraf, tek dokunuş: seç, sonra herkes ne seçmiş gör. 2.600'den fazla seçenek, 200'den fazla ikilem.",
-  "en": "Dilemmas and bracket tournaments. Two photos, one tap: pick, then see what everyone else picked. 2,600+ options, 200+ dilemmas."
+  "tr": "İkilemler ve eleme turnuvaları. İki fotoğraf, tek dokunuş: seç, herkes ne seçmiş gör. Son 64 turnuvalar, kazanan kalır modu, arkadaşla aynı kura, kendi turnuvan. iPhone, Apple Watch, Android ve Wear OS.",
+  "en": "Dilemmas and bracket tournaments. Two photos, one tap: pick, then see what everyone picked. Round of 64 brackets, winner stays, the same draw with friends, your own brackets. iPhone, Apple Watch, Android and Wear OS."
  },
  "icon": "/o-mu-bu-mu/assets/icon.webp",
  "color": "#e9ccff",
  "accent": "#fb4903",
  "status": "live",
  "kicker": {
-  "tr": "iPhone · Apple Watch · Android",
-  "en": "iPhone · Apple Watch · Android"
+  "tr": "iPhone · iPad · Apple Watch · Android · Wear OS",
+  "en": "iPhone · iPad · Apple Watch · Android · Wear OS"
  },
  "lede": {
-  "tr": "Masada tartışmayı başlatan oyun. İki fotoğraf, tek dokunuş: sen seçersin, sonra herkesin ne seçtiğini görürsün. Sonra bir turnuvaya geç, en iyiyi bul.",
-  "en": "The game that starts the argument at the table. Two photos, one tap: you pick, then see what everyone else picked. Then move on to a bracket and find the best."
+  "tr": "Masada tartışmayı başlatan oyun. İki fotoğraf, tek dokunuş: sen seçersin, sonra herkesin ne seçtiğini görürsün. Sonra bir turnuvaya geç, Son 64'ten tek şampiyon çıkar.",
+  "en": "The game that starts the argument at the table. Two photos, one tap: you pick, then see what everyone else picked. Then jump into a bracket and crown one champion out of 64."
  },
  "pills": [
   {
@@ -27,26 +27,31 @@
    "en": "No sign-in needed"
   },
   {
-   "tr": "2.600+ seçenek",
-   "en": "2,600+ options"
-  },
-  {
    "tr": "200+ ikilem",
    "en": "200+ dilemmas"
   },
   {
-   "tr": "Ücretsiz",
-   "en": "Free"
+   "tr": "29 turnuva",
+   "en": "29 brackets"
   },
   {
-   "tr": "App Store: Türkiye",
-   "en": "App Store: Turkey only"
+   "tr": "12 kategori",
+   "en": "12 categories"
+  },
+  {
+   "tr": "Saatte de oynanır",
+   "en": "Plays on your watch"
+  },
+  {
+   "tr": "Ücretsiz",
+   "en": "Free"
   }
  ],
  "platforms": [
   "ios",
   "watchos",
-  "android"
+  "android",
+  "wearos"
  ],
  "ios": "6740251305",
  "play": "com.berkalparslan.thisOne",
@@ -54,10 +59,10 @@
   "🤔",
   "⚔️",
   "🏆",
+  "👑",
   "🍕",
   "🏖️",
-  "🔥",
-  "👑"
+  "🔥"
  ],
  "promo": {
   "tr": [
@@ -67,7 +72,10 @@
    "/o-mu-bu-mu/assets/promo/tr/04.webp",
    "/o-mu-bu-mu/assets/promo/tr/05.webp",
    "/o-mu-bu-mu/assets/promo/tr/06.webp",
-   "/o-mu-bu-mu/assets/promo/tr/07.webp"
+   "/o-mu-bu-mu/assets/promo/tr/07.webp",
+   "/o-mu-bu-mu/assets/promo/tr/08.webp",
+   "/o-mu-bu-mu/assets/promo/tr/09.webp",
+   "/o-mu-bu-mu/assets/promo/tr/10.webp"
   ],
   "en": [
    "/o-mu-bu-mu/assets/promo/en/01.webp",
@@ -76,7 +84,10 @@
    "/o-mu-bu-mu/assets/promo/en/04.webp",
    "/o-mu-bu-mu/assets/promo/en/05.webp",
    "/o-mu-bu-mu/assets/promo/en/06.webp",
-   "/o-mu-bu-mu/assets/promo/en/07.webp"
+   "/o-mu-bu-mu/assets/promo/en/07.webp",
+   "/o-mu-bu-mu/assets/promo/en/08.webp",
+   "/o-mu-bu-mu/assets/promo/en/09.webp",
+   "/o-mu-bu-mu/assets/promo/en/10.webp"
   ]
  },
  "sections": [
@@ -91,13 +102,25 @@
     "en": "Does everyone agree?"
    },
    "text": {
-    "tr": "Kahve mi çay mı, deniz mi dağ mı? 200'den fazla fotoğraflı ikilem. Oy ver, yüzdeleri gör, devam et. Her gün yeni bir günün ikilemi.",
-    "en": "Coffee or tea, sea or mountains? 200+ photo dilemmas. Vote, see the split, move on. A new dilemma of the day, every day."
+    "tr": "Dağ tatili mi deniz tatili mi, kahve mi çay mı? Seçeceğine dokun, oyların yüzdesi anında açılır. Herkes nereye düşmüş, sen azınlıkta mısın, hemen görürsün.",
+    "en": "Mountains or sea, coffee or tea? Tap the one you'd pick and the vote split opens right away. See where everyone landed and whether you're in the minority."
    },
    "bullets": [
     {
-     "tr": "Spor, film, müzik, yemek, seyahat, teknoloji: 12 kategori",
-     "en": "Sports, movies, music, food, travel, tech: 12 categories"
+     "tr": "200'den fazla fotoğraflı ikilem",
+     "en": "200+ photo dilemmas"
+    },
+    {
+     "tr": "Her gün yeni bir günün ikilemi; seri tut, gün kaçırma",
+     "en": "A new dilemma of the day, every day; keep your streak going"
+    },
+    {
+     "tr": "Rastgele modda ikilemler arka arkaya akar",
+     "en": "Random mode serves dilemmas back to back"
+    },
+    {
+     "tr": "Uygunsuz görsel ya da yanlış ad mı var? Tek dokunuşla bildir",
+     "en": "Wrong name or inappropriate image? Report it in one tap"
     }
    ],
    "device": "phone",
@@ -116,16 +139,16 @@
   {
    "id": "turnuva",
    "kicker": {
-    "tr": "Turnuvalar",
+    "tr": "Eleme turnuvası",
     "en": "Brackets"
    },
    "title": {
-    "tr": "Son 64'ten tek şampiyon",
+    "tr": "64'ten tek şampiyon",
     "en": "One champion from 64"
    },
    "text": {
-    "tr": "Gerçek eleme usulü: Son 64, 32, 16, çeyrek final, yarı final, final. Yemekler, tatlılar, şehirler, tatil yerleri; 2.600'den fazla fotoğraflı seçenek.",
-    "en": "Real single elimination: round of 64, 32, 16, quarter-finals, semis, final. Food, desserts, cities, holiday spots; 2,600+ photo options."
+    "tr": "Gerçek tek eleme: Son 64, Son 32, Son 16, çeyrek final, yarı final, final. Her maçta iki fotoğraf karşı karşıya, kazanan bir üst tura çıkar, tek isim kalana kadar.",
+    "en": "Real single elimination: round of 64, 32, 16, quarter-finals, semis, final. Two photos face off in every match and the winner moves up, until only one is left."
    },
    "bullets": [
     {
@@ -133,24 +156,65 @@
      "en": "Start with 8, 16, 32 or 64 options"
     },
     {
-     "tr": "Kazanan kalır modu: koltuğu kim korur?",
-     "en": "Winner stays: who keeps the seat?"
+     "tr": "Yemekler, tatlılar, içecekler, şehirler, tatil yerleri, renkler",
+     "en": "Food, desserts, drinks, cities, holiday spots, colours"
+    },
+    {
+     "tr": "2.000'den fazla fotoğraflı seçenek",
+     "en": "2,000+ photo options"
+    },
+    {
+     "tr": "Fotoğrafı büyütüp yakından bak, sonra karar ver",
+     "en": "Enlarge a photo for a closer look, then decide"
     }
    ],
    "device": "phone",
    "images": {
     "tr": [
-     "/o-mu-bu-mu/assets/screens/tr/01.webp",
      "/o-mu-bu-mu/assets/screens/tr/07.webp",
-     "/o-mu-bu-mu/assets/screens/tr/05.webp"
+     "/o-mu-bu-mu/assets/screens/tr/01.webp"
     ],
     "en": [
-     "/o-mu-bu-mu/assets/screens/en/01.webp",
      "/o-mu-bu-mu/assets/screens/en/07.webp",
-     "/o-mu-bu-mu/assets/screens/en/05.webp"
+     "/o-mu-bu-mu/assets/screens/en/01.webp"
     ]
    },
    "color": "#ffd731"
+  },
+  {
+   "id": "kazanan-kalir",
+   "kicker": {
+    "tr": "Kazanan kalır",
+    "en": "Winner stays"
+   },
+   "title": {
+    "tr": "Koltuğu kim korur?",
+    "en": "Who keeps the seat?"
+   },
+   "text": {
+    "tr": "İkinci oyun modu. Koltukta bir seçenek oturur, rakipler sırayla gelir. Koltuktakini yenen koltuğa geçer, ayakta kalan son isim kazanır. Ekranın üstünde kaç rakip kaldığı, alevde de kaç düellodur koltukta olduğu yazar.",
+    "en": "The second way to play. One option holds the seat while challengers come one by one. Beat the holder to take the seat; the last one standing wins. The top shows how many challengers are left, the flame how many duels the holder has survived."
+   },
+   "bullets": [
+    {
+     "tr": "Her turnuva iki modda da oynanır",
+     "en": "Every bracket plays in both modes"
+    },
+    {
+     "tr": "Sonunda kim kaç düello koltukta kaldı, görürsün",
+     "en": "See how many duels the champion held the seat"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/05.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/05.webp"
+    ]
+   },
+   "color": "#ffb3d9"
   },
   {
    "id": "sampiyon",
@@ -159,13 +223,23 @@
     "en": "Champion"
    },
    "title": {
-    "tr": "Şampiyonu sen belirledin",
+    "tr": "Şampiyonu sen seçtin",
     "en": "You crowned the champion"
    },
    "text": {
-    "tr": "Şampiyonun yolu, turnuva ağacının tamamı ve paylaşılabilir bir sonuç kartı. Bir de halkın favorisi: hangi seçenek en çok şampiyon olmuş?",
-    "en": "The champion's road, the full bracket tree and a shareable result card. Plus the crowd favourite: which option has been crowned most often?"
+    "tr": "Turnuva bitince şampiyonun büyük ekranda: finalde kimi yendiği, şampiyonluğa giden yol ve elediği isimler. Turnuva ağacının tamamına bak, sonucu paylaş ya da tekrar oyna.",
+    "en": "When the bracket ends, your champion takes the screen: who it beat in the final, its road to the title and everyone it sent home. Open the full bracket tree, share the result or play again."
    },
+   "bullets": [
+    {
+     "tr": "Halkın favorisi: bu turnuvada en çok kim şampiyon olmuş?",
+     "en": "Crowd favourite: who has been crowned most often in this bracket?"
+    },
+    {
+     "tr": "Şampiyonların profilinde birikir: kazanılan turnuva, düello galibiyeti",
+     "en": "Champions pile up on your profile: titles won, duels won"
+    }
+   ],
    "device": "phone",
    "images": {
     "tr": [
@@ -184,25 +258,29 @@
     "en": "With friends"
    },
    "title": {
-    "tr": "Aynı kura, herkese",
-    "en": "Same draw for everyone"
+    "tr": "Aynı kura. Farklı şampiyon?",
+    "en": "Same draw. Different champion?"
    },
    "text": {
-    "tr": "Herhangi bir turnuvayı koda çevir, gönder. Herkes aynı kurayı istediği zaman oynar. Şampiyonlar yan yana: kim neyi seçti, ne kadar anlaşıyorsunuz.",
-    "en": "Turn any bracket into a code and send it. Everyone plays the same draw whenever they like. Champions side by side: who picked what, and how much you agree."
+    "tr": "Herhangi bir turnuvayı altı harfli bir koda çevir, gönder. Herkes aynı kurayı istediği zaman oynar; kuran kişi seçenekleri kilitler. Sonra şampiyonlar yan yana dizilir: kim neyi seçti, yüzde kaç hemfikirsiniz.",
+    "en": "Turn any bracket into a six-letter code and send it. Everyone gets the same draw and plays whenever they like; the host locks the options. Then the champions line up side by side: who picked what, and how much you agree."
    },
    "bullets": [
     {
-     "tr": "QR okut ya da bağlantıyı paylaş",
-     "en": "Scan the QR or share the link"
+     "tr": "Bağlantıyı paylaş ya da QR afişi gönder",
+     "en": "Share the link or send a QR poster"
     },
     {
-     "tr": "Kendi turnuvan: kendi konun, kendi fotoğrafların",
-     "en": "Your own bracket: your topic, your photos"
+     "tr": "QR'ı kamerayla okutan doğrudan turnuvana düşer; uygulama yoksa indirme sayfası açılır",
+     "en": "Scanning the QR opens your bracket directly; without the app, the download page opens"
     },
     {
-     "tr": "Yalnız bağlantın olan görür",
-     "en": "Only people with your link see it"
+     "tr": "Kodla katıl: arkadaşının kodunu yaz, aynı kurayı oyna",
+     "en": "Join by code: type your friend's code and play the exact draw"
+    },
+    {
+     "tr": "Kazanan kalır modu da arkadaşla oynanır",
+     "en": "Winner stays works with friends too"
     }
    ],
    "device": "phone",
@@ -217,33 +295,121 @@
    "color": "#dceeff"
   },
   {
-   "id": "saat",
+   "id": "kendi-turnuvan",
+   "kicker": {
+    "tr": "Kendi turnuvan",
+    "en": "Your own bracket"
+   },
+   "title": {
+    "tr": "Konu senin, fotoğraf senin",
+    "en": "Your topic, your photos"
+   },
+   "text": {
+    "tr": "Ofisin en iyi atıştırmalığı, ailenin tatil yeri, sınıfın en iyi filmi. Bir başlık ve emoji seç, en az dört fotoğraf ekle, arkadaşlarına meydan oku. Turnuvaların ana sayfada seni bekler, istediğin zaman düzenlersin.",
+    "en": "The office's best snack, the family's holiday spot, the class's best movie. Pick a title and an emoji, add at least four photos and challenge your friends. Your brackets wait on the home screen and you can edit them any time."
+   },
+   "bullets": [
+    {
+     "tr": "Yalnız sen ve bağlantını verdiklerin görür; herkese açık akışa düşmez",
+     "en": "Only you and people with your link see it; it never lands in the public feed"
+    },
+    {
+     "tr": "Ücretsiz: bir turnuva, 16 seçenek. Pro: sınırsız turnuva, 64 seçenek",
+     "en": "Free: one bracket, 16 options. Pro: unlimited brackets, 64 options"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/06.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/06.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "apple-watch",
    "kicker": {
     "tr": "Apple Watch",
     "en": "Apple Watch"
    },
    "title": {
-    "tr": "Günün ikilemi bilekte",
-    "en": "Today's dilemma, on your wrist"
+    "tr": "İkilem bileğinde",
+    "en": "A dilemma on your wrist"
    },
    "text": {
-    "tr": "Saatte günün ikilemine oy ver, herkesin ne dediğini gör. Hızlı turnuva: Son 4, Son 8 ya da Son 16, bir dakikada biter.",
-    "en": "Vote on the dilemma of the day from your watch and see what everyone said. Quick brackets: final four, eight or sixteen, done in a minute."
+    "tr": "Saatte günün ikilemine oy ver, herkesin ne dediğini yüzdelerle gör. Hızlı turnuva: kategoriyi seç, Son 4, Son 8 ya da Son 16 de, bir dakikada şampiyonun belli olsun.",
+    "en": "Vote on the dilemma of the day from your watch and see the split in percentages. Quick bracket: pick a category, choose a round of 4, 8 or 16 and have a champion within a minute."
    },
+   "bullets": [
+    {
+     "tr": "Telefondaki turnuvalar, aynı kura",
+     "en": "The same brackets and the same draw as the phone"
+    },
+    {
+     "tr": "Fotoğraflı düellolar küçük ekranda da net",
+     "en": "Photo duels stay clear on the small screen"
+    }
+   ],
    "device": "watch",
    "images": {
     "tr": [
-     "/o-mu-bu-mu/assets/screens/tr/watch-01.webp",
-     "/o-mu-bu-mu/assets/screens/tr/watch-02.webp",
-     "/o-mu-bu-mu/assets/screens/tr/watch-05.webp"
+     "/o-mu-bu-mu/assets/watch/tr/aw-01.webp",
+     "/o-mu-bu-mu/assets/watch/tr/aw-02.webp",
+     "/o-mu-bu-mu/assets/watch/tr/aw-04.webp",
+     "/o-mu-bu-mu/assets/watch/tr/aw-05.webp"
     ],
     "en": [
-     "/o-mu-bu-mu/assets/screens/en/watch-01.webp",
-     "/o-mu-bu-mu/assets/screens/en/watch-02.webp",
-     "/o-mu-bu-mu/assets/screens/en/watch-05.webp"
+     "/o-mu-bu-mu/assets/watch/en/aw-01.webp",
+     "/o-mu-bu-mu/assets/watch/en/aw-02.webp",
+     "/o-mu-bu-mu/assets/watch/en/aw-04.webp",
+     "/o-mu-bu-mu/assets/watch/en/aw-05.webp"
     ]
    },
-   "color": "#c8f560"
+   "color": "#4da2ff"
+  },
+  {
+   "id": "wear-os",
+   "kicker": {
+    "tr": "Wear OS",
+    "en": "Wear OS"
+   },
+   "title": {
+    "tr": "Bir dokunuş. Senin tarafın.",
+    "en": "One tap. Your side."
+   },
+   "text": {
+    "tr": "Android saatin de unutulmadı. Wear OS uygulamasında günün ikilemi ve hızlı turnuvalar yuvarlak ekrana göre tasarlandı: oy ver, yüzdeyi gör, Son 4, Son 8 ya da Son 16 oyna.",
+    "en": "Android watches get it too. On Wear OS the dilemma of the day and quick brackets are built for the round screen: vote, see the split, play a round of 4, 8 or 16."
+   },
+   "bullets": [
+    {
+     "tr": "Turnuvalar kategori ve seçenek sayısıyla listelenir",
+     "en": "Brackets are listed with their option counts"
+    },
+    {
+     "tr": "Şampiyon saat ekranında taçlanır",
+     "en": "The champion is crowned right on the watch"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/watch/tr/wear-01.webp",
+     "/o-mu-bu-mu/assets/watch/tr/wear-02.webp",
+     "/o-mu-bu-mu/assets/watch/tr/wear-04.webp",
+     "/o-mu-bu-mu/assets/watch/tr/wear-05.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/watch/en/wear-01.webp",
+     "/o-mu-bu-mu/assets/watch/en/wear-02.webp",
+     "/o-mu-bu-mu/assets/watch/en/wear-04.webp",
+     "/o-mu-bu-mu/assets/watch/en/wear-05.webp"
+    ]
+   },
+   "color": "#55db9c"
   }
  ],
  "pricing": {
@@ -252,8 +418,8 @@
    "en": "Free to play"
   },
   "lede": {
-   "tr": "İkilemler ve turnuvalar ücretsiz. Pro isteğe bağlı ve tek seferlik; abonelik yok.",
-   "en": "Dilemmas and brackets are free. Pro is optional and one-time; no subscription."
+   "tr": "İkilemler, turnuvalar, arkadaş kuraları ve saat uygulamaları ücretsiz. Reklamsız ve Pro isteğe bağlı, tek seferlik; abonelik yok, tekrar eden ödeme yok.",
+   "en": "Dilemmas, brackets, friend draws and the watch apps are free. Remove Ads and Pro are optional and one-time; no subscription, nothing recurring."
   },
   "plans": [
    {
@@ -267,12 +433,20 @@
     },
     "items": [
      {
-      "tr": "Giriş gerekmez",
-      "en": "No sign-in needed"
+      "tr": "Giriş gerekmez, parola yok",
+      "en": "No sign-in, no password"
      },
      {
-      "tr": "İstersen Apple ya da Google bağla",
-      "en": "Link Apple or Google if you like"
+      "tr": "Tüm ikilemler ve turnuvalar",
+      "en": "Every dilemma and bracket"
+     },
+     {
+      "tr": "Bir kendi turnuvan, 16 seçenek",
+      "en": "One own bracket, 16 options"
+     },
+     {
+      "tr": "İstersen Apple ya da Google bağla: turnuvaların yeni telefonuna gelir",
+      "en": "Link Apple or Google if you like: your brackets follow you to a new phone"
      }
     ]
    },
@@ -282,13 +456,17 @@
      "en": "Remove Ads"
     },
     "price": {
-     "tr": "₺99,99",
-     "en": "₺99.99"
+     "tr": "₺99,99 · tek sefer",
+     "en": "₺99.99 · one-time"
     },
     "items": [
      {
       "tr": "Reklamları kaldırır",
       "en": "Removes the ads"
+     },
+     {
+      "tr": "Sonra Pro'ya yükseltebilirsin",
+      "en": "Upgrade to Pro later"
      }
     ]
    },
@@ -311,8 +489,12 @@
       "en": "Unlimited own brackets"
      },
      {
-      "tr": "Turnuva başına 64 seçenek",
-      "en": "Up to 64 options per bracket"
+      "tr": "Turnuva başına 64 seçenek: gerçek bir Son 64",
+      "en": "Up to 64 options per bracket: a proper round of 64"
+     },
+     {
+      "tr": "Bir kez öde, hep senin",
+      "en": "Buy once, keep forever"
      }
     ]
    }
@@ -324,9 +506,10 @@
    "en": "Your data stays yours"
   },
   "text": {
-   "tr": "Hesap açman gerekmez. Ücretsiz sürümde reklam gösterilir (AdMob) ve izleme izni sorulur; hayır diyebilirsin. İçerik şu an Türkçe, arayüz Türkçe ve İngilizce.",
-   "en": "No account needed. The free version shows ads (AdMob) and asks for tracking permission; you can say no. Content is currently in Turkish; the interface is in English and Turkish."
+   "tr": "Hesap açman gerekmez; giriş yapmazsan turnuvaların yalnız bu telefonda kalır. Ücretsiz sürümde reklam gösterilir (AdMob) ve izleme izni sorulur; hayır diyebilirsin. İçerik şu an Türkçe, arayüz Türkçe ve İngilizce; açık, koyu ya da sistem teması.",
+   "en": "No account needed; without sign-in your brackets stay on this phone only. The free version shows ads (AdMob) and asks for tracking permission; you can say no. Content is currently in Turkish; the interface is in Turkish and English, with light, dark or system theme."
   },
   "href": "/privacy/o-mu-bu-mu/"
- }
+ },
+ "support": "/support/"
 }

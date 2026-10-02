@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tennis &amp; Padel Score Keeper · BamTech</title>
-<meta name="description" content="Keep score for tennis and padel and let the rules run themselves. 15-30-40, deuce, golden point and tiebreaks, all handled." />
+<title>Tennis Padel Score Keeper · BamTech</title>
+<meta name="description" content="Tennis and padel score keeper for Apple Watch and Wear OS. 15-30-40, deuce, golden point and tiebreaks run themselves; logbook, voice umpire and share cards on iPhone." />
 <link rel="canonical" href="https://berkalparslan.github.io/tennis-padel/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Tennis &amp; Padel Score Keeper" />
-<meta property="og:description" content="Keep score for tennis and padel and let the rules run themselves. 15-30-40, deuce, golden point and tiebreaks, all handled." />
+<meta property="og:title" content="Tennis Padel Score Keeper" />
+<meta property="og:description" content="Tennis and padel score keeper for Apple Watch and Wear OS. 15-30-40, deuce, golden point and tiebreaks run themselves; logbook, voice umpire and share cards on iPhone." />
 <meta property="og:image" content="https://berkalparslan.github.io/tennis-padel/assets/icon.webp" />
 <meta name="theme-color" content="#c8f560" />
 <link rel="icon" href="/tennis-padel/assets/icon.webp" />
@@ -21,101 +21,141 @@
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
     d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
-    d.setAttribute("data-title-tr", "Tennis & Padel Score Keeper · BamTech");
-    d.setAttribute("data-title-en", "Tennis & Padel Score Keeper · BamTech");
+    d.setAttribute("data-title-tr", "Tennis Padel Score Keeper · BamTech");
+    d.setAttribute("data-title-en", "Tennis Padel Score Keeper · BamTech");
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=cb7693a9" />
 
 </head>
 <body style="--app:#c8f560;--acc:#fb4903">
 
-<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Android&quot;, &quot;Tennis &amp; Padel&quot;, &quot;iPhone · Apple Watch · Android&quot;]"></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;Apple Watch · iPhone · Wear OS&quot;, &quot;Tennis &amp; Padel&quot;, &quot;Apple Watch · iPhone · Wear OS&quot;]"></div></div>
 
 <header class="top">
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="BamTech">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#kurallar"><span class="tr">Tenis ve padel</span><span class="en">Tennis and padel</span></a><a href="#saat">Apple Watch</a><a href="#rakip"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></a><a href="#defter"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></a></nav>
+    <nav class="nav"><a href="#canli"><span class="tr">Canlı skor</span><span class="en">Live score</span></a><a href="#kurallar"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></a><a href="#deuce"><span class="tr">Padel ve kulüp kuralları</span><span class="en">Padel and club rules</span></a><a href="#saat"><span class="tr">Apple Watch ve Wear OS</span><span class="en">Apple Watch and Wear OS</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
 <main>
-  <section class="hero" data-emoji="[&quot;🎾&quot;, &quot;🏆&quot;, &quot;⏱️&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;📊&quot;]">
+  <section class="hero" data-emoji="[&quot;🎾&quot;, &quot;🏆&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;📊&quot;, &quot;⏱️&quot;, &quot;🥇&quot;]">
     <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
     <div class="wrap hero-in">
       <img class="app-icon" src="/tennis-padel/assets/icon.webp" alt="" width="180" height="180" />
-      <p class="kick">iPhone · Apple Watch · Android </p>
+      <p class="kick">Apple Watch · iPhone · Wear OS </p>
       <h1 class="disp" lang="en">Tennis &amp; Padel</h1>
-      <p class="lede"><span class="tr">Tenis ve padel maçlarının skorunu tut, kurallar kendi işlesin. 15-30-40, deuce, altın sayı ve tiebreak, hepsi otomatik.</span><span class="en">Keep score for tennis and padel and let the rules run themselves. 15-30-40, deuce, golden point and tiebreaks, all handled.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Watch uygulaması</span><span class="en">Watch app</span></span><span class="pill-s"><span class="tr">Türkçe sesli anons</span><span class="en">Turkish voice umpire</span></span><span class="pill-s"><span class="tr">QR ile rakip senkronu</span><span class="en">QR opponent sync</span></span></div>
+      <p class="lede"><span class="tr">Bilekteki hakemin. Sen sayıyı ver; 15-30-40, deuce, altın sayı, tiebreak, servis ve set sonu kendi işlesin. Maç bitince iPhone&#x27;da defterine düşer.</span><span class="en">Your umpire on your wrist. Award the point; 15-30-40, deuce, golden point, tiebreaks, serve and set endings take care of themselves. When it ends, it lands in your logbook on iPhone.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Tenis ve padel</span><span class="en">Tennis and padel</span></span><span class="pill-s"><span class="tr">4 deuce kuralı</span><span class="en">4 deuce rules</span></span><span class="pill-s"><span class="tr">12 dilde sesli hakem</span><span class="en">Voice umpire in 12 languages</span></span><span class="pill-s">Apple Health</span><span class="pill-s">Wear OS</span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.wear" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
       <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span><span class="chip">Android</span><span class="chip">Wear OS</span></div>
     </div>
   </section>
 
-  <div class="promo "><div class="promo-track"><img src="/tennis-padel/assets/shot-1.webp" alt="" loading="lazy" /><img src="/tennis-padel/assets/shot-2.webp" alt="" loading="lazy" /><img src="/tennis-padel/assets/shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/shot-3.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo "><div class="promo-track"><img src="/tennis-padel/assets/promo/en/01-logbook.webp" alt="" loading="lazy" /><img src="/tennis-padel/assets/promo/en/02-rules.webp" alt="" loading="lazy" /><img src="/tennis-padel/assets/promo/en/03-academy.webp" alt="" loading="lazy" /><img src="/tennis-padel/assets/promo/en/04-watch-sync.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/promo/en/01-logbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/promo/en/02-rules.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/promo/en/03-academy.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tennis-padel/assets/promo/en/04-watch-sync.webp" alt="" loading="lazy" /></div></div>
 
-  <section class="z z-l" id="kurallar">
+  <section class="z z-l" id="canli">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/tennis-padel/any/02.webp&quot;]"><img src="/assets/home/screens/tennis-padel/any/02.webp" alt="The rules run themselves" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/tennis-padel/assets/watch/en/01-break-point.webp&quot;, &quot;/tennis-padel/assets/watch/en/02-set-point.webp&quot;, &quot;/tennis-padel/assets/watch/en/03-tiebreak.webp&quot;]"><img src="/tennis-padel/assets/watch/en/01-break-point.webp" alt="Score from your wrist" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Tenis ve padel</span><span class="en">Tennis and padel</span></p>
-        <h2 class="disp"><span class="tr">Kurallar kendi işler</span><span class="en">The rules run themselves</span></h2>
-        <p class="z-p"><span class="tr">Tiebreak, deuce ve altın sayı kuralları formatına göre değişir; padelde altın sayı, teniste avantaj. Sen sadece sayıyı ver.</span><span class="en">Tiebreak, deuce and golden-point rules switch with the format: golden point for padel, advantage for tennis. You just award the point.</span></p>
-        <ul class="bul"><li><span class="tr">Tek set, Bo3, Bo3 + süper tiebreak, Bo5 ya da sınırsız</span><span class="en">One set, best of 3, best of 3 with super tiebreak, best of 5 or unlimited</span></li><li><span class="tr">Academy: puanlama, tiebreak, altın sayı ve padel rehberleri</span><span class="en">Academy: guides to scoring, tiebreaks, golden point and padel</span></li></ul>
+        <p class="kick"><span class="tr">Canlı skor</span><span class="en">Live score</span></p>
+        <h2 class="disp"><span class="tr">Sayı bilekten</span><span class="en">Score from your wrist</span></h2>
+        <p class="z-p"><span class="tr">Maç boyunca telefona dokunmazsın. Sana ya da rakibe tek dokunuş; skor, oyun ve set saatte büyük ve net. Her sayıda titreşim gelir, ekrana bakmana gerek kalmaz.</span><span class="en">You never touch your phone mid-match. One tap for you or your opponent; score, games and sets sit big and clear on the watch. Every point comes with a haptic, so you barely need to look.</span></p>
+        <ul class="bul"><li><span class="tr">BREAK POINT, SET POINT ve MATCH POINT ekranda uyarı olarak çıkar</span><span class="en">BREAK POINT, SET POINT and MATCH POINT flash up as alerts</span></li><li><span class="tr">Servis oku kimin servis attığını ve hangi taraftan gösterir</span><span class="en">A serve arrow shows who serves and from which side</span></li><li><span class="tr">Yanlış dokunuşu geri al tuşu düzeltir</span><span class="en">An undo button fixes a mistaken tap</span></li><li><span class="tr">OLED dostu koyu arayüz, uzun maçlarda pili korur</span><span class="en">OLED-friendly dark interface saves battery on long matches</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="kurallar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tennis-padel/assets/screens/en/01-setup.webp&quot;]"><img src="/tennis-padel/assets/screens/en/01-setup.webp" alt="Tennis or padel, pick one" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></p>
+        <h2 class="disp"><span class="tr">Tenis mi padel mi, seç</span><span class="en">Tennis or padel, pick one</span></h2>
+        <p class="z-p"><span class="tr">Maçı iPhone&#x27;da tek ekranda kurarsın: spor, format, deuce kuralı, oyuncular ve ilk servis. Tiebreak 6-6&#x27;da kendiliğinden başlar, süper tiebreak 1-1 sette devreye girer.</span><span class="en">Set up the match on one iPhone screen: sport, format, deuce rule, players and first serve. The tiebreak starts by itself at 6-6, and the super tiebreak kicks in at one set all.</span></p>
+        <ul class="bul"><li><span class="tr">Formatlar: 1 set, Bo3, Bo3 + süper tiebreak, Bo5 (Grand Slam) ve sınırsız</span><span class="en">Formats: 1 set, best of 3, best of 3 + super tiebreak, best of 5 (Grand Slam) and unlimited</span></li><li><span class="tr">Tiebreak 7 ya da 10 sayı</span><span class="en">Tiebreak to 7 or 10 points</span></li><li><span class="tr">Çiftlerde dört oyuncu adı, kayıtlı rakiplerden seçim</span><span class="en">Four player names for doubles, pick from saved opponents</span></li><li><span class="tr">Kimin başlayacağına zar karar versin</span><span class="en">Let the built-in dice decide who serves first</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="deuce">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-image" data-cycle="[&quot;/tennis-padel/assets/promo/en/w3-advanced.webp&quot;, &quot;/tennis-padel/assets/promo/en/w5-golden.webp&quot;]"><img src="/tennis-padel/assets/promo/en/w3-advanced.webp" alt="Four deuce rules" loading="lazy" /></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Padel ve kulüp kuralları</span><span class="en">Padel and club rules</span></p>
+        <h2 class="disp"><span class="tr">Dört deuce kuralı</span><span class="en">Four deuce rules</span></h2>
+        <p class="z-p"><span class="tr">40-40&#x27;ta ne olacağını sen seçersin. Klasik avantaj, padelin altın sayısı ya da ikisinin arası; uygulama seçtiğin kurala göre sayar.</span><span class="en">You decide what happens at 40-40. Classic advantage, padel&#x27;s golden point or something in between; the app counts by the rule you pick.</span></p>
+        <ul class="bul"><li><span class="tr">Standart: avantajla, iki sayı farkla</span><span class="en">Standard: advantage, win by two</span></li><li><span class="tr">Altın (No-Ad): 40-40&#x27;ta sıradaki sayı oyunu alır</span><span class="en">Gold (No-Ad): at 40-40 the next point wins</span></li><li><span class="tr">Gümüş: bir avantaj, sonra altın sayı</span><span class="en">Silver: one advantage, then golden point</span></li><li><span class="tr">Bronz: iki avantaj, sonra altın sayı</span><span class="en">Bronze: two advantages, then golden point</span></li></ul>
       </div>
     </div>
   </section>
   <section class="z z-r" id="saat">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/tennis-padel/assets/watch-1.webp&quot;, &quot;/tennis-padel/assets/watch-2.webp&quot;, &quot;/tennis-padel/assets/watch-3.webp&quot;]"><img src="/tennis-padel/assets/watch-1.webp" alt="Score from your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/tennis-padel/assets/watch/en/04-setup.webp&quot;, &quot;/tennis-padel/assets/watch/en/06-advantage.webp&quot;, &quot;/tennis-padel/assets/watch/en/05-completed.webp&quot;]"><img src="/tennis-padel/assets/watch/en/04-setup.webp" alt="Leave the phone in your bag" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick">Apple Watch</p>
-        <h2 class="disp"><span class="tr">Sayı bilekten</span><span class="en">Score from your wrist</span></h2>
-        <p class="z-p"><span class="tr">Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.</span><span class="en">The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag.</span></p>
-        <ul class="bul"><li><span class="tr">Servis, taraf değişimi ve set sonu kendi işler</span><span class="en">Serve, side changes and set endings take care of themselves</span></li><li><span class="tr">İzin verirsen maç Apple Health&#x27;e antrenman olarak yazılır</span><span class="en">With your permission the match is logged to Apple Health as a workout</span></li></ul>
+        <p class="kick"><span class="tr">Apple Watch ve Wear OS</span><span class="en">Apple Watch and Wear OS</span></p>
+        <h2 class="disp"><span class="tr">Telefon çantada kalsın</span><span class="en">Leave the phone in your bag</span></h2>
+        <p class="z-p"><span class="tr">Saat uygulaması tek başına çalışır; maçı saatte kurup başlatabilirsin ya da iPhone&#x27;da kurup tek dokunuşla saate gönderirsin. Maç bitince sonuç kendiliğinden telefona geçer.</span><span class="en">The Watch app runs on its own; set up and start the match on the watch, or set it up on iPhone and send it over with one tap. When it ends, the result moves to your phone by itself.</span></p>
+        <ul class="bul"><li><span class="tr">İzin verirsen maç Apple Health&#x27;e antrenman olarak yazılır: nabız, kalori, mesafe</span><span class="en">With your permission the match is saved to Apple Health as a workout: heart rate, calories, distance</span></li><li><span class="tr">Antrenman modu: skor tut, maç hakkından düşmesin</span><span class="en">Practice mode: keep score without using a match</span></li><li><span class="tr">Android telefon ve Wear OS saat için de Google Play&#x27;de</span><span class="en">Also on Google Play for Android phones and Wear OS watches</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-l" id="rakip">
+  <section class="z z-l" id="defter">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/tennis-padel/any/03.webp&quot;]"><img src="/assets/home/screens/tennis-padel/any/03.webp" alt="Let it call the score" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tennis-padel/assets/screens/en/02-victory.webp&quot;, &quot;/tennis-padel/assets/screens/en/04-logbook.webp&quot;]"><img src="/tennis-padel/assets/screens/en/02-victory.webp" alt="Every match on file" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></p>
-        <h2 class="disp"><span class="tr">Skoru o söylesin</span><span class="en">Let it call the score</span></h2>
-        <p class="z-p"><span class="tr">Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.</span><span class="en">It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side.</span></p>
-        <ul class="bul"><li><span class="tr">Hesap ya da sunucu yok</span><span class="en">No account, no server</span></li><li><span class="tr">Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde</span><span class="en">A result card over your own photo, with duration and total points</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-r" id="defter">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/tennis-padel/any/01.webp&quot;, &quot;/assets/home/screens/tennis-padel/any/04.webp&quot;]"><img src="/assets/home/screens/tennis-padel/any/01.webp" alt="Every match on file" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></p>
+        <p class="kick"><span class="tr">Maç defteri ve istatistik</span><span class="en">Logbook and stats</span></p>
         <h2 class="disp"><span class="tr">Her maç kayıtta</span><span class="en">Every match on file</span></h2>
-        <p class="z-p"><span class="tr">Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.</span><span class="en">Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile.</span></p>
-        <ul class="bul"><li><span class="tr">Kazanma oranı, kazanılan ve kaybedilen sayılar</span><span class="en">Win rate, points won and lost</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında</span><span class="en">Phone and Watch share one history, synced in your own iCloud</span></li></ul>
+        <p class="z-p"><span class="tr">Biten her maç tarihi, süresi, set skorları ve rakibiyle deftere düşer. Maça başlık, yer, not ve fotoğraf eklersin; Apple Health verisi maçın altında durur.</span><span class="en">Every finished match lands in your logbook with its date, duration, set scores and opponent. Add a title, location, notes and a photo; Apple Health data sits under the match.</span></p>
+        <ul class="bul"><li><span class="tr">Profilde kazanma oranı, toplam maç, kazanılan ve kaybedilen sayı</span><span class="en">Profile shows win rate, total matches, points won and lost</span></li><li><span class="tr">Tüm zamanlar, son 30 gün ya da bu yıl</span><span class="en">All time, last 30 days or this year</span></li><li><span class="tr">Rakibe göre süz, seviyeni ve oyun stilini profiline yaz</span><span class="en">Filter by opponent, add your level and playing style</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, iCloud ile eşitlenir</span><span class="en">Phone and Watch share one history, synced through iCloud</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-l" id="paylas">
+  <section class="z z-r" id="paylas">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/tennis-padel/any/05.webp&quot;]"><img src="/assets/home/screens/tennis-padel/any/05.webp" alt="Your match card, ready" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tennis-padel/assets/screens/en/03-share.webp&quot;]"><img src="/tennis-padel/assets/screens/en/03-share.webp" alt="Share the win" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Paylaş</span><span class="en">Share</span></p>
-        <h2 class="disp"><span class="tr">Maç kartı hazır</span><span class="en">Your match card, ready</span></h2>
-        <p class="z-p"><span class="tr">Bitince kendi fotoğrafınla bir sonuç kartı üretir: süre ve toplam sayı üstünde.</span><span class="en">At the final point it builds a result card over your own photo, duration and total points included.</span></p>
-        
+        <p class="kick"><span class="tr">Paylaşım ve rakip</span><span class="en">Share and opponent</span></p>
+        <h2 class="disp"><span class="tr">Zaferi paylaş</span><span class="en">Share the win</span></h2>
+        <p class="z-p"><span class="tr">Maç bitince kendi fotoğrafınla bir hikaye kartı çıkar: skor, setler, süre ve toplam sayı üstünde. Instagram Hikayeler&#x27;e tek dokunuşla gönder ya da kaydet.</span><span class="en">When it ends you get a story card over your own photo: score, sets, duration and total points on top. Send it straight to Instagram Stories or save it.</span></p>
+        <ul class="bul"><li><span class="tr">Rakibin QR kodu okutur, maç onun telefonuna kendi tarafından görünerek aktarılır</span><span class="en">Your opponent scans a QR code and the match imports to their phone, flipped to their side</span></li><li><span class="tr">Hesap, sunucu ya da internet gerekmez</span><span class="en">No account, server or internet needed</span></li><li><span class="tr">Mesajlar ve sosyal medya için hazır özet</span><span class="en">A ready summary for Messages and social media</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="hakem">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev "><span class="m-image" data-cycle="[&quot;/tennis-padel/assets/promo/en/w4-voice.webp&quot;]"><img src="/tennis-padel/assets/promo/en/w4-voice.webp" alt="Let it call the score" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Sesli hakem</span><span class="en">Voice umpire</span></p>
+        <h2 class="disp"><span class="tr">Skoru o söylesin</span><span class="en">Let it call the score</span></h2>
+        <p class="z-p"><span class="tr">Her sayıdan sonra skoru saatin hoparlöründen yüksek sesle söyler; &quot;fifteen, thirty&quot; ya da kendi dilinde. Bluetooth hoparlöre bağlanınca ilk anonsta gecikme olmaz.</span><span class="en">After every point it calls the score out loud from the watch speaker, in English or your own language. With a Bluetooth speaker the first call comes without delay.</span></p>
+        <ul class="bul"><li><span class="tr">12 dil: Türkçe, İngilizce, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Felemenkçe, Rusça, Arapça, Japonca, Çince</span><span class="en">12 languages: Turkish, English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Arabic, Japanese, Chinese</span></li><li><span class="tr">Oyuncu adları da seçilen dilde okunur</span><span class="en">Player names are read in the chosen language too</span></li><li><span class="tr">İstersen tamamen kapalı</span><span class="en">Or switch it off entirely</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="rehber">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tennis-padel/assets/screens/en/05-academy.webp&quot;, &quot;/tennis-padel/assets/screens/en/06-welcome.webp&quot;]"><img src="/tennis-padel/assets/screens/en/05-academy.webp" alt="Learn the rules in the app" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Akademi</span><span class="en">Academy</span></p>
+        <h2 class="disp"><span class="tr">Kuralı uygulamada öğren</span><span class="en">Learn the rules in the app</span></h2>
+        <p class="z-p"><span class="tr">Uygulamanın içinde kısa rehberler var: tenis puanlaması, tiebreak, padel ile tenis farkı, dört deuce kuralı, çiftlerde taktik ve padelde camı kullanmak.</span><span class="en">Short guides live inside the app: tennis scoring, tiebreaks, how padel differs from tennis, the four deuce rules, doubles tactics and using the glass in padel.</span></p>
+        <ul class="bul"><li><span class="tr">Başlangıç rehberi: hareketler, eşitleme ve tuşlar</span><span class="en">Getting started: gestures, sync and buttons</span></li><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark mode</span></li></ul>
       </div>
     </div>
   </section>
 
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Önce dene, sonra Pass</span><span class="en">Try it, then get the Pass</span></h2>
+      <p class="band-p"><span class="tr">İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik Tennis &amp; Padel, Pickleball ve Volleyball&#x27;u birlikte açar. Fiyatlar App Store&#x27;da gösterilir.</span><span class="en">Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription covers Tennis &amp; Padel, Pickleball and Volleyball together. Prices are shown in the App Store.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">2 maç</span><span class="en">2 matches</span></p><ul><li><span class="tr">Kısa video izle, +1 maç</span><span class="en">Watch a short clip, +1 match</span></li><li><span class="tr">Antrenman modu maç hakkından düşmez</span><span class="en">Practice mode never uses a match</span></li><li><span class="tr">Hesap yok, kayıt yok</span><span class="en">No account, no sign-up</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3><span class="tr">Aylık ya da yıllık</span><span class="en">Monthly or yearly</span></h3><p class="price"><span class="tr">49,99 ₺/ay · 399,99 ₺/yıl</span><span class="en">$0.99/mo · $7.99/yr</span></p><ul><li><span class="tr">Sınırsız maç</span><span class="en">Unlimited matches</span></li><li><span class="tr">İstediğin an Ayarlar&#x27;dan iptal</span><span class="en">Cancel anytime in Settings</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Ömür boyu</span><span class="en">Lifetime</span></h3><p class="price"><span class="tr">2.499,99 ₺ tek sefer</span><span class="en">$49.99 once</span></p><ul><li><span class="tr">Bir kez öde, hep senin</span><span class="en">Pay once, keep it forever</span></li><li><span class="tr">Satın alımı geri yükle her cihazda</span><span class="en">Restore on every device</span></li></ul></div></div>
+    </div>
+  </section>
 
 
   <section class="band band-mint" id="gizlilik">
@@ -153,7 +193,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v=c62837a7"></script>
 
 </body>
 </html>

@@ -1,35 +1,42 @@
 {
  "slug": "pickleball",
  "name": "Pickleball",
- "title": "Score Keeper for Pickleball",
+ "title": {
+  "tr": "Score Keeper for Pickleball",
+  "en": "Score Keeper for Pickleball"
+ },
  "description": {
-  "tr": "Pickleball'un servis ve side-out mantığı kafa karıştırıcı. Uygulama takip etsin, sen oynamaya bak.",
-  "en": "Pickleball's serve and side-out logic is the confusing part. Let the app follow it while you play."
+  "tr": "Pickleball için Apple Watch skor tutucu. Side-out ve rally puanlama, 1. ve 2. servisçi, sağ ve sol pozisyon kendi işler; sesli hakem ve maç defteri iPhone'da.",
+  "en": "Pickleball score keeper for Apple Watch. Side-out and rally scoring, server 1 and 2, right and left positions run themselves; voice umpire and logbook on iPhone."
  },
  "icon": "/pickleball/assets/icon.webp",
  "color": "#55db9c",
  "accent": "#ffd731",
  "status": "live",
  "kicker": {
-  "tr": "iPhone · Apple Watch",
-  "en": "iPhone · Apple Watch"
+  "tr": "Apple Watch · iPhone",
+  "en": "Apple Watch · iPhone"
  },
  "lede": {
-  "tr": "Pickleball'un servis ve side-out mantığı kafa karıştırıcı. Uygulama takip etsin, sen oynamaya bak.",
-  "en": "Pickleball's serve and side-out logic is the confusing part. Let the app follow it while you play."
+  "tr": "Pickleball'un kafa karıştıran kısmı servis sırası. 5-3-2 skorunu, kimin servis attığını ve nereden atacağını saat söylesin; sen oyuna bak.",
+  "en": "The confusing part of pickleball is the serve order. Let the watch tell you the 5-3-2 score, who serves and from where; you just play."
  },
  "pills": [
   {
-   "tr": "Watch uygulaması",
-   "en": "Watch app"
+   "tr": "Side-out ve rally",
+   "en": "Side-out and rally"
   },
   {
-   "tr": "Türkçe sesli anons",
-   "en": "Turkish voice umpire"
+   "tr": "Tekler ve çiftler",
+   "en": "Singles and doubles"
   },
   {
-   "tr": "QR ile rakip senkronu",
-   "en": "QR opponent sync"
+   "tr": "12 dilde sesli hakem",
+   "en": "Voice umpire in 12 languages"
+  },
+  {
+   "tr": "Apple Health",
+   "en": "Apple Health"
   }
  ],
  "platforms": [
@@ -39,58 +46,97 @@
  "ios": "6760598754",
  "emoji": [
   "🥒",
+  "🏓",
   "🏆",
-  "⏱️",
   "⌚",
   "🔊",
   "📊"
  ],
  "promo": {
   "any": [
-   "/pickleball/assets/shot-1.webp",
-   "/pickleball/assets/shot-2.webp",
-   "/pickleball/assets/shot-3.webp"
+   "/pickleball/assets/promo/en/01-share.webp",
+   "/pickleball/assets/screens/en/01-setup.webp",
+   "/pickleball/assets/promo/en/02-rules.webp",
+   "/pickleball/assets/screens/en/02-share.webp"
   ]
  },
- "privacy": {
-  "text": {
-   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
-   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
-  },
-  "href": "/privacy/pickleball/"
- },
- "support": "/support/",
  "sections": [
   {
-   "id": "servis",
+   "id": "canli",
    "kicker": {
-    "tr": "Servis ve side-out",
-    "en": "Serve and side-out"
+    "tr": "Canlı skor",
+    "en": "Live score"
    },
    "title": {
-    "tr": "Kimin servisi? Bilir.",
-    "en": "Whose serve? It knows."
+    "tr": "Üç sayı, tek bakış",
+    "en": "Three numbers, one glance"
    },
    "text": {
-    "tr": "Kimin servisi, kaçıncı servisçi ve hangi taraftan: sayıyı verdiğin anda hepsi güncellenir.",
-    "en": "Who serves, which server, from which side: all of it updates the moment you award a point."
+    "tr": "Saatte klasik pickleball skoru: senin sayın, rakibin sayısı ve servisçi numarası, ör. 3-1-2. Servis sende mi, rakipte mi, ekranda yazar.",
+    "en": "The classic pickleball score on your wrist: your points, their points and the server number, like 3-1-2. Whether you or they have the serve is right on screen."
    },
    "bullets": [
     {
-     "tr": "Side-out ya da ralli puanlaması",
-     "en": "Side-out or rally scoring"
+     "tr": "+US ile sayı, +THEM ile side-out ya da rakibe sayı",
+     "en": "+US for a point, +THEM for a side-out or their point"
     },
     {
-     "tr": "11, 15 ya da 21 sayı; iki fark kuralı her zaman",
-     "en": "11, 15 or 21 points; win by two always applies"
+     "tr": "Sağ (çift) ya da sol (tek) taraf: nereden servis atacağını gösterir",
+     "en": "Right (even) or left (odd): it shows where to serve from"
+    },
+    {
+     "tr": "Her sayıda titreşim, geri al tuşu",
+     "en": "A haptic on every point, plus undo"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/pickleball/assets/watch/en/01-your-serve.webp",
+     "/pickleball/assets/watch/en/02-server-two.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "kurallar",
+   "kicker": {
+    "tr": "Kurallar otomatik",
+    "en": "Rules on autopilot"
+   },
+   "title": {
+    "tr": "Side-out mu rally mi, seç",
+    "en": "Side-out or rally, pick one"
+   },
+   "text": {
+    "tr": "Maçı iPhone'da kurarsın: puanlama modu, kaça oynandığı, format, oyuncular ve ilk servis. İki sayı fark kuralı her zaman geçerli.",
+    "en": "Set up the match on iPhone: scoring mode, points to win, format, players and first serve. The win-by-two rule always applies."
+   },
+   "bullets": [
+    {
+     "tr": "Side-out (yalnız servis atan sayı alır) ya da rally (her ralli sayı)",
+     "en": "Side-out (only the serving side scores) or rally (every rally scores)"
+    },
+    {
+     "tr": "11, 15 ya da 21 sayı",
+     "en": "Play to 11, 15 or 21"
+    },
+    {
+     "tr": "Tek oyun, Bo3, Bo5 ya da sınırsız",
+     "en": "One game, best of 3, best of 5 or unlimited"
+    },
+    {
+     "tr": "Çiftlerde dört isim; maç 0-0-2 ile başlar, servis sırası kendiliğinden döner",
+     "en": "Four names in doubles; the game starts at 0-0-2 and the server rotation runs itself"
     }
    ],
    "device": "phone",
    "images": {
     "any": [
-     "/assets/home/screens/pickleball/any/01.webp"
+     "/pickleball/assets/screens/en/01-setup.webp"
     ]
-   }
+   },
+   "color": "#dceeff"
   },
   {
    "id": "saat",
@@ -99,101 +145,254 @@
     "en": "Apple Watch"
    },
    "title": {
-    "tr": "Sayı bilekten",
-    "en": "Score from your wrist"
+    "tr": "Telefon çantada kalsın",
+    "en": "Leave the phone in your bag"
    },
    "text": {
-    "tr": "Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.",
-    "en": "The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag."
+    "tr": "Saat uygulaması tek başına çalışır: maçı saatte kur, başlat, kaydet. İstersen iPhone'da kurup tek dokunuşla saate gönderirsin.",
+    "en": "The Watch app runs on its own: set up, start and save the match on your wrist. Or set it up on iPhone and send it over with one tap."
    },
    "bullets": [
     {
-     "tr": "Sesli hakem: her sayıdan sonra skoru yüksek sesle söyler, istersen tamamen kapalı",
-     "en": "Voice umpire: calls the score out loud after every point, or off entirely"
+     "tr": "Her maç Apple Health'e Pickleball antrenmanı olarak yazılır: nabız, kalori, mesafe",
+     "en": "Every match is saved to Apple Health as a Pickleball workout: heart rate, calories, distance"
     },
     {
-     "tr": "Servis, taraf değişimi ve set sonu kendi işler",
-     "en": "Serve, side changes and set endings take care of themselves"
+     "tr": "Antrenman modu maç hakkından düşmez",
+     "en": "Practice mode never uses a match"
     },
     {
-     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır",
-     "en": "With your permission the match is logged to Apple Health as a workout"
+     "tr": "Kimin başlayacağına zar karar versin",
+     "en": "Let the built-in dice decide who serves first"
     }
    ],
    "device": "watch",
    "images": {
     "any": [
-     "/pickleball/assets/watch-1.webp",
-     "/pickleball/assets/watch-2.webp",
-     "/pickleball/assets/watch-3.webp"
+     "/pickleball/assets/watch/en/03-setup.webp"
     ]
-   }
+   },
+   "color": "#e9ccff"
   },
   {
    "id": "defter",
    "kicker": {
-    "tr": "Maç defteri ve profil",
-    "en": "Logbook and profile"
+    "tr": "Maç defteri ve istatistik",
+    "en": "Logbook and stats"
    },
    "title": {
     "tr": "Her maç kayıtta",
     "en": "Every match on file"
    },
    "text": {
-    "tr": "Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.",
-    "en": "Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile."
+    "tr": "Biten her maç tarihi, süresi, skoru ve rakibiyle deftere düşer. Nabız, kalori ve mesafe maç detayında, saatte ise canlı görünür.",
+    "en": "Every finished match lands in your logbook with its date, duration, score and opponent. Heart rate, calories and distance show in the match details, and live on the watch."
    },
    "bullets": [
     {
-     "tr": "Kazanma oranı, kazanılan ve kaybedilen sayılar",
-     "en": "Win rate, points won and lost"
+     "tr": "Profilde kazanma oranı, kazanılan ve kaybedilen sayı",
+     "en": "Profile shows win rate, points won and lost"
     },
     {
-     "tr": "Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında",
-     "en": "Phone and Watch share one history, synced in your own iCloud"
+     "tr": "Erken biten maç \"Ended Early\" olarak ayrı görünür",
+     "en": "Matches ended early show as \"Ended Early\""
     },
     {
-     "tr": "Academy: kural, teknik ve taktik rehberleri",
-     "en": "Academy: rule, technique and tactics guides"
+     "tr": "Telefon ve saat aynı geçmişi görür, iCloud ile eşitlenir",
+     "en": "Phone and Watch share one history, synced through iCloud"
     }
    ],
    "device": "image",
    "images": {
     "any": [
-     "/pickleball/assets/shot-3.webp"
+     "/pickleball/assets/promo/en/w3-health.webp"
     ]
-   }
+   },
+   "color": "#55db9c"
   },
   {
-   "id": "rakip",
+   "id": "paylas",
    "kicker": {
-    "tr": "Hakem ve rakip",
-    "en": "Umpire and opponent"
+    "tr": "Paylaşım ve rakip",
+    "en": "Share and opponent"
+   },
+   "title": {
+    "tr": "Zaferi paylaş",
+    "en": "Share the win"
+   },
+   "text": {
+    "tr": "Maç bitince kendi fotoğrafınla bir sonuç kartı çıkar: skor, süre ve toplam sayı üstünde. Instagram Hikayeler'e gönder ya da kaydet.",
+    "en": "When it ends you get a result card over your own photo: score, duration and total points on top. Send it to Instagram Stories or save it."
+   },
+   "bullets": [
+    {
+     "tr": "Rakibin QR kodu ya da bağlantıyı açar, skor onun tarafından görünerek aktarılır",
+     "en": "Your opponent opens a QR code or link and the score flips to their side"
+    },
+    {
+     "tr": "Hesap ya da sunucu gerekmez",
+     "en": "No account or server needed"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/pickleball/assets/screens/en/02-share.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "hakem",
+   "kicker": {
+    "tr": "Sesli hakem",
+    "en": "Voice umpire"
    },
    "title": {
     "tr": "Skoru o söylesin",
     "en": "Let it call the score"
    },
    "text": {
-    "tr": "Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.",
-    "en": "It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side."
+    "tr": "Her sayıdan sonra skoru saatin hoparlöründen okur: servis atan, karşılayan ve çiftlerde servisçi numarası. Saate bakmana gerek kalmaz.",
+    "en": "After every point it reads the score from the watch speaker: server, receiver and, in doubles, the server number. No need to look at your wrist."
    },
    "bullets": [
     {
-     "tr": "Hesap ya da sunucu yok",
-     "en": "No account, no server"
+     "tr": "12 dil: Türkçe, İngilizce, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Felemenkçe, Rusça, Arapça, Japonca, Çince",
+     "en": "12 languages: Turkish, English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Arabic, Japanese, Chinese"
     },
     {
-     "tr": "Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde",
-     "en": "A result card over your own photo, with duration and total points"
+     "tr": "İstersen tamamen kapalı",
+     "en": "Or switch it off entirely"
     }
    ],
-   "device": "phone",
+   "device": "image",
    "images": {
     "any": [
-     "/assets/home/screens/pickleball/any/02.webp"
+     "/pickleball/assets/promo/en/w2-voice.webp"
+    ]
+   },
+   "color": "#4da2ff"
+  },
+  {
+   "id": "rehber",
+   "kicker": {
+    "tr": "Akademi",
+    "en": "Academy"
+   },
+   "title": {
+    "tr": "Kuralı uygulamada öğren",
+    "en": "Learn the rules in the app"
+   },
+   "text": {
+    "tr": "Uygulamanın içinde kısa rehberler var: side-out ve rally puanlama, çiftlerde iki servisçi sistemi, ilk servisi kim atar, mutfak (non-volley zone), çift sekme kuralı, üçüncü vuruş drop'u ve dink stratejisi.",
+    "en": "Short guides live inside the app: side-out vs rally scoring, the two-server system in doubles, who serves first, the kitchen (non-volley zone), the double-bounce rule, the third shot drop and dinking strategy."
+   },
+   "bullets": [
+    {
+     "tr": "Rehberler, kurallar ve taktik diye ayrılmış",
+     "en": "Split into app guide, rules and tactics"
+    },
+    {
+     "tr": "Açık ve koyu tema",
+     "en": "Light and dark mode"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "any": [
+     "/pickleball/assets/promo/en/02-rules.webp"
+    ]
+   },
+   "color": "#c8f560"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Önce dene, sonra Pass",
+   "en": "Try it, then get the Pass"
+  },
+  "lede": {
+   "tr": "İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik Tennis & Padel, Pickleball ve Volleyball'u birlikte açar. Fiyatlar App Store'da gösterilir.",
+   "en": "Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription covers Tennis & Padel, Pickleball and Volleyball together. Prices are shown in the App Store."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "2 maç",
+     "en": "2 matches"
+    },
+    "items": [
+     {
+      "tr": "Kısa video izle, +1 maç",
+      "en": "Watch a short clip, +1 match"
+     },
+     {
+      "tr": "Antrenman modu maç hakkından düşmez",
+      "en": "Practice mode never uses a match"
+     },
+     {
+      "tr": "Hesap yok, kayıt yok",
+      "en": "No account, no sign-up"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Aylık ya da yıllık",
+     "en": "Monthly or yearly"
+    },
+    "price": {
+     "tr": "49,99 ₺/ay · 399,99 ₺/yıl",
+     "en": "$0.99/mo · $7.99/yr"
+    },
+    "items": [
+     {
+      "tr": "Sınırsız maç",
+      "en": "Unlimited matches"
+     },
+     {
+      "tr": "İstediğin an Ayarlar'dan iptal",
+      "en": "Cancel anytime in Settings"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Ömür boyu",
+     "en": "Lifetime"
+    },
+    "price": {
+     "tr": "2.499,99 ₺ tek sefer",
+     "en": "$49.99 once"
+    },
+    "items": [
+     {
+      "tr": "Bir kez öde, hep senin",
+      "en": "Pay once, keep it forever"
+     },
+     {
+      "tr": "Satın alımı geri yükle her cihazda",
+      "en": "Restore on every device"
+     }
     ]
    }
-  }
- ]
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Verin sende",
+   "en": "Your data stays yours"
+  },
+  "text": {
+   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
+   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
+  },
+  "href": "/privacy/pickleball/"
+ },
+ "support": "/support/"
 }

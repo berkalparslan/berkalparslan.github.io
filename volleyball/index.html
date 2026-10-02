@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Score Keeper for Volleyball · BamTech</title>
-<meta name="description" content="Volleyball scoring set by set: 25 points, two clear, 15 in the fifth. Match logbook and heart-rate stats on top." />
+<meta name="description" content="Indoor and beach volleyball score keeper for Apple Watch. Rally scoring, sets, the deciding set and serve tracking run themselves; voice umpire and logbook on iPhone." />
 <link rel="canonical" href="https://berkalparslan.github.io/volleyball/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Score Keeper for Volleyball" />
-<meta property="og:description" content="Volleyball scoring set by set: 25 points, two clear, 15 in the fifth. Match logbook and heart-rate stats on top." />
+<meta property="og:description" content="Indoor and beach volleyball score keeper for Apple Watch. Rally scoring, sets, the deciding set and serve tracking run themselves; voice umpire and logbook on iPhone." />
 <meta property="og:image" content="https://berkalparslan.github.io/volleyball/assets/icon.webp" />
 <meta name="theme-color" content="#ffd731" />
 <link rel="icon" href="/volleyball/assets/icon.webp" />
@@ -28,94 +28,123 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=cb7693a9" />
 
 </head>
 <body style="--app:#ffd731;--acc:#fb4903">
 
-<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch&quot;, &quot;Volleyball&quot;, &quot;iPhone · Apple Watch&quot;]"></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;Apple Watch · iPhone&quot;, &quot;Volleyball&quot;, &quot;Apple Watch · iPhone&quot;]"></div></div>
 
 <header class="top">
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="BamTech">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#setler"><span class="tr">Set kuralları</span><span class="en">Set rules</span></a><a href="#saat">Apple Watch</a><a href="#rakip"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></a><a href="#defter"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></a></nav>
+    <nav class="nav"><a href="#canli"><span class="tr">Canlı skor</span><span class="en">Live score</span></a><a href="#kurallar"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></a><a href="#saat">Apple Watch</a><a href="#defter"><span class="tr">Maç defteri ve istatistik</span><span class="en">Logbook and stats</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
 <main>
-  <section class="hero" data-emoji="[&quot;🏐&quot;, &quot;🏆&quot;, &quot;⏱️&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;🏖️&quot;]">
+  <section class="hero" data-emoji="[&quot;🏐&quot;, &quot;🏖️&quot;, &quot;🏆&quot;, &quot;⌚&quot;, &quot;🔊&quot;, &quot;📊&quot;]">
     <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
     <div class="wrap hero-in">
       <img class="app-icon" src="/volleyball/assets/icon.webp" alt="" width="180" height="180" />
-      <p class="kick">iPhone · Apple Watch </p>
+      <p class="kick">Apple Watch · iPhone </p>
       <h1 class="disp" lang="en">Volleyball</h1>
-      <p class="lede"><span class="tr">Set set voleybol skoru: 25 sayı, iki fark, beşinci sette 15. Maç defteri ve nabız istatistikleri cabası.</span><span class="en">Volleyball scoring set by set: 25 points, two clear, 15 in the fifth. Match logbook and heart-rate stats on top.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Watch uygulaması</span><span class="en">Watch app</span></span><span class="pill-s"><span class="tr">Türkçe sesli anons</span><span class="en">Turkish voice umpire</span></span><span class="pill-s"><span class="tr">QR ile rakip senkronu</span><span class="en">QR opponent sync</span></span></div>
+      <p class="lede"><span class="tr">Smaça ve bloğa odaklan, skoru saat tutsun. Rally puanlama, set sonu, karar seti ve servisin kimde olduğu; salonda da kumda da.</span><span class="en">Focus on spikes and blocks and let the watch keep score. Rally scoring, set endings, the deciding set and who has the serve; indoors or on the sand.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Salon ve plaj</span><span class="en">Indoor and beach</span></span><span class="pill-s"><span class="tr">Bo3 ve Bo5</span><span class="en">Best of 3 and 5</span></span><span class="pill-s"><span class="tr">12 dilde sesli hakem</span><span class="en">Voice umpire in 12 languages</span></span><span class="pill-s">Apple Health</span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
       <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
     </div>
   </section>
 
-  <div class="promo "><div class="promo-track"><img src="/volleyball/assets/shot-1.webp" alt="" loading="lazy" /><img src="/volleyball/assets/shot-2.webp" alt="" loading="lazy" /><img src="/volleyball/assets/shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/shot-3.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo "><div class="promo-track"><img src="/volleyball/assets/promo/en/01-details.webp" alt="" loading="lazy" /><img src="/volleyball/assets/promo/en/02-logbook.webp" alt="" loading="lazy" /><img src="/volleyball/assets/promo/en/03-share.webp" alt="" loading="lazy" /><img src="/volleyball/assets/promo/en/04-setup.webp" alt="" loading="lazy" /><img src="/volleyball/assets/promo/en/05-sync.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/promo/en/01-details.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/promo/en/02-logbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/promo/en/03-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/promo/en/04-setup.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/volleyball/assets/promo/en/05-sync.webp" alt="" loading="lazy" /></div></div>
 
-  <section class="z z-l" id="setler">
+  <section class="z z-l" id="canli">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/volleyball/any/02.webp&quot;]"><img src="/assets/home/screens/volleyball/any/02.webp" alt="25 points, two clear" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/volleyball/assets/watch/en/01-set-point.webp&quot;, &quot;/volleyball/assets/watch/en/02-live.webp&quot;]"><img src="/volleyball/assets/watch/en/01-set-point.webp" alt="Score from your wrist" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Set kuralları</span><span class="en">Set rules</span></p>
-        <h2 class="disp"><span class="tr">25 sayı, iki fark</span><span class="en">25 points, two clear</span></h2>
-        <p class="z-p"><span class="tr">25 sayı ve iki fark, tie-break setinde 15. Bo3 ya da Bo5 seçilir, gerisi kendiliğinden işler.</span><span class="en">25 points and two clear, 15 in the deciding set. Choose best of three or five and the rest follows.</span></p>
-        
+        <p class="kick"><span class="tr">Canlı skor</span><span class="en">Live score</span></p>
+        <h2 class="disp"><span class="tr">Sayı bilekten</span><span class="en">Score from your wrist</span></h2>
+        <p class="z-p"><span class="tr">Takımına ya da rakibe tek dokunuş. Sayılar, setler, maç süresi ve setin kaça oynandığı saatte büyük ve net; servisin hangi takımda olduğu işaretli.</span><span class="en">One tap for your team or theirs. Points, sets, match time and the set target sit big and clear on the watch; the team with the serve is marked.</span></p>
+        <ul class="bul"><li><span class="tr">SET POINT ve MATCH POINT ekranda uyarı olarak çıkar</span><span class="en">SET POINT and MATCH POINT flash up as alerts</span></li><li><span class="tr">Her sayıda titreşim, geri al tuşu</span><span class="en">A haptic on every point, plus undo</span></li></ul>
       </div>
     </div>
   </section>
-  <section class="z z-r" id="saat">
+  <section class="z z-r" id="kurallar">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/volleyball/assets/watch-1.webp&quot;, &quot;/volleyball/assets/watch-2.webp&quot;, &quot;/volleyball/assets/watch-3.webp&quot;]"><img src="/volleyball/assets/watch-1.webp" alt="Score from your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/volleyball/assets/screens/en/01-setup.webp&quot;]"><img src="/volleyball/assets/screens/en/01-setup.webp" alt="Sets end themselves" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kurallar otomatik</span><span class="en">Rules on autopilot</span></p>
+        <h2 class="disp"><span class="tr">Setler kendi biter</span><span class="en">Sets end themselves</span></h2>
+        <p class="z-p"><span class="tr">Maçı iPhone&#x27;da kurarsın: format, karar seti, takımlar ve ilk servis. Rally puanlamada her ralli sayıdır; set 25&#x27;te iki sayı farkla biter.</span><span class="en">Set up the match on iPhone: format, deciding set, teams and first serve. In rally scoring every rally is a point; sets go to 25, win by two.</span></p>
+        <ul class="bul"><li><span class="tr">Bo3 ya da Bo5</span><span class="en">Best of 3 or best of 5</span></li><li><span class="tr">Karar seti 15 ya da 25 sayı</span><span class="en">Deciding set to 15 or 25</span></li><li><span class="tr">Takım adları ve kayıtlı takımlar</span><span class="en">Team names and saved teams</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="saat">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/volleyball/assets/watch/en/03-setup.webp&quot;]"><img src="/volleyball/assets/watch/en/03-setup.webp" alt="Leave the phone in your bag" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span></span></div>
       <div class="z-txt reveal">
         <p class="kick">Apple Watch</p>
-        <h2 class="disp"><span class="tr">Sayı bilekten</span><span class="en">Score from your wrist</span></h2>
-        <p class="z-p"><span class="tr">Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.</span><span class="en">The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag.</span></p>
-        <ul class="bul"><li><span class="tr">Servis, taraf değişimi ve set sonu kendi işler</span><span class="en">Serve, side changes and set endings take care of themselves</span></li><li><span class="tr">İzin verirsen maç Apple Health&#x27;e antrenman olarak yazılır</span><span class="en">With your permission the match is logged to Apple Health as a workout</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-l" id="rakip">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/volleyball/any/03.webp&quot;]"><img src="/assets/home/screens/volleyball/any/03.webp" alt="Let it call the score" loading="lazy" /></span></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Hakem ve rakip</span><span class="en">Umpire and opponent</span></p>
-        <h2 class="disp"><span class="tr">Skoru o söylesin</span><span class="en">Let it call the score</span></h2>
-        <p class="z-p"><span class="tr">Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.</span><span class="en">It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side.</span></p>
-        <ul class="bul"><li><span class="tr">Hesap ya da sunucu yok</span><span class="en">No account, no server</span></li><li><span class="tr">Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde</span><span class="en">A result card over your own photo, with duration and total points</span></li></ul>
+        <h2 class="disp"><span class="tr">Telefon çantada kalsın</span><span class="en">Leave the phone in your bag</span></h2>
+        <p class="z-p"><span class="tr">Saat uygulaması tek başına çalışır: maçı saatte kur, başlat, kaydet. İstersen iPhone&#x27;da kurup tek dokunuşla saate gönderirsin.</span><span class="en">The Watch app runs on its own: set up, start and save the match on your wrist. Or set it up on iPhone and send it over with one tap.</span></p>
+        <ul class="bul"><li><span class="tr">Her maç Apple Health&#x27;e Voleybol antrenmanı olarak yazılır: nabız, kalori, mesafe</span><span class="en">Every match is saved to Apple Health as a Volleyball workout: heart rate, calories, distance</span></li><li><span class="tr">Antrenman modu maç hakkından düşmez</span><span class="en">Practice mode never uses a match</span></li></ul>
       </div>
     </div>
   </section>
   <section class="z z-r" id="defter">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/volleyball/any/01.webp&quot;, &quot;/assets/home/screens/volleyball/any/05.webp&quot;]"><img src="/assets/home/screens/volleyball/any/01.webp" alt="Every match on file" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/volleyball/assets/screens/en/02-logbook.webp&quot;, &quot;/volleyball/assets/screens/en/03-details.webp&quot;]"><img src="/volleyball/assets/screens/en/02-logbook.webp" alt="Every match on file" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Maç defteri ve profil</span><span class="en">Logbook and profile</span></p>
+        <p class="kick"><span class="tr">Maç defteri ve istatistik</span><span class="en">Logbook and stats</span></p>
         <h2 class="disp"><span class="tr">Her maç kayıtta</span><span class="en">Every match on file</span></h2>
-        <p class="z-p"><span class="tr">Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.</span><span class="en">Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile.</span></p>
-        <ul class="bul"><li><span class="tr">Kazanma oranı, kazanılan ve kaybedilen sayılar</span><span class="en">Win rate, points won and lost</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında</span><span class="en">Phone and Watch share one history, synced in your own iCloud</span></li></ul>
+        <p class="z-p"><span class="tr">Biten her maç tarihi, süresi, set skorları ve rakip takımla deftere düşer. Galibiyet yeşil, yenilgi ayrı renkte; erken biten maç &quot;Ended Early&quot; olarak görünür.</span><span class="en">Every finished match lands in your logbook with its date, duration, set scores and opposing team. Wins show in green, and matches ended early show as &quot;Ended Early&quot;.</span></p>
+        <ul class="bul"><li><span class="tr">Profilde kazanma oranı, kazanılan ve kaybedilen sayı</span><span class="en">Profile shows win rate, points won and lost</span></li><li><span class="tr">Tüm zamanlar, son 30 gün ya da bu yıl</span><span class="en">All time, last 30 days or this year</span></li><li><span class="tr">Telefon ve saat aynı geçmişi görür, iCloud ile eşitlenir</span><span class="en">Phone and Watch share one history, synced through iCloud</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="paylas">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev "><span class="m-image" data-cycle="[&quot;/volleyball/assets/promo/en/03-share.webp&quot;, &quot;/volleyball/assets/promo/en/05-sync.webp&quot;]"><img src="/volleyball/assets/promo/en/03-share.webp" alt="Share the win" loading="lazy" /></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Paylaşım ve rakip</span><span class="en">Share and opponent</span></p>
+        <h2 class="disp"><span class="tr">Zaferi paylaş</span><span class="en">Share the win</span></h2>
+        <p class="z-p"><span class="tr">Maç bitince kendi fotoğrafınla bir sonuç kartı çıkar: set skorları, süre ve toplam sayı üstünde. Instagram Hikayeler&#x27;e gönder ya da kaydet.</span><span class="en">When it ends you get a result card over your own photo: set scores, duration and total points on top. Send it to Instagram Stories or save it.</span></p>
+        <ul class="bul"><li><span class="tr">Rakip takım QR kodu okutur, skor onun tarafından görünerek aktarılır</span><span class="en">The other team scans a QR code and the score flips to their side</span></li><li><span class="tr">Hesap ya da sunucu gerekmez</span><span class="en">No account or server needed</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="hakem">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev "><span class="m-image" data-cycle="[&quot;/volleyball/assets/promo/en/01-details.webp&quot;]"><img src="/volleyball/assets/promo/en/01-details.webp" alt="Let it call the score" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Sesli hakem</span><span class="en">Voice umpire</span></p>
+        <h2 class="disp"><span class="tr">Skoru o söylesin</span><span class="en">Let it call the score</span></h2>
+        <p class="z-p"><span class="tr">Her ralliden sonra skoru saatin hoparlöründen yüksek sesle söyler. Saate bakmadan oyunda kalırsın.</span><span class="en">After every rally it calls the score out loud from the watch speaker. You stay in the game without checking your wrist.</span></p>
+        <ul class="bul"><li><span class="tr">12 dil: Türkçe, İngilizce, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Felemenkçe, Rusça, Arapça, Japonca, Çince</span><span class="en">12 languages: Turkish, English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Arabic, Japanese, Chinese</span></li><li><span class="tr">İstersen tamamen kapalı</span><span class="en">Or switch it off entirely</span></li></ul>
       </div>
     </div>
   </section>
   <section class="z z-l" id="rehber">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/volleyball/any/04.webp&quot;]"><img src="/assets/home/screens/volleyball/any/04.webp" alt="Learn the rules inside" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/volleyball/assets/screens/en/04-academy.webp&quot;]"><img src="/volleyball/assets/screens/en/04-academy.webp" alt="Learn the rules in the app" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick">Academy</p>
-        <h2 class="disp"><span class="tr">Kuralı içeride öğren</span><span class="en">Learn the rules inside</span></h2>
-        <p class="z-p"><span class="tr">Uygulamanın içinde kural, teknik ve taktik rehberleri: kim servis atar, let nedir, hangi vuruş ne zaman.</span><span class="en">Rule, technique and tactics guides built in: who serves, what a let is, which shot when.</span></p>
-        
+        <p class="kick"><span class="tr">Akademi</span><span class="en">Academy</span></p>
+        <h2 class="disp"><span class="tr">Kuralı uygulamada öğren</span><span class="en">Learn the rules in the app</span></h2>
+        <p class="z-p"><span class="tr">Uygulamanın içinde kısa rehberler var: başlangıç, maç formatları, ilk servisi kim atar, voleybol puanlaması, side-out ve servis, set ve maç kuralları.</span><span class="en">Short guides live inside the app: getting started, match formats, who serves first, volleyball scoring, side-out and service, set and match rules.</span></p>
+        <ul class="bul"><li><span class="tr">Rehberler, kurallar ve taktik diye ayrılmış</span><span class="en">Split into app guide, rules and tactics</span></li><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark mode</span></li></ul>
       </div>
     </div>
   </section>
 
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Önce dene, sonra Pass</span><span class="en">Try it, then get the Pass</span></h2>
+      <p class="band-p"><span class="tr">İlk iki maç ücretsiz, kayıt yok. Hakkın bitince kısa bir video izleyip bir maç daha açabilirsin. All-Sports Pass sınırsız maç açar; tek abonelik Tennis &amp; Padel, Pickleball ve Volleyball&#x27;u birlikte açar. Fiyatlar App Store&#x27;da gösterilir.</span><span class="en">Your first two matches are free, no sign-up. When they run out, watch a short clip to unlock one more. The All-Sports Pass unlocks unlimited matches; one subscription covers Tennis &amp; Padel, Pickleball and Volleyball together. Prices are shown in the App Store.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">2 maç</span><span class="en">2 matches</span></p><ul><li><span class="tr">Kısa video izle, +1 maç</span><span class="en">Watch a short clip, +1 match</span></li><li><span class="tr">Antrenman modu maç hakkından düşmez</span><span class="en">Practice mode never uses a match</span></li><li><span class="tr">Hesap yok, kayıt yok</span><span class="en">No account, no sign-up</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3><span class="tr">Aylık ya da yıllık</span><span class="en">Monthly or yearly</span></h3><p class="price"><span class="tr">49,99 ₺/ay · 399,99 ₺/yıl</span><span class="en">$0.99/mo · $7.99/yr</span></p><ul><li><span class="tr">Sınırsız maç</span><span class="en">Unlimited matches</span></li><li><span class="tr">İstediğin an Ayarlar&#x27;dan iptal</span><span class="en">Cancel anytime in Settings</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Ömür boyu</span><span class="en">Lifetime</span></h3><p class="price"><span class="tr">2.499,99 ₺ tek sefer</span><span class="en">$49.99 once</span></p><ul><li><span class="tr">Bir kez öde, hep senin</span><span class="en">Pay once, keep it forever</span></li><li><span class="tr">Satın alımı geri yükle her cihazda</span><span class="en">Restore on every device</span></li></ul></div></div>
+    </div>
+  </section>
 
 
   <section class="band band-mint" id="gizlilik">
@@ -153,7 +182,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js"></script>
+<script src="/assets/tanitim.js?v=c62837a7"></script>
 
 </body>
 </html>
