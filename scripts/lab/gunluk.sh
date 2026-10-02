@@ -17,7 +17,7 @@ node scripts/lab/walletcoach.mjs --days 90 || echo "wallet-coach çekimi başar�
 "$HOME/dev/wallet-coach/tools/rates_auto.sh" || echo "wallet-coach kur verisi bakılmalı"
 
 git pull -q --rebase --autostash origin main || true
-git add lab/panel/data.enc.json lab/wallet-coach/data.enc.json
+git add lab/panel/data.enc.json
 if git diff --cached --quiet; then
   echo "değişiklik yok"
 else

@@ -8,13 +8,11 @@
  * Keychain'deki bamtech-lab-panel. Çıktı: lab/wallet-coach/data.enc.json
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { homedir } from "node:os";
-import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { rs256Anahtar, jwtUret } from "./uzak/jwt.mjs";
-import { sifrele } from "./kripto.mjs";
 
 const PID = "548857497";          // wallet-coach-87336
 const KOK = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -153,14 +151,20 @@ const paket = { uretim: new Date().toISOString(), gun: GUN, toplam, aktif, gunlu
   bildirimler: (() => { try { return JSON.parse(readFileSync(join(homedir(), "dev", "vault", "metrikler", "veri", "wc-bildirimler.json"), "utf8")); } catch { return []; } })(),
   kohort: kohort.map(r => ({ ilk: tarih(r.firstSessionDate), t: tarih(r.date), k: r.activeUsers })) };
 
-function parola() {
-  return execFileSync("security", ["find-generic-password", "-s", "bamtech-lab-panel", "-w"],
-    { encoding: "utf8" }).trim();
+/* Firestore'a: panel/ga4 belgesi, yalnız panelin yöneticisi okur (kurallar).
+   Firebase CLI oturumunun sahibi olarak yazılır, kurallar sahibe uygulanmaz. */
+async function firestoreYaz() {
+  const api = await import("/opt/homebrew/lib/node_modules/firebase-tools/lib/api.js");
+  const c = JSON.parse(readFileSync(join(homedir(), ".config", "configstore", "firebase-tools.json"), "utf8"));
+  const t = await (await fetch("https://oauth2.googleapis.com/token", { method: "POST",
+    body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: c.tokens.refresh_token,
+      client_id: api.clientId(), client_secret: api.clientSecret() }) })).json();
+  const url = "https://firestore.googleapis.com/v1/projects/wallet-coach-87336/databases/(default)/documents/panel/ga4";
+  const r = await fetch(url, { method: "PATCH", headers: { Authorization: `Bearer ${t.access_token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ fields: { json: { stringValue: JSON.stringify(paket) }, uretim: { timestampValue: paket.uretim } } }) });
+  if (!r.ok) throw new Error(`firestore ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
-const hedef = join(KOK, "lab", "wallet-coach", "data.enc.json");
-mkdirSync(dirname(hedef), { recursive: true });
 if (args.includes("--ham")) writeFileSync("/tmp/wc-panel.json", JSON.stringify(paket, null, 2));
-const { paket: sifreli, boyut } = await sifrele(paket, parola());
-writeFileSync(hedef, JSON.stringify(sifreli));
-console.log(`wallet-coach: ${toplam.totalUsers ?? 0} kullanıcı · ${olaylar.length} olay satırı · ${ekranlar.length} ekran · ${Math.round(boyut / 1024)} KB`);
+await firestoreYaz();
+console.log(`wallet-coach: ${toplam.totalUsers ?? 0} kullanıcı · ${olaylar.length} olay satırı · ${ekranlar.length} ekran · ${Math.round(JSON.stringify(paket).length / 1024)} KB → Firestore panel/ga4`);
