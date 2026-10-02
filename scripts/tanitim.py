@@ -119,9 +119,9 @@ def store_buttons(d, big=False):
     out = []
     cls = "pill dark big" if big else "pill dark"
     if d.get("ios"):
-        out.append(f'<a class="{cls}" href="{AS}{d["ios"]}" target="_blank" rel="noopener">{APPLE_SVG}App Store</a>')
+        out.append(f'<a class="{cls}" href="{AS}{d["ios"]}" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="{d["slug"]}">{APPLE_SVG}App Store</a>')
     if d.get("play"):
-        out.append(f'<a class="{cls}" href="{GP}{d["play"]}" target="_blank" rel="noopener">{PLAY_SVG}Google Play</a>')
+        out.append(f'<a class="{cls}" href="{GP}{d["play"]}" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="{d["slug"]}">{PLAY_SVG}Google Play</a>')
     for b in d.get("buttons", []):
         c = ("pill dark" if b.get("dark") else "pill") + (" big" if big else "")
         ext = "" if b["href"].startswith(("/", "#")) else ' target="_blank" rel="noopener"'
@@ -212,7 +212,7 @@ def render(d):
     if d.get("play"): qrs.append(("play", GP + d["play"], "Google Play"))
     get = ""
     if qrs or d.get("buttons"):
-        qcards = "".join(f'<a class="qr-card" href="{e(u)}" target="_blank" rel="noopener" data-qr="{e(u)}" style="--r:{[2,-2][k%2]}deg">'
+        qcards = "".join(f'<a class="qr-card" data-umami-event="qr-indir" data-umami-event-app="{slug}" href="{e(u)}" target="_blank" rel="noopener" data-qr="{e(u)}" style="--r:{[2,-2][k%2]}deg">'
                          f'<span class="q"></span><span class="qt"><b>{lbl}</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a>'
                          for k, (_, u, lbl) in enumerate(qrs))
         get = f'''
@@ -263,6 +263,7 @@ def render(d):
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/tanitim.css?v={ver("assets/tanitim.css")}" />
 {d.get("extra_head", "")}
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
 </head>
 <body style="--app:{color};--acc:{accent}">
 

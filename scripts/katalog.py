@@ -167,15 +167,15 @@ def row(a, i):
     elif st == "web": mark = f'<span class="badge b-web">{bi("web uygulaması", "web app")}</span>'
     chips = "".join(f'<span class="chip">{PLAT[p]}</span>' for p in a["plat"].split())
     links = []
-    if ios: links.append(f'<a class="pill dark" href="{ios}" target="_blank" rel="noopener">App Store ↗</a>')
-    if play: links.append(f'<a class="pill dark" href="{play}" target="_blank" rel="noopener">Google Play ↗</a>')
+    if ios: links.append(f'<a class="pill dark" href="{ios}" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="{a["slug"]}">App Store ↗</a>')
+    if play: links.append(f'<a class="pill dark" href="{play}" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="{a["slug"]}">Google Play ↗</a>')
     if a.get("tour"):
-        links.append(f'<a class="pill" href="{a["tour"]}">{bi(a.get("tour_tr", "Tanıtım"), a.get("tour_en", "Tour"))} →</a>')
-    links.append(f'<button class="pill ghost show" type="button">{bi("Vitrinde gör ↑", "On the shelf ↑")}</button>')
+        links.append(f'<a class="pill" href="{a["tour"]}" data-umami-event="tanitim" data-umami-event-app="{a["slug"]}">{bi(a.get("tour_tr", "Tanıtım"), a.get("tour_en", "Tour"))} →</a>')
+    links.append(f'<button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="{a["slug"]}">{bi("Vitrinde gör ↑", "On the shelf ↑")}</button>')
     side = "l" if i % 2 else "r"
     return f'''        <article class="zrow z-{side}" {attrs} style="--c:{a["color"]}">
           <div class="zpanel">
-            <a class="zhit" href="{a.get("tour", "#vitrin")}" aria-label="{e(a["name"])}">{device_html(a)}</a>
+            <a class="zhit" href="{a.get("tour", "#vitrin")}" data-umami-event="panel-tanitim" data-umami-event-app="{a["slug"]}" aria-label="{e(a["name"])}">{device_html(a)}</a>
             <img class="zicon" src="{a["icon"]}" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">{i:02d}</span>
           </div>
