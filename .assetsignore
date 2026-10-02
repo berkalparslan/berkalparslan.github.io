@@ -1,0 +1,14 @@
+# Cloudflare'e yüklenmeyecekler (site dosyası değil)
+.git
+.github
+.claude
+.wrangler
+node_modules
+**/node_modules
+worker
+scripts
+data
+README.md
+wrangler.jsonc
+.assetsignore
+.nojekyll
