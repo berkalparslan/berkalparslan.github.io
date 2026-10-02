@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700">
+  <defs>
+    <filter id="g" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1800" height="900">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .28 0" result="k"/>
+      <feComposite in="k" in2="SourceGraphic" operator="in" result="kk"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="kk"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#g)" fill="none" stroke-linecap="round">
+    <path d="M-40 520 C 220 250, 420 640, 700 380 S 1150 90, 1300 330 S 1560 560, 1660 260" stroke="#1f6fd6" stroke-width="128" transform="translate(0 14)"/>
+    <path d="M-40 520 C 220 250, 420 640, 700 380 S 1150 90, 1300 330 S 1560 560, 1660 260" stroke="#4da2ff" stroke-width="118"/>
+    <path d="M-40 520 C 220 250, 420 640, 700 380 S 1150 90, 1300 330 S 1560 560, 1660 260" stroke="#9fcdff" stroke-width="34" transform="translate(-6 -26)" opacity=".85"/>
+    <path d="M-40 520 C 220 250, 420 640, 700 380 S 1150 90, 1300 330 S 1560 560, 1660 260" stroke="#fff" stroke-width="8" transform="translate(-10 -36)" opacity=".7"/>
+  </g>
+</svg>

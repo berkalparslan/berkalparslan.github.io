@@ -1,191 +1,150 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bumpline: Pregnancy Tracker — BamTech</title>
-<meta name="description" content="What week you are in, how big your baby is, how many days are left. Forty weeks, week by week — with a Home Screen widget, a journal and a card you can share.">
-<link rel="canonical" href="https://berkalparslan.github.io/bumpline/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Bumpline: Pregnancy Tracker">
-<meta property="og:description" content="Watch your baby grow weekly. Forty weeks, one date, no account.">
-<meta property="og:image" content="https://berkalparslan.github.io/bumpline/assets/shot-1.webp">
-<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/bumpline/assets/icon.webp">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bumpline: Pregnancy Tracker · BamTech</title>
+<meta name="description" content="What week you are in, how big your baby is, how many days are left. Forty weeks, week by week, with a Home Screen widget, a journal and a card you can share." />
+<link rel="canonical" href="https://berkalparslan.github.io/bumpline/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Bumpline: Pregnancy Tracker" />
+<meta property="og:description" content="What week you are in, how big your baby is, how many days are left. Forty weeks, week by week, with a Home Screen widget, a journal and a card you can share." />
+<meta property="og:image" content="https://berkalparslan.github.io/bumpline/assets/icon.webp" />
+<meta name="theme-color" content="#ffb3d9" />
+<link rel="icon" href="/bumpline/assets/icon.webp" />
+<link rel="apple-touch-icon" href="/bumpline/assets/icon.webp" />
 <script>
-  // Tema ve dil, sayfa boyanmadan uygulanır — yoksa gözle görülür sıçrama olur.
-  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
   (function () {
-    var d = document.documentElement;
-    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
-    catch (e) { d.setAttribute("data-theme", "light"); }
-    var lang;
+    var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Kırk Hafta: Hamilelik · BamTech");
+    d.setAttribute("data-title-en", "Bumpline: Pregnancy Tracker · BamTech");
   })();
 </script>
-<link rel="stylesheet" href="/assets/tour.css">
-<style>.shot{height:auto;object-fit:contain}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+
 </head>
-<body style="--accent:#d9915c;--accent-dark:#e3b27c">
+<body style="--app:#ffb3d9;--acc:#fb4903">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
-    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#nasil"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
-    </div>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Türkçe ve İngilizce&quot;, &quot;Bumpline&quot;, &quot;iPhone · English and Turkish&quot;]"></div></div>
 
-<header class="hero">
-  <img class="hero-icon" src="/bumpline/assets/icon.webp" width="92" height="92" alt="Bumpline: Pregnancy Tracker">
-  <div class="kicker"><span class="tr">iPhone · Türkçe ve İngilizce</span><span class="en">iPhone · English and Turkish</span></div>
-  <h1><span class="tr">Kırk Hafta: Hamilelik</span><span class="en">Bumpline: Pregnancy Tracker</span></h1>
-  <p class="lede tr">Kırk hafta uzun bir yol. Her sabah tek bakışta nerede olduğunu gösterir.</p>
-  <p class="lede en">Forty weeks is a long road. It shows you where you are at a glance, every morning.</p>
-  <div class="pills"><span class="tr"><span class="pill">Widget</span><span class="pill">İnternetsiz</span><span class="pill">Reklamsız</span><span class="pill">Hesapsız</span></span><span class="en"><span class="pill">Widget</span><span class="pill">Offline</span><span class="pill">No ads</span><span class="pill">No account</span></span></div>
-  <div class="cta">
-    <span class="btn primary" aria-disabled="true"><span class="tr">Yakında App Store'da</span><span class="en">Coming soon to the App Store</span></span>
-    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#bugun"><span class="tr">Bugün</span><span class="en">Today</span></a><a href="#haftalar"><span class="tr">Kırk hafta</span><span class="en">Forty weeks</span></a><a href="#hazirlik"><span class="tr">Hazırlık</span><span class="en">Prep</span></a><a href="#gunluk"><span class="tr">Günlük</span><span class="en">Journal</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
-  <div class="shots wrap">
-    <img class="shot tr" src="/bumpline/assets/shot-tr-1.webp" width="620" height="1347" loading="lazy" alt="Kırk Hafta — bugün">
-    <img class="shot tr" src="/bumpline/assets/shot-tr-2.webp" width="620" height="1347" loading="lazy" alt="Kırk Hafta — hafta detayı">
-    <img class="shot tr" src="/bumpline/assets/shot-tr-3.webp" width="620" height="1347" loading="lazy" alt="Kırk Hafta — günlük">
-    <img class="shot en" src="/bumpline/assets/shot-1.webp" width="620" height="1347" loading="lazy" alt="Bumpline — today">
-    <img class="shot en" src="/bumpline/assets/shot-2.webp" width="620" height="1347" loading="lazy" alt="Bumpline — week detail">
-    <img class="shot en" src="/bumpline/assets/shot-3.webp" width="620" height="1347" loading="lazy" alt="Bumpline — journal">
-  </div>
+<main>
+  <section class="hero" data-emoji="[&quot;🤰&quot;, &quot;🍼&quot;, &quot;🥕&quot;, &quot;🎃&quot;, &quot;👣&quot;, &quot;💗&quot;, &quot;📅&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/bumpline/assets/icon.webp" alt="" width="180" height="180" />
+      <p class="kick"><span class="tr">iPhone · Türkçe ve İngilizce</span><span class="en">iPhone · English and Turkish</span> <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
+      <h1 class="disp" lang="en">Bumpline</h1>
+      <p class="lede"><span class="tr">Kırk hafta uzun bir yol. Her sabah tek bakışta nerede olduğunu gösterir. Tek bir tarih yeter, gerisini uygulama hesaplar.</span><span class="en">Forty weeks is a long road. It shows you where you are at a glance, every morning. One date is enough; the app works out the rest.</span></p>
+      <div class="pills"><span class="pill-s">Widget</span><span class="pill-s"><span class="tr">İnternetsiz</span><span class="en">Offline</span></span><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesapsız</span><span class="en">No account</span></span></div>
+      <p class="row-btns"></p>
+      <div class="chips"><span class="chip">iOS</span></div>
+    </div>
+  </section>
 
-<section id="ozellikler">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
-    <h2><span class="tr">Ne yapıyor?</span><span class="en">What it does</span></h2>
-    <p class="sec-lede tr">Tek bir tarih yeter. Gerisini uygulama hesaplar.</p>
-    <p class="sec-lede en">One date is enough. The app works out the rest.</p>
-    <div class="grid">
-      <div class="cell">
-        <h3><span class="ic">◉</span><span class="tr">Hangi haftadasın</span><span class="en">What week you're in</span></h3>
-        <p class="tr">İlerleme halkası, kaç gün geçtiği ve doğuma kalan süre. Gün gün ilerler.</p>
-        <p class="en">A progress ring, how far along you are and the days left. It moves day by day.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">🥕</span><span class="tr">Bebeğin ne kadar büyüdü</span><span class="en">How big your baby is</span></h3>
-        <p class="tr">Her hafta boy, ağırlık ve kendi çizimi olan bir boyut karşılaştırması — haşhaş tohumundan balkabağına.</p>
-        <p class="en">Length, weight and a hand-drawn size comparison for every week — from a poppy seed to a pumpkin.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">☑</span><span class="tr">Sırası gelen işler</span><span class="en">What's coming up</span></h3>
-        <p class="tr">Taramalar, testler ve hazırlıklar; hangi hafta neyin sırası geldiği gerçek tarihleriyle.</p>
-        <p class="en">Scans, tests and preparations — what is due in which week, with real dates.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">✎</span><span class="tr">Günlük</span><span class="en">Journal</span></h3>
-        <p class="tr">Bugün nasıl hissettiğini yaz, fotoğraf ekle. Kayıtlar hafta hafta gruplanır.</p>
-        <p class="en">Write how today felt and add photos. Entries are grouped week by week.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">▦</span><span class="tr">Widget</span><span class="en">Widget</span></h3>
-        <p class="tr">Ana ekranda ve kilit ekranında hafta ve geri sayım. Telefonu açmadan görürsün.</p>
-        <p class="en">Your week and countdown on the Home and Lock Screen, without opening the app.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">↗</span><span class="tr">Paylaşılabilir kart</span><span class="en">A card to share</span></h3>
-        <p class="tr">Eşine ve ailene gönderebileceğin haftalık bir kart. Kartta tarih ya da sağlık bilgisi yok.</p>
-        <p class="en">A weekly card for your partner and family. No dates or health details on it.</p>
+  <div class="promo tr"><div class="promo-track"><img src="/bumpline/assets/promo/tr/01-bugun.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/tr/02-hafta.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/tr/03-hazirlik.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/tr/04-haftalar.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/tr/05-gunluk.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/tr/01-bugun.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/tr/02-hafta.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/tr/03-hazirlik.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/tr/04-haftalar.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/tr/05-gunluk.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/bumpline/assets/promo/en/01-today.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/en/02-week.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/en/03-prep.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/en/04-weeks.webp" alt="" loading="lazy" /><img src="/bumpline/assets/promo/en/05-journal.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/en/01-today.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/en/02-week.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/en/03-prep.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/en/04-weeks.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bumpline/assets/promo/en/05-journal.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="bugun">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/tr/01-bugun.webp&quot;]"><img src="/bumpline/assets/promo/tr/01-bugun.webp" alt="What week is it?" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/en/01-today.webp&quot;]"><img src="/bumpline/assets/promo/en/01-today.webp" alt="What week is it?" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Bugün</span><span class="en">Today</span></p>
+        <h2 class="disp"><span class="tr">Kaçıncı haftadasın?</span><span class="en">What week is it?</span></h2>
+        <p class="z-p"><span class="tr">İlerleme halkası kaçıncı haftada olduğunu, kaç gün geçtiğini ve doğuma kaç gün kaldığını gösterir. Altında bebeğinin o haftaki boyu, ağırlığı ve boyut karşılaştırması.</span><span class="en">A progress ring shows your current week, how far along you are and how many days are left. Below it, your baby&#x27;s length, weight and size comparison for the week.</span></p>
+        <ul class="bul"><li><span class="tr">Son adetin ilk günü ya da tahmini doğum tarihi yeter</span><span class="en">The first day of your last period or your due date is enough</span></li></ul>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="nasil">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></div>
-    <h2><span class="tr">Üç adım</span><span class="en">Three steps</span></h2>
-    <div class="grid">
-      <div class="cell">
-        <h3><span class="tr">1 · Tarihi gir</span><span class="en">1 · Enter the date</span></h3>
-        <p class="tr">Tahmini doğum tarihini biliyorsan onu gir. Bilmiyorsan son adetinin ilk gününü seç.</p>
-        <p class="en">Enter your due date if you know it. If not, pick the first day of your last period.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="tr">2 · Widget'ı ekle</span><span class="en">2 · Add the widget</span></h3>
-        <p class="tr">Ana ekranda boş bir yere basılı tut, artıya dokun, uygulamayı ara.</p>
-        <p class="en">Touch and hold an empty spot on your Home Screen, tap the plus and search for the app.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="tr">3 · Haftayı bekle</span><span class="en">3 · Wait for the week</span></h3>
-        <p class="tr">Yeni hafta başladığında bir bildirim gelir. Haftada bir kez, o kadar.</p>
-        <p class="en">A notification arrives when a new week begins. Once a week, that's all.</p>
+  </section>
+  <section class="z z-r" id="haftalar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/tr/02-hafta.webp&quot;, &quot;/bumpline/assets/promo/tr/04-haftalar.webp&quot;]"><img src="/bumpline/assets/promo/tr/02-hafta.webp" alt="Poppy seed to pumpkin" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/en/02-week.webp&quot;, &quot;/bumpline/assets/promo/en/04-weeks.webp&quot;]"><img src="/bumpline/assets/promo/en/02-week.webp" alt="Poppy seed to pumpkin" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kırk hafta</span><span class="en">Forty weeks</span></p>
+        <h2 class="disp"><span class="tr">Haşhaştan balkabağına</span><span class="en">Poppy seed to pumpkin</span></h2>
+        <p class="z-p"><span class="tr">Her hafta için bebekte neler olduğu, sende neler olduğu, sık görülen belirtiler ve notlar. İleri geri bakabilirsin; her haftanın kendi çizimi var.</span><span class="en">For every week: what is happening to your baby, how you may feel, common symptoms and a note. Look ahead or back any time; every week has its own drawing.</span></p>
+        
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  <section class="z z-l" id="hazirlik">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/tr/03-hazirlik.webp&quot;]"><img src="/bumpline/assets/promo/tr/03-hazirlik.webp" alt="Everything that&#x27;s due" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/en/03-prep.webp&quot;]"><img src="/bumpline/assets/promo/en/03-prep.webp" alt="Everything that&#x27;s due" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Hazırlık</span><span class="en">Prep</span></p>
+        <h2 class="disp"><span class="tr">Sırası gelen her şey</span><span class="en">Everything that&#x27;s due</span></h2>
+        <p class="z-p"><span class="tr">Üstte sırada ne olduğu gerçek tarihiyle, altta bütün takvim: taramalar, testler, term dönemi ve tahmini doğum tarihi. Yanında da gereken araçlar.</span><span class="en">What is due next with its real date on top, the full timeline below: scans, tests, term and your due date. And the tools to go with it.</span></p>
+        <ul class="bul"><li><span class="tr">Tekme sayacı: on hareket bir seans</span><span class="en">Kick counter: ten movements a session</span></li><li><span class="tr">Kasılma sayacı: süre, aralık, 5-1-1 ölçütü</span><span class="en">Contraction timer: length, gap, the 5-1-1 guide</span></li><li><span class="tr">Hastane çantası ve doktora sorular</span><span class="en">Hospital bag and questions for the doctor</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="gunluk">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/tr/05-gunluk.webp&quot;]"><img src="/bumpline/assets/promo/tr/05-gunluk.webp" alt="How did today feel?" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/promo/en/05-journal.webp&quot;]"><img src="/bumpline/assets/promo/en/05-journal.webp" alt="How did today feel?" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Günlük</span><span class="en">Journal</span></p>
+        <h2 class="disp"><span class="tr">Bugün nasıl hissettin?</span><span class="en">How did today feel?</span></h2>
+        <p class="z-p"><span class="tr">Birkaç cümle yaz, fotoğraf ekle; kamerayla çek ya da galeriden seç. Fotoğraflar o güne iliştirilir, kayıtlar hafta hafta gruplanır.</span><span class="en">Write a few lines and add photos, from the camera or your library. Photos are attached to that day and entries are grouped week by week.</span></p>
+        
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="widget">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bumpline/assets/screens/tr/01-widget-anaekran.webp&quot;, &quot;/bumpline/assets/screens/tr/07-paylasim-karti.webp&quot;]"><img src="/bumpline/assets/screens/tr/01-widget-anaekran.webp" alt="See it without opening" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Widget ve paylaşım</span><span class="en">Widget and sharing</span></p>
+        <h2 class="disp"><span class="tr">Telefonu açmadan gör</span><span class="en">See it without opening</span></h2>
+        <p class="z-p"><span class="tr">Ana ekranda ve kilit ekranında hafta ve geri sayım. Eşine ve ailene gönderebileceğin haftalık bir kart; kartta tarih, ad soyad ya da sağlık bilgisi yok.</span><span class="en">Your week and countdown on the Home Screen and Lock Screen. A weekly card for your partner and family, with no dates, names or health details on it.</span></p>
+        <ul class="bul"><li><span class="tr">Cinsiyeti öğrenince rengi seç, simge de değişir</span><span class="en">Pick the colour once you know; the icon changes too</span></li><li><span class="tr">Haftada bir bildirim, tarama haftalarından üç gün önce hatırlatma</span><span class="en">One notification a week, plus a heads-up before scan weeks</span></li></ul>
+      </div>
+    </div>
+  </section>
 
-<section id="gizlilik">
+<section class="band" id="uyari"><div class="wrap"><p class="band-p"><span class="tr">Bu uygulama genel bilgi verir, tıbbi tavsiye değildir. Boy ve ağırlık değerleri ortalamadır. Sağlığınla ilgili kararlarda seni takip eden hekime danış. Bilgiler ACOG, NHS, Mayo Clinic, Cleveland Clinic ve T.C. Sağlık Bakanlığı Doğum Öncesi Bakım Yönetim Rehberi gibi kaynaklardan derlenmiştir; uygulamada Ayarlar &gt; Kaynaklar bölümünde listelenir.</span><span class="en">This app provides general information, not medical advice. Length and weight are averages. Talk to the doctor following you about health decisions. Information is compiled from sources such as ACOG, NHS, Mayo Clinic, Cleveland Clinic and the Turkish Ministry of Health antenatal care guidelines; they are listed in Settings &gt; Sources.</span></p></div></section>
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Telefonundan çıkmaz</span><span class="en">Nothing leaves your phone</span></h2>
+      <div><p class="band-p"><span class="tr">Hesap yok, kayıt yok, reklam yok, analitik yok. Girdiğin tarih, takma ad, günlük kayıtların ve fotoğrafların yalnızca cihazında durur. Uygulamanın sunucuyla hiçbir bağlantısı yok.</span><span class="en">No account, no sign-up, no ads, no analytics. Your date, nickname, journal entries and photos stay on your device. The app has no server connection at all.</span></p>
+      <p class="row-btns"><a class="pill" href="/privacy/bumpline/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
   <div class="wrap">
-    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
-    <h2><span class="tr">Hiçbir veri telefonundan çıkmıyor</span><span class="en">Nothing leaves your phone</span></h2>
-    <p class="sec-lede tr">Hesap yok, kayıt yok, reklam yok, analitik yok. Girdiğin tarih, takma ad, günlük kayıtların ve fotoğrafların yalnızca cihazında durur. Uygulamanın sunucuyla hiçbir bağlantısı yok.</p>
-    <p class="sec-lede en">No account, no sign-up, no ads, no analytics. Your date, nickname, journal entries and photos stay on your device. The app has no server connection at all.</p>
-    <p class="sec-lede tr"><a href="/privacy/bumpline/">Gizlilik politikasının tamamı →</a></p>
-    <p class="sec-lede en"><a href="/privacy/bumpline/">Read the full privacy policy →</a></p>
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy/bumpline/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
   </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="tag"><span class="tr">Uyarı</span><span class="en">Disclaimer</span></div>
-    <p class="sec-lede tr">Bu uygulama genel bilgi verir, tıbbi tavsiye değildir. Boy ve ağırlık değerleri ortalamadır. Sağlığınla ilgili kararlarda seni takip eden hekime danış. Bilgiler ACOG, NHS, Mayo Clinic, Cleveland Clinic ve T.C. Sağlık Bakanlığı Doğum Öncesi Bakım Yönetim Rehberi gibi kaynaklardan derlenmiştir; uygulama içinde Ayarlar &gt; Kaynaklar bölümünde listelenir.</p>
-    <p class="sec-lede en">This app provides general information, not medical advice. Length and weight are averages. Talk to the doctor following you about health decisions. Information is compiled from sources such as ACOG, NHS, Mayo Clinic, Cleveland Clinic and the Turkish Ministry of Health antenatal care guidelines; they are listed in Settings &gt; Sources.</p>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 BamTech ·
-    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/privacy/bumpline/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-  </p>
+  <div class="giant disp" lang="en" aria-hidden="true">Bumpline</div>
 </footer>
 
-<script>
-  (function () {
-    var d = document.documentElement;
-    var lang = d.getAttribute("data-lang");
-    var theme = d.getAttribute("data-theme");
-    var lb = document.getElementById("langBtn");
-    var tb = document.getElementById("themeBtn");
-    // Düğme, tıklanınca GEÇİLECEK dili gösterir.
-    function paint() {
-      lb.textContent = lang === "tr" ? "EN" : "TR";
-      tb.textContent = theme === "dark" ? "☀︎" : "☾";
-    }
-    lb.addEventListener("click", function () {
-      lang = lang === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", lang);
-      d.setAttribute("lang", lang);
-      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
-      paint();
-    });
-    tb.addEventListener("click", function () {
-      theme = theme === "dark" ? "light" : "dark";
-      d.setAttribute("data-theme", theme);
-      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
+
 </body>
 </html>

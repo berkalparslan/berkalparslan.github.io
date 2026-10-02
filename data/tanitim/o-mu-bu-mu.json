@@ -1,0 +1,332 @@
+{
+ "slug": "o-mu-bu-mu",
+ "name": "O mu Bu mu?",
+ "title": {
+  "tr": "O mu Bu mu? İkilem ve Turnuva",
+  "en": "O mu Bu mu? This or That"
+ },
+ "description": {
+  "tr": "İkilemler ve eleme turnuvaları. İki fotoğraf, tek dokunuş: seç, sonra herkes ne seçmiş gör. 2.600'den fazla seçenek, 200'den fazla ikilem.",
+  "en": "Dilemmas and bracket tournaments. Two photos, one tap: pick, then see what everyone else picked. 2,600+ options, 200+ dilemmas."
+ },
+ "icon": "/o-mu-bu-mu/assets/icon.webp",
+ "color": "#e9ccff",
+ "accent": "#fb4903",
+ "status": "live",
+ "kicker": {
+  "tr": "iPhone · Apple Watch · Android",
+  "en": "iPhone · Apple Watch · Android"
+ },
+ "lede": {
+  "tr": "Masada tartışmayı başlatan oyun. İki fotoğraf, tek dokunuş: sen seçersin, sonra herkesin ne seçtiğini görürsün. Sonra bir turnuvaya geç, en iyiyi bul.",
+  "en": "The game that starts the argument at the table. Two photos, one tap: you pick, then see what everyone else picked. Then move on to a bracket and find the best."
+ },
+ "pills": [
+  {
+   "tr": "Girişsiz oyna",
+   "en": "No sign-in needed"
+  },
+  {
+   "tr": "2.600+ seçenek",
+   "en": "2,600+ options"
+  },
+  {
+   "tr": "200+ ikilem",
+   "en": "200+ dilemmas"
+  },
+  {
+   "tr": "Ücretsiz",
+   "en": "Free"
+  },
+  {
+   "tr": "App Store: Türkiye",
+   "en": "App Store: Turkey only"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos",
+  "android"
+ ],
+ "ios": "6740251305",
+ "play": "com.berkalparslan.thisOne",
+ "emoji": [
+  "🤔",
+  "⚔️",
+  "🏆",
+  "🍕",
+  "🏖️",
+  "🔥",
+  "👑"
+ ],
+ "promo": {
+  "tr": [
+   "/o-mu-bu-mu/assets/promo/tr/01.webp",
+   "/o-mu-bu-mu/assets/promo/tr/02.webp",
+   "/o-mu-bu-mu/assets/promo/tr/03.webp",
+   "/o-mu-bu-mu/assets/promo/tr/04.webp",
+   "/o-mu-bu-mu/assets/promo/tr/05.webp",
+   "/o-mu-bu-mu/assets/promo/tr/06.webp",
+   "/o-mu-bu-mu/assets/promo/tr/07.webp"
+  ],
+  "en": [
+   "/o-mu-bu-mu/assets/promo/en/01.webp",
+   "/o-mu-bu-mu/assets/promo/en/02.webp",
+   "/o-mu-bu-mu/assets/promo/en/03.webp",
+   "/o-mu-bu-mu/assets/promo/en/04.webp",
+   "/o-mu-bu-mu/assets/promo/en/05.webp",
+   "/o-mu-bu-mu/assets/promo/en/06.webp",
+   "/o-mu-bu-mu/assets/promo/en/07.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "ikilem",
+   "kicker": {
+    "tr": "İkilemler",
+    "en": "Dilemmas"
+   },
+   "title": {
+    "tr": "Herkes senin gibi mi?",
+    "en": "Does everyone agree?"
+   },
+   "text": {
+    "tr": "Kahve mi çay mı, deniz mi dağ mı? 200'den fazla fotoğraflı ikilem. Oy ver, yüzdeleri gör, devam et. Her gün yeni bir günün ikilemi.",
+    "en": "Coffee or tea, sea or mountains? 200+ photo dilemmas. Vote, see the split, move on. A new dilemma of the day, every day."
+   },
+   "bullets": [
+    {
+     "tr": "Spor, film, müzik, yemek, seyahat, teknoloji: 12 kategori",
+     "en": "Sports, movies, music, food, travel, tech: 12 categories"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/02.webp",
+     "/o-mu-bu-mu/assets/screens/tr/06.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/02.webp",
+     "/o-mu-bu-mu/assets/screens/en/06.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  },
+  {
+   "id": "turnuva",
+   "kicker": {
+    "tr": "Turnuvalar",
+    "en": "Brackets"
+   },
+   "title": {
+    "tr": "Son 64'ten tek şampiyon",
+    "en": "One champion from 64"
+   },
+   "text": {
+    "tr": "Gerçek eleme usulü: Son 64, 32, 16, çeyrek final, yarı final, final. Yemekler, tatlılar, şehirler, tatil yerleri; 2.600'den fazla fotoğraflı seçenek.",
+    "en": "Real single elimination: round of 64, 32, 16, quarter-finals, semis, final. Food, desserts, cities, holiday spots; 2,600+ photo options."
+   },
+   "bullets": [
+    {
+     "tr": "8, 16, 32 ya da 64 seçenekle başla",
+     "en": "Start with 8, 16, 32 or 64 options"
+    },
+    {
+     "tr": "Kazanan kalır modu: koltuğu kim korur?",
+     "en": "Winner stays: who keeps the seat?"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/01.webp",
+     "/o-mu-bu-mu/assets/screens/tr/07.webp",
+     "/o-mu-bu-mu/assets/screens/tr/05.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/01.webp",
+     "/o-mu-bu-mu/assets/screens/en/07.webp",
+     "/o-mu-bu-mu/assets/screens/en/05.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "sampiyon",
+   "kicker": {
+    "tr": "Şampiyon",
+    "en": "Champion"
+   },
+   "title": {
+    "tr": "Şampiyonu sen belirledin",
+    "en": "You crowned the champion"
+   },
+   "text": {
+    "tr": "Şampiyonun yolu, turnuva ağacının tamamı ve paylaşılabilir bir sonuç kartı. Bir de halkın favorisi: hangi seçenek en çok şampiyon olmuş?",
+    "en": "The champion's road, the full bracket tree and a shareable result card. Plus the crowd favourite: which option has been crowned most often?"
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/03.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/03.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "arkadas",
+   "kicker": {
+    "tr": "Arkadaşlarla",
+    "en": "With friends"
+   },
+   "title": {
+    "tr": "Aynı kura, herkese",
+    "en": "Same draw for everyone"
+   },
+   "text": {
+    "tr": "Herhangi bir turnuvayı koda çevir, gönder. Herkes aynı kurayı istediği zaman oynar. Şampiyonlar yan yana: kim neyi seçti, ne kadar anlaşıyorsunuz.",
+    "en": "Turn any bracket into a code and send it. Everyone plays the same draw whenever they like. Champions side by side: who picked what, and how much you agree."
+   },
+   "bullets": [
+    {
+     "tr": "QR okut ya da bağlantıyı paylaş",
+     "en": "Scan the QR or share the link"
+    },
+    {
+     "tr": "Kendi turnuvan: kendi konun, kendi fotoğrafların",
+     "en": "Your own bracket: your topic, your photos"
+    },
+    {
+     "tr": "Yalnız bağlantın olan görür",
+     "en": "Only people with your link see it"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/04.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/04.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Günün ikilemi bilekte",
+    "en": "Today's dilemma, on your wrist"
+   },
+   "text": {
+    "tr": "Saatte günün ikilemine oy ver, herkesin ne dediğini gör. Hızlı turnuva: Son 4, Son 8 ya da Son 16, bir dakikada biter.",
+    "en": "Vote on the dilemma of the day from your watch and see what everyone said. Quick brackets: final four, eight or sixteen, done in a minute."
+   },
+   "device": "watch",
+   "images": {
+    "tr": [
+     "/o-mu-bu-mu/assets/screens/tr/watch-01.webp",
+     "/o-mu-bu-mu/assets/screens/tr/watch-02.webp",
+     "/o-mu-bu-mu/assets/screens/tr/watch-05.webp"
+    ],
+    "en": [
+     "/o-mu-bu-mu/assets/screens/en/watch-01.webp",
+     "/o-mu-bu-mu/assets/screens/en/watch-02.webp",
+     "/o-mu-bu-mu/assets/screens/en/watch-05.webp"
+    ]
+   },
+   "color": "#c8f560"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Ücretsiz oyna",
+   "en": "Free to play"
+  },
+  "lede": {
+   "tr": "İkilemler ve turnuvalar ücretsiz. Pro isteğe bağlı ve tek seferlik; abonelik yok.",
+   "en": "Dilemmas and brackets are free. Pro is optional and one-time; no subscription."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "Hemen oyna",
+     "en": "Play right away"
+    },
+    "items": [
+     {
+      "tr": "Giriş gerekmez",
+      "en": "No sign-in needed"
+     },
+     {
+      "tr": "İstersen Apple ya da Google bağla",
+      "en": "Link Apple or Google if you like"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Reklamsız",
+     "en": "Remove Ads"
+    },
+    "price": {
+     "tr": "₺99,99",
+     "en": "₺99.99"
+    },
+    "items": [
+     {
+      "tr": "Reklamları kaldırır",
+      "en": "Removes the ads"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Pro",
+     "en": "Pro"
+    },
+    "price": {
+     "tr": "₺249,99 · tek sefer",
+     "en": "₺249.99 · one-time"
+    },
+    "items": [
+     {
+      "tr": "Reklam yok",
+      "en": "No ads"
+     },
+     {
+      "tr": "Sınırsız kendi turnuvan",
+      "en": "Unlimited own brackets"
+     },
+     {
+      "tr": "Turnuva başına 64 seçenek",
+      "en": "Up to 64 options per bracket"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Verilerin sende kalır",
+   "en": "Your data stays yours"
+  },
+  "text": {
+   "tr": "Hesap açman gerekmez. Ücretsiz sürümde reklam gösterilir (AdMob) ve izleme izni sorulur; hayır diyebilirsin. İçerik şu an Türkçe, arayüz Türkçe ve İngilizce.",
+   "en": "No account needed. The free version shows ads (AdMob) and asks for tracking permission; you can say no. Content is currently in Turkish; the interface is in English and Turkish."
+  },
+  "href": "/privacy/o-mu-bu-mu/"
+ }
+}

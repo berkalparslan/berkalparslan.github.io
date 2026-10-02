@@ -1,0 +1,203 @@
+{
+ "slug": "volleyball",
+ "name": "Volleyball",
+ "title": "Score Keeper for Volleyball",
+ "description": {
+  "tr": "Set set voleybol skoru: 25 sayı, iki fark, beşinci sette 15. Maç defteri ve nabız istatistikleri cabası.",
+  "en": "Volleyball scoring set by set: 25 points, two clear, 15 in the fifth. Match logbook and heart-rate stats on top."
+ },
+ "icon": "/volleyball/assets/icon.webp",
+ "color": "#ffd731",
+ "accent": "#fb4903",
+ "status": "live",
+ "kicker": {
+  "tr": "iPhone · Apple Watch",
+  "en": "iPhone · Apple Watch"
+ },
+ "lede": {
+  "tr": "Set set voleybol skoru: 25 sayı, iki fark, beşinci sette 15. Maç defteri ve nabız istatistikleri cabası.",
+  "en": "Volleyball scoring set by set: 25 points, two clear, 15 in the fifth. Match logbook and heart-rate stats on top."
+ },
+ "pills": [
+  {
+   "tr": "Watch uygulaması",
+   "en": "Watch app"
+  },
+  {
+   "tr": "Türkçe sesli anons",
+   "en": "Turkish voice umpire"
+  },
+  {
+   "tr": "QR ile rakip senkronu",
+   "en": "QR opponent sync"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos"
+ ],
+ "ios": "6760615315",
+ "emoji": [
+  "🏐",
+  "🏆",
+  "⏱️",
+  "⌚",
+  "🔊",
+  "🏖️"
+ ],
+ "promo": {
+  "any": [
+   "/volleyball/assets/shot-1.webp",
+   "/volleyball/assets/shot-2.webp",
+   "/volleyball/assets/shot-3.webp"
+  ]
+ },
+ "privacy": {
+  "text": {
+   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
+   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
+  },
+  "href": "/privacy/volleyball/"
+ },
+ "support": "/support/",
+ "sections": [
+  {
+   "id": "setler",
+   "kicker": {
+    "tr": "Set kuralları",
+    "en": "Set rules"
+   },
+   "title": {
+    "tr": "25 sayı, iki fark",
+    "en": "25 points, two clear"
+   },
+   "text": {
+    "tr": "25 sayı ve iki fark, tie-break setinde 15. Bo3 ya da Bo5 seçilir, gerisi kendiliğinden işler.",
+    "en": "25 points and two clear, 15 in the deciding set. Choose best of three or five and the rest follows."
+   },
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/volleyball/any/02.webp"
+    ]
+   }
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Sayı bilekten",
+    "en": "Score from your wrist"
+   },
+   "text": {
+    "tr": "Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.",
+    "en": "The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag."
+   },
+   "bullets": [
+    {
+     "tr": "Servis, taraf değişimi ve set sonu kendi işler",
+     "en": "Serve, side changes and set endings take care of themselves"
+    },
+    {
+     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır",
+     "en": "With your permission the match is logged to Apple Health as a workout"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/volleyball/assets/watch-1.webp",
+     "/volleyball/assets/watch-2.webp",
+     "/volleyball/assets/watch-3.webp"
+    ]
+   }
+  },
+  {
+   "id": "rakip",
+   "kicker": {
+    "tr": "Hakem ve rakip",
+    "en": "Umpire and opponent"
+   },
+   "title": {
+    "tr": "Skoru o söylesin",
+    "en": "Let it call the score"
+   },
+   "text": {
+    "tr": "Her sayıdan sonra skoru yüksek sesle söyler; Türkçe dahil birden çok dil. Maç bitince rakip QR kodu okutur, maç kendi telefonuna onun tarafından görünerek aktarılır.",
+    "en": "It calls the score out loud after every point, in several languages including Turkish. When it ends your opponent scans a QR code and the match imports to their phone, flipped to their side."
+   },
+   "bullets": [
+    {
+     "tr": "Hesap ya da sunucu yok",
+     "en": "No account, no server"
+    },
+    {
+     "tr": "Bitince kendi fotoğrafınla sonuç kartı: süre ve toplam sayı üstünde",
+     "en": "A result card over your own photo, with duration and total points"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/volleyball/any/03.webp"
+    ]
+   }
+  },
+  {
+   "id": "defter",
+   "kicker": {
+    "tr": "Maç defteri ve profil",
+    "en": "Logbook and profile"
+   },
+   "title": {
+    "tr": "Her maç kayıtta",
+    "en": "Every match on file"
+   },
+   "text": {
+    "tr": "Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.",
+    "en": "Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile."
+   },
+   "bullets": [
+    {
+     "tr": "Kazanma oranı, kazanılan ve kaybedilen sayılar",
+     "en": "Win rate, points won and lost"
+    },
+    {
+     "tr": "Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında",
+     "en": "Phone and Watch share one history, synced in your own iCloud"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/volleyball/any/01.webp",
+     "/assets/home/screens/volleyball/any/05.webp"
+    ]
+   }
+  },
+  {
+   "id": "rehber",
+   "kicker": {
+    "tr": "Academy",
+    "en": "Academy"
+   },
+   "title": {
+    "tr": "Kuralı içeride öğren",
+    "en": "Learn the rules inside"
+   },
+   "text": {
+    "tr": "Uygulamanın içinde kural, teknik ve taktik rehberleri: kim servis atar, let nedir, hangi vuruş ne zaman.",
+    "en": "Rule, technique and tactics guides built in: who serves, what a let is, which shot when."
+   },
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/volleyball/any/04.webp"
+    ]
+   }
+  }
+ ]
+}

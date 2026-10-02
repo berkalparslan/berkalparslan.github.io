@@ -1,0 +1,390 @@
+{
+ "slug": "bosyeryok",
+ "name": "Boş Yer Yok",
+ "title": {
+  "tr": "Boş Yer Yok: Otopark İşletme Oyunu",
+  "en": "No Spaces: Parking Tycoon"
+ },
+ "description": {
+  "tr": "Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor.",
+  "en": "A parking lot management game. You don't steer, you run the place: you set the tariff, and wages come out of the till every second."
+ },
+ "icon": "/bosyeryok/assets/icon-512.png",
+ "color": "#ffd731",
+ "accent": "#4da2ff",
+ "status": "live",
+ "kicker": {
+  "tr": "Android · Google Play'de",
+  "en": "Android · On Google Play"
+ },
+ "lede": {
+  "tr": "Boş bir arsa, tek blok, on araçlık yer. Direksiyon çevirmiyorsun, işletiyorsun. Kasa sen bakmasan da dolar, ama parayı nereye koyduğun her şeyi belirler.",
+  "en": "An empty plot, one block, room for ten cars. You don't steer, you run the place. The till fills while you're away, but where you put the money decides everything."
+ },
+ "pills": [
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "Kayıt cihazında",
+   "en": "Save stays on device"
+  },
+  {
+   "tr": "TR · EN",
+   "en": "TR · EN"
+  }
+ ],
+ "platforms": [
+  "android"
+ ],
+ "play": "com.aberk.bosyeryok",
+ "emoji": [
+  "🚗",
+  "🅿️",
+  "🚧",
+  "💰",
+  "🏟️",
+  "✈️",
+  "🔑"
+ ],
+ "promo": {
+  "tr": [
+   "/bosyeryok/assets/promo/tr/01-otopark.webp",
+   "/bosyeryok/assets/promo/tr/02-tarife.webp",
+   "/bosyeryok/assets/promo/tr/03-ihale.webp",
+   "/bosyeryok/assets/promo/tr/04-ekip.webp",
+   "/bosyeryok/assets/promo/tr/05-tesis.webp"
+  ],
+  "en": [
+   "/bosyeryok/assets/promo/en/01-otopark.webp",
+   "/bosyeryok/assets/promo/en/02-tarife.webp",
+   "/bosyeryok/assets/promo/en/03-ekip.webp",
+   "/bosyeryok/assets/promo/en/04-ihale.webp",
+   "/bosyeryok/assets/promo/en/05-tesis.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "otopark",
+   "kicker": {
+    "tr": "Otopark",
+    "en": "The lot"
+   },
+   "title": {
+    "tr": "Herkes yer arıyor",
+    "en": "Everyone wants a space"
+   },
+   "text": {
+    "tr": "Otopark gerçek zamanlı işler: araçlar girer, çıkar, gece ışıklar yanar. Üstteki sayaç saniyede ne kazandığını söyler ve gün boyu durmadan değişir.",
+    "en": "The lot runs in real time: cars come and go, the lights come on at night. The meter at the top shows what you earn per second, and it never stops moving."
+   },
+   "bullets": [
+    {
+     "tr": "Çarşı Meydanı gündüz dolar, akşam boşalır",
+     "en": "Market Square fills by day and empties at night"
+    },
+    {
+     "tr": "Stadyum Yanı maç akşamı altın madeni",
+     "en": "Next to the Stadium is a gold mine on match night"
+    },
+    {
+     "tr": "Havalimanında araç bir hafta kalır",
+     "en": "At the airport cars stay for a week"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/screens/tr/otopark.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/screens/en/otopark.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "tesis",
+   "kicker": {
+    "tr": "Tesis",
+    "en": "Facility"
+   },
+   "title": {
+    "tr": "Her yükseltme somut",
+    "en": "Upgrades you can see"
+   },
+   "text": {
+    "tr": "Yüzde artıran soyut kutucuklar yok. Zemini çizersen bir araç daha sığar, aydınlatma yoksa gece kimse aracını bırakmaz, bariyer tıkanırsa müşteri kapıdan döner.",
+    "en": "No abstract boxes that add a percentage. Repaint the surface and one more car fits, without lighting nobody leaves a car overnight, and a jammed barrier turns customers away."
+   },
+   "bullets": [
+    {
+     "tr": "Zemin, bariyer, aydınlatma, sundurma, şarj istasyonu",
+     "en": "Surface, barrier, lighting, canopy, charging point"
+    },
+    {
+     "tr": "Her konumda dört bloğa kadar",
+     "en": "Up to four blocks at each location"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/screens/tr/tesis.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/screens/en/tesis.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "tarife",
+   "kicker": {
+    "tr": "Tarife ve abonman",
+    "en": "Tariff and contracts"
+   },
+   "title": {
+    "tr": "Fiyatı sen koyarsın",
+    "en": "You set the price"
+   },
+   "text": {
+    "tr": "Saatlik, ilk saat bedava ya da günlük sabit. Hangisinin kazandırdığı konuma göre değişir; oyun o şubede hangisinin iyi olduğunu söyler, seçim senin.",
+    "en": "Hourly, first hour free or flat daily. Which one pays depends on the location; the game tells you which is better there, and the call is yours."
+   },
+   "bullets": [
+    {
+     "tr": "Abonman: yerlerin bir kısmı aylık aboneye",
+     "en": "Contracts: put part of your spaces on a monthly deal"
+    },
+    {
+     "tr": "Gece bile boş kalmaz, karşılığında indirimli öder",
+     "en": "Never empty at night, but they pay a discount"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/screens/tr/tarife.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/screens/en/tarife.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "ekip",
+   "kicker": {
+    "tr": "Ekip",
+    "en": "Crew"
+   },
+   "title": {
+    "tr": "Maaş her saniye düşer",
+    "en": "Wages tick every second"
+   },
+   "text": {
+    "tr": "Çoğu oyunda personel bedava bir çarpandır. Burada değil: vale de gişe görevlisi de gerçek bir gider. Gelir maaşı karşılamazsa kasa erir ve bunu anında görürsün.",
+    "en": "In most games staff are a free multiplier. Not here: the valet and the booth attendant are a real cost. If income can't cover payroll the till drains, and you see it live."
+   },
+   "bullets": [
+    {
+     "tr": "Vale, gişe görevlisi, güvenlik, trafik yönlendirici",
+     "en": "Valet, booth attendant, security, traffic marshal"
+    },
+    {
+     "tr": "Büyümenin sınırı: ne zaman duracağını bilmek",
+     "en": "The limit to growth: knowing when to stop"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/screens/tr/ekip.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/screens/en/ekip.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "sokak",
+   "kicker": {
+    "tr": "Sokak",
+    "en": "The street"
+   },
+   "title": {
+    "tr": "Sokak hiç durmaz",
+    "en": "The street never sleeps"
+   },
+   "text": {
+    "tr": "On dokuz farklı olay var. Fırsatın üstüne atlarsan çarpan senindir; aksilik ise doğru yükseltmen varsa yarıya iner.",
+    "en": "There are nineteen different events. Jump on an opportunity and the multiplier is yours; a setback is halved if you own the right upgrade."
+   },
+   "bullets": [
+    {
+     "tr": "Karşıdaki otopark kapandı, bu akşam derbi var, sokakta dizi çekimi",
+     "en": "The lot across the road shut, derby tonight, a film crew took the street"
+    },
+    {
+     "tr": "Sağanakta sundurma, bariyer arızasında gişe görevlisi kurtarır",
+     "en": "A canopy saves you in the rain, the booth attendant when the barrier breaks"
+    },
+    {
+     "tr": "Kiosk fişleri kayıtlıysa zabıta cezası sembolik kalır",
+     "en": "With kiosk receipts on file the inspector's fine stays symbolic"
+    }
+   ],
+   "device": "image",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/promo/tr/01-otopark.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/promo/en/01-otopark.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "ihale",
+   "kicker": {
+    "tr": "İhale ve ruhsat",
+    "en": "Tenders and permits"
+   },
+   "title": {
+    "tr": "Sıfırla, hızlı büyü",
+    "en": "Reset, grow faster"
+   },
+   "text": {
+    "tr": "Hedefi tutturunca belediye ihalesine girersin. Konumlar, bloklar ve ekip sıfırlanır, karşılığında kalıcı ruhsat alırsın.",
+    "en": "Hit the target and you enter the council tender. Locations, blocks and crew reset, and in return you earn permanent permits."
+   },
+   "bullets": [
+    {
+     "tr": "Kalıcı gelir zammı ve yükseltme indirimi",
+     "en": "Permanent income boost and cheaper upgrades"
+    },
+    {
+     "tr": "Başlangıç sermayesi ve daha uzun çevrimdışı süre",
+     "en": "Starting capital and a longer offline window"
+    },
+    {
+     "tr": "Başarımlar da ruhsat verir, hiç sıfırlanmaz",
+     "en": "Achievements grant permits too, and never reset"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bosyeryok/assets/screens/tr/ihale.webp"
+    ],
+    "en": [
+     "/bosyeryok/assets/screens/en/ihale.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Oyunun tamamı ücretsiz",
+   "en": "The whole game is free"
+  },
+  "lede": {
+   "tr": "Kilitli bölüm, enerji barı, bekleme duvarı yok. Satın alınabilen tek şey zaman ve hiçbiri gerekli değil.",
+   "en": "No locked chapters, no energy bar, no wait wall. The only thing money buys is time, and none of it is necessary."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "Oyunun tamamı",
+     "en": "The complete game"
+    },
+    "items": [
+     {
+      "tr": "Dört konum, konum başına dört blok",
+      "en": "Four locations, four blocks each"
+     },
+     {
+      "tr": "Bütün yükseltmeler, ekip ve tarifeler",
+      "en": "Every upgrade, all crew and tariffs"
+     },
+     {
+      "tr": "İhale, ruhsat ve başarımlar",
+      "en": "Tenders, permits and achievements"
+     },
+     {
+      "tr": "Reklam yok",
+      "en": "No ads"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Patron",
+     "en": "Boss Pack"
+    },
+    "price": {
+     "tr": "Tek ödeme, ömür boyu",
+     "en": "One payment, forever"
+    },
+    "items": [
+     {
+      "tr": "Sen yokken 1 yerine 6 saat çalışır",
+      "en": "Earns for six hours instead of one while you're away"
+     },
+     {
+      "tr": "Bütün gelire kalıcı +%15",
+      "en": "A permanent +15% on all income"
+     },
+     {
+      "tr": "2.500 altın açılış hediyesi",
+      "en": "2,500 gold to start with"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Paketler",
+     "en": "Packs"
+    },
+    "price": {
+     "tr": "Nakit ve altın",
+     "en": "Cash and gold"
+    },
+    "items": [
+     {
+      "tr": "Oyunda kazandığını satın alır",
+      "en": "Buys what you already earn in game"
+     },
+     {
+      "tr": "Kilitli içerik yok",
+      "en": "No content locked behind them"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Hesap yok, veri yok",
+   "en": "No account, no data"
+  },
+  "text": {
+   "tr": "Oyun hesap istemez, reklam göstermez, seni uygulamalar arasında takip etmez. Oyun kaydın telefonundan hiç çıkmaz. Dışarı giden tek şey hangi özelliğin kullanıldığına dair kaba istatistikler ve satın alma yaparsan onun doğrulanması.",
+   "en": "No account, no ads, no cross-app tracking. Your save never leaves the phone. What does leave is coarse statistics about which features get used, and the verification of a purchase if you make one."
+  },
+  "href": "/privacy/bosyeryok/"
+ }
+}

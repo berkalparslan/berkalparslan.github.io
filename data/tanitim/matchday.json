@@ -1,0 +1,323 @@
+{
+ "slug": "matchday",
+ "name": "Matchday",
+ "title": {
+  "tr": "Matchday: Halısaha",
+  "en": "Matchday: Five a side"
+ },
+ "description": {
+  "tr": "Halısaha maçını tek yerde topla: kim geliyor, takımlar sahada, kadroyu WhatsApp'a at, maçtan sonra gizli puanlama. iPhone ve Android beta.",
+  "en": "Your weekly five-a-side in one place: who is coming, teams on the pitch, the lineup in the group chat and secret ratings after the match. iPhone and Android beta."
+ },
+ "icon": "/matchday/assets/icon-512.png",
+ "color": "#c8f560",
+ "accent": "#fb4903",
+ "status": "soon",
+ "kicker": {
+  "tr": "iPhone · Android · Beta",
+  "en": "iPhone · Android · Beta"
+ },
+ "lede": {
+  "tr": "Halısaha maçının bütün derdi tek uygulamada: kim geliyor, kim hangi takımda, kim kaç attı. Maçı kur, ekibi davet et, takımları sahaya diz, kadroyu WhatsApp grubuna at.",
+  "en": "Everything about the weekly five-a-side in one app: who is coming, who plays where, who scored. Set up the match, invite the group, line the teams up and drop the lineup in the group chat."
+ },
+ "pills": [
+  {
+   "tr": "Ücretsiz",
+   "en": "Free"
+  },
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "Türkçe ve İngilizce",
+   "en": "Turkish and English"
+  },
+  {
+   "tr": "Şu an beta",
+   "en": "In beta now"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "android"
+ ],
+ "buttons": [
+  {
+   "label": {
+    "tr": "Beta'ya katıl",
+    "en": "Join the beta"
+   },
+   "href": "#katil",
+   "dark": true
+  }
+ ],
+ "emoji": [
+  "⚽",
+  "🥅",
+  "🏆",
+  "📣",
+  "🧤",
+  "⭐",
+  "🔥"
+ ],
+ "promo": {
+  "tr": [
+   "/matchday/assets/promo/tr/01-home.webp",
+   "/matchday/assets/promo/tr/02-whos-coming.webp",
+   "/matchday/assets/promo/tr/03-lineup-pitch.webp",
+   "/matchday/assets/promo/tr/04-formation-share.webp",
+   "/matchday/assets/promo/tr/05-rate-in-secret.webp",
+   "/matchday/assets/promo/tr/06-profile-rating.webp",
+   "/matchday/assets/promo/tr/07-leaderboard.webp",
+   "/matchday/assets/promo/tr/08-notifications.webp",
+   "/matchday/assets/promo/tr/09-organiser-tools.webp"
+  ],
+  "en": [
+   "/matchday/assets/promo/en/01-home.webp",
+   "/matchday/assets/promo/en/02-whos-coming.webp",
+   "/matchday/assets/promo/en/03-lineup-pitch.webp",
+   "/matchday/assets/promo/en/04-formation-share.webp",
+   "/matchday/assets/promo/en/05-rate-in-secret.webp",
+   "/matchday/assets/promo/en/06-profile-rating.webp",
+   "/matchday/assets/promo/en/07-leaderboard.webp",
+   "/matchday/assets/promo/en/08-notifications.webp",
+   "/matchday/assets/promo/en/09-organiser-tools.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "kur",
+   "kicker": {
+    "tr": "Maçı kur",
+    "en": "Set it up"
+   },
+   "title": {
+    "tr": "Halısaha maçın tek yerde",
+    "en": "Your weekly match, sorted"
+   },
+   "text": {
+    "tr": "Saha haritadan seçilir ya da harita linki yapıştırılır. Saat, süre, oyuncu sayısı (5v5, 6v6, 7v7), açık ya da özel maç.",
+    "en": "Pick the pitch on the map or paste a map link. Time, length, team size (5v5, 6v6, 7v7), open or private."
+   },
+   "bullets": [
+    {
+     "tr": "Uygulaması olmayanlar isimle eklenir, hesap açınca bağlanır",
+     "en": "Add friends without the app by name; link them when they sign up"
+    },
+    {
+     "tr": "Davete not: \"Kaleci lazım, eldivenlerini getir\"",
+     "en": "A note on the invite: \"Need a keeper, bring your gloves\""
+    },
+    {
+     "tr": "\"Haftaya tekrarla\": aynı saat, saha, ekip",
+     "en": "\"Repeat next week\": same time, pitch and group"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/01-home.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/01-home.webp"
+    ]
+   }
+  },
+  {
+   "id": "gelen",
+   "kicker": {
+    "tr": "Kim geliyor",
+    "en": "Who's coming"
+   },
+   "title": {
+    "tr": "Kim geliyor? Artık belli.",
+    "en": "Who's coming? Now you know."
+   },
+   "text": {
+    "tr": "Herkes \"Geliyorum\" ya da \"Gelemiyorum\" der; organizatör ya da kaptan onaylar. \"10 onaylı, 2 bekliyor\" gibi sayaç.",
+    "en": "Everyone taps \"I'm in\" or \"Can't make it\", and the organiser or captain confirms. A counter like \"10 confirmed, 2 waiting\"."
+   },
+   "bullets": [
+    {
+     "tr": "Oyuncu not bırakabilir: \"10 dk geç kalabilirim\"",
+     "en": "Players can leave a note: \"might be 10 minutes late\""
+    },
+    {
+     "tr": "Numaraları yalnız organizatör ve kaptan görür",
+     "en": "Only the organiser and captain see numbers"
+    },
+    {
+     "tr": "Maçı organizatör ve seçtiği kaptan birlikte yönetir",
+     "en": "The organiser and a chosen captain run it together"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/02-whos-coming.webp",
+     "/matchday/assets/screens/tr/09-organiser-tools.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/02-whos-coming.webp",
+     "/matchday/assets/screens/en/09-organiser-tools.webp"
+    ]
+   }
+  },
+  {
+   "id": "kadro",
+   "kicker": {
+    "tr": "Kadro",
+    "en": "Lineup"
+   },
+   "title": {
+    "tr": "Takımını sahaya diz",
+    "en": "Line up your team"
+   },
+   "text": {
+    "tr": "Oyuncular sahada kendi mevkilerinde görünür. \"Takımları kur\" her tarafa bir kaleci koyar, gerisini mevkiye göre dengeli dağıtır.",
+    "en": "Players appear in their positions on the pitch. \"Build teams\" puts a keeper on each side and spreads the rest evenly by position."
+   },
+   "bullets": [
+    {
+     "tr": "Oyuncuya dokun, bu maçlık takımını ya da mevkisini değiştir",
+     "en": "Tap a player to change their team or position for this match"
+    },
+    {
+     "tr": "Poster üç biçimde: mevkili, sadece isim, diziliş",
+     "en": "Three poster styles: by position, names only, formation"
+    },
+    {
+     "tr": "Resim olarak ya da WhatsApp'a düz metin",
+     "en": "As an image or as plain text for WhatsApp"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/03-lineup-pitch.webp",
+     "/matchday/assets/screens/tr/04-formation-share.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/03-lineup-pitch.webp",
+     "/matchday/assets/screens/en/04-formation-share.webp"
+    ]
+   }
+  },
+  {
+   "id": "poster",
+   "kicker": {
+    "tr": "Poster",
+    "en": "Poster"
+   },
+   "title": {
+    "tr": "Grup bunu görür",
+    "en": "This is what the group sees"
+   },
+   "text": {
+    "tr": "Siyah ve Beyaz takımlar, mevkiler ve diziliş tek görselde. Saha, saat ve süre üstte.",
+    "en": "Both teams, positions and the formation in one image, with the pitch, time and length on top."
+   },
+   "device": "image",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/shared-poster.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/shared-poster.webp"
+    ]
+   }
+  },
+  {
+   "id": "puan",
+   "kicker": {
+    "tr": "Maçtan sonra",
+    "en": "After the match"
+   },
+   "title": {
+    "tr": "Puanını ver, aramızda kalsın",
+    "en": "Rate your mates. Secretly."
+   },
+   "text": {
+    "tr": "Skor, gol ve asist girilir. Herkes takım arkadaşlarını 7 başlıkta 1'den 10'a puanlar: genel, hız, teknik, takım oyunu, savunma, bitiricilik, fair play.",
+    "en": "Log the score, goals and assists. Everyone rates their teammates from 1 to 10 on seven things: overall, pace, technique, teamwork, defending, finishing and fair play."
+   },
+   "bullets": [
+    {
+     "tr": "Kimin kime ne verdiğini kimse göremez",
+     "en": "Nobody sees who gave what"
+    },
+    {
+     "tr": "Profilde yalnız ortalama ve oy sayısı",
+     "en": "Profiles show only the average and vote count"
+    },
+    {
+     "tr": "Oynanan, galibiyet, gol, asist profilde",
+     "en": "Played, wins, goals and assists on the profile"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/05-rate-in-secret.webp",
+     "/matchday/assets/screens/tr/06-profile-rating.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/05-rate-in-secret.webp",
+     "/matchday/assets/screens/en/06-profile-rating.webp"
+    ]
+   }
+  },
+  {
+   "id": "krallik",
+   "kicker": {
+    "tr": "Krallık ve bildirimler",
+    "en": "Leaderboards and alerts"
+   },
+   "title": {
+    "tr": "Gol kralı kim?",
+    "en": "Who's top scorer?"
+   },
+   "text": {
+    "tr": "Gol krallığı, asist krallığı, en çok maç, en çok galibiyet; madalyalı ilk üç. Davet, kabul, katılma isteği ve takip tek bildirim listesinde.",
+    "en": "Top scorers, top assists, most matches, most wins, with medals for the top three. Invites, accepts, join requests and follows in one in-app list."
+   },
+   "bullets": [
+    {
+     "tr": "Maçtan bir gün önce \"Geliyor musun?\"",
+     "en": "\"Are you coming?\" the day before"
+    },
+    {
+     "tr": "Maç öncesi saat, maç sonrası \"puanla\" hatırlatması",
+     "en": "A kick-off reminder and a \"rate your mates\" nudge after"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/matchday/assets/screens/tr/07-leaderboard.webp",
+     "/matchday/assets/screens/tr/08-notifications.webp"
+    ],
+    "en": [
+     "/matchday/assets/screens/en/07-leaderboard.webp",
+     "/matchday/assets/screens/en/08-notifications.webp"
+    ]
+   }
+  }
+ ],
+ "extra_html": "\n  <section class=\"band band-sun\" id=\"katil\">\n    <div class=\"wrap\">\n      <h2 class=\"disp big\"><span class=\"tr\">Beta'ya katıl</span><span class=\"en\">Join the beta</span></h2>\n      <p class=\"band-p\"><span class=\"tr\">Şu an deneme sürümünde. Maça davet edildiysen ya da ekibini taşımak istiyorsan, telefonuna göre aşağıdan yükle.</span><span class=\"en\">In beta right now. Invited to a match, or want to bring your group over? Install it below for your phone.</span></p>\n      <div class=\"plans\">\n        <div class=\"plan\" id=\"ios\" style=\"--c:#dceeff;--r:-1deg\">\n          <h3>iPhone</h3>\n          <p class=\"price\">TestFlight</p>\n          <ul class=\"tr\"><li>App Store'dan TestFlight'ı indir.</li><li>Aşağıdaki bağlantıyla Matchday'i yükle.</li></ul>\n          <ul class=\"en\"><li>Get TestFlight from the App Store.</li><li>Install Matchday with the link below.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill\" href=\"https://apps.apple.com/app/testflight/id899247664\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">TestFlight'ı indir</span><span class=\"en\">Get TestFlight</span></a>\n            <a class=\"pill dark\" id=\"iosLink\" href=\"https://testflight.apple.com/join/EkCzWQEM\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Matchday'i yükle</span><span class=\"en\">Install Matchday</span></a>\n          </p>\n        </div>\n        <div class=\"plan\" id=\"android\" style=\"--c:#c8f560;--r:1deg\">\n          <h3>Android</h3>\n          <p class=\"price\"><span class=\"tr\">Play testi</span><span class=\"en\">Play test</span></p>\n          <ul class=\"tr\"><li>Organizatöre Gmail adresini ver, test listesine eklesin.</li><li>Aşağıdaki bağlantıda \"Test kullanıcısı ol\" de, sonra Play'den yükle.</li></ul>\n          <ul class=\"en\"><li>Give the organiser your Gmail address so they add you to the test list.</li><li>Open the link below, tap \"Become a tester\", then install from Play.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill dark\" id=\"androidLink\" href=\"https://play.google.com/apps/testing/com.aberk.matchday\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Teste katıl ve yükle</span><span class=\"en\">Join the test and install</span></a>\n          </p>\n          <p style=\"font-size:13px;margin-top:12px\"><span class=\"tr\">Listeye eklenmeden bu bağlantı \"bulunamadı\" der; bu normal, test bitince herkese açılacak.</span><span class=\"en\">Until you are on the list this link says \"not found\". That is expected; it opens to everyone after the test.</span></p>\n        </div>\n      </div>\n      <p class=\"band-p\" style=\"margin-top:32px\"><span class=\"tr\">Sonra kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta \"Bu benim\" dersin.</span><span class=\"en\">Then sign up. If the organiser added you as a player, they link you to your account, or you tap \"This is me\" in the match.</span></p>\n      <p class=\"row-btns\"><a class=\"pill\" href=\"/matchday/delete/\"><span class=\"tr\">Hesap silme</span><span class=\"en\">Delete account</span> →</a></p>\n    </div>\n  </section>\n",
+ "extra_script": "\n// Önce ziyaretçinin kendi platformu; masaüstü ikisini de görür.\n(function () {\n  var ua = navigator.userAgent || \"\";\n  var ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);\n  if (ios) document.getElementById(\"android\").style.display = \"none\";\n  if (android) document.getElementById(\"ios\").style.display = \"none\";\n})();\n// Links come from the admin panel (Firestore config/app), so a new\n// TestFlight or Play link needs no new page.\nfetch(\"https://firestore.googleapis.com/v1/projects/matchday-bamtech/databases/(default)/documents/config/app?key=AIzaSyDWl7gAoXzKTTK5su2J56W1-_rTJ6shr_E\")\n  .then(function (r) { return r.ok ? r.json() : null; })\n  .then(function (d) {\n    var f = d && d.fields;\n    if (!f) return;\n    if (f.iosURL && f.iosURL.stringValue) document.getElementById(\"iosLink\").href = f.iosURL.stringValue;\n    if (f.androidURL && f.androidURL.stringValue) document.getElementById(\"androidLink\").href = f.androidURL.stringValue;\n  })\n  .catch(function () {});\n",
+ "privacy": {
+  "title": {
+   "tr": "Güvenlik ve gizlilik",
+   "en": "Safety and privacy"
+  },
+  "text": {
+   "tr": "Özel maçları yalnız içindekiler görür. Puanlar gizli; profilde yalnız ortalama ve oy sayısı görünür. Telefon numaranı yalnız organizatör ve kaptan görür. Şikayet et ve engelle: engellenen kişi seni göremez, davet edemez. Reklam yok.",
+   "en": "Private matches are visible only to the people in them. Ratings are secret; profiles show only the average and vote count. Only the organiser and captain see your phone number. Report and block: a blocked person cannot see or invite you. No ads."
+  },
+  "href": "/privacy/matchday/"
+ },
+ "support": "/support/"
+}

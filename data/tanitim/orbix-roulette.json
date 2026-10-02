@@ -1,0 +1,151 @@
+{
+ "slug": "orbix-roulette",
+ "name": "Orbix Roulette",
+ "title": {
+  "tr": "Orbix Roulette: Bilekte Çark",
+  "en": "Orbix Roulette: Physics on Your Wrist"
+ },
+ "description": {
+  "tr": "Saatinde gerçekçi fizikle dönen bir rulet çarkı. Dokun ya da Crown'u çevir, top dursun, sayı ve renk ekranda. Bahis yok, para yok.",
+  "en": "A roulette wheel that spins with realistic physics on your watch. Tap or turn the Crown, the ball settles, number and colour on screen. No betting, no money."
+ },
+ "icon": "/orbix-roulette/assets/icon.webp",
+ "color": "#55db9c",
+ "accent": "#fb4903",
+ "status": "live",
+ "kicker": {
+  "tr": "Apple Watch · Wear OS",
+  "en": "Apple Watch · Wear OS"
+ },
+ "lede": {
+  "tr": "Gerçekçi fizik bileğinde. Çark döner, top ters yönde koşar, sonunda bir sayıda durur. Rastgele bir sayı seçmek ya da sadece dönüşü izlemek için.",
+  "en": "Realistic physics on your wrist. The wheel spins, the ball runs the other way and settles on a number. Pick a random number, or just enjoy the spin."
+ },
+ "pills": [
+  {
+   "tr": "Bağımsız saat uygulaması",
+   "en": "Standalone watch app"
+  },
+  {
+   "tr": "İnternetsiz",
+   "en": "Offline"
+  },
+  {
+   "tr": "Reklamsız",
+   "en": "No ads"
+  },
+  {
+   "tr": "Bahis yok",
+   "en": "No betting"
+  }
+ ],
+ "platforms": [
+  "watchos",
+  "wearos"
+ ],
+ "ios": "6756230899",
+ "play": "com.aberk.orbixroulette",
+ "emoji": [
+  "🎡",
+  "⚫",
+  "🔴",
+  "🟢",
+  "⌚",
+  "✨"
+ ],
+ "sections": [
+  {
+   "id": "fizik",
+   "kicker": {
+    "tr": "Fizik",
+    "en": "Physics"
+   },
+   "title": {
+    "tr": "Top gerçekten döner",
+    "en": "The ball really spins"
+   },
+   "text": {
+    "tr": "Top saat yönünün tersine, gerçek bir momentumla döner. İster rastgele bir sayı seç, ister sadece dönüşün mekaniğini izle.",
+    "en": "The ball spins counter-clockwise with authentic momentum. Pick a random number, or just enjoy the visual mechanics."
+   },
+   "device": "image",
+   "images": {
+    "any": [
+     "/orbix-roulette/assets/icon.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "cevir",
+   "kicker": {
+    "tr": "Kontroller",
+    "en": "Controls"
+   },
+   "title": {
+    "tr": "Dokun ya da çevir",
+    "en": "Tap or turn"
+   },
+   "text": {
+    "tr": "Ekranın herhangi bir yerine dokun ya da Digital Crown'u çevir, çark dönmeye başlasın. Durunca kazanan sayı ve rengi ekranda: kırmızı, siyah ya da yeşil.",
+    "en": "Tap anywhere on the screen or turn the Digital Crown to start the spin. When it stops, the winning number and colour show up: red, black or green."
+   },
+   "bullets": [
+    {
+     "tr": "Tekrar dokun, yeniden dene",
+     "en": "Tap again to try your luck"
+    }
+   ],
+   "color": "#ffd731"
+  },
+  {
+   "id": "his",
+   "kicker": {
+    "tr": "Ses ve titreşim",
+    "en": "Sound and haptics"
+   },
+   "title": {
+    "tr": "Her sekmeyi hisset",
+    "en": "Feel every bounce"
+   },
+   "text": {
+    "tr": "Top sekerken bilekte tık tık titreşim, dönerken tatmin edici bir ses. Sessiz olman gerekirse sesi tek dokunuşla kapat.",
+    "en": "A haptic click on your wrist as the ball bounces, a satisfying sound while it spins. Need quiet? Mute it with one tap."
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "oyuncak",
+   "kicker": {
+    "tr": "Sadece eğlence",
+    "en": "Just for fun"
+   },
+   "title": {
+    "tr": "Bahis yok, para yok",
+    "en": "No bets, no money"
+   },
+   "text": {
+    "tr": "Orbix Roulette bir fizik oyuncağıdır. Bahis, para, sanal para ya da kumar mekaniği içermez; tamamen görsel eğlence için.",
+    "en": "Orbix Roulette is a physics toy. It involves no betting, wagering, currency or simulated gambling mechanics; it is purely for visual entertainment."
+   },
+   "device": "image",
+   "images": {
+    "any": [
+     "/orbix-roulette/assets/icon.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  }
+ ],
+ "privacy": {
+  "title": {
+   "tr": "Verilerin sende kalır",
+   "en": "Your data stays yours"
+  },
+  "text": {
+   "tr": "Her şey cihazında kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.",
+   "en": "Everything stays on your device. No account, no server, no ads, no tracking. Works with no connection at all."
+  },
+  "href": "/privacy/orbix-roulette/"
+ }
+}

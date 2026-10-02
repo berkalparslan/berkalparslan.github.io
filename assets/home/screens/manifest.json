@@ -1,210 +1,227 @@
 {
-  "kit": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/kit/tr/01.webp",
-      "/assets/home/screens/kit/tr/02.webp",
-      "/assets/home/screens/kit/tr/03.webp",
-      "/assets/home/screens/kit/tr/04.webp",
-      "/assets/home/screens/kit/tr/05.webp"
-    ],
-    "en": [
-      "/assets/home/screens/kit/en/01.webp",
-      "/assets/home/screens/kit/en/02.webp",
-      "/assets/home/screens/kit/en/03.webp",
-      "/assets/home/screens/kit/en/04.webp",
-      "/assets/home/screens/kit/en/05.webp"
-    ]
-  },
-  "walletcoach": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/walletcoach/tr/01.webp",
-      "/assets/home/screens/walletcoach/tr/02.webp",
-      "/assets/home/screens/walletcoach/tr/03.webp",
-      "/assets/home/screens/walletcoach/tr/04.webp",
-      "/assets/home/screens/walletcoach/tr/05.webp"
-    ],
-    "en": [
-      "/assets/home/screens/walletcoach/en/01.webp",
-      "/assets/home/screens/walletcoach/en/02.webp",
-      "/assets/home/screens/walletcoach/en/03.webp",
-      "/assets/home/screens/walletcoach/en/04.webp",
-      "/assets/home/screens/walletcoach/en/05.webp"
-    ]
-  },
-  "daily-whisper": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/daily-whisper/tr/01.webp",
-      "/assets/home/screens/daily-whisper/tr/02.webp",
-      "/assets/home/screens/daily-whisper/tr/03.webp",
-      "/assets/home/screens/daily-whisper/tr/04.webp",
-      "/assets/home/screens/daily-whisper/tr/05.webp"
-    ],
-    "en": [
-      "/assets/home/screens/daily-whisper/en/01.webp",
-      "/assets/home/screens/daily-whisper/en/02.webp",
-      "/assets/home/screens/daily-whisper/en/03.webp",
-      "/assets/home/screens/daily-whisper/en/04.webp",
-      "/assets/home/screens/daily-whisper/en/05.webp"
-    ]
-  },
-  "nubi": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/nubi/tr/01.webp",
-      "/assets/home/screens/nubi/tr/02.webp",
-      "/assets/home/screens/nubi/tr/03.webp",
-      "/assets/home/screens/nubi/tr/04.webp",
-      "/assets/home/screens/nubi/tr/05.webp"
-    ],
-    "en": [
-      "/assets/home/screens/nubi/en/01.webp",
-      "/assets/home/screens/nubi/en/02.webp",
-      "/assets/home/screens/nubi/en/03.webp",
-      "/assets/home/screens/nubi/en/04.webp",
-      "/assets/home/screens/nubi/en/05.webp"
-    ]
-  },
-  "matchday": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/matchday/tr/01.webp",
-      "/assets/home/screens/matchday/tr/02.webp",
-      "/assets/home/screens/matchday/tr/03.webp",
-      "/assets/home/screens/matchday/tr/04.webp",
-      "/assets/home/screens/matchday/tr/05.webp"
-    ],
-    "en": [
-      "/assets/home/screens/matchday/en/01.webp",
-      "/assets/home/screens/matchday/en/02.webp",
-      "/assets/home/screens/matchday/en/03.webp",
-      "/assets/home/screens/matchday/en/04.webp",
-      "/assets/home/screens/matchday/en/05.webp"
-    ]
-  },
-  "leafbook": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/leafbook/tr/01.webp",
-      "/assets/home/screens/leafbook/tr/02.webp",
-      "/assets/home/screens/leafbook/tr/03.webp",
-      "/assets/home/screens/leafbook/tr/04.webp"
-    ],
-    "en": [
-      "/assets/home/screens/leafbook/en/01.webp",
-      "/assets/home/screens/leafbook/en/02.webp",
-      "/assets/home/screens/leafbook/en/03.webp",
-      "/assets/home/screens/leafbook/en/04.webp"
-    ]
-  },
-  "tasbih-tally": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/tasbih-tally/any/01.webp",
-      "/assets/home/screens/tasbih-tally/any/02.webp",
-      "/assets/home/screens/tasbih-tally/any/03.webp"
-    ]
-  },
-  "o-mu-bu-mu": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/o-mu-bu-mu/any/01.webp",
-      "/assets/home/screens/o-mu-bu-mu/any/02.webp",
-      "/assets/home/screens/o-mu-bu-mu/any/03.webp"
-    ]
-  },
-  "bumpline": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/bumpline/tr/01.webp",
-      "/assets/home/screens/bumpline/tr/02.webp",
-      "/assets/home/screens/bumpline/tr/03.webp"
-    ],
-    "en": [
-      "/assets/home/screens/bumpline/en/01.webp",
-      "/assets/home/screens/bumpline/en/02.webp",
-      "/assets/home/screens/bumpline/en/03.webp"
-    ]
-  },
-  "bodybook": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/bodybook/any/01.webp",
-      "/assets/home/screens/bodybook/any/02.webp",
-      "/assets/home/screens/bodybook/any/03.webp",
-      "/assets/home/screens/bodybook/any/04.webp",
-      "/assets/home/screens/bodybook/any/05.webp"
-    ]
-  },
-  "bosyeryok": {
-    "kind": "screen",
-    "tr": [
-      "/assets/home/screens/bosyeryok/tr/01.webp",
-      "/assets/home/screens/bosyeryok/tr/02.webp",
-      "/assets/home/screens/bosyeryok/tr/03.webp",
-      "/assets/home/screens/bosyeryok/tr/04.webp"
-    ],
-    "en": [
-      "/assets/home/screens/bosyeryok/en/01.webp",
-      "/assets/home/screens/bosyeryok/en/02.webp",
-      "/assets/home/screens/bosyeryok/en/03.webp",
-      "/assets/home/screens/bosyeryok/en/04.webp"
-    ]
-  },
-  "yonca": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/yonca/any/01.webp",
-      "/assets/home/screens/yonca/any/02.webp",
-      "/assets/home/screens/yonca/any/03.webp",
-      "/assets/home/screens/yonca/any/04.webp"
-    ]
-  },
-  "tennis-padel": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/tennis-padel/any/01.webp",
-      "/assets/home/screens/tennis-padel/any/02.webp",
-      "/assets/home/screens/tennis-padel/any/03.webp",
-      "/assets/home/screens/tennis-padel/any/04.webp",
-      "/assets/home/screens/tennis-padel/any/05.webp"
-    ]
-  },
-  "pickleball": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/pickleball/any/01.webp",
-      "/assets/home/screens/pickleball/any/02.webp"
-    ]
-  },
-  "volleyball": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/volleyball/any/01.webp",
-      "/assets/home/screens/volleyball/any/02.webp",
-      "/assets/home/screens/volleyball/any/03.webp",
-      "/assets/home/screens/volleyball/any/04.webp",
-      "/assets/home/screens/volleyball/any/05.webp"
-    ]
-  },
-  "rally-table-tennis": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/rally-table-tennis/any/01.webp",
-      "/assets/home/screens/rally-table-tennis/any/02.webp",
-      "/assets/home/screens/rally-table-tennis/any/03.webp",
-      "/assets/home/screens/rally-table-tennis/any/04.webp"
-    ]
-  },
-  "rally-badminton": {
-    "kind": "screen",
-    "any": [
-      "/assets/home/screens/rally-badminton/any/01.webp",
-      "/assets/home/screens/rally-badminton/any/02.webp",
-      "/assets/home/screens/rally-badminton/any/03.webp",
-      "/assets/home/screens/rally-badminton/any/04.webp"
-    ]
-  }
+ "kit": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/kit/tr/01.webp",
+   "/assets/home/screens/kit/tr/02.webp",
+   "/assets/home/screens/kit/tr/03.webp",
+   "/assets/home/screens/kit/tr/04.webp",
+   "/assets/home/screens/kit/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/kit/en/01.webp",
+   "/assets/home/screens/kit/en/02.webp",
+   "/assets/home/screens/kit/en/03.webp",
+   "/assets/home/screens/kit/en/04.webp",
+   "/assets/home/screens/kit/en/05.webp"
+  ]
+ },
+ "walletcoach": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/walletcoach/tr/01.webp",
+   "/assets/home/screens/walletcoach/tr/02.webp",
+   "/assets/home/screens/walletcoach/tr/03.webp",
+   "/assets/home/screens/walletcoach/tr/04.webp",
+   "/assets/home/screens/walletcoach/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/walletcoach/en/01.webp",
+   "/assets/home/screens/walletcoach/en/02.webp",
+   "/assets/home/screens/walletcoach/en/03.webp",
+   "/assets/home/screens/walletcoach/en/04.webp",
+   "/assets/home/screens/walletcoach/en/05.webp"
+  ]
+ },
+ "daily-whisper": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/daily-whisper/tr/01.webp",
+   "/assets/home/screens/daily-whisper/tr/02.webp",
+   "/assets/home/screens/daily-whisper/tr/03.webp",
+   "/assets/home/screens/daily-whisper/tr/04.webp",
+   "/assets/home/screens/daily-whisper/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/daily-whisper/en/01.webp",
+   "/assets/home/screens/daily-whisper/en/02.webp",
+   "/assets/home/screens/daily-whisper/en/03.webp",
+   "/assets/home/screens/daily-whisper/en/04.webp",
+   "/assets/home/screens/daily-whisper/en/05.webp"
+  ]
+ },
+ "nubi": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/nubi/tr/01.webp",
+   "/assets/home/screens/nubi/tr/02.webp",
+   "/assets/home/screens/nubi/tr/03.webp",
+   "/assets/home/screens/nubi/tr/04.webp",
+   "/assets/home/screens/nubi/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/nubi/en/01.webp",
+   "/assets/home/screens/nubi/en/02.webp",
+   "/assets/home/screens/nubi/en/03.webp",
+   "/assets/home/screens/nubi/en/04.webp",
+   "/assets/home/screens/nubi/en/05.webp"
+  ]
+ },
+ "matchday": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/matchday/tr/01.webp",
+   "/assets/home/screens/matchday/tr/02.webp",
+   "/assets/home/screens/matchday/tr/03.webp",
+   "/assets/home/screens/matchday/tr/04.webp",
+   "/assets/home/screens/matchday/tr/05.webp"
+  ],
+  "en": [
+   "/assets/home/screens/matchday/en/01.webp",
+   "/assets/home/screens/matchday/en/02.webp",
+   "/assets/home/screens/matchday/en/03.webp",
+   "/assets/home/screens/matchday/en/04.webp",
+   "/assets/home/screens/matchday/en/05.webp"
+  ]
+ },
+ "leafbook": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/leafbook/tr/01.webp",
+   "/assets/home/screens/leafbook/tr/02.webp",
+   "/assets/home/screens/leafbook/tr/03.webp",
+   "/assets/home/screens/leafbook/tr/04.webp"
+  ],
+  "en": [
+   "/assets/home/screens/leafbook/en/01.webp",
+   "/assets/home/screens/leafbook/en/02.webp",
+   "/assets/home/screens/leafbook/en/03.webp",
+   "/assets/home/screens/leafbook/en/04.webp"
+  ]
+ },
+ "tasbih-tally": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/tasbih-tally/any/01.webp",
+   "/assets/home/screens/tasbih-tally/any/02.webp",
+   "/assets/home/screens/tasbih-tally/any/03.webp"
+  ]
+ },
+ "o-mu-bu-mu": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/o-mu-bu-mu/any/01.webp",
+   "/assets/home/screens/o-mu-bu-mu/any/02.webp",
+   "/assets/home/screens/o-mu-bu-mu/any/03.webp"
+  ]
+ },
+ "bumpline": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/bumpline/tr/01.webp",
+   "/assets/home/screens/bumpline/tr/02.webp",
+   "/assets/home/screens/bumpline/tr/03.webp"
+  ],
+  "en": [
+   "/assets/home/screens/bumpline/en/01.webp",
+   "/assets/home/screens/bumpline/en/02.webp",
+   "/assets/home/screens/bumpline/en/03.webp"
+  ]
+ },
+ "bodybook": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/bodybook/any/01.webp",
+   "/assets/home/screens/bodybook/any/02.webp",
+   "/assets/home/screens/bodybook/any/03.webp",
+   "/assets/home/screens/bodybook/any/04.webp",
+   "/assets/home/screens/bodybook/any/05.webp"
+  ]
+ },
+ "bosyeryok": {
+  "kind": "screen",
+  "tr": [
+   "/assets/home/screens/bosyeryok/tr/01.webp",
+   "/assets/home/screens/bosyeryok/tr/02.webp",
+   "/assets/home/screens/bosyeryok/tr/03.webp",
+   "/assets/home/screens/bosyeryok/tr/04.webp"
+  ],
+  "en": [
+   "/assets/home/screens/bosyeryok/en/01.webp",
+   "/assets/home/screens/bosyeryok/en/02.webp",
+   "/assets/home/screens/bosyeryok/en/03.webp",
+   "/assets/home/screens/bosyeryok/en/04.webp"
+  ]
+ },
+ "yonca": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/yonca/any/01.webp",
+   "/assets/home/screens/yonca/any/02.webp",
+   "/assets/home/screens/yonca/any/03.webp",
+   "/assets/home/screens/yonca/any/04.webp"
+  ]
+ },
+ "tennis-padel": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/tennis-padel/any/01.webp",
+   "/assets/home/screens/tennis-padel/any/02.webp",
+   "/assets/home/screens/tennis-padel/any/03.webp",
+   "/assets/home/screens/tennis-padel/any/04.webp",
+   "/assets/home/screens/tennis-padel/any/05.webp"
+  ]
+ },
+ "pickleball": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/pickleball/any/01.webp",
+   "/assets/home/screens/pickleball/any/02.webp"
+  ]
+ },
+ "volleyball": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/volleyball/any/01.webp",
+   "/assets/home/screens/volleyball/any/02.webp",
+   "/assets/home/screens/volleyball/any/03.webp",
+   "/assets/home/screens/volleyball/any/04.webp",
+   "/assets/home/screens/volleyball/any/05.webp"
+  ]
+ },
+ "rally-table-tennis": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/rally-table-tennis/any/01.webp",
+   "/assets/home/screens/rally-table-tennis/any/02.webp",
+   "/assets/home/screens/rally-table-tennis/any/03.webp",
+   "/assets/home/screens/rally-table-tennis/any/04.webp"
+  ]
+ },
+ "rally-badminton": {
+  "kind": "screen",
+  "any": [
+   "/assets/home/screens/rally-badminton/any/01.webp",
+   "/assets/home/screens/rally-badminton/any/02.webp",
+   "/assets/home/screens/rally-badminton/any/03.webp",
+   "/assets/home/screens/rally-badminton/any/04.webp"
+  ]
+ },
+ "store-mockup": {
+  "kind": "laptop",
+  "any": [
+   "/assets/home/screens/store-mockup/any/01.webp",
+   "/assets/home/screens/store-mockup/any/02.webp"
+  ]
+ },
+ "mihenk": {
+  "kind": "laptop",
+  "any": [
+   "/assets/home/screens/mihenk/any/01.webp",
+   "/assets/home/screens/mihenk/any/02.webp"
+  ]
+ },
+ "orbix-roulette": {
+  "kind": "watch"
+ }
 }

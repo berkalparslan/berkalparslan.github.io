@@ -1,0 +1,314 @@
+{
+ "slug": "yonca",
+ "name": "Yonca",
+ "title": {
+  "tr": "Yonca: Çekiliş Takip",
+  "en": "Yonca: Giveaway Tracker"
+ },
+ "description": {
+  "tr": "Katıldığın çekilişleri takip eder, sonuç gününü ve saklaman gerekenleri hatırlatır. Her şey telefonunda kalır.",
+  "en": "Tracks the giveaways you enter and reminds you of the draw date and what you need to keep. Everything stays on your phone."
+ },
+ "icon": "/assets/home/yonca-icon.webp",
+ "color": "#ffd731",
+ "accent": "#55db9c",
+ "status": "live",
+ "kicker": {
+  "tr": "iPhone · App Store'da",
+  "en": "iPhone · On the App Store"
+ },
+ "lede": {
+  "tr": "Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki kodu gönderirsin, sonra unutursun. Yonca hem sonuç gününü hem de saklaman gerekenleri hatırlar.",
+  "en": "You comment on an Instagram post, keep receipts for a supermarket promotion, send in the code under a bottle cap, and then you forget. Yonca remembers both the draw date and the things you have to hold on to."
+ },
+ "pills": [
+  {
+   "tr": "Sunucu yok",
+   "en": "No server"
+  },
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "İzleme yok",
+   "en": "No tracking"
+  },
+  {
+   "tr": "Kendi çekilişini yap",
+   "en": "Run your own draw"
+  }
+ ],
+ "platforms": [
+  "ios"
+ ],
+ "ios": "6802312123",
+ "emoji": [
+  "🍀",
+  "🎁",
+  "🏆",
+  "🧾",
+  "🍦",
+  "🔔",
+  "🎉"
+ ],
+ "promo": {
+  "any": [
+   "/assets/home/yonca-shot-1.webp",
+   "/assets/home/yonca-shot-2.webp",
+   "/assets/home/yonca-shot-3.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "liste",
+   "kicker": {
+    "tr": "Ana ekran",
+    "en": "Home screen"
+   },
+   "title": {
+    "tr": "Önce acil olan",
+    "en": "Urgent first"
+   },
+   "text": {
+    "tr": "Liste tarihe göre değil, ne kadar acil olduğuna göre sıralanır. Sonucunu henüz işaretlemediklerin en üste çıkar; çünkü unutulan asıl şey onlardır.",
+    "en": "The list sorts by how urgent things are, not by date. The ones whose result you still have not marked rise to the top, because those are the ones that get forgotten."
+   },
+   "bullets": [
+    {
+     "tr": "Sonucu işaretlenmemiş, Bugün ve Bu hafta, geri sayım rozetiyle",
+     "en": "Result not marked, Today and This week, with a countdown badge"
+    },
+    {
+     "tr": "Henüz katılmadıkların ayrı grupta",
+     "en": "Not entered yet, in its own group"
+    },
+    {
+     "tr": "Her kartta katılım hakkın, olasılığın ve eksik adımın",
+     "en": "Every card shows your entries, odds and steps left"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/yonca/any/01.webp",
+     "/yonca/assets/screens/liste.png"
+    ]
+   }
+  },
+  {
+   "id": "saklama",
+   "kicker": {
+    "tr": "Saklama",
+    "en": "Keeping proof"
+   },
+   "title": {
+    "tr": "Çubuğu atma, sakla",
+    "en": "Keep the stick"
+   },
+   "text": {
+    "tr": "Asıl kaybettiren şey tarih değil: Magnum çubuğunu, kapağı, market fişini, ürün kodunu saklaman gerekiyor. İbraz edemezsen ödülü alamazsın.",
+    "en": "The date is not what loses it for you: you have to keep the ice-cream stick, the cap, the receipt, the product code. If you cannot produce it, you do not get the prize."
+   },
+   "bullets": [
+    {
+     "tr": "Saklaman gerekenler ayrı liste, tek tek işaretlenir",
+     "en": "What you need to keep is its own checklist"
+    },
+    {
+     "tr": "Nereye koyduğunu da yazarsın: \"mutfak çekmecesi\"",
+     "en": "You also note where you put it: \"kitchen drawer\""
+    },
+    {
+     "tr": "Eksikler \"Eksik kalanlar\" kartında toplanır",
+     "en": "Anything missing collects in a \"Still missing\" card"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/yonca/any/02.webp",
+     "/yonca/assets/screens/magnum.png"
+    ]
+   }
+  },
+  {
+   "id": "hatirlatma",
+   "kicker": {
+    "tr": "Hatırlatma",
+    "en": "Reminders"
+   },
+   "title": {
+    "tr": "Dört an, dört hatırlatma",
+    "en": "Four moments, four reminders"
+   },
+   "text": {
+    "tr": "Saklama, son katılım, çekiliş günü ve sonuç kontrolü. Bildirimi kaydırıp Kazandım ya da Kazanamadım diyebilirsin, uygulamayı açmadan.",
+    "en": "Keep it, last chance, draw day and check the result. Swipe the notification and say Won or Didn't win without opening the app."
+   },
+   "bullets": [
+    {
+     "tr": "Detay ekranı kurulacak bildirimleri metniyle önceden gösterir",
+     "en": "The detail screen shows upcoming notifications, wording included"
+    },
+    {
+     "tr": "Dört tür için ayrı anahtar, saati sen seçersin",
+     "en": "A switch for each type, and you pick the hour"
+    },
+    {
+     "tr": "Tüm verileri tek dokunuşla kalıcı olarak sil",
+     "en": "Erase all your data permanently in one tap"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/yonca/assets/screens/hatirlatmalar.png",
+     "/assets/home/screens/yonca/any/04.webp"
+    ]
+   }
+  },
+  {
+   "id": "ekle",
+   "kicker": {
+    "tr": "Çekiliş ekleme",
+    "en": "Adding a giveaway"
+   },
+   "title": {
+    "tr": "Yöntemi seç, gerisi hazır",
+    "en": "Pick a method, done"
+   },
+   "text": {
+    "tr": "Sosyal medya, ürün kodu, fiş ya da kapak, siteye kayıt, mağaza içi katılım. Yöntemi seçtiğinde form kendini ona göre kurar.",
+    "en": "Social media, product code, receipt or cap, website sign-up, in-store entry. Choose the method and the form rebuilds itself around it."
+   },
+   "bullets": [
+    {
+     "tr": "Adımlar ve saklanacaklar şablondan gelir",
+     "en": "Steps and things to keep come from a template"
+    },
+    {
+     "tr": "Ekran görüntüsünden tarih, şart ve kazanan sayısı okunur",
+     "en": "A screenshot fills in dates, conditions and winner count"
+    },
+    {
+     "tr": "Okuma tamamen cihazında, görüntü hiçbir yere gitmez",
+     "en": "Reading happens on device; the image is never uploaded"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/yonca/assets/screens/ekle.png"
+    ]
+   }
+  },
+  {
+   "id": "haklar",
+   "kicker": {
+    "tr": "Katılım hakkı",
+    "en": "Entries"
+   },
+   "title": {
+    "tr": "Her kod bir hak",
+    "en": "Every code is an entry"
+   },
+   "text": {
+    "tr": "Kapak altı kampanyalarında bir kez katılmıyorsun. Her ürün yeni bir hak demek ve kazanma olasılığın buna göre değişiyor.",
+    "en": "In under-the-cap promotions you do not enter once. Every product is another entry, and your odds move with it."
+   },
+   "bullets": [
+    {
+     "tr": "Gönderdiğin her kod tarihiyle kaydedilir",
+     "en": "Every code you send is logged with its date"
+    },
+    {
+     "tr": "Olasılık hak sayısıyla çarpılarak hesaplanır",
+     "en": "The odds are multiplied by your entries"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/yonca/assets/screens/haklar.png",
+     "/yonca/assets/screens/market-detay.png"
+    ]
+   }
+  },
+  {
+   "id": "sonuc",
+   "kicker": {
+    "tr": "Sonuç",
+    "en": "The result"
+   },
+   "title": {
+    "tr": "Üç düğme, bitti",
+    "en": "Three buttons, done"
+   },
+   "text": {
+    "tr": "Kazandım, Kazanamadım ya da Açıklanmadı. Üçüncü seçenek bilerek var: bazı çekilişler sonucu hiç açıklamaz ve bu da bir veri.",
+    "en": "Won, Didn't win or Never announced. The third option is there on purpose: some giveaways never announce a result, and that is information too."
+   },
+   "bullets": [
+    {
+     "tr": "Kazandığında konfeti ve titreşim",
+     "en": "Confetti and a haptic when you win"
+    },
+    {
+     "tr": "İşaretlediğin an bekleyen bildirimler iptal edilir",
+     "en": "Marking it cancels that giveaway's pending notifications"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/yonca/assets/screens/sonuc.png"
+    ]
+   }
+  },
+  {
+   "id": "sansin",
+   "kicker": {
+    "tr": "İstatistik",
+    "en": "Statistics"
+   },
+   "title": {
+    "tr": "Şansın ne kadar?",
+    "en": "How lucky are you?"
+   },
+   "text": {
+    "tr": "Kaç çekilişe katıldığını ve kaçını kazandığını zaman içinde görürsün. Takip disiplini de burada: uygulamanın sana kızdığı yer.",
+    "en": "How many you entered and how many you won, over time. Follow-through lives here too: the place where the app tells you off."
+   },
+   "bullets": [
+    {
+     "tr": "Kazanma oranın ve kazandığın ödüllerin toplam değeri",
+     "en": "Your win rate and the total value of what you won"
+    },
+    {
+     "tr": "Risk altındaki çekilişler: saklaman gerekeni koymadıkların",
+     "en": "Giveaways at risk: proof you never put away"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/yonca/any/03.webp",
+     "/yonca/assets/screens/risk.png"
+    ]
+   }
+  }
+ ],
+ "privacy": {
+  "title": {
+   "tr": "Hiçbir şey dışarı çıkmaz",
+   "en": "Nothing leaves your device"
+  },
+  "text": {
+   "tr": "Yonca'nın sunucusu yok. Hesap açman gerekmez, uygulama internete hiçbir istek göndermez. Reklam, analitik ve üçüncü taraf SDK yok. Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır.",
+   "en": "Yonca has no server. You never make an account, and the app sends no requests to the internet. No ads, no analytics, no third-party SDKs. Text is read out of a screenshot on your device, using Apple's Vision framework."
+  },
+  "href": "/yonca/privacy/"
+ },
+ "support": "/support/"
+}

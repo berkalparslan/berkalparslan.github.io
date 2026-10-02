@@ -1,676 +1,181 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BodyBook — Ekran ekran tanıtım</title>
-<meta name="description" content="Tansiyon, kilo, ilaç, cilt rutini, ben takibi, su ve uyku tek panelde. Her şey telefonunda kalır.">
-<meta property="og:title" content="BodyBook — Sağlık & Cilt Takibi">
-<meta property="og:description" content="Yedi modül, tek panel. Veriler cihazında kalır.">
-<meta property="og:image" content="https://berkalparslan.github.io/bodybook/assets/screens/bugun.png">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BodyBook: Mole Tracker &amp; Pill Reminder · BamTech</title>
+<meta name="description" content="Compare mole photos, get pill reminders, log blood pressure. Blood pressure, weight, medication, skincare, moles, water and sleep in one panel; everything stays on your phone." />
+<link rel="canonical" href="https://berkalparslan.github.io/bodybook/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="BodyBook: Mole Tracker &amp; Pill Reminder" />
+<meta property="og:description" content="Compare mole photos, get pill reminders, log blood pressure. Blood pressure, weight, medication, skincare, moles, water and sleep in one panel; everything stays on your phone." />
+<meta property="og:image" content="https://berkalparslan.github.io/assets/home/bodybook-icon.webp" />
+<meta name="theme-color" content="#ffb3d9" />
+<link rel="icon" href="/assets/home/bodybook-icon.webp" />
+<link rel="apple-touch-icon" href="/assets/home/bodybook-icon.webp" />
 <script>
-  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
-  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
   (function () {
     var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
-    try {
-      document.documentElement.setAttribute(
-        "data-theme", localStorage.getItem("bb-theme") || "light");
-    } catch (e) {
-      document.documentElement.setAttribute("data-theme", "light");
-    }
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "BodyBook: Ben Takibi ve İlaç Hatırlatıcı · BamTech");
+    d.setAttribute("data-title-en", "BodyBook: Mole Tracker & Pill Reminder · BamTech");
   })();
 </script>
-<style>
-:root{
-  color-scheme:light;
-  --paper:#faf6f1; --surface:#ffffff; --sunken:#f3ece4;
-  --ink:#1e1a18; --ink2:#5c534d; --ink3:#8d827a;
-  --line:#e8ded3; --accent:#d8542a;
-  --bp:#d8542a; --weight:#b8801a; --skin:#128a5e; --mole:#6d4ad8;
-  --med:#1e76c4; --water:#0e8894; --sleep:#4a42c4;
-  --r:20px;
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-    --paper:#12100f; --surface:#1b1917; --sunken:#221f1c;
-    --ink:#f5efe8; --ink2:#b3a99f; --ink3:#8a7f75;
-    --line:#2e2926; --accent:#ff7a4d;
-    --bp:#ff7a4d; --weight:#f0b429; --skin:#3fc48f; --mole:#a78bfa;
-  --med:#5aaef5; --water:#4dc9d6; --sleep:#7c74e8;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
-  background:var(--paper); color:var(--ink); line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:var(--accent)}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
 
-/* ── Üst çubuk ─────────────────────────────── */
-.bar{
-  position:sticky; top:0; z-index:50;
-  background:color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter:saturate(180%) blur(18px);
-  -webkit-backdrop-filter:saturate(180%) blur(18px);
-  border-bottom:1px solid var(--line);
-}
-.bar-in{max-width:1120px;margin:0 auto;padding:0 22px;height:54px;display:flex;align-items:center;gap:20px}
-.logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
-.logo b{color:var(--accent)}
-.bar nav{display:flex;gap:16px;overflow-x:auto;font-size:13.5px;scrollbar-width:none}
-.bar nav::-webkit-scrollbar{display:none}
-.bar nav a{color:var(--ink2);text-decoration:none;white-space:nowrap}
-.bar nav a:hover{color:var(--accent)}
-.theme-toggle{
-  margin-left:auto;flex:none;width:32px;height:32px;border-radius:50%;
-  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
-  font-size:14px;line-height:1;cursor:pointer
-}
-.theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
-
-/* ── Genel ─────────────────────────────────── */
-.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
-.hero{padding:72px 0 40px;text-align:center}
-.hero h1{font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
-.hero p{font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--ink2);max-width:640px;margin:0 auto 8px}
-.kicker{
-  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);
-  padding:6px 14px;border-radius:999px;margin-bottom:20px
-}
-
-.hero-shots{display:flex;gap:18px;justify-content:center;align-items:flex-start;margin-top:36px;flex-wrap:wrap}
-.hero-shots .shot{width:min(240px,42vw)}
-
-/* Telefon çerçevesi */
-.shot{
-  width:100%;border-radius:26px;display:block;
-  border:1px solid var(--line);
-  box-shadow:0 18px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.06);
-  background:var(--surface);
-}
-
-/* ── Bölümler ──────────────────────────────── */
-section{padding:56px 0;border-top:1px solid var(--line)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-.row.flip .txt{order:2}
-.tag{
-  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--c,var(--accent))
-}
-.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent))}
-h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
-.lede{color:var(--ink2);font-size:1.02rem;margin-bottom:18px}
-ul.feat{list-style:none;display:grid;gap:9px}
-ul.feat li{position:relative;padding-left:22px;color:var(--ink2);font-size:.96rem}
-ul.feat li::before{
-  content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;border-radius:2px;
-  background:var(--c,var(--accent))
-}
-ul.feat strong{color:var(--ink);font-weight:600}
-.shots{display:flex;gap:16px}
-.shots .shot{flex:1;min-width:0}
-
-.note{
-  margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--sunken);
-  border:1px solid var(--line);color:var(--ink2);font-size:.9rem
-}
-
-/* Özet ızgara */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:26px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
-.card h3{font-size:1rem;margin-bottom:5px;display:flex;align-items:center;gap:8px}
-.card h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent))}
-.card p{font-size:.9rem;color:var(--ink2)}
-
-.cta{text-align:center;padding:64px 0}
-.cta h2{margin-bottom:12px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
-.btn{
-  display:inline-block;padding:13px 24px;border-radius:14px;text-decoration:none;font-weight:600;font-size:.95rem;
-  background:var(--accent);color:#fff;border:1px solid transparent
-}
-.btn.ghost{background:transparent;color:var(--accent);border-color:var(--line)}
-
-footer{border-top:1px solid var(--line);padding:30px 22px;text-align:center;color:var(--ink3);font-size:13px}
-footer a{text-decoration:none}
-
-@media (max-width:860px){
-  .row{grid-template-columns:1fr;gap:26px}
-  .row.flip .txt{order:0}
-  .shots{max-width:520px}
-  section{padding:44px 0}
-}
-
-/* ── Dil ────────────────────────────────────── */
-:root[data-lang="tr"] .en{display:none}
-:root[data-lang="en"] .tr{display:none}
-span.tr,span.en{display:inline}
-:root[data-lang="tr"] span.en,:root[data-lang="en"] span.tr{display:none}
-.lang-toggle{
-  height:32px;padding:0 12px;border-radius:999px;
-  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
-  font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.04em;
-  line-height:1;cursor:pointer;flex:none
-}
-.lang-toggle:hover{color:var(--accent);border-color:var(--accent)}
-/* Tek görsel sütunu kaplayıp telefon boyunu aşmasın (2 Eki 2026). */
-.shots{justify-content:center;align-items:flex-start}
-.shots .shot{max-width:300px;height:auto}
-</style>
-<link rel="stylesheet" href="/assets/catalogue.css">
-  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
-  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
 </head>
-<body>
+<body style="--app:#ffb3d9;--acc:#4da2ff">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/">Bam<b>Tech</b></a>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;Android · Google Play&#x27;de&quot;, &quot;BodyBook&quot;, &quot;Android · On Google Play&quot;]"></div></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#bugun"><span class="tr">Bugün</span><span class="en">Today</span></a><a href="#tansiyon"><span class="tr">Tansiyon</span><span class="en">Blood pressure</span></a><a href="#ilac"><span class="tr">İlaç ve takviye</span><span class="en">Medication</span></a><a href="#cilt"><span class="tr">Cilt bakımı</span><span class="en">Skincare</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" data-emoji="[&quot;🩺&quot;, &quot;💊&quot;, &quot;💧&quot;, &quot;🌙&quot;, &quot;🧴&quot;, &quot;📈&quot;, &quot;❤️&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/assets/home/bodybook-icon.webp" alt="" width="180" height="180" />
+      <p class="kick"><span class="tr">Android · Google Play&#x27;de</span><span class="en">Android · On Google Play</span> </p>
+      <h1 class="disp" lang="en">BodyBook</h1>
+      <p class="lede"><span class="tr">Tansiyonun, ilaçların, kilon, cilt rutinin ve benlerin beş ayrı uygulamaya dağılmasın. Hepsi tek panelde ve hepsi telefonunda kalır.</span><span class="en">Your blood pressure, medication, weight, skincare routine and moles do not belong in five separate apps. One panel for all of it, and all of it stays on your phone.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">Çevrimdışı</span><span class="en">Offline</span></span><span class="pill-s"><span class="tr">Reklam yok</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">7 dil</span><span class="en">7 languages</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
+      <div class="chips"><span class="chip">Android</span></div>
+    </div>
+  </section>
+
+  <div class="promo tr"><div class="promo-track"><img src="/bodybook/assets/promo/tr/01-compare.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/tr/02-moles.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/tr/03-today.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/tr/04-products.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/tr/05-medication.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/tr/01-compare.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/tr/02-moles.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/tr/03-today.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/tr/04-products.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/tr/05-medication.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/bodybook/assets/promo/en/01-compare.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/en/02-moles.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/en/03-today.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/en/04-products.webp" alt="" loading="lazy" /><img src="/bodybook/assets/promo/en/05-medication.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/en/01-compare.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/en/02-moles.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/en/03-today.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/en/04-products.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/bodybook/assets/promo/en/05-medication.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="bugun">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/bugun.png&quot;, &quot;/bodybook/assets/screens/kayit.png&quot;, &quot;/bodybook/assets/screens/vucut.png&quot;]"><img src="/bodybook/assets/screens/bugun.png" alt="Your whole day, one screen" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/promo/en/03-today.webp&quot;]"><img src="/bodybook/assets/promo/en/03-today.webp" alt="Your whole day, one screen" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Bugün</span><span class="en">Today</span></p>
+        <h2 class="disp"><span class="tr">Bütün gün tek ekranda</span><span class="en">Your whole day, one screen</span></h2>
+        <p class="z-p"><span class="tr">Bugün ekranı menü değil, veri gösterir. Üstteki gün şeridini kaydırıp geçmişe gidersin. Ortadaki düğme bir sekme değil, bir aksiyon: ne kaydedeceğin saate göre sıralanır.</span><span class="en">The Today screen shows data, not a menu. Scroll the day strip to go back in time. The middle button is an action, not a tab: what you can log sorts itself by the hour.</span></p>
+        <ul class="bul"><li><span class="tr">İş öneren karolar büyük: doz işaretle, rutini tamamla</span><span class="en">Tiles that ask for something stay large: tick a dose, finish the routine</span></li><li><span class="tr">Kilo, su, uyku alttaki bakış şeridinde</span><span class="en">Weight, water and sleep sit in the glance strip below</span></li><li><span class="tr">Geçmiş bir güne eklersen kayıt o güne düşer</span><span class="en">Add while viewing a past day and it lands on that day</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="tansiyon">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/tansiyon.png&quot;, &quot;/bodybook/assets/screens/rapor.png&quot;, &quot;/bodybook/assets/screens/tansiyon-ekle.png&quot;]"><img src="/bodybook/assets/screens/tansiyon.png" alt="From reading to doctor&#x27;s PDF" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Tansiyon</span><span class="en">Blood pressure</span></p>
+        <h2 class="disp"><span class="tr">Ölçümden doktora PDF</span><span class="en">From reading to doctor&#x27;s PDF</span></h2>
+        <p class="z-p"><span class="tr">Büyük ve küçük tansiyon, nabız ve isteğe bağlı bağlam etiketleri (sabah, kafein, stres). Kategori rozeti anında çıkar, uygulama yorum yapmaz.</span><span class="en">Systolic, diastolic and pulse with optional context tags (morning, caffeine, stress). The category badge shows straight away, and the app stops there.</span></p>
+        <ul class="bul"><li><span class="tr">Sabah ve akşam ortalamaları ayrı</span><span class="en">Morning and evening averaged separately</span></li><li><span class="tr">30 günlük seyir grafiği</span><span class="en">A 30-day trend chart</span></li><li><span class="tr">Özet, grafik, ölçüm tablosu ve ilaç listesi tek PDF&#x27;te</span><span class="en">Summary, chart, reading table and medication list in one PDF</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="ilac">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/ilac.png&quot;, &quot;/bodybook/assets/screens/ilac-ekle.png&quot;]"><img src="/bodybook/assets/screens/ilac.png" alt="What was I meant to take?" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/promo/en/05-medication.webp&quot;]"><img src="/bodybook/assets/promo/en/05-medication.webp" alt="What was I meant to take?" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">İlaç ve takviye</span><span class="en">Medication</span></p>
+        <h2 class="disp"><span class="tr">Şimdi ne almalıydım?</span><span class="en">What was I meant to take?</span></h2>
+        <p class="z-p"><span class="tr">Ekranın omurgası ilaç listesi değil, bugünün dozları. Dört tekrar deseni: her gün, birkaç günde bir, seçtiğin günler ya da gerektiğinde.</span><span class="en">The spine of the screen is today&#x27;s doses, not a list of medicines. Four repeat patterns: every day, every few days, chosen weekdays or as needed.</span></p>
+        <ul class="bul"><li><span class="tr">Bildirimden tek dokunuşla &quot;Aldım&quot;</span><span class="en">One tap &quot;Taken&quot; straight from the notification</span></li><li><span class="tr">Stok takibi, bitmeden uyarı</span><span class="en">Stock tracking warns before you run out</span></li><li><span class="tr">30 günlük uyum yüzdesi; zamanı gelmemiş doz sayılmaz</span><span class="en">A 30-day adherence figure; doses not yet due do not count</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="cilt">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/cilt-rutin.png&quot;, &quot;/bodybook/assets/screens/cilt-urunler.png&quot;]"><img src="/bodybook/assets/screens/cilt-rutin.png" alt="Routine and shelf life" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/promo/en/04-products.webp&quot;]"><img src="/bodybook/assets/promo/en/04-products.webp" alt="Routine and shelf life" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Cilt bakımı</span><span class="en">Skincare</span></p>
+        <h2 class="disp"><span class="tr">Rutin ve raf ömrü</span><span class="en">Routine and shelf life</span></h2>
+        <p class="z-p"><span class="tr">Sabah ve akşam adımlarını bir kez tanımla, her gün işaretle. Ambalajdaki PAO süresini gir, BodyBook bitiş tarihini hesaplasın ve dolmadan haber versin.</span><span class="en">Define your morning and evening steps once, tick them off each day. Enter the PAO from the packaging and BodyBook works out the expiry date and warns you before it.</span></p>
+        <ul class="bul"><li><span class="tr">Üst üste tamamlanan günler seri olur</span><span class="en">Consecutive completed days become a streak</span></li><li><span class="tr">Süresi dolmadan önce ve dolduğu gün bildirim</span><span class="en">A notification before expiry and on the day</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="ben">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/ben.png&quot;, &quot;/bodybook/assets/screens/ben-detay.png&quot;]"><img src="/bodybook/assets/screens/ben.png" alt="Same angle, same frame" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/promo/en/02-moles.webp&quot;, &quot;/bodybook/assets/promo/en/01-compare.webp&quot;]"><img src="/bodybook/assets/promo/en/02-moles.webp" alt="Same angle, same frame" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Ben takibi</span><span class="en">Mole tracking</span></p>
+        <h2 class="disp"><span class="tr">Aynı açı, aynı kare</span><span class="en">Same angle, same frame</span></h2>
+        <p class="z-p"><span class="tr">Benin yerini vücut haritasında işaretle. Çekerken önceki fotoğrafın soluk kopyası vizörde durur; her kare aynı açıdan ve aynı mesafeden çıkar.</span><span class="en">Mark each mole on a body map. When you shoot, a ghost of the previous photo sits in the viewfinder, so every frame comes from the same angle and distance.</span></p>
+        <ul class="bul"><li><span class="tr">İki tarihi sürgüyle yan yana karşılaştır</span><span class="en">Compare two dates side by side with a slider</span></li><li><span class="tr">ABCDE formunu sen doldurursun, uygulama hüküm vermez</span><span class="en">You fill in the ABCDE form; the app does not judge it</span></li><li><span class="tr">Kontrol zamanı gelince hatırlatır</span><span class="en">Reminds you when a check is due</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="su-uyku">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/su.png&quot;, &quot;/bodybook/assets/screens/uyku.png&quot;, &quot;/bodybook/assets/screens/trend.png&quot;]"><img src="/bodybook/assets/screens/su.png" alt="Numbers side by side" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Su, uyku, trend</span><span class="en">Water, sleep, trends</span></p>
+        <h2 class="disp"><span class="tr">Sayılar yan yana</span><span class="en">Numbers side by side</span></h2>
+        <p class="z-p"><span class="tr">Su tek dokunuşla kaydedilir, uyku yatış ve kalkış saatinden hesaplanır. Kısa bir gecenin ertesi sabahı tansiyonun ne oluyor? BodyBook bunları yan yana koyar, hiçbir iddiada bulunmadan.</span><span class="en">Water is one tap, sleep is worked out from bedtime and wake time. What does your blood pressure do after a short night? BodyBook lines it up without claiming anything.</span></p>
+        <ul class="bul"><li><span class="tr">Hedefi ve bardak boyunu sen belirlersin</span><span class="en">You set the goal and the glass sizes</span></li><li><span class="tr">14 gecelik uyku seyri</span><span class="en">A 14-night sleep history</span></li><li><span class="tr">Her karşılaştırma kaç güne bakıldığını yazar</span><span class="en">Every comparison says how many days it used</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="senin">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/bodybook/assets/screens/koyu.png&quot;, &quot;/bodybook/assets/screens/profil.png&quot;]"><img src="/bodybook/assets/screens/koyu.png" alt="Unused modules disappear" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Senin uygulaman</span><span class="en">Your app</span></p>
+        <h2 class="disp"><span class="tr">Kullanmadığın modül yok</span><span class="en">Unused modules disappear</span></h2>
+        <p class="z-p"><span class="tr">Açılışta yalnızca istediğin modülleri seçersin. Kapattığın modül hiçbir yerde görünmez. Sistem, açık ya da koyu tema ve her modüle ayrı bir sinyal rengi.</span><span class="en">On first launch you pick only the modules you want. One you switch off appears nowhere. System, light or dark theme, and a signal colour for every module.</span></p>
+        <ul class="bul"><li><span class="tr">Tansiyon, kilo, cilt rutini, ben, ilaç, su, uyku</span><span class="en">Blood pressure, weight, skincare, moles, medication, water, sleep</span></li><li><span class="tr">Uygulama dilini sistemden bağımsız seç</span><span class="en">Pick the app language independently of the system</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+<section class="band" id="uyari"><div class="wrap"><p class="band-p"><span class="tr">BodyBook bir öz-izleme ve iyi yaşam uygulamasıdır, tıbbi cihaz değildir. Tanı koymaz, risk skoru üretmez, ilaç ya da doz önermez, etkileşim kontrolü yapmaz. Sağlığınla ilgili kararları hekiminle ver.</span><span class="en">BodyBook is a self-tracking and wellness app, not a medical device. It does not diagnose, produce risk scores, suggest medicines or doses, or check for interactions. Make decisions about your health with your doctor.</span></p></div></section>
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Hesap yok, sunucu yok</span><span class="en">No account, no server</span></h2>
+      <div><p class="band-p"><span class="tr">Ölçümlerin, fotoğrafların ve notların telefonundan çıkmaz. Giriş yok, reklam yok, veri satışı yok. Yedek istersen her şeyi tek dosya olarak dışa aktar, istersen tek dokunuşla kalıcı olarak sil.</span><span class="en">Your readings, photos and notes never leave your phone. No sign-in, no ads, nothing sold. Export everything as a single file for a backup, or delete it all for good with one tap.</span></p>
+      <p class="row-btns"><a class="pill" href="/bodybook/privacy/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/bodybook/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">BodyBook</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
+      </div>
+      <div class="qrs"><a class="qr-card" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener" data-qr="https://play.google.com/store/apps/details?id=com.aberk.bodybook" style="--r:2deg"><span class="q"></span><span class="qt"><b>Google Play</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
     <nav>
-      <a href="#bugun"><span class="tr">Bugün</span><span class="en">Today</span></a>
-      <a href="#tansiyon"><span class="tr">Tansiyon</span><span class="en">Blood pressure</span></a>
-      <a href="#ilac"><span class="tr">İlaç</span><span class="en">Medication</span></a>
-      <a href="#cilt"><span class="tr">Cilt</span><span class="en">Skincare</span></a>
-      <a href="#ben"><span class="tr">Ben</span><span class="en">Moles</span></a>
-      <a href="#su-uyku"><span class="tr">Su &amp; uyku</span><span class="en">Water &amp; sleep</span></a>
-      <a href="#trend"><span class="tr">Trend</span><span class="en">Trends</span></a>
-      <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/bodybook/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/bodybook/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
     </nav>
-    <button class="lang-toggle" id="langToggle" type="button" aria-label="Language">TR</button>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+    <span class="copy">© 2026 BamTech</span>
   </div>
-</div>
-
-<div class="wrap">
-
-  <header class="hero">
-    <span class="kicker"><span class="tr">iPhone · Hazırlanıyor</span><span class="en">iPhone · In preparation</span></span>
-    <h1>BodyBook</h1>
-    <p class="tr">Tansiyonun, kilon, ilaçların, cilt rutinin ve benlerin beş ayrı uygulamaya dağılmasın.
-       Hepsi tek panelde — ve hepsi telefonunda kalır.</p>
-        <p class="en">Your blood pressure, your weight, your medication, your skincare routine and your moles should not be spread across five apps. One panel for all of it — and all of it stays on your phone.</p>
-    <div class="hero-shots">
-      <img class="shot" src="assets/screens/bugun.png" alt="BodyBook Bugün ekranı">
-      <img class="shot" src="assets/screens/ilac.png" alt="İlaç ve takviye ekranı">
-      <img class="shot" src="assets/screens/koyu.png" alt="Koyu temada ben takibi">
-    </div>
-  </header>
-
-  <!-- ── Bugün ── -->
-  <section id="bugun">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Ana ekran</span>
-        <span class="tag en">Home screen</span>
-        <h2 class="tr">Günün tamamı tek ekranda</h2>
-        <h2 class="en">The whole day on one screen</h2>
-        <p class="lede tr">Bugün ekranı bir menü değil, veri gösterir. Üstteki gün şeridini kaydırarak
-          geçmişe gidebilir, dün ne olduğuna ayrı bir sekmeye girmeden bakabilirsin.</p>
-        <p class="lede en">The Today screen shows data, not a menu. Scroll the day strip at the top to move back in time and see what yesterday looked like without opening another tab.</p>
-        <ul class="feat tr">
-          <li><strong>Gün şeridi</strong> — kaydı olan günler noktalı görünür, dokunup o güne gidersin</li>
-          <li><strong>Sinyal çubuğu</strong> — her modülün rengi, o gün kayıt girilip girilmediğini söyler</li>
-          <li><strong>İş öneren karolar</strong> büyük durur: doz işaretle, rutini tamamla, kontrol zamanı geldi</li>
-          <li><strong>Sadece sayı söyleyenler</strong> alttaki bakış şeridinde küçük durur: kilo, su, uyku</li>
-          <li>Süresi dolan ürün ya da biten ilaç varsa en altta uyarı satırı belirir</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Day strip</strong> — days with entries carry a dot; tap one to go there</li>
-          <li><strong>Signal bar</strong> — each module's colour tells you whether anything was logged that day</li>
-          <li><strong>Tiles that ask for something</strong> stay large: tick a dose, finish the routine, a check is due</li>
-          <li><strong>Tiles that only report a number</strong> shrink into the glance strip below: weight, water, sleep</li>
-          <li>An expiring product or a prescription running out raises a warning row at the bottom</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/bugun.png" alt="Bugün ekranı">
-        <img class="shot" src="assets/screens/vucut.png" alt="Vücut sekmesi, modül listesi">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Kayıt ── -->
-  <section id="kayit">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag tr">Kayıt akışı</span>
-        <span class="tag en">Logging flow</span>
-        <h2 class="tr">Ortadaki düğme bir sekme değil, bir aksiyon</h2>
-        <h2 class="en">The middle button is an action, not a tab</h2>
-        <p class="lede tr">Ne kaydedeceğini seçtiğin liste saate göre sıralanır: sabah tansiyon ve tartı
-          üstte, akşam rutin üstte, sabahın ilk saatlerinde “dün gece nasıldı” en üstte.</p>
-        <p class="lede en">The list of what you can log sorts itself by the hour: blood pressure and the scale in the morning, the routine in the evening, and “how was last night” first thing.</p>
-        <ul class="feat tr">
-          <li>Her satır ne olacağını <strong>bir cümleyle</strong> söyler — tahmin ettirmez</li>
-          <li>Kapattığın modülün kaydı bu listede hiç görünmez</li>
-          <li>Geçmiş bir güne bakarken eklersen kayıt <strong>o güne düşer</strong></li>
-        </ul>
-        <ul class="feat en">
-          <li>Every row says what will happen <strong>in one sentence</strong> — no guessing</li>
-          <li>A module you switched off never appears in this list</li>
-          <li>Add something while looking at a past day and it <strong>lands on that day</strong></li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/kayit.png" alt="Ne kaydediyorsun listesi">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Tansiyon ── -->
-  <section id="tansiyon" style="--c:var(--bp)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Tansiyon</span>
-        <span class="tag en">Blood pressure</span>
-        <h2 class="tr">Ölçümden hekimine hazır PDF’e</h2>
-        <h2 class="en">From a reading to a PDF your doctor can use</h2>
-        <p class="lede tr">Büyük/küçük tansiyon ve nabız; ölçüme “sabah”, “kafein”, “stres” gibi bağlam
-          etiketleri iliştirebilirsin. Uygulama kategoriyi anında gösterir — ama yorum yapmaz.</p>
-        <p class="lede en">Systolic, diastolic and pulse, with optional context tags like “morning”, “caffeine” or “stress”. The app shows the category straight away — and stops there.</p>
-        <ul class="feat tr">
-          <li><strong>Sabah/akşam ayrımı</strong> ayrı ortalanır; sabah yükselmesi klinik olarak ayrı okunur</li>
-          <li>30 günlük seyir grafiği, MAP ve nabız basıncı</li>
-          <li><strong>Doktor raporu:</strong> özet, grafik, ölçüm tablosu ve kullandığın ilaçların listesi tek PDF’te</li>
-          <li>Ölçüm tekniği rehberi ekranda — ev tipi ölçümün en yaygın hata kaynağı teknik</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Morning and evening are averaged separately</strong>; a morning surge reads differently in clinic</li>
-          <li>A 30-day trend chart, mean arterial pressure and pulse pressure</li>
-          <li><strong>Doctor's report:</strong> summary, chart, reading table and your medication list in one PDF</li>
-          <li>A measurement-technique guide on screen — technique is the commonest source of error at home</li>
-        </ul>
-        <div class="note tr">Rapor “koyu mürekkep, beyaz kâğıt” olarak basılır; telefonun koyu temada olsa bile
-          çıktı okunur kalır. Paylaş düğmesi doğrudan iOS paylaşım sayfasını açar.</div>
-        <div class="note en">The report prints as dark ink on white paper, so it stays readable even if your phone is in dark mode. The share button opens the standard iOS share sheet.</div>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/tansiyon.png" alt="Tansiyon ekranı">
-        <img class="shot" src="assets/screens/rapor.png" alt="Doktor raporu PDF">
-      </div>
-    </div>
-    <div class="row" style="margin-top:36px">
-      <div class="txt">
-        <h2 style="font-size:1.25rem" class="tr">Ölçüm eklemek üç alan</h2>
-        <h2 style="font-size:1.25rem" class="en">Adding a reading is three fields</h2>
-        <p class="lede tr">Sistolik, diastolik, nabız. Bağlam etiketleri opsiyonel; geçmiş bir ölçümü
-          sonradan girmek için tarih alanını açman yeterli.</p>
-        <p class="lede en">Systolic, diastolic, pulse. Context tags are optional; to enter an older reading, just open the date field.</p>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/tansiyon-ekle.png" alt="Ölçüm ekleme ekranı" style="max-width:280px">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── İlaç ── -->
-  <section id="ilac" style="--c:var(--med)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag tr">İlaç &amp; takviye</span>
-        <span class="tag en">Medication &amp; supplements</span>
-        <h2 class="tr">“Şimdi ne almam gerekiyordu?”</h2>
-        <h2 class="en">“What was I supposed to take just now?”</h2>
-        <p class="lede tr">Ekranın omurgası ilaç listesi değil, <strong>bugünün dozları</strong>.
-          Buraya “hangi ilaçlarım var” diye değil, almam gereken şeyi işaretlemek için giriyorsun.</p>
-        <p class="lede en">The spine of the screen is not a list of medicines, it is <strong>today's doses</strong>. You do not open it to see what you are on; you open it to tick off what you have taken.</p>
-        <ul class="feat tr">
-          <li><strong>Dört tekrar deseni:</strong> her gün · N günde bir · haftanın belirli günleri · gerektiğinde</li>
-          <li>Gün içinde altı ayrı saate kadar doz; her saat ayrı planlanır</li>
-          <li>Kür süresi ya da süresiz; yemekle ilişkisi (önce/birlikte/sonra/aç karnına)</li>
-          <li><strong>Bildirimden tek dokunuşla “Aldım”</strong> — uygulamayı açmadan işaretlersin</li>
-          <li>Kalan miktar takibi; azalınca “ilacın bitmek üzere” uyarısı</li>
-          <li>30 günlük uyum yüzdesi — <strong>zamanı gelmemiş dozlar hesaba girmez</strong></li>
-          <li>Biten tedaviyi silmek yerine arşivlersin; geçmiş ve doktor raporu bozulmaz</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Four repeat patterns:</strong> daily · every N days · set weekdays · as needed</li>
-          <li>Up to six separate times a day, each scheduled on its own</li>
-          <li>A fixed course or open-ended; timing around food (before / with / after / on an empty stomach)</li>
-          <li><strong>“Taken” from the notification</strong> — one tap, without opening the app</li>
-          <li>Remaining-quantity tracking, with a “running low” warning</li>
-          <li>A 30-day adherence figure — <strong>doses that are not due yet do not count against you</strong></li>
-          <li>Finished a course? Archive it instead of deleting; your history and doctor's report stay intact</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/ilac.png" alt="İlaç ve takviye ekranı">
-        <img class="shot" src="assets/screens/ilac-ekle.png" alt="İlaç ekleme formu">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Cilt ── -->
-  <section id="cilt" style="--c:var(--skin)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Cilt bakımı</span>
-        <span class="tag en">Skincare</span>
-        <h2 class="tr">Rutin ve ürün raf ömrü</h2>
-        <h2 class="en">The routine, and how long a product lasts</h2>
-        <p class="lede tr">Sabah ve akşam adımlarını bir kez tanımlarsın, her gün işaretlersin. Üst üste
-          tamamladığın günler seri olarak sayılır.</p>
-        <p class="lede en">Define your morning and evening steps once, then tick them off each day. Consecutive completed days are counted as a streak.</p>
-        <ul class="feat tr">
-          <li><strong>PAO takibi:</strong> ürünü açtığın günden itibaren ne zaman biteceğini hesaplar</li>
-          <li>Ambalajdaki “12M / 24M” bilgisini girersin; gerisi otomatik</li>
-          <li>Süresi dolmadan önce ve dolduğu gün bildirim</li>
-          <li>Barkod tarayarak ürün eklersin</li>
-          <li>Yeni bir aktif ürüne (retinol, asit, C vitamini) başlarken tek seferde tek ürün uyarısı</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Shelf-life after opening:</strong> counts down from the day you opened it</li>
-          <li>Enter the “12M / 24M” from the packaging; the rest is worked out for you</li>
-          <li>A notification before it expires and on the day it does</li>
-          <li>Add a product by scanning its barcode</li>
-          <li>Starting a new active (retinol, an acid, vitamin C)? It warns you to introduce one at a time</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/cilt-rutin.png" alt="Cilt bakım rutini">
-        <img class="shot" src="assets/screens/cilt-urunler.png" alt="Ürünler ve raf ömrü">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Ben ── -->
-  <section id="ben" style="--c:var(--mole)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag tr">Ben takibi</span>
-        <span class="tag en">Mole tracking</span>
-        <h2 class="tr">Aynı açıdan, aynı çerçeveden</h2>
-        <h2 class="en">Same angle, same frame</h2>
-        <p class="lede tr">Benin yerini vücut haritasında işaretlersin. Fotoğraf çekerken önceki karenin
-          soluk kopyası ekranda durur — aynı açıyı yakalarsın, değişimi gözle kovalamak yerine
-          karşılaştırırsın.</p>
-        <p class="lede en">Mark where the mole is on a body map. When you take the photo, a faint copy of the previous frame stays on screen, so you catch the same angle and compare instead of trying to remember.</p>
-        <ul class="feat tr">
-          <li><strong>Karşılaştırma sürgüsü</strong> — iki tarihi yan yana kaydırarak görürsün</li>
-          <li>Kontrol periyodunu sen belirlersin; zamanı gelince hatırlatır</li>
-          <li><strong>ABCDE öz-değerlendirme formu</strong> — beş soruyu sen cevaplarsın</li>
-          <li>Fotoğraflar uygulamanın kendi klasöründe; fotoğraf kitaplığına yazılmaz, yüklenmez</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>A comparison slider</strong> — drag between two dates side by side</li>
-          <li>You set the check interval; it reminds you when one is due</li>
-          <li><strong>An ABCDE self-assessment form</strong> — five questions, answered by you</li>
-          <li>Photos live in the app's own folder; they are never written to your photo library or uploaded</li>
-        </ul>
-        <div class="note tr">Uygulama skor ya da kanaat üretmez. Şüphelendiğin bir değişimi dermatoloğuna
-          göstermek için kayıt tutar, yerine karar vermez.</div>
-        <div class="note en">The app produces no score and no opinion. It keeps a record so you can show a change to your dermatologist; it does not decide for them.</div>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/ben.png" alt="Ben takibi vücut haritası">
-        <img class="shot" src="assets/screens/ben-detay.png" alt="Ben karşılaştırma">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Su & uyku ── -->
-  <section id="su-uyku" style="--c:var(--water)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Su &amp; uyku</span>
-        <span class="tag en">Water &amp; sleep</span>
-        <h2 class="tr">Tek dokunuş, sonra unut</h2>
-        <h2 class="en">One tap, then forget about it</h2>
-        <p class="lede tr">Su kaydının tek zorluğu sürtünme: günde altı kez açılacak bir ekranda üç dokunuş
-          fazla. Hedef halkasının hemen altında hazır miktarlar var.</p>
-        <p class="lede en">The only hard part of logging water is friction: on a screen you open six times a day, three taps is two too many. Preset amounts sit right under the goal ring.</p>
-        <ul class="feat tr">
-          <li>Hedefi ve bardak boylarını sen belirlersin — herkes için doğru tek miktar yok</li>
-          <li>14 günlük çubuk grafik; hedefi tutturduğun günler dolu renkte</li>
-          <li><strong>Uyku:</strong> yatış ve kalkış saatinden süre kendiliğinden çıkar</li>
-          <li>Gece yarısını geçen aralık otomatik olarak ertesi güne taşınır</li>
-          <li>Nasıl uyandığın (opsiyonel) — skor değil, senin ifaden</li>
-        </ul>
-        <ul class="feat en">
-          <li>You set the goal and the glass sizes — there is no single right amount for everyone</li>
-          <li>A 14-day bar chart, with days you hit the goal filled in</li>
-          <li><strong>Sleep:</strong> the duration falls out of your bedtime and wake time</li>
-          <li>A stretch that crosses midnight is carried to the next day automatically</li>
-          <li>How you woke up (optional) — your words, not a score</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/su.png" alt="Su takibi">
-        <img class="shot" src="assets/screens/uyku.png" alt="Uyku takibi">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Trend ── -->
-  <section id="trend">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag tr">Trend &amp; içgörü</span>
-        <span class="tag en">Trends &amp; insight</span>
-        <h2 class="tr">Sayıları yan yana koyar, yorum yapmaz</h2>
-        <h2 class="en">It puts the numbers side by side and stops there</h2>
-        <p class="lede tr">Kısa uyuduğun sabahlarda tansiyonun ne oluyor? Dozları tam işaretlediğin günlerle
-          eksik kalan günler arasında fark var mı? BodyBook bunları karşılaştırır — iddia etmeden,
-          yalnızca senin kayıtlarının ortalaması olarak.</p>
-        <p class="lede en">What does your blood pressure do on mornings after a short night? Is there a difference between days you took every dose and days you missed one? BodyBook lines these up — as an average of your own records, and as nothing more than that.</p>
-        <ul class="feat tr">
-          <li><strong>Uyku ↔ tansiyon</strong> — eşik sabit “7 saat” değil, senin kendi ortancan</li>
-          <li><strong>İlaç uyumu ↔ tansiyon</strong> — tam ve eksik günlerin ortalaması</li>
-          <li>Bağlam ipuçları: “kafein” etiketli ölçümler ortalamanın kaç birim üstünde</li>
-          <li>Her karşılaştırmanın altında kaç güne bakıldığı yazılı</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Sleep ↔ blood pressure</strong> — the threshold is your own median, not a fixed “7 hours”</li>
-          <li><strong>Adherence ↔ blood pressure</strong> — complete days averaged against incomplete ones</li>
-          <li>Context hints: how far above your average the readings tagged “caffeine” sit</li>
-          <li>Every comparison says how many days it looked at</li>
-        </ul>
-        <div class="note tr">Bunlar tanı, risk skoru ya da tedavi önerisi değildir. İki sayının birlikte
-          hareket etmesi birinin diğerine yol açtığını göstermez.</div>
-        <div class="note en">None of this is a diagnosis, a risk score or a treatment suggestion. Two numbers moving together does not mean one caused the other.</div>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/trend.png" alt="Trend ve içgörüler">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Health ── -->
-  <section id="health">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Apple Health</span>
-        <span class="tag en">Apple Health</span>
-        <h2 class="tr">Çift yönlü, tip tip açılır</h2>
-        <h2 class="en">Two-way, and switched on type by type</h2>
-        <p class="lede tr">Su ve uyku zaten saatinde toplanıyor. Bunları bir de elle girmeni istemek
-          modülü ölü doğurur — o yüzden köprü var, ama zorunlu değil.</p>
-        <p class="lede en">Your watch already collects water and sleep. Asking you to type them in again would kill the module on arrival — so the bridge exists, but nothing about it is compulsory.</p>
-        <ul class="feat tr">
-          <li><strong>Oku:</strong> su, uyku, boy, kilo, tansiyon, dinlenme nabzı, adım</li>
-          <li><strong>Yaz:</strong> elle girdiğin kilo, tansiyon ve su Sağlık uygulamasına işlenir</li>
-          <li>Hangi türün okunacağını <strong>tek tek sen seçersin</strong>; hiçbiri zorunlu değil</li>
-          <li>İçe aktarım tekilleştirilir — aynı gece listeye iki kez düşmez</li>
-          <li>Okunan veri cihazdan çıkmaz; hiçbir sunucuya gitmez</li>
-        </ul>
-        <ul class="feat en">
-          <li><strong>Reads:</strong> water, sleep, height, weight, blood pressure, resting heart rate, steps</li>
-          <li><strong>Writes:</strong> weight, blood pressure and water you typed in go back to Health</li>
-          <li>You choose <strong>each type separately</strong>; none of them is required</li>
-          <li>Imports are de-duplicated — the same night never lands in the list twice</li>
-          <li>What is read stays on the device and reaches no server</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/apple-health.png" alt="Apple Health ayarları">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Gizlilik ── -->
-  <section id="gizlilik">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag tr">Gizlilik</span>
-        <span class="tag en">Privacy</span>
-        <h2 class="tr">Hesap yok, sunucu yok</h2>
-        <h2 class="en">No account, no server</h2>
-        <p class="lede tr">Ölçümlerin, fotoğrafların ve notların telefonundan çıkmıyor. Giriş yapmıyorsun,
-          e-posta vermiyorsun. Reklam yok, veri satışı yok.</p>
-        <p class="lede en">Your readings, photos and notes never leave your phone. You do not sign in and you do not hand over an email. No ads, and nothing is sold.</p>
-        <ul class="feat tr">
-          <li>Tüm kayıtlar cihazdaki veritabanında; uygulamayı silersen hepsi gider</li>
-          <li><strong>Yedek:</strong> tek dosya hâlinde dışa aktarırsın</li>
-          <li>Bildirimler cihazda planlanır — uzaktan bildirim (push) hiç kullanılmaz</li>
-          <li>Anonim kullanım istatistiği var ama <strong>kapatılabilir</strong>; içinde hiçbir ölçüm,
-              ilaç adı ya da fotoğraf yok</li>
-          <li>Reklam kimliği (IDFA) kullanılmaz — bu yüzden izleme izni sormaz</li>
-        </ul>
-        <ul class="feat en">
-          <li>Everything is in a database on the device; delete the app and it all goes with it</li>
-          <li><strong>Backup:</strong> export the lot as a single file</li>
-          <li>Notifications are scheduled on the device — push is never used</li>
-          <li>There is an anonymous usage signal, and it <strong>can be switched off</strong>; it contains no
-              reading, no medicine name and no photo</li>
-          <li>The advertising identifier is never used — which is why you are never asked for tracking permission</li>
-        </ul>
-        <p style="margin-top:16px"><a href="/bodybook/privacy/"><span class="tr">Tam gizlilik politikası →</span><span class="en">Read the full privacy policy →</span></a></p>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/profil.png" alt="Profil ve gizlilik ayarları">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Kişiselleştirme ── -->
-  <section id="senin">
-    <div class="row">
-      <div class="txt">
-        <span class="tag tr">Senin uygulaman</span>
-        <span class="tag en">Your app</span>
-        <h2 class="tr">Kullanmadığın modül hiç görünmez</h2>
-        <h2 class="en">A module you don't use never shows up</h2>
-        <p class="lede tr">Açılışta yalnızca istediğin modülleri seçersin. Kapattığın bir modül uygulamanın
-          hiçbir yerinde görünmez: ana ekran karosu, kayıt listesi, Vücut sekmesi dahil.</p>
-        <p class="lede en">On first run you pick only the modules you want. One you switch off appears nowhere in the app — not as a home tile, not in the logging list, not in the Body tab.</p>
-        <div class="grid">
-          <div class="card" style="--c:var(--bp)"><h3 class="tr">Tansiyon</h3>
-        <h3 class="en">Blood pressure</h3><p class="tr">Ölçüm, trend, doktor raporu</p>
-        <p class="en">Readings, trend, doctor's report</p></div>
-          <div class="card" style="--c:var(--weight)"><h3 class="tr">Kilo</h3>
-        <h3 class="en">Weight</h3><p class="tr">Eğri ve vücut kitle indeksi</p>
-        <p class="en">The curve and body mass index</p></div>
-          <div class="card" style="--c:var(--skin)"><h3 class="tr">Cilt rutini</h3>
-        <h3 class="en">Skincare routine</h3><p class="tr">AM/PM rutin ve ürün raf ömrü</p>
-        <p class="en">AM/PM steps and product shelf life</p></div>
-          <div class="card" style="--c:var(--mole)"><h3 class="tr">Ben takibi</h3>
-        <h3 class="en">Mole tracking</h3><p class="tr">Fotoğrafla karşılaştırma</p>
-        <p class="en">Photo comparison</p></div>
-          <div class="card" style="--c:var(--med)"><h3 class="tr">İlaç &amp; takviye</h3>
-        <h3 class="en">Medication &amp; supplements</h3><p class="tr">Doz hatırlatıcı ve alım kaydı</p>
-        <p class="en">Dose reminders and a record of what you took</p></div>
-          <div class="card" style="--c:var(--water)"><h3 class="tr">Su</h3>
-        <h3 class="en">Water</h3><p class="tr">Günlük hedef</p>
-        <p class="en">A daily goal</p></div>
-          <div class="card" style="--c:var(--sleep)"><h3 class="tr">Uyku</h3>
-        <h3 class="en">Sleep</h3><p class="tr">Süre ve düzen</p>
-        <p class="en">Duration and consistency</p></div>
-        </div>
-        <div class="note tr">Sistem / açık / koyu tema seçimi, yedi dil ve her modül için ayrı sinyal rengi.
-          Bir modülün rengi grafiğinde, rozetinde, kayıt ikonunda ve karosunda hep aynıdır.</div>
-        <div class="note en">System / light / dark theme, seven languages, and a signal colour per module. A module's colour is the same in its chart, its badge, its logging icon and its tile.</div>
-      </div>
-      <div class="shots">
-        <img class="shot" src="assets/screens/koyu.png" alt="Koyu tema">
-      </div>
-    </div>
-  </section>
-
-  <div class="cta">
-    <h2 class="tr">Durum</h2>
-        <h2 class="en">Where it stands</h2>
-    <p class="lede tr" style="max-width:560px;margin:0 auto">
-      Uygulama çalışır durumda, App Store gönderimi hazırlanıyor. Denemek ister ya da
-      bir şey sormak istersen yaz.
-    </p>
-        <p class="lede en" style="max-width:560px;margin:0 auto">
-      The app works; the App Store submission is being prepared. If you want to try it, or want to
-      ask something, write in.
-    </p>
-    <div class="btns">
-      <a class="btn" href="mailto:aberkalparslan@gmail.com?subject=BodyBook"><span class="tr">Bana yaz</span><span class="en">Write to me</span></a>
-      <a class="btn ghost" href="/bodybook/support/"><span class="tr">Destek &amp; SSS</span><span class="en">Support &amp; FAQ</span></a>
-      <a class="btn ghost" href="/bodybook/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
-    </div>
-    <p style="margin-top:26px;font-size:.85rem;color:var(--ink3);max-width:620px;margin-left:auto;margin-right:auto" class="tr">
-      BodyBook bir wellness ve öz-izleme uygulamasıdır; tıbbi cihaz değildir. Teşhis koymaz,
-      risk skoru üretmez, ilaç ya da doz önerisi vermez, etkileşim kontrolü yapmaz.
-      Sağlığınla ilgili kararları hekiminle ver.
-    </p>
-        <p style="margin-top:26px;font-size:.85rem;color:var(--ink3);max-width:620px;margin-left:auto;margin-right:auto" class="en">
-      BodyBook is a wellness and self-tracking app, not a medical device. It does not diagnose,
-      produce risk scores, suggest medicines or doses, or check for interactions. Make decisions
-      about your health with your doctor.
-    </p>
-  </div>
-
-</div>
-
-<footer>
-  © 2026 BamTech ·
-  <a href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a> ·
-  <a href="/privacy/"><span class="tr">Gizlilik politikaları</span><span class="en">Privacy policies</span></a>
+  <div class="giant disp" lang="en" aria-hidden="true">BodyBook</div>
 </footer>
 
-<script>
-  (function () {
-    var btn = document.getElementById("themeToggle");
-    if (!btn) return;
-    function sync() {
-      var dark = document.documentElement.getAttribute("data-theme") === "dark";
-      btn.textContent = dark ? "☀︎" : "☾";
-      btn.setAttribute("aria-pressed", dark ? "true" : "false");
-    }
-    btn.addEventListener("click", function () {
-      var dark = document.documentElement.getAttribute("data-theme") === "dark";
-      var next = dark ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", next);
-      try { localStorage.setItem("bb-theme", next); } catch (e) {}
-      sync();
-    });
-    sync();
-  })();
-</script>
-<script>
-  (function () {
-    var d = document.documentElement;
-    var lb = document.getElementById("langToggle");
-    if (!lb) return;
-    function paint() {
-      var tr = d.getAttribute("data-lang") === "tr";
-      lb.textContent = tr ? "EN" : "TR";
-      document.title = tr ? 'BodyBook — Ekran ekran tanıtım' : 'BodyBook — A screen-by-screen tour';
-    }
-    lb.addEventListener("click", function () {
-      var next = d.getAttribute("data-lang") === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", next);
-      d.setAttribute("lang", next);
-      try { localStorage.setItem("bb-lang", next); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
 
 </body>
 </html>

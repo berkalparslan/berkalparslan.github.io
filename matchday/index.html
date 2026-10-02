@@ -1,296 +1,220 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matchday: Five a side · BamTech</title>
-<meta name="description" content="Halısaha maçını tek yerde topla: kim geliyor, takımlar sahada, kadroyu WhatsApp&#x27;a at, maçtan sonra gizli puanlama. iPhone ve Android beta.">
-<link rel="canonical" href="https://berkalparslan.github.io/matchday/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Matchday: Five a side">
-<meta property="og:description" content="Halısaha maçını tek yerde topla: kim geliyor, takımlar sahada, kadroyu WhatsApp&#x27;a at, maçtan sonra gizli puanlama. iPhone ve Android beta.">
-<meta property="og:image" content="https://berkalparslan.github.io/matchday/assets/icon-512.png">
-<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/matchday/assets/icon-180.png">
+<meta name="description" content="Your weekly five-a-side in one place: who is coming, teams on the pitch, the lineup in the group chat and secret ratings after the match. iPhone and Android beta." />
+<link rel="canonical" href="https://berkalparslan.github.io/matchday/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Matchday: Five a side" />
+<meta property="og:description" content="Your weekly five-a-side in one place: who is coming, teams on the pitch, the lineup in the group chat and secret ratings after the match. iPhone and Android beta." />
+<meta property="og:image" content="https://berkalparslan.github.io/matchday/assets/icon-512.png" />
+<meta name="theme-color" content="#c8f560" />
+<link rel="icon" href="/matchday/assets/icon-512.png" />
+<link rel="apple-touch-icon" href="/matchday/assets/icon-512.png" />
 <script>
-  // Tema ve dil sayfa boyanmadan uygulanır, yoksa gözle görülür sıçrama olur.
-  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
   (function () {
-    var d = document.documentElement;
-    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
-    catch (e) { d.setAttribute("data-theme", "light"); }
-    var lang;
+    var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Matchday: Halısaha · BamTech");
+    d.setAttribute("data-title-en", "Matchday: Five a side · BamTech");
   })();
 </script>
-<link rel="stylesheet" href="/assets/tour.css">
-<style>
-/* Sayfa içi düzen. Ortak tour.css'e dokunmadan: görsel oranı, şerit ve özellik satırları. */
-.shot{height:auto;object-fit:contain}
-.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:8px 22px 44px;max-width:1080px;margin:0 auto;scrollbar-width:thin}
-.strip img{flex:none;width:min(240px,62vw);height:auto;display:block;
-  scroll-snap-align:center;border:1px solid var(--line);border-radius:22px}
-.strip-hint{text-align:center;color:var(--ink3);font-size:.8rem;margin:-30px 0 34px}
-.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:56px;align-items:center}
-.feat.flip .pic{order:-1}
-.feat + .feat{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}
-.feat h3{font-size:clamp(1.3rem,2.8vw,1.7rem);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
-.feat .k{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.feat p{color:var(--ink2);margin-bottom:14px;max-width:58ch}
-.feat ul{list-style:none;display:grid;gap:8px}
-.feat li{position:relative;padding-left:18px;color:var(--ink2);font-size:.95rem}
-.feat li::before{content:"";position:absolute;left:0;top:.78em;width:8px;height:1px;background:var(--accent)}
-.feat li strong{color:var(--ink)}
-.pic{display:flex;gap:14px;justify-content:center;align-items:flex-start}
-.pic img{flex:1 1 0;min-width:0;width:100%;max-width:240px;height:auto;display:block;border:1px solid var(--line);border-radius:22px}
-.pic.one img{max-width:280px}
-.pic img.watch{max-width:200px;border-radius:30px}
-.plans2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-@media (max-width:760px){
-  .feat{grid-template-columns:1fr;gap:26px}
-  .feat.flip .pic{order:0}
-  .pic img{max-width:46%}
-  .pic.one img{max-width:min(260px,72vw)}
-  .pic img.watch{max-width:44%}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+
 </head>
-<body style="--accent:#1f9d3a;--accent-dark:#5be36a">
+<body style="--app:#c8f560;--acc:#fb4903">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
-    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#katil"><span class="tr">Beta'ya katıl</span><span class="en">Join the beta</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
-    </div>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Android · Beta&quot;, &quot;Matchday&quot;, &quot;iPhone · Android · Beta&quot;]"></div></div>
 
-<header class="hero">
-  <img class="hero-icon" src="/matchday/assets/icon-180.png" width="92" height="92" alt="Matchday: Five a side">
-  <div class="kicker"><span class="tr">iPhone · Android · Beta</span><span class="en">iPhone · Android · Beta</span></div>
-  <h1>Matchday</h1>
-  <p class="tr lede">Halısaha maçının bütün derdi tek uygulamada: kim geliyor, kim hangi takımda, kim kaç attı. Maçı kur, ekibi davet et, takımları sahaya diz, kadroyu WhatsApp grubuna at. Maçtan sonra herkes takım arkadaşlarını gizlice puanlar.</p><p class="en lede">Everything about the weekly five-a-side in one app: who is coming, who plays where, who scored. Set up the match, invite the group, line the teams up on the pitch and drop the lineup in the group chat. Afterwards everyone rates their teammates in secret.</p>
-  <div class="pills"><span class="tr"><span class="pill">Ücretsiz</span><span class="pill">Reklam yok</span><span class="pill">Türkçe ve İngilizce</span><span class="pill">Şu an beta</span></span><span class="en"><span class="pill">Free</span><span class="pill">No ads</span><span class="pill">Turkish and English</span><span class="pill">In beta now</span></span></div>
-  <div class="cta">
-    <a class="btn primary" href="#katil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="tr">iPhone: TestFlight</span><span class="en">iPhone: TestFlight</span></a>
-    <a class="btn primary" href="#katil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8 13.4 12l-9.8 10.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1zm11 11.4 2.5 2.6-11.6 6.7 9.1-9.3zm0-2.4L5.5 1.5l11.6 6.7-2.5 2.6zm3.6-1.9 2.9 1.7c.8.5.8 1.6 0 2.1l-2.9 1.7-2.8-2.8 2.8-2.7z"/></svg><span class="tr">Android: Play testi</span><span class="en">Android: Play test</span></a>
-    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#kur"><span class="tr">Maçı kur</span><span class="en">Set it up</span></a><a href="#gelen"><span class="tr">Kim geliyor</span><span class="en">Who&#x27;s coming</span></a><a href="#kadro"><span class="tr">Kadro</span><span class="en">Lineup</span></a><a href="#poster">Poster</a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
-  <div class="strip tr" role="list">
-    <img src="/matchday/assets/promo/tr/01-home.webp" width="600" height="1304" decoding="async" alt="Halısaha maçın tek yerde">
-    <img src="/matchday/assets/promo/tr/02-whos-coming.webp" width="600" height="1304" decoding="async" alt="Kim geliyor, belli">
-    <img src="/matchday/assets/promo/tr/03-lineup-pitch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Takımları sahaya diz">
-    <img src="/matchday/assets/promo/tr/04-formation-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kadroyu WhatsApp grubuna at">
-    <img src="/matchday/assets/promo/tr/05-rate-in-secret.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Takım arkadaşını gizlice puanla">
-    <img src="/matchday/assets/promo/tr/06-profile-rating.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Sahadaki gerçek puanın">
-    <img src="/matchday/assets/promo/tr/07-leaderboard.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Gol krallığında kaçıncısın?">
-    <img src="/matchday/assets/promo/tr/08-notifications.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Davet, not, cevap: hepsi burada">
-    <img src="/matchday/assets/promo/tr/09-organiser-tools.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Organizatörün işi yarıya iner">
-  </div>
-  <div class="strip en" role="list">
-    <img src="/matchday/assets/promo/en/01-home.webp" width="600" height="1304" decoding="async" alt="Your weekly match, sorted">
-    <img src="/matchday/assets/promo/en/02-whos-coming.webp" width="600" height="1304" decoding="async" alt="Know who is really coming">
-    <img src="/matchday/assets/promo/en/03-lineup-pitch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Line up the teams on the pitch">
-    <img src="/matchday/assets/promo/en/04-formation-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Drop the lineup in the group chat">
-    <img src="/matchday/assets/promo/en/05-rate-in-secret.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Rate your mates. Secretly.">
-    <img src="/matchday/assets/promo/en/06-profile-rating.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Your real rating on the pitch">
-    <img src="/matchday/assets/promo/en/07-leaderboard.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Who tops the scoring chart?">
-    <img src="/matchday/assets/promo/en/08-notifications.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Invites, notes, answers, all here">
-    <img src="/matchday/assets/promo/en/09-organiser-tools.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Organising, halved">
-  </div>
-  <p class="strip-hint"><span class="tr">Kaydırarak gez</span><span class="en">Swipe to browse</span></p>
+<main>
+  <section class="hero" data-emoji="[&quot;⚽&quot;, &quot;🥅&quot;, &quot;🏆&quot;, &quot;📣&quot;, &quot;🧤&quot;, &quot;⭐&quot;, &quot;🔥&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/matchday/assets/icon-512.png" alt="" width="180" height="180" />
+      <p class="kick">iPhone · Android · Beta <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
+      <h1 class="disp" lang="en">Matchday</h1>
+      <p class="lede"><span class="tr">Halısaha maçının bütün derdi tek uygulamada: kim geliyor, kim hangi takımda, kim kaç attı. Maçı kur, ekibi davet et, takımları sahaya diz, kadroyu WhatsApp grubuna at.</span><span class="en">Everything about the weekly five-a-side in one app: who is coming, who plays where, who scored. Set up the match, invite the group, line the teams up and drop the lineup in the group chat.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Ücretsiz</span><span class="en">Free</span></span><span class="pill-s"><span class="tr">Reklam yok</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Türkçe ve İngilizce</span><span class="en">Turkish and English</span></span><span class="pill-s"><span class="tr">Şu an beta</span><span class="en">In beta now</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="#katil"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span></a></p>
+      <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+    </div>
+  </section>
 
-<section id="ozellikler">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
-    <h2><span class="tr">WhatsApp grubunda "kim geliyor" mesajına son</span><span class="en">No more "who's coming?" in the group chat</span></h2>
-    <p class="tr sec-lede">Şu an her şey ücretsiz. Reklam yok.</p><p class="en sec-lede">Everything is free right now. No ads.</p>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Maçı kur</span><span class="en">Set it up</span></div>
-        <h3><span class="tr">Halısaha maçın tek yerde</span><span class="en">Your weekly match, sorted</span></h3>
-        <p class="tr">Saha haritadan seçilir ya da harita linki yapıştırılır. Saat, süre, oyuncu sayısı (5v5, 6v6, 7v7), açık ya da özel maç.</p><p class="en">Pick the pitch on the map or paste a map link. Time, length, team size (5v5, 6v6, 7v7), open or private.</p>
-        <ul><li class="tr">Uygulaması olan arkadaşlar davet edilir; olmayanlar isimle eklenir, hesap açınca bağlanır</li><li class="en">Invite friends who have the app; add the rest by name and link them when they sign up</li><li class="tr">Davete not: "Kaleci lazım, eldivenlerini getir"</li><li class="en">Add a note to the invite: "Need a keeper, bring your gloves"</li><li class="tr">"Haftaya tekrarla": aynı saat, aynı saha, aynı ekip, tek dokunuş</li><li class="en">"Repeat next week": same time, pitch and group in one tap</li></ul>
+  <div class="promo tr"><div class="promo-track"><img src="/matchday/assets/promo/tr/01-home.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/02-whos-coming.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/03-lineup-pitch.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/04-formation-share.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/05-rate-in-secret.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/06-profile-rating.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/07-leaderboard.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/08-notifications.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/tr/09-organiser-tools.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/01-home.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/02-whos-coming.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/03-lineup-pitch.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/04-formation-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/05-rate-in-secret.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/06-profile-rating.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/07-leaderboard.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/08-notifications.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/tr/09-organiser-tools.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/matchday/assets/promo/en/01-home.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/02-whos-coming.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/03-lineup-pitch.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/04-formation-share.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/05-rate-in-secret.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/06-profile-rating.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/07-leaderboard.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/08-notifications.webp" alt="" loading="lazy" /><img src="/matchday/assets/promo/en/09-organiser-tools.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/01-home.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/02-whos-coming.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/03-lineup-pitch.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/04-formation-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/05-rate-in-secret.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/06-profile-rating.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/07-leaderboard.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/08-notifications.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/matchday/assets/promo/en/09-organiser-tools.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="kur">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/tr/01-home.webp&quot;]"><img src="/matchday/assets/screens/tr/01-home.webp" alt="Your weekly match, sorted" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/en/01-home.webp&quot;]"><img src="/matchday/assets/screens/en/01-home.webp" alt="Your weekly match, sorted" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Maçı kur</span><span class="en">Set it up</span></p>
+        <h2 class="disp"><span class="tr">Halısaha maçın tek yerde</span><span class="en">Your weekly match, sorted</span></h2>
+        <p class="z-p"><span class="tr">Saha haritadan seçilir ya da harita linki yapıştırılır. Saat, süre, oyuncu sayısı (5v5, 6v6, 7v7), açık ya da özel maç.</span><span class="en">Pick the pitch on the map or paste a map link. Time, length, team size (5v5, 6v6, 7v7), open or private.</span></p>
+        <ul class="bul"><li><span class="tr">Uygulaması olmayanlar isimle eklenir, hesap açınca bağlanır</span><span class="en">Add friends without the app by name; link them when they sign up</span></li><li><span class="tr">Davete not: &quot;Kaleci lazım, eldivenlerini getir&quot;</span><span class="en">A note on the invite: &quot;Need a keeper, bring your gloves&quot;</span></li><li><span class="tr">&quot;Haftaya tekrarla&quot;: aynı saat, saha, ekip</span><span class="en">&quot;Repeat next week&quot;: same time, pitch and group</span></li></ul>
       </div>
-      <div class="pic one tr"><img src="/matchday/assets/screens/tr/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ana sayfa"></div>
-      <div class="pic one en"><img src="/matchday/assets/screens/en/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Home"></div>
     </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Kim geliyor</span><span class="en">Who's coming</span></div>
-        <h3><span class="tr">Kim geliyor, kim yatıyor, belli</span><span class="en">Know who is really coming</span></h3>
-        <p class="tr">Herkes "Geliyorum" ya da "Gelemiyorum" der; organizatör ya da kaptan onaylar. "10 onaylı, 2 bekliyor" gibi sayaç.</p><p class="en">Everyone taps "I'm in" or "Can't make it", and the organiser or captain confirms. A counter like "10 confirmed, 2 waiting".</p>
-        <ul><li class="tr">Oyuncu not ve telefon bırakabilir: "10 dk geç kalabilirim"</li><li class="en">Players can leave a note and a number: "might be 10 minutes late"</li><li class="tr">Numaraları yalnız organizatör ve kaptan görür, tek dokunuşla arar ya da WhatsApp'tan yazar</li><li class="en">Only the organiser and captain see numbers, and can call or WhatsApp in one tap</li><li class="tr">Maçı organizatör ve seçtiği bir kaptan birlikte yönetir</li><li class="en">The organiser and a chosen captain run the match together</li></ul>
+  </section>
+  <section class="z z-r" id="gelen">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/tr/02-whos-coming.webp&quot;, &quot;/matchday/assets/screens/tr/09-organiser-tools.webp&quot;]"><img src="/matchday/assets/screens/tr/02-whos-coming.webp" alt="Who&#x27;s coming? Now you know." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/en/02-whos-coming.webp&quot;, &quot;/matchday/assets/screens/en/09-organiser-tools.webp&quot;]"><img src="/matchday/assets/screens/en/02-whos-coming.webp" alt="Who&#x27;s coming? Now you know." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kim geliyor</span><span class="en">Who&#x27;s coming</span></p>
+        <h2 class="disp"><span class="tr">Kim geliyor? Artık belli.</span><span class="en">Who&#x27;s coming? Now you know.</span></h2>
+        <p class="z-p"><span class="tr">Herkes &quot;Geliyorum&quot; ya da &quot;Gelemiyorum&quot; der; organizatör ya da kaptan onaylar. &quot;10 onaylı, 2 bekliyor&quot; gibi sayaç.</span><span class="en">Everyone taps &quot;I&#x27;m in&quot; or &quot;Can&#x27;t make it&quot;, and the organiser or captain confirms. A counter like &quot;10 confirmed, 2 waiting&quot;.</span></p>
+        <ul class="bul"><li><span class="tr">Oyuncu not bırakabilir: &quot;10 dk geç kalabilirim&quot;</span><span class="en">Players can leave a note: &quot;might be 10 minutes late&quot;</span></li><li><span class="tr">Numaraları yalnız organizatör ve kaptan görür</span><span class="en">Only the organiser and captain see numbers</span></li><li><span class="tr">Maçı organizatör ve seçtiği kaptan birlikte yönetir</span><span class="en">The organiser and a chosen captain run it together</span></li></ul>
       </div>
-      <div class="pic tr"><img src="/matchday/assets/screens/tr/02-whos-coming.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kim geliyor"><img src="/matchday/assets/screens/tr/09-organiser-tools.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Organizatör araçları"></div>
-      <div class="pic en"><img src="/matchday/assets/screens/en/02-whos-coming.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Who&#x27;s coming"><img src="/matchday/assets/screens/en/09-organiser-tools.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Organiser tools"></div>
     </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Kadro</span><span class="en">Lineup</span></div>
-        <h3><span class="tr">Takımları sahaya diz, WhatsApp'a at</span><span class="en">Line them up, send it to the group</span></h3>
-        <p class="tr">Oyuncular sahada kendi mevkilerinde görünür. "Takımları kur" her tarafa bir kaleci koyar, gerisini mevkiye göre dengeli dağıtır.</p><p class="en">Players appear in their positions on the pitch. "Build teams" puts a keeper on each side and spreads the rest evenly by position.</p>
-        <ul><li class="tr">Oyuncuya dokununca takımını ya da o maçtaki mevkisini değiştirirsin; profili değişmez</li><li class="en">Tap a player to change their team or position for this match only</li><li class="tr">Kadro posteri üç biçimde: mevkili, sadece isim ya da diziliş (2-3-1 gibi)</li><li class="en">The lineup poster comes in three styles: by position, names only or formation (like 2-3-1)</li><li class="tr">Resim olarak paylaşılır ya da WhatsApp grubuna düz metin olarak gider</li><li class="en">Share it as an image or send it to the group as plain text</li></ul>
+  </section>
+  <section class="z z-l" id="kadro">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/tr/03-lineup-pitch.webp&quot;, &quot;/matchday/assets/screens/tr/04-formation-share.webp&quot;]"><img src="/matchday/assets/screens/tr/03-lineup-pitch.webp" alt="Line up your team" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/en/03-lineup-pitch.webp&quot;, &quot;/matchday/assets/screens/en/04-formation-share.webp&quot;]"><img src="/matchday/assets/screens/en/03-lineup-pitch.webp" alt="Line up your team" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kadro</span><span class="en">Lineup</span></p>
+        <h2 class="disp"><span class="tr">Takımını sahaya diz</span><span class="en">Line up your team</span></h2>
+        <p class="z-p"><span class="tr">Oyuncular sahada kendi mevkilerinde görünür. &quot;Takımları kur&quot; her tarafa bir kaleci koyar, gerisini mevkiye göre dengeli dağıtır.</span><span class="en">Players appear in their positions on the pitch. &quot;Build teams&quot; puts a keeper on each side and spreads the rest evenly by position.</span></p>
+        <ul class="bul"><li><span class="tr">Oyuncuya dokun, bu maçlık takımını ya da mevkisini değiştir</span><span class="en">Tap a player to change their team or position for this match</span></li><li><span class="tr">Poster üç biçimde: mevkili, sadece isim, diziliş</span><span class="en">Three poster styles: by position, names only, formation</span></li><li><span class="tr">Resim olarak ya da WhatsApp&#x27;a düz metin</span><span class="en">As an image or as plain text for WhatsApp</span></li></ul>
       </div>
-      <div class="pic tr"><img src="/matchday/assets/screens/tr/03-lineup-pitch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kadro sahada"><img src="/matchday/assets/screens/tr/04-formation-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Diziliş paylaş"></div>
-      <div class="pic en"><img src="/matchday/assets/screens/en/03-lineup-pitch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Lineup on the pitch"><img src="/matchday/assets/screens/en/04-formation-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Share the formation"></div>
     </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Maçtan sonra</span><span class="en">After the match</span></div>
-        <h3><span class="tr">Takım arkadaşını gizlice puanla</span><span class="en">Rate your mates. Secretly.</span></h3>
-        <p class="tr">Skor, gol ve asist girilir. Herkes takım arkadaşlarını 7 başlıkta 1'den 10'a puanlar: genel, hız, teknik, takım oyunu, savunma, bitiricilik, fair play.</p><p class="en">Log the score, goals and assists. Everyone rates their teammates from 1 to 10 on seven things: overall, pace, technique, teamwork, defending, finishing and fair play.</p>
-        <ul><li class="tr">Puanlar gizli: kimin kime ne verdiğini kimse göremez</li><li class="en">Ratings are secret: nobody sees who gave what</li><li class="tr">Profilde yalnız ortalama ve oy sayısı çıkar</li><li class="en">Profiles show only the average and the number of votes</li><li class="tr">Profilde oynanan, galibiyet, beraberlik, mağlubiyet, gol, asist</li><li class="en">Profiles list played, won, drawn, lost, goals and assists</li></ul>
-      </div>
-      <div class="pic tr"><img src="/matchday/assets/screens/tr/05-rate-in-secret.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Gizli puanlama"><img src="/matchday/assets/screens/tr/06-profile-rating.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Profil ve puan"></div>
-      <div class="pic en"><img src="/matchday/assets/screens/en/05-rate-in-secret.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Secret ratings"><img src="/matchday/assets/screens/en/06-profile-rating.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Profile and rating"></div>
-    </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Krallık</span><span class="en">Leaderboards</span></div>
-        <h3><span class="tr">Gol kralı kim? Artık tartışma yok</span><span class="en">Who tops the scoring chart? Settled.</span></h3>
-        <p class="tr">Gol krallığı, asist krallığı, en çok maç, en çok galibiyet. Madalyalı ilk üç.</p><p class="en">Top scorers, top assists, most matches, most wins. Medals for the top three.</p>
+  </section>
+  <section class="z z-r" id="poster">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/matchday/assets/screens/tr/shared-poster.webp&quot;]"><img src="/matchday/assets/screens/tr/shared-poster.webp" alt="This is what the group sees" loading="lazy" /></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/matchday/assets/screens/en/shared-poster.webp&quot;]"><img src="/matchday/assets/screens/en/shared-poster.webp" alt="This is what the group sees" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick">Poster</p>
+        <h2 class="disp"><span class="tr">Grup bunu görür</span><span class="en">This is what the group sees</span></h2>
+        <p class="z-p"><span class="tr">Siyah ve Beyaz takımlar, mevkiler ve diziliş tek görselde. Saha, saat ve süre üstte.</span><span class="en">Both teams, positions and the formation in one image, with the pitch, time and length on top.</span></p>
         
       </div>
-      <div class="pic one tr"><img src="/matchday/assets/screens/tr/07-leaderboard.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Gol krallığı"></div>
-      <div class="pic one en"><img src="/matchday/assets/screens/en/07-leaderboard.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Leaderboard"></div>
     </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Bildirimler</span><span class="en">Notifications</span></div>
-        <h3><span class="tr">Davet, not, cevap: hepsi burada</span><span class="en">Invites, notes, answers, all here</span></h3>
-        <p class="tr">Davet, kabul, katılma isteği, takip: hepsi uygulama içi bildirim listesinde, notlarıyla birlikte.</p><p class="en">Invites, accepts, join requests and follows, all in one in-app list with their notes.</p>
-        <ul><li class="tr">Maçtan bir gün önce "Geliyor musun?"</li><li class="en">"Are you coming?" the day before</li><li class="tr">Maçtan önce saat hatırlatması, maç bitince "puanla" hatırlatması</li><li class="en">A reminder before kick-off and a "rate your mates" nudge after</li></ul>
+  </section>
+  <section class="z z-l" id="puan">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/tr/05-rate-in-secret.webp&quot;, &quot;/matchday/assets/screens/tr/06-profile-rating.webp&quot;]"><img src="/matchday/assets/screens/tr/05-rate-in-secret.webp" alt="Rate your mates. Secretly." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/en/05-rate-in-secret.webp&quot;, &quot;/matchday/assets/screens/en/06-profile-rating.webp&quot;]"><img src="/matchday/assets/screens/en/05-rate-in-secret.webp" alt="Rate your mates. Secretly." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Maçtan sonra</span><span class="en">After the match</span></p>
+        <h2 class="disp"><span class="tr">Puanını ver, aramızda kalsın</span><span class="en">Rate your mates. Secretly.</span></h2>
+        <p class="z-p"><span class="tr">Skor, gol ve asist girilir. Herkes takım arkadaşlarını 7 başlıkta 1&#x27;den 10&#x27;a puanlar: genel, hız, teknik, takım oyunu, savunma, bitiricilik, fair play.</span><span class="en">Log the score, goals and assists. Everyone rates their teammates from 1 to 10 on seven things: overall, pace, technique, teamwork, defending, finishing and fair play.</span></p>
+        <ul class="bul"><li><span class="tr">Kimin kime ne verdiğini kimse göremez</span><span class="en">Nobody sees who gave what</span></li><li><span class="tr">Profilde yalnız ortalama ve oy sayısı</span><span class="en">Profiles show only the average and vote count</span></li><li><span class="tr">Oynanan, galibiyet, gol, asist profilde</span><span class="en">Played, wins, goals and assists on the profile</span></li></ul>
       </div>
-      <div class="pic one tr"><img src="/matchday/assets/screens/tr/08-notifications.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Bildirimler"></div>
-      <div class="pic one en"><img src="/matchday/assets/screens/en/08-notifications.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Notifications"></div>
     </div>
-  </div>
-</section>
+  </section>
+  <section class="z z-r" id="krallik">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/tr/07-leaderboard.webp&quot;, &quot;/matchday/assets/screens/tr/08-notifications.webp&quot;]"><img src="/matchday/assets/screens/tr/07-leaderboard.webp" alt="Who&#x27;s top scorer?" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/matchday/assets/screens/en/07-leaderboard.webp&quot;, &quot;/matchday/assets/screens/en/08-notifications.webp&quot;]"><img src="/matchday/assets/screens/en/07-leaderboard.webp" alt="Who&#x27;s top scorer?" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Krallık ve bildirimler</span><span class="en">Leaderboards and alerts</span></p>
+        <h2 class="disp"><span class="tr">Gol kralı kim?</span><span class="en">Who&#x27;s top scorer?</span></h2>
+        <p class="z-p"><span class="tr">Gol krallığı, asist krallığı, en çok maç, en çok galibiyet; madalyalı ilk üç. Davet, kabul, katılma isteği ve takip tek bildirim listesinde.</span><span class="en">Top scorers, top assists, most matches, most wins, with medals for the top three. Invites, accepts, join requests and follows in one in-app list.</span></p>
+        <ul class="bul"><li><span class="tr">Maçtan bir gün önce &quot;Geliyor musun?&quot;</span><span class="en">&quot;Are you coming?&quot; the day before</span></li><li><span class="tr">Maç öncesi saat, maç sonrası &quot;puanla&quot; hatırlatması</span><span class="en">A kick-off reminder and a &quot;rate your mates&quot; nudge after</span></li></ul>
+      </div>
+    </div>
+  </section>
 
-<section id="katil">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Beta'ya katıl</span><span class="en">Join the beta</span></div>
-    <h2><span class="tr">Şu an deneme sürümünde</span><span class="en">In beta right now</span></h2>
-    <p class="tr sec-lede">Maça davet edildiysen ya da ekibini taşımak istiyorsan, telefonuna göre aşağıdan yükle.</p><p class="en sec-lede">Invited to a match, or want to bring your group over? Install it below for your phone.</p>
-    <div class="plans2">
-      <div class="note" id="ios">
-        <h3>iPhone</h3>
-        <ol class="tr" style="padding-left:20px;color:var(--ink2);margin-bottom:14px"><li>App Store'dan TestFlight'ı indir.</li><li>Aşağıdaki bağlantıyla Matchday'i yükle.</li></ol>
-        <ol class="en" style="padding-left:20px;color:var(--ink2);margin-bottom:14px"><li>Get TestFlight from the App Store.</li><li>Install Matchday with the link below.</li></ol>
-        <div class="cta" style="justify-content:flex-start;margin-top:0">
-          <a class="btn ghost" href="https://apps.apple.com/app/testflight/id899247664"><span class="tr">TestFlight'ı indir</span><span class="en">Get TestFlight</span></a>
-          <a class="btn primary" id="iosLink" href="https://testflight.apple.com/join/EkCzWQEM"><span class="tr">Matchday'i yükle</span><span class="en">Install Matchday</span></a>
+
+  <section class="band band-sun" id="katil">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Beta'ya katıl</span><span class="en">Join the beta</span></h2>
+      <p class="band-p"><span class="tr">Şu an deneme sürümünde. Maça davet edildiysen ya da ekibini taşımak istiyorsan, telefonuna göre aşağıdan yükle.</span><span class="en">In beta right now. Invited to a match, or want to bring your group over? Install it below for your phone.</span></p>
+      <div class="plans">
+        <div class="plan" id="ios" style="--c:#dceeff;--r:-1deg">
+          <h3>iPhone</h3>
+          <p class="price">TestFlight</p>
+          <ul class="tr"><li>App Store'dan TestFlight'ı indir.</li><li>Aşağıdaki bağlantıyla Matchday'i yükle.</li></ul>
+          <ul class="en"><li>Get TestFlight from the App Store.</li><li>Install Matchday with the link below.</li></ul>
+          <p class="row-btns" style="margin-top:18px">
+            <a class="pill" href="https://apps.apple.com/app/testflight/id899247664" target="_blank" rel="noopener"><span class="tr">TestFlight'ı indir</span><span class="en">Get TestFlight</span></a>
+            <a class="pill dark" id="iosLink" href="https://testflight.apple.com/join/EkCzWQEM" target="_blank" rel="noopener"><span class="tr">Matchday'i yükle</span><span class="en">Install Matchday</span></a>
+          </p>
+        </div>
+        <div class="plan" id="android" style="--c:#c8f560;--r:1deg">
+          <h3>Android</h3>
+          <p class="price"><span class="tr">Play testi</span><span class="en">Play test</span></p>
+          <ul class="tr"><li>Organizatöre Gmail adresini ver, test listesine eklesin.</li><li>Aşağıdaki bağlantıda "Test kullanıcısı ol" de, sonra Play'den yükle.</li></ul>
+          <ul class="en"><li>Give the organiser your Gmail address so they add you to the test list.</li><li>Open the link below, tap "Become a tester", then install from Play.</li></ul>
+          <p class="row-btns" style="margin-top:18px">
+            <a class="pill dark" id="androidLink" href="https://play.google.com/apps/testing/com.aberk.matchday" target="_blank" rel="noopener"><span class="tr">Teste katıl ve yükle</span><span class="en">Join the test and install</span></a>
+          </p>
+          <p style="font-size:13px;margin-top:12px"><span class="tr">Listeye eklenmeden bu bağlantı "bulunamadı" der; bu normal, test bitince herkese açılacak.</span><span class="en">Until you are on the list this link says "not found". That is expected; it opens to everyone after the test.</span></p>
         </div>
       </div>
-      <div class="note" id="android">
-        <h3>Android</h3>
-        <ol class="tr" style="padding-left:20px;color:var(--ink2);margin-bottom:14px"><li>Organizatöre Gmail adresini ver, test listesine eklesin.</li><li>Aşağıdaki bağlantıda "Test kullanıcısı ol" de, sonra Play'den yükle.</li></ol>
-        <ol class="en" style="padding-left:20px;color:var(--ink2);margin-bottom:14px"><li>Give the organiser your Gmail address so they add you to the test list.</li><li>Open the link below, tap "Become a tester", then install from Play.</li></ol>
-        <div class="cta" style="justify-content:flex-start;margin-top:0">
-          <a class="btn primary" id="androidLink" href="https://play.google.com/apps/testing/com.aberk.matchday"><span class="tr">Teste katıl ve yükle</span><span class="en">Join the test and install</span></a>
-        </div>
-        <p class="tr">Listeye eklenmeden bu bağlantı "bulunamadı" der; bu normal, test bitince herkese açılacak.</p><p class="en">Until you are on the list this link says "not found". That is expected; it opens to everyone after the test.</p>
+      <p class="band-p" style="margin-top:32px"><span class="tr">Sonra kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta "Bu benim" dersin.</span><span class="en">Then sign up. If the organiser added you as a player, they link you to your account, or you tap "This is me" in the match.</span></p>
+      <p class="row-btns"><a class="pill" href="/matchday/delete/"><span class="tr">Hesap silme</span><span class="en">Delete account</span> →</a></p>
+    </div>
+  </section>
+
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Güvenlik ve gizlilik</span><span class="en">Safety and privacy</span></h2>
+      <div><p class="band-p"><span class="tr">Özel maçları yalnız içindekiler görür. Puanlar gizli; profilde yalnız ortalama ve oy sayısı görünür. Telefon numaranı yalnız organizatör ve kaptan görür. Şikayet et ve engelle: engellenen kişi seni göremez, davet edemez. Reklam yok.</span><span class="en">Private matches are visible only to the people in them. Ratings are secret; profiles show only the average and vote count. Only the organiser and captain see your phone number. Report and block: a blocked person cannot see or invite you. No ads.</span></p>
+      <p class="row-btns"><a class="pill" href="/privacy/matchday/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">Matchday</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="#katil"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span></a></p>
       </div>
+      <div class="qrs"></div>
     </div>
-    <p class="tr sec-lede">Sonra kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta "Bu benim" dersin.</p><p class="en sec-lede">Then sign up. If the organiser added you as a player, they link you to your account, or you tap "This is me" in the match.</p>
-  </div>
-</section>
+  </section>
+</main>
 
-<section>
+<footer class="foot">
   <div class="wrap">
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Poster</span><span class="en">Poster</span></div>
-        <h3><span class="tr">Grupta paylaşılan kadro böyle görünür</span><span class="en">This is what the group sees</span></h3>
-        <p class="tr">Siyah ve Beyaz takımlar, mevkiler ve diziliş tek görselde. Saha, saat ve süre üstte.</p><p class="en">Both teams, positions and the formation in one image, with the pitch, time and length on top.</p>
-      </div>
-      <div class="pic one tr"><img src="/matchday/assets/screens/tr/shared-poster.webp" width="600" height="1029" loading="lazy" decoding="async" alt="Paylaşılan kadro posteri"></div>
-      <div class="pic one en"><img src="/matchday/assets/screens/en/shared-poster.webp" width="600" height="1014" loading="lazy" decoding="async" alt="The shared lineup poster"></div>
-    </div>
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy/matchday/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
   </div>
-</section>
-
-<section id="gizlilik">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
-    <h2><span class="tr">Güvenlik ve gizlilik</span><span class="en">Safety and privacy</span></h2>
-    <div class="note">
-      <ul class="tr"><li>Özel maçları yalnız içindekiler görür</li><li>Puanlar gizli; profilde yalnız ortalama ve oy sayısı görünür</li><li>Telefon numaranı yalnız organizatör ve kaptan görür</li><li>Şikayet et ve engelle: engellenen kişi seni göremez, davet edemez</li><li>Reklam yok</li></ul>
-      <ul class="en"><li>Private matches are visible only to the people in them</li><li>Ratings are secret; profiles show only the average and vote count</li><li>Only the organiser and captain see your phone number</li><li>Report and block: a blocked person cannot see or invite you</li><li>No ads</li></ul>
-      <p class="tr">Tam metin: <a href="/privacy/matchday/">Matchday gizlilik politikası</a>. Hesabını silmek için: <a href="/matchday/delete/">hesap silme</a>. Sorun varsa <a href="mailto:aberkalparslan@gmail.com">yaz</a>.</p>
-      <p class="en">Full text: <a href="/privacy/matchday/">the Matchday privacy policy</a>. To delete your account: <a href="/matchday/delete/">account deletion</a>. Something wrong? <a href="mailto:aberkalparslan@gmail.com">Write in</a>.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 BamTech ·
-    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/privacy/matchday/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-    <a href="/matchday/delete/"><span class="tr">Hesap silme</span><span class="en">Delete account</span></a> ·
-    <a href="mailto:aberkalparslan@gmail.com"><span class="tr">İletişim</span><span class="en">Contact</span></a>
-  </p>
+  <div class="giant disp" lang="en" aria-hidden="true">Matchday</div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
 <script>
-  (function () {
-    var d = document.documentElement;
-    var lang = d.getAttribute("data-lang");
-    var theme = d.getAttribute("data-theme");
-    var lb = document.getElementById("langBtn");
-    var tb = document.getElementById("themeBtn");
-    // Düğme, tıklanınca geçilecek dili gösterir.
-    function paint() {
-      lb.textContent = lang === "tr" ? "EN" : "TR";
-      tb.textContent = theme === "dark" ? "☀︎" : "☾";
-    }
-    lb.addEventListener("click", function () {
-      lang = lang === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", lang);
-      d.setAttribute("lang", lang);
-      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
-      paint();
-    });
-    tb.addEventListener("click", function () {
-      theme = theme === "dark" ? "light" : "dark";
-      d.setAttribute("data-theme", theme);
-      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
-<script>
-  // Önce ziyaretçinin kendi platformu; masaüstü ikisini de görür.
-  (function () {
-    var ua = navigator.userAgent || "";
-    var ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);
-    if (ios) document.getElementById("android").style.display = "none";
-    if (android) document.getElementById("ios").style.display = "none";
-  })();
-  // Links come from the admin panel (Firestore config/app), so a new
-  // TestFlight or Play link needs no new page.
-  fetch("https://firestore.googleapis.com/v1/projects/matchday-bamtech/databases/(default)/documents/config/app?key=AIzaSyDWl7gAoXzKTTK5su2J56W1-_rTJ6shr_E")
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) {
-      var f = d && d.fields; if (!f) return;
-      if (f.iosURL && f.iosURL.stringValue) document.getElementById("iosLink").href = f.iosURL.stringValue;
-      if (f.androidURL && f.androidURL.stringValue) document.getElementById("androidLink").href = f.androidURL.stringValue;
-    })
-    .catch(function () {});
+// Önce ziyaretçinin kendi platformu; masaüstü ikisini de görür.
+(function () {
+  var ua = navigator.userAgent || "";
+  var ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);
+  if (ios) document.getElementById("android").style.display = "none";
+  if (android) document.getElementById("ios").style.display = "none";
+})();
+// Links come from the admin panel (Firestore config/app), so a new
+// TestFlight or Play link needs no new page.
+fetch("https://firestore.googleapis.com/v1/projects/matchday-bamtech/databases/(default)/documents/config/app?key=AIzaSyDWl7gAoXzKTTK5su2J56W1-_rTJ6shr_E")
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (d) {
+    var f = d && d.fields;
+    if (!f) return;
+    if (f.iosURL && f.iosURL.stringValue) document.getElementById("iosLink").href = f.iosURL.stringValue;
+    if (f.androidURL && f.androidURL.stringValue) document.getElementById("androidLink").href = f.androidURL.stringValue;
+  })
+  .catch(function () {});
 </script>
 </body>
 </html>

@@ -1,0 +1,448 @@
+{
+ "slug": "daily-whisper",
+ "name": "Daily Whisper",
+ "title": {
+  "tr": "Daily Whisper: Olumlamalar",
+  "en": "Daily Whisper: Affirmations"
+ },
+ "description": {
+  "tr": "Her sabah sana özel kısa bir hikaye: istediğin hayattan bir sahne, içinde adın var, sıcak bir sesle okunur.",
+  "en": "Every morning, a short story written for you: a scene from the life you want, with your name in it, read aloud in a warm voice."
+ },
+ "icon": "/daily-whisper/assets/icon.webp",
+ "color": "#e9ccff",
+ "accent": "#ffb3d9",
+ "status": "live",
+ "kicker": {
+  "tr": "iPhone · Apple Watch · Widget",
+  "en": "iPhone · Apple Watch · Widgets"
+ },
+ "lede": {
+  "tr": "İstediğin hayatı her sabah kendi hikayen olarak dinle. İçinde adın, sevdiklerin ve şehrin var; sanki olmuş gibi anlatılır, sıcak bir ses onu sana okur.",
+  "en": "Hear the life you want as your own story, every morning. Your name, your people and your city are in it, told as if it has already happened and read to you in a warm voice."
+ },
+ "pills": [
+  {
+   "tr": "Her sabah yeni hikaye",
+   "en": "A new story every morning"
+  },
+  {
+   "tr": "Sesli anlatım",
+   "en": "Read aloud"
+  },
+  {
+   "tr": "Burç yorumu",
+   "en": "Daily horoscope"
+  },
+  {
+   "tr": "Apple Watch",
+   "en": "Apple Watch"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos"
+ ],
+ "ios": "6757824195",
+ "emoji": [
+  "✨",
+  "🌙",
+  "🎧",
+  "💜",
+  "⭐",
+  "🌊",
+  "🙏"
+ ],
+ "promo": {
+  "tr": [
+   "/daily-whisper/assets/promo/tr/01-future-self.webp",
+   "/daily-whisper/assets/promo/tr/02-your-goal.webp",
+   "/daily-whisper/assets/promo/tr/03-listen.webp",
+   "/daily-whisper/assets/promo/tr/04-affirmations.webp",
+   "/daily-whisper/assets/promo/tr/05-vision.webp",
+   "/daily-whisper/assets/promo/tr/06-stars.webp",
+   "/daily-whisper/assets/promo/tr/07-gratitude.webp",
+   "/daily-whisper/assets/promo/tr/08-everywhere.webp"
+  ],
+  "en": [
+   "/daily-whisper/assets/promo/en/01-future-self.webp",
+   "/daily-whisper/assets/promo/en/02-your-goal.webp",
+   "/daily-whisper/assets/promo/en/03-listen.webp",
+   "/daily-whisper/assets/promo/en/04-affirmations.webp",
+   "/daily-whisper/assets/promo/en/05-vision.webp",
+   "/daily-whisper/assets/promo/en/06-stars.webp",
+   "/daily-whisper/assets/promo/en/07-gratitude.webp",
+   "/daily-whisper/assets/promo/en/08-everywhere.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "bugun",
+   "kicker": {
+    "tr": "Bugün",
+    "en": "Today"
+   },
+   "title": {
+    "tr": "Gelecekteki sen anlatıyor",
+    "en": "Your future self, telling it"
+   },
+   "text": {
+    "tr": "Kısa bir sohbetle seni tanır: adın, işin, sevdiklerin, değiştirmek istediğin şey ve hayal ettiğin hayat. Her gün o hayattan yeni bir sahne yazılır.",
+    "en": "A short chat gets to know you: your name, work, the people you love, what you want to change and the life you imagine. Each day a new scene from that life is written."
+   },
+   "bullets": [
+    {
+     "tr": "Aynı hikayeyi iki kez anlatmaz",
+     "en": "Never the same story twice"
+    },
+    {
+     "tr": "Dinle ve oku düğmeleri, sonraki hikayeye geri sayım",
+     "en": "Listen and read buttons, a countdown to the next story"
+    },
+    {
+     "tr": "Hikayen hazır olduğunda sabah bildirimi",
+     "en": "A morning notification when your story is ready"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/01-today.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/01-today.webp"
+    ]
+   }
+  },
+  {
+   "id": "dinle",
+   "kicker": {
+    "tr": "Dinle",
+    "en": "Listen"
+   },
+   "title": {
+    "tr": "Gözlerini kapat, dinle",
+    "en": "Close your eyes, press play"
+   },
+   "text": {
+    "tr": "Hikaye yaklaşık bir saniyede konuşmaya başlar. Şarkı sözü gibi: okunan cümle ortada parlar. İstersen tüm hikayeyi yazı olarak açarsın.",
+    "en": "The story starts speaking in about a second. Like song lyrics, the line being read glows in the middle. You can open the whole story as text too."
+   },
+   "bullets": [
+    {
+     "tr": "Yağmur, okyanus, gece, 528 Hz, 432 Hz ya da sessiz",
+     "en": "Rain, ocean, night, 528 Hz, 432 Hz or silence"
+    },
+    {
+     "tr": "Birden çok anlatıcı sesi",
+     "en": "Several narrator voices"
+    },
+    {
+     "tr": "5 saniye ileri ve geri, sürükleyerek sarma",
+     "en": "Skip 5 seconds either way, or drag to scrub"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/02-player.webp",
+     "/daily-whisper/assets/screens/tr/03-soundscapes.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/02-player.webp",
+     "/daily-whisper/assets/screens/en/03-soundscapes.webp"
+    ]
+   }
+  },
+  {
+   "id": "yeni",
+   "kicker": {
+    "tr": "Yeni hikaye",
+    "en": "New story"
+   },
+   "title": {
+    "tr": "Her hedefe bir hikaye",
+    "en": "A story for any goal"
+   },
+   "text": {
+    "tr": "\"Perşembe günkü sunum\", \"deniz kenarına taşınmak\" gibi bir hedef yazarsın, bir dakika içinde hikayesi hazır.",
+    "en": "Write a goal like \"Thursday's presentation\" or \"moving to the coast\" and its story is ready within a minute."
+   },
+   "bullets": [
+    {
+     "tr": "Neredeyim, yanımda kim var, ne gerçek oldu: ipuçları hazır",
+     "en": "Prompts: where am I, who is with me, what came true"
+    },
+    {
+     "tr": "Her hikaye saklanır, istediğin zaman yeniden dinlersin",
+     "en": "Every story is kept to replay any time"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/09-new-story.webp",
+     "/daily-whisper/assets/screens/tr/08-stories.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/09-new-story.webp",
+     "/daily-whisper/assets/screens/en/08-stories.webp"
+    ]
+   }
+  },
+  {
+   "id": "burc",
+   "kicker": {
+    "tr": "Burç",
+    "en": "Horoscope"
+   },
+   "title": {
+    "tr": "Yıldızlar ne diyor?",
+    "en": "What do the stars say?"
+   },
+   "text": {
+    "tr": "Güneş, Ay ve yükselen burç; doğum saati ve yeri girilirse hesaplanır. Her gün aşk, para ve kariyer yorumu.",
+    "en": "Sun, Moon and rising sign, worked out from your birth time and place if you add them. A daily reading for love, money and career."
+   },
+   "bullets": [
+    {
+     "tr": "\"Bugün iyi gelir\" ve \"Bugün ertele\"",
+     "en": "\"Good today\" and \"Hold off today\""
+    },
+    {
+     "tr": "Ayın evresi, yeni ay, dolunay, retrodaki gezegenler",
+     "en": "The Moon's phase, new and full moons, planets in retrograde"
+    },
+    {
+     "tr": "Haritan: bir kez yazılan kişisel yorum",
+     "en": "Your chart: a personal reading, written once"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/04-zodiac.webp",
+     "/daily-whisper/assets/screens/tr/05-zodiac-advice.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/04-zodiac.webp",
+     "/daily-whisper/assets/screens/en/05-zodiac-advice.webp"
+    ]
+   }
+  },
+  {
+   "id": "olumlama",
+   "kicker": {
+    "tr": "Olumlama ve Vision Board",
+    "en": "Affirmations and Vision Board"
+   },
+   "title": {
+    "tr": "Sözlerin, panon, hayalin",
+    "en": "Your words, your board"
+   },
+   "text": {
+    "tr": "Kendi hikayelerinden çıkan olumlamalar ve seçilmiş bir deste, kart kart kaydırılır. Vision board'da 50'ye kadar fotoğraf ve söz, kolaj halinde.",
+    "en": "Affirmations drawn from your own stories plus a curated deck, swiped card by card. The vision board holds up to 50 photos and words as a collage."
+   },
+   "bullets": [
+    {
+     "tr": "Kalple favorilere ekle, kartı paylaş",
+     "en": "Heart a card to save it, share any card"
+    },
+    {
+     "tr": "Fotoğrafları sürükleyerek yerleştir, manifest cümleni düzenle",
+     "en": "Drag photos around, edit your manifest line"
+    },
+    {
+     "tr": "Duvar kağıdı olarak kaydet ve paylaş (Premium)",
+     "en": "Save it as a wallpaper and share it (Premium)"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/06-affirmations.webp",
+     "/daily-whisper/assets/screens/tr/07-vision-board.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/06-affirmations.webp",
+     "/daily-whisper/assets/screens/en/07-vision-board.webp"
+    ]
+   }
+  },
+  {
+   "id": "sukran",
+   "kicker": {
+    "tr": "Şükran",
+    "en": "Gratitude"
+   },
+   "title": {
+    "tr": "Güzel olanı fark et",
+    "en": "Notice the good"
+   },
+   "text": {
+    "tr": "Her gün minnettar olduğun küçük şeyler gün gün listelenir. Seri sayacı kaç gündür aralıksız yazdığını gösterir.",
+    "en": "The small things you are grateful for, listed day by day, with a streak that counts the days in a row."
+   },
+   "bullets": [
+    {
+     "tr": "Ben ekranı: hikaye sayısı, şükran serisi, manifestin",
+     "en": "The Me screen: stories, gratitude streak, your manifest"
+    },
+    {
+     "tr": "Profili düzenle, yeni hikayeler değişikliğe göre yazılır",
+     "en": "Edit your profile; new stories follow the changes"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/10-gratitude.webp",
+     "/daily-whisper/assets/screens/tr/11-me.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/10-gratitude.webp",
+     "/daily-whisper/assets/screens/en/11-me.webp"
+    ]
+   }
+  },
+  {
+   "id": "widget",
+   "kicker": {
+    "tr": "Widget",
+    "en": "Widgets"
+   },
+   "title": {
+    "tr": "Günün ilhamı ana ekranda",
+    "en": "Inspiration on your Home Screen"
+   },
+   "text": {
+    "tr": "Olumlama widget'ı gün içinde değişir; günün olumlamaları ya da favorilerin. Burç widget'ı burcunu, Ayın evresini ve günün yorumunu gösterir.",
+    "en": "The affirmation widget changes through the day, from today's set or your favourites. The horoscope widget shows your sign, the Moon phase and today's reading."
+   },
+   "bullets": [
+    {
+     "tr": "Ana ekranda üç boy, kilit ekranında da var",
+     "en": "Three sizes on the Home Screen, and on the Lock Screen too"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/screens/tr/12-widgets.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/screens/en/12-widgets.webp"
+    ]
+   }
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Bileğinde, her gün",
+    "en": "On your wrist, every day"
+   },
+   "text": {
+    "tr": "Günün olumlaması, burç yorumu ve favorilerin saatte.",
+    "en": "Today's affirmation, your horoscope and your favourites on your Watch."
+   },
+   "device": "watch",
+   "images": {
+    "tr": [
+     "/daily-whisper/assets/watch/tr/01-affirmation.webp",
+     "/daily-whisper/assets/watch/tr/02-zodiac.webp",
+     "/daily-whisper/assets/watch/tr/03-favourites.webp"
+    ],
+    "en": [
+     "/daily-whisper/assets/watch/en/01-affirmation.webp",
+     "/daily-whisper/assets/watch/en/02-zodiac.webp",
+     "/daily-whisper/assets/watch/en/03-favourites.webp"
+    ]
+   }
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "İki hikaye bizden",
+   "en": "Two stories on us"
+  },
+  "lede": {
+   "tr": "Gerisi Premium ile. Haftalık, aylık ya da yıllık; haftalıkta 7 gün ücretsiz deneme.",
+   "en": "The rest with Premium. Weekly, monthly or yearly; the weekly plan starts with a 7-day free trial."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "İki hikaye",
+     "en": "Two stories"
+    },
+    "items": [
+     {
+      "tr": "İlki sohbetin sonunda, ikincisi kendin anlatarak",
+      "en": "One after the chat, one you describe yourself"
+     },
+     {
+      "tr": "Günlük burç yorumu",
+      "en": "Daily horoscope"
+     },
+     {
+      "tr": "Olumlamalar, vision board, şükran",
+      "en": "Affirmations, vision board, gratitude"
+     },
+     {
+      "tr": "Widget'lar ve Apple Watch",
+      "en": "Widgets and Apple Watch"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Premium",
+     "en": "Premium"
+    },
+    "price": {
+     "tr": "Haftalık, aylık, yıllık",
+     "en": "Weekly, monthly, yearly"
+    },
+    "items": [
+     {
+      "tr": "Her sabah yeni hikaye",
+      "en": "A new story every morning"
+     },
+     {
+      "tr": "İstediğin kadar hikaye",
+      "en": "As many stories as you like"
+     },
+     {
+      "tr": "Tüm anlatıcı sesleri",
+      "en": "All narrator voices"
+     },
+     {
+      "tr": "Vision board'u kaydet ve paylaş",
+      "en": "Save and share your vision board"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Cevapların sende",
+   "en": "Your answers stay yours"
+  },
+  "text": {
+   "tr": "Cevapların yalnızca hikayelerini yazmak için kullanılır; satılmaz, reklam için paylaşılmaz. Apple ya da Google ile giriş isteğe bağlı; giriş yaparsan hikayelerin yeni telefona taşınır.",
+   "en": "Your answers are used only to write your stories; never sold, never shared for ads. Signing in with Apple or Google is optional; if you do, your stories move with you to a new phone."
+  },
+  "href": "/privacy/daily-whisper/"
+ },
+ "support": "/support/"
+}

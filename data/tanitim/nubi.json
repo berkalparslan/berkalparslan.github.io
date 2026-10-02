@@ -1,0 +1,345 @@
+{
+ "slug": "nubi",
+ "name": "Nubi",
+ "title": {
+  "tr": "Nubi: Sanal Bebek",
+  "en": "Nubi: Virtual Pet"
+ },
+ "description": {
+  "tr": "Gerçek zamanda yaşayan minik bir sanal dost. iPhone ve Apple Watch.",
+  "en": "A little virtual pet that lives in real time. For iPhone and Apple Watch."
+ },
+ "icon": "/nubi/assets/icon.webp",
+ "color": "#ffd731",
+ "accent": "#fb4903",
+ "status": "new",
+ "kicker": {
+  "tr": "iPhone · Apple Watch · Widget",
+  "en": "iPhone · Apple Watch · Widgets"
+ },
+ "lede": {
+  "tr": "Gerçek zamanda yaşayan minik bir dost. Sen işteyken acıkır, gece uykusu gelir; günde birkaç kez uğrarsın, gözünün önünde büyür.",
+  "en": "A little friend that lives in real time. Hungry while you work, sleepy at night; drop by a few times a day and watch it grow up."
+ },
+ "pills": [
+  {
+   "tr": "Ölmez",
+   "en": "Never dies"
+  },
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "6 dil",
+   "en": "6 languages"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos"
+ ],
+ "ios": "6816090205",
+ "emoji": [
+  "🥚",
+  "🍼",
+  "🧸",
+  "🛁",
+  "🎩",
+  "⭐",
+  "🍪"
+ ],
+ "promo": {
+  "tr": [
+   "/nubi/assets/promo/tr/01-friend.webp",
+   "/nubi/assets/promo/tr/02-grow.webp",
+   "/nubi/assets/promo/tr/03-widgets.webp",
+   "/nubi/assets/promo/tr/04-watch.webp",
+   "/nubi/assets/promo/tr/05-games.webp",
+   "/nubi/assets/promo/tr/06-bath.webp",
+   "/nubi/assets/promo/tr/07-style.webp",
+   "/nubi/assets/promo/tr/08-promise.webp",
+   "/nubi/assets/promo/tr/09-share.webp",
+   "/nubi/assets/promo/tr/10-kind.webp"
+  ],
+  "en": [
+   "/nubi/assets/promo/en/01-friend.webp",
+   "/nubi/assets/promo/en/02-grow.webp",
+   "/nubi/assets/promo/en/03-widgets.webp",
+   "/nubi/assets/promo/en/04-watch.webp",
+   "/nubi/assets/promo/en/05-games.webp",
+   "/nubi/assets/promo/en/06-bath.webp",
+   "/nubi/assets/promo/en/07-style.webp",
+   "/nubi/assets/promo/en/08-promise.webp",
+   "/nubi/assets/promo/en/09-share.webp",
+   "/nubi/assets/promo/en/10-kind.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "ihtiyaclar",
+   "kicker": {
+    "tr": "Gerçek zamanda",
+    "en": "Real time"
+   },
+   "title": {
+    "tr": "Dört ihtiyaç, saat işledikçe",
+    "en": "Four needs, ticking along"
+   },
+   "text": {
+    "tr": "Açlık, temizlik, uyku ve eğlence saat işledikçe azalır, uygulama kapalıyken bile. Dokununca sevilir, yüzü nasıl hissettiğini söyler.",
+    "en": "Hunger, cleanliness, sleep and fun drop as time passes, even with the app closed. Tap to pet it; its face tells you how it feels."
+   },
+   "bullets": [
+    {
+     "tr": "Besle: atıştırmalık (bedava), öğün ya da ziyafet",
+     "en": "Feed it a snack (free), a meal or a feast"
+    },
+    {
+     "tr": "Her gün üç küçük görev ve bir günün sözü",
+     "en": "Three small tasks a day plus a daily promise"
+    },
+    {
+     "tr": "Ölüm yok: yalnız kalırsa hastalanır, bakımla iyileşir",
+     "en": "No death: left alone it gets ill, care brings it back"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/01-home.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/01-home.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "buyume",
+   "kicker": {
+    "tr": "Büyüme",
+    "en": "Growing up"
+   },
+   "title": {
+    "tr": "Elli form, hepsini topla",
+    "en": "Fifty forms to collect"
+   },
+   "text": {
+    "tr": "Büyüme takvime bağlı, puana değil: yumurta, bebek, çocuk, genç ve dört yetişkin form. Her gün bir şey değişir: ilk saç teli, ilk diş, kulaklar.",
+    "en": "Growth follows the calendar, not a score: egg, baby, child, teen and four adult forms. Something changes every day: the first hair, the first tooth, ears."
+   },
+   "bullets": [
+    {
+     "tr": "En çok yaptığın bakım yetişkin halini belirler",
+     "en": "The care you give most decides its adult form"
+    },
+    {
+     "tr": "Albümde gördüklerin renkli, görmediklerin siluet",
+     "en": "The album shows what you have seen in colour"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/02-album.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/02-album.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  },
+  {
+   "id": "oyunlar",
+   "kicker": {
+    "tr": "Oyunlar",
+    "en": "Games"
+   },
+   "title": {
+    "tr": "Altı oyun, günde iki dakika",
+    "en": "Six games, two minutes a day"
+   },
+   "text": {
+    "tr": "Atıştırmalıkları yakala, eşle, çorap avı, sırayı tekrarla, üst üste diz, farklı olanı bul. Her el Eğlence'yi doldurur ve coin öder.",
+    "en": "Catch the snacks, match them, sock hunt, repeat the sequence, stack them up, spot the odd one. Every round fills Fun and pays coins."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/03-mini-games.webp",
+     "/nubi/assets/screens/tr/04-wash.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/03-mini-games.webp",
+     "/nubi/assets/screens/en/04-wash.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "magaza",
+   "kicker": {
+    "tr": "Mağaza",
+    "en": "Shop"
+   },
+   "title": {
+    "tr": "Coin'i oynayarak kazan",
+    "en": "Earn coins by playing"
+   },
+   "text": {
+    "tr": "Coin oyunlardan, görevlerden, sözlerden ve günlük hediyeden gelir. 14 şapka, 7 oda, 5 arkadaş ve 8 oda eşyası.",
+    "en": "Coins come from games, tasks, promises and a daily gift. 14 hats, 7 rooms, 5 friends and 8 room items."
+   },
+   "bullets": [
+    {
+     "tr": "Coin paketleri tamamen isteğe bağlı",
+     "en": "Coin packs are entirely optional"
+    },
+    {
+     "tr": "Yedi günlük seri atkı, otuz gün madalya getirir",
+     "en": "A 7-day streak earns a scarf, 30 days a medal"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/05-shop.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/05-shop.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "paylas",
+   "kicker": {
+    "tr": "Paylaş ve widget",
+    "en": "Share and widgets"
+   },
+   "title": {
+    "tr": "Bugünün karnesi, ana ekranında",
+    "en": "Today's numbers, on your Home Screen"
+   },
+   "text": {
+    "tr": "Bugünün rakamlarıyla Instagram'a hazır kart. Küçük, orta ve büyük widget'tan uygulamayı açmadan atıştırmalık verirsin.",
+    "en": "A card with today's numbers, ready for Instagram. Small, medium and large widgets let you give a snack without opening the app."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/06-share.webp",
+     "/nubi/assets/screens/tr/07-widgets.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/06-share.webp",
+     "/nubi/assets/screens/en/07-widgets.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "watch",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Bebeğin bileğinde",
+    "en": "Your pet on your wrist"
+   },
+   "text": {
+    "tr": "Saat uygulaması birlikte gelir: bebek, besleme, bakım, günün görevleri, şapkalar ve istatistikler. Kadran komplikasyonu büyüdükçe değişir.",
+    "en": "The Watch app comes with it: your pet, feeding, care, today's tasks, hats and stats. The complication changes as it grows."
+   },
+   "device": "watch",
+   "images": {
+    "tr": [
+     "/nubi/assets/screens/tr/08-watch-pet.webp",
+     "/nubi/assets/screens/tr/09-watch-tasks.webp"
+    ],
+    "en": [
+     "/nubi/assets/screens/en/08-watch-pet.webp",
+     "/nubi/assets/screens/en/09-watch-tasks.webp"
+    ]
+   },
+   "color": "#c8f560"
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Tamamı ücretsiz",
+   "en": "The whole game is free"
+  },
+  "lede": {
+   "tr": "Bütün özellikler, altı mini oyun, albüm, saat uygulaması, widget'lar ve paylaşım ücretsiz. Reklam yok. İsteğe bağlı dört coin paketi var.",
+   "en": "Every feature, six mini games, the album, the Watch app, widgets and sharing are free. No ads. There are four optional coin packs."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Sade kurulum",
+     "en": "Simple setup"
+    },
+    "price": {
+     "tr": "Hesap yok",
+     "en": "No account"
+    },
+    "items": [
+     {
+      "tr": "İnternet gerekmez",
+      "en": "No internet needed"
+     },
+     {
+      "tr": "Açık ve koyu tema",
+      "en": "Light and dark themes"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Altı dil",
+     "en": "Six languages"
+    },
+    "price": {
+     "tr": "TR · EN · ES · DE · FR · PT",
+     "en": "TR · EN · ES · DE · FR · PT"
+    },
+    "items": [
+     {
+      "tr": "Uygulama içinden değişir",
+      "en": "Switch inside the app"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Ölmez",
+     "en": "Never dies"
+    },
+    "price": {
+     "tr": "Affeder",
+     "en": "Always forgives"
+    },
+    "items": [
+     {
+      "tr": "Döndüğünde ilerlemen yerinde",
+      "en": "Your progress waits for you"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "text": {
+   "tr": "Bebeğin, görevlerin, coin bakiyen ve albümün telefonunda kalır. Hesap yok, reklam yok, analitik yok. İnternete yalnızca mağaza satın almaları için çıkar.",
+   "en": "Your pet, tasks, coins and album stay on your phone. No account, no ads, no analytics. It goes online only for store purchases."
+  },
+  "href": "/privacy/nubi/"
+ }
+}

@@ -1,0 +1,198 @@
+{
+ "slug": "rally-table-tennis",
+ "name": "Rally Table Tennis",
+ "title": "Rally Table Tennis",
+ "description": {
+  "tr": "On bire kadar, iki sayıda bir servis değişimi, 10-10'da uzayan deuce. Yüksek sesle saymayı bırak, bileğine bak.",
+  "en": "Eleven up, serve swapping every two points, deuce that keeps going at 10-10. Stop counting out loud and glance at your wrist."
+ },
+ "icon": "/rally-table-tennis/assets/icon.webp",
+ "color": "#dceeff",
+ "accent": "#4da2ff",
+ "status": "new",
+ "kicker": {
+  "tr": "iPhone · Apple Watch",
+  "en": "iPhone · Apple Watch"
+ },
+ "lede": {
+  "tr": "On bire kadar, iki sayıda bir servis değişimi, 10-10'da uzayan deuce. Yüksek sesle saymayı bırak, bileğine bak.",
+  "en": "Eleven up, serve swapping every two points, deuce that keeps going at 10-10. Stop counting out loud and glance at your wrist."
+ },
+ "pills": [
+  {
+   "tr": "Watch uygulaması",
+   "en": "Watch app"
+  },
+  {
+   "tr": "Sesli anons",
+   "en": "Voice umpire"
+  },
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos"
+ ],
+ "ios": "6802339775",
+ "emoji": [
+  "🏓",
+  "🏆",
+  "⏱️",
+  "⌚",
+  "🔊",
+  "📊"
+ ],
+ "promo": {
+  "any": [
+   "/rally-table-tennis/assets/shot-1.webp",
+   "/rally-table-tennis/assets/shot-2.webp",
+   "/rally-table-tennis/assets/shot-3.webp"
+  ]
+ },
+ "privacy": {
+  "text": {
+   "tr": "Maç kayıtların telefonunda kalır, hesap açman gerekmez. İstersen Apple Health'e antrenman yazar, izin sende. iCloud eşitlemesi kendi hesabında, geliştirici göremez.",
+   "en": "Match records stay on your phone and no account is required. It writes a workout to Apple Health if you allow it, your call. iCloud sync lives in your own account; the developer cannot see it."
+  },
+  "href": "/privacy/rally-table-tennis/"
+ },
+ "support": "/support/",
+ "sections": [
+  {
+   "id": "servis",
+   "kicker": {
+    "tr": "Servis sırası",
+    "en": "Serve order"
+   },
+   "title": {
+    "tr": "Servisi o sayar",
+    "en": "The serve tracks itself"
+   },
+   "text": {
+    "tr": "İki sayıda bir servis değişir, 10-10'dan sonra teke düşer. 11 sayı ITTF standardı ya da 21 sayı uzun oyun, Bo3, Bo5 ya da Bo7.",
+    "en": "Serve swaps every two points and drops to one after 10-10. 11 points ITTF standard or 21 for a long game, best of three, five or seven."
+   },
+   "bullets": [
+    {
+     "tr": "Sesli hakem: her sayıdan sonra skoru yüksek sesle söyler, istersen tamamen kapalı",
+     "en": "Voice umpire: calls the score out loud after every point, or off entirely"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/rally-table-tennis/any/02.webp"
+    ]
+   }
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Sayı bilekten",
+    "en": "Score from your wrist"
+   },
+   "text": {
+    "tr": "Saat uygulaması telefondan bağımsız çalışır; her sayı tek dokunuş. Maçı telefonda kur, tek dokunuşla saate gönder, telefon cebinde kalsın.",
+    "en": "The Watch app runs on its own, one tap per point. Set up the match on the phone, send it to your wrist with one tap and leave the phone in your bag."
+   },
+   "bullets": [
+    {
+     "tr": "Servis, taraf değişimi ve set sonu kendi işler",
+     "en": "Serve, side changes and set endings take care of themselves"
+    },
+    {
+     "tr": "İzin verirsen maç Apple Health'e antrenman olarak yazılır",
+     "en": "With your permission the match is logged to Apple Health as a workout"
+    }
+   ],
+   "device": "watch",
+   "images": {
+    "any": [
+     "/rally-table-tennis/assets/watch-1.webp",
+     "/rally-table-tennis/assets/watch-2.webp",
+     "/rally-table-tennis/assets/watch-3.webp"
+    ]
+   }
+  },
+  {
+   "id": "defter",
+   "kicker": {
+    "tr": "Maç defteri ve profil",
+    "en": "Logbook and profile"
+   },
+   "title": {
+    "tr": "Her maç kayıtta",
+    "en": "Every match on file"
+   },
+   "text": {
+    "tr": "Her maç tarihi, süresi ve rakibiyle kaydolur. Kazanma oranın ve seviyene göre gelişimin profilde durur.",
+    "en": "Every match is filed with its date, duration and opponent. Your win rate and progress by level sit in the profile."
+   },
+   "bullets": [
+    {
+     "tr": "Kazanma oranı, kazanılan ve kaybedilen sayılar",
+     "en": "Win rate, points won and lost"
+    },
+    {
+     "tr": "Telefon ve saat aynı geçmişi görür, eşitleme senin iCloud hesabında",
+     "en": "Phone and Watch share one history, synced in your own iCloud"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/rally-table-tennis/any/01.webp"
+    ]
+   }
+  },
+  {
+   "id": "paylas",
+   "kicker": {
+    "tr": "Paylaş",
+    "en": "Share"
+   },
+   "title": {
+    "tr": "Maç kartı hazır",
+    "en": "Your match card, ready"
+   },
+   "text": {
+    "tr": "Bitince kendi fotoğrafınla bir sonuç kartı üretir: süre ve toplam sayı üstünde.",
+    "en": "At the final point it builds a result card over your own photo, duration and total points included."
+   },
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/rally-table-tennis/any/04.webp"
+    ]
+   }
+  },
+  {
+   "id": "rehber",
+   "kicker": {
+    "tr": "Rehber",
+    "en": "Guide"
+   },
+   "title": {
+    "tr": "Kuralı içeride öğren",
+    "en": "Learn the rules inside"
+   },
+   "text": {
+    "tr": "Uygulamanın içinde kural, teknik ve taktik rehberleri: kim servis atar, let nedir, hangi vuruş ne zaman.",
+    "en": "Rule, technique and tactics guides built in: who serves, what a let is, which shot when."
+   },
+   "device": "phone",
+   "images": {
+    "any": [
+     "/assets/home/screens/rally-table-tennis/any/03.webp"
+    ]
+   }
+  }
+ ]
+}

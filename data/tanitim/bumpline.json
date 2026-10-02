@@ -1,0 +1,239 @@
+{
+ "slug": "bumpline",
+ "name": "Bumpline",
+ "title": {
+  "tr": "Kırk Hafta: Hamilelik",
+  "en": "Bumpline: Pregnancy Tracker"
+ },
+ "description": {
+  "tr": "Kaçıncı haftadasın, bebeğin ne kadar büyüdü, kaç gün kaldı. Kırk hafta, hafta hafta; widget, günlük ve paylaşılabilir kartla.",
+  "en": "What week you are in, how big your baby is, how many days are left. Forty weeks, week by week, with a Home Screen widget, a journal and a card you can share."
+ },
+ "icon": "/bumpline/assets/icon.webp",
+ "color": "#ffb3d9",
+ "accent": "#fb4903",
+ "status": "soon",
+ "kicker": {
+  "tr": "iPhone · Türkçe ve İngilizce",
+  "en": "iPhone · English and Turkish"
+ },
+ "lede": {
+  "tr": "Kırk hafta uzun bir yol. Her sabah tek bakışta nerede olduğunu gösterir. Tek bir tarih yeter, gerisini uygulama hesaplar.",
+  "en": "Forty weeks is a long road. It shows you where you are at a glance, every morning. One date is enough; the app works out the rest."
+ },
+ "pills": [
+  {
+   "tr": "Widget",
+   "en": "Widget"
+  },
+  {
+   "tr": "İnternetsiz",
+   "en": "Offline"
+  },
+  {
+   "tr": "Reklamsız",
+   "en": "No ads"
+  },
+  {
+   "tr": "Hesapsız",
+   "en": "No account"
+  }
+ ],
+ "platforms": [
+  "ios"
+ ],
+ "emoji": [
+  "🤰",
+  "🍼",
+  "🥕",
+  "🎃",
+  "👣",
+  "💗",
+  "📅"
+ ],
+ "promo": {
+  "tr": [
+   "/bumpline/assets/promo/tr/01-bugun.webp",
+   "/bumpline/assets/promo/tr/02-hafta.webp",
+   "/bumpline/assets/promo/tr/03-hazirlik.webp",
+   "/bumpline/assets/promo/tr/04-haftalar.webp",
+   "/bumpline/assets/promo/tr/05-gunluk.webp"
+  ],
+  "en": [
+   "/bumpline/assets/promo/en/01-today.webp",
+   "/bumpline/assets/promo/en/02-week.webp",
+   "/bumpline/assets/promo/en/03-prep.webp",
+   "/bumpline/assets/promo/en/04-weeks.webp",
+   "/bumpline/assets/promo/en/05-journal.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "bugun",
+   "kicker": {
+    "tr": "Bugün",
+    "en": "Today"
+   },
+   "title": {
+    "tr": "Kaçıncı haftadasın?",
+    "en": "What week is it?"
+   },
+   "text": {
+    "tr": "İlerleme halkası kaçıncı haftada olduğunu, kaç gün geçtiğini ve doğuma kaç gün kaldığını gösterir. Altında bebeğinin o haftaki boyu, ağırlığı ve boyut karşılaştırması.",
+    "en": "A progress ring shows your current week, how far along you are and how many days are left. Below it, your baby's length, weight and size comparison for the week."
+   },
+   "bullets": [
+    {
+     "tr": "Son adetin ilk günü ya da tahmini doğum tarihi yeter",
+     "en": "The first day of your last period or your due date is enough"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bumpline/assets/promo/tr/01-bugun.webp"
+    ],
+    "en": [
+     "/bumpline/assets/promo/en/01-today.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "haftalar",
+   "kicker": {
+    "tr": "Kırk hafta",
+    "en": "Forty weeks"
+   },
+   "title": {
+    "tr": "Haşhaştan balkabağına",
+    "en": "Poppy seed to pumpkin"
+   },
+   "text": {
+    "tr": "Her hafta için bebekte neler olduğu, sende neler olduğu, sık görülen belirtiler ve notlar. İleri geri bakabilirsin; her haftanın kendi çizimi var.",
+    "en": "For every week: what is happening to your baby, how you may feel, common symptoms and a note. Look ahead or back any time; every week has its own drawing."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bumpline/assets/promo/tr/02-hafta.webp",
+     "/bumpline/assets/promo/tr/04-haftalar.webp"
+    ],
+    "en": [
+     "/bumpline/assets/promo/en/02-week.webp",
+     "/bumpline/assets/promo/en/04-weeks.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "hazirlik",
+   "kicker": {
+    "tr": "Hazırlık",
+    "en": "Prep"
+   },
+   "title": {
+    "tr": "Sırası gelen her şey",
+    "en": "Everything that's due"
+   },
+   "text": {
+    "tr": "Üstte sırada ne olduğu gerçek tarihiyle, altta bütün takvim: taramalar, testler, term dönemi ve tahmini doğum tarihi. Yanında da gereken araçlar.",
+    "en": "What is due next with its real date on top, the full timeline below: scans, tests, term and your due date. And the tools to go with it."
+   },
+   "bullets": [
+    {
+     "tr": "Tekme sayacı: on hareket bir seans",
+     "en": "Kick counter: ten movements a session"
+    },
+    {
+     "tr": "Kasılma sayacı: süre, aralık, 5-1-1 ölçütü",
+     "en": "Contraction timer: length, gap, the 5-1-1 guide"
+    },
+    {
+     "tr": "Hastane çantası ve doktora sorular",
+     "en": "Hospital bag and questions for the doctor"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bumpline/assets/promo/tr/03-hazirlik.webp"
+    ],
+    "en": [
+     "/bumpline/assets/promo/en/03-prep.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "gunluk",
+   "kicker": {
+    "tr": "Günlük",
+    "en": "Journal"
+   },
+   "title": {
+    "tr": "Bugün nasıl hissettin?",
+    "en": "How did today feel?"
+   },
+   "text": {
+    "tr": "Birkaç cümle yaz, fotoğraf ekle; kamerayla çek ya da galeriden seç. Fotoğraflar o güne iliştirilir, kayıtlar hafta hafta gruplanır.",
+    "en": "Write a few lines and add photos, from the camera or your library. Photos are attached to that day and entries are grouped week by week."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bumpline/assets/promo/tr/05-gunluk.webp"
+    ],
+    "en": [
+     "/bumpline/assets/promo/en/05-journal.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "widget",
+   "kicker": {
+    "tr": "Widget ve paylaşım",
+    "en": "Widget and sharing"
+   },
+   "title": {
+    "tr": "Telefonu açmadan gör",
+    "en": "See it without opening"
+   },
+   "text": {
+    "tr": "Ana ekranda ve kilit ekranında hafta ve geri sayım. Eşine ve ailene gönderebileceğin haftalık bir kart; kartta tarih, ad soyad ya da sağlık bilgisi yok.",
+    "en": "Your week and countdown on the Home Screen and Lock Screen. A weekly card for your partner and family, with no dates, names or health details on it."
+   },
+   "bullets": [
+    {
+     "tr": "Cinsiyeti öğrenince rengi seç, simge de değişir",
+     "en": "Pick the colour once you know; the icon changes too"
+    },
+    {
+     "tr": "Haftada bir bildirim, tarama haftalarından üç gün önce hatırlatma",
+     "en": "One notification a week, plus a heads-up before scan weeks"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/bumpline/assets/screens/tr/01-widget-anaekran.webp",
+     "/bumpline/assets/screens/tr/07-paylasim-karti.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  }
+ ],
+ "privacy": {
+  "title": {
+   "tr": "Telefonundan çıkmaz",
+   "en": "Nothing leaves your phone"
+  },
+  "text": {
+   "tr": "Hesap yok, kayıt yok, reklam yok, analitik yok. Girdiğin tarih, takma ad, günlük kayıtların ve fotoğrafların yalnızca cihazında durur. Uygulamanın sunucuyla hiçbir bağlantısı yok.",
+   "en": "No account, no sign-up, no ads, no analytics. Your date, nickname, journal entries and photos stay on your device. The app has no server connection at all."
+  },
+  "href": "/privacy/bumpline/"
+ },
+ "extra_html": "<section class=\"band\" id=\"uyari\"><div class=\"wrap\"><p class=\"band-p\"><span class=\"tr\">Bu uygulama genel bilgi verir, tıbbi tavsiye değildir. Boy ve ağırlık değerleri ortalamadır. Sağlığınla ilgili kararlarda seni takip eden hekime danış. Bilgiler ACOG, NHS, Mayo Clinic, Cleveland Clinic ve T.C. Sağlık Bakanlığı Doğum Öncesi Bakım Yönetim Rehberi gibi kaynaklardan derlenmiştir; uygulamada Ayarlar &gt; Kaynaklar bölümünde listelenir.</span><span class=\"en\">This app provides general information, not medical advice. Length and weight are averages. Talk to the doctor following you about health decisions. Information is compiled from sources such as ACOG, NHS, Mayo Clinic, Cleveland Clinic and the Turkish Ministry of Health antenatal care guidelines; they are listed in Settings &gt; Sources.</span></p></div></section>"
+}

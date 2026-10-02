@@ -1,0 +1,384 @@
+{
+ "slug": "kit-qr",
+ "name": "Kit",
+ "title": {
+  "tr": "Kit: QR Okuyucu ve Cüzdan",
+  "en": "Kit: QR Scanner & Wallet"
+ },
+ "description": {
+  "tr": "Her kodu okur, linki açmadan önce kontrol eder, sadakat kartlarını ve biletleri tek cüzdanda tutar, iyi görünen QR kodlar yapar. Reklam yok, hesap yok.",
+  "en": "Reads every code, checks a link before you open it, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. No ads, no account."
+ },
+ "icon": "/kit-qr/assets/icon.webp",
+ "color": "#dceeff",
+ "accent": "#4da2ff",
+ "status": "live",
+ "kicker": {
+  "tr": "iPhone · Apple Watch",
+  "en": "iPhone · Apple Watch"
+ },
+ "lede": {
+  "tr": "Cebindeki bütün kodlar tek yerde. Kit her kodu okur, linki açmadan önce kontrol eder, kartları ve biletleri tek cüzdanda tutar, iyi görünen QR kodlar yapar.",
+  "en": "Every code in your pocket, in one place. Kit reads any code, checks a link before you open it, keeps your cards and tickets in one wallet and makes QR codes that look good."
+ },
+ "pills": [
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "28 dil",
+   "en": "28 languages"
+  },
+  {
+   "tr": "Pro tek seferlik",
+   "en": "Pro is one-time"
+  }
+ ],
+ "platforms": [
+  "ios",
+  "watchos"
+ ],
+ "ios": "6446224550",
+ "emoji": [
+  "🎟️",
+  "💳",
+  "📷",
+  "✈️",
+  "☕",
+  "🔍",
+  "🎨"
+ ],
+ "promo": {
+  "tr": [
+   "/kit-qr/assets/promo/tr/01-home.webp",
+   "/kit-qr/assets/promo/tr/02-wallet-cards.webp",
+   "/kit-qr/assets/promo/tr/03-card-at-till.webp",
+   "/kit-qr/assets/promo/tr/04-tickets.webp",
+   "/kit-qr/assets/promo/tr/05-ticket-at-gate.webp",
+   "/kit-qr/assets/promo/tr/06-product.webp",
+   "/kit-qr/assets/promo/tr/07-history.webp",
+   "/kit-qr/assets/promo/tr/08-design.webp",
+   "/kit-qr/assets/promo/tr/09-menu-scan.webp"
+  ],
+  "en": [
+   "/kit-qr/assets/promo/en/01-home.webp",
+   "/kit-qr/assets/promo/en/02-wallet-cards.webp",
+   "/kit-qr/assets/promo/en/03-card-at-till.webp",
+   "/kit-qr/assets/promo/en/04-tickets.webp",
+   "/kit-qr/assets/promo/en/05-ticket-at-gate.webp",
+   "/kit-qr/assets/promo/en/06-product.webp",
+   "/kit-qr/assets/promo/en/07-history.webp",
+   "/kit-qr/assets/promo/en/08-design.webp",
+   "/kit-qr/assets/promo/en/09-menu-scan.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "tarama",
+   "kicker": {
+    "tr": "Tarama",
+    "en": "Scanning"
+   },
+   "title": {
+    "tr": "Okur, açmadan kontrol eder",
+    "en": "Reads it, checks it first"
+   },
+   "text": {
+    "tr": "QR kod, market barkodu, bilet, biniş kartı, Data Matrix, Aztec, PDF417. Kameradan, fotoğraftan ya da ekran görüntüsünden; tek kod ya da art arda onlarca.",
+    "en": "QR codes, shop barcodes, tickets, boarding passes, Data Matrix, Aztec, PDF417. From the camera, a photo or a screenshot; one code or dozens in a row."
+   },
+   "bullets": [
+    {
+     "tr": "Bağlantı kontrolü: taklit adresler, kısaltılmış linkler, giriş tuzakları",
+     "en": "Link check: lookalike addresses, shorteners and login traps are flagged"
+    },
+    {
+     "tr": "Wi-Fi'a bağlanır, kişiyi kaydeder, etkinliği takvime ekler",
+     "en": "Joins the Wi-Fi, saves the contact, adds the event"
+    },
+    {
+     "tr": "Toplu tarama ile art arda okut (Kit Pro)",
+     "en": "Batch scanning, one code after another (Kit Pro)"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/screens/tr/01-home.webp",
+     "/kit-qr/assets/screens/tr/09-menu-scan.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/screens/en/01-home.webp",
+     "/kit-qr/assets/screens/en/09-menu-scan.webp"
+    ]
+   }
+  },
+  {
+   "id": "kartlar",
+   "kicker": {
+    "tr": "Kart cüzdanı",
+    "en": "Card wallet"
+   },
+   "title": {
+    "tr": "O kart nerede? Burada.",
+    "en": "That card? Right here."
+   },
+   "text": {
+    "tr": "Kartın fotoğrafını bir kez çekersin. Kit barkodu okur; barkod yoksa basılı numarayı okur ve kasanın okutabileceği bir barkoda çevirir.",
+    "en": "Photograph a card once. Kit reads the barcode, or the printed number if there is none, and turns it into a barcode the till can scan."
+   },
+   "bullets": [
+    {
+     "tr": "Kasada tam parlaklıkta, büyük barkodla açılır",
+     "en": "Opens at full brightness with a big barcode at the till"
+    },
+    {
+     "tr": "Widget, Denetim Merkezi, Siri ya da Apple Watch'tan tek dokunuş",
+     "en": "One tap from a widget, Control Center, Siri or Apple Watch"
+    },
+    {
+     "tr": "IBAN'ı QR'lı bir kart olarak saklar",
+     "en": "Keeps your IBAN as a card with a QR code"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/screens/tr/02-wallet-cards.webp",
+     "/kit-qr/assets/screens/tr/03-card-at-till.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/screens/en/02-wallet-cards.webp",
+     "/kit-qr/assets/screens/en/03-card-at-till.webp"
+    ]
+   }
+  },
+  {
+   "id": "biletler",
+   "kicker": {
+    "tr": "Biletler",
+    "en": "Tickets"
+   },
+   "title": {
+    "tr": "Herkesin bileti tek telefonda",
+    "en": "Everyone's ticket, one phone"
+   },
+   "text": {
+    "tr": "Konser, maç, uçuş, sinema, tiyatro, müze. Bilet ekran görüntüsünde ya da e-postadaki PDF'te Paylaş'a basıp Kit'i seçmek yeter.",
+    "en": "Concerts, matches, flights, cinema, theatre, museums. Hit Share on a ticket screenshot or the PDF in your email and pick Kit."
+   },
+   "bullets": [
+    {
+     "tr": "Kod, tarih, yer ve koltuk okunur",
+     "en": "It reads the code, date, place and seat"
+    },
+    {
+     "tr": "Arkadaşların biletleri tek etkinlikte; kapıda kaydırarak göster",
+     "en": "Friends' tickets sit in one event; swipe through them at the gate"
+    },
+    {
+     "tr": "Biletler saate de gider",
+     "en": "Tickets go to your Watch too"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/screens/tr/04-tickets.webp",
+     "/kit-qr/assets/screens/tr/05-ticket-at-gate.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/screens/en/04-tickets.webp",
+     "/kit-qr/assets/screens/en/05-ticket-at-gate.webp"
+    ]
+   }
+  },
+  {
+   "id": "icinde",
+   "kicker": {
+    "tr": "İçinde ne var",
+    "en": "What is inside"
+   },
+   "title": {
+    "tr": "Barkodu okut, içini gör",
+    "en": "Scan it, see inside"
+   },
+   "text": {
+    "tr": "Market ürününde 100 gramda besin değerleri, Nutri-Score, NOVA, alerjenler ve katkı maddeleri. Kitapta ISBN'den ad, yazar, yayınevi ve sayfa sayısı.",
+    "en": "Groceries: nutrition per 100 g, Nutri-Score, NOVA, allergens and additives. Books: title, author, publisher and page count from the ISBN."
+   },
+   "bullets": [
+    {
+     "tr": "Menüler, ödemeler, ürünler geçmişte ayrı ayrı",
+     "en": "Menus, payments and products sorted in your history"
+    },
+    {
+     "tr": "Matter ve HomeKit kurulum kodları saklanır",
+     "en": "Matter and HomeKit setup codes are kept"
+    },
+    {
+     "tr": "Geçmiş Face ID ile kilitlenebilir",
+     "en": "History can be locked with Face ID"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/screens/tr/06-product.webp",
+     "/kit-qr/assets/screens/tr/07-history.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/screens/en/06-product.webp",
+     "/kit-qr/assets/screens/en/07-history.webp"
+    ]
+   }
+  },
+  {
+   "id": "tasarim",
+   "kicker": {
+    "tr": "QR tasarımı",
+    "en": "QR design"
+   },
+   "title": {
+    "tr": "QR'ın da bir tarzı olsun",
+    "en": "Give your QR some style"
+   },
+   "text": {
+    "tr": "Web sitesi, Wi-Fi, kişi kartı, etkinlik, sosyal medya, WhatsApp, konum, e-posta, SMS, kripto ve dahası.",
+    "en": "Website, Wi-Fi, contact card, event, social, WhatsApp, location, email, SMS, crypto and more."
+   },
+   "bullets": [
+    {
+     "tr": "Renk, gradyan, nokta ve köşe şekli, emoji, logo, çerçeve",
+     "en": "Colours, gradients, dot and corner shapes, emoji, logo, frames"
+    },
+    {
+     "tr": "Kaydedilen kodlar tasarımıyla kalır, sonradan düzenlenir",
+     "en": "Saved codes keep their design and can be edited later"
+    },
+    {
+     "tr": "PNG, SVG ya da baskıya hazır PDF; CSV'den toplu kod",
+     "en": "PNG, SVG or print-ready PDF; batch codes from a CSV"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/screens/tr/08-design.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/screens/en/08-design.webp"
+    ]
+   }
+  },
+  {
+   "id": "saat",
+   "kicker": {
+    "tr": "Apple Watch",
+    "en": "Apple Watch"
+   },
+   "title": {
+    "tr": "Cüzdanın bileğinde",
+    "en": "Your wallet on your wrist"
+   },
+   "text": {
+    "tr": "Kartlar, biletler ve tasarımlı QR kodlar bilekte. Telefonla kendiliğinden eşitlenir.",
+    "en": "Cards, tickets and designed QR codes on your wrist, synced with your phone on their own."
+   },
+   "device": "watch",
+   "images": {
+    "tr": [
+     "/kit-qr/assets/watch/tr/01-wrist-wallet.webp",
+     "/kit-qr/assets/watch/tr/02-wrist-barcode.webp",
+     "/kit-qr/assets/watch/tr/03-wrist-qr.webp"
+    ],
+    "en": [
+     "/kit-qr/assets/watch/en/01-wrist-wallet.webp",
+     "/kit-qr/assets/watch/en/02-wrist-barcode.webp",
+     "/kit-qr/assets/watch/en/03-wrist-qr.webp"
+    ]
+   }
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Bir kez öde, yeter",
+   "en": "Pay once, that's it"
+  },
+  "lede": {
+   "tr": "Tarama, geçmiş, beş kart, biletler ve QR üretimi ücretsiz. Kit Pro tek seferlik bir satın alma.",
+   "en": "Scanning, history, five cards, tickets and making QR codes are free. Kit Pro is a one-time purchase."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "price": {
+     "tr": "Süresiz",
+     "en": "Forever"
+    },
+    "items": [
+     {
+      "tr": "Tarama ve geçmiş",
+      "en": "Scanning and history"
+     },
+     {
+      "tr": "5 kart",
+      "en": "5 cards"
+     },
+     {
+      "tr": "Biletler",
+      "en": "Tickets"
+     },
+     {
+      "tr": "QR kod üretme",
+      "en": "Making QR codes"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Kit Pro",
+     "en": "Kit Pro"
+    },
+    "price": {
+     "tr": "Tek seferlik",
+     "en": "One-time"
+    },
+    "items": [
+     {
+      "tr": "Sınırsız kart",
+      "en": "Unlimited cards"
+     },
+     {
+      "tr": "Tasarım stüdyosunun tamamı",
+      "en": "The full design studio"
+     },
+     {
+      "tr": "Apple Watch'ta tüm liste",
+      "en": "Your whole list on Apple Watch"
+     },
+     {
+      "tr": "Toplu tarama, dışa aktarma, klasörler",
+      "en": "Batch scanning, exports, folders"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "text": {
+   "tr": "Tarama, okuma ve kart numarası tanıma iPhone'unda yapılır. Kartların, biletlerin ve geçmişin cihazında durur. Hesap yok, reklam yok, takip yok.",
+   "en": "Scanning, reading and card number recognition happen on your iPhone. Your cards, tickets and history stay on device. No account, no ads, no tracking."
+  },
+  "href": "/privacy/kit-qr/"
+ },
+ "support": "/support/"
+}

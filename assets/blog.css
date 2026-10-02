@@ -287,3 +287,14 @@ header, .bar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
 .btn:hover, .pill:hover { transform: translateY(-2px) rotate(-1deg); }
 .hero-icon { border: 2px solid #000 !important; border-radius: 24% !important; transform: rotate(-4deg); }
 img.shot, .shot img { border-radius: 26px; border: 1.5px solid #000; height: auto; }
+
+/* Ara sayfaların zemini: açık mavi kağıt, şişme şerit, köşede çıkartma kolajı.
+   İçerik beyaz, siyah konturlu bir kartın içinde okunur. */
+html { background: #dceeff; }
+:root[data-theme="dark"] { background: #14213a; }
+body { background: transparent url(/assets/ribbon.svg) center 70px / max(1500px, 150vw) no-repeat !important; min-height: 100vh; }
+body::after { content: ""; position: fixed; right: -26px; bottom: -26px; width: clamp(150px, 22vw, 280px); aspect-ratio: 1; background: url(/assets/decor.svg) center / contain no-repeat; pointer-events: none; z-index: 0; transform: rotate(-6deg); }
+main { position: relative; z-index: 1; background: var(--surface); border: 1.5px solid var(--line); border-radius: 32px; margin-top: 28px !important; margin-bottom: 64px !important; }
+header, footer { position: relative; z-index: 2; }
+footer { background: transparent; }
+@media (max-width: 640px) { main { border-radius: 22px; margin-left: 10px !important; margin-right: 10px !important; } body::after { width: 120px; opacity: .9; } }

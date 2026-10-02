@@ -1,0 +1,353 @@
+{
+ "slug": "bodybook",
+ "name": "BodyBook",
+ "title": {
+  "tr": "BodyBook: Ben Takibi ve İlaç Hatırlatıcı",
+  "en": "BodyBook: Mole Tracker & Pill Reminder"
+ },
+ "description": {
+  "tr": "Ben fotoğrafı karşılaştır, ilaç hatırlat, tansiyon kaydet. Tansiyon, kilo, ilaç, cilt rutini, ben, su ve uyku tek panelde; her şey telefonunda kalır.",
+  "en": "Compare mole photos, get pill reminders, log blood pressure. Blood pressure, weight, medication, skincare, moles, water and sleep in one panel; everything stays on your phone."
+ },
+ "icon": "/assets/home/bodybook-icon.webp",
+ "color": "#ffb3d9",
+ "accent": "#4da2ff",
+ "status": "live",
+ "kicker": {
+  "tr": "Android · Google Play'de",
+  "en": "Android · On Google Play"
+ },
+ "lede": {
+  "tr": "Tansiyonun, ilaçların, kilon, cilt rutinin ve benlerin beş ayrı uygulamaya dağılmasın. Hepsi tek panelde ve hepsi telefonunda kalır.",
+  "en": "Your blood pressure, medication, weight, skincare routine and moles do not belong in five separate apps. One panel for all of it, and all of it stays on your phone."
+ },
+ "pills": [
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "Çevrimdışı",
+   "en": "Offline"
+  },
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "7 dil",
+   "en": "7 languages"
+  }
+ ],
+ "platforms": [
+  "android"
+ ],
+ "play": "com.aberk.bodybook",
+ "emoji": [
+  "🩺",
+  "💊",
+  "💧",
+  "🌙",
+  "🧴",
+  "📈",
+  "❤️"
+ ],
+ "promo": {
+  "tr": [
+   "/bodybook/assets/promo/tr/01-compare.webp",
+   "/bodybook/assets/promo/tr/02-moles.webp",
+   "/bodybook/assets/promo/tr/03-today.webp",
+   "/bodybook/assets/promo/tr/04-products.webp",
+   "/bodybook/assets/promo/tr/05-medication.webp"
+  ],
+  "en": [
+   "/bodybook/assets/promo/en/01-compare.webp",
+   "/bodybook/assets/promo/en/02-moles.webp",
+   "/bodybook/assets/promo/en/03-today.webp",
+   "/bodybook/assets/promo/en/04-products.webp",
+   "/bodybook/assets/promo/en/05-medication.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "bugun",
+   "kicker": {
+    "tr": "Bugün",
+    "en": "Today"
+   },
+   "title": {
+    "tr": "Bütün gün tek ekranda",
+    "en": "Your whole day, one screen"
+   },
+   "text": {
+    "tr": "Bugün ekranı menü değil, veri gösterir. Üstteki gün şeridini kaydırıp geçmişe gidersin. Ortadaki düğme bir sekme değil, bir aksiyon: ne kaydedeceğin saate göre sıralanır.",
+    "en": "The Today screen shows data, not a menu. Scroll the day strip to go back in time. The middle button is an action, not a tab: what you can log sorts itself by the hour."
+   },
+   "bullets": [
+    {
+     "tr": "İş öneren karolar büyük: doz işaretle, rutini tamamla",
+     "en": "Tiles that ask for something stay large: tick a dose, finish the routine"
+    },
+    {
+     "tr": "Kilo, su, uyku alttaki bakış şeridinde",
+     "en": "Weight, water and sleep sit in the glance strip below"
+    },
+    {
+     "tr": "Geçmiş bir güne eklersen kayıt o güne düşer",
+     "en": "Add while viewing a past day and it lands on that day"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bodybook/assets/screens/bugun.png",
+     "/bodybook/assets/screens/kayit.png",
+     "/bodybook/assets/screens/vucut.png"
+    ],
+    "en": [
+     "/bodybook/assets/promo/en/03-today.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "tansiyon",
+   "kicker": {
+    "tr": "Tansiyon",
+    "en": "Blood pressure"
+   },
+   "title": {
+    "tr": "Ölçümden doktora PDF",
+    "en": "From reading to doctor's PDF"
+   },
+   "text": {
+    "tr": "Büyük ve küçük tansiyon, nabız ve isteğe bağlı bağlam etiketleri (sabah, kafein, stres). Kategori rozeti anında çıkar, uygulama yorum yapmaz.",
+    "en": "Systolic, diastolic and pulse with optional context tags (morning, caffeine, stress). The category badge shows straight away, and the app stops there."
+   },
+   "bullets": [
+    {
+     "tr": "Sabah ve akşam ortalamaları ayrı",
+     "en": "Morning and evening averaged separately"
+    },
+    {
+     "tr": "30 günlük seyir grafiği",
+     "en": "A 30-day trend chart"
+    },
+    {
+     "tr": "Özet, grafik, ölçüm tablosu ve ilaç listesi tek PDF'te",
+     "en": "Summary, chart, reading table and medication list in one PDF"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/bodybook/assets/screens/tansiyon.png",
+     "/bodybook/assets/screens/rapor.png",
+     "/bodybook/assets/screens/tansiyon-ekle.png"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "ilac",
+   "kicker": {
+    "tr": "İlaç ve takviye",
+    "en": "Medication"
+   },
+   "title": {
+    "tr": "Şimdi ne almalıydım?",
+    "en": "What was I meant to take?"
+   },
+   "text": {
+    "tr": "Ekranın omurgası ilaç listesi değil, bugünün dozları. Dört tekrar deseni: her gün, birkaç günde bir, seçtiğin günler ya da gerektiğinde.",
+    "en": "The spine of the screen is today's doses, not a list of medicines. Four repeat patterns: every day, every few days, chosen weekdays or as needed."
+   },
+   "bullets": [
+    {
+     "tr": "Bildirimden tek dokunuşla \"Aldım\"",
+     "en": "One tap \"Taken\" straight from the notification"
+    },
+    {
+     "tr": "Stok takibi, bitmeden uyarı",
+     "en": "Stock tracking warns before you run out"
+    },
+    {
+     "tr": "30 günlük uyum yüzdesi; zamanı gelmemiş doz sayılmaz",
+     "en": "A 30-day adherence figure; doses not yet due do not count"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bodybook/assets/screens/ilac.png",
+     "/bodybook/assets/screens/ilac-ekle.png"
+    ],
+    "en": [
+     "/bodybook/assets/promo/en/05-medication.webp"
+    ]
+   },
+   "color": "#c8f560"
+  },
+  {
+   "id": "cilt",
+   "kicker": {
+    "tr": "Cilt bakımı",
+    "en": "Skincare"
+   },
+   "title": {
+    "tr": "Rutin ve raf ömrü",
+    "en": "Routine and shelf life"
+   },
+   "text": {
+    "tr": "Sabah ve akşam adımlarını bir kez tanımla, her gün işaretle. Ambalajdaki PAO süresini gir, BodyBook bitiş tarihini hesaplasın ve dolmadan haber versin.",
+    "en": "Define your morning and evening steps once, tick them off each day. Enter the PAO from the packaging and BodyBook works out the expiry date and warns you before it."
+   },
+   "bullets": [
+    {
+     "tr": "Üst üste tamamlanan günler seri olur",
+     "en": "Consecutive completed days become a streak"
+    },
+    {
+     "tr": "Süresi dolmadan önce ve dolduğu gün bildirim",
+     "en": "A notification before expiry and on the day"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bodybook/assets/screens/cilt-rutin.png",
+     "/bodybook/assets/screens/cilt-urunler.png"
+    ],
+    "en": [
+     "/bodybook/assets/promo/en/04-products.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  },
+  {
+   "id": "ben",
+   "kicker": {
+    "tr": "Ben takibi",
+    "en": "Mole tracking"
+   },
+   "title": {
+    "tr": "Aynı açı, aynı kare",
+    "en": "Same angle, same frame"
+   },
+   "text": {
+    "tr": "Benin yerini vücut haritasında işaretle. Çekerken önceki fotoğrafın soluk kopyası vizörde durur; her kare aynı açıdan ve aynı mesafeden çıkar.",
+    "en": "Mark each mole on a body map. When you shoot, a ghost of the previous photo sits in the viewfinder, so every frame comes from the same angle and distance."
+   },
+   "bullets": [
+    {
+     "tr": "İki tarihi sürgüyle yan yana karşılaştır",
+     "en": "Compare two dates side by side with a slider"
+    },
+    {
+     "tr": "ABCDE formunu sen doldurursun, uygulama hüküm vermez",
+     "en": "You fill in the ABCDE form; the app does not judge it"
+    },
+    {
+     "tr": "Kontrol zamanı gelince hatırlatır",
+     "en": "Reminds you when a check is due"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/bodybook/assets/screens/ben.png",
+     "/bodybook/assets/screens/ben-detay.png"
+    ],
+    "en": [
+     "/bodybook/assets/promo/en/02-moles.webp",
+     "/bodybook/assets/promo/en/01-compare.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "su-uyku",
+   "kicker": {
+    "tr": "Su, uyku, trend",
+    "en": "Water, sleep, trends"
+   },
+   "title": {
+    "tr": "Sayılar yan yana",
+    "en": "Numbers side by side"
+   },
+   "text": {
+    "tr": "Su tek dokunuşla kaydedilir, uyku yatış ve kalkış saatinden hesaplanır. Kısa bir gecenin ertesi sabahı tansiyonun ne oluyor? BodyBook bunları yan yana koyar, hiçbir iddiada bulunmadan.",
+    "en": "Water is one tap, sleep is worked out from bedtime and wake time. What does your blood pressure do after a short night? BodyBook lines it up without claiming anything."
+   },
+   "bullets": [
+    {
+     "tr": "Hedefi ve bardak boyunu sen belirlersin",
+     "en": "You set the goal and the glass sizes"
+    },
+    {
+     "tr": "14 gecelik uyku seyri",
+     "en": "A 14-night sleep history"
+    },
+    {
+     "tr": "Her karşılaştırma kaç güne bakıldığını yazar",
+     "en": "Every comparison says how many days it used"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/bodybook/assets/screens/su.png",
+     "/bodybook/assets/screens/uyku.png",
+     "/bodybook/assets/screens/trend.png"
+    ]
+   },
+   "color": "#4da2ff"
+  },
+  {
+   "id": "senin",
+   "kicker": {
+    "tr": "Senin uygulaman",
+    "en": "Your app"
+   },
+   "title": {
+    "tr": "Kullanmadığın modül yok",
+    "en": "Unused modules disappear"
+   },
+   "text": {
+    "tr": "Açılışta yalnızca istediğin modülleri seçersin. Kapattığın modül hiçbir yerde görünmez. Sistem, açık ya da koyu tema ve her modüle ayrı bir sinyal rengi.",
+    "en": "On first launch you pick only the modules you want. One you switch off appears nowhere. System, light or dark theme, and a signal colour for every module."
+   },
+   "bullets": [
+    {
+     "tr": "Tansiyon, kilo, cilt rutini, ben, ilaç, su, uyku",
+     "en": "Blood pressure, weight, skincare, moles, medication, water, sleep"
+    },
+    {
+     "tr": "Uygulama dilini sistemden bağımsız seç",
+     "en": "Pick the app language independently of the system"
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "any": [
+     "/bodybook/assets/screens/koyu.png",
+     "/bodybook/assets/screens/profil.png"
+    ]
+   },
+   "color": "#ffd731"
+  }
+ ],
+ "privacy": {
+  "title": {
+   "tr": "Hesap yok, sunucu yok",
+   "en": "No account, no server"
+  },
+  "text": {
+   "tr": "Ölçümlerin, fotoğrafların ve notların telefonundan çıkmaz. Giriş yok, reklam yok, veri satışı yok. Yedek istersen her şeyi tek dosya olarak dışa aktar, istersen tek dokunuşla kalıcı olarak sil.",
+   "en": "Your readings, photos and notes never leave your phone. No sign-in, no ads, nothing sold. Export everything as a single file for a backup, or delete it all for good with one tap."
+  },
+  "href": "/bodybook/privacy/"
+ },
+ "support": "/bodybook/support/",
+ "extra_html": "<section class=\"band\" id=\"uyari\"><div class=\"wrap\"><p class=\"band-p\"><span class=\"tr\">BodyBook bir öz-izleme ve iyi yaşam uygulamasıdır, tıbbi cihaz değildir. Tanı koymaz, risk skoru üretmez, ilaç ya da doz önermez, etkileşim kontrolü yapmaz. Sağlığınla ilgili kararları hekiminle ver.</span><span class=\"en\">BodyBook is a self-tracking and wellness app, not a medical device. It does not diagnose, produce risk scores, suggest medicines or doses, or check for interactions. Make decisions about your health with your doctor.</span></p></div></section>"
+}

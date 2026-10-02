@@ -7,7 +7,7 @@ Uygulama eklemek ya da durumunu değiştirmek için APPS listesini düzenle ve
 Raftaki telefonlar sayfa açılınca bu satırlardan ve
 assets/home/screens/manifest.json'daki ekranlardan çizilir.
 """
-import html, re, pathlib
+import html, json, re, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -99,8 +99,8 @@ APPS = [
        en="Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud.",
        tour="/rally-table-tennis/", ios="6802339775", search="rally table tennis masa tenisi ping pong skor"),
   dict(slug="orbix-roulette", name="Orbix", sub="Roulette", icon="/orbix-roulette/assets/icon.webp", status="live",
-       tags="fun", plat="ios android watchos wearos", color="#5c4ade",
-       tr="Güzel bir karar çarkı. Kim ödeyecek, kim başlayacak, nereye gidilecek: çevir, tartışma bitsin.",
+       tags="fun", plat="watchos wearos", color="#5c4ade",
+       tr="Bileğinde güzel bir karar çarkı. Kim ödeyecek, kim başlayacak, nereye gidilecek: çevir, tartışma bitsin.",
        en="A beautiful decision wheel. Who pays, who goes first, where to eat: spin it and stop arguing.",
        tour="/orbix-roulette/", ios="6756230899", play="com.aberk.orbixroulette", search="orbix roulette çark wheel spin karar"),
   dict(slug="bumpline", name="Bumpline", sub="Pregnancy Tracker", icon="/bumpline/assets/icon.webp", status="soon",
@@ -108,11 +108,16 @@ APPS = [
        tr="Kırk hafta, tek bir tarihten. Hangi haftadasın, bebek ne kadar büyüdü, doğuma kaç gün kaldı; widget, günlük ve paylaşılabilir kartla.",
        en="Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.",
        tour="/bumpline/", search="bumpline kırk hafta hamilelik gebelik pregnancy"),
-  dict(slug="store-mockup", name="Store Mockup", sub="Studio", icon=None, status="web",
-       tags="tools web", plat="web", color="#cccccc",
+  dict(slug="store-mockup", name="Store Mockup", sub="Studio", icon="/assets/home/icons/store-mockup.svg", status="web",
+       tags="tools web", plat="web", color="#e9ccff",
        tr="Ham ekran görüntülerini at, App Store ve Play görselini al: cihaz çerçevesi, arka plan, başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır.",
        en="Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser.",
        tour="/web/store-mockup/", tour_tr="Aracı aç", tour_en="Open the tool", search="store mockup studio screenshot ekran görüntüsü web"),
+  dict(slug="mihenk", name="Mihenk", sub="App Estimator", icon="/assets/home/icons/mihenk.svg", status="web",
+       tags="tools web", plat="web", color="#ffd731",
+       tr="Herhangi bir uygulamanın kaç kez indirildiğini ve ne kazandığını App Store ve Google Play verisinden tahmin eder. Rakibine bak, pazarı ölç.",
+       en="Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market.",
+       tour="/lab/mihenk/", tour_tr="Aracı aç", tour_en="Open the tool", search="mihenk indirme gelir tahmin downloads revenue estimate web"),
 ]
 
 PLAT = {"ios": "iOS", "android": "Android", "watchos": "watchOS", "wearos": "Wear OS", "web": "Web"}
@@ -122,36 +127,66 @@ def e(s): return html.escape(s, quote=True)
 def bi(tr, en): return f'<span class="tr">{e(tr)}</span><span class="en">{e(en)}</span>'
 
 
+MANIFEST = json.loads((ROOT / "assets/home/screens/manifest.json").read_text())
+
+
+def device_html(a):
+    """Satırdaki büyük panelin içindeki cihaz: telefon, saat ya da dizüstü."""
+    m = MANIFEST.get(a["slug"], {})
+    kind = m.get("kind", "screen")
+    tr = m.get("tr") or m.get("any") or m.get("en") or []
+    en = m.get("en") or m.get("any") or m.get("tr") or []
+    def one(src, cls):
+        img = f'<img src="{src}" alt="" loading="lazy" />'
+        if kind == "laptop":
+            return f'<span class="m-laptop {cls}"><span class="lid"><span class="scr">{img}</span></span><span class="base"></span></span>'
+        if kind == "watch":
+            return f'<span class="m-watch {cls}"><span class="case"><span class="scr">{img}</span></span></span>'
+        return f'<span class="m-phone {cls}"><span class="isl"></span><span class="scr">{img}</span></span>'
+    if not tr and kind == "watch":
+        return f'<span class="m-watch"><span class="case"><span class="scr fallback"><img src="{a["icon"]}" alt="" loading="lazy" /></span></span></span>'
+    if not tr:
+        return f'<span class="m-phone"><span class="isl"></span><span class="scr fallback"><img src="{a["icon"]}" alt="" loading="lazy" /></span></span>'
+    if tr[0] == en[0]:
+        return one(tr[0], "")
+    return one(tr[0], "tr") + one(en[0], "en")
+
+
 def row(a, i):
     st = a["status"]
-    store = (AS + a["ios"]) if a.get("ios") else (GP + a["play"]) if a.get("play") else ("https://berkalparslan.github.io" + a["tour"])
+    ios = (AS + a["ios"]) if a.get("ios") else ""
+    play = (GP + a["play"]) if a.get("play") else ""
+    web = ("https://berkalparslan.github.io" + a["tour"]) if a["plat"] == "web" else ""
     attrs = (f'id="app-{a["slug"]}" data-slug="{a["slug"]}" data-tags="{a["tags"]} {a["plat"]}" data-color="{a["color"]}" '
-             f'data-icon="{a["icon"] or ""}" data-store="{e(store)}" data-name="{e(a["name"] + " " + a["sub"] + " " + a["search"])}"')
+             f'data-icon="{a["icon"] or ""}" data-ios="{e(ios)}" data-play="{e(play)}" data-web="{e(web)}" data-tour="{e(a.get("tour", ""))}" '
+             f'data-title="{e(a["name"])}" data-name="{e(a["name"] + " " + a["sub"] + " " + a["search"])}"')
     if a.get("released"): attrs += f' data-released="{a["released"]}"'
-    icon = (f'<img class="ri" loading="lazy" alt="" src="{a["icon"]}" width="512" height="512" />' if a["icon"]
-            else '<span class="ri ri-glyph" aria-hidden="true">✦</span>')
     mark = ""
     if st == "new": mark = f'<span class="badge b-new">{bi("yeni", "new")}</span>'
     elif st == "soon": mark = f'<span class="badge b-soon">{bi("yolda", "soon")}</span>'
+    elif st == "web": mark = f'<span class="badge b-web">{bi("web uygulaması", "web app")}</span>'
     chips = "".join(f'<span class="chip">{PLAT[p]}</span>' for p in a["plat"].split())
     links = []
-    if a.get("ios"):
-        links.append(f'<a class="pill dark" href="{AS}{a["ios"]}" target="_blank" rel="noopener">App Store ↗</a>')
-    if a.get("play"):
-        links.append(f'<a class="pill dark" href="{GP}{a["play"]}" target="_blank" rel="noopener">Google Play ↗</a>')
+    if ios: links.append(f'<a class="pill dark" href="{ios}" target="_blank" rel="noopener">App Store ↗</a>')
+    if play: links.append(f'<a class="pill dark" href="{play}" target="_blank" rel="noopener">Google Play ↗</a>')
     if a.get("tour"):
         links.append(f'<a class="pill" href="{a["tour"]}">{bi(a.get("tour_tr", "Tanıtım"), a.get("tour_en", "Tour"))} →</a>')
-    return f'''        <li class="row" {attrs} style="--c:{a["color"]}">
-          <button class="row-hit" type="button" aria-label="{e(a["name"])}: show on the shelf"></button>
-          <span class="num">{i:02d}</span>
-          {icon}
-          <div class="rt">
-            <h3>{e(a["name"])} <small>{e(a["sub"])}</small> {mark}</h3>
-            <p>{bi(a["tr"], a["en"])}</p>
-            <div class="chips">{chips}</div>
+    links.append(f'<button class="pill ghost show" type="button">{bi("Vitrinde gör ↑", "On the shelf ↑")}</button>')
+    side = "l" if i % 2 else "r"
+    return f'''        <article class="zrow z-{side}" {attrs} style="--c:{a["color"]}">
+          <div class="zpanel">
+            <button class="zhit" type="button" aria-label="{e(a["name"])}: show on the shelf">{device_html(a)}</button>
+            <img class="zicon" src="{a["icon"]}" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">{i:02d}</span>
           </div>
-          <div class="rl">{"".join(links)}</div>
-        </li>'''
+          <div class="ztxt">
+            <p class="zkick">{e(a["sub"])} {mark}</p>
+            <h3 class="disp" lang="en">{e(a["name"])}</h3>
+            <p class="zp">{bi(a["tr"], a["en"])}</p>
+            <div class="chips">{chips}</div>
+            <div class="rl">{"".join(links)}</div>
+          </div>
+        </article>'''
 
 
 rows = "\n".join(row(a, i + 1) for i, a in enumerate(APPS))

@@ -1,712 +1,199 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wallet Coach · Ekran ekran tanıtım</title>
-<meta name="description" content="Ayın faturalarını, kredilerini ve gelirini tek sayfada planla; fişi okut, fiyatları takip et, paranın nereye gittiğini grafiklerle gör.">
-<meta property="og:title" content="Wallet Coach: Aylık plan ve harcama koçu">
-<meta property="og:description" content="Excel'deki ay sekmelerinin yerini alan uygulama. Veriler cihazında kalır.">
-<meta property="og:image" content="https://berkalparslan.github.io/walletcoach/assets/screens/tr/panel.webp">
-<meta property="og:type" content="website">
-<link rel="icon" href="/walletcoach/assets/icon-180.png">
-<link rel="apple-touch-icon" href="/walletcoach/assets/icon-180.png">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wallet Coach: Monthly Plan and Spending Coach · BamTech</title>
+<meta name="description" content="Plan your month&#x27;s bills, loans and income on one page, scan receipts, track prices and see where your money goes in clear charts." />
+<link rel="canonical" href="https://berkalparslan.github.io/walletcoach/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Wallet Coach: Monthly Plan and Spending Coach" />
+<meta property="og:description" content="Plan your month&#x27;s bills, loans and income on one page, scan receipts, track prices and see where your money goes in clear charts." />
+<meta property="og:image" content="https://berkalparslan.github.io/walletcoach/assets/icon-512.png" />
+<meta name="theme-color" content="#ffb3d9" />
+<link rel="icon" href="/walletcoach/assets/icon-512.png" />
+<link rel="apple-touch-icon" href="/walletcoach/assets/icon-512.png" />
 <script>
-  // Tema ve dil sayfa boyanmadan uygulanır, aksi halde açık/koyu geçişi ve
-  // dil değişimi gözle görülür bir sıçrama yapıyor.
   (function () {
-    var d = document.documentElement;
-    try {
-      d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light");
-    } catch (e) {
-      d.setAttribute("data-theme", "light");
-    }
-    var lang;
-    try {
-      lang = localStorage.getItem("bb-lang");
-    } catch (e) {}
+    var d = document.documentElement, lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
-    // Sayfa Türkçe yazıldı; tarayıcı Türkçe değilse İngilizceye düşüyor.
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Wallet Coach: Aylık Plan ve Harcama Koçu · BamTech");
+    d.setAttribute("data-title-en", "Wallet Coach: Monthly Plan and Spending Coach · BamTech");
   })();
 </script>
-<style>
-:root{
-  color-scheme:light;
-  --paper:#f5f8f7; --surface:#ffffff; --sunken:#eaf1ef;
-  --ink:#12201c; --ink2:#4e6560; --ink3:#849994;
-  --line:#dde8e5; --accent:#12a37a;
-  --panel:#12a37a; --month:#7c5cf0; --cal:#e0912a; --ledger:#0f9c96;
-  --assets:#e0912a; --savings:#8b4fd4; --wallet:#2f7de0; --pro:#c2506b;
-  --r:20px;
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --paper:#0d1412; --surface:#151f1c; --sunken:#1c2724;
-  --ink:#eaf3f0; --ink2:#9fb3ae; --ink3:#778b86;
-  --line:#25322e; --accent:#2ad19d;
-  --panel:#2ad19d; --month:#a48bff; --cal:#f2b04e; --ledger:#3cc9c2;
-  --assets:#f2b04e; --savings:#b98cf5; --wallet:#5ea3ff; --pro:#f0839c;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
-  background:var(--paper); color:var(--ink); line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:var(--accent)}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
 
-/* ── Dil ────────────────────────────────────── */
-:root[data-lang="tr"] .en{display:none}
-:root[data-lang="en"] .tr{display:none}
-/* Satır içi kullanım blok elemanı yapmasın */
-span.tr,span.en{display:inline}
-:root[data-lang="tr"] span.en,:root[data-lang="en"] span.tr{display:none}
-
-/* ── Üst çubuk ─────────────────────────────── */
-.bar{
-  position:sticky; top:0; z-index:50;
-  background:color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter:saturate(180%) blur(18px);
-  -webkit-backdrop-filter:saturate(180%) blur(18px);
-  border-bottom:1px solid var(--line);
-}
-.bar-in{max-width:1120px;margin:0 auto;padding:0 22px;height:54px;display:flex;align-items:center;gap:18px}
-.logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
-.logo b{color:var(--accent)}
-.bar nav{display:flex;gap:15px;overflow-x:auto;font-size:13.5px;scrollbar-width:none}
-.bar nav::-webkit-scrollbar{display:none}
-.bar nav a{color:var(--ink2);text-decoration:none;white-space:nowrap}
-.bar nav a:hover{color:var(--accent)}
-.bar-end{margin-left:auto;display:flex;gap:8px;flex:none}
-.lang-toggle,.theme-toggle{
-  height:32px;border-radius:999px;
-  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
-  font-size:12.5px;line-height:1;cursor:pointer;font-weight:700;letter-spacing:.04em
-}
-.lang-toggle{padding:0 12px}
-.theme-toggle{width:32px;font-size:14px}
-.lang-toggle:hover,.theme-toggle:hover{color:var(--accent);border-color:var(--accent)}
-
-/* ── Genel ─────────────────────────────────── */
-.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
-.hero{padding:64px 0 40px;text-align:center}
-.hero-icon{width:88px;height:88px;border-radius:21px;margin:0 auto 22px;display:block;
-  box-shadow:0 14px 34px -14px rgba(0,0,0,.45)}
-.hero h1{font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
-.hero p{font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--ink2);max-width:660px;margin:0 auto 8px}
-.kicker{
-  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);
-  padding:6px 14px;border-radius:999px;margin-bottom:20px
-}
-.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;
-  text-decoration:none;font-weight:650;font-size:.95rem;border:1px solid transparent
-}
-.btn.primary{background:var(--accent);color:#fff}
-.btn.primary:hover{filter:brightness(1.06)}
-.btn.ghost{border-color:var(--line);color:var(--ink2);background:var(--surface)}
-.btn.ghost:hover{color:var(--accent);border-color:var(--accent)}
-
-.hero-shots{display:flex;gap:18px;justify-content:center;align-items:flex-start;margin-top:40px;flex-wrap:wrap}
-.hero-shots .shot{width:min(240px,42vw)}
-
-.shot{
-  width:100%;border-radius:26px;display:block;
-  border:1px solid var(--line);
-  box-shadow:0 18px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.06);
-  background:var(--surface);
-}
-
-/* ── Bölümler ──────────────────────────────── */
-section{padding:56px 0;border-top:1px solid var(--line)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-.row.flip .txt{order:2}
-.tag{
-  display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--c,var(--accent))
-}
-.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent))}
-h2{font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
-.lede{color:var(--ink2);font-size:1.02rem;margin-bottom:18px}
-ul.feat{list-style:none;display:grid;gap:9px}
-ul.feat li{position:relative;padding-left:22px;color:var(--ink2);font-size:.96rem}
-ul.feat li::before{
-  content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;border-radius:2px;
-  background:var(--c,var(--accent))
-}
-ul.feat strong{color:var(--ink);font-weight:600}
-/* Tek görsel bir sütunu kaplayınca metni eziyor; her halükarda telefon
-   boyunda kalsın diye üstten sınırlı. */
-.shots{display:flex;gap:16px;justify-content:center}
-.shots .shot{flex:1;min-width:0;max-width:330px}
-
-.note{
-  margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--sunken);
-  border:1px solid var(--line);color:var(--ink2);font-size:.9rem
-}
-
-/* ── Izgara ────────────────────────────────── */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:16px;margin-top:26px}
-.cell{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
-.cell h3{font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.cell p{color:var(--ink2);font-size:.92rem}
-.cell .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent));flex:none}
-
-/* ── Fiyat ─────────────────────────────────── */
-.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
-.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
-.plan.pro{border-color:var(--pro)}
-.plan h3{font-size:1.05rem;margin-bottom:4px}
-.plan .price{font-size:.9rem;color:var(--ink3);margin-bottom:14px}
-.plan ul{list-style:none;display:grid;gap:8px}
-.plan li{position:relative;padding-left:20px;color:var(--ink2);font-size:.93rem}
-.plan li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
-.plan.pro li::before{color:var(--pro)}
-
-/* ── Alt ───────────────────────────────────── */
-footer{
-  border-top:1px solid var(--line);padding:34px 22px 46px;text-align:center;
-  color:var(--ink3);font-size:.88rem
-}
-footer a{color:var(--ink2);text-decoration:none}
-footer a:hover{color:var(--accent)}
-
-@media (max-width:820px){
-  .row{grid-template-columns:1fr;gap:24px}
-  .row.flip .txt{order:0}
-  .plans{grid-template-columns:1fr}
-  .shots .shot{max-width:300px}
-  .shots{justify-content:center}
-}
-/* Görsel şeridi ve oran güvencesi (2 Eki 2026) */
-.shot{height:auto;object-fit:contain}
-.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:8px 22px 44px;max-width:1120px;margin:0 auto;scrollbar-width:thin}
-.strip .shot{flex:none;width:min(240px,62vw);scroll-snap-align:center}
-.strip-hint{text-align:center;color:var(--ink3);font-size:.8rem;margin:-30px 0 34px}
-.shots{align-items:flex-start}
-.shots .shot{max-width:280px}
-</style>
-<link rel="stylesheet" href="/assets/catalogue.css">
 </head>
-<body>
+<body style="--app:#ffb3d9;--acc:#4da2ff">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/">Bam<b>Tech</b></a>
-    <nav>
-      <a href="#panel"><span class="tr">Panel</span><span class="en">Dashboard</span></a>
-      <a href="#analiz"><span class="tr">Analiz</span><span class="en">Analysis</span></a>
-      <a href="#fis"><span class="tr">Fiş ve fiyat</span><span class="en">Receipts</span></a>
-      <a href="#ay"><span class="tr">Ay planı</span><span class="en">Monthly plan</span></a>
-      <a href="#birikim"><span class="tr">Birikim</span><span class="en">Savings</span></a>
-      <a href="#projeler"><span class="tr">Projeler</span><span class="en">Projects</span></a>
-      <a href="#cuzdan"><span class="tr">Araçlar</span><span class="en">Tools</span></a>
-      <a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
-      <a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a>
-    </nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langToggle" type="button">EN</button>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Tema" title="Tema">☾</button>
-    </div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Android · Apple Watch&quot;, &quot;Wallet Coach&quot;, &quot;iPhone · Android · Apple Watch&quot;]"></div></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#panel"><span class="tr">Panel</span><span class="en">Dashboard</span></a><a href="#analiz"><span class="tr">Analiz</span><span class="en">Analysis</span></a><a href="#enflasyon"><span class="tr">Senin enflasyonun</span><span class="en">Your inflation</span></a><a href="#fis"><span class="tr">Fiş ve fiyat</span><span class="en">Receipts and prices</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
-</div>
+</header>
 
-<div class="wrap">
-
-  <header class="hero">
-    <img class="hero-icon" src="assets/icon-512.png" width="88" height="88" alt="Wallet Coach">
-    <span class="kicker">
-      <span class="tr">iPhone · Apple Watch</span><span class="en">iPhone · Apple Watch</span>
-    </span>
-    <h1>Wallet Coach</h1>
-    <p class="tr">Paran gerçekte nereye gidiyor: gör, planla, paylaş. Ayın faturalarını, kredilerini
-      ve gelirini <strong>tek bir sayfada</strong> planlar, market fişini okuyup fiyatları takip eder,
-      hepsini anlaşılır grafiklerle analiz eder.</p>
-    <p class="en">See where your money really goes, plan it, share it. Your month's bills, loans and
-      income on <strong>one page</strong>, receipts read and prices tracked, and all of it
-      explained in clear charts.</p>
-
-    <div class="cta">
-      <a class="btn primary" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
-        <span class="tr">App Store'dan indir</span><span class="en">Get it on the App Store</span>
-      </a>
-      <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener">
-        <span class="tr">Google Play'den indir</span><span class="en">Get it on Google Play</span>
-      </a>
-      <a class="btn ghost" href="#panel">
-        <span class="tr">Ekranları gez</span><span class="en">Take the tour</span>
-      </a>
+<main>
+  <section class="hero" data-emoji="[&quot;💸&quot;, &quot;🧾&quot;, &quot;📊&quot;, &quot;🐷&quot;, &quot;🪙&quot;, &quot;📅&quot;, &quot;💳&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/walletcoach/assets/icon-512.png" alt="" width="180" height="180" />
+      <p class="kick">iPhone · Android · Apple Watch </p>
+      <h1 class="disp" lang="en">Wallet Coach</h1>
+      <p class="lede"><span class="tr">Paran gerçekte nereye gidiyor: gör, planla, paylaş. Ayın faturaları, kredileri ve geliri tek sayfada; fiş okunur, fiyatlar takip edilir, hepsi anlaşılır grafiklerle analiz edilir.</span><span class="en">See where your money really goes, plan it, share it. Your month&#x27;s bills, loans and income on one page, receipts read and prices tracked, all of it explained in clear charts.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">Veri telefonda</span><span class="en">Data on your phone</span></span><span class="pill-s"><span class="tr">7 dil</span><span class="en">7 languages</span></span><span class="pill-s"><span class="tr">Ücretsiz başla</span><span class="en">Start free</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
+      <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span><span class="chip">watchOS</span></div>
     </div>
-  </header>
-</div>
+  </section>
 
-<div class="strip" role="list">
-  <img class="shot" data-screen="promo-01" src="assets/screens/tr/promo-01.webp" width="600" height="1304" decoding="async" alt="Paran nereye gitti">
-  <img class="shot" data-screen="promo-02" src="assets/screens/tr/promo-02.webp" width="600" height="1304" decoding="async" alt="Senin enflasyonun">
-  <img class="shot" data-screen="promo-03" src="assets/screens/tr/promo-03.webp" width="600" height="1304" decoding="async" alt="Fiş okuma">
-  <img class="shot" data-screen="promo-04" src="assets/screens/tr/promo-04.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiyat geçmişi">
-  <img class="shot" data-screen="promo-05" src="assets/screens/tr/promo-05.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay planı">
-  <img class="shot" data-screen="promo-06" src="assets/screens/tr/promo-06.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Birikim">
-  <img class="shot" data-screen="promo-07" src="assets/screens/tr/promo-07.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Projeler">
-  <img class="shot" data-screen="promo-08" src="assets/screens/tr/promo-08.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Öne çıkanlar">
-  <img class="shot" data-screen="promo-09" src="assets/screens/tr/promo-09.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay sonu">
-  <img class="shot" data-screen="promo-10" src="assets/screens/tr/promo-10.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşım">
-</div>
-<p class="strip-hint"><span class="tr">Kaydırarak gez</span><span class="en">Swipe to browse</span></p>
+  <div class="promo tr"><div class="promo-track"><img src="/walletcoach/assets/screens/tr/promo-01.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-02.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-03.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-04.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-05.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-06.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-07.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-08.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-09.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/tr/promo-10.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-07.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-08.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-09.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/tr/promo-10.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/walletcoach/assets/screens/en/promo-01.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-02.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-03.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-04.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-05.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-06.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-07.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-08.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-09.webp" alt="" loading="lazy" /><img src="/walletcoach/assets/screens/en/promo-10.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-07.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-08.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-09.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/walletcoach/assets/screens/en/promo-10.webp" alt="" loading="lazy" /></div></div>
 
-<div class="wrap">
-
-  <!-- ── Panel ── -->
-  <section id="panel" style="--c:var(--panel)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Panel</span><span class="en">Dashboard</span></span>
-        <h2 class="tr">Ay sonunda ne kalacak, şimdiden gör</h2>
-        <h2 class="en">See what's left before the month ends</h2>
-        <p class="lede tr">Ekranın tepesindeki rakam bakiyen değil; <strong>her şey ödendikten sonra</strong> elinde kalacak olan.</p>
-        <p class="lede en">The figure at the top is not your balance; it is what will be left <strong>once everything is paid</strong>.</p>
-        <ul class="feat">
-          <li class="tr"><strong>Ödenecek</strong> ve <strong>gelecek</strong> tutarlar, ilerleme çubuğuyla</li>
-          <li class="en"><strong>Still to pay</strong> and <strong>still to come</strong>, with a progress bar</li>
-          <li class="tr">Paranın bloklara dağılımı halka grafikte</li>
-          <li class="en">Where the month goes, block by block, in a ring</li>
-          <li class="tr">Yaklaşan ve geciken ödemeler, gelmesi beklenen gelirler</li>
-          <li class="en">Upcoming and overdue payments, income still to arrive</li>
-          <li class="tr">Her satır panelden işaretlenir</li>
-          <li class="en">Tick any line off right here</li>
-        </ul>
+  <section class="z z-l" id="panel">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/panel.webp&quot;]"><img src="/walletcoach/assets/screens/tr/panel.webp" alt="See the month&#x27;s end now" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/panel.webp&quot;]"><img src="/walletcoach/assets/screens/en/panel.webp" alt="See the month&#x27;s end now" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Panel</span><span class="en">Dashboard</span></p>
+        <h2 class="disp"><span class="tr">Ay sonunu şimdiden gör</span><span class="en">See the month&#x27;s end now</span></h2>
+        <p class="z-p"><span class="tr">Ekranın tepesindeki rakam bakiyen değil; her şey ödendikten sonra elinde kalacak olan.</span><span class="en">The figure at the top is not your balance; it is what will be left once everything is paid.</span></p>
+        <ul class="bul"><li><span class="tr">Ödenecek ve gelecek tutarlar, ilerleme çubuğuyla</span><span class="en">Still to pay and still to come, with a progress bar</span></li><li><span class="tr">Paranın bloklara dağılımı halka grafikte</span><span class="en">Where the month goes, block by block, in a ring</span></li><li><span class="tr">Yaklaşan ve geciken ödemeler; her satır panelden işaretlenir</span><span class="en">Upcoming and overdue payments; tick any line off right here</span></li></ul>
       </div>
-      <div class="shots">
-        <img class="shot" data-screen="panel" src="assets/screens/tr/panel.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Panel">
+    </div>
+  </section>
+  <section class="z z-r" id="analiz">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/analysis.webp&quot;, &quot;/walletcoach/assets/screens/tr/where-it-went.webp&quot;]"><img src="/walletcoach/assets/screens/tr/analysis.webp" alt="Your month in three sentences" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/analysis.webp&quot;, &quot;/walletcoach/assets/screens/en/where-it-went.webp&quot;]"><img src="/walletcoach/assets/screens/en/analysis.webp" alt="Your month in three sentences" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Analiz</span><span class="en">Analysis</span></p>
+        <h2 class="disp"><span class="tr">Ayın, üç cümlede</span><span class="en">Your month in three sentences</span></h2>
+        <p class="z-p"><span class="tr">Tek bir ay ya da son 3 ay, 6 ay, 1 yıl ve tüm zamanlar. Öne çıkanlar rakamlardan üç cümle çıkarır: &quot;Araç kredisi Aralık&#x27;ta bitiyor, ayda 6.450 TL serbest kalıyor&quot; gibi.</span><span class="en">A single month or the last 3 months, 6 months, a year or all time. The highlights turn your numbers into three sentences, like &quot;The car loan ends in December, freeing up 6,450 a month&quot;.</span></p>
+        <ul class="bul"><li><span class="tr">Para nereye gitti: bloklar harcamaya göre baloncuk</span><span class="en">Where it went: your blocks as bubbles sized by spend</span></li><li><span class="tr">Ay ay gelir ve gider çubukları</span><span class="en">Income and spending, month by month</span></li><li><span class="tr">Her kartta (i) ile hesabın nasıl yapıldığı yazar</span><span class="en">Every card explains its maths behind (i)</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="enflasyon">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/your-inflation.webp&quot;, &quot;/walletcoach/assets/screens/tr/suggestions.webp&quot;]"><img src="/walletcoach/assets/screens/tr/your-inflation.webp" alt="Not the official one. Yours." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/your-inflation.webp&quot;, &quot;/walletcoach/assets/screens/en/suggestions.webp&quot;]"><img src="/walletcoach/assets/screens/en/your-inflation.webp" alt="Not the official one. Yours." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Senin enflasyonun</span><span class="en">Your inflation</span></p>
+        <h2 class="disp"><span class="tr">Resmi rakam değil, seninki</span><span class="en">Not the official one. Yours.</span></h2>
+        <p class="z-p"><span class="tr">Kira, fatura, sigorta gibi düzenli giderlerin bir yılda ne kadar arttı; resmi enflasyon ve gelirinle yan yana. Sonuç tek cümle: &quot;Gelirin fiyatların %2 önünde&quot; gibi.</span><span class="en">How much your regular costs such as rent, bills and insurance rose in a year, next to official inflation and your income. The verdict is one sentence, like &quot;Your income is 2% ahead of prices&quot;.</span></p>
+        <ul class="bul"><li><span class="tr">Öneriler: borç yükü, acil durum fonu, biten taksiti birikime yönlendirme</span><span class="en">Tips: debt load, an emergency fund, moving a finished instalment into savings</span></li><li><span class="tr">Alışkanlıklar: zamanında ödeme oranı, aboneliklere yılda giden</span><span class="en">Habits: on-time payment rate, what subscriptions cost a year</span></li><li><span class="tr">Öneriler genel bilgilendirmedir, yatırım tavsiyesi değildir</span><span class="en">Tips are general information, not investment advice</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="fis">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/receipt-scan.webp&quot;, &quot;/walletcoach/assets/screens/tr/price-log.webp&quot;, &quot;/walletcoach/assets/screens/tr/share.webp&quot;]"><img src="/walletcoach/assets/screens/tr/receipt-scan.webp" alt="Long receipt, short job" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/receipt-scan.webp&quot;, &quot;/walletcoach/assets/screens/en/price-log.webp&quot;, &quot;/walletcoach/assets/screens/en/share.webp&quot;]"><img src="/walletcoach/assets/screens/en/receipt-scan.webp" alt="Long receipt, short job" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Fiş ve fiyat</span><span class="en">Receipts and prices</span></p>
+        <h2 class="disp"><span class="tr">Fiş uzun, işin kısa</span><span class="en">Long receipt, short job</span></h2>
+        <p class="z-p"><span class="tr">Fişi çek ya da fotoğraflardan seç, köşeleri ayarla, satırlar okunsun. Market, tarih, toplam ve indirim de okunur. Zammı gördün mü, tek dokunuşla paylaşılacak karta çevir.</span><span class="en">Snap a receipt or pick it from Photos, adjust the corners and the lines are read, along with the shop, date, total and discount. Spotted a price hike? Turn it into a card to share in one tap.</span></p>
+        <ul class="bul"><li><span class="tr">Aynı ürünün her alımı yan yana; en ucuz market ve kaçırılan tasarruf</span><span class="en">Every purchase of a product side by side, the cheapest shop and the missed saving</span></li><li><span class="tr">Yapay zeka ad düzeltmesine fotoğraf değil, yalnızca okunan metin gider</span><span class="en">AI name clean-up sends only the text it read, never the photo</span></li><li><span class="tr">Gönderi ya da Hikaye kartı; &quot;Tutarları gizle&quot; ile yalnız yüzdeler</span><span class="en">Post or Story cards; &quot;Hide amounts&quot; leaves only percentages</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="ay">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/month.webp&quot;, &quot;/walletcoach/assets/screens/tr/next-month.webp&quot;, &quot;/walletcoach/assets/screens/tr/calendar.webp&quot;]"><img src="/walletcoach/assets/screens/tr/month.webp" alt="Every bill on one page" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/month.webp&quot;, &quot;/walletcoach/assets/screens/en/next-month.webp&quot;, &quot;/walletcoach/assets/screens/en/calendar.webp&quot;]"><img src="/walletcoach/assets/screens/en/month.webp" alt="Every bill on one page" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Ay planı</span><span class="en">Monthly plan</span></p>
+        <h2 class="disp"><span class="tr">Bütün faturalar tek sayfada</span><span class="en">Every bill on one page</span></h2>
+        <p class="z-p"><span class="tr">Kredi kartları, krediler, ev, sigorta, abonelikler, gelirler; hepsi bloklarda. Yeni ay tek dokunuşla öncekini kopyalar, sen yalnız değişeni düzeltirsin.</span><span class="en">Credit cards, loans, home, insurance, subscriptions and income, all in blocks. A new month copies the last one in a tap; you only fix what changed.</span></p>
+        <ul class="bul"><li><span class="tr">Kartla ödenen fatura ekstreyle bir kez sayılır, çift sayım yok</span><span class="en">A bill paid by card is counted once, with the statement</span></li><li><span class="tr">Bitiş ayı: &quot;3 yıl 6 ay kaldı&quot;</span><span class="en">End dates: &quot;3 years 6 months left&quot;</span></li><li><span class="tr">Vade takvimi ve vadesi gelmeden bildirim</span><span class="en">A due calendar and a notification before anything falls due</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="birikim">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/savings-board.webp&quot;, &quot;/walletcoach/assets/screens/tr/savings-detail.webp&quot;, &quot;/walletcoach/assets/screens/tr/savings.webp&quot;]"><img src="/walletcoach/assets/screens/tr/savings-board.webp" alt="Save it square by square" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/savings-board.webp&quot;, &quot;/walletcoach/assets/screens/en/savings-detail.webp&quot;, &quot;/walletcoach/assets/screens/en/savings.webp&quot;]"><img src="/walletcoach/assets/screens/en/savings-board.webp" alt="Save it square by square" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Birikim</span><span class="en">Savings</span></p>
+        <h2 class="disp"><span class="tr">Kutu kutu biriktir</span><span class="en">Save it square by square</span></h2>
+        <p class="z-p"><span class="tr">Hedefli birikim kapları: para, gram altın, döviz ya da kendi birimin. Birikim panosu 100 kutuluk bir meydan okuma; her kutuda rastgele bir tutar, biriktirdikçe çarpılır.</span><span class="en">Goal-based savings pots in money, grams of gold, currency or a unit of your own. The savings board is a 100-square challenge: each square holds a random amount and gets crossed off as you save.</span></p>
+        <ul class="bul"><li><span class="tr">&quot;En küçük kutu&quot; ve &quot;Benim yerime seç&quot;</span><span class="en">&quot;Smallest square&quot; and &quot;Pick for me&quot;</span></li><li><span class="tr">Pano widget&#x27;tan ve Apple Watch&#x27;tan da işaretlenir</span><span class="en">Tick the board from a widget or Apple Watch too</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="projeler">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#4da2ff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/project.webp&quot;, &quot;/walletcoach/assets/screens/tr/ledger.webp&quot;, &quot;/walletcoach/assets/screens/tr/assets.webp&quot;]"><img src="/walletcoach/assets/screens/tr/project.webp" alt="Projects, debts, wealth" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/project.webp&quot;, &quot;/walletcoach/assets/screens/en/ledger.webp&quot;, &quot;/walletcoach/assets/screens/en/assets.webp&quot;]"><img src="/walletcoach/assets/screens/en/project.webp" alt="Projects, debts, wealth" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Projeler ve defter</span><span class="en">Projects and ledger</span></p>
+        <h2 class="disp"><span class="tr">Proje, borç, servet</span><span class="en">Projects, debts, wealth</span></h2>
+        <p class="z-p"><span class="tr">Tadilat, tatil, düğün gibi planların gerçek maliyeti; kim sana borçlu, sen kime; neyin var ve ne kadar ediyor.</span><span class="en">What a renovation, a holiday or a wedding really costs; who owes you and who you owe; what you own and what it is worth.</span></p>
+        <ul class="bul"><li><span class="tr">Projede kategori halkası ve kalan bütçe</span><span class="en">A category ring and the budget left on each project</span></li><li><span class="tr">Alacak-Verecek: parçalı tahsilat, KDV dahil ya da hariç</span><span class="en">Ledger: partial settlements, VAT in or out</span></li><li><span class="tr">Varlık getirisi dört şekilde: nominal, reel, dolara ve altına göre</span><span class="en">Returns four ways: nominal, real, against the dollar and gold</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="cuzdan">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/tr/wallet.webp&quot;]"><img src="/walletcoach/assets/screens/tr/wallet.webp" alt="Look before you spend" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/walletcoach/assets/screens/en/wallet.webp&quot;]"><img src="/walletcoach/assets/screens/en/wallet.webp" alt="Look before you spend" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Araçlar</span><span class="en">Tools</span></p>
+        <h2 class="disp"><span class="tr">Harcamadan önce bak</span><span class="en">Look before you spend</span></h2>
+        <p class="z-p"><span class="tr">Defterler, birikim, projeler ve fiyat takibi üstte; ara sıra açılan hesaplayıcılar altta.</span><span class="en">Ledgers, savings, projects and the price log on top; the occasional calculators underneath.</span></p>
+        <ul class="bul"><li><span class="tr">Fiyatı saate çevir: bir alışveriş kaç saatlik çalışma</span><span class="en">Price in hours: a purchase in hours of your own work</span></li><li><span class="tr">Şimdi ne kadar: eski bir tutarın bugünkü karşılığı</span><span class="en">What is it worth now: an old amount in today&#x27;s money</span></li><li><span class="tr">Brütten nete maaş, zam hesaplayıcı, istek listesi</span><span class="en">Gross to net salary, a raise calculator, a wishlist</span></li></ul>
       </div>
     </div>
   </section>
 
-  <!-- ── Analiz ── -->
-  <section id="analiz" style="--c:var(--month)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Analiz</span><span class="en">Analysis</span></span>
-        <h2 class="tr">Ayını üç cümlede anla</h2>
-        <h2 class="en">Your month in three sentences</h2>
-        <p class="lede tr">Tek bir ay ya da son 3 ay, 6 ay, 1 yıl ve tüm zamanlar. Özet halkası gelirin ne kadarının kaldığını, öne çıkanlar ise rakamlardan çıkan üç cümleyi gösterir: "Araç kredisi Aralık'ta bitiyor, ayda 6.450 TL serbest kalıyor" gibi.</p>
-        <p class="lede en">A single month or the last 3 months, 6 months, a year or all time. The summary ring shows how much of your income is left, and the highlights put your numbers into three sentences, like "The car loan ends in December, freeing up 6,450 a month".</p>
-        <ul class="feat">
-          <li class="tr"><strong>Para nereye gitti</strong>: plan blokları büyüklüğüne göre baloncuklar; dokununca tutar, pay ve değişim</li>
-          <li class="en"><strong>Where it went</strong>: your blocks as bubbles sized by spend; tap for amount, share and change</li>
-          <li class="tr">Ay ay gelir ve gider çubukları</li>
-          <li class="en">Income and spending, month by month</li>
-          <li class="tr">Her kartta (i) ile hesabın nasıl yapıldığı yazar; veri azsa tahmin etmez</li>
-          <li class="en">Every card explains its maths behind (i); with too little data it says so instead of guessing</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="analysis" src="assets/screens/tr/analysis.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Analiz">
-        <img class="shot" data-screen="where-it-went" src="assets/screens/tr/where-it-went.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Para nereye gitti">
-      </div>
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Ücretsiz başla</span><span class="en">Start free</span></h2>
+      <p class="band-p"><span class="tr">Pro ile sınırlar kalkar. Aylık, yıllık ya da ömür boyu.</span><span class="en">Pro lifts the limits. Monthly, yearly or lifetime.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">Süresiz</span><span class="en">No time limit</span></p><ul><li><span class="tr">2 ay plan</span><span class="en">2 months of plans</span></li><li><span class="tr">1 proje, 1 birikim kabı, 1 pano</span><span class="en">1 project, 1 savings pot, 1 board</span></li><li><span class="tr">3 varlık, 3 defter hesabı</span><span class="en">3 assets, 3 ledger accounts</span></li><li><span class="tr">Ayda 2 yapay zekalı fiş okuma</span><span class="en">2 AI receipt reads a month</span></li><li><span class="tr">Analizde özet ve para nereye gitti</span><span class="en">Analysis summary and where it went</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3>Pro</h3><p class="price"><span class="tr">Aylık, yıllık, ömür boyu</span><span class="en">Monthly, yearly, lifetime</span></p><ul><li><span class="tr">Her şey sınırsız</span><span class="en">Everything unlimited</span></li><li><span class="tr">Analizin tamamı: enflasyon, öneriler, servet</span><span class="en">The full analysis: inflation, tips, wealth</span></li><li><span class="tr">PDF ve tablo dışa aktarma</span><span class="en">PDF and spreadsheet export</span></li><li><span class="tr">Vade hatırlatmaları</span><span class="en">Due-date reminders</span></li><li><span class="tr">Reklam yok</span><span class="en">No ads</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Gizli mod</span><span class="en">Hidden mode</span></h3><p class="price"><span class="tr">Herkese</span><span class="en">For everyone</span></p><ul><li><span class="tr">Göz düğmesi tüm tutarları gizler</span><span class="en">The eye button hides every amount</span></li><li><span class="tr">7 dil, para birimi ayrı seçilir</span><span class="en">7 languages, currency picked separately</span></li></ul></div></div>
     </div>
   </section>
 
-  <!-- ── Senin enflasyonun ── -->
-  <section id="enflasyon" style="--c:var(--savings)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Senin enflasyonun</span><span class="en">Your inflation</span></span>
-        <h2 class="tr">Senin enflasyonun resmi rakam değil</h2>
-        <h2 class="en">Your inflation isn't the official one</h2>
-        <p class="lede tr">Kira, fatura, sigorta gibi düzenli giderlerin bir yılda ne kadar arttı; resmi enflasyon ve gelirinle yan yana, aylık çizgi grafikte. Sonuç tek cümle: "Gelirin fiyatların %2 önünde" gibi.</p>
-        <p class="lede en">How much your regular costs such as rent, bills and insurance rose in a year, next to your income on a monthly line chart. The verdict is one sentence, like "Your income is 2% ahead of prices".</p>
-        <ul class="feat">
-          <li class="tr">En çok artan kalemler ayrı listelenir</li>
-          <li class="en">The biggest risers are listed on their own</li>
-          <li class="tr"><strong>Öneriler</strong>: borç yükü, acil durum fonu, biten taksiti birikime yönlendirme, gecikmiş ödemeler</li>
-          <li class="en"><strong>Tips</strong>: debt load, an emergency fund, moving a finished instalment into savings, overdue payments</li>
-          <li class="tr"><strong>Alışkanlıklar</strong>: zamanında ödeme oranı, sabit gider payı, aboneliklere yılda giden</li>
-          <li class="en"><strong>Habits</strong>: on-time payment rate, fixed-cost share, what subscriptions cost a year</li>
-          <li class="tr"><strong>Servet</strong>: net servet ve kaç aylık güvencen olduğu</li>
-          <li class="en"><strong>Wealth</strong>: net worth and how many months of cover you have</li>
-        </ul>
-        <div class="note tr">Öneriler genel bilgilendirmedir, yatırım tavsiyesi değildir.</div>
-        <div class="note en">Tips are general information, not investment advice.</div>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="your-inflation" src="assets/screens/tr/your-inflation.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Senin enflasyonun">
-        <img class="shot" data-screen="suggestions" src="assets/screens/tr/suggestions.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Öneriler">
-      </div>
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Rakamların sende</span><span class="en">Your figures stay yours</span></h2>
+      <div><p class="band-p"><span class="tr">Hesap açmak yok, giriş yapmak yok. Veriler telefonda durur, iCloud Drive&#x27;a otomatik yedeklenir. Yapay zekalı fiş okumada fişin fotoğrafı değil, yalnızca okunan metin gönderilir.</span><span class="en">No account, no sign-in. Your data lives on the phone with automatic iCloud Drive backup. AI receipt reading sends only the text it read, never the photo.</span></p>
+      <p class="row-btns"><a class="pill" href="/privacy.html"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
     </div>
   </section>
 
-  <!-- ── Fiyat takibi ve fiş ── -->
-  <section id="fis" style="--c:var(--ledger)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Fiyat takibi ve fiş</span><span class="en">Prices and receipts</span></span>
-        <h2 class="tr">Fişi tara, alışveriş bir anda insin</h2>
-        <h2 class="en">Scan the receipt, done</h2>
-        <p class="lede tr">Fişi çek ya da fotoğraflardan seç, köşeleri ayarla, satırlar okunsun. Market, tarih, toplam ve indirim de okunur. Hangi satırın fiyat takibine gireceğini sen seçersin.</p>
-        <p class="lede en">Snap a receipt or pick it from Photos, adjust the corners and the lines are read, along with the shop, date, total and discount. You choose which lines go into the price log.</p>
-        <ul class="feat">
-          <li class="tr">Aynı ürünün her alımı yan yana: son birim fiyat, ilk alımdan beri değişim, en ucuz market</li>
-          <li class="en">Every purchase of a product side by side: latest unit price, change since the first, cheapest shop</li>
-          <li class="tr">"En ucuzu Pazar Yeri, 11,28 TL fark" gibi kaçırılan tasarruf uyarısı</li>
-          <li class="en">A missed-saving hint, like "Cheapest at Market Hall, 11.28 less"</li>
-          <li class="tr">"Sadece fiyat": rafta gördüğün fiyatı harcamaya eklemeden takip et</li>
-          <li class="en">"Price only": track a shelf price without logging a purchase</li>
-          <li class="tr">Yapay zeka destekli ad düzeltme; fişin fotoğrafı değil, yalnızca okunan metin gönderilir ve kapatılabilir</li>
-          <li class="en">AI name clean-up sends only the text it read, never the photo, and can be switched off</li>
-        </ul>
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">Wallet Coach</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
       </div>
-      <div class="shots">
-        <img class="shot" data-screen="price-log" src="assets/screens/tr/price-log.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiyat takibi">
-        <img class="shot" data-screen="receipt-scan" src="assets/screens/tr/receipt-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Fiş okuma">
-      </div>
+      <div class="qrs"><a class="qr-card" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener" data-qr="https://apps.apple.com/app/id6798041415" style="--r:2deg"><span class="q"></span><span class="qt"><b>App Store</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a><a class="qr-card" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener" data-qr="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" style="--r:-2deg"><span class="q"></span><span class="qt"><b>Google Play</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
     </div>
   </section>
+</main>
 
-  <!-- ── Paylaşım kartları ── -->
-  <section id="paylas" style="--c:var(--pro)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Paylaşım kartları</span><span class="en">Share cards</span></span>
-        <h2 class="tr">Zammı paylaş, herkes görsün</h2>
-        <h2 class="en">Share the price hike</h2>
-        <p class="lede tr">Projeden, fiyat takibindeki üründen, birikimden, varlıklardan ve analizden tek dokunuşla paylaşılacak görsel. Hazır başlıklar ("Süt %24 zamlandı") ya da kendi başlığın.</p>
-        <p class="lede en">One tap turns a project, a tracked product, savings, assets or the analysis into an image to share, with a ready headline ("Milk is up 24%") or your own.</p>
-        <ul class="feat">
-          <li class="tr">Gönderi (4:5) ya da Hikaye (9:16), 4 renk teması, istersen arkasına fotoğraf</li>
-          <li class="en">Post (4:5) or Story (9:16), 4 colour themes, an optional photo behind</li>
-          <li class="tr">"Tutarları gizle" ile yalnızca yüzdeler görünür; varlıklarda varsayılan olarak gizli</li>
-          <li class="en">"Hide amounts" leaves only percentages; on by default for assets</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="share" src="assets/screens/tr/share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşım kartı">
-        <img class="shot" data-screen="shared-price" src="assets/screens/tr/shared-price.webp" width="600" height="750" loading="lazy" decoding="async" alt="Paylaşılan fiyat kartı">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Ay planı ── -->
-  <section id="ay" style="--c:var(--month)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Ay planı</span><span class="en">The monthly plan</span></span>
-        <h2 class="tr">Bütün faturalar tek sayfada</h2>
-        <h2 class="en">Every bill on one page</h2>
-        <p class="lede tr">Ayın bütün satırları bloklarda: kredi kartları (asgari ödemesiyle), krediler, ev, sigorta, abonelikler, diğer giderler, gelirler. Kendi bloğunu da eklersin.</p>
-        <p class="lede en">Every line of the month in blocks: credit cards (with the minimum payment), loans, home, insurance, subscriptions, other costs and income. Add your own blocks too.</p>
-        <ul class="feat">
-          <li class="tr">Her satırın günü, "ödendi / geldi" işareti ve kaç gün kaldığı ya da geciktiği</li>
-          <li class="en">Each line shows its day, a paid or received tick, and how many days are left or overdue</li>
-          <li class="tr"><strong>Kartla ödeme</strong>: karta yazılan harcama kartın ekstresiyle birlikte bir kez sayılır, çift sayım olmaz</li>
-          <li class="en"><strong>Paid by card</strong>: a bill on a card is counted once, with the card statement, never twice</li>
-          <li class="tr"><strong>Bitiş ayı</strong>: "3 yıl 6 ay kaldı", "4 ay kaldı"</li>
-          <li class="en"><strong>Ends on</strong>: "3 years 6 months left", "4 months left"</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="month" src="assets/screens/tr/month.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ay planı">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Yeni ay ── -->
-  <section id="yeniay" style="--c:var(--month)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Yeni ay</span><span class="en">Rolling over</span></span>
-        <h2 class="tr">Yeni ay öncekini kopyalar</h2>
-        <h2 class="en">The new month copies the last one</h2>
-        <p class="lede tr">Yeni ay tek dokunuşla önceki aydan kopyalanır; geçen ayla fark (gider %, gelir %) üstte yazar. Ay başında sıfırdan yazmazsın, sadece değişeni düzeltirsin.</p>
-        <p class="lede en">A new month copies the last one in a tap, with the change against last month (spending %, income %) on top. You only fix what changed.</p>
-        <ul class="feat">
-          <li class="tr">Vade gün olarak saklanır, yeni aya taşınınca kendiliğinden o aya oturur</li>
-          <li class="en">Due dates are stored as a day, so they move with the month</li>
-          <li class="tr">Son taksitini geçmiş krediler yeni aya gelmez</li>
-          <li class="en">A loan past its final instalment does not come across</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="next-month" src="assets/screens/tr/next-month.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Yeni ay oluştur">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Takvim ── -->
-  <section id="takvim" style="--c:var(--cal)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Takvim</span><span class="en">Calendar</span></span>
-        <h2 class="tr">Hangi gün ne ödenecek</h2>
-        <h2 class="en">What falls due, and when</h2>
-        <p class="lede tr">Vade takvimi ayı gün gün açar; dolu günler renkli, bir güne dokununca o günün satırları gelir.</p>
-        <p class="lede en">The due calendar opens the month day by day; busy days are coloured, tap one to see its lines.</p>
-        <ul class="feat">
-          <li class="tr">Vadesi gelmeden bildirimle hatırlatma</li>
-          <li class="en">A notification before something falls due</li>
-          <li class="tr">Gecikmiş satırlar hem takvimde hem panelde ayrı renkte</li>
-          <li class="en">Overdue lines stand out in both the calendar and the dashboard</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="calendar" src="assets/screens/tr/calendar.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Takvim">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Birikim ── -->
-  <section id="birikim" style="--c:var(--savings)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Birikim</span><span class="en">Savings</span></span>
-        <h2 class="tr">Kutu kutu biriktir</h2>
-        <h2 class="en">Save it square by square</h2>
-        <p class="lede tr">Hedefli birikim kapları: para, gram altın, döviz ya da kendi birimin. Birikim panosu ise 100 kutuluk bir meydan okuma: her kutuda rastgele bir tutar, biriktirdikçe çarpılır.</p>
-        <p class="lede en">Goal-based savings pots in money, grams of gold, currency or a unit of your own. The savings board is a 100-square challenge: each square holds a random amount and gets crossed off as you save.</p>
-        <ul class="feat">
-          <li class="tr">"En küçük kutu" ve "Benim yerime seç"</li>
-          <li class="en">"Smallest square" and "Pick for me"</li>
-          <li class="tr">Pano widget'tan ve Apple Watch'tan da işaretlenir</li>
-          <li class="en">Tick the board from a widget or Apple Watch too</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="savings-board" src="assets/screens/tr/savings-board.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Birikim panosu">
-        <img class="shot" data-screen="savings-detail" src="assets/screens/tr/savings-detail.webp" width="620" height="1344" loading="lazy" decoding="async" alt="Birikim kabı">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Projeler ── -->
-  <section id="projeler" style="--c:var(--assets)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Projeler</span><span class="en">Projects</span></span>
-        <h2 class="tr">Tadilatın gerçek maliyeti</h2>
-        <h2 class="en">What a renovation really costs</h2>
-        <p class="lede tr">Tadilat, tatil, düğün, taşınma, araba gibi planların bütçesi ve harcaması bir arada.</p>
-        <p class="lede en">Budget and spending for plans like a renovation, a holiday, a wedding, a move or a car.</p>
-        <ul class="feat">
-          <li class="tr">Kategori halkası: malzeme, işçilik, nakliye...</li>
-          <li class="en">A category ring: materials, labour, delivery...</li>
-          <li class="tr">Aylara göre dağılım ve bütçenin ne kadarı kaldı</li>
-          <li class="en">Spend by month and how much budget is left</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="project" src="assets/screens/tr/project.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Proje">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Alacak-Verecek ── -->
-  <section id="defter" style="--c:var(--ledger)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Alacak-Verecek</span><span class="en">Ledger</span></span>
-        <h2 class="tr">Kim sana borçlu, sen kime borçlusun</h2>
-        <h2 class="en">Who owes you, and who you owe</h2>
-        <p class="lede tr">Kişi ve markalarla hesaplar: kim kime ne kadar borçlu, KDV'li faturalar, kısmi ödemeler, vade ve gecikme.</p>
-        <p class="lede en">Accounts with people and companies: who owes what, invoices with VAT, partial payments, due dates and delays.</p>
-        <ul class="feat">
-          <li class="tr"><strong>Parçalı tahsilat</strong>: elli bin liralık işin yirmisi geldiyse kalanı görürsün</li>
-          <li class="en"><strong>Partial settlements</strong>: if twenty of fifty came in, you see what is left</li>
-          <li class="tr"><strong>KDV</strong> dahil ya da hariç; matrah, vergi ve brüt ayrı ayrı</li>
-          <li class="en"><strong>VAT</strong> in or out; net, tax and gross shown separately</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="ledger" src="assets/screens/tr/ledger.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Alacak-Verecek">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Varlıklar ── -->
-  <section id="varliklar" style="--c:var(--assets)">
-    <div class="row flip">
-      <div class="txt">
-        <span class="tag"><span class="tr">Varlıklar</span><span class="en">Assets</span></span>
-        <h2 class="tr">Neyin var, ne kadar ediyor</h2>
-        <h2 class="en">What you own, and what it is worth</h2>
-        <p class="lede tr">Ev, araba, arsa, altın, döviz, hisse, fon, kripto. Toplam değer, dolar karşılığı ve türe göre dağılım.</p>
-        <p class="lede en">Home, car, land, gold, currency, shares, funds, crypto. Total value, its dollar equivalent and a split by type.</p>
-        <ul class="feat">
-          <li class="tr">Getiri dört şekilde: nominal, enflasyona göre reel, dolara göre, altına göre</li>
-          <li class="en">Return four ways: nominal, real after inflation, against the dollar and against gold</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="assets" src="assets/screens/tr/assets.webp" width="620" height="1347" loading="lazy" decoding="async" alt="Varlıklar">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Cüzdan ve hesaplayıcılar ── -->
-  <section id="cuzdan" style="--c:var(--wallet)">
-    <div class="row">
-      <div class="txt">
-        <span class="tag"><span class="tr">Cüzdan ve hesaplayıcılar</span><span class="en">Wallet and calculators</span></span>
-        <h2 class="tr">Harcamadan önce bakılacak yer</h2>
-        <h2 class="en">The tab you open before you spend</h2>
-        <p class="lede tr">Defterler, birikim, projeler ve fiyat takibi üstte; ara sıra açılan hesaplayıcılar altta.</p>
-        <p class="lede en">Ledgers, savings, projects and the price log on top; the occasional calculators underneath.</p>
-        <ul class="feat">
-          <li class="tr"><strong>Fiyatı saate çevir</strong>: bir alışveriş kaç saatlik çalışma</li>
-          <li class="en"><strong>Price in hours</strong>: a purchase in hours of your own work</li>
-          <li class="tr"><strong>Şimdi ne kadar?</strong>: geçmişteki bir tutarın bugünkü karşılığı (enflasyon, dolar, altın)</li>
-          <li class="en"><strong>What is it worth now?</strong>: an old amount in today's money (inflation, dollar, gold)</li>
-          <li class="tr"><strong>Brütten nete</strong> maaş ve <strong>zam hesaplayıcı</strong></li>
-          <li class="en"><strong>Gross to net</strong> salary and a <strong>raise calculator</strong></li>
-          <li class="tr">İstek listesi, abonelik takibi ve kısa finans okumaları</li>
-          <li class="en">A wishlist, subscription tracking and short money reads</li>
-        </ul>
-      </div>
-      <div class="shots">
-        <img class="shot" data-screen="wallet" src="assets/screens/tr/wallet.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Cüzdan">
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Gizlilik ── -->
-  <section id="gizlilik">
-    <div class="txt" style="max-width:760px">
-      <span class="tag"><span class="tr">Veri ve gizlilik</span><span class="en">Data and privacy</span></span>
-      <h2 class="tr">Rakamların telefonunda kalır</h2>
-      <h2 class="en">Your figures stay on your phone</h2>
-      <p class="lede tr">Hesap açmak yok, giriş yapmak yok. Veriler telefonda durur, iCloud Drive'a otomatik yedeklenir.
-        Yapay zekalı fiş okumada fişin fotoğrafı değil, yalnızca okunan metin gönderilir.</p>
-      <p class="lede en">No account, no sign-in. Your data lives on the phone with automatic iCloud Drive backup.
-        AI receipt reading sends only the text it read, never the photo.</p>
-    </div>
-    <div class="grid">
-      <div class="cell" style="--c:var(--panel)">
-        <h3><span class="dot"></span><span class="tr">Gizli mod</span><span class="en">Hidden mode</span></h3>
-        <p class="tr">Göz düğmesi bütün tutarları tek dokunuşla gizler. Otobüste açmak için.</p>
-        <p class="en">The eye button hides every amount in one tap. For opening it on the bus.</p>
-      </div>
-      <div class="cell" style="--c:var(--ledger)">
-        <h3><span class="dot"></span><span class="tr">Yedekleme</span><span class="en">Backup</span></h3>
-        <p class="tr">iCloud Drive'a otomatik yedek. Sunucu yok, hesap yok.</p>
-        <p class="en">Automatic backup to iCloud Drive. No server, no account.</p>
-      </div>
-      <div class="cell" style="--c:var(--cal)">
-        <h3><span class="dot"></span><span class="tr">Dışa ve içe aktarma</span><span class="en">Export and import</span></h3>
-        <p class="tr">PDF ya da tablo olarak dışa aktar; başka uygulamadaki tabloyu yapay zeka komutuyla içe al.</p>
-        <p class="en">Export as PDF or a spreadsheet; bring a sheet from another app in with an AI prompt.</p>
-      </div>
-      <div class="cell" style="--c:var(--month)">
-        <h3><span class="dot"></span><span class="tr">Yedi dil</span><span class="en">Seven languages</span></h3>
-        <p class="tr">Türkçe, İngilizce, Almanca, İspanyolca, Fransızca, Portekizce, Rusça. Para
-          birimini ayrıca seçersin.</p>
-        <p class="en">Turkish, English, German, Spanish, French, Portuguese, Russian. The currency is
-          a separate choice.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Fiyat ── -->
-  <section id="fiyat">
-    <div class="txt" style="max-width:760px">
-      <span class="tag" style="--c:var(--pro)"><span class="tr">Fiyat</span><span class="en">Pricing</span></span>
-      <h2 class="tr">Ücretsiz başla, Pro ile sınırları kaldır</h2>
-      <h2 class="en">Start free, lift the limits with Pro</h2>
-    </div>
-    <div class="plans">
-      <div class="plan">
-        <h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3>
-        <p class="price"><span class="tr">Süresiz</span><span class="en">No time limit</span></p>
-        <ul>
-          <li class="tr">2 ay plan</li><li class="en">2 months of plans</li>
-          <li class="tr">1 proje, 1 birikim kabı, 1 birikim panosu</li><li class="en">1 project, 1 savings pot, 1 savings board</li>
-          <li class="tr">3 varlık, alacak-verecekte 3 hesap</li><li class="en">3 assets, 3 ledger accounts</li>
-          <li class="tr">Ayda 2 yapay zekalı fiş ya da etiket okuma</li><li class="en">2 AI receipt or label reads a month</li>
-          <li class="tr">Analizde özet, öne çıkanlar, "para nereye gitti" ve ay ay grafik</li><li class="en">Analysis summary, highlights, "where it went" and the monthly chart</li>
-        </ul>
-      </div>
-      <div class="plan pro">
-        <h3>Wallet Coach Pro</h3>
-        <p class="price"><span class="tr">Aylık, yıllık ya da ömür boyu</span><span class="en">Monthly, yearly or lifetime</span></p>
-        <ul>
-          <li class="tr">Her şey sınırsız</li><li class="en">Everything unlimited</li>
-          <li class="tr">Analizin tamamı: senin enflasyonun, öneriler, alışkanlıklar, servet</li><li class="en">The full analysis: your inflation, tips, habits, wealth</li>
-          <li class="tr">PDF ve tablo dışa aktarma</li><li class="en">PDF and spreadsheet export</li>
-          <li class="tr">Vade hatırlatmaları</li><li class="en">Due-date reminders</li>
-          <li class="tr">Reklam yok</li><li class="en">No ads</li>
-        </ul>
-      </div>
-    </div>
-    <div class="cta" style="justify-content:flex-start;margin-top:28px">
-      <a class="btn primary" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
-        <span class="tr">App Store'dan indir</span><span class="en">Get it on the App Store</span>
-      </a>
-      <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener">
-        <span class="tr">Google Play'den indir</span><span class="en">Get it on Google Play</span>
-      </a>
-    </div>
-  </section>
-
-</div>
-
-<footer>
-  © 2026 BamTech ·
-  <a href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a> ·
-  <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-  <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+<footer class="foot">
+  <div class="wrap">
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy.html"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
+  </div>
+  <div class="giant disp" lang="en" aria-hidden="true">Wallet Coach</div>
 </footer>
 
-<script>
-  (function () {
-    var root = document.documentElement;
-
-    // ── Tema ──
-    var themeBtn = document.getElementById("themeToggle");
-    function syncTheme() {
-      var dark = root.getAttribute("data-theme") === "dark";
-      themeBtn.textContent = dark ? "☀︎" : "☾";
-      themeBtn.setAttribute("aria-pressed", dark ? "true" : "false");
-    }
-    themeBtn.addEventListener("click", function () {
-      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("bb-theme", next); } catch (e) {}
-      syncTheme();
-    });
-    syncTheme();
-
-    // ── Dil ──
-    // Metin CSS ile değişiyor; burada yalnızca ekran görüntülerinin kaynağını
-    // ve düğmenin etiketini güncellemek kalıyor. JS çalışmazsa sayfa Türkçe
-    // kalır ve okunur, görseller de öyle.
-    var langBtn = document.getElementById("langToggle");
-    var shots = document.querySelectorAll("img[data-screen]");
-
-    function applyLang(lang) {
-      root.setAttribute("data-lang", lang);
-      root.setAttribute("lang", lang);
-      langBtn.textContent = lang === "tr" ? "EN" : "TR";
-      langBtn.setAttribute("aria-label", lang === "tr" ? "Switch to English" : "Türkçeye geç");
-      shots.forEach(function (img) {
-        img.src = "assets/screens/" + lang + "/" + img.dataset.screen + ".webp";
-      });
-    }
-
-    langBtn.addEventListener("click", function () {
-      var next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
-      try { localStorage.setItem("bb-lang", next); } catch (e) {}
-      applyLang(next);
-    });
-
-    applyLang(root.getAttribute("data-lang") || "tr");
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
 
 </body>
 </html>

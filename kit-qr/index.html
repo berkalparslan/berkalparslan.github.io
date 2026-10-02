@@ -1,248 +1,177 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kit: QR Scanner &amp; Wallet · BamTech</title>
-<meta name="description" content="Reads every code, checks a link before you open it, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. No ads, no account.">
-<link rel="canonical" href="https://berkalparslan.github.io/kit-qr/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kit: QR Scanner &amp; Wallet">
-<meta property="og:description" content="Reads every code, checks a link before you open it, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. No ads, no account.">
-<meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png">
-<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/home/kit-icon.webp">
+<meta name="description" content="Reads every code, checks a link before you open it, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. No ads, no account." />
+<link rel="canonical" href="https://berkalparslan.github.io/kit-qr/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kit: QR Scanner &amp; Wallet" />
+<meta property="og:description" content="Reads every code, checks a link before you open it, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. No ads, no account." />
+<meta property="og:image" content="https://berkalparslan.github.io/kit-qr/assets/icon.webp" />
+<meta name="theme-color" content="#dceeff" />
+<link rel="icon" href="/kit-qr/assets/icon.webp" />
+<link rel="apple-touch-icon" href="/kit-qr/assets/icon.webp" />
 <script>
-  // Tema ve dil sayfa boyanmadan uygulanır, yoksa gözle görülür sıçrama olur.
-  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
   (function () {
-    var d = document.documentElement;
-    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
-    catch (e) { d.setAttribute("data-theme", "light"); }
-    var lang;
+    var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Kit: QR Okuyucu ve Cüzdan · BamTech");
+    d.setAttribute("data-title-en", "Kit: QR Scanner & Wallet · BamTech");
   })();
 </script>
-<link rel="stylesheet" href="/assets/tour.css">
-<style>
-/* Sayfa içi düzen. Ortak tour.css'e dokunmadan: görsel oranı, şerit ve özellik satırları. */
-.shot{height:auto;object-fit:contain}
-.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:8px 22px 44px;max-width:1080px;margin:0 auto;scrollbar-width:thin}
-.strip img{flex:none;width:min(240px,62vw);height:auto;display:block;
-  scroll-snap-align:center;border:1px solid var(--line);border-radius:22px}
-.strip-hint{text-align:center;color:var(--ink3);font-size:.8rem;margin:-30px 0 34px}
-.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:56px;align-items:center}
-.feat.flip .pic{order:-1}
-.feat + .feat{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}
-.feat h3{font-size:clamp(1.3rem,2.8vw,1.7rem);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
-.feat .k{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.feat p{color:var(--ink2);margin-bottom:14px;max-width:58ch}
-.feat ul{list-style:none;display:grid;gap:8px}
-.feat li{position:relative;padding-left:18px;color:var(--ink2);font-size:.95rem}
-.feat li::before{content:"";position:absolute;left:0;top:.78em;width:8px;height:1px;background:var(--accent)}
-.feat li strong{color:var(--ink)}
-.pic{display:flex;gap:14px;justify-content:center;align-items:flex-start}
-.pic img{flex:1 1 0;min-width:0;width:100%;max-width:240px;height:auto;display:block;border:1px solid var(--line);border-radius:22px}
-.pic.one img{max-width:280px}
-.pic img.watch{max-width:200px;border-radius:30px}
-.plans2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-@media (max-width:760px){
-  .feat{grid-template-columns:1fr;gap:26px}
-  .feat.flip .pic{order:0}
-  .pic img{max-width:46%}
-  .pic.one img{max-width:min(260px,72vw)}
-  .pic img.watch{max-width:44%}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+
 </head>
-<body style="--accent:#2563eb;--accent-dark:#5b9dff">
+<body style="--app:#dceeff;--acc:#4da2ff">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
-    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#saat"><span class="tr">Apple Watch</span><span class="en">Apple Watch</span></a><a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
-    </div>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch&quot;, &quot;Kit&quot;, &quot;iPhone · Apple Watch&quot;]"></div></div>
 
-<header class="hero">
-  <img class="hero-icon" src="/assets/home/kit-icon.webp" width="92" height="92" alt="Kit: QR Scanner &amp; Wallet">
-  <div class="kicker"><span class="tr">iPhone · Apple Watch</span><span class="en">iPhone · Apple Watch</span></div>
-  <h1>Kit: QR Scanner &amp; Wallet</h1>
-  <p class="tr lede">Cebindeki bütün kodlar tek yerde. Kit her kodu okur, linki açmadan önce kontrol eder, sadakat kartlarını ve biletleri tek cüzdanda tutar, iyi görünen QR kodlar yapar. Hepsi iPhone'unda olur.</p><p class="en lede">Every code in your pocket, in one place. Kit reads any code, checks a link before you open it, keeps your loyalty cards and tickets in one wallet and makes QR codes that look good. It all happens on your iPhone.</p>
-  <div class="pills"><span class="tr"><span class="pill">Reklam yok</span><span class="pill">Hesap yok</span><span class="pill">28 dil</span><span class="pill">Kit Pro tek seferlik</span></span><span class="en"><span class="pill">No ads</span><span class="pill">No account</span><span class="pill">28 languages</span><span class="pill">Kit Pro is a one-time purchase</span></span></div>
-  <div class="cta">
-    <a class="btn primary" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="tr">App Store'da aç</span><span class="en">View on the App Store</span></a>
-    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#tarama"><span class="tr">Tarama</span><span class="en">Scanning</span></a><a href="#kartlar"><span class="tr">Kart cüzdanı</span><span class="en">Card wallet</span></a><a href="#biletler"><span class="tr">Biletler</span><span class="en">Tickets</span></a><a href="#icinde"><span class="tr">İçinde ne var</span><span class="en">What is inside</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
-  <div class="strip tr" role="list">
-    <img src="/kit-qr/assets/promo/tr/01-home.webp" width="600" height="1304" decoding="async" alt="Kart, bilet ve QR hepsi tek yerde">
-    <img src="/kit-qr/assets/promo/tr/02-wallet-cards.webp" width="600" height="1304" decoding="async" alt="Sadakat kartları tek cüzdanda">
-    <img src="/kit-qr/assets/promo/tr/03-card-at-till.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kasada büyük barkod">
-    <img src="/kit-qr/assets/promo/tr/04-tickets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Biletler bir arada">
-    <img src="/kit-qr/assets/promo/tr/05-ticket-at-gate.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kapıda herkesin bileti">
-    <img src="/kit-qr/assets/promo/tr/06-product.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Barkodu okut, içini gör">
-    <img src="/kit-qr/assets/promo/tr/07-history.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Menüler, ödemeler, ürünler ayrı ayrı">
-    <img src="/kit-qr/assets/promo/tr/08-design.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşmaya değer QR kodlar">
-    <img src="/kit-qr/assets/promo/tr/09-menu-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Linki açmadan önce kontrol">
-  </div>
-  <div class="strip en" role="list">
-    <img src="/kit-qr/assets/promo/en/01-home.webp" width="600" height="1304" decoding="async" alt="Cards, tickets and QR codes in one place">
-    <img src="/kit-qr/assets/promo/en/02-wallet-cards.webp" width="600" height="1304" decoding="async" alt="Loyalty cards in one wallet">
-    <img src="/kit-qr/assets/promo/en/03-card-at-till.webp" width="600" height="1304" loading="lazy" decoding="async" alt="A big barcode at the till">
-    <img src="/kit-qr/assets/promo/en/04-tickets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="All your tickets together">
-    <img src="/kit-qr/assets/promo/en/05-ticket-at-gate.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Everyone&#x27;s ticket at the gate">
-    <img src="/kit-qr/assets/promo/en/06-product.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Scan it, see what is inside">
-    <img src="/kit-qr/assets/promo/en/07-history.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Menus, payments, products, sorted">
-    <img src="/kit-qr/assets/promo/en/08-design.webp" width="600" height="1304" loading="lazy" decoding="async" alt="QR codes worth sharing">
-    <img src="/kit-qr/assets/promo/en/09-menu-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Checks the link before you open it">
-  </div>
-  <p class="strip-hint"><span class="tr">Kaydırarak gez</span><span class="en">Swipe to browse</span></p>
+<main>
+  <section class="hero" data-emoji="[&quot;🎟️&quot;, &quot;💳&quot;, &quot;📷&quot;, &quot;✈️&quot;, &quot;☕&quot;, &quot;🔍&quot;, &quot;🎨&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/kit-qr/assets/icon.webp" alt="" width="180" height="180" />
+      <p class="kick">iPhone · Apple Watch </p>
+      <h1 class="disp" lang="en">Kit</h1>
+      <p class="lede"><span class="tr">Cebindeki bütün kodlar tek yerde. Kit her kodu okur, linki açmadan önce kontrol eder, kartları ve biletleri tek cüzdanda tutar, iyi görünen QR kodlar yapar.</span><span class="en">Every code in your pocket, in one place. Kit reads any code, checks a link before you open it, keeps your cards and tickets in one wallet and makes QR codes that look good.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Reklam yok</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">28 dil</span><span class="en">28 languages</span></span><span class="pill-s"><span class="tr">Pro tek seferlik</span><span class="en">Pro is one-time</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
+    </div>
+  </section>
 
-<section id="ozellikler">
+  <div class="promo tr"><div class="promo-track"><img src="/kit-qr/assets/promo/tr/01-home.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/02-wallet-cards.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/03-card-at-till.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/04-tickets.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/05-ticket-at-gate.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/06-product.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/07-history.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/08-design.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/tr/09-menu-scan.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/01-home.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/02-wallet-cards.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/03-card-at-till.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/04-tickets.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/05-ticket-at-gate.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/06-product.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/07-history.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/08-design.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/tr/09-menu-scan.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/kit-qr/assets/promo/en/01-home.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/02-wallet-cards.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/03-card-at-till.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/04-tickets.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/05-ticket-at-gate.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/06-product.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/07-history.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/08-design.webp" alt="" loading="lazy" /><img src="/kit-qr/assets/promo/en/09-menu-scan.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/01-home.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/02-wallet-cards.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/03-card-at-till.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/04-tickets.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/05-ticket-at-gate.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/06-product.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/07-history.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/08-design.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/kit-qr/assets/promo/en/09-menu-scan.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="tarama">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/tr/01-home.webp&quot;, &quot;/kit-qr/assets/screens/tr/09-menu-scan.webp&quot;]"><img src="/kit-qr/assets/screens/tr/01-home.webp" alt="Reads it, checks it first" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/en/01-home.webp&quot;, &quot;/kit-qr/assets/screens/en/09-menu-scan.webp&quot;]"><img src="/kit-qr/assets/screens/en/01-home.webp" alt="Reads it, checks it first" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Tarama</span><span class="en">Scanning</span></p>
+        <h2 class="disp"><span class="tr">Okur, açmadan kontrol eder</span><span class="en">Reads it, checks it first</span></h2>
+        <p class="z-p"><span class="tr">QR kod, market barkodu, bilet, biniş kartı, Data Matrix, Aztec, PDF417. Kameradan, fotoğraftan ya da ekran görüntüsünden; tek kod ya da art arda onlarca.</span><span class="en">QR codes, shop barcodes, tickets, boarding passes, Data Matrix, Aztec, PDF417. From the camera, a photo or a screenshot; one code or dozens in a row.</span></p>
+        <ul class="bul"><li><span class="tr">Bağlantı kontrolü: taklit adresler, kısaltılmış linkler, giriş tuzakları</span><span class="en">Link check: lookalike addresses, shorteners and login traps are flagged</span></li><li><span class="tr">Wi-Fi&#x27;a bağlanır, kişiyi kaydeder, etkinliği takvime ekler</span><span class="en">Joins the Wi-Fi, saves the contact, adds the event</span></li><li><span class="tr">Toplu tarama ile art arda okut (Kit Pro)</span><span class="en">Batch scanning, one code after another (Kit Pro)</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="kartlar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/tr/02-wallet-cards.webp&quot;, &quot;/kit-qr/assets/screens/tr/03-card-at-till.webp&quot;]"><img src="/kit-qr/assets/screens/tr/02-wallet-cards.webp" alt="That card? Right here." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/en/02-wallet-cards.webp&quot;, &quot;/kit-qr/assets/screens/en/03-card-at-till.webp&quot;]"><img src="/kit-qr/assets/screens/en/02-wallet-cards.webp" alt="That card? Right here." loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kart cüzdanı</span><span class="en">Card wallet</span></p>
+        <h2 class="disp"><span class="tr">O kart nerede? Burada.</span><span class="en">That card? Right here.</span></h2>
+        <p class="z-p"><span class="tr">Kartın fotoğrafını bir kez çekersin. Kit barkodu okur; barkod yoksa basılı numarayı okur ve kasanın okutabileceği bir barkoda çevirir.</span><span class="en">Photograph a card once. Kit reads the barcode, or the printed number if there is none, and turns it into a barcode the till can scan.</span></p>
+        <ul class="bul"><li><span class="tr">Kasada tam parlaklıkta, büyük barkodla açılır</span><span class="en">Opens at full brightness with a big barcode at the till</span></li><li><span class="tr">Widget, Denetim Merkezi, Siri ya da Apple Watch&#x27;tan tek dokunuş</span><span class="en">One tap from a widget, Control Center, Siri or Apple Watch</span></li><li><span class="tr">IBAN&#x27;ı QR&#x27;lı bir kart olarak saklar</span><span class="en">Keeps your IBAN as a card with a QR code</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="biletler">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/tr/04-tickets.webp&quot;, &quot;/kit-qr/assets/screens/tr/05-ticket-at-gate.webp&quot;]"><img src="/kit-qr/assets/screens/tr/04-tickets.webp" alt="Everyone&#x27;s ticket, one phone" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/en/04-tickets.webp&quot;, &quot;/kit-qr/assets/screens/en/05-ticket-at-gate.webp&quot;]"><img src="/kit-qr/assets/screens/en/04-tickets.webp" alt="Everyone&#x27;s ticket, one phone" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Biletler</span><span class="en">Tickets</span></p>
+        <h2 class="disp"><span class="tr">Herkesin bileti tek telefonda</span><span class="en">Everyone&#x27;s ticket, one phone</span></h2>
+        <p class="z-p"><span class="tr">Konser, maç, uçuş, sinema, tiyatro, müze. Bilet ekran görüntüsünde ya da e-postadaki PDF&#x27;te Paylaş&#x27;a basıp Kit&#x27;i seçmek yeter.</span><span class="en">Concerts, matches, flights, cinema, theatre, museums. Hit Share on a ticket screenshot or the PDF in your email and pick Kit.</span></p>
+        <ul class="bul"><li><span class="tr">Kod, tarih, yer ve koltuk okunur</span><span class="en">It reads the code, date, place and seat</span></li><li><span class="tr">Arkadaşların biletleri tek etkinlikte; kapıda kaydırarak göster</span><span class="en">Friends&#x27; tickets sit in one event; swipe through them at the gate</span></li><li><span class="tr">Biletler saate de gider</span><span class="en">Tickets go to your Watch too</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="icinde">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/tr/06-product.webp&quot;, &quot;/kit-qr/assets/screens/tr/07-history.webp&quot;]"><img src="/kit-qr/assets/screens/tr/06-product.webp" alt="Scan it, see inside" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/en/06-product.webp&quot;, &quot;/kit-qr/assets/screens/en/07-history.webp&quot;]"><img src="/kit-qr/assets/screens/en/06-product.webp" alt="Scan it, see inside" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">İçinde ne var</span><span class="en">What is inside</span></p>
+        <h2 class="disp"><span class="tr">Barkodu okut, içini gör</span><span class="en">Scan it, see inside</span></h2>
+        <p class="z-p"><span class="tr">Market ürününde 100 gramda besin değerleri, Nutri-Score, NOVA, alerjenler ve katkı maddeleri. Kitapta ISBN&#x27;den ad, yazar, yayınevi ve sayfa sayısı.</span><span class="en">Groceries: nutrition per 100 g, Nutri-Score, NOVA, allergens and additives. Books: title, author, publisher and page count from the ISBN.</span></p>
+        <ul class="bul"><li><span class="tr">Menüler, ödemeler, ürünler geçmişte ayrı ayrı</span><span class="en">Menus, payments and products sorted in your history</span></li><li><span class="tr">Matter ve HomeKit kurulum kodları saklanır</span><span class="en">Matter and HomeKit setup codes are kept</span></li><li><span class="tr">Geçmiş Face ID ile kilitlenebilir</span><span class="en">History can be locked with Face ID</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="tasarim">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/tr/08-design.webp&quot;]"><img src="/kit-qr/assets/screens/tr/08-design.webp" alt="Give your QR some style" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/kit-qr/assets/screens/en/08-design.webp&quot;]"><img src="/kit-qr/assets/screens/en/08-design.webp" alt="Give your QR some style" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">QR tasarımı</span><span class="en">QR design</span></p>
+        <h2 class="disp"><span class="tr">QR&#x27;ın da bir tarzı olsun</span><span class="en">Give your QR some style</span></h2>
+        <p class="z-p"><span class="tr">Web sitesi, Wi-Fi, kişi kartı, etkinlik, sosyal medya, WhatsApp, konum, e-posta, SMS, kripto ve dahası.</span><span class="en">Website, Wi-Fi, contact card, event, social, WhatsApp, location, email, SMS, crypto and more.</span></p>
+        <ul class="bul"><li><span class="tr">Renk, gradyan, nokta ve köşe şekli, emoji, logo, çerçeve</span><span class="en">Colours, gradients, dot and corner shapes, emoji, logo, frames</span></li><li><span class="tr">Kaydedilen kodlar tasarımıyla kalır, sonradan düzenlenir</span><span class="en">Saved codes keep their design and can be edited later</span></li><li><span class="tr">PNG, SVG ya da baskıya hazır PDF; CSV&#x27;den toplu kod</span><span class="en">PNG, SVG or print-ready PDF; batch codes from a CSV</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="saat">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/kit-qr/assets/watch/tr/01-wrist-wallet.webp&quot;, &quot;/kit-qr/assets/watch/tr/02-wrist-barcode.webp&quot;, &quot;/kit-qr/assets/watch/tr/03-wrist-qr.webp&quot;]"><img src="/kit-qr/assets/watch/tr/01-wrist-wallet.webp" alt="Your wallet on your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/kit-qr/assets/watch/en/01-wrist-wallet.webp&quot;, &quot;/kit-qr/assets/watch/en/02-wrist-barcode.webp&quot;, &quot;/kit-qr/assets/watch/en/03-wrist-qr.webp&quot;]"><img src="/kit-qr/assets/watch/en/01-wrist-wallet.webp" alt="Your wallet on your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick">Apple Watch</p>
+        <h2 class="disp"><span class="tr">Cüzdanın bileğinde</span><span class="en">Your wallet on your wrist</span></h2>
+        <p class="z-p"><span class="tr">Kartlar, biletler ve tasarımlı QR kodlar bilekte. Telefonla kendiliğinden eşitlenir.</span><span class="en">Cards, tickets and designed QR codes on your wrist, synced with your phone on their own.</span></p>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Bir kez öde, yeter</span><span class="en">Pay once, that&#x27;s it</span></h2>
+      <p class="band-p"><span class="tr">Tarama, geçmiş, beş kart, biletler ve QR üretimi ücretsiz. Kit Pro tek seferlik bir satın alma.</span><span class="en">Scanning, history, five cards, tickets and making QR codes are free. Kit Pro is a one-time purchase.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">Süresiz</span><span class="en">Forever</span></p><ul><li><span class="tr">Tarama ve geçmiş</span><span class="en">Scanning and history</span></li><li><span class="tr">5 kart</span><span class="en">5 cards</span></li><li><span class="tr">Biletler</span><span class="en">Tickets</span></li><li><span class="tr">QR kod üretme</span><span class="en">Making QR codes</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3>Kit Pro</h3><p class="price"><span class="tr">Tek seferlik</span><span class="en">One-time</span></p><ul><li><span class="tr">Sınırsız kart</span><span class="en">Unlimited cards</span></li><li><span class="tr">Tasarım stüdyosunun tamamı</span><span class="en">The full design studio</span></li><li><span class="tr">Apple Watch&#x27;ta tüm liste</span><span class="en">Your whole list on Apple Watch</span></li><li><span class="tr">Toplu tarama, dışa aktarma, klasörler</span><span class="en">Batch scanning, exports, folders</span></li></ul></div></div>
+    </div>
+  </section>
+
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Verin sende</span><span class="en">Your data stays yours</span></h2>
+      <div><p class="band-p"><span class="tr">Tarama, okuma ve kart numarası tanıma iPhone&#x27;unda yapılır. Kartların, biletlerin ve geçmişin cihazında durur. Hesap yok, reklam yok, takip yok.</span><span class="en">Scanning, reading and card number recognition happen on your iPhone. Your cards, tickets and history stay on device. No account, no ads, no tracking.</span></p>
+      <p class="row-btns"><a class="pill" href="/privacy/kit-qr/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">Kit</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      </div>
+      <div class="qrs"><a class="qr-card" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener" data-qr="https://apps.apple.com/app/id6446224550" style="--r:2deg"><span class="q"></span><span class="qt"><b>App Store</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
   <div class="wrap">
-    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
-    <h2><span class="tr">Tara, sakla, göster</span><span class="en">Scan it, keep it, show it</span></h2>
-    <p class="tr sec-lede">Tarama, geçmiş, beş kart, biletler ve QR üretimi ücretsiz. Kit Pro tek seferlik bir satın alma.</p><p class="en sec-lede">Scanning, history, five cards, tickets and making QR codes are free. Kit Pro is a one-time purchase.</p>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Tarama</span><span class="en">Scanning</span></div>
-        <h3><span class="tr">Her şeyi okur, açmadan önce kontrol eder</span><span class="en">Reads anything, checks before it opens</span></h3>
-        <p class="tr">QR kod, market barkodu, bilet, biniş kartı, Data Matrix, Aztec, PDF417. Kameradan, fotoğraftan ya da ekran görüntüsünden; tek kod ya da art arda onlarca.</p><p class="en">QR codes, shop barcodes, tickets, boarding passes, Data Matrix, Aztec, PDF417. From the camera, a photo or a screenshot; one code or dozens in a row.</p>
-        <ul><li class="tr"><strong>Bağlantı kontrolü</strong>: markayı taklit eden adresler, kısaltılmış linkler ve giriş tuzakları işaretlenir</li><li class="en"><strong>Link check</strong>: lookalike brand addresses, shorteners and login traps are flagged</li><li class="tr">Sonraki adımı kendisi yapar: Wi-Fi'a bağlanır, kişiyi kaydeder, etkinliği takvime ekler, menüyü açar</li><li class="en">It does the next step: joins the Wi-Fi, saves the contact, adds the event, opens the menu</li><li class="tr">Toplu tarama ile art arda okutursun (Kit Pro)</li><li class="en">Batch scanning reads one code after another (Kit Pro)</li></ul>
-      </div>
-      <div class="pic tr"><img src="/kit-qr/assets/screens/tr/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kit ana sayfa"><img src="/kit-qr/assets/screens/tr/09-menu-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Restoran menüsü bağlantısı kontrol edildi"></div>
-      <div class="pic en"><img src="/kit-qr/assets/screens/en/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kit home"><img src="/kit-qr/assets/screens/en/09-menu-scan.webp" width="600" height="1304" loading="lazy" decoding="async" alt="A menu link, checked"></div>
-    </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Kart cüzdanı</span><span class="en">Card wallet</span></div>
-        <h3><span class="tr">Sadakat kartların hep yanında</span><span class="en">Your loyalty cards, always with you</span></h3>
-        <p class="tr">Kartın fotoğrafını bir kez çekersin. Kit barkodu okur; barkod yoksa karttaki basılı numarayı okur ve kasanın okutabileceği bir barkoda çevirir.</p><p class="en">Photograph a card once. Kit reads the barcode, or the printed number if there is none, and turns it into a barcode the till can scan.</p>
-        <ul><li class="tr">Fotoğraf kartın yüzü olur, dokununca kart dönüp arkasını gösterir</li><li class="en">The photo becomes the card face; tap and it flips to show the back</li><li class="tr">Market, akaryakıt, eczane, kafe, spor salonu, kütüphane, banka: türe göre ayrılır</li><li class="en">Grocery, fuel, pharmacy, cafe, gym, library, bank: sorted by type</li><li class="tr">Kasada tam parlaklıkta, büyük barkodla açılır</li><li class="en">Opens at full brightness with a big barcode at the till</li><li class="tr">Widget, Denetim Merkezi, Siri ya da Apple Watch'tan tek dokunuş</li><li class="en">One tap from a widget, Control Center, Siri or Apple Watch</li><li class="tr">IBAN'ı QR'lı bir kart olarak saklar</li><li class="en">Keeps your IBAN as a card with a QR code</li></ul>
-      </div>
-      <div class="pic tr"><img src="/kit-qr/assets/screens/tr/02-wallet-cards.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kartlar"><img src="/kit-qr/assets/screens/tr/03-card-at-till.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kasada kart"></div>
-      <div class="pic en"><img src="/kit-qr/assets/screens/en/02-wallet-cards.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Cards"><img src="/kit-qr/assets/screens/en/03-card-at-till.webp" width="600" height="1304" loading="lazy" decoding="async" alt="A card at the till"></div>
-    </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Biletler</span><span class="en">Tickets</span></div>
-        <h3><span class="tr">Kapıda herkesinki hazır</span><span class="en">Ready at the gate, for everyone</span></h3>
-        <p class="tr">Konser, maç, uçuş, sinema, tiyatro, müze. Bilet ekran görüntüsünde ya da e-postadaki PDF'te Paylaş'a basıp Kit'i seçmek yeter.</p><p class="en">Concerts, matches, flights, cinema, theatre, museums. Hit Share on a ticket screenshot or the PDF in your email and pick Kit.</p>
-        <ul><li class="tr">Kod, tarih, yer ve koltuk okunur</li><li class="en">It reads the code, date, place and seat</li><li class="tr">Biniş kartlarında yolcu, rota, uçuş ve koltuk kodun içinden gelir</li><li class="en">Boarding passes: passenger, route, flight and seat come from the code itself</li><li class="tr">Arkadaşların ve ailenin biletleri tek etkinlikte durur; kapıda kaydırarak herkesinkini gösterirsin</li><li class="en">Tickets for friends and family sit in one event; swipe through them at the gate</li><li class="tr">Biletler saate de gider</li><li class="en">Tickets go to your Watch too</li></ul>
-      </div>
-      <div class="pic tr"><img src="/kit-qr/assets/screens/tr/04-tickets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Biletler"><img src="/kit-qr/assets/screens/tr/05-ticket-at-gate.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kapıda bilet"></div>
-      <div class="pic en"><img src="/kit-qr/assets/screens/en/04-tickets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Tickets"><img src="/kit-qr/assets/screens/en/05-ticket-at-gate.webp" width="600" height="1304" loading="lazy" decoding="async" alt="A ticket at the gate"></div>
-    </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">İçinde ne var</span><span class="en">What is inside</span></div>
-        <h3><span class="tr">Barkodu okut, içini gör</span><span class="en">Scan it, see what is inside</span></h3>
-        <p class="tr">Market ürününde 100 gramda besin değerleri trafik ışığıyla, Nutri-Score, NOVA, alerjenler ve katkı maddeleri. Kitapta ISBN'den ad, yazar, yayınevi, yıl ve sayfa sayısı.</p><p class="en">Groceries: nutrition per 100 g with traffic lights, Nutri-Score, NOVA, allergens and additives. Books: title, author, publisher, year and page count from the ISBN.</p>
-        <ul><li class="tr">Restoran menüleri geçmişte "Menüler" altında, restoranın adıyla toplanır</li><li class="en">Restaurant menus gather under "Menus" in your history, named after the place</li><li class="tr">Ödeme karekodunda kime ve ne kadar ödeyeceğin görünür</li><li class="en">Payment codes show who you pay and how much</li><li class="tr">Akıllı ev (Matter, HomeKit) kurulum kodları saklanır; etiket kaybolsa da cihazı yeniden kurarsın</li><li class="en">Smart home (Matter, HomeKit) setup codes are kept, so a lost label is no problem</li><li class="tr">Geçmiş Face ID ile kilitlenebilir</li><li class="en">History can be locked with Face ID</li></ul>
-      </div>
-      <div class="pic tr"><img src="/kit-qr/assets/screens/tr/06-product.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ürün bilgisi"><img src="/kit-qr/assets/screens/tr/07-history.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Kayıtlı kodlar"></div>
-      <div class="pic en"><img src="/kit-qr/assets/screens/en/06-product.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Product details"><img src="/kit-qr/assets/screens/en/07-history.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Saved codes"></div>
-    </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">QR tasarımı</span><span class="en">QR design</span></div>
-        <h3><span class="tr">Paylaşmaya değer QR kodlar</span><span class="en">QR codes worth sharing</span></h3>
-        <p class="tr">Web sitesi, Wi-Fi, kişi kartı, etkinlik, sosyal medya, WhatsApp, konum, e-posta, SMS, kripto ve dahası.</p><p class="en">Website, Wi-Fi, contact card, event, social, WhatsApp, location, email, SMS, crypto and more.</p>
-        <ul><li class="tr">Renk, gradyan, nokta ve köşe şekilleri, emoji, kendi logon, çerçeve ve hazır şablonlar</li><li class="en">Colours, gradients, dot and corner shapes, emoji, your logo, frames and templates</li><li class="tr">Kaydedilen kodlar tasarımıyla kalır, sonradan açıp düzenlenir</li><li class="en">Saved codes keep their design and can be edited later</li><li class="tr">PNG, SVG ya da baskıya hazır PDF; CSV'den toplu kod üretimi</li><li class="en">PNG, SVG or print-ready PDF; batch codes from a CSV</li></ul>
-      </div>
-      <div class="pic one tr"><img src="/kit-qr/assets/screens/tr/08-design.webp" width="600" height="1304" loading="lazy" decoding="async" alt="QR tasarım stüdyosu"></div>
-      <div class="pic one en"><img src="/kit-qr/assets/screens/en/08-design.webp" width="600" height="1304" loading="lazy" decoding="async" alt="The QR design studio"></div>
-    </div>
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy/kit-qr/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
   </div>
-</section>
-
-<section id="saat">
-  <div class="wrap">
-    <div class="tag">Apple Watch</div>
-    <h2><span class="tr">Bileğinde, kasada ve kapıda</span><span class="en">On your wrist, at the till and the gate</span></h2>
-    <p class="tr sec-lede">Kartlar, biletler ve tasarımlı QR kodlar bilekte. Telefonla kendiliğinden eşitlenir.</p><p class="en sec-lede">Cards, tickets and designed QR codes on your wrist, synced with your phone on their own.</p>
-    <div class="pic tr"><img class="watch" src="/kit-qr/assets/watch/tr/01-wrist-wallet.webp" width="416" height="496" loading="lazy" decoding="async" alt="Saatte cüzdan"><img class="watch" src="/kit-qr/assets/watch/tr/02-wrist-barcode.webp" width="416" height="496" loading="lazy" decoding="async" alt="Saatte barkod"><img class="watch" src="/kit-qr/assets/watch/tr/03-wrist-qr.webp" width="416" height="496" loading="lazy" decoding="async" alt="Saatte QR kod"></div>
-      <div class="pic en"><img class="watch" src="/kit-qr/assets/watch/en/01-wrist-wallet.webp" width="416" height="496" loading="lazy" decoding="async" alt="The wallet on Apple Watch"><img class="watch" src="/kit-qr/assets/watch/en/02-wrist-barcode.webp" width="416" height="496" loading="lazy" decoding="async" alt="A barcode on Apple Watch"><img class="watch" src="/kit-qr/assets/watch/en/03-wrist-qr.webp" width="416" height="496" loading="lazy" decoding="async" alt="A QR code on Apple Watch"></div>
-  </div>
-</section>
-
-<section id="fiyat">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Fiyat</span><span class="en">Pricing</span></div>
-    <h2><span class="tr">Ücretsiz başla, istersen bir kez öde</span><span class="en">Start free, pay once if you want more</span></h2>
-    <div class="plans2">
-      <div class="note"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3>
-        <ul class="tr"><li>Tarama ve geçmiş</li><li>5 kart</li><li>Biletler</li><li>QR kod üretme</li></ul>
-        <ul class="en"><li>Scanning and history</li><li>5 cards</li><li>Tickets</li><li>Making QR codes</li></ul></div>
-      <div class="note"><h3><span class="tr">Kit Pro, tek seferlik</span><span class="en">Kit Pro, one-time</span></h3>
-        <ul class="tr"><li>Sınırsız kart</li><li>Tasarım stüdyosunun tamamı</li><li>Apple Watch'ta tüm liste</li><li>Toplu tarama, dışa aktarma, klasörler</li></ul>
-        <ul class="en"><li>Unlimited cards</li><li>The full design studio</li><li>Your whole list on Apple Watch</li><li>Batch scanning, exports, folders</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<section id="gizlilik">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
-    <h2><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
-    <div class="note">
-      <ul class="tr"><li>Tarama, okuma ve kart numarası tanıma iPhone'unda yapılır</li><li>Kartların, biletlerin ve geçmişin cihazında durur</li><li>Hesap yok</li><li>Reklam yok, takip yok</li></ul>
-      <ul class="en"><li>Scanning, reading and card number recognition happen on your iPhone</li><li>Your cards, tickets and history stay on device</li><li>No account</li><li>No ads, no tracking</li></ul>
-      <p class="tr">Tam metin: <a href="/privacy/kit-qr/">Kit: QR Scanner &amp; Wallet gizlilik politikası</a>. Sorun varsa <a href="mailto:aberkalparslan@gmail.com">yaz</a>.</p>
-      <p class="en">Full text: <a href="/privacy/kit-qr/#en">the Kit: QR Scanner &amp; Wallet privacy policy</a>. Something wrong? <a href="mailto:aberkalparslan@gmail.com">Write in</a>.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 BamTech ·
-    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/privacy/kit-qr/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-  </p>
+  <div class="giant disp" lang="en" aria-hidden="true">Kit</div>
 </footer>
 
-<script>
-  (function () {
-    var d = document.documentElement;
-    var lang = d.getAttribute("data-lang");
-    var theme = d.getAttribute("data-theme");
-    var lb = document.getElementById("langBtn");
-    var tb = document.getElementById("themeBtn");
-    // Düğme, tıklanınca geçilecek dili gösterir.
-    function paint() {
-      lb.textContent = lang === "tr" ? "EN" : "TR";
-      tb.textContent = theme === "dark" ? "☀︎" : "☾";
-    }
-    lb.addEventListener("click", function () {
-      lang = lang === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", lang);
-      d.setAttribute("lang", lang);
-      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
-      paint();
-    });
-    tb.addEventListener("click", function () {
-      theme = theme === "dark" ? "light" : "dark";
-      d.setAttribute("data-theme", theme);
-      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
 
 </body>
 </html>

@@ -1,282 +1,177 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Nubi: Virtual Pet · BamTech</title>
-<meta name="description" content="A virtual pet that lives in real time. Hungry while you work, sleepy at night, growing up a little every day. It never dies. iPhone, Apple Watch and widgets. No ads.">
-<link rel="canonical" href="https://berkalparslan.github.io/nubi/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Nubi: Virtual Pet">
-<meta property="og:description" content="A virtual pet that lives in real time. Hungry while you work, sleepy at night, growing up a little every day. It never dies. iPhone, Apple Watch and widgets. No ads.">
-<meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png">
-<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/nubi/assets/icon.webp">
+<meta name="description" content="A little virtual pet that lives in real time. For iPhone and Apple Watch." />
+<link rel="canonical" href="https://berkalparslan.github.io/nubi/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Nubi: Virtual Pet" />
+<meta property="og:description" content="A little virtual pet that lives in real time. For iPhone and Apple Watch." />
+<meta property="og:image" content="https://berkalparslan.github.io/nubi/assets/icon.webp" />
+<meta name="theme-color" content="#ffd731" />
+<link rel="icon" href="/nubi/assets/icon.webp" />
+<link rel="apple-touch-icon" href="/nubi/assets/icon.webp" />
 <script>
-  // Tema ve dil sayfa boyanmadan uygulanır, yoksa gözle görülür sıçrama olur.
-  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
   (function () {
-    var d = document.documentElement;
-    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
-    catch (e) { d.setAttribute("data-theme", "light"); }
-    var lang;
+    var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Nubi: Sanal Bebek · BamTech");
+    d.setAttribute("data-title-en", "Nubi: Virtual Pet · BamTech");
   })();
 </script>
-<link rel="stylesheet" href="/assets/tour.css">
-<style>
-/* Sayfa içi düzen. Ortak tour.css'e dokunmadan: görsel oranı, şerit ve özellik satırları. */
-.shot{height:auto;object-fit:contain}
-.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:8px 22px 44px;max-width:1080px;margin:0 auto;scrollbar-width:thin}
-.strip img{flex:none;width:min(240px,62vw);height:auto;display:block;
-  scroll-snap-align:center;border:1px solid var(--line);border-radius:22px}
-.strip-hint{text-align:center;color:var(--ink3);font-size:.8rem;margin:-30px 0 34px}
-.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:56px;align-items:center}
-.feat.flip .pic{order:-1}
-.feat + .feat{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}
-.feat h3{font-size:clamp(1.3rem,2.8vw,1.7rem);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
-.feat .k{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.feat p{color:var(--ink2);margin-bottom:14px;max-width:58ch}
-.feat ul{list-style:none;display:grid;gap:8px}
-.feat li{position:relative;padding-left:18px;color:var(--ink2);font-size:.95rem}
-.feat li::before{content:"";position:absolute;left:0;top:.78em;width:8px;height:1px;background:var(--accent)}
-.feat li strong{color:var(--ink)}
-.pic{display:flex;gap:14px;justify-content:center;align-items:flex-start}
-.pic img{flex:1 1 0;min-width:0;width:100%;max-width:240px;height:auto;display:block;border:1px solid var(--line);border-radius:22px}
-.pic.one img{max-width:280px}
-.pic img.watch{max-width:200px;border-radius:30px}
-.plans2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-@media (max-width:760px){
-  .feat{grid-template-columns:1fr;gap:26px}
-  .feat.flip .pic{order:0}
-  .pic img{max-width:46%}
-  .pic.one img{max-width:min(260px,72vw)}
-  .pic img.watch{max-width:44%}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+
 </head>
-<body style="--accent:#f2642a;--accent-dark:#ff8a57">
+<body style="--app:#ffd731;--acc:#fb4903">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
-    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#saat"><span class="tr">Apple Watch</span><span class="en">Apple Watch</span></a><a href="#fiyat"><span class="tr">Fiyat</span><span class="en">Pricing</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
-    </div>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Widget&quot;, &quot;Nubi&quot;, &quot;iPhone · Apple Watch · Widgets&quot;]"></div></div>
 
-<header class="hero">
-  <img class="hero-icon" src="/nubi/assets/icon.webp" width="92" height="92" alt="Nubi: Virtual Pet">
-  <div class="kicker"><span class="tr">iPhone · Apple Watch · Widget</span><span class="en">iPhone · Apple Watch · Widgets</span></div>
-  <h1><span class="tr">Nubi: Sanal Bebek</span><span class="en">Nubi: Virtual Pet</span></h1>
-  <p class="tr lede">Gerçek zamanda yaşayan minik bir dost. Sen işteyken acıkır, gece uykusu gelir, unutunca canı sıkılır. Günde birkaç kez uğrarsın, o da gözünün önünde büyür. Ölmez, suçluluk duygusu yüklemez.</p><p class="en lede">A little friend that lives in real time. Hungry while you work, sleepy at night, a bit bored when you forget it. Drop by a few times a day and watch it grow up. It never dies and never guilt-trips you.</p>
-  <div class="pills"><span class="tr"><span class="pill">Ölmez</span><span class="pill">Reklam yok</span><span class="pill">Hesap yok</span><span class="pill">6 dil</span></span><span class="en"><span class="pill">Never dies</span><span class="pill">No ads</span><span class="pill">No account</span><span class="pill">6 languages</span></span></div>
-  <div class="cta">
-    <a class="btn primary" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="tr">App Store'da aç</span><span class="en">View on the App Store</span></a>
-    <a class="btn ghost" href="/"><span class="tr">Diğer uygulamalar</span><span class="en">Other apps</span></a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#ihtiyaclar"><span class="tr">Gerçek zamanda</span><span class="en">Real time</span></a><a href="#buyume"><span class="tr">Büyüme</span><span class="en">Growing up</span></a><a href="#oyunlar"><span class="tr">Oyunlar</span><span class="en">Games</span></a><a href="#magaza"><span class="tr">Mağaza</span><span class="en">Shop</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
-  <div class="strip tr" role="list">
-    <img src="/nubi/assets/promo/tr/01-friend.webp" width="600" height="1304" decoding="async" alt="Minik bir dost">
-    <img src="/nubi/assets/promo/tr/02-grow.webp" width="600" height="1304" decoding="async" alt="Nasıl büyüyeceği sana bağlı">
-    <img src="/nubi/assets/promo/tr/03-widgets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Widget&#x27;tan besle, sev">
-    <img src="/nubi/assets/promo/tr/04-watch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Bileğinde minik bir hayat">
-    <img src="/nubi/assets/promo/tr/05-games.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Altı mini oyun">
-    <img src="/nubi/assets/promo/tr/06-bath.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Köpürt, durula">
-    <img src="/nubi/assets/promo/tr/07-style.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Şapkalar, odalar, arkadaşlar">
-    <img src="/nubi/assets/promo/tr/08-promise.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Günün sözü">
-    <img src="/nubi/assets/promo/tr/09-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaşmaya hazır">
-    <img src="/nubi/assets/promo/tr/10-kind.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Döndüğünde yine burada">
-  </div>
-  <div class="strip en" role="list">
-    <img src="/nubi/assets/promo/en/01-friend.webp" width="600" height="1304" decoding="async" alt="A little friend">
-    <img src="/nubi/assets/promo/en/02-grow.webp" width="600" height="1304" decoding="async" alt="How it grows is up to you">
-    <img src="/nubi/assets/promo/en/03-widgets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Feed and pet it from a widget">
-    <img src="/nubi/assets/promo/en/04-watch.webp" width="600" height="1304" loading="lazy" decoding="async" alt="A tiny life on your wrist">
-    <img src="/nubi/assets/promo/en/05-games.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Six mini games">
-    <img src="/nubi/assets/promo/en/06-bath.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Lather, rinse">
-    <img src="/nubi/assets/promo/en/07-style.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Hats, rooms, friends">
-    <img src="/nubi/assets/promo/en/08-promise.webp" width="600" height="1304" loading="lazy" decoding="async" alt="The daily promise">
-    <img src="/nubi/assets/promo/en/09-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ready to share">
-    <img src="/nubi/assets/promo/en/10-kind.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Still here when you come back">
-  </div>
-  <p class="strip-hint"><span class="tr">Kaydırarak gez</span><span class="en">Swipe to browse</span></p>
+<main>
+  <section class="hero" data-emoji="[&quot;🥚&quot;, &quot;🍼&quot;, &quot;🧸&quot;, &quot;🛁&quot;, &quot;🎩&quot;, &quot;⭐&quot;, &quot;🍪&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/nubi/assets/icon.webp" alt="" width="180" height="180" />
+      <p class="kick"><span class="tr">iPhone · Apple Watch · Widget</span><span class="en">iPhone · Apple Watch · Widgets</span> <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
+      <h1 class="disp" lang="en">Nubi</h1>
+      <p class="lede"><span class="tr">Gerçek zamanda yaşayan minik bir dost. Sen işteyken acıkır, gece uykusu gelir; günde birkaç kez uğrarsın, gözünün önünde büyür.</span><span class="en">A little friend that lives in real time. Hungry while you work, sleepy at night; drop by a few times a day and watch it grow up.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Ölmez</span><span class="en">Never dies</span></span><span class="pill-s"><span class="tr">Reklam yok</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">6 dil</span><span class="en">6 languages</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
+    </div>
+  </section>
 
-<section id="ozellikler">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
-    <h2><span class="tr">Telefonunda yaşayan minik bir dost</span><span class="en">A little creature that lives in your phone</span></h2>
-    <p class="tr sec-lede">Oyunun tamamı ücretsiz: bütün özellikler, altı mini oyun, albüm, saat uygulaması, widget'lar ve paylaşım. Reklam hiç yok.</p><p class="en sec-lede">The whole game is free: every feature, six mini games, the album, the Watch app, widgets and sharing. No ads, ever.</p>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Gerçek zamanda</span><span class="en">Real time</span></div>
-        <h3><span class="tr">Dört ihtiyaç, saat işledikçe</span><span class="en">Four needs, ticking along</span></h3>
-        <p class="tr">Açlık, temizlik, uyku ve eğlence saat işledikçe azalır, uygulama kapalıyken bile. Dokununca sevilir, yüzü nasıl hissettiğini söyler.</p><p class="en">Hunger, cleanliness, sleep and fun drop as time passes, even with the app closed. Tap to pet it; its face tells you how it feels.</p>
-        <ul><li class="tr">Besle: atıştırmalık (bedava), öğün ya da ziyafet</li><li class="en">Feed it a snack (free), a meal or a feast</li><li class="tr">Uyuttuğunda enerjisini kendi doldurur</li><li class="en">Put it to bed and it recharges on its own</li><li class="tr">Her gün üç küçük görev ve bir "günün sözü": bir bardak su iç, pencereden dışarı bak</li><li class="en">Three small tasks a day plus a daily promise: drink a glass of water, look out of the window</li><li class="tr"><strong>Ölüm yok</strong>: bir hafta yalnız kalırsa hastalanır; üç gün bakım ya da veteriner iyileştirir</li><li class="en"><strong>No death</strong>: left alone for a week it gets ill; three days of care or a vet visit brings it back</li></ul>
+  <div class="promo tr"><div class="promo-track"><img src="/nubi/assets/promo/tr/01-friend.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/02-grow.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/03-widgets.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/04-watch.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/05-games.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/06-bath.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/07-style.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/08-promise.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/09-share.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/tr/10-kind.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/01-friend.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/02-grow.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/03-widgets.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/04-watch.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/05-games.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/06-bath.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/07-style.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/08-promise.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/09-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/tr/10-kind.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/nubi/assets/promo/en/01-friend.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/02-grow.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/03-widgets.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/04-watch.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/05-games.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/06-bath.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/07-style.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/08-promise.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/09-share.webp" alt="" loading="lazy" /><img src="/nubi/assets/promo/en/10-kind.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/01-friend.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/02-grow.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/03-widgets.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/04-watch.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/05-games.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/06-bath.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/07-style.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/08-promise.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/09-share.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/nubi/assets/promo/en/10-kind.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="ihtiyaclar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/01-home.webp&quot;]"><img src="/nubi/assets/screens/tr/01-home.webp" alt="Four needs, ticking along" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/01-home.webp&quot;]"><img src="/nubi/assets/screens/en/01-home.webp" alt="Four needs, ticking along" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Gerçek zamanda</span><span class="en">Real time</span></p>
+        <h2 class="disp"><span class="tr">Dört ihtiyaç, saat işledikçe</span><span class="en">Four needs, ticking along</span></h2>
+        <p class="z-p"><span class="tr">Açlık, temizlik, uyku ve eğlence saat işledikçe azalır, uygulama kapalıyken bile. Dokununca sevilir, yüzü nasıl hissettiğini söyler.</span><span class="en">Hunger, cleanliness, sleep and fun drop as time passes, even with the app closed. Tap to pet it; its face tells you how it feels.</span></p>
+        <ul class="bul"><li><span class="tr">Besle: atıştırmalık (bedava), öğün ya da ziyafet</span><span class="en">Feed it a snack (free), a meal or a feast</span></li><li><span class="tr">Her gün üç küçük görev ve bir günün sözü</span><span class="en">Three small tasks a day plus a daily promise</span></li><li><span class="tr">Ölüm yok: yalnız kalırsa hastalanır, bakımla iyileşir</span><span class="en">No death: left alone it gets ill, care brings it back</span></li></ul>
       </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Ana ekran"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/01-home.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Home"></div>
     </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Büyüme</span><span class="en">Growing up</span></div>
-        <h3><span class="tr">Elli form, hepsini topla</span><span class="en">Fifty forms to collect</span></h3>
-        <p class="tr">Büyüme takvime bağlı, puana değil: yumurta, bebek, çocuk, genç ve dört yetişkin form. Her gün bir şey değişir: ilk saç teli, ilk diş, kulaklar, bukle.</p><p class="en">Growth follows the calendar, not a score: egg, baby, child, teen and four adult forms. Something changes every day: the first hair, the first tooth, ears, a curl.</p>
-        <ul><li class="tr">18. günden sonra en çok yaptığın bakım yetişkin halini belirler: Gurme, Pırıl, Uykucu ya da Haylaz</li><li class="en">After day 18 the care you give most decides which of four adults it becomes</li><li class="tr">Albümde gördüklerin renkli, görmediklerin siluet</li><li class="en">The album shows what you have seen in colour, the rest as silhouettes</li><li class="tr">Yanında hikaye: her öğün, banyo, uyku ve tutulan söz</li><li class="en">A story log alongside: every meal, bath, nap and kept promise</li></ul>
+  </section>
+  <section class="z z-r" id="buyume">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/02-album.webp&quot;]"><img src="/nubi/assets/screens/tr/02-album.webp" alt="Fifty forms to collect" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/02-album.webp&quot;]"><img src="/nubi/assets/screens/en/02-album.webp" alt="Fifty forms to collect" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Büyüme</span><span class="en">Growing up</span></p>
+        <h2 class="disp"><span class="tr">Elli form, hepsini topla</span><span class="en">Fifty forms to collect</span></h2>
+        <p class="z-p"><span class="tr">Büyüme takvime bağlı, puana değil: yumurta, bebek, çocuk, genç ve dört yetişkin form. Her gün bir şey değişir: ilk saç teli, ilk diş, kulaklar.</span><span class="en">Growth follows the calendar, not a score: egg, baby, child, teen and four adult forms. Something changes every day: the first hair, the first tooth, ears.</span></p>
+        <ul class="bul"><li><span class="tr">En çok yaptığın bakım yetişkin halini belirler</span><span class="en">The care you give most decides its adult form</span></li><li><span class="tr">Albümde gördüklerin renkli, görmediklerin siluet</span><span class="en">The album shows what you have seen in colour</span></li></ul>
       </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/02-album.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Albüm"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/02-album.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Album"></div>
     </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Oyunlar</span><span class="en">Games</span></div>
-        <h3><span class="tr">Altı oyun, günde iki dakika</span><span class="en">Six games, two minutes a day</span></h3>
-        <p class="tr">Atıştırmalıkları yakala, eşle, çorap avı, sırayı tekrarla, üst üste diz, farklı olanı bul. Her el Eğlence'yi doldurur ve skora göre coin öder.</p><p class="en">Catch the snacks, match them, sock hunt, repeat the sequence, stack them up, spot the odd one. Every round fills Fun and pays coins by score.</p>
-        <ul><li class="tr">Her oyun günde iki bedava el</li><li class="en">Two free rounds per game each day</li></ul>
-      </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/03-mini-games.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Mini oyunlar"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/03-mini-games.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Mini games"></div>
-    </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Banyo</span><span class="en">Bath time</span></div>
-        <h3><span class="tr">Parmağınla köpürt, sonra durula</span><span class="en">Lather with your finger, then rinse</span></h3>
-        <p class="tr">Yıkamak gerçek bir hareket: parmağınla köpürtürsün, sonra duşun altında durularsın.</p><p class="en">Washing is a real gesture: lather it up with your finger, then rinse it under the shower.</p>
+  </section>
+  <section class="z z-l" id="oyunlar">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/03-mini-games.webp&quot;, &quot;/nubi/assets/screens/tr/04-wash.webp&quot;]"><img src="/nubi/assets/screens/tr/03-mini-games.webp" alt="Six games, two minutes a day" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/03-mini-games.webp&quot;, &quot;/nubi/assets/screens/en/04-wash.webp&quot;]"><img src="/nubi/assets/screens/en/03-mini-games.webp" alt="Six games, two minutes a day" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Oyunlar</span><span class="en">Games</span></p>
+        <h2 class="disp"><span class="tr">Altı oyun, günde iki dakika</span><span class="en">Six games, two minutes a day</span></h2>
+        <p class="z-p"><span class="tr">Atıştırmalıkları yakala, eşle, çorap avı, sırayı tekrarla, üst üste diz, farklı olanı bul. Her el Eğlence&#x27;yi doldurur ve coin öder.</span><span class="en">Catch the snacks, match them, sock hunt, repeat the sequence, stack them up, spot the odd one. Every round fills Fun and pays coins.</span></p>
         
       </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/04-wash.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Yıkama"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/04-wash.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Bath"></div>
     </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Mağaza</span><span class="en">Shop</span></div>
-        <h3><span class="tr">Coin'i oynayarak kazan, istediğine harca</span><span class="en">Earn coins by playing, spend them your way</span></h3>
-        <p class="tr">Coin oynamaktan, görevlerden, sözlerden ve günlük hediyeden gelir. 14 şapka, 7 oda, 5 arkadaş ve 8 oda eşyası.</p><p class="en">Coins come from games, tasks, promises and a daily gift. 14 hats, 7 rooms, 5 friends and 8 room items.</p>
-        <ul><li class="tr">Coin paketleri tamamen isteğe bağlı; her şey oynayarak da kazanılır</li><li class="en">Coin packs are optional; everything can be earned by playing</li><li class="tr">Bağ haftalar içinde büyür; seri yedi günde atkı, otuz günde madalya getirir</li><li class="en">Your bond grows over weeks; a 7-day streak earns a scarf, 30 days a medal</li></ul>
+  </section>
+  <section class="z z-r" id="magaza">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/05-shop.webp&quot;]"><img src="/nubi/assets/screens/tr/05-shop.webp" alt="Earn coins by playing" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/05-shop.webp&quot;]"><img src="/nubi/assets/screens/en/05-shop.webp" alt="Earn coins by playing" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Mağaza</span><span class="en">Shop</span></p>
+        <h2 class="disp"><span class="tr">Coin&#x27;i oynayarak kazan</span><span class="en">Earn coins by playing</span></h2>
+        <p class="z-p"><span class="tr">Coin oyunlardan, görevlerden, sözlerden ve günlük hediyeden gelir. 14 şapka, 7 oda, 5 arkadaş ve 8 oda eşyası.</span><span class="en">Coins come from games, tasks, promises and a daily gift. 14 hats, 7 rooms, 5 friends and 8 room items.</span></p>
+        <ul class="bul"><li><span class="tr">Coin paketleri tamamen isteğe bağlı</span><span class="en">Coin packs are entirely optional</span></li><li><span class="tr">Yedi günlük seri atkı, otuz gün madalya getirir</span><span class="en">A 7-day streak earns a scarf, 30 days a medal</span></li></ul>
       </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/05-shop.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Mağaza"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/05-shop.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Shop"></div>
     </div>
-    <div class="feat flip">
-      <div class="txt">
-        <div class="k"><span class="tr">Paylaş</span><span class="en">Share</span></div>
-        <h3><span class="tr">Bugünün karnesi, paylaşmaya hazır</span><span class="en">Today's numbers, ready to post</span></h3>
-        <p class="tr">Bugünün rakamlarıyla hikaye ya da gönderi kartı, Instagram'a hazır. Hazır açıklamalardan seçersin ya da kendin yazarsın.</p><p class="en">A story or post card with today's numbers, ready for Instagram. Pick a caption or write your own.</p>
-        <ul><li class="tr">Kartta bebeğin odası, şapkası, arkadaşı ve eşyaları görünür</li><li class="en">The card shows its room, hat, friend and items</li></ul>
+  </section>
+  <section class="z z-l" id="paylas">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/06-share.webp&quot;, &quot;/nubi/assets/screens/tr/07-widgets.webp&quot;]"><img src="/nubi/assets/screens/tr/06-share.webp" alt="Today&#x27;s numbers, on your Home Screen" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/06-share.webp&quot;, &quot;/nubi/assets/screens/en/07-widgets.webp&quot;]"><img src="/nubi/assets/screens/en/06-share.webp" alt="Today&#x27;s numbers, on your Home Screen" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Paylaş ve widget</span><span class="en">Share and widgets</span></p>
+        <h2 class="disp"><span class="tr">Bugünün karnesi, ana ekranında</span><span class="en">Today&#x27;s numbers, on your Home Screen</span></h2>
+        <p class="z-p"><span class="tr">Bugünün rakamlarıyla Instagram&#x27;a hazır kart. Küçük, orta ve büyük widget&#x27;tan uygulamayı açmadan atıştırmalık verirsin.</span><span class="en">A card with today&#x27;s numbers, ready for Instagram. Small, medium and large widgets let you give a snack without opening the app.</span></p>
+        
       </div>
-      <div class="pic one tr"><img src="/nubi/assets/screens/tr/06-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Paylaş"></div>
-      <div class="pic one en"><img src="/nubi/assets/screens/en/06-share.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Share"></div>
     </div>
-    <div class="feat">
-      <div class="txt">
-        <div class="k"><span class="tr">Widget'lar</span><span class="en">Widgets</span></div>
-        <h3><span class="tr">Ana ekranda, kilit ekranında, hep yanında</span><span class="en">On your Home Screen and Lock Screen</span></h3>
-        <p class="tr">Küçük, orta ve büyük widget: bebeğin hali, dört ihtiyaç çubuğu ve kısayollar. Widget'tan uygulamayı açmadan atıştırmalık verir ya da seversin.</p><p class="en">Small, medium and large widgets with its mood, the four need bars and shortcuts. Give a snack or a pet without opening the app.</p>
-        <ul><li class="tr">Paylaş ekranından bebeğin görselini kaydedip Apple Watch'ta Fotoğraflar kadranı yaparsın</li><li class="en">Save its picture from Share and use it as a Photos face on Apple Watch</li></ul>
+  </section>
+  <section class="z z-r" id="watch">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/nubi/assets/screens/tr/08-watch-pet.webp&quot;, &quot;/nubi/assets/screens/tr/09-watch-tasks.webp&quot;]"><img src="/nubi/assets/screens/tr/08-watch-pet.webp" alt="Your pet on your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-watch"><span class="band b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/nubi/assets/screens/en/08-watch-pet.webp&quot;, &quot;/nubi/assets/screens/en/09-watch-tasks.webp&quot;]"><img src="/nubi/assets/screens/en/08-watch-pet.webp" alt="Your pet on your wrist" loading="lazy" /></span></span><span class="band b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick">Apple Watch</p>
+        <h2 class="disp"><span class="tr">Bebeğin bileğinde</span><span class="en">Your pet on your wrist</span></h2>
+        <p class="z-p"><span class="tr">Saat uygulaması birlikte gelir: bebek, besleme, bakım, günün görevleri, şapkalar ve istatistikler. Kadran komplikasyonu büyüdükçe değişir.</span><span class="en">The Watch app comes with it: your pet, feeding, care, today&#x27;s tasks, hats and stats. The complication changes as it grows.</span></p>
+        
       </div>
-      <div class="pic tr"><img src="/nubi/assets/screens/tr/07-widgets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Widget&#x27;lar"><img src="/nubi/assets/screens/tr/watch-face.webp" width="600" height="733" loading="lazy" decoding="async" alt="Kadran kartı"></div>
-      <div class="pic en"><img src="/nubi/assets/screens/en/07-widgets.webp" width="600" height="1304" loading="lazy" decoding="async" alt="Widgets"><img src="/nubi/assets/screens/en/watch-face.webp" width="600" height="733" loading="lazy" decoding="async" alt="Watch face card"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="saat">
+  <section class="band band-sun" id="fiyat">
+    <div class="wrap">
+      <h2 class="disp big"><span class="tr">Tamamı ücretsiz</span><span class="en">The whole game is free</span></h2>
+      <p class="band-p"><span class="tr">Bütün özellikler, altı mini oyun, albüm, saat uygulaması, widget&#x27;lar ve paylaşım ücretsiz. Reklam yok. İsteğe bağlı dört coin paketi var.</span><span class="en">Every feature, six mini games, the album, the Watch app, widgets and sharing are free. No ads. There are four optional coin packs.</span></p>
+      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Sade kurulum</span><span class="en">Simple setup</span></h3><p class="price"><span class="tr">Hesap yok</span><span class="en">No account</span></p><ul><li><span class="tr">İnternet gerekmez</span><span class="en">No internet needed</span></li><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark themes</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3><span class="tr">Altı dil</span><span class="en">Six languages</span></h3><p class="price">TR · EN · ES · DE · FR · PT</p><ul><li><span class="tr">Uygulama içinden değişir</span><span class="en">Switch inside the app</span></li></ul></div><div class="plan" style="--c:#c8f560;--r:-1deg"><h3><span class="tr">Ölmez</span><span class="en">Never dies</span></h3><p class="price"><span class="tr">Affeder</span><span class="en">Always forgives</span></p><ul><li><span class="tr">Döndüğünde ilerlemen yerinde</span><span class="en">Your progress waits for you</span></li></ul></div></div>
+    </div>
+  </section>
+
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Verin sende</span><span class="en">Your data stays yours</span></h2>
+      <div><p class="band-p"><span class="tr">Bebeğin, görevlerin, coin bakiyen ve albümün telefonunda kalır. Hesap yok, reklam yok, analitik yok. İnternete yalnızca mağaza satın almaları için çıkar.</span><span class="en">Your pet, tasks, coins and album stay on your phone. No account, no ads, no analytics. It goes online only for store purchases.</span></p>
+      <p class="row-btns"><a class="pill" href="/privacy/nubi/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">Nubi</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      </div>
+      <div class="qrs"><a class="qr-card" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener" data-qr="https://apps.apple.com/app/id6816090205" style="--r:2deg"><span class="q"></span><span class="qt"><b>App Store</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
   <div class="wrap">
-    <div class="feat">
-      <div class="txt">
-        <div class="k">Apple Watch</div>
-        <h3><span class="tr">Bebeğin bileğinde</span><span class="en">Your pet on your wrist</span></h3>
-        <p class="tr">Saat uygulaması uygulamayla birlikte gelir. Altı sayfa: bebek, besleme, bakım, günün görevleri, şapkalar ve istatistikler.</p><p class="en">The Watch app comes with it. Six pages: your pet, feeding, care, today's tasks, hats and stats.</p>
-        <ul><li class="tr">Bilekten besler, sever, yıkar, uyutur, görev ödülünü alırsın</li><li class="en">Feed, pet, wash, put to bed and claim task rewards from your wrist</li><li class="tr">Kadran komplikasyonu bebeği saatin yüzüne koyar, büyüdükçe değişir</li><li class="en">A complication puts your pet on the watch face and changes as it grows</li><li class="tr">Telefon uzaktayken yaptıkların sıraya girer, buluşunca eşitlenir</li><li class="en">What you do while the phone is away queues up and syncs later</li></ul>
-      </div>
-      <div class="pic tr"><img class="watch" src="/nubi/assets/screens/tr/08-watch-pet.webp" width="416" height="496" loading="lazy" decoding="async" alt="Saatte bebek"><img class="watch" src="/nubi/assets/screens/tr/09-watch-tasks.webp" width="416" height="496" loading="lazy" decoding="async" alt="Saatte günün görevleri"></div>
-      <div class="pic en"><img class="watch" src="/nubi/assets/screens/en/08-watch-pet.webp" width="416" height="496" loading="lazy" decoding="async" alt="Your pet on Apple Watch"><img class="watch" src="/nubi/assets/screens/en/09-watch-tasks.webp" width="416" height="496" loading="lazy" decoding="async" alt="Today&#x27;s tasks on Apple Watch"></div>
-    </div>
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy/nubi/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
   </div>
-</section>
-
-<section id="fiyat">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Fiyat</span><span class="en">Pricing</span></div>
-    <h2><span class="tr">Oyunun tamamı ücretsiz</span><span class="en">The whole game is free</span></h2>
-    <p class="tr sec-lede">Bütün özellikler, altı mini oyun, albüm, saat uygulaması, widget'lar ve paylaşım ücretsiz. Reklam yok. İsteğe bağlı dört coin paketi var; coin'le alınan her şey oynayarak da kazanılır.</p><p class="en sec-lede">Every feature, six mini games, the album, the Watch app, widgets and sharing are free. No ads. There are four optional coin packs, and everything coins buy can be earned by playing.</p>
-    <div class="grid">
-      <div class="cell">
-        <h3><span class="ic">🥚</span><span class="tr">Sade kurulum</span><span class="en">Simple setup</span></h3>
-        <p class="tr">Hesap yok, internet gerekmez. Açık ve koyu tema, titreşim ayarı, ihtiyaç ve söz hatırlatmaları.</p><p class="en">No account, no internet needed. Light and dark themes, haptics and reminders for needs and promises.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">🌍</span><span class="tr">Altı dil</span><span class="en">Six languages</span></h3>
-        <p class="tr">İngilizce, Türkçe, İspanyolca, Almanca, Fransızca ve Portekizce.</p><p class="en">English, Turkish, Spanish, German, French and Portuguese.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">💛</span><span class="tr">Ölmez, affeder</span><span class="en">Never dies, always forgives</span></h3>
-        <p class="tr">Döndüğünde affeder, ilerlemen yerinde durur.</p><p class="en">When you come back it forgives you, and your progress is still there.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="gizlilik">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
-    <h2><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
-    <div class="note">
-      <ul class="tr"><li>Bebeğin, ihtiyaçları, görevlerin, coin bakiyen ve albümün telefonunda kalır</li><li>Hesap yok, sunucuda kayıt yok</li><li>Reklam yok, analitik SDK yok</li><li>İnternete yalnızca mağaza satın almaları için çıkar</li></ul>
-      <ul class="en"><li>Your pet, its needs, tasks, coins and album stay on your phone</li><li>No account, no server-side records</li><li>No ads, no analytics SDK</li><li>Goes online only for store purchases</li></ul>
-      <p class="tr">Tam metin: <a href="/privacy/nubi/">Nubi gizlilik politikası</a>. Sorun varsa <a href="mailto:aberkalparslan@gmail.com">yaz</a>.</p>
-      <p class="en">Full text: <a href="/privacy/nubi/#en">the Nubi privacy policy</a>. Something wrong? <a href="mailto:aberkalparslan@gmail.com">Write in</a>.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 BamTech ·
-    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/privacy/nubi/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-  </p>
+  <div class="giant disp" lang="en" aria-hidden="true">Nubi</div>
 </footer>
 
-<script>
-  (function () {
-    var d = document.documentElement;
-    var lang = d.getAttribute("data-lang");
-    var theme = d.getAttribute("data-theme");
-    var lb = document.getElementById("langBtn");
-    var tb = document.getElementById("themeBtn");
-    // Düğme, tıklanınca geçilecek dili gösterir.
-    function paint() {
-      lb.textContent = lang === "tr" ? "EN" : "TR";
-      tb.textContent = theme === "dark" ? "☀︎" : "☾";
-    }
-    lb.addEventListener("click", function () {
-      lang = lang === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", lang);
-      d.setAttribute("lang", lang);
-      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
-      paint();
-    });
-    tb.addEventListener("click", function () {
-      theme = theme === "dark" ? "light" : "dark";
-      d.setAttribute("data-theme", theme);
-      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
 
 </body>
 </html>

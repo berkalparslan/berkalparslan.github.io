@@ -1,184 +1,159 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tasbih Tally: Zikir & Namaz — BamTech</title>
-<meta name="description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names, Hijri calendar — on your phone and your watch. No ads.">
-<link rel="canonical" href="https://berkalparslan.github.io/tasbih-tally/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tasbih Tally: Zikir & Namaz">
-<meta property="og:description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names, Hijri calendar — on your phone and your watch. No ads.">
-<meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png">
-<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/tasbih-tally/assets/icon.webp">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tasbih Tally: Dhikr &amp; Prayer App · BamTech</title>
+<meta name="description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar, on your phone and your watch. No ads." />
+<link rel="canonical" href="https://berkalparslan.github.io/tasbih-tally/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tasbih Tally: Dhikr &amp; Prayer App" />
+<meta property="og:description" content="Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar, on your phone and your watch. No ads." />
+<meta property="og:image" content="https://berkalparslan.github.io/tasbih-tally/assets/icon.webp" />
+<meta name="theme-color" content="#55db9c" />
+<link rel="icon" href="/tasbih-tally/assets/icon.webp" />
+<link rel="apple-touch-icon" href="/tasbih-tally/assets/icon.webp" />
 <script>
-  // Tema ve dil, sayfa boyanmadan uygulanır — yoksa gözle görülür sıçrama olur.
-  // Anahtarlar site geneliyle ortak: bb-theme, bb-lang.
   (function () {
-    var d = document.documentElement;
-    try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
-    catch (e) { d.setAttribute("data-theme", "light"); }
-    var lang;
+    var d = document.documentElement, lang;
     try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
     var q = location.search.match(/[?&]lang=(tr|en)\b/);
     if (q) lang = q[1];
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang);
-    d.setAttribute("lang", lang);
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Tasbih Tally: Zikir & Namaz · BamTech");
+    d.setAttribute("data-title-en", "Tasbih Tally: Dhikr & Prayer App · BamTech");
   })();
 </script>
-<link rel="stylesheet" href="/assets/tour.css">
-<style>.shot{height:auto;object-fit:contain}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+
 </head>
-<body style="--accent:#d98420;--accent-dark:#f2ab52">
+<body style="--app:#55db9c;--acc:#ffd731">
 
-<div class="bar">
-  <div class="bar-in">
-    <a class="logo" href="/"><i></i>Bam<b>Tech</b></a>
-    <nav><a href="#ozellikler"><span class="tr">Özellikler</span><span class="en">Features</span></a><a href="#nasil"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></a><a href="#gizlilik"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a><a href="/"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a></nav>
-    <div class="bar-end">
-      <button class="lang-toggle" id="langBtn" type="button" aria-label="Language">TR</button>
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Açık/koyu tema">☾</button>
-    </div>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Widget&quot;, &quot;Tasbih Tally&quot;, &quot;iPhone · Apple Watch · Widget&quot;]"></div></div>
 
-<header class="hero">
-  <img class="hero-icon" src="/tasbih-tally/assets/icon.webp" width="92" height="92" alt="Tasbih Tally: Zikir & Namaz">
-  <div class="kicker"><span class="tr">iPhone · Apple Watch · Android · Wear OS</span><span class="en">iPhone · Apple Watch · Android · Wear OS</span></div>
-  <h1>Tasbih Tally: Zikir & Namaz</h1>
-  <p class="lede tr">Namaz vakitleri, ezan hatırlatıcı, kıble, zikirmatik, 99 isim ve Hicri takvim — telefonda ve saatte. Reklamsız.</p>
-  <p class="lede en">Prayer times, adhan reminders, Qibla, tasbih counter, 99 Names and a Hijri calendar — on your phone and your watch. No ads.</p>
-  <div class="pills"><span class="tr"><span class="pill">⌚ Saat uygulaması</span><span class="pill">9 dil</span><span class="pill">Reklamsız</span></span><span class="en"><span class="pill">⌚ Watch app</span><span class="pill">9 languages</span><span class="pill">No ads</span></span></div>
-  <div class="cta">
-    
-<a class="btn primary" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="tr">App Store'da aç</span><span class="en">View on the App Store</span></a>    <a class="btn ghost" href="https://play.google.com/store/apps/details?id=com.aberk.tasbihTally" target="_blank" rel="noopener"><span class="tr">Google Play'de aç</span><span class="en">Get it on Google Play</span></a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="#vakitler"><span class="tr">Namaz vakitleri</span><span class="en">Prayer times</span></a><a href="#zikir"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></a><a href="#saat">Apple Watch</a><a href="#esma"><span class="tr">99 isim ve ezkar</span><span class="en">99 Names and adhkar</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
   </div>
 </header>
 
-  <div class="shots wrap">
-    <img class="shot" src="/tasbih-tally/assets/shot-1.webp" width="625" height="1358" loading="lazy" alt="Tasbih Tally: Zikir & Namaz">
-    <img class="shot" src="/tasbih-tally/assets/shot-2.webp" width="625" height="1358" loading="lazy" alt="Tasbih Tally: Zikir & Namaz">
-    <img class="shot" src="/tasbih-tally/assets/shot-3.webp" width="625" height="1358" loading="lazy" alt="Tasbih Tally: Zikir & Namaz">
-  </div>
+<main>
+  <section class="hero" data-emoji="[&quot;📿&quot;, &quot;🕌&quot;, &quot;🌙&quot;, &quot;🧭&quot;, &quot;⭐&quot;, &quot;🤲&quot;, &quot;🕋&quot;]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <img class="app-icon" src="/tasbih-tally/assets/icon.webp" alt="" width="180" height="180" />
+      <p class="kick">iPhone · Apple Watch · Widget </p>
+      <h1 class="disp" lang="en">Tasbih Tally</h1>
+      <p class="lede"><span class="tr">Sakin, reklamsız bir İslami yol arkadaşı. Namaz vakitleri, kıble, zikir setleri, ezkar, 99 isim ve Hicri takvim; telefonunda ve saatinde.</span><span class="en">A calm, ad-free Islamic companion. Prayer times, Qibla, dhikr sets, adhkar, 99 Names and a Hijri calendar, on your phone and your watch.</span></p>
+      <div class="pills"><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">İnternetsiz</span><span class="en">Works offline</span></span><span class="pill-s"><span class="tr">9 dil</span><span class="en">9 languages</span></span></div>
+      <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
+    </div>
+  </section>
 
-<section id="ozellikler">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Özellikler</span><span class="en">Features</span></div>
-    <h2><span class="tr">Ne yapıyor?</span><span class="en">What it does</span></h2>
-    <p class="sec-lede tr">Zikir saatte, vakit ve kıble telefonda. Birlikte tek bir uygulama.</p>
-    <p class="sec-lede en">Dhikr on the wrist, prayer times and Qibla on the phone. One app, together.</p>
-    <div class="grid">
-      <div class="cell">
-        <h3><span class="ic">🕌</span><span class="tr">Namaz vakitleri ve ezan</span><span class="en">Prayer times & adhan</span></h3>
-        <p class="tr">Konuma göre otomatik yöntem (Diyanet, Umm al-Qura…), her vakitte hatırlatıcı, ana ekran widget'ında geri sayım.</p>
-        <p class="en">Method chosen from your location (Diyanet, Umm al-Qura…), a reminder at every prayer, countdown in the home-screen widget.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">🧭</span><span class="tr">Kıble</span><span class="en">Qibla</span></h3>
-        <p class="tr">Kâbe'yi gösteren canlı pusula. İnternetsiz.</p>
-        <p class="en">A live compass to the Kaaba. Works offline.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">📿</span><span class="tr">Zikirmatik ve setler</span><span class="en">Tasbih & sets</span></h3>
-        <p class="tr">Dokun ya da Crown'u çevir; 33·33·34 seti kendi akar. Günlük hedef, seri, geçmiş. Telefon ↔ saat senkron.</p>
-        <p class="en">Tap or turn the Crown; the 33·33·34 set flows on its own. Daily goal, streak, history. Phone ↔ watch sync.</p>
-      </div>
-      <div class="cell">
-        <h3><span class="ic">✨</span><span class="tr">99 isim, ezkâr, Hicri takvim</span><span class="en">99 Names, adhkar, Hijri calendar</span></h3>
-        <p class="tr">Esmaü'l-Hüsna niyetleriyle, sabah-akşam zikirleri, kandiller ve bayramlar, günün duası.</p>
-        <p class="en">Asma ul-Husna with intentions, morning and evening adhkar, blessed nights and Eid days, dua of the day.</p>
+  <div class="promo "><div class="promo-track"><img src="/tasbih-tally/assets/shot-1.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/shot-2.webp" alt="" loading="lazy" /><img src="/tasbih-tally/assets/shot-3.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-1.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-2.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/tasbih-tally/assets/shot-3.webp" alt="" loading="lazy" /></div></div>
+
+  <section class="z z-l" id="vakitler">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-3.webp&quot;]"><img src="/tasbih-tally/assets/shot-3.webp" alt="Never miss the adhan" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Namaz vakitleri</span><span class="en">Prayer times</span></p>
+        <h2 class="disp"><span class="tr">Ezanı kaçırma</span><span class="en">Never miss the adhan</span></h2>
+        <p class="z-p"><span class="tr">Konumuna göre doğru vakitler; yöntem otomatik seçilir (Diyanet, Umm al-Qura, MWL, ISNA). Her vakitte ezan hatırlatıcı, istersen vakitten önce bir uyarı.</span><span class="en">Accurate prayer times for your location, method chosen automatically (Diyanet, Umm al-Qura, MWL, ISNA). An adhan reminder at every prayer, with an optional heads-up before.</span></p>
+        <ul class="bul"><li><span class="tr">Bugün ekranında ve widget&#x27;ta sonraki vakte geri sayım</span><span class="en">Next prayer countdown on Today and the widget</span></li><li><span class="tr">Ramazan&#x27;da imsak ve iftar geri sayımı</span><span class="en">Ramadan: imsak and iftar countdown</span></li></ul>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="nasil">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Nasıl çalışır</span><span class="en">How it works</span></div>
-    <h2><span class="tr">Üç adım</span><span class="en">Three steps</span></h2>
-    <div class="steps">
-      <div class="step"><span class="n">1</span>
-        <h3><span class="tr">Konum izni ver</span><span class="en">Allow location</span></h3>
-        <p class="tr">Vakitler ve kıble konumdan, cihazda hesaplanır.</p>
-        <p class="en">Prayer times and Qibla are computed from your location, on the device.</p>
-      </div>
-      <div class="step"><span class="n">2</span>
-        <h3><span class="tr">Zikrini seç, say</span><span class="en">Pick a dhikr, count</span></h3>
-        <p class="tr">Saatte sağa-sola kaydır; dokun ya da Crown'u çevir.</p>
-        <p class="en">Swipe on the watch; tap or turn the Crown.</p>
-      </div>
-      <div class="step"><span class="n">3</span>
-        <h3><span class="tr">Ezanı kaçırma</span><span class="en">Never miss the adhan</span></h3>
-        <p class="tr">Bugün ekranından tek dokunuşla hatırlatıcıyı aç.</p>
-        <p class="en">Turn on reminders with one tap from the Today screen.</p>
+  </section>
+  <section class="z z-r" id="zikir">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#ffd731"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-2.webp&quot;]"><img src="/tasbih-tally/assets/shot-2.webp" alt="Tap, count, flow" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Zikirmatik</span><span class="en">Tasbih counter</span></p>
+        <h2 class="disp"><span class="tr">Dokun, say, akışta kal</span><span class="en">Tap, count, flow</span></h2>
+        <p class="z-p"><span class="tr">Ekranın her yerine dokunarak say; titreşimli geri bildirim ve tur uyarıları. Setler kendiliğinden akar: namaz sonrası 33·33·34, tehlil, günlük yüzlükler.</span><span class="en">Tap anywhere to count, with haptic feedback and cycle alerts. Sets flow on their own: 33·33·34 after prayer, tahlil, daily hundreds.</span></p>
+        <ul class="bul"><li><span class="tr">Arapça, okunuş ve anlamıyla 10 zikir; kendininkini ekle</span><span class="en">10 dhikr with Arabic, transliteration and meaning; add your own</span></li><li><span class="tr">Günlük hedef, seri ve haftalık geçmiş</span><span class="en">Daily goal, streak and weekly history</span></li></ul>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="gizlilik">
-  <div class="wrap">
-    <div class="tag"><span class="tr">Gizlilik</span><span class="en">Privacy</span></div>
-    <h2><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
-    <div class="note">
-      <ul class="tr">
-      <li>Konum yalnız vakit ve kıble için, cihazda kalır</li>
-      <li>Hesap yok, sunucu yok</li>
-      <li>Reklam yok, takip yok</li>
-      <li>İnternet olmadan da çalışır</li>
-      </ul>
-      <ul class="en">
-      <li>Location is used only for prayer times and Qibla, on device</li>
-      <li>No account, no server</li>
-      <li>No ads, no tracking</li>
-      <li>Works with no connection at all</li>
-      </ul>
-      <p class="tr">Tam metin: <a href="/privacy/tasbih-tally/">Tasbih Tally: Zikir & Namaz gizlilik politikası</a>.
-        Sorun varsa <a href="mailto:aberkalparslan@gmail.com">yaz</a>.</p>
-      <p class="en">Full text: <a href="/privacy/tasbih-tally/#en">the Tasbih Tally: Zikir & Namaz privacy policy</a>.
-        Something wrong? <a href="mailto:aberkalparslan@gmail.com">Write in</a>.</p>
+  </section>
+  <section class="z z-l" id="saat">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev "><span class="m-image" data-cycle="[&quot;/tasbih-tally/assets/icon.webp&quot;]"><img src="/tasbih-tally/assets/icon.webp" alt="Dhikr on your wrist" loading="lazy" /></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick">Apple Watch</p>
+        <h2 class="disp"><span class="tr">Zikir bileğinde</span><span class="en">Dhikr on your wrist</span></h2>
+        <p class="z-p"><span class="tr">Saatte kaydırarak zikrini seç, Digital Crown ya da Double Tap ile say. Namaz vakitleri de bileğinde.</span><span class="en">Swipe on the watch to choose a dhikr, count with the Digital Crown or Double Tap. Prayer times on your wrist too.</span></p>
+        
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+  <section class="z z-r" id="esma">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#e9ccff"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-1.webp&quot;]"><img src="/tasbih-tally/assets/shot-1.webp" alt="A Name every day" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">99 isim ve ezkar</span><span class="en">99 Names and adhkar</span></p>
+        <h2 class="disp"><span class="tr">Her gün bir isim</span><span class="en">A Name every day</span></h2>
+        <p class="z-p"><span class="tr">Esmaü&#x27;l-Hüsna&#x27;nın her birinin anlamı ve her gün bir isim. Niyetlere göre: rızık ve iş, şifa, huzur, bağışlanma, aile, korunma. Bir isme dokun, sayısıyla zikirmatikte oku.</span><span class="en">The meaning of every name, and a name each day. By intention: provision and work, healing, peace, forgiveness, family, protection. Tap a name to recite it on the counter with its count.</span></p>
+        <ul class="bul"><li><span class="tr">Sabah ve akşam ezkarı sayaçlarıyla (Hisnü&#x27;l-Müslim)</span><span class="en">Morning and evening adhkar with counters (Hisn al-Muslim)</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-l" id="takvim">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev "><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/tasbih-tally/assets/shot-1.webp&quot;]"><img src="/tasbih-tally/assets/shot-1.webp" alt="Your direction, your day" loading="lazy" /></span></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Kıble ve Hicri takvim</span><span class="en">Qibla and Hijri calendar</span></p>
+        <h2 class="disp"><span class="tr">Yönün ve günün belli</span><span class="en">Your direction, your day</span></h2>
+        <p class="z-p"><span class="tr">Kabe&#x27;yi gösteren canlı pusula, internetsiz çalışır. Bugünün Hicri tarihi, kandiller ve bayramlar geri sayımıyla, Kur&#x27;an&#x27;dan günün duası.</span><span class="en">A live compass to the Kaaba that works offline. Today&#x27;s Hijri date, blessed nights and Eid days with countdowns, and the dua of the day from the Qur&#x27;an.</span></p>
+        <ul class="bul"><li><span class="tr">Açık ve koyu tema</span><span class="en">Light and dark theme</span></li><li><span class="tr">Türkçe, İngilizce, Arapça, Farsça, Urduca, Endonezce, Malayca, Fransızca, Almanca</span><span class="en">English, Turkish, Arabic, Persian, Urdu, Indonesian, Malay, French, German</span></li></ul>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  <p>© 2026 BamTech ·
-    <a href="/"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a> ·
-    <a href="/blog/">Blog</a> ·
-    <a href="/privacy/tasbih-tally/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-    <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-  </p>
+
+
+  <section class="band band-mint" id="gizlilik">
+    <div class="wrap pv">
+      <h2 class="disp big"><span class="tr">Verilerin sende kalır</span><span class="en">Your data stays yours</span></h2>
+      <div><p class="band-p"><span class="tr">Konum yalnız vakit ve kıble için kullanılır, cihazda kalır. Hesap yok, sunucu yok, reklam yok, takip yok. İnternet olmadan da çalışır.</span><span class="en">Location is used only for prayer times and Qibla, on the device. No account, no server, no ads, no tracking. Works with no connection at all.</span></p>
+      <p class="row-btns"><a class="pill" href="/tasbih-tally/privacy/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
+      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+    </div>
+  </section>
+
+  <section class="band band-violet" id="indir">
+    <div class="wrap get">
+      <div>
+        <h2 class="disp big"><span lang="en">Tasbih Tally</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
+        <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+      </div>
+      <div class="qrs"><a class="qr-card" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener" data-qr="https://apps.apple.com/app/id6756802776" style="--r:2deg"><span class="q"></span><span class="qt"><b>App Store</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav>
+      <a href="/">BamTech</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/tasbih-tally/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+    </nav>
+    <span class="copy">© 2026 BamTech</span>
+  </div>
+  <div class="giant disp" lang="en" aria-hidden="true">Tasbih Tally</div>
 </footer>
 
-<script>
-  (function () {
-    var d = document.documentElement;
-    var lang = d.getAttribute("data-lang");
-    var theme = d.getAttribute("data-theme");
-    var lb = document.getElementById("langBtn");
-    var tb = document.getElementById("themeBtn");
-    // Düğme, tıklanınca GEÇİLECEK dili gösterir.
-    function paint() {
-      lb.textContent = lang === "tr" ? "EN" : "TR";
-      tb.textContent = theme === "dark" ? "☀︎" : "☾";
-    }
-    lb.addEventListener("click", function () {
-      lang = lang === "tr" ? "en" : "tr";
-      d.setAttribute("data-lang", lang);
-      d.setAttribute("lang", lang);
-      try { localStorage.setItem("bb-lang", lang); } catch (e) {}
-      paint();
-    });
-    tb.addEventListener("click", function () {
-      theme = theme === "dark" ? "light" : "dark";
-      d.setAttribute("data-theme", theme);
-      try { localStorage.setItem("bb-theme", theme); } catch (e) {}
-      paint();
-    });
-    paint();
-  })();
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="/assets/tanitim.js"></script>
+
 </body>
 </html>
