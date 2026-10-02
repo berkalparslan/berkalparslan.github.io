@@ -314,7 +314,7 @@
       document.querySelectorAll("nav.sekmeler button").forEach((b) => b.setAttribute("aria-selected", b.dataset.sekme === sekme));
       $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, gunun, istatistik, kategoriler, kullanicilar, raporlar, arac })[sekme]();
       bagla();
-      if (sekme === "istatistik" && !V.runs) istatistikYukle();
+      if (sekme === "istatistik") { if (!V.runs) istatistikYukle(); canliBasla(); }
     }
     const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
     const durumSec = (tur, id, alan, deger) => `<select data-degistir="${tur}|${id}|${alan}">${(alan === "status" ? ["approved", "pending", "rejected"] : ["public", "unlisted", "private"]).map((v) => `<option ${v === deger ? "selected" : ""}>${v}</option>`).join("")}</select>`;
@@ -377,10 +377,34 @@
           getDocs(query(collectionGroup(db, "runs"), orderBy("playedAt", "desc"), limit(2000))),
           getDocs(collection(db, "friendTournaments")),
         ]);
-        V.runs = runs.docs.map((d) => ({ uid: d.ref.parent.parent.id, ...d.data() }));
+        V.runs = runs.docs.map((d) => ({ id: d.id, uid: d.ref.parent.parent.id, ...d.data() }));
         V.friends = friends.docs.map((d) => ({ id: d.id, ...d.data() }));
       } catch (e) { V.runs = []; V.friends = []; uyar("Oyun kayıtları okunamadı (dizin hazır olmayabilir): " + e.message); }
       if (aktif === "istatistik") goster("istatistik");
+    }
+
+    // Canlı sayılar lastSeenAt'ten geliyor; uygulama her açılışta bu alanı
+    // yazıyor. İstatistik sekmesi açıkken yarım dakikada bir yalnız kullanıcı
+    // listesi ve en yeni koşular tazeleniyor, 2000'lik geçmiş yeniden okunmuyor.
+    let canliSayac = null;
+    function canliBasla() {
+      clearInterval(canliSayac);
+      canliSayac = setInterval(async () => {
+        if (aktif !== "istatistik" || document.hidden) return;
+        try {
+          const [u, r] = await Promise.all([
+            getDocs(query(collection(db, "users"), orderBy("lastSeenAt", "desc"), limit(300))),
+            getDocs(query(collectionGroup(db, "runs"), orderBy("playedAt", "desc"), limit(100))),
+          ]);
+          const taze = u.docs.map((d) => ({ id: d.id, ...d.data() }));
+          const kalan = V.users.filter((x) => !taze.some((y) => y.id === x.id));
+          V.users = [...taze, ...kalan];
+          const yeni = r.docs.map((d) => ({ id: d.id, uid: d.ref.parent.parent.id, ...d.data() }))
+            .filter((x) => !(V.runs || []).some((y) => y.id === x.id && y.uid === x.uid));
+          if (yeni.length) V.runs = [...yeni, ...(V.runs || [])];
+          if (aktif === "istatistik") goster("istatistik");
+        } catch (e) { /* geçici hata canlı sayacı durdurmasın */ }
+      }, 30000);
     }
 
     function istatistik() {
@@ -404,9 +428,34 @@
       const topRun = Object.entries(koşuPerBracket).sort((a, b) => b[1] - a[1]).slice(0, 10);
       const yeniKullanici = V.users.filter((u) => u.createdAt?.toDate);
       const aktif7 = V.users.filter((u) => u.lastSeenAt?.toDate && (bugun - u.lastSeenAt.toDate()) < 7 * 864e5).length;
+      // Uygulama her açılışta lastSeenAt yazıyor, yani bu "son N dakikada
+      // uygulamayı açan" demek. Oturum boyu ölçülmediği için "şu an içeride"
+      // sayısının en iyi yaklaşımı budur.
+      const sonN = (dk) => V.users.filter((u) => u.lastSeenAt?.toDate && (bugun - u.lastSeenAt.toDate()) < dk * 60000).length;
+      const gunBasi = new Date(bugun); gunBasi.setHours(0, 0, 0, 0);
+      const dunBasi = new Date(gunBasi); dunBasi.setDate(dunBasi.getDate() - 1);
+      const bugunKosu = runs.filter((r) => r.playedAt?.toDate && r.playedAt.toDate() >= gunBasi).length;
+      const dunKosu = runs.filter((r) => r.playedAt?.toDate && r.playedAt.toDate() >= dunBasi && r.playedAt.toDate() < gunBasi).length;
+      const platform = {}; for (const u of V.users) platform[u.platform || "?"] = (platform[u.platform || "?"] || 0) + 1;
+      const sonHareket = [...runs].filter((r) => r.playedAt?.toDate).slice(0, 14);
+      const nekadar = (ts) => {
+        const dk = Math.round((bugun - ts.toDate()) / 60000);
+        if (dk < 1) return "az önce";
+        if (dk < 60) return `${dk} dk önce`;
+        const sa = Math.round(dk / 60);
+        return sa < 24 ? `${sa} saat önce` : `${Math.round(sa / 24)} gün önce`;
+      };
       const f = V.friends || [];
       const fOynanan = f.reduce((a, t) => a + Object.keys(t.results || {}).length, 0);
-      return `<p class="ipucu">Buradaki her şey Firestore'dan türetilir: içerik sayaçları anlık, oyun kayıtları son 2000 turnuva. Oturum süresi, tutunma, ekran akışı gibi davranış verisi için Firebase Analytics (GA4) gerekir; <a href="https://console.firebase.google.com/project/thisone-ba533/analytics" target="_blank" rel="noopener">konsol</a>.</p>
+      return `<h3>Canlı</h3>
+      <p class="ipucu">Yarım dakikada bir kendiliğinden tazelenir. "Şu an" = son beş dakikada uygulamayı açan kişi; oturum boyu ölçülmediği için elimizdeki en yakın ölçü bu. Saat uygulamaları bu listeye yazmıyor, oyları yine sayaçlara düşüyor.</p>
+      <div class="sayac">
+        ${[["Şu an (5 dk)", sonN(5)], ["Son 30 dk", sonN(30)], ["Son 24 saat", sonN(1440)], ["Bugün biten turnuva", bugunKosu], ["Dün", dunKosu], ["Platform", Object.entries(platform).map(([k, v]) => `${k}: ${v}`).join(" · ") || "—"]].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("")}
+      </div>
+      ${sonHareket.length ? `<div class="tablo"><table><tr><th>Ne zaman</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th><th>Oyuncu</th></tr>
+      ${sonHareket.map((r) => `<tr><td>${nekadar(r.playedAt)}</td><td>${esc(r.bracketTitle || r.bracketId || "—")}</td><td>${r.size || "—"}</td><td>${esc(r.championName || r.championId || "—")}</td><td class="mono">${esc((r.uid || "").slice(0, 8))}</td></tr>`).join("")}</table></div>` : ""}
+      <h3>Toplam</h3>
+      <p class="ipucu">Buradaki her şey Firestore'dan türetilir: içerik sayaçları anlık, oyun kayıtları son 2000 turnuva. Oturum süresi, tutunma, ekran akışı gibi davranış verisi için Firebase Analytics (GA4) gerekir; <a href="https://console.firebase.google.com/project/thisone-ba533/analytics" target="_blank" rel="noopener">konsol</a>.</p>
       <div class="sayac" id="sayaclar2">
         ${[["Turnuva (son 7 gün)", sonHafta.length], ["Oyuncu (son 7 gün)", oyuncu7], ["Aktif kullanıcı (7 gün)", aktif7], ["Toplam turnuva oyunu", pub.reduce((a, b) => a + (b.totalPlays || 0), 0)], ["Toplam ikilem oyu", V.questions.reduce((a, q) => a + (q.votesA || 0) + (q.votesB || 0), 0)], ["Arkadaş turnuvası", `${f.length} · ${fOynanan} oynanış`]].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("")}
       </div>
