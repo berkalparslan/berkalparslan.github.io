@@ -238,6 +238,8 @@
     .get h2 { font-size: clamp(64px, 9vw, 150px); }
     .get p { font-size: 17px; margin-top: 18px; max-width: 40ch; }
     .contact { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 26px; }
+    .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; background: var(--sun); border: 2px solid #000; border-radius: 18px; padding: 12px 18px; font-weight: 700; font-size: 16px; transform: rotate(-3deg); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+    .coffee:hover { transform: rotate(2deg) scale(1.06); }
     .qr-cards { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
     .qr-card { display: grid; border: 2px solid #000; border-radius: 26px; overflow: hidden; background: #fff; width: 220px; transform: rotate(var(--r)); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
     .qr-card:hover { transform: rotate(0) scale(1.04); }
@@ -689,6 +691,7 @@
             <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
             <a class="pill" href="https://github.com/berkalparslan" target="_blank" rel="noopener">GitHub ↗</a>
           </div>
+          <a class="coffee" href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Bir kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
         </div>
         <div class="qr-cards">
           <a class="qr-card" data-umami-event="dev-qr-app-store" href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener" data-qr="https://apps.apple.com/developer/id1676787785" style="--r:2deg;--c:var(--violet);--tc:#fff">
@@ -710,6 +713,7 @@
         <a href="/blog/">Blog</a>
         <a href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener">App Store</a>
         <a href="https://play.google.com/store/apps/developer?id=bam-tech" target="_blank" rel="noopener">Google Play</a>
+        <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
       </nav>
       <span class="copy">© 2026 Bam Studio</span>
     </div>
