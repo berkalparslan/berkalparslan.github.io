@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/lab-64.png">
+  <link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/lab-180.png">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Lab</title>
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <meta name="referrer" content="no-referrer" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
 
   <script>
     (function () {
@@ -20,119 +20,126 @@
     })();
   </script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
   <style>
+    /* Lab: sitenin Slush çizgisi. Siyah konturlu renkli kartlar, uygulama ikonları, dev başlık. */
     :root {
       color-scheme: light;
-      --bg: #f3f4f7; --surface: #fff; --surface-2: #f7f7fa; --text: #14141a; --subtle: #5f6270; --faint: #9a9daa;
-      --border: #e2e3ea; --accent: #0a6fe0; --accent-soft: rgba(10, 111, 224, .10); --violet: #6d4fe0;
-      --mint: #0f9f8a; --amber: #c77d00; --rose: #d6455d;
-      --shadow: 0 1px 2px rgba(20, 20, 40, .05), 0 6px 20px rgba(20, 20, 40, .05);
+      --bg: #dceeff; --surface: #fff; --surface-2: #f4f9ff; --text: #000; --subtle: #3d3d42; --faint: #6f6f76;
+      --line: #000; --code: #eef4ff;
+      --disp: "Anton", Impact, "Arial Narrow", sans-serif;
       --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
     }
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #0a0a0d; --surface: #141419; --surface-2: #1a1a21; --text: #f2f2f6; --subtle: #a0a2ae; --faint: #6a6c78;
-      --border: #24242c; --accent: #5aa8ff; --accent-soft: rgba(90, 168, 255, .14); --violet: #a28cff;
-      --mint: #34d3b8; --amber: #f5b53c; --rose: #ff6f88;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
+      --bg: #10131c; --surface: #1a1d27; --surface-2: #222634; --text: #f4f4f7; --subtle: #c4c6d0; --faint: #8b8e9b;
+      --line: #f4f4f7; --code: #262a38;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg); color: var(--text); line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased;
-      min-height: 100vh; padding: 40px 20px 60px;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 500;
+      background: var(--bg) url(/assets/ribbon.svg) center -40px / max(1400px, 140vw) no-repeat; color: var(--text);
+      line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased; min-height: 100vh; padding: 36px 20px 60px;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .wrap { max-width: 880px; margin: 0 auto; }
-    header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
-    .m { width: 36px; height: 36px; border-radius: 11px; background: linear-gradient(135deg, var(--accent), var(--violet)); color: #fff; font-weight: 800; font-size: 13px; display: grid; place-items: center; }
-    header h1 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
-    header small { color: var(--faint); font-size: 12px; }
-    header .sag { margin-left: auto; display: flex; gap: 8px; }
-    header .sag a, header .sag button { font: inherit; font-size: 12px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--subtle); cursor: pointer; }
-    h2 { font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin: 22px 0 10px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    a { color: inherit; text-decoration: none; }
+    code { font-family: var(--mono); font-size: .9em; background: var(--code); padding: 1px 5px; border-radius: 6px; }
+    .wrap { max-width: 1040px; margin: 0 auto; position: relative; }
+    header { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+    header .m { width: 64px; height: 64px; transform: rotate(-6deg); }
+    header h1 { font-family: var(--disp); font-weight: 400; font-size: 64px; line-height: .85; text-transform: uppercase; }
+    header small { display: block; color: var(--subtle); font-size: 13px; margin-top: 4px; font-weight: 700; }
+    header .sag { margin-left: auto; display: flex; gap: 6px; }
+    header .sag a, header .sag button { white-space: nowrap; font: inherit; font-weight: 700; font-size: 12px; padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; }
+    header .sag a:hover, header .sag button:hover { background: #ffd731; color: #000; }
+    h2 { font-family: var(--disp); font-weight: 400; font-size: 40px; text-transform: uppercase; line-height: .9; margin: 40px 0 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
     .kart {
-      display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; box-shadow: var(--shadow);
-      color: inherit; transition: border-color .15s, transform .15s;
+      display: grid; grid-template-columns: 64px 1fr; gap: 6px 14px; align-items: start; background: var(--surface);
+      border: 1.5px solid var(--line); border-radius: 26px; padding: 16px 18px; color: inherit;
+      transition: transform .25s cubic-bezier(.3, 1.6, .5, 1);
     }
-    .kart:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-1px); }
-    .kart b { display: flex; align-items: center; gap: 8px; font-size: 15px; margin-bottom: 4px; }
-    .kart b .ik { font-size: 18px; }
+    .kart:hover { transform: translateY(-4px) rotate(-.6deg); }
+    .kart .ik { grid-row: span 3; width: 64px; height: 64px; border-radius: 22%; transform: rotate(-4deg); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+    .kart:hover .ik { transform: rotate(4deg) scale(1.06); }
+    .kart b { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
     .kart p { color: var(--subtle); font-size: 13px; }
-    .kart .meta { margin-top: 8px; font-size: 11.5px; color: var(--faint); font-family: var(--mono); }
-    .kart.ana { grid-column: 1 / -1; border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
-    .kart.ana b { font-size: 17px; }
-    .liste { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
-    .liste a { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); color: inherit; align-items: baseline; }
+    .kart p b { font-size: inherit; }
+    .kart .meta { font-size: 11.5px; color: var(--faint); font-family: var(--mono); }
+    .kart.ana { grid-column: 1 / -1; background: #ffd731; color: #000; }
+    .kart.ana p, .kart.ana .meta { color: #000c; }
+    .kart.ana b { font-family: var(--disp); font-weight: 400; font-size: 34px; text-transform: uppercase; line-height: 1; }
+    .liste { background: var(--surface); border: 1.5px solid var(--line); border-radius: 26px; overflow: hidden; }
+    .liste a { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px 18px; border-bottom: 1px solid color-mix(in srgb, var(--line) 18%, transparent); align-items: baseline; }
     .liste a:last-child { border-bottom: 0; }
-    .liste a:hover { background: var(--surface-2); text-decoration: none; }
-    .liste a b { font-size: 13.5px; font-weight: 600; }
-    .liste a small { color: var(--faint); font-size: 12px; }
+    .liste a:hover { background: var(--surface-2); }
+    .liste a b { font-size: 14px; font-weight: 700; }
+    .liste a small { color: var(--faint); font-size: 12px; font-weight: 700; white-space: nowrap; }
     .liste a span.ne { display: block; color: var(--subtle); font-size: 12.5px; }
-    footer { margin-top: 30px; font-size: 12px; color: var(--faint); }
-    footer a { color: var(--faint); }
+    footer { margin-top: 30px; font-size: 12px; color: var(--subtle); }
+    footer a { text-decoration: underline; }
+    @media (max-width: 600px) { header h1 { font-size: 48px; } .liste a { grid-template-columns: 1fr; } }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <header>
-      <div class="m">BT</div>
-      <div><h1>Lab</h1><small>iç araçlar · arama motorlarına kapalı</small></div>
+      <img class="m" src="/assets/lab-icons/lab-180.png" alt="" />
+      <div><h1>Lab</h1><small>Bam Studio iç araçları · arama motorlarına kapalı</small></div>
       <div class="sag"><button id="tema" type="button">tema</button><a href="/">← site</a></div>
     </header>
 
     <div class="grid">
       <a class="kart ana" href="/lab/panel/">
-        <b><span class="ik">📊</span>Panel</b>
+        <img class="ik" src="/assets/lab-icons/panel-180.png" alt="" /><b>Panel</b>
         <p>App Store + Google Play günlük veri, gelir/gider, pazarlama önceliği, servis takibi, yorumlar, vault görevleri. Şifreli, sunucusuz.</p>
         <div class="meta">parola: Keychain "bamtech-lab-panel" · her sabah 07:00 zamanlanmış görev: scripts/lab/gunluk.sh</div>
       </a>
       <a class="kart" href="/lab/wallet-coach/">
-        <b><span class="ik">💳</span>Wallet Coach</b>
+        <img class="ik" src="/assets/lab-icons/wallet-coach-180.png" alt="" /><b>Wallet Coach</b>
         <p>Kaç kullanıcı var, ne yapıyorlar, hangi ekranda ne kadar kalıyorlar, yapay zekâ ne kadar harcadı; sürüm, ülke, geri gelme. Firebase Analytics'ten, şifreli.</p>
         <div class="meta">parola: panel ile aynı · scripts/lab/walletcoach.mjs, gunluk.sh içinde</div>
       </a>
       <a class="kart" href="/lab/omubumu/">
-        <b><span class="ik">🏆</span>O mu Bu mu?</b>
+        <img class="ik" src="/assets/lab-icons/omubumu-180.png" alt="" /><b>O mu Bu mu?</b>
         <p>Onay kuyruğu, turnuvalar, sorular, kategoriler, kullanıcılar, raporlar. Firestore'a bağlı; Google girişi + <code>admins/</code> belgesi ile yetki, anahtar depoda yok.</p>
         <div class="meta">emülatörle denemek için <code>?emu</code></div>
       </a>
       <a class="kart" href="/lab/matchday/">
-        <b><span class="ik">⚽</span>Matchday</b>
+        <img class="ik" src="/assets/lab-icons/matchday-180.png" alt="" /><b>Matchday</b>
         <p>Halısaha uygulamasının yönetimi: anonim puan ortalamaları, oyuncular, maçlar, ham oylar; ortalamayı profillere yayınlama. Firestore'a bağlı; Google girişi + <code>admins/</code> belgesi ile yetki.</p>
         <div class="meta">kaynak: ~/dev/matchday/admin · aynısı matchday-bamtech.web.app</div>
       </a>
       <a class="kart" href="/lab/oncopace/">
-        <b><span class="ik">🩺</span>Oncopace</b>
+        <img class="ik" src="/assets/lab-icons/oncopace-180.png" alt="" /><b>Oncopace</b>
         <p>Kullanıcılar, eşleşmeler, rapor kuyruğu, bildirimler, içerik kaynakları. Supabase'e bağlı, yönetici girişi sunucuda doğrulanır.</p>
         <div class="meta">kaynak: ~/dev/oncopace/admin (vite build → dist/ buraya kopyalanır)</div>
       </a>
       <a class="kart" href="/lab/daily-whisper/">
-        <b><span class="ik">🌙</span>Daily Whisper</b>
+        <img class="ik" src="/assets/lab-icons/daily-whisper-180.png" alt="" /><b>Daily Whisper</b>
         <p>Genel bakış, kullanıcılar, AI kullanımı ve tahmini maliyet, onboarding ve paywall metinleri, hard paywall anahtarı. Firestore'a bağlı; e-posta girişi + <code>admins/</code> belgesi ile yetki.</p>
         <div class="meta">proje: kit-app-a91b5 (adı Daily Whisper) · kaynak: lab/daily-whisper/index.html</div>
       </a>
       <a class="kart" href="/lab/mihenk/">
-        <b><span class="ik">📐</span>Mihenk</b>
+        <img class="ik" src="/assets/lab-icons/mihenk-180.png" alt="" /><b>Mihenk</b>
         <p>Herhangi bir App Store uygulamasının indirme ve gelirini yorum sayısı ve sıralamadan tahmin eder.</p>
         <div class="meta">girişsiz · Play verisi için köprü: mihenk.kittapcom.workers.dev</div>
       </a>
       <a class="kart" href="/lab/filiz/">
-        <b><span class="ik">🌱</span>Filiz</b>
+        <img class="ik" src="/assets/lab-icons/filiz-180.png" alt="" /><b>Filiz</b>
         <p>İçerik tohumlama paneli prototipi — üç rol: üretici gönderir, marka izler, ajans yönetir. Tıklanabilir maket, örnek veri.</p>
         <div class="meta">girişsiz · sunucu yok, veri sayfanın içinde</div>
       </a>
       <a class="kart" href="/web/store-mockup/">
-        <b><span class="ik">🖼️</span>Store Mockup Studio</b>
+        <img class="ik" src="/assets/home/icons/store-mockup.svg" alt="" /><b>Store Mockup Studio</b>
         <p>appscreens tarzı screenshot ürünü. <b>Kısa yol: <code>/ss</code></b> → vitrin → şablon kataloğu (kategori/mağaza/tema filtreli) → "Şablonla başla" → editör (kurulum, diller, uygulama ekranları, AI ile doldur, önizle & zip). Projeler tarayıcıda kalır; dışa/içe aktarılır. MCP/CLI ile AI'dan doğrudan PNG ya da .sms.json.</p>
         <div class="meta">vitrin: /web/store-mockup/ · şablonlar: templates/ · uygulama: app/#/projects · MCP: mcp/ · diğer oturumlar: README.md</div>
       </a>
     </div>
 
-    <h2>Dış panolar — nereye bakılır</h2>
+    <h2>Dış panolar</h2>
     <div class="liste">
       <a href="https://appstoreconnect.apple.com/" target="_blank" rel="noopener"><span><b>App Store Connect</b><span class="ne">Satış, yorum, sürüm, TestFlight, App Review durumu · Nubi ve Daily Whisper Elif'in, Oncopace Dilaynaz'ın hesabında</span></span><small>3 hesap: Berk · Elif · Dilaynaz</small></a>
       <a href="https://play.google.com/console/" target="_blank" rel="noopener"><span><b>Google Play Console</b><span class="ne">Track'ler, kapalı test (Leafbook, Nubi, Daily Whisper, Tasbih Tally, Matchday, Oncopace), vitals, servis hesabı izinleri</span></span><small>12 uygulama</small></a>
