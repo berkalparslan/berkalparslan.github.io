@@ -4,29 +4,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BamTech — Indie iOS &amp; watchOS Apps</title>
+  <title>BamTech · Indie iOS, watchOS &amp; Android Apps</title>
   <meta name="description"
-    content="Apps by BamTech — score keepers for tennis, padel, pickleball and volleyball, health tracking, tools and games for iPhone and Apple Watch." />
+    content="BamTech is a one-person studio. A catalogue of small apps for iPhone, Apple Watch and Android: plant diaries, virtual pets, score keepers, household books, tools and games." />
 
   <link rel="canonical" href="https://berkalparslan.github.io/" />
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="BamTech — Indie iOS &amp; watchOS Apps" />
-  <meta property="og:description" content="Score keepers, health trackers and small tools for iPhone and Apple Watch." />
+  <meta property="og:title" content="BamTech · Indie iOS, watchOS &amp; Android Apps" />
+  <meta property="og:description" content="A catalogue of small apps that do one thing well. Made by a one-person studio." />
   <meta property="og:url" content="https://berkalparslan.github.io/" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <script>
-    /* Tema, sayfa boyanmadan uygulanır — yoksa açık/koyu sıçraması görünür.
-       Anahtar alt sayfalarla ortak: "bb-theme". Varsayılan açık. */
+    /* Tema ve dil, sayfa boyanmadan uygulanır. Anahtarlar alt sayfalarla ortak: "bb-theme", "bb-lang". */
     (function () {
-      try {
-        document.documentElement.setAttribute(
-          "data-theme", localStorage.getItem("bb-theme") || "light");
-      } catch (e) {
-        document.documentElement.setAttribute("data-theme", "light");
-      }
-      /* Dil: ?lang= > kayıtlı tercih > tarayıcı dili. Site geneli anahtar. */
       var d = document.documentElement, lang;
+      try { d.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+      catch (e) { d.setAttribute("data-theme", "light"); }
       try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
       var q = location.search.match(/[?&]lang=(tr|en)\b/);
       if (q) lang = q[1];
@@ -36,1854 +33,878 @@
     })();
   </script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
   <style>
+    /* Stil: endüstriyel ürün kataloğu (teenage engineering çizgisi).
+       Köşe yok, gölge yok, gradyan yok. Beş nötr renk; tek renkli not amber,
+       yalnızca "yeni" ve "yolda" işaretlerinde. Uygulama ikonları vitrindeki ürün. */
     :root {
       color-scheme: light;
-      --bg: #f4f4f7;
-      --bg-deep: #ececf1;
-      --surface: #ffffff;
-      --surface-2: #fafafc;
-      --text: #14141a;
-      --subtle: #6a6a75;
-      --faint: #9a9aa6;
-      --border: #e3e3ea;
-      --border-strong: #d2d2dc;
-      --accent: #0071e3;
-      --accent-soft: rgba(0, 113, 227, .10);
-      --violet: #7c5cff;
-      --mint: #14b8a6;
-      --amber: #f59e0b;
-      --shadow-sm: 0 1px 2px rgba(20, 20, 40, .06), 0 4px 14px rgba(20, 20, 40, .05);
-      --shadow-lg: 0 2px 6px rgba(20, 20, 40, .07), 0 18px 46px rgba(20, 20, 40, .10);
-      --radius: 20px;
-      --radius-sm: 12px;
-      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-      --aurora-1: rgba(0, 113, 227, .30);
-      --aurora-2: rgba(124, 92, 255, .26);
-      --aurora-3: rgba(20, 184, 166, .22);
-      --grain: .035;
+      --canvas: #f6f8f7;
+      --plate: #ffffff;
+      --ink: #000000;
+      --carbon: #0f0e12;
+      --hair: #e5e5e5;
+      --hair-strong: #000000;
+      --muted: #6f6f74;
+      --faint: #b2b2b2;
+      --on-carbon: #f6f8f7;
+      --on-carbon-muted: #8d8c93;
+      --amber: #f0a800;
+      --link: #0071bb;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --max: 1200px;
+      --gut: 33px;
     }
 
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #0b0b0e;
-      --bg-deep: #060608;
-      --surface: #15151a;
-      --surface-2: #1b1b21;
-      --text: #f3f3f7;
-      --subtle: #9d9daa;
-      --faint: #6d6d7a;
-      --border: #26262e;
-      --border-strong: #34343e;
-      --accent: #4da3ff;
-      --accent-soft: rgba(77, 163, 255, .14);
-      --violet: #9d84ff;
-      --mint: #2dd4bf;
-      --amber: #fbbf24;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .3);
-      --shadow-lg: 0 2px 8px rgba(0, 0, 0, .5), 0 20px 50px rgba(0, 0, 0, .45);
-      --aurora-1: rgba(0, 113, 227, .34);
-      --aurora-2: rgba(124, 92, 255, .30);
-      --aurora-3: rgba(20, 184, 166, .20);
-      --grain: .06;
+      --canvas: #0f0e12;
+      --plate: #16151a;
+      --ink: #f6f8f7;
+      --carbon: #000000;
+      --hair: #26252b;
+      --hair-strong: #f6f8f7;
+      --muted: #9a99a1;
+      --faint: #5c5b62;
+      --link: #6fb6ff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 84px;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.5;
+      background: var(--canvas);
+      color: var(--ink);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    a {
-      color: var(--accent);
-    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
-    /* ── Aurora arkaplan ─────────────────────────────────────── */
-    .aurora {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      overflow: hidden;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 90% 60% at 50% -10%, var(--bg) 0%, var(--bg-deep) 100%);
-    }
+    :root[data-lang="tr"] .en, :root[data-lang="en"] .tr { display: none !important; }
 
-    .aurora i {
-      position: absolute;
-      display: block;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: .9;
-    }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
+    .label { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    .aurora i:nth-child(1) {
-      width: 46vw;
-      height: 46vw;
-      min-width: 320px;
-      min-height: 320px;
-      left: -8vw;
-      top: -12vw;
-      background: var(--aurora-1);
-      animation: drift1 26s ease-in-out infinite alternate;
-    }
+    :focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 
-    .aurora i:nth-child(2) {
-      width: 40vw;
-      height: 40vw;
-      min-width: 280px;
-      min-height: 280px;
-      right: -6vw;
-      top: -6vw;
-      background: var(--aurora-2);
-      animation: drift2 32s ease-in-out infinite alternate;
-    }
-
-    .aurora i:nth-child(3) {
-      width: 34vw;
-      height: 34vw;
-      min-width: 240px;
-      min-height: 240px;
-      left: 32vw;
-      top: 22vw;
-      background: var(--aurora-3);
-      animation: drift3 38s ease-in-out infinite alternate;
-    }
-
-    @keyframes drift1 {
-      to {
-        transform: translate3d(9vw, 6vw, 0) scale(1.15);
-      }
-    }
-
-    @keyframes drift2 {
-      to {
-        transform: translate3d(-7vw, 9vw, 0) scale(1.1);
-      }
-    }
-
-    @keyframes drift3 {
-      to {
-        transform: translate3d(5vw, -7vw, 0) scale(.9);
-      }
-    }
-
-    /* Grain — aurora'nın üstünde ince bir doku. */
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: var(--grain);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      html {
-        scroll-behavior: auto;
-      }
-
-      .aurora i {
-        animation: none;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
-
-    /* ── Header ──────────────────────────────────────────────── */
+    /* ── Üst bar ─────────────────────────────────────────────── */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 60;
-      background: color-mix(in srgb, var(--bg) 72%, transparent);
-      backdrop-filter: saturate(180%) blur(24px);
-      -webkit-backdrop-filter: saturate(180%) blur(24px);
-      border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      position: sticky; top: 0; z-index: 20;
+      background: var(--canvas);
+      border-bottom: 1px solid var(--hair);
     }
+    .bar { display: flex; align-items: center; gap: 22px; height: 60px; }
+    .brand { font-size: 22px; font-weight: 300; letter-spacing: -.01em; }
+    .brand b { font-weight: 400; }
+    .nav { display: flex; gap: 22px; margin-left: auto; font-size: 14px; }
+    .nav a, .tools button { position: relative; }
+    .nav a:hover, .tools button:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    .tools { display: flex; gap: 15px; align-items: center; padding-left: 22px; border-left: 1px solid var(--hair); height: 24px; }
+    .tools button { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    .tools svg { width: 14px; height: 14px; display: block; stroke: currentColor; fill: none; stroke-width: 1.2; }
 
-    .header-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -.3px;
-      color: var(--text);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    /* gap yerine margin — gap, "Bam" metin düğümüyle <span>Tech</span>
-       arasına da boşluk koyuyordu. */
-    .brand-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      flex: none;
-      margin-right: 8px;
-      background: linear-gradient(135deg, var(--accent), var(--violet));
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-
-    .brand span {
-      background: linear-gradient(90deg, var(--accent), var(--violet));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .header-nav {
-      display: flex;
-      gap: 4px;
-      margin-left: auto;
-    }
-
-    .header-nav a {
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--subtle);
-      text-decoration: none;
-      padding: 6px 11px;
-      border-radius: 9px;
-      transition: color .15s, background .15s;
-    }
-
-    .header-nav a:hover {
-      color: var(--text);
-      background: color-mix(in srgb, var(--text) 6%, transparent);
-    }
-
-    .icon-btn {
-      flex: none;
-      height: 32px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 70%, transparent);
-      color: var(--subtle);
-      font: inherit;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 0 10px;
-      transition: color .15s, border-color .15s;
-    }
-
-    .icon-btn:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .icon-btn.square {
-      width: 32px;
-      padding: 0;
-    }
-
-    kbd {
-      font-family: var(--mono);
-      font-size: 10.5px;
-      line-height: 1;
-      padding: 3px 5px;
-      border-radius: 5px;
-      background: color-mix(in srgb, var(--text) 8%, transparent);
-      color: var(--faint);
-      border: 1px solid var(--border);
-    }
-
-    @media (max-width: 720px) {
-      .header-nav {
-        display: none;
-      }
-
-      #kbdHint {
-        display: none;
-      }
-    }
-
-    /* ── Hero ────────────────────────────────────────────────── */
-    .hero {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 92px 24px 56px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      color: var(--subtle);
-      background: color-mix(in srgb, var(--surface) 60%, transparent);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 14px;
-      margin-bottom: 26px;
-      backdrop-filter: blur(10px);
-    }
-
-    .eyebrow-rot {
-      display: inline-block;
-      min-width: 1px;
-      transition: opacity .35s ease, transform .35s ease;
-    }
-
-    .eyebrow-rot.out {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-
-    .pulse {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--mint);
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--mint) 60%, transparent);
-      animation: pulse 2.4s ease-out infinite;
-    }
-
-    @keyframes pulse {
-      70% {
-        box-shadow: 0 0 0 9px transparent;
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 transparent;
-      }
-    }
-
-    .hero h1 {
-      font-size: clamp(34px, 7vw, 62px);
-      font-weight: 700;
+    /* ── Giriş ───────────────────────────────────────────────── */
+    .intro { padding-top: 66px; }
+    .intro .label { color: var(--muted); display: flex; gap: 15px; }
+    .intro h1 {
+      font-weight: 200;
+      font-size: clamp(40px, 7.4vw, 92px);
+      line-height: 1.02;
       letter-spacing: -.035em;
-      line-height: 1.05;
-      margin-bottom: 18px;
+      margin: 22px 0 0;
+      max-width: 13ch;
     }
+    .intro-row { display: grid; grid-template-columns: 1fr 1fr; gap: 33px; margin-top: 33px; align-items: end; }
+    .intro p.lede { font-size: 17px; line-height: 1.5; max-width: 46ch; color: var(--ink); }
 
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(100deg, var(--accent), var(--violet) 55%, var(--mint));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+    .spec { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--hair-strong); }
+    .spec div { padding: 12px 0 0; border-right: 1px solid var(--hair); padding-left: 12px; }
+    .spec div:first-child { padding-left: 0; }
+    .spec div:last-child { border-right: 0; }
+    .spec b { display: block; font-weight: 200; font-size: 44px; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .spec small { display: block; margin-top: 6px; color: var(--muted); }
 
-    .hero p {
-      font-size: clamp(16px, 2.2vw, 19px);
-      color: var(--subtle);
-      max-width: 560px;
-      margin: 0 auto 30px;
-      line-height: 1.6;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 46px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 20px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid transparent;
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform .15s, box-shadow .15s, opacity .15s;
-    }
-
-    .btn:active {
-      transform: scale(.97);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--violet));
-      color: #fff;
-      box-shadow: 0 4px 18px color-mix(in srgb, var(--accent) 35%, transparent);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 26px color-mix(in srgb, var(--accent) 45%, transparent);
-    }
-
-    .btn-ghost {
-      background: color-mix(in srgb, var(--surface) 70%, transparent);
-      border-color: var(--border-strong);
-      color: var(--text);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── Stat şeridi ─────────────────────────────────────────── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+    /* ── Vitrin bandı ────────────────────────────────────────── */
+    .vitrine {
+      margin-top: 66px;
+      background: var(--carbon);
+      color: var(--on-carbon);
       overflow: hidden;
-      max-width: 700px;
-      margin: 0 auto;
-      box-shadow: var(--shadow-sm);
     }
-
-    .stat {
-      background: color-mix(in srgb, var(--surface) 78%, transparent);
-      backdrop-filter: blur(14px);
-      padding: 18px 10px;
+    .vitrine .wrap { display: grid; grid-template-columns: 300px 1fr; gap: 33px; padding-top: 44px; padding-bottom: 44px; min-height: 540px; }
+    .vit-side { display: flex; flex-direction: column; justify-content: space-between; gap: 33px; }
+    .vit-tabs { list-style: none; border-top: 1px solid #2a2930; }
+    .vit-tabs button {
+      width: 100%; text-align: left; display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid #2a2930; color: var(--on-carbon-muted); font-size: 15px;
+      transition: color .2s;
     }
-
-    .stat b {
-      display: block;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -.03em;
-      line-height: 1.1;
-      font-variant-numeric: tabular-nums;
+    .vit-tabs img { width: 34px; height: 34px; border-radius: 8px; filter: grayscale(1) brightness(.75); transition: filter .25s; }
+    .vit-tabs .label { color: inherit; }
+    .vit-tabs button[aria-selected="true"], .vit-tabs button:hover { color: var(--on-carbon); }
+    .vit-tabs button[aria-selected="true"] img, .vit-tabs button:hover img { filter: none; }
+    .vit-tabs button[aria-selected="true"] .label::before { content: "▲ "; color: var(--amber); }
+    .vit-caption { font-size: 15px; color: var(--on-carbon); max-width: 34ch; min-height: 4.5em; }
+    .vit-caption a { display: inline-block; margin-top: 12px; color: var(--on-carbon); border-bottom: 1px solid var(--on-carbon-muted); }
+    .vit-caption a:hover { border-color: var(--on-carbon); }
+    .vit-stage { position: relative; display: flex; justify-content: center; align-items: center; gap: 22px; min-height: 452px; }
+    .vit-stage img {
+      width: min(30%, 210px); height: auto;
+      border-radius: 26px;
+      outline: 1px solid #2a2930;
+      transition: transform .6s cubic-bezier(.2, .8, .2, 1), opacity .4s;
     }
+    .vit-stage img:nth-child(1) { transform: translateY(26px) rotate(-3deg); }
+    .vit-stage img:nth-child(2) { transform: translateY(-10px); }
+    .vit-stage img:nth-child(3) { transform: translateY(26px) rotate(3deg); }
+    .vit-stage.swap img { opacity: 0; transform: translateY(40px); }
+    .vit-foot { position: absolute; left: 0; bottom: 0; color: var(--on-carbon-muted); }
 
-    .stat small {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-top: 4px;
-    }
+    /* ── Katalog ─────────────────────────────────────────────── */
+    .section { padding-top: 66px; }
+    .head { display: flex; align-items: baseline; justify-content: space-between; gap: 22px; padding-bottom: 12px; border-bottom: 1px solid var(--hair-strong); }
+    .head h2 { font-weight: 300; font-size: 40px; line-height: 1.1; letter-spacing: -.02em; }
+    .head p { color: var(--muted); }
 
-    @media (max-width: 620px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .finder { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; padding: 15px 0; border-bottom: 1px solid var(--hair); }
+    .finder button { font-size: 14px; color: var(--muted); padding: 2px 0; border-bottom: 1px solid transparent; }
+    .finder button:hover { color: var(--ink); }
+    .finder button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+    .finder .search { margin-left: auto; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--hair); min-width: 220px; }
+    .finder .search:focus-within { border-bottom-color: var(--ink); }
+    .finder input { font: inherit; font-size: 14px; background: transparent; border: 0; outline: 0; color: var(--ink); padding: 4px 0; width: 100%; }
+    .finder kbd { font-family: var(--mono); font-size: 10px; color: var(--faint); border: 1px solid var(--hair); padding: 0 5px; }
 
-      .hero {
-        padding: 60px 20px 40px;
-      }
-    }
-
-    /* ── Bölüm ───────────────────────────────────────────────── */
-    .section {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 24px 72px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-
-    .section-head h2 {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -.02em;
-    }
-
-    .section-head p {
-      font-size: 14px;
-      color: var(--faint);
-      margin-left: auto;
-    }
-
-    /* ── Filtreler + arama ───────────────────────────────────── */
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 22px;
-    }
-
-    .chip {
-      font: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 65%, transparent);
-      color: var(--subtle);
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all .15s;
-      white-space: nowrap;
-    }
-
-    .chip:hover {
-      color: var(--text);
-      border-color: var(--border-strong);
-    }
-
-    .chip[aria-pressed="true"] {
-      background: var(--text);
-      border-color: var(--text);
-      color: var(--bg);
-    }
-
-    .search {
-      margin-left: auto;
-      position: relative;
-      min-width: 210px;
-      flex: 0 1 260px;
-    }
-
-    .search input {
-      width: 100%;
-      font: inherit;
-      font-size: 13.5px;
-      padding: 8px 12px 8px 34px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 65%, transparent);
-      color: var(--text);
-      backdrop-filter: blur(10px);
-      outline: none;
-    }
-
-    .search input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-
-    .search svg {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
-      fill: var(--faint);
-      pointer-events: none;
-    }
-
-    @media (max-width: 620px) {
-      .search {
-        margin-left: 0;
-        flex: 1 1 100%;
-      }
-    }
-
-    /* ── Uygulama ızgarası ───────────────────────────────────── */
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 16px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--hair);
+      border-bottom: 1px solid var(--hair);
+    }
+    .item { background: var(--canvas); display: flex; flex-direction: column; padding-bottom: 22px; }
+    .item.is-hidden { display: none; }
+
+    .tile {
+      position: relative; display: grid; place-items: center;
+      aspect-ratio: 4 / 3; background: var(--plate); overflow: hidden;
+    }
+    .tile .code, .tile .plat, .tile .mark { position: absolute; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+    .tile .code { top: 12px; left: 15px; color: var(--muted); }
+    .tile .plat { bottom: 12px; left: 15px; color: var(--muted); }
+    .tile .mark { top: 12px; right: 15px; color: var(--ink); }
+    .mark::before { content: "▲"; color: var(--amber); margin-right: 6px; }
+    .mark-soon::before { content: "△"; }
+    .icon {
+      width: 34%; height: auto; aspect-ratio: 1; border-radius: 22.5%;
+      outline: 1px solid rgba(0, 0, 0, .06); outline-offset: -1px;
+      transform: rotate(var(--tilt, 0deg));
+      transition: transform .5s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .icon-glyph { display: grid; place-items: center; background: var(--canvas); outline-color: var(--hair); }
+    .icon-glyph svg { width: 56%; fill: none; stroke: var(--ink); stroke-width: 1.2; }
+
+    /* Slush'tan ödünç: ikon durup dururken hafif eğik, üstüne gelince zıplar. */
+    .item:nth-child(3n+1) { --tilt: -3deg; }
+    .item:nth-child(3n+2) { --tilt: 2deg; }
+    .item:nth-child(3n) { --tilt: -1.5deg; }
+    @media (hover: hover) {
+      .tile:hover .icon { animation: hop .7s cubic-bezier(.3, 1.4, .5, 1); transform: rotate(calc(var(--tilt) * -1.6)) scale(1.04); }
+    }
+    .tile:active .icon { transform: rotate(0) scale(.94); transition-duration: .15s; }
+    @keyframes hop {
+      0% { translate: 0 0; }
+      35% { translate: 0 -16px; }
+      60% { translate: 0 0; }
+      78% { translate: 0 -5px; }
+      100% { translate: 0 0; }
     }
 
-    .card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      box-shadow: var(--shadow-sm);
-      transition: transform .22s cubic-bezier(.2, .8, .3, 1), box-shadow .22s, border-color .22s;
-      overflow: hidden;
-    }
+    .meta { padding: 15px 15px 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .name { font-weight: 400; font-size: 17px; line-height: 1.2; letter-spacing: -.01em; }
+    .desc { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .why { font-size: 13px; color: var(--ink); font-style: italic; }
+    .why:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .links { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; }
+    .links a { color: var(--link); }
+    .links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .empty { grid-column: 1 / -1; background: var(--canvas); padding: 33px 0; color: var(--muted); }
 
-    /* İmleci izleyen yumuşak ışıltı — JS iki değişkeni günceller. */
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      opacity: 0;
-      transition: opacity .25s;
-      pointer-events: none;
-      background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%),
-          color-mix(in srgb, var(--accent) 7%, transparent), transparent 65%);
+    /* ── Notlar ──────────────────────────────────────────────── */
+    .rows { list-style: none; }
+    .rows a {
+      display: grid; grid-template-columns: 130px 1fr 120px; gap: 22px; align-items: baseline;
+      padding: 18px 0; border-bottom: 1px solid var(--hair);
     }
+    .rows a:hover h3 { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    .rows time, .rows .tag { color: var(--muted); }
+    .rows h3 { font-weight: 300; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; }
+    .rows p { color: var(--muted); font-size: 14px; margin-top: 6px; max-width: 70ch; }
+    .rows .tag { text-align: right; }
 
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-strong);
-      box-shadow: var(--shadow-lg);
+    /* ── Bağlantılar ─────────────────────────────────────────── */
+    .contact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border-bottom: 1px solid var(--hair); }
+    .contact a { background: var(--canvas); padding: 22px 15px 22px 0; display: flex; flex-direction: column; gap: 6px; }
+    .contact a + a { padding-left: 15px; }
+    .contact a:hover b { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    .contact b { font-weight: 300; font-size: 19px; }
+    .contact small { color: var(--muted); font-size: 13px; word-break: break-all; }
+
+    /* ── Alt bant ────────────────────────────────────────────── */
+    footer.foot { margin-top: 99px; background: var(--carbon); color: var(--on-carbon); }
+    .foot .wrap { padding-top: 33px; padding-bottom: 33px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px 33px; }
+    .foot nav { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; }
+    .foot nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .foot .label { color: var(--on-carbon-muted); }
+    .foot .big { width: 100%; font-weight: 200; font-size: clamp(56px, 15vw, 200px); line-height: .9; letter-spacing: -.05em; color: #1d1c22; user-select: none; margin-top: 22px; }
+
+    /* ── Komut paleti ────────────────────────────────────────── */
+    .pal-back { position: fixed; inset: 0; z-index: 50; background: rgba(15, 14, 18, .55); display: grid; place-items: start center; padding-top: 14vh; }
+    .pal { width: min(560px, calc(100vw - 32px)); background: var(--canvas); border: 1px solid var(--hair-strong); }
+    .pal input { width: 100%; font: inherit; font-size: 17px; padding: 15px; border: 0; border-bottom: 1px solid var(--hair); background: transparent; color: var(--ink); outline: 0; }
+    .pal ul { list-style: none; max-height: 50vh; overflow: auto; }
+    .pal li { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: center; padding: 9px 15px; cursor: pointer; font-size: 14px; }
+    .pal li img { width: 20px; height: 20px; border-radius: 5px; }
+    .pal li[aria-selected="true"] { background: var(--ink); color: var(--canvas); }
+    .pal li .label { color: inherit; opacity: .6; }
+    .pal footer { display: flex; gap: 18px; padding: 9px 15px; border-top: 1px solid var(--hair); color: var(--muted); }
+
+    /* ── Duyarlılık ──────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .item:nth-child(odd) { --tilt: -3deg; }
+      .item:nth-child(even) { --tilt: 2.5deg; }
+      .vitrine .wrap { grid-template-columns: 1fr; min-height: 0; }
+      .vit-side { order: 2; }
+      .vit-tabs { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 15px; }
+      .contact { grid-template-columns: repeat(2, 1fr); }
+      .contact a:nth-child(3) { padding-left: 0; }
     }
-
-    .card:hover::before {
-      opacity: 1;
+    @media (max-width: 720px) {
+      :root { --gut: 16px; }
+      .nav { display: none; }
+      .tools { margin-left: auto; border-left: 0; padding-left: 0; }
+      .intro { padding-top: 44px; }
+      .intro-row { grid-template-columns: 1fr; gap: 33px; }
+      .spec { grid-template-columns: repeat(2, 1fr); }
+      .spec div:nth-child(2) { border-right: 0; }
+      .spec div:nth-child(3) { padding-left: 0; }
+      .spec div:nth-child(n+3) { margin-top: 12px; border-top: 1px solid var(--hair); }
+      .vit-stage { min-height: 0; gap: 10px; padding-top: 10px; }
+      .vit-stage img { width: 31%; border-radius: 14px; }
+      .vit-tabs { grid-template-columns: repeat(4, 1fr); column-gap: 0; }
+      .vit-tabs button { grid-template-columns: 1fr; justify-items: center; gap: 6px; padding: 12px 0; border-bottom-width: 2px; border-bottom-color: transparent; font-size: 12px; text-align: center; }
+      .vit-tabs button[aria-selected="true"] { border-bottom-color: var(--amber); }
+      .vit-tabs .label { display: none; }
+      .vit-tabs img { width: 40px; height: 40px; }
+      .vit-side { gap: 15px; }
+      .vit-foot { display: none; }
+      .head h2 { font-size: 30px; }
+      .finder { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(var(--gut) * -1); padding-right: var(--gut); }
+      .finder::-webkit-scrollbar { display: none; }
+      .finder button { white-space: nowrap; }
+      .finder .search { display: none; }
+      .tile { aspect-ratio: 1; }
+      .icon { width: 46%; }
+      .tile .plat { display: none; }
+      .meta { padding: 12px 10px 0; }
+      .name { font-size: 15px; }
+      .desc { font-size: 13px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .why { display: none; }
+      .links { flex-direction: column; gap: 4px; }
+      .rows a { grid-template-columns: 1fr; gap: 4px; }
+      .rows .tag { display: none; }
+      .contact { grid-template-columns: 1fr; }
+      .contact a, .contact a + a { padding-left: 0; }
     }
-
-    .card.is-hidden {
-      display: none;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-
-    .app-icon,
-    .app-icon-ph {
-      width: 62px;
-      height: 62px;
-      border-radius: 15px;
-      flex: none;
-      object-fit: cover;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
-      border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
-    }
-
-    .app-icon-ph {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 27px;
-      background: linear-gradient(135deg, var(--surface-2), color-mix(in srgb, var(--accent) 12%, var(--surface-2)));
-    }
-
-    .app-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .app-name {
-      font-size: 15.5px;
-      font-weight: 650;
-      letter-spacing: -.02em;
-      line-height: 1.3;
-      margin-bottom: 5px;
-    }
-
-    .app-desc {
-      font-size: 13.5px;
-      color: var(--subtle);
-      line-height: 1.5;
-    }
-
-    .badges {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 9px;
-    }
-
-    .badge {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      padding: 3.5px 8px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-    }
-
-    .badge.watch {
-      background: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    .badge.soon {
-      background: color-mix(in srgb, var(--amber) 14%, transparent);
-      color: var(--amber);
-    }
-
-    .badge.new {
-      background: color-mix(in srgb, var(--mint) 15%, transparent);
-      color: var(--mint);
-    }
-
-    .why {
-      font-size: 13px;
-      font-style: italic;
-      color: var(--subtle);
-      text-decoration: none;
-      border-left: 2px solid var(--accent-soft);
-      padding-left: 10px;
-      transition: color .15s, border-color .15s;
-    }
-    .why:hover { color: var(--accent); border-color: var(--accent); }
-
-    .store-btns {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: auto;
-    }
-
-    .store-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 12.5px;
-      font-weight: 600;
-      white-space: nowrap;
-      transition: opacity .15s, transform .15s;
-    }
-
-    .store-btn:hover {
-      opacity: .82;
-      transform: translateY(-1px);
-    }
-
-    .store-btn svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-      flex: none;
-    }
-
-    .store-btn.ios {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    .store-btn.android {
-      background: #01875f;
-      color: #fff;
-    }
-
-    .store-btn.link {
-      background: transparent;
-      color: var(--subtle);
-      border: 1px solid var(--border);
-    }
-
-    .store-btn.link:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 48px 20px;
-      color: var(--faint);
-      font-size: 14px;
-    }
-
-    /* ── Blog ────────────────────────────────────────────────── */
-    .posts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
-    }
-
-    .post {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      background: color-mix(in srgb, var(--surface) 78%, transparent);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
-      transition: transform .18s, border-color .18s;
-    }
-
-    .post:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent);
-    }
-
-    .post time {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--faint);
-      letter-spacing: .02em;
-    }
-
-    .post h3 {
-      font-size: 15px;
-      font-weight: 650;
-      letter-spacing: -.015em;
-      margin: 6px 0 5px;
-      line-height: 1.35;
-    }
-
-    .post p {
-      font-size: 13px;
-      color: var(--subtle);
-      line-height: 1.5;
-    }
-
-    /* ── Bağlantı şeridi ─────────────────────────────────────── */
-    .links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .link-tile {
-      flex: 1 1 200px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 18px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 70%, transparent);
-      backdrop-filter: blur(12px);
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .18s, transform .18s;
-    }
-
-    .link-tile:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .link-tile b {
-      display: block;
-      font-size: 14px;
-      font-weight: 650;
-    }
-
-    .link-tile small {
-      display: block;
-      font-size: 12.5px;
-      color: var(--faint);
-    }
-
-    .link-tile .em {
-      font-size: 20px;
-    }
-
-    /* ── Footer ──────────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 34px 24px 44px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--faint);
-      line-height: 1.9;
-    }
-
-    footer a {
-      color: var(--subtle);
-      text-decoration: none;
-    }
-
-    /* Araç bağlantısı: bulunabilsin ama öne çıkmasın. */
-    footer .foot-tools {
-      margin-top: 14px;
-      font-size: 12px;
-      color: var(--faint);
-      opacity: .75;
-    }
-
-    footer .foot-tools a {
-      color: var(--faint);
-      border-bottom: 1px solid var(--border);
-    }
-
-    footer .foot-tools a:hover {
-      color: var(--subtle);
-    }
-
-    footer a:hover {
-      color: var(--accent);
-    }
-
-    /* ── Komut paleti (⌘K) ───────────────────────────────────── */
-    .palette-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: color-mix(in srgb, var(--bg-deep) 55%, transparent);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 12vh 20px 20px;
-    }
-
-    .palette-backdrop[hidden] {
-      display: none;
-    }
-
-    .palette {
-      width: 100%;
-      max-width: 560px;
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      animation: rise .18s cubic-bezier(.2, .8, .3, 1);
-    }
-
-    @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(-10px) scale(.98);
-      }
-    }
-
-    .palette input {
-      width: 100%;
-      font: inherit;
-      font-size: 16px;
-      padding: 16px 18px;
-      border: 0;
-      border-bottom: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      outline: none;
-    }
-
-    .palette ul {
-      list-style: none;
-      max-height: 52vh;
-      overflow-y: auto;
-      padding: 6px;
-    }
-
-    .palette li {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 9px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .palette li[aria-selected="true"] {
-      background: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    .palette li .pi {
-      width: 20px;
-      text-align: center;
-      flex: none;
-      font-size: 15px;
-    }
-
-    .palette li .pt {
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .palette li .pk {
-      font-family: var(--mono);
-      font-size: 10.5px;
-      color: var(--faint);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-    }
-
-    .palette footer {
-      border-top: 1px solid var(--border);
-      padding: 9px 14px;
-      text-align: left;
-      font-size: 11.5px;
-      color: var(--faint);
-      display: flex;
-      gap: 14px;
-    }
-
-    /* ── Dil ─────────────────────────────────────────────────── */
-    :root[data-lang="tr"] .en {
-      display: none;
-    }
-
-    :root[data-lang="en"] .tr {
-      display: none;
-    }
-
-    span.tr,
-    span.en {
-      display: inline;
-    }
-
-    :root[data-lang="tr"] span.en,
-    :root[data-lang="en"] span.tr {
-      display: none;
-    }
-
-    /* Ekran okuyucular için görünmez ama erişilebilir. */
-    .sr {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      white-space: nowrap;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
     }
   </style>
-  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
-  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
-  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
-  <meta property="og:image" content="https://berkalparslan.github.io/assets/brand/og.png" />
 </head>
 
 <body>
 
-  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="grain" aria-hidden="true"></div>
-
   <header>
-    <div class="header-inner">
-      <a class="brand" href="/"><span class="brand-dot"></span>Bam<span>Tech</span></a>
-      <nav class="header-nav">
-        <a href="#apps"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
-        <a href="/neden/"><span class="tr">Neden</span><span class="en">Why</span></a>
-        <a href="/web/"><span class="tr">Web</span><span class="en">Web</span></a>
-        <a href="/blog/"><span class="tr">Blog</span><span class="en">Blog</span></a>
-        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-        <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+    <div class="wrap bar">
+      <a class="brand" href="/" aria-label="BamTech">bam<b>tech</b></a>
+      <nav class="nav" aria-label="Main">
+        <a href="#catalogue"><span class="tr">katalog</span><span class="en">catalogue</span></a>
+        <a href="/neden/"><span class="tr">neden</span><span class="en">why</span></a>
+        <a href="/blog/"><span class="tr">yazılar</span><span class="en">notes</span></a>
+        <a href="/web/">web</a>
+        <a href="/support/"><span class="tr">destek</span><span class="en">support</span></a>
       </nav>
-      <button class="icon-btn" id="paletteBtn" aria-label="Open command palette">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
-          <path
-            d="M10 2a8 8 0 105.29 14.01l4.35 4.35 1.41-1.41-4.35-4.35A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
-        </svg>
-        <span id="kbdHint"><kbd>⌘</kbd><kbd>K</kbd></span>
-      </button>
-      <button class="icon-btn" id="langBtn" aria-label="Change language" style="font-weight:700;letter-spacing:.04em">TR</button>
-      <button class="icon-btn square" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+      <div class="tools">
+        <button id="langBtn" type="button">TR</button>
+        <button id="themeBtn" type="button" aria-label="Toggle dark mode">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 1.5v13A6.5 6.5 0 0 0 8 1.5z" fill="currentColor"/></svg>
+        </button>
+        <button id="palBtn" type="button" aria-label="Search everything">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- ── Hero ───────────────────────────────────────────────── -->
-  <section class="hero">
-    <div class="eyebrow"><span class="pulse"></span><span class="eyebrow-rot" id="eyebrowText">Bağımsız · tek kişilik stüdyo</span></div>
-    <h1><span class="tr">Bir işi<br /><em>hakkıyla yapan</em><br />küçük uygulamalar.</span><span class="en">Small apps that<br /><em>do one thing well.</em></span></h1>
-    <p class="tr">BamTech tek kişilik bir stüdyo. iPhone, Apple&nbsp;Watch ve Android için
-      bağımsız uygulamalar: ev ekonomisi, kortta skor tutanlar, sessiz sağlık araçları ve sırf
-      keyif için yazılmış birkaç şey. Hepsi önce bir ihtiyaçtan çıktı; hesap yok, veri cihazında.</p>
-    <p class="en">BamTech is a one-person studio building independent apps for iPhone,
-      Apple&nbsp;Watch and Android — household books, score keepers for the courts, quiet health
-      tools, and a couple of things purely for fun. Each one started as a need; no accounts, data stays on the device.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="#apps"><span class="tr">Uygulamalara bak</span><span class="en">Browse the apps</span>
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
-          <path d="M12 16l-6-6h12z" />
-        </svg>
-      </a>
-      <a class="btn btn-ghost" href="/neden/"><span class="tr">Neden yaptım?</span><span class="en">Why I built these</span></a>
-      <a class="btn btn-ghost" href="/blog/"><span class="tr">Blogu oku</span><span class="en">Read the blog</span></a>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><b id="statApps">8</b><small><span class="tr">Yayında</span><span class="en">Live apps</span></small></div>
-      <div class="stat"><b id="statWatch">6</b><small><span class="tr">Watch uygulaması</span><span class="en">Watch apps</span></small></div>
-      <div class="stat"><b id="statStores">2</b><small><span class="tr">Mağaza</span><span class="en">Stores</span></small></div>
-      <div class="stat"><b id="statSoon">2</b><small><span class="tr">Yolda</span><span class="en">In the oven</span></small></div>
-    </div>
-  </section>
-
-  <!-- ── Uygulamalar ────────────────────────────────────────── -->
-  <section class="section" id="apps">
-    <div class="section-head">
-      <h2><span class="tr">Uygulamalar</span><span class="en">Apps</span></h2>
-      <p id="resultCount"></p>
-    </div>
-
-    <div class="toolbar">
-      <button class="chip" data-filter="all" aria-pressed="true"><span class="tr">Tümü</span><span class="en">All</span></button>
-      <button class="chip" data-filter="watch" aria-pressed="false"><span class="tr">⌚ Apple Watch</span><span class="en">⌚ Apple Watch</span></button>
-      <button class="chip" data-filter="sport" aria-pressed="false"><span class="tr">Spor</span><span class="en">Sport</span></button>
-      <button class="chip" data-filter="health" aria-pressed="false"><span class="tr">Sağlık</span><span class="en">Health</span></button>
-      <button class="chip" data-filter="tools" aria-pressed="false"><span class="tr">Araçlar</span><span class="en">Tools</span></button>
-      <button class="chip" data-filter="web" aria-pressed="false"><span class="tr">🌐 Web</span><span class="en">🌐 Web</span></button>
-      <button class="chip" data-filter="fun" aria-pressed="false"><span class="tr">Eğlence</span><span class="en">Fun</span></button>
-      <button class="chip" data-filter="soon" aria-pressed="false"><span class="tr">Yakında</span><span class="en">Coming soon</span></button>
-      <div class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="M10 2a8 8 0 105.29 14.01l4.35 4.35 1.41-1.41-4.35-4.35A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
-        </svg>
-        <label class="sr" for="appSearch">Search apps</label>
-        <input id="appSearch" type="search" placeholder=""  autocomplete="off" />
+  <main>
+    <!-- ── Giriş ───────────────────────────────────────────── -->
+    <section class="intro wrap">
+      <p class="label"><span>BamTech</span><span><span class="tr">katalog</span><span class="en">catalogue</span> 2026</span><span id="liveLabel"></span></p>
+      <h1><span class="tr">Bir işi hakkıyla yapan küçük uygulamalar.</span><span class="en">Small apps that do one thing well.</span></h1>
+      <div class="intro-row">
+        <p class="lede">
+          <span class="tr">Tek kişilik bir stüdyo. iPhone, Apple&nbsp;Watch ve Android için bağımsız uygulamalar: bitki günlüğü, sanal evcil hayvan, kortta skor tutanlar, ev ekonomisi ve sırf keyif için yazılmış birkaç şey. Hepsi bir ihtiyaçtan çıktı. Veri satılmaz.</span>
+          <span class="en">A one-person studio making independent apps for iPhone, Apple&nbsp;Watch and Android: a plant diary, a virtual pet, score keepers for the court, household books and a few things made purely for fun. Each one started as a need. No data is sold.</span>
+        </p>
+        <div class="spec" aria-label="Studio in numbers">
+          <div><b id="statLive">0</b><small><span class="tr">yayında</span><span class="en">live</span></small></div>
+          <div><b id="statWatch">0</b><small><span class="tr">saatte</span><span class="en">on the wrist</span></small></div>
+          <div><b id="statStores">2</b><small><span class="tr">mağaza</span><span class="en">stores</span></small></div>
+          <div><b id="statSoon">0</b><small><span class="tr">yolda</span><span class="en">in the oven</span></small></div>
+        </div>
       </div>
+    </section>
+
+    <!-- ── Vitrin: yeni çıkanlar ───────────────────────────── -->
+    <section class="vitrine" aria-label="New releases">
+      <div class="wrap">
+        <div class="vit-side">
+          <div>
+            <p class="label" style="color:var(--on-carbon-muted);margin-bottom:15px"><span class="tr">vitrinde · yeni çıkanlar</span><span class="en">in the vitrine · new releases</span></p>
+            <ul class="vit-tabs" role="tablist" id="vitTabs"></ul>
+          </div>
+          <p class="vit-caption" id="vitCaption"></p>
+        </div>
+        <div class="vit-stage" id="vitStage" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ── Katalog ─────────────────────────────────────────── -->
+    <section class="section wrap" id="catalogue">
+      <div class="head">
+        <h2><span class="tr">Katalog</span><span class="en">Catalogue</span></h2>
+        <p class="label" id="resultCount"></p>
+      </div>
+
+      <div class="finder" role="toolbar" aria-label="Filter apps">
+        <button data-filter="all" aria-pressed="true"><span class="tr">tümü</span><span class="en">all</span></button>
+        <button data-filter="watch" aria-pressed="false"><span class="tr">saat</span><span class="en">watch</span></button>
+        <button data-filter="sport" aria-pressed="false"><span class="tr">spor</span><span class="en">sport</span></button>
+        <button data-filter="health" aria-pressed="false"><span class="tr">sağlık</span><span class="en">health</span></button>
+        <button data-filter="tools" aria-pressed="false"><span class="tr">araçlar</span><span class="en">tools</span></button>
+        <button data-filter="fun" aria-pressed="false"><span class="tr">eğlence</span><span class="en">fun</span></button>
+        <button data-filter="android" aria-pressed="false">android</button>
+        <button data-filter="soon" aria-pressed="false"><span class="tr">yolda</span><span class="en">soon</span></button>
+        <label class="search">
+          <span class="sr">Search apps</span>
+          <input id="appSearch" type="search" autocomplete="off" />
+          <kbd>/</kbd>
+        </label>
+      </div>
+
+      <div class="grid" id="appGrid">
+      <!-- katalog:başla -->
+      <article class="item" data-tags="fun ios" data-name="Nubi: Virtual Pet nubi sanal evcil hayvan tamagotchi pet virtual" data-released="2026-10-01">
+        <a class="tile" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener" aria-label="Nubi: Virtual Pet">
+          <span class="code">BT-19</span><span class="mark mark-new"><span class="tr">yeni</span><span class="en">new</span></span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/nubi-icon.webp" width="512" height="512" />
+          <span class="plat">iOS</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Nubi: Virtual Pet</h3>
+          <p class="desc"><span class="tr">Gerçek zamanlı yaşayan bir sanal evcil hayvan. Sen işteyken acıkır, gece uykusu gelir, unutursan biraz sıkılır; her gün gözünün önünde büyür.</span><span class="en">A virtual pet that lives in real time. Hungry while you work, sleepy at night, a little bored when you forget it, and growing up right in front of you.</span></p>
+          
+          <p class="links"><a href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener">App Store ↗</a><a href="/privacy/nubi/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="lifestyle ios" data-name="Leafbook: Plant Tracker leafbook bitki takip sulama hayalet kamera plant" data-released="2026-09-29">
+        <a class="tile" href="/leafbook/" aria-label="Leafbook: Plant Tracker">
+          <span class="code">BT-18</span><span class="mark mark-new"><span class="tr">yeni</span><span class="en">new</span></span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/leafbook-icon.webp" width="512" height="512" />
+          <span class="plat">iOS</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Leafbook: Plant Tracker</h3>
+          <p class="desc"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Bitkilerimin ne zaman sulanacağını bilmiyordum.</span><span class="en">I never knew when my plants needed water.</span>”</a>
+          <p class="links"><a href="/leafbook/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="health watch ios" data-name="Daily Whisper daily whisper affirmations olumlama manifest hikaye" data-released="2026-10-02">
+        <a class="tile" href="/daily-whisper/" aria-label="Daily Whisper">
+          <span class="code">BT-17</span><span class="mark mark-new"><span class="tr">yeni</span><span class="en">new</span></span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/daily-whisper-icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Daily Whisper</h3>
+          <p class="desc"><span class="tr">Her sabah sana özel yazılmış kısa bir hikaye: hayalini kurduğun hayattan bir sahne, senin adınla, sıcak bir sesle okunur.</span><span class="en">Every morning a short story written just for you: a scene from the life you are working towards, with your name in it, read aloud in a warm voice.</span></p>
+          
+          <p class="links"><a href="/daily-whisper/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="tools watch ios" data-name="Kit: QR Scanner &amp; Wallet kit qr scanner wallet barcode kod cüzdan kart bilet" data-released="2026-10-01">
+        <a class="tile" href="/kit-qr/" aria-label="Kit: QR Scanner &amp; Wallet">
+          <span class="code">BT-16</span><span class="mark mark-new"><span class="tr">yeni</span><span class="en">new</span></span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/kit-icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Kit: QR Scanner &amp; Wallet</h3>
+          <p class="desc"><span class="tr">Her kodu okur, sadakat kartlarını ve biletleri tek cüzdanda tutar, güzel görünen QR kodlar üretir. Linki açmadan önce de kontrol eder. Reklam yok, hesap yok.</span><span class="en">Reads every code, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. Checks a link before you open it. No ads, no account.</span></p>
+          
+          <p class="links"><a href="/kit-qr/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport ios android soon" data-name="Matchday: Five a side matchday halısaha futbol five a side maç kadro">
+        <a class="tile" href="/matchday/" aria-label="Matchday: Five a side">
+          <span class="code">BT-15</span><span class="mark mark-soon"><span class="tr">yolda</span><span class="en">soon</span></span>
+          <img class="icon" loading="lazy" alt="" src="/matchday/assets/icon-512.png" width="512" height="512" />
+          <span class="plat">iOS · Android</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Matchday: Five a side</h3>
+          <p class="desc"><span class="tr">Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.</span><span class="en">The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously.</span></p>
+          
+          <p class="links"><a href="/matchday/"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span> →</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="tools ios" data-name="Yonca: Çekiliş yonca çekiliş takip giveaway kampanya draw">
+        <a class="tile" href="/yonca/" aria-label="Yonca: Çekiliş">
+          <span class="code">BT-14</span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/yonca-icon.webp" width="512" height="512" />
+          <span class="plat">iOS</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Yonca: Çekiliş</h3>
+          <p class="desc"><span class="tr">Kendi çekilişini yap ya da katıldıklarını takip et. İsimleri yapıştır, kazananı çek, kartı paylaş; sonuç günü de hatırlatır.</span><span class="en">Run your own giveaway or track the ones you entered. Paste the names, draw the winners, share the card; it reminds you on result day too.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Kazandığım çekilişi kuzenim görmese yalan olacaktı.</span><span class="en">My cousin spotted my name on a winners list by chance.</span>”</a>
+          <p class="links"><a href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6802312123" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="tools ios android finance" data-name="Wallet Coach wallet coach bütçe ev ekonomisi budget para">
+        <a class="tile" href="/walletcoach/" aria-label="Wallet Coach">
+          <span class="code">BT-13</span>
+          <img class="icon" loading="lazy" alt="" src="/walletcoach/assets/icon-512.png" width="512" height="512" />
+          <span class="plat">iOS · Android</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Wallet Coach</h3>
+          <p class="desc"><span class="tr">Ev ekonomisini Excel&#x27;deki ay sekmeleri gibi tutar: ayı bir kez yaz, ödedikçe işaretle, yeni ay öncekini kopyalasın.</span><span class="en">Household books kept like a spreadsheet with a tab per month: write the month once, tick things off as they are paid, let the next month copy itself.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Beş yıl Excel&#x27;de tuttum, bulamayınca yaptım.</span><span class="en">Five years in a spreadsheet; built it when nothing fit.</span>”</a>
+          <p class="links"><a href="/walletcoach/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">App Store ↗</a><a href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="health android" data-name="BodyBook bodybook sağlık tansiyon cilt ben health">
+        <a class="tile" href="/bodybook/" aria-label="BodyBook">
+          <span class="code">BT-12</span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/bodybook-icon.webp" width="512" height="512" />
+          <span class="plat">Android</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">BodyBook</h3>
+          <p class="desc"><span class="tr">Tansiyon, kilo, cilt bakım rutini, ben fotoğrafları, ilaç, su ve uyku tek panelde. Hepsi telefonunda kalır.</span><span class="en">Blood pressure, weight, skincare routine, mole photos, medication, water and sleep in one panel. Everything stays on your phone.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Altı ayda bir ben merkezine gitmek saçma geldi.</span><span class="en">Visiting a mole clinic every six months felt absurd.</span>”</a>
+          <p class="links"><a href="/bodybook/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="fun android" data-name="Boş Yer Yok boş yer yok no spaces otopark parking tycoon oyun game">
+        <a class="tile" href="/bosyeryok/" aria-label="Boş Yer Yok">
+          <span class="code">BT-11</span>
+          <img class="icon" loading="lazy" alt="" src="/bosyeryok/assets/icon-512.png" width="512" height="512" />
+          <span class="plat">Android</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Boş Yer Yok</h3>
+          <p class="desc"><span class="tr">Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen koyuyorsun, ekibi sen kuruyorsun, maaşlar her saniye kasadan düşüyor.</span><span class="en">A parking lot tycoon. You don&#x27;t steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Tycoon oyunlarını sevdim, eksiklerini de gördüm.</span><span class="en">Loved tycoon games, saw what they get wrong.</span>”</a>
+          <p class="links"><a href="/bosyeryok/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="fun watch ios android" data-name="O mu Bu mu? o mu bu mu would you rather tercih oyunu">
+        <a class="tile" href="/o-mu-bu-mu/" aria-label="O mu Bu mu?">
+          <span class="code">BT-10</span>
+          <img class="icon" loading="lazy" alt="" src="/assets/home/omubumu-icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Android · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">O mu Bu mu?</h3>
+          <p class="desc"><span class="tr">İmkansız tercihler oyunu. Arkadaşlarınla sesli oynanır, tartışma garantili.</span><span class="en">Would-you-rather, Turkish edition. Impossible choices, played out loud with friends.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Arkadaşlarla kendi aramızda oynadığımız oyun.</span><span class="en">A game we played among friends.</span>”</a>
+          <p class="links"><a href="/o-mu-bu-mu/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">App Store ↗</a><a href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="tools watch ios" data-name="Tasbih Tally tasbih tally zikir tesbih namaz kıble counter">
+        <a class="tile" href="/tasbih-tally/" aria-label="Tasbih Tally">
+          <span class="code">BT-09</span>
+          <img class="icon" loading="lazy" alt="" src="/tasbih-tally/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Tasbih Tally</h3>
+          <p class="desc"><span class="tr">Zikir, namaz vakitleri ve kıble. Saatte titreşimle sayar, sayıyı kaybetmezsin.</span><span class="en">Dhikr counter, prayer times and qibla. Counts with haptics on the Watch so you never lose count.</span></p>
+          
+          <p class="links"><a href="/tasbih-tally/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport watch ios android" data-name="Tennis &amp; Padel Score Keeper tennis padel tenis skor score">
+        <a class="tile" href="/tennis-padel/" aria-label="Tennis &amp; Padel Score Keeper">
+          <span class="code">BT-08</span>
+          <img class="icon" loading="lazy" alt="" src="/tennis-padel/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Android · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Tennis &amp; Padel Score Keeper</h3>
+          <p class="desc"><span class="tr">Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Saatte tek başına çalışır.</span><span class="en">Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on the Watch.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Kortta skoru tutamıyordum.</span><span class="en">I kept losing the score on court.</span>”</a>
+          <p class="links"><a href="/tennis-padel/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">App Store ↗</a><a href="https://play.google.com/store/apps/details?id=com.aberk.wear" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport watch ios" data-name="Score Keeper for Pickleball pickleball score skor">
+        <a class="tile" href="/pickleball/" aria-label="Score Keeper for Pickleball">
+          <span class="code">BT-07</span>
+          <img class="icon" loading="lazy" alt="" src="/pickleball/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Score Keeper for Pickleball</h3>
+          <p class="desc"><span class="tr">Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.</span><span class="en">Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score.</span></p>
+          
+          <p class="links"><a href="/pickleball/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport watch ios" data-name="Score Keeper for Volleyball volleyball voleybol score skor">
+        <a class="tile" href="/volleyball/" aria-label="Score Keeper for Volleyball">
+          <span class="code">BT-06</span>
+          <img class="icon" loading="lazy" alt="" src="/volleyball/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Score Keeper for Volleyball</h3>
+          <p class="desc"><span class="tr">Canlı set skoru, maç defteri ve antrenmandan gelen nabız istatistikleri.</span><span class="en">Live set scoring with a match logbook and heart rate stats pulled from your workout.</span></p>
+          
+          <p class="links"><a href="/volleyball/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport watch ios" data-name="Rally: Badminton rally badminton skor score">
+        <a class="tile" href="/rally-badminton/" aria-label="Rally: Badminton">
+          <span class="code">BT-05</span>
+          <img class="icon" loading="lazy" alt="" src="/rally-badminton/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Rally: Badminton</h3>
+          <p class="desc"><span class="tr">Ralli puanlaması, servis alanı ve taraf değişimi otomatik; 21 sayı ve iki fark kuralı dahil.</span><span class="en">Rally scoring, service court and side changes handled for you, with 21-point games and the two-point rule built in.</span></p>
+          
+          <p class="links"><a href="/rally-badminton/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6802337158" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="sport watch ios" data-name="Rally: Table Tennis rally table tennis masa tenisi ping pong skor">
+        <a class="tile" href="/rally-table-tennis/" aria-label="Rally: Table Tennis">
+          <span class="code">BT-04</span>
+          <img class="icon" loading="lazy" alt="" src="/rally-table-tennis/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Rally: Table Tennis</h3>
+          <p class="desc"><span class="tr">On bire kadar, iki sayıda bir servis değişimi, uzayan deuce. Yüksek sesle saymayı bırak.</span><span class="en">Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud.</span></p>
+          
+          <p class="links"><a href="/rally-table-tennis/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6802339775" target="_blank" rel="noopener">App Store ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="fun watch ios android" data-name="Orbix Roulette orbix roulette çark wheel spin karar">
+        <a class="tile" href="/orbix-roulette/" aria-label="Orbix Roulette">
+          <span class="code">BT-03</span>
+          <img class="icon" loading="lazy" alt="" src="/orbix-roulette/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS · Android · Watch</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Orbix Roulette</h3>
+          <p class="desc"><span class="tr">Güzel bir karar çarkı. Kim ödeyecek, kim başlayacak, nereye gidilecek: çevir, tartışma bitsin.</span><span class="en">A beautiful decision wheel. Who pays, who goes first, where to eat: spin it and stop arguing.</span></p>
+          
+          <p class="links"><a href="/orbix-roulette/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><a href="https://apps.apple.com/app/id6756230899" target="_blank" rel="noopener">App Store ↗</a><a href="https://play.google.com/store/apps/details?id=com.aberk.orbixroulette" target="_blank" rel="noopener">Google Play ↗</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="health ios soon" data-name="Bumpline: Pregnancy Tracker bumpline kırk hafta hamilelik gebelik pregnancy">
+        <a class="tile" href="/bumpline/" aria-label="Bumpline: Pregnancy Tracker">
+          <span class="code">BT-02</span><span class="mark mark-soon"><span class="tr">yolda</span><span class="en">soon</span></span>
+          <img class="icon" loading="lazy" alt="" src="/bumpline/assets/icon.webp" width="512" height="512" />
+          <span class="plat">iOS</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Bumpline: Pregnancy Tracker</h3>
+          <p class="desc"><span class="tr">Kırk hafta, tek bir tarihten. Hangi haftadasın, bebek ne kadar büyüdü, doğuma kaç gün kaldı; widget, günlük ve paylaşılabilir kartla.</span><span class="en">Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.</span></p>
+          <a class="why" href="/neden/">“<span class="tr">Hamile bir arkadaşım için.</span><span class="en">For a friend who was expecting.</span>”</a>
+          <p class="links"><a href="/bumpline/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a></p>
+        </div>
+      </article>
+      <article class="item" data-tags="tools web" data-name="Store Mockup Studio store mockup studio screenshot ekran görüntüsü web">
+        <a class="tile" href="/web/store-mockup/" aria-label="Store Mockup Studio">
+          <span class="code">BT-01</span>
+          <span class="icon icon-glyph" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="14" y="6" width="20" height="36" rx="4"/><rect x="4" y="12" width="14" height="26" rx="3"/><rect x="30" y="12" width="14" height="26" rx="3"/></svg></span>
+          <span class="plat">Web</span>
+        </a>
+        <div class="meta">
+          <h3 class="name">Store Mockup Studio</h3>
+          <p class="desc"><span class="tr">Ham ekran görüntülerini at, App Store ve Play görselini al: cihaz çerçevesi, arka plan, başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır.</span><span class="en">Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser.</span></p>
+          
+          <p class="links"><a href="/web/store-mockup/"><span class="tr">Aracı aç</span><span class="en">Open the tool</span> →</a></p>
+        </div>
+      </article>      <!-- katalog:bitti -->
+        <p class="empty" id="emptyState" hidden><span class="tr">Eşleşen uygulama yok.</span><span class="en">No app matches that.</span></p>
+      </div>
+    </section>
+
+    <!-- ── Yazılar ─────────────────────────────────────────── -->
+    <section class="section wrap" id="notes">
+      <div class="head">
+        <h2><span class="tr">Yazılar</span><span class="en">Notes</span></h2>
+        <p><a class="label" href="/blog/"><span class="tr">tümü →</span><span class="en">all posts →</span></a></p>
+      </div>
+      <ul class="rows" id="postList"><li class="empty" style="padding:22px 0">…</li></ul>
+    </section>
+
+    <!-- ── İletişim ────────────────────────────────────────── -->
+    <section class="section wrap" id="contact">
+      <div class="head">
+        <h2><span class="tr">Başka yerlerde</span><span class="en">Elsewhere</span></h2>
+      </div>
+      <div class="contact">
+        <a href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener"><span class="label" style="color:var(--muted)">01</span><b>App Store ↗</b><small><span class="tr">Tüm iOS uygulamaları</span><span class="en">Every iOS app in one place</span></small></a>
+        <a href="https://github.com/berkalparslan" target="_blank" rel="noopener"><span class="label" style="color:var(--muted)">02</span><b>GitHub ↗</b><small><span class="tr">Kod ve denemeler</span><span class="en">Code and experiments</span></small></a>
+        <a href="mailto:aberkalparslan@gmail.com"><span class="label" style="color:var(--muted)">03</span><b><span class="tr">E-posta</span><span class="en">Email</span></b><small>aberkalparslan@gmail.com</small></a>
+        <a href="/support/"><span class="label" style="color:var(--muted)">04</span><b><span class="tr">Destek</span><span class="en">Support</span></b><small><span class="tr">Hata, istek, soru</span><span class="en">Bugs, requests, questions</span></small></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span class="label">© 2026 BamTech</span>
+      <nav aria-label="Footer">
+        <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+        <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+        <a href="/neden/"><span class="tr">Neden</span><span class="en">Why</span></a>
+        <a href="/blog/">Blog</a>
+        <a href="/web/">Web</a>
+        <a href="mailto:aberkalparslan@gmail.com"><span class="tr">İletişim</span><span class="en">Contact</span></a>
+      </nav>
+      <div class="big" aria-hidden="true">bamtech</div>
     </div>
-
-    <div class="grid" id="appGrid">
-      <!-- Boş Yer Yok -->
-      <article class="card" data-tags="fun soon ios" data-name="Boş Yer Yok No Spaces Parking Tycoon otopark oyun idle tycoon isletme simulasyonu game">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Boş Yer Yok icon"
-            src="/bosyeryok/assets/icon-512.png" />
-          <div class="app-info">
-            <div class="app-name">Boş Yer Yok: Otopark Tycoon</div>
-            <div class="app-desc"><span class="tr">Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen belirliyorsun, ekibi sen kuruyorsun ve maaşlar her saniye kasadan düşüyor. Sokak da hareketli — derbi çıkışı da var, sağanak da.</span><span class="en">A parking lot management game. You don't steer, you run the place: you set the tariff, you hire the crew, and wages come out of the till every second. The street is busy too — the derby lets out, and the rain starts.</span></div>
-            <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Tycoon oyunlarını sevdim, eksiklerini de gördüm.</span><span class="en">Loved tycoon games, saw what they get wrong.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/bosyeryok/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-        </div>
-      </article>
-
-      <!-- Wallet Coach -->
-      <article class="card" data-released="2026-08-08" data-tags="tools ios android finance" data-name="Wallet Coach WalletCoach butce bütçe ev ekonomisi household budget price in hours para aylik">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Wallet Coach icon"
-            src="/walletcoach/assets/icon-512.png" />
-          <div class="app-info">
-            <div class="app-name">Wallet Coach</div>
-            <div class="app-desc"><span class="tr">Ev ekonomisini Excel'deki ay sekmeleri gibi tutar: ayı bir kez yaz, ödedikçe işaretle, yeni ay öncekini kopyalasın. Üstüne alacak-verecek defteri, portföy ve harcamadan önce açtığın hesap makineleri.</span><span class="en">Household books kept the way a spreadsheet with a tab per month is kept: write the month down once, tick things off as they are paid, and let the next month copy itself. Plus a ledger, a portfolio and the calculators you open before you spend.</span></div>
-            <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Beş yıl Excel'de tuttum, bulamayınca yaptım.</span><span class="en">Five years in a spreadsheet; built it when nothing fit.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/walletcoach/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- BodyBook -->
-      <article class="card" data-released="2026-09-03" data-tags="health android" data-name="BodyBook Health Skincare sağlık cilt">
-        <div class="card-top">
-          <div class="app-icon-ph">🩺</div>
-          <div class="app-info">
-            <div class="app-name">BodyBook: Health &amp; BP Tracker</div>
-            <div class="app-desc"><span class="tr">Tansiyon, kilo, cilt bakım rutini ve ürün raf ömrü, ben fotoğrafları, ilaç, su ve uyku — tek panelde. Hepsi telefonunda kalır.</span><span class="en">Blood pressure, weight, skincare routine with product shelf life, mole photos, medication, water and sleep — one panel. Everything stays on your phone.</span></div>
-            <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Altı ayda bir ben merkezine gitmek saçma geldi.</span><span class="en">Visiting a mole clinic every six months felt absurd.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/bodybook/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- Tennis & Padel -->
-      <article class="card" data-tags="sport watch ios android" data-name="Tennis Padel Score Keeper tenis padel">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Tennis Padel Score Keeper icon"
-            src="/tennis-padel/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Tennis &amp; Padel Score Keeper</div>
-            <div class="app-desc"><span class="tr">Sayıya dokun, kurallar kendi işlesin — tiebreak, altın sayı, set. Saatte tek başına çalışır.</span><span class="en">Tap to score, the match rules take care of themselves — tiebreaks, golden points, sets. Runs standalone on the Watch.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Kortta skoru tutamıyordum.</span><span class="en">I kept losing the score on court.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/tennis-padel/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.wear" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- Pickleball -->
-      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Pickleball">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Pickleball Score Keeper icon"
-            src="/pickleball/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Score Keeper for Pickleball</div>
-            <div class="app-desc"><span class="tr">Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.</span><span class="en">Server, side-out and rally scoring handled for you. Glance at your wrist between points instead of arguing about the score.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/pickleball/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Volleyball -->
-      <article class="card" data-tags="sport watch ios" data-name="Score Keeper for Volleyball voleybol">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Volleyball Score Keeper icon"
-            src="/volleyball/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Score Keeper for Volleyball</div>
-            <div class="app-desc"><span class="tr">Canlı set skoru, maç defteri ve antrenmandan gelen nabız istatistikleri.</span><span class="en">Live set scoring with a match logbook and heart-rate stats pulled straight from your workout.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/volleyball/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6760615315" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- O mu Bu mu -->
-      <article class="card" data-tags="fun ios android" data-name="O mu Bu mu would you rather tercih oyunu">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="O mu Bu mu icon"
-            src="/o-mu-bu-mu/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">O mu Bu mu?</div>
-            <div class="app-desc"><span class="tr">İmkânsız tercihler oyunu. Arkadaşlarınla sesli oynanır, tartışma garantili.</span><span class="en">Would-you-rather, Turkish edition. Impossible choices, played out loud with friends.</span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Arkadaşlarla kendi aramızda oynadığımız oyun.</span><span class="en">A game we played among friends.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/o-mu-bu-mu/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- Store Mockup Studio (web aracı) -->
-      <article class="card" data-tags="tools web" data-name="Store Mockup Studio screenshot mockup app store play store ekran görüntüsü">
-        <div class="card-top">
-          <div class="app-icon-ph">🖼️</div>
-          <div class="app-info">
-            <div class="app-name">Store Mockup Studio</div>
-            <div class="app-desc"><span class="tr">Ham ekran görüntülerini at, App Store / Play Store görselini al — cihaz çerçevesi, arka plan ve başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır, hiçbir şey yüklenmez.</span><span class="en">Drop in raw screenshots and get App Store / Play Store artwork — device frames, backgrounds and headlines, exported at the exact store sizes. Runs in the browser, nothing is uploaded.</span></div>
-            <div class="badges"><span class="badge new">🌐 Web app</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/web/store-mockup/"><span class="tr">Aracı aç</span><span class="en">Open the tool</span></a>
-        </div>
-      </article>
-
-      <!-- Yonca -->
-      <article class="card" data-released="2026-08-26" data-tags="tools ios" data-name="Yonca çekiliş takip giveaway kampanya prize draw">
-        <div class="card-top">
-          <div class="app-icon-ph">🍀</div>
-          <div class="app-info">
-            <div class="app-name">Yonca: Çekiliş Takip</div>
-            <div class="app-desc"><span class="tr">Katıldığın çekilişleri takip eder, sonuç günü hatırlatır — kazanırsan teslim edeceğin fişi, kapağı ya da kodu nereye koyduğunu da söyler.</span><span class="en">Tracks the giveaways you entered and reminds you on the result day — and tells you where you put the receipt, cap or code you have to hand in if you win.</span></div>
-            <div class="badges"><span class="badge new"><span class="tr">Yeni</span><span class="en">New</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Kazandığım çekilişi kuzenim görmese yalan olacaktı.</span><span class="en">My cousin spotted my name on a winners list by chance.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6802312123" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Rally Table Tennis -->
-      <article class="card" data-tags="sport watch ios retired" data-name="Rally Table Tennis ping pong masa tenisi score keeper">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Rally Table Tennis" src="/rally-table-tennis/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Rally Table Tennis</div>
-            <div class="app-desc"><span class="tr">On bire kadar, iki sayıda bir servis değişimi, uzayan deuce. Yüksek sesle saymayı bırak.</span><span class="en">Eleven up, serve swaps every two points, deuce that keeps going. Glance at your wrist instead of counting out loud.</span></div>
-            <div class="badges"><span class="badge soon"><span class="tr">Mağazada değil</span><span class="en">Off the store</span></span><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/rally-table-tennis/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-        </div>
-      </article>
-
-      <!-- Orbix -->
-      <article class="card" data-tags="fun watch ios android" data-name="Orbix Roulette wheel spin">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Orbix Roulette icon"
-            src="/orbix-roulette/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Orbix Roulette</div>
-            <div class="app-desc"><span class="tr">Güzel bir karar çarkı. Kim ödeyecek, kim başlayacak, nereye gidilecek — çevir, tartışma bitsin.</span><span class="en">A beautiful decision wheel. Who pays, who goes first, where to eat — spin it and stop arguing.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/orbix-roulette/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6756230899" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-          <a class="store-btn android" href="https://play.google.com/store/apps/details?id=com.aberk.orbixroulette" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z" />
-            </svg>Google Play</a>
-        </div>
-      </article>
-
-      <!-- Leafbook -->
-      <article class="card" data-tags="lifestyle ios soon" data-name="Leafbook plant tracker bitki takip sulama hayalet kamera büyüme">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Leafbook icon"
-            src="/leafbook/assets/icon.png" />
-          <div class="app-info">
-            <div class="app-name">Leafbook: Plant Tracker</div>
-            <div class="app-desc"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç ve paylaş.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule; shoot from the same angle with the ghost camera, measure the growth and share it.</span></div>
-            <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Bitkilerimin ne zaman sulanacağını bilmiyordum.</span><span class="en">I never knew when my plants needed water.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/leafbook/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-        </div>
-      </article>
-
-      <!-- Bumpline -->
-      <article class="card" data-tags="health ios soon" data-name="Bumpline pregnancy tracker Kırk Hafta hamilelik gebelik bebek hafta">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Bumpline icon"
-            src="/bumpline/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Bumpline: Pregnancy Tracker</div>
-            <div class="app-desc"><span class="tr">Kırk hafta, tek bir tarihten. Hangi haftadasın, bebeğin ne kadar büyüdü, doğuma kaç gün kaldı — widget, günlük ve paylaşılabilir kartla.</span><span class="en">Forty weeks from a single date. What week you are in, how big your baby is, how many days are left — with a widget, a journal and a card you can share.</span></div>
-            <div class="badges"><span class="badge soon"><span class="tr">Yakında</span><span class="en">Coming soon</span></span></div>
-          </div>
-        </div>
-        <a class="why" href="/neden/"><span class="tr">Hamile bir arkadaşım için.</span><span class="en">For a friend who was expecting.</span></a>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/bumpline/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-        </div>
-      </article>
-
-      <!-- Tasbih -->
-      <article class="card" data-tags="tools watch ios" data-name="Tasbih Tally digital counter zikir tesbih">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Tasbih Tally icon"
-            src="/tasbih-tally/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Tasbih Tally: Digital Counter</div>
-            <div class="app-desc"><span class="tr">Zikir ve günlük tekrar için sessiz bir dijital sayaç; saatte titreşimle sayar, sayıyı kaybetmezsin.</span><span class="en">A quiet digital counter for dhikr and daily repetitions, with haptics on the Watch so you never lose count.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/tasbih-tally/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Rally Badminton -->
-      <article class="card" data-tags="sport watch ios retired" data-name="Rally Badminton score keeper badminton badminton skor">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Rally Badminton" src="/rally-badminton/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Rally Badminton</div>
-            <div class="app-desc"><span class="tr">Ralli puanlaması, servis alanı ve taraf değişimi otomatik — 21 sayı ve iki fark kuralı dahil.</span><span class="en">Rally scoring, service court and side changes handled for you — 21-point games with the two-point rule built in.</span></div>
-            <div class="badges"><span class="badge soon"><span class="tr">Mağazada değil</span><span class="en">Off the store</span></span><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/rally-badminton/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-        </div>
-      </article>
-
-      <!-- Kit QR -->
-      <article class="card" data-tags="tools ios" data-name="Kit QR Generator Scanner barcode kod">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Kit QR Generator icon"
-            src="/kit-qr/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Kit: QR Generator &amp; Scanner</div>
-            <div class="app-desc"><span class="tr">Link, wifi ya da kartvizit için iki dokunuşta QR üret — okutmak da bir o kadar hızlı.</span><span class="en">Make a QR code for a link, wifi or contact in two taps — and scan anything back just as fast.</span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/kit-qr/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-      <!-- Daily Whisper -->
-      <article class="card" data-tags="health watch ios" data-name="Daily Whisper Affirmations mindfulness">
-        <div class="card-top">
-          <img class="app-icon" loading="lazy" alt="Daily Whisper icon"
-            src="/daily-whisper/assets/icon.webp" />
-          <div class="app-info">
-            <div class="app-name">Daily Whisper: Affirmations</div>
-            <div class="app-desc"><span class="tr">Günde bir sakin cümle, doğrudan bileğine. Akış yok, seri yok, yetişilecek bir şey yok.</span><span class="en">One calm line a day, delivered to your wrist. No feed, no streaks, nothing to keep up with.</span></div>
-            <div class="badges"><span class="badge watch">⌚ <span class="tr">Watch</span><span class="en">Watch App</span></span></div>
-          </div>
-        </div>
-        <div class="store-btns">
-          <a class="store-btn ios" href="/daily-whisper/"><span class="tr">Tanıtım</span><span class="en">Take the tour</span></a>
-          <a class="store-btn ios" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>App Store</a>
-        </div>
-      </article>
-
-<p class="empty" id="emptyState" hidden>No app matches that. Try clearing the search.</p>
-    </div>
-  </section>
-
-  <!-- ── Blog ───────────────────────────────────────────────── -->
-  <section class="section" id="blog">
-    <div class="section-head">
-      <h2><span class="tr">Yazılar</span><span class="en">Notes</span></h2>
-      <p><a href="/blog/"><span class="tr">Tüm yazılar →</span><span class="en">All posts →</span></a></p>
-    </div>
-    <div class="posts" id="postList">
-      <p class="empty" style="grid-column:1/-1">Loading…</p>
-    </div>
-  </section>
-
-  <!-- ── Bağlantılar ────────────────────────────────────────── -->
-  <section class="section" id="elsewhere">
-    <div class="section-head">
-      <h2><span class="tr">Başka yerlerde</span><span class="en">Elsewhere</span></h2>
-    </div>
-    <div class="links">
-      <a class="link-tile" href="https://github.com/berkalparslan" target="_blank" rel="noopener">
-        <span class="em">🐙</span>
-        <span><b>GitHub</b><small><span class="tr">Kod ve denemeler</span><span class="en">Code and experiments</span></small></span>
-      </a>
-      <a class="link-tile" href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener">
-        <span class="em">🍎</span>
-        <span><b>App Store</b><small><span class="tr">Tüm uygulamalar tek yerde</span><span class="en">Every app in one place</span></small></span>
-      </a>
-      <a class="link-tile" href="mailto:aberkalparslan@gmail.com">
-        <span class="em">✉️</span>
-        <span><b><span class="tr">E-posta</span><span class="en">Email</span></b><small>aberkalparslan@gmail.com</small></span>
-      </a>
-      <a class="link-tile" href="/support/">
-        <span class="em">💬</span>
-        <span><b><span class="tr">Destek</span><span class="en">Support</span></b><small><span class="tr">Hata, istek, soru</span><span class="en">Bugs, requests, questions</span></small></span>
-      </a>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 BamTech<br />
-      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a> ·
-      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a> ·
-      <a href="/blog/">Blog</a> ·
-      <a href="mailto:aberkalparslan@gmail.com"><span class="tr">İletişim</span><span class="en">Contact</span></a>
-    </p>
-    <p class="foot-tools">
-      <a href="/lab/mihenk/">Mihenk</a> —
-      <span class="tr">bir uygulamanın indirme ve gelirini tahmin eden araç</span><span class="en">estimates an app's downloads and revenue</span>
-    </p>
   </footer>
 
-  <!-- ── Komut paleti ───────────────────────────────────────── -->
-  <div class="palette-backdrop" id="paletteBackdrop" hidden>
-    <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
-      <label class="sr" for="paletteInput">Search</label>
-      <input id="paletteInput" type="text" placeholder="Jump to an app, a page, a setting…" autocomplete="off" />
-      <ul id="paletteList" role="listbox"></ul>
-      <footer><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>esc</kbd>
-          close</span></footer>
+  <!-- ── Komut paleti ─────────────────────────────────────── -->
+  <div class="pal-back" id="palBack" hidden>
+    <div class="pal" role="dialog" aria-modal="true" aria-label="Search everything">
+      <input id="palInput" type="text" autocomplete="off" />
+      <ul id="palList" role="listbox"></ul>
+      <footer class="label"><span>↑↓</span><span>↵ open</span><span>esc</span></footer>
     </div>
   </div>
 
   <script>
     (function () {
       "use strict";
-
-      /* ── Tema ──────────────────────────────────────────────── */
       const root = document.documentElement;
-      const themeBtn = document.getElementById("themeBtn");
-      const paintTheme = () => {
-        themeBtn.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
-      };
-      const toggleTheme = () => {
+      const $ = s => document.querySelector(s);
+      const isTr = () => root.getAttribute("data-lang") === "tr";
+      const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ── Tema ── */
+      function toggleTheme() {
         const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
         root.setAttribute("data-theme", next);
         try { localStorage.setItem("bb-theme", next); } catch (e) { }
-        paintTheme();
-      };
-      themeBtn.addEventListener("click", toggleTheme);
-      paintTheme();
-
-      /* ── Dil ───────────────────────────────────────────────── */
-      const langBtn = document.getElementById("langBtn");
-      const searchBox = document.getElementById("appSearch");
-      let lang = root.getAttribute("data-lang") || "en";
-
-      function paintLang() {
-        /* Düğme, tıklanınca geçilecek dili gösterir. */
-        langBtn.textContent = lang === "tr" ? "EN" : "TR";
-        langBtn.setAttribute("aria-label",
-          lang === "tr" ? "Switch to English" : "Türkçeye geç");
-        searchBox.placeholder = lang === "tr" ? "Uygulama ara…" : "Search apps…";
-        document.title = lang === "tr"
-          ? "BamTech — iPhone ve Apple Watch uygulamaları"
-          : "BamTech — Indie iOS & watchOS Apps";
-        applyFilters();
-        if (window.__paintEyebrow) window.__paintEyebrow();
-        if (window.__drawPosts) window.__drawPosts();
       }
+      $("#themeBtn").addEventListener("click", toggleTheme);
 
-      langBtn.addEventListener("click", () => {
-        lang = lang === "tr" ? "en" : "tr";
-        root.setAttribute("data-lang", lang);
-        root.setAttribute("lang", lang);
-        try { localStorage.setItem("bb-lang", lang); } catch (e) { }
-        paintLang();
-      });
-
-      /* Windows/Linux'ta ⌘ yerine Ctrl göster. */
-      if (!/Mac|iPhone|iPad/.test(navigator.platform || "")) {
-        const hint = document.getElementById("kbdHint");
-        if (hint) hint.innerHTML = "<kbd>Ctrl</kbd><kbd>K</kbd>";
-      }
-
-      /* ── Kartlar: sayaçlar, filtre, arama, ışıltı ──────────── */
-      const cards = Array.from(document.querySelectorAll("#appGrid .card"));
-      const chips = Array.from(document.querySelectorAll(".chip"));
-      const searchInput = document.getElementById("appSearch");
-      const emptyState = document.getElementById("emptyState");
-      const resultCount = document.getElementById("resultCount");
-
+      /* ── Kartlar: sayaçlar, filtre, arama ── */
+      const cards = Array.from(document.querySelectorAll("#appGrid .item"));
       const tagsOf = c => (c.dataset.tags || "").split(/\s+/);
-      /* Web araçları "live app" sayacına girmesin — mağazada yayınlanan uygulama değiller. */
-      const live = cards.filter(c => !tagsOf(c).includes("soon") && !tagsOf(c).includes("web") && !tagsOf(c).includes("retired"));
-      document.getElementById("statApps").textContent = live.length;
-      document.getElementById("statWatch").textContent = cards.filter(c => tagsOf(c).includes("watch")).length;
-      document.getElementById("statSoon").textContent = cards.filter(c => tagsOf(c).includes("soon")).length;
-      /* "Yeni" rozeti tarihe bağlı: yayından 45 gün sonra kendiliğinden düşer. */
-      const NEW_DAYS = 45;
+      const live = cards.filter(c => !tagsOf(c).some(t => t === "soon" || t === "web"));
+      const onWrist = cards.filter(c => tagsOf(c).includes("watch") && !tagsOf(c).includes("soon"));
+      const soon = cards.filter(c => tagsOf(c).includes("soon"));
+      $("#statLive").textContent = live.length;
+      $("#statWatch").textContent = onWrist.length;
+      $("#statSoon").textContent = soon.length;
+
+      /* "Yeni" işareti yayından 45 gün sonra kendiliğinden düşer. */
       cards.forEach(c => {
         const d = c.dataset.released; if (!d) return;
-        const age = (Date.now() - new Date(d).getTime()) / 864e5;
-        if (age > NEW_DAYS) c.querySelectorAll(".badge.new").forEach(b => b.remove());
+        if ((Date.now() - new Date(d).getTime()) / 864e5 > 45) c.querySelectorAll(".mark-new").forEach(m => m.remove());
       });
-      document.getElementById("statStores").textContent = new Set(cards.flatMap(c => tagsOf(c).filter(t => t === "ios" || t === "android"))).size;
 
-      let activeFilter = "all";
-
-      function applyFilters() {
-        const q = searchInput.value.trim().toLowerCase();
+      const chips = Array.from(document.querySelectorAll(".finder button"));
+      const search = $("#appSearch");
+      let filter = "all";
+      function apply() {
+        const q = search.value.trim().toLocaleLowerCase("tr");
         let shown = 0;
-        for (const card of cards) {
-          const matchTag = activeFilter === "all" || tagsOf(card).includes(activeFilter);
-          const haystack = (card.dataset.name + " " + card.textContent).toLowerCase();
-          const matchText = !q || haystack.includes(q);
-          const visible = matchTag && matchText;
-          card.classList.toggle("is-hidden", !visible);
-          if (visible) shown++;
-        }
-        emptyState.hidden = shown > 0;
-        const isTr = root.getAttribute("data-lang") === "tr";
-        resultCount.textContent = isTr
-          ? shown + " uygulama"
-          : shown + (shown === 1 ? " app" : " apps");
+        cards.forEach(c => {
+          const ok = (filter === "all" || tagsOf(c).includes(filter)) &&
+            (!q || (c.dataset.name + " " + c.textContent).toLocaleLowerCase("tr").includes(q));
+          c.classList.toggle("is-hidden", !ok);
+          if (ok) shown++;
+        });
+        $("#emptyState").hidden = shown > 0;
+        $("#resultCount").textContent = isTr() ? shown + " uygulama" : shown + (shown === 1 ? " app" : " apps");
       }
-
-      chips.forEach(chip => chip.addEventListener("click", () => {
-        activeFilter = chip.dataset.filter;
-        chips.forEach(c => c.setAttribute("aria-pressed", String(c === chip)));
-        applyFilters();
+      chips.forEach(b => b.addEventListener("click", () => {
+        filter = b.dataset.filter;
+        chips.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+        apply();
       }));
-      searchInput.addEventListener("input", applyFilters);
-      applyFilters();
+      search.addEventListener("input", apply);
+
+      /* ── Vitrin ── */
+      const VIT = [
+        { slug: "nubi", name: "Nubi", ios: "6816090205", href: "https://apps.apple.com/app/id6816090205",
+          tr: "Gerçek zamanlı yaşayan sanal evcil hayvan. App Store'da yeni.", en: "A virtual pet that lives in real time. New on the App Store." },
+        { slug: "leafbook", name: "Leafbook", href: "/leafbook/",
+          tr: "Bitkinin aynı açıdan fotoğrafı, ölçülen büyüme. App Store'da yeni.", en: "Same-angle plant photos, measured growth. New on the App Store." },
+        { slug: "daily-whisper", name: "Daily Whisper 2.0", href: "/daily-whisper/",
+          tr: "Her sabah sana yazılan ve sesli okunan bir hikaye. Baştan yazıldı.", en: "A story written for you each morning, read aloud. Rebuilt from scratch." },
+        { slug: "kit", name: "Kit 2.0", href: "/kit-qr/",
+          tr: "QR okuyucu artık kart ve bilet cüzdanı da.", en: "The QR scanner is now a wallet for cards and tickets too." }
+      ];
+      const tabs = $("#vitTabs"), stage = $("#vitStage"), cap = $("#vitCaption");
+      let vi = 0, timer = null;
+      tabs.innerHTML = VIT.map((v, i) => `<li><button role="tab" data-i="${i}" aria-selected="false">
+          <img src="/assets/home/${v.slug}-icon.webp" alt="" width="34" height="34" />
+          <span>${esc(v.name)}</span><span class="label">0${i + 1}</span></button></li>`).join("");
+      function showVit(i, instant) {
+        vi = i;
+        const v = VIT[i];
+        tabs.querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i)));
+        const paint = () => {
+          stage.innerHTML = [1, 2, 3].map(n => `<img src="/assets/home/${v.slug}-shot-${n}.webp" alt="${esc(v.name)} screen ${n}" width="600" height="1304" ${n > 1 ? 'loading="lazy"' : ""} />`).join("") +
+            `<span class="vit-foot label">${esc(v.name)}</span>`;
+          stage.classList.remove("swap");
+        };
+        cap.innerHTML = `${esc(isTr() ? v.tr : v.en)}<br /><a href="${v.href}"${v.href.startsWith("/") ? "" : ' target="_blank" rel="noopener"'}>${isTr() ? "Yakından bak" : "Take a closer look"} →</a>`;
+        if (instant || still) return paint();
+        stage.classList.add("swap");
+        setTimeout(paint, 280);
+      }
+      tabs.addEventListener("click", e => {
+        const b = e.target.closest("button"); if (!b) return;
+        clearInterval(timer); showVit(Number(b.dataset.i));
+      });
+      showVit(0, true);
+      if (!still) timer = setInterval(() => showVit((vi + 1) % VIT.length), 6000);
+
+      /* ── Dil ── */
+      const langBtn = $("#langBtn");
+      function paintLang() {
+        langBtn.textContent = isTr() ? "EN" : "TR";
+        langBtn.setAttribute("aria-label", isTr() ? "Switch to English" : "Türkçeye geç");
+        search.placeholder = isTr() ? "uygulama ara" : "search apps";
+        $("#palInput").placeholder = isTr() ? "Uygulama, sayfa ya da ayar…" : "Jump to an app, a page, a setting…";
+        $("#liveLabel").textContent = isTr() ? live.length + " uygulama yayında" : live.length + " apps live";
+        document.title = isTr() ? "BamTech · iPhone, Apple Watch ve Android uygulamaları" : "BamTech · Indie iOS, watchOS & Android Apps";
+        apply();
+        showVit(vi, true);
+        if (window.__drawPosts) window.__drawPosts();
+      }
+      langBtn.addEventListener("click", () => {
+        const next = isTr() ? "en" : "tr";
+        root.setAttribute("data-lang", next); root.setAttribute("lang", next);
+        try { localStorage.setItem("bb-lang", next); } catch (e) { }
+        paintLang();
+      });
       paintLang();
 
-      /* Kart üstündeki imleç konumu -> CSS değişkeni. */
-      const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-      if (fine) {
-        cards.forEach(card => card.addEventListener("pointermove", e => {
-          const r = card.getBoundingClientRect();
-          card.style.setProperty("--mx", (e.clientX - r.left) + "px");
-          card.style.setProperty("--my", (e.clientY - r.top) + "px");
-        }));
-      }
-
-      /* ── Dönen üst satır ───────────────────────────────────── */
-      /* Cümleler kart sayılarından üretilir; elle güncellenecek bir şey yok. */
-      const rot = document.getElementById("eyebrowText");
-
-      function rotLines() {
-        const tr = root.getAttribute("data-lang") === "tr";
-        const watch = cards.filter(c => tagsOf(c).includes("watch")).length;
-        return tr
-          ? ["Bağımsız · tek kişilik stüdyo",
-             live.length + " uygulama yayında",
-             watch + " tanesi Apple Watch'ta",
-             "Hiçbiri veri satmıyor"]
-          : ["Independent · a one-person studio",
-             live.length + " apps in the store",
-             watch + " of them on Apple Watch",
-             "None of them sell your data"];
-      }
-
-      let rotI = 0;
-      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.__paintEyebrow = () => { rot.textContent = rotLines()[rotI]; };
-      rot.textContent = rotLines()[0];
-
-      if (!still) {
-        setInterval(() => {
-          const lines = rotLines();
-          rotI = (rotI + 1) % lines.length;
-          rot.classList.add("out");
-          setTimeout(() => {
-            rot.textContent = lines[rotI];
-            rot.classList.remove("out");
-          }, 350);
-        }, 3800);
-      }
-
-      /* ── Blog önizlemesi ───────────────────────────────────── */
-      const postList = document.getElementById("postList");
+      /* ── Yazılar ── */
+      const postList = $("#postList");
+      let postCmds = [];
       fetch("/blog/posts.json", { cache: "no-cache" })
         .then(r => r.ok ? r.json() : Promise.reject(r.status))
         .then(posts => {
-          const recent = posts.slice(0, 3);
+          const recent = posts.slice(0, 4);
           if (!recent.length) throw new Error("empty");
-          /* Kart dile göre çizilir; dil değişince yeniden çağrılır. */
           window.__drawPosts = () => {
-            const isTr = root.getAttribute("data-lang") === "tr";
-            postList.innerHTML = recent.map(p => `
-              <a class="post" href="${p.url}">
-                <time datetime="${p.date}">${fmtDate(p.date)}</time>
-                <h3>${esc(isTr && p.title_tr ? p.title_tr : p.title)}</h3>
-                <p>${esc(isTr && p.summary_tr ? p.summary_tr : p.summary)}</p>
-              </a>`).join("");
+            const tr = isTr();
+            postList.innerHTML = recent.map(p => `<li><a href="${p.url}">
+                <time class="label" datetime="${p.date}">${fmtDate(p.date)}</time>
+                <div><h3>${esc(tr && p.title_tr ? p.title_tr : p.title)}</h3><p>${esc(tr && p.summary_tr ? p.summary_tr : p.summary)}</p></div>
+                <span class="tag label">${esc(tr && p.tag_tr ? p.tag_tr : (p.tag || ""))}</span></a></li>`).join("");
           };
           window.__drawPosts();
-          registerPosts(recent);
+          postCmds = recent.map(p => ({ title: p.title, kind: "note", run: () => location.href = p.url }));
         })
-        .catch(() => {
-          postList.innerHTML =
-            '<p class="empty" style="grid-column:1/-1">Nothing published yet — first note coming soon.</p>';
-        });
-
-      function esc(s) {
-        return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-      }
+        .catch(() => { postList.innerHTML = '<li class="empty" style="padding:22px 0">—</li>'; });
       function fmtDate(iso) {
         const d = new Date(iso + "T00:00:00");
-        if (isNaN(d)) return iso;
-        const isTr = root.getAttribute("data-lang") === "tr";
-        return d.toLocaleDateString(isTr ? "tr-TR" : "en-GB",
-          { day: "numeric", month: "short", year: "numeric" });
+        return isNaN(d) ? iso : d.toLocaleDateString(isTr() ? "tr-TR" : "en-GB", { day: "numeric", month: "short", year: "numeric" });
       }
 
-      /* ── Komut paleti ──────────────────────────────────────── */
-      const backdrop = document.getElementById("paletteBackdrop");
-      const pInput = document.getElementById("paletteInput");
-      const pList = document.getElementById("paletteList");
-
+      /* ── Komut paleti ── */
+      const back = $("#palBack"), pIn = $("#palInput"), pList = $("#palList");
       const commands = [
-        { icon: "🏠", title: "Home", kind: "page", run: () => location.hash = "" },
-        { icon: "📱", title: "All apps", kind: "page", run: () => go("#apps") },
-        { icon: "✍️", title: "Blog", kind: "page", run: () => location.href = "/blog/" },
-        { icon: "💬", title: "Support", kind: "page", run: () => location.href = "/support/" },
-        { icon: "🔒", title: "Privacy policies", kind: "page", run: () => location.href = "/privacy/" },
-        { icon: "✉️", title: "Email me", kind: "action", run: () => location.href = "mailto:aberkalparslan@gmail.com" },
-        { icon: "🍎", title: "App Store developer page", kind: "link", run: () => open("https://apps.apple.com/developer/id1676787785", "_blank") },
-        { icon: "🐙", title: "GitHub profile", kind: "link", run: () => open("https://github.com/berkalparslan", "_blank") },
-        { icon: "🌗", title: "Toggle dark mode", kind: "setting", run: toggleTheme },
-        { icon: "🌐", title: "Web tools", kind: "page", run: () => location.href = "/web/" },
-        { icon: "📊", title: "Lab — private dashboard", kind: "private", run: () => location.href = "/lab/" }
+        { title: "Catalogue", kind: "page", run: () => $("#catalogue").scrollIntoView({ behavior: "smooth" }) },
+        { title: "Why I built these", alias: "neden", kind: "page", run: () => location.href = "/neden/" },
+        { title: "Blog", alias: "notes yazılar", kind: "page", run: () => location.href = "/blog/" },
+        { title: "Support", alias: "destek", kind: "page", run: () => location.href = "/support/" },
+        { title: "Privacy policies", alias: "gizlilik", kind: "page", run: () => location.href = "/privacy/" },
+        { title: "Web tools", kind: "page", run: () => location.href = "/web/" },
+        { title: "Email", alias: "iletişim contact", kind: "action", run: () => location.href = "mailto:aberkalparslan@gmail.com" },
+        { title: "App Store developer page", kind: "link", run: () => open("https://apps.apple.com/developer/id1676787785", "_blank") },
+        { title: "Toggle dark mode", alias: "tema theme", kind: "setting", run: toggleTheme },
+        { title: "Switch language", alias: "dil türkçe english", kind: "setting", run: () => langBtn.click() }
       ];
-
-      /* Tanıtım sayfaları ayrı bir girdi olarak da aranabilsin. */
-      cards.forEach(card => {
-        const tour = card.querySelector('.store-btn.link[href^="/"], .store-btn.ios[href^="/"]');
-        if (!tour) return;
-        commands.push({
-          icon: "📄",
-          title: card.querySelector(".app-name").textContent.trim() + " — tour",
-          alias: (card.dataset.name || "") + " tanıtım tour",
-          kind: "tour",
-          run: () => location.href = tour.getAttribute("href")
-        });
+      cards.forEach(c => {
+        const a = c.querySelector(".tile"), img = c.querySelector("img.icon");
+        commands.push({ title: c.querySelector(".name").textContent, alias: c.dataset.name, kind: "app",
+          img: img && img.getAttribute("src"), run: () => a.click() });
       });
-
-      /* Uygulama kartları da palete girer. */
-      cards.forEach(card => {
-        const link = card.querySelector("a.store-btn");
-        const img = card.querySelector(".app-icon");
-        const ph = card.querySelector(".app-icon-ph");
-        commands.push({
-          icon: ph ? ph.textContent : "📲",
-          img: img ? img.src : null,
-          title: card.querySelector(".app-name").textContent.trim(),
-          alias: card.dataset.name,
-          kind: "app",
-          run: () => { if (link) link.click(); }
-        });
-      });
-
-      let postCmds = [];
-      function registerPosts(posts) {
-        postCmds = posts.map(p => ({
-          icon: "📄", title: p.title, kind: "post", run: () => location.href = p.url
-        }));
-      }
-
-      function go(hash) {
-        const el = document.querySelector(hash);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      let results = [], cursor = 0;
-
+      let results = [], cur = 0;
       function render() {
-        const q = pInput.value.trim().toLowerCase();
+        const q = pIn.value.trim().toLocaleLowerCase("tr");
         const all = commands.concat(postCmds);
-        results = q
-          ? all.filter(c => (c.title + " " + (c.alias || "") + " " + c.kind).toLowerCase().includes(q))
-          : all;
-        cursor = 0;
-        pList.innerHTML = results.length
-          ? results.map((c, i) => `
-              <li role="option" data-i="${i}" aria-selected="${i === 0}">
-                <span class="pi">${c.img ? `<img src="${c.img}" alt="" style="width:18px;height:18px;border-radius:5px;vertical-align:-3px">` : c.icon}</span>
-                <span class="pt">${esc(c.title)}</span>
-                <span class="pk">${c.kind}</span>
-              </li>`).join("")
-          : '<li aria-selected="false" style="color:var(--faint);cursor:default">No match</li>';
+        results = q ? all.filter(c => (c.title + " " + (c.alias || "") + " " + c.kind).toLocaleLowerCase("tr").includes(q)) : all;
+        cur = 0;
+        pList.innerHTML = results.length ? results.map((c, i) => `<li role="option" data-i="${i}" aria-selected="${i === 0}">
+            <span>${c.img ? `<img src="${c.img}" alt="" />` : "·"}</span><span>${esc(c.title)}</span><span class="label">${c.kind}</span></li>`).join("")
+          : '<li aria-selected="false" style="color:var(--muted);cursor:default"><span></span><span>—</span></li>';
       }
-
-      function move(delta) {
+      function move(d) {
         if (!results.length) return;
-        cursor = (cursor + delta + results.length) % results.length;
-        Array.from(pList.children).forEach((li, i) =>
-          li.setAttribute("aria-selected", String(i === cursor)));
-        const sel = pList.children[cursor];
-        if (sel) sel.scrollIntoView({ block: "nearest" });
+        cur = (cur + d + results.length) % results.length;
+        Array.from(pList.children).forEach((li, i) => li.setAttribute("aria-selected", String(i === cur)));
+        pList.children[cur].scrollIntoView({ block: "nearest" });
       }
-
-      function openPalette() {
-        backdrop.hidden = false;
-        pInput.value = "";
-        render();
-        pInput.focus();
-      }
-      function closePalette() {
-        backdrop.hidden = true;
-      }
-      function runCursor() {
-        const cmd = results[cursor];
-        if (!cmd) return;
-        closePalette();
-        cmd.run();
-      }
-
-      document.getElementById("paletteBtn").addEventListener("click", openPalette);
-      pInput.addEventListener("input", render);
-
-      pList.addEventListener("click", e => {
-        const li = e.target.closest("li[data-i]");
-        if (!li) return;
-        cursor = Number(li.dataset.i);
-        runCursor();
-      });
-
-      backdrop.addEventListener("mousedown", e => {
-        if (e.target === backdrop) closePalette();
-      });
-
-      pInput.addEventListener("keydown", e => {
+      const openPal = () => { back.hidden = false; pIn.value = ""; render(); pIn.focus(); };
+      const closePal = () => { back.hidden = true; };
+      const run = () => { const c = results[cur]; if (c) { closePal(); c.run(); } };
+      $("#palBtn").addEventListener("click", openPal);
+      pIn.addEventListener("input", render);
+      pList.addEventListener("click", e => { const li = e.target.closest("li[data-i]"); if (li) { cur = Number(li.dataset.i); run(); } });
+      back.addEventListener("mousedown", e => { if (e.target === back) closePal(); });
+      pIn.addEventListener("keydown", e => {
         if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
         else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
-        else if (e.key === "Enter") { e.preventDefault(); runCursor(); }
-        else if (e.key === "Escape") { e.preventDefault(); closePalette(); }
+        else if (e.key === "Enter") { e.preventDefault(); run(); }
+        else if (e.key === "Escape") { e.preventDefault(); closePal(); }
       });
-
       document.addEventListener("keydown", e => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-          e.preventDefault();
-          backdrop.hidden ? openPalette() : closePalette();
-          return;
-        }
-        if (e.key === "Escape" && !backdrop.hidden) closePalette();
-        /* "/" ile uygulama aramasına atla — bir alana yazarken değil. */
-        if (e.key === "/" && backdrop.hidden &&
-          !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
-          e.preventDefault();
-          searchInput.focus();
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); back.hidden ? openPal() : closePal(); return; }
+        if (e.key === "/" && back.hidden && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
+          e.preventDefault(); search.scrollIntoView({ block: "center" }); search.focus();
         }
       });
     })();
