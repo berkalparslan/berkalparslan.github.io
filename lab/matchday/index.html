@@ -50,6 +50,11 @@
     <h1><b>matchday</b> admin</h1>
     <p class="muted">Yalnız <code>admins/{uid}</code> belgesi olan hesap girer.</p>
     <button class="btn" id="signin">Google ile gir</button>
+    <form id="mailform" style="margin-top:22px">
+      <label class="set">E-posta<input type="email" id="mail" autocomplete="username" required></label>
+      <label class="set">Şifre<input type="password" id="pass" autocomplete="current-password" required></label>
+      <div class="row"><button class="btn" type="submit">E-posta ile gir</button><button class="btn soft" type="button" id="reset">Şifremi unuttum</button></div>
+    </form>
     <p id="gate-msg" class="muted"></p>
   </div>
 
@@ -114,7 +119,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getFirestore, collection, getDocs, doc, getDoc, setDoc, writeBatch, deleteField } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -125,7 +130,15 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let users = new Map(), players = new Map(), matches = new Map(), ratings = [], reports = [];
 
-$("#signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => $("#gate-msg").textContent = e.message);
+const gateError = e => {
+  const m = { "auth/unauthorized-domain": `Google girişi bu alan adında kapalı (${location.hostname}). Firebase Console › Authentication › Settings › Authorized domains'e ekle ya da e-postayla gir.`,
+    "auth/invalid-credential": "E-posta ya da şifre yanlış.", "auth/too-many-requests": "Çok fazla deneme, biraz bekle." };
+  $("#gate-msg").textContent = m[e.code] || e.message;
+};
+$("#signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(gateError);
+$("#mailform").onsubmit = ev => { ev.preventDefault(); signInWithEmailAndPassword(auth, $("#mail").value.trim(), $("#pass").value).catch(gateError); };
+$("#reset").onclick = () => { const m = $("#mail").value.trim(); if (!m) { $("#gate-msg").textContent = "Önce e-postanı yaz."; return; }
+  sendPasswordResetEmail(auth, m).then(() => $("#gate-msg").textContent = "Sıfırlama bağlantısı gönderildi.").catch(gateError); };
 $("#signout").onclick = () => signOut(auth);
 $("#reload").onclick = () => load();
 onAuthStateChanged(auth, async user => {
