@@ -191,7 +191,7 @@ export const PROFIL = {
     sayfa: "/rally-badminton/",
     diller: 1,
     projeler: { firebase: "bam-tech-sports" },
-    not: "30 Ağustos'ta satıştan kaldırıldı (4.3 işaretini kırmak için). Pazarlama yapılmaz."
+    not: "30 Ağustos'ta satıştan kaldırılmıştı (4.3); Ekim 2026 başında satışa geri açıldı."
   },
   "rally-table-tennis": {
     ikon: "/rally-table-tennis/assets/icon.webp",
@@ -204,7 +204,7 @@ export const PROFIL = {
     sayfa: "/rally-table-tennis/",
     diller: 1,
     projeler: { firebase: "bam-tech-sports" },
-    not: "30 Ağustos'ta satıştan kaldırıldı. Pazarlama yapılmaz."
+    not: "30 Ağustos'ta satıştan kaldırılmıştı; Ekim 2026 başında satışa geri açıldı."
   },
   "tasbih-tally": {
     ikon: "/tasbih-tally/assets/icon.webp",
@@ -253,7 +253,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/kit-qr/",
     diller: 1,
-    not: "Bakım modunda. Not neredeyse boş, ASO hiç yapılmadı."
+    not: "2.0 iOS'ta yayında."
   },
   "yonca": {
     ikon: "🍀",
@@ -265,7 +265,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/yonca/",
     diller: 1,
-    not: "1.1 (çekiliş yapma + Pro) incelemede. Yılbaşı çekiliş sezonu için Türkçe ASO fırsatı. Shipaton girişi #3."
+    not: "1.1 (çekiliş yapma + Pro) yayında. Yılbaşı çekiliş sezonu için Türkçe ASO fırsatı. Shipaton girişi #3."
   },
   "bodybook": {
     ikon: "🩺",
@@ -277,7 +277,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/bodybook/",
     diller: 7,
-    not: "Play'de yayında, iOS 4.3(a) ile kilitli. En yüksek RLTV kategorisindeki tek varlık. Shipaton girişi #2."
+    not: "Play'de yayında; iOS mağazada değil. En yüksek RLTV kategorisindeki tek varlık. Shipaton girişi #2."
   },
   "bosyeryok": {
     ikon: "/bosyeryok/assets/icon-180.png",
@@ -290,31 +290,32 @@ export const PROFIL = {
     sayfa: "/bosyeryok/",
     diller: 2,
     projeler: { firebase: "bosyeryok-tycoon" },
-    not: "iOS 4.3(a) ile reddedildi, itiraz sürüyor. Android kapalı testte. Ekşi/Türkçe forumlar için doğal aday."
+    not: "Play'de yayında; iOS mağazada değil. Ekşi/Türkçe forumlar için doğal aday."
   },
   "daily-whisper": {
     ikon: "/daily-whisper/assets/icon.webp",
     kategori: "Yaşam",
-    model: "bedava",
-    fiyat: "Satın alma yok",
-    servisler: ["play"],
+    model: "abonelik",
+    fiyat: "Haftalık abonelik, 7 gün deneme, hard paywall",
+    servisler: ["play", "firebase", "gemini"],
     reklam: false,
     maliyet: 0,
     sayfa: "/daily-whisper/",
     diller: 1,
-    not: "iOS tarafı başka hesapta — buradan ölçülemiyor. Bakım modunda."
+    projeler: { firebase: "kit-app-a91b5" },
+    not: "2.0 iOS'ta yayında (eşin hesabı, buradan ölçülemiyor). Play kapalı testte. Yönetim paneli /lab/daily-whisper/."
   },
   "leafbook": {
     ikon: "/leafbook/assets/icon.png",
     kategori: "Yaşam",
     model: "abonelik",
     fiyat: "Aylık / yıllık (1 hafta deneme)",
-    servisler: ["revenuecat", "gemini"],
+    servisler: ["asc", "play", "revenuecat", "cloudkit", "gemini"],
     reklam: false,
     maliyet: 0,
     sayfa: "/leafbook/",
     diller: 2,
-    not: "Yayınlanmadı. Plant identifier kalıbı 4.3 için ekstra riskli. Play kapalı testi açılabilir."
+    not: "1.0 iOS'ta yayında (1 Eki 2026). Play kapalı testte, üretim erişimi bekliyor. Shipaton girişi."
   },
   "kirk-hafta": {
     ikon: "/bumpline/assets/icon.webp",
@@ -333,12 +334,36 @@ export const PROFIL = {
     kategori: "Sağlık",
     model: "bedava",
     fiyat: "Henüz yok (RevenueCat sonra)",
-    servisler: ["supabase", "gemini"],
+    servisler: ["play", "supabase", "gemini"],
     reklam: false,
     maliyet: 0,
     sayfa: null,
     diller: 2,
-    not: "TestFlight'ta. Supabase ücretsiz katman. Yönetim paneli /lab/oncopace/."
+    not: "iOS Dilaynaz'ın hesabında, inceleme reddedildi. Play kapalı testte. Supabase ücretsiz katman. Yönetim paneli /lab/oncopace/."
+  },
+  "nubi": {
+    ikon: "🐣",
+    kategori: "Oyun",
+    model: "abonelik",
+    fiyat: "Nubi Pro aylık / yıllık / ömür boyu + coin paketleri",
+    servisler: ["play", "revenuecat"],
+    reklam: false,
+    maliyet: 0,
+    sayfa: null,
+    diller: 2,
+    not: "1.0.1 iOS'ta yayında (eşin hesabı, buradan ölçülemiyor). Play kapalı testte, saat paketi wear-alpha'da. Shipaton girişi."
+  },
+  "matchday": {
+    ikon: "/matchday/assets/icon-180.png",
+    kategori: "Spor",
+    model: "bedava",
+    fiyat: "Henüz yok",
+    servisler: ["asc", "play", "firebase"],
+    reklam: false,
+    maliyet: 0,
+    sayfa: "/matchday/",
+    diller: 2,
+    not: "iOS incelemede. Play kapalı testte. Yönetim paneli /lab/matchday/."
   },
   "loomi": {
     ikon: "🧶",

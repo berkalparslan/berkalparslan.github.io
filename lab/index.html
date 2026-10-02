@@ -88,7 +88,7 @@
       <a class="kart ana" href="/lab/panel/">
         <b><span class="ik">📊</span>Panel</b>
         <p>App Store + Google Play günlük veri, gelir/gider, pazarlama önceliği, servis takibi, yorumlar, vault görevleri. Şifreli, sunucusuz.</p>
-        <div class="meta">parola: Keychain "bamtech-lab-panel" · yenile: collect.mjs → build.mjs → push</div>
+        <div class="meta">parola: Keychain "bamtech-lab-panel" · her sabah 07:00 zamanlanmış görev: scripts/lab/gunluk.sh</div>
       </a>
       <a class="kart" href="/lab/omubumu/">
         <b><span class="ik">🏆</span>O mu Bu mu?</b>
@@ -103,6 +103,7 @@
       <a class="kart" href="/lab/oncopace/">
         <b><span class="ik">🩺</span>Oncopace</b>
         <p>Kullanıcılar, eşleşmeler, rapor kuyruğu, bildirimler, içerik kaynakları. Supabase'e bağlı, yönetici girişi sunucuda doğrulanır.</p>
+        <div class="meta">kaynak: ~/dev/oncopace/admin (vite build → dist/ buraya kopyalanır)</div>
       </a>
       <a class="kart" href="/lab/daily-whisper/">
         <b><span class="ik">🌙</span>Daily Whisper</b>
@@ -112,10 +113,12 @@
       <a class="kart" href="/lab/mihenk/">
         <b><span class="ik">📐</span>Mihenk</b>
         <p>Herhangi bir App Store uygulamasının indirme ve gelirini yorum sayısı ve sıralamadan tahmin eder.</p>
+        <div class="meta">girişsiz · Play verisi için köprü: mihenk.kittapcom.workers.dev</div>
       </a>
       <a class="kart" href="/lab/filiz/">
         <b><span class="ik">🌱</span>Filiz</b>
         <p>İçerik tohumlama paneli prototipi — üç rol: üretici gönderir, marka izler, ajans yönetir. Tıklanabilir maket, örnek veri.</p>
+        <div class="meta">girişsiz · sunucu yok, veri sayfanın içinde</div>
       </a>
       <a class="kart" href="/web/store-mockup/">
         <b><span class="ik">🖼️</span>Store Mockup Studio</b>
@@ -126,15 +129,15 @@
 
     <h2>Dış panolar — nereye bakılır</h2>
     <div class="liste">
-      <a href="https://appstoreconnect.apple.com/" target="_blank" rel="noopener"><span><b>App Store Connect</b><span class="ne">Satış, yorum, sürüm, TestFlight, App Review durumu</span></span><small>16 uygulama</small></a>
-      <a href="https://play.google.com/console/" target="_blank" rel="noopener"><span><b>Google Play Console</b><span class="ne">Track'ler, kapalı test, vitals, servis hesabı izinleri</span></span><small>8 uygulama</small></a>
-      <a href="https://app.revenuecat.com/" target="_blank" rel="noopener"><span><b>RevenueCat</b><span class="ne">Abonelik, deneme dönüşümü, MTR — Wallet Coach, BodyBook, Yonca, Tenis</span></span><small>haftada bir</small></a>
-      <a href="https://console.firebase.google.com/" target="_blank" rel="noopener"><span><b>Firebase</b><span class="ne">Analytics + Crashlytics — Wallet Coach, Boş Yer Yok · O mu Bu mu: Firestore + Auth (thisone-ba533) · Daily Whisper: Firestore + Auth (kit-app-a91b5)</span></span><small>haftada bir</small></a>
+      <a href="https://appstoreconnect.apple.com/" target="_blank" rel="noopener"><span><b>App Store Connect</b><span class="ne">Satış, yorum, sürüm, TestFlight, App Review durumu · Nubi ve Daily Whisper Elif'in, Oncopace Dilaynaz'ın hesabında</span></span><small>3 hesap: Berk · Elif · Dilaynaz</small></a>
+      <a href="https://play.google.com/console/" target="_blank" rel="noopener"><span><b>Google Play Console</b><span class="ne">Track'ler, kapalı test (Leafbook, Nubi, Daily Whisper, Tasbih Tally, Matchday, Oncopace), vitals, servis hesabı izinleri</span></span><small>12 uygulama</small></a>
+      <a href="https://app.revenuecat.com/" target="_blank" rel="noopener"><span><b>RevenueCat</b><span class="ne">Abonelik, deneme dönüşümü, MTR — Wallet Coach, BodyBook, Yonca, Tenis, Leafbook, Nubi</span></span><small>haftada bir</small></a>
+      <a href="https://console.firebase.google.com/" target="_blank" rel="noopener"><span><b>Firebase</b><span class="ne">Analytics + Crashlytics — Wallet Coach, Boş Yer Yok · O mu Bu mu: Firestore + Auth (thisone-ba533) · Daily Whisper: Firestore + Auth (kit-app-a91b5) · Matchday: Firestore + Auth (matchday-bamtech)</span></span><small>haftada bir</small></a>
       <a href="https://apps.admob.com/" target="_blank" rel="noopener"><span><b>AdMob</b><span class="ne">Reklam geliri — spor uygulamaları ve O mu Bu mu (panelde görünmez)</span></span><small>ayda bir</small></a>
       <a href="https://supabase.com/dashboard/" target="_blank" rel="noopener"><span><b>Supabase</b><span class="ne">Oncopace: auth, DB, Edge Functions, kota</span></span><small>haftada bir</small></a>
       <a href="https://dashboard.render.com/" target="_blank" rel="noopener"><span><b>Render · MongoDB Atlas</b><span class="ne">O mu Bu mu arka ucu — ücretsiz katman uyuyor mu</span></span><small>ayda bir</small></a>
       <a href="https://ads.apple.com/" target="_blank" rel="noopener"><span><b>Apple Ads</b><span class="ne">Kampanya kapalı; anahtar kelime Search Popularity puanı buradan</span></span><small>ASO çalışırken</small></a>
-      <a href="https://revenuecat-shipaton-2026.devpost.com/" target="_blank" rel="noopener"><span><b>Devpost · Shipaton 2026</b><span class="ne">Girişler: Wallet Coach, BodyBook, Yonca — son gün 1 Ekim 09:45</span></span><small>son gün 1 Eki</small></a>
+      <a href="https://revenuecat-shipaton-2026.devpost.com/" target="_blank" rel="noopener"><span><b>Devpost · Shipaton 2026</b><span class="ne">Girişler: Wallet Coach, BodyBook, Yonca, Leafbook, Nubi. Gönderim kapandı, sonuç bekleniyor</span></span><small>kapandı 1 Eki</small></a>
     </div>
 
     <footer>Panelin tamamı tarayıcıda çözülür; depoda anahtar yok. Kaynak: <a href="https://github.com/berkalparslan/berkalparslan.github.io/tree/main/scripts/lab">scripts/lab</a></footer>
