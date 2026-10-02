@@ -229,7 +229,7 @@
       return m;
     }
 
-    const SEKMELER = { ozet: "Özet", kullanim: "Kullanım", ekranlar: "Ekranlar", ai: "Yapay zekâ", bildirim: "Bildirimler", kitle: "Kitle" };
+    const SEKMELER = { ozet: "Özet", platform: "iOS / Android", kullanim: "Kullanım", ekranlar: "Ekranlar", ai: "Yapay zekâ", bildirim: "Bildirimler", kitle: "Kitle" };
 
     function ozet() {
       const s = gunlukSeri(), top = s.reduce((a, [, r]) => ({ au: a.au + r.au, nu: a.nu + r.nu, os: a.os + r.os, sure: a.sure + r.sure }), { au: 0, nu: 0, os: 0, sure: 0 });
@@ -277,12 +277,44 @@
         const sat = Object.keys(liste).filter(k => o[k] || D.olayKisi[k]);
         if (!sat.length) continue;
         h += `<tr><td class="grup" colspan="3">${grup}</td></tr>` + sat.sort((a, b) => (o[b]?.n || 0) - (o[a]?.n || 0)).map(k =>
-          `<tr><td>${liste[k]} <span class="not">${k}</span></td><td class="sayi">${sayi(o[k]?.n || 0)}</td><td class="sayi">${sayi(D.olayKisi[k]?.k || 0)}</td></tr>`).join("");
+          `<tr><td>${liste[k]} <span class="not">${k}</span></td><td class="sayi">${sayi(o[k]?.n || 0)}</td><td class="sayi">${sayi(D.olayKisi[k]?.k || 0)}</td><td class="sayi">${sayi(opk(k, "iOS"))}</td><td class="sayi">${sayi(opk(k, "Android"))}</td></tr>`).join("");
       }
       const diger = Object.keys(o).filter(k => !bilinen.has(k) && !k.startsWith("ai_"));
       if (diger.length) h += `<tr><td class="grup" colspan="3">Diğer</td></tr>` + diger.map(k => `<tr><td>${esc(k)}</td><td class="sayi">${sayi(o[k].n)}</td><td class="sayi">${sayi(D.olayKisi[k]?.k || 0)}</td></tr>`).join("");
       return `<div class="kart"><h2>Ne yapıyorlar <small>olay sayısı son ${durum.aralik} gün · kişi ${D.gun} gün</small></h2>
-        <table><tr><th>Olay</th><th class="sayi">Kez</th><th class="sayi">Kişi</th></tr>${h}</table></div>`;
+        <table><tr><th>Olay</th><th class="sayi">Kez</th><th class="sayi">Kişi</th><th class="sayi">iOS kişi</th><th class="sayi">Android kişi</th></tr>${h}</table></div>`;
+    }
+
+    const opk = (olay, p) => (D.olayPlatform || []).find(r => r.eventName === olay && r.platform === p)?.totalUsers || 0;
+
+    function platformSekme() {
+      const P = ["iOS", "Android"], pl = Object.fromEntries((D.platformlar || []).map(r => [r.platform, r]));
+      const oran = (olay, p) => { const ilk = opk("first_open", p) || pl[p]?.newUsers || 1; return `${sayi(opk(olay, p))} <span class="not">${yuzde(opk(olay, p) / ilk)}</span>`; };
+      const satir = (ad, f) => `<tr><td>${ad}</td>${P.map(p => `<td class="sayi">${pl[p] ? f(p, pl[p]) : "-"}</td>`).join("")}</tr>`;
+      const tablo = `<table><tr><th></th>${P.map(p => `<th class="sayi">${p}</th>`).join("")}</tr>
+        ${satir("Kullanıcı", (p, r) => sayi(r.totalUsers))}
+        ${satir("Oturum", (p, r) => sayi(r.sessions))}
+        ${satir("Kişi başı oturum", (p, r) => (r.sessions / r.totalUsers).toFixed(1).replace(".", ","))}
+        ${satir("Etkileşimli oturum", (p, r) => yuzde(r.engagedSessions / r.sessions))}
+        ${satir("Kişi başı süre", (p, r) => sure(r.userEngagementDuration / r.totalUsers))}
+        <tr><td class="grup" colspan="3">Huni (ilk açılışa göre)</td></tr>
+        ${satir("Tanıtımı bitirdi", p => oran("onboarding_finished", p))}
+        ${satir("Plan satırı ekledi", p => oran("plan_entry_added", p))}
+        ${satir("Yeni ay açtı", p => oran("month_created", p))}
+        ${satir("Paywall gördü", p => oran("paywall_shown", p))}
+        ${satir("Satın aldı", p => oran("purchase_completed", p))}
+        ${satir("Sildi", p => oran("app_remove", p))}
+      </table><p class="not" style="margin-top:8px">${D.gun} gün. iOS silmeyi bildirmez (app_remove yalnız Android). Süre geliştirme ve ekran görüntüsü oturumlarını da içeriyor; 2.4 ile geliştirme build'leri sayılmayacak.</p>`;
+      const grupla = (liste, alan) => P.map(p => `<div class="kart"><h2>${p}</h2><table>${liste.filter(r => r.platform === p).sort((a, b) => b.totalUsers - a.totalUsers).slice(0, 10).map(r => `<tr><td>${esc(alan(r))}</td><td class="sayi">${sayi(r.totalUsers)}</td></tr>`).join("")}</table></div>`).join("");
+      const saat = (D.saatler || []).sort((a, b) => +a.hour - +b.hour), sm = Math.max(1, ...saat.map(r => r.sessions));
+      const saatSvg = `<svg viewBox="0 0 640 120">${saat.map(r => { const h = r.sessions / sm * 90; return `<rect x="${+r.hour * 26.5 + 4}" y="${100 - h}" width="20" height="${h}" rx="3" fill="var(--accent)"/><text x="${+r.hour * 26.5 + 14}" y="114" font-size="9" fill="var(--faint)" text-anchor="middle">${r.hour}</text>`; }).join("")}</svg>`;
+      return `<div class="kart"><h2>Karşılaştırma</h2>${tablo}</div>
+        <div class="kart"><h2>Nereden geldiler <small>ilk kurulum kaynağı</small></h2></div>
+        <div class="iki">${grupla(D.kaynaklar || [], r => `${r.firstUserSource} / ${r.firstUserMedium}`)}</div>
+        <div class="kart"><h2>Cihazlar</h2></div>
+        <div class="iki">${grupla(D.cihazlar || [], r => r.mobileDeviceModel)}</div>
+        <div class="iki">${grupla(D.isletim || [], r => r.operatingSystemVersion)}</div>
+        <div class="kart"><h2>Günün saatine göre oturum <small>cihaz saatiyle</small></h2>${saatSvg}</div>`;
     }
 
     function ekranlar() {
@@ -398,7 +430,7 @@
       secim("platform", [["hepsi", "Hepsi"], ["ios", "iOS"], ["android", "Android"]], "platform");
       document.getElementById("sekmeler").innerHTML = Object.entries(SEKMELER).map(([k, ad]) => `<button data-k="${k}" class="${durum.sekme === k ? "on" : ""}">${ad}</button>`).join("");
       document.querySelectorAll("#sekmeler button").forEach(b => b.onclick = () => { durum.sekme = b.dataset.k; kaydet(); ciz(); });
-      const f = { ozet, kullanim, ekranlar, ai, bildirim, kitle }[durum.sekme] || ozet;
+      const f = { ozet, platform: platformSekme, kullanim, ekranlar, ai, bildirim, kitle }[durum.sekme] || ozet;
       document.getElementById("ana").innerHTML = f();
       const fi = document.getElementById("fiyat");
       if (fi) fi.onchange = () => { try { localStorage.setItem(OTURUM + "-fiyat", fi.value); } catch (e) { } ciz(); };

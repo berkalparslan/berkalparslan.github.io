@@ -1,8 +1,9 @@
 /* Wallet Coach'a duyuru bildirimi: FCM konularına, dile göre ayrı metin.
  *
- *   node scripts/lab/wc-bildirim.mjs --dosya bildirim.json [--gonder]
+ *   node scripts/lab/wc-bildirim.mjs --dosya bildirim.json [--test] [--dogrula|--gonder]
  *
- * --gonder olmadan yalnız ne gideceğini yazar. Kişiye değil konuya gider;
+ * --gonder olmadan yalnız ne gideceğini yazar. --test yalnız test cihazlarına
+ * (wc_test) gönderir; herkese göndermeden önce bununla dene. Kişiye değil konuya gider;
  * uygulamada hesap yok, sunucu kimseyi tanımıyor. Konular (Push.swift):
  *   wc_all · wc_lang_<en|tr|de|es|fr|pt|ru> · wc_try (bütçe TL ise)
  *
@@ -26,6 +27,9 @@ if (!dosya || args.indexOf("--dosya") < 0) { console.error("kullanım: --dosya b
 const gonder = args.includes("--gonder") || args.includes("--dogrula");
 /* --dogrula: Google mesajı kabul ediyor mu, kimseye gitmeden (validate_only). */
 const yalnizDogrula = args.includes("--dogrula");
+/* --test: yalnız wc_test konusuna, ilk dildeki metinle. TestFlight sürümleri
+   bu konuya kendiliğinden girer; diğerleri Ayarlar'da sürüme 7 kez dokunarak. */
+const test = args.includes("--test");
 const b = JSON.parse(readFileSync(dosya, "utf8"));
 
 for (const [dil, m] of Object.entries(b.metinler)) {
@@ -49,8 +53,10 @@ async function token() {
 
 const T = gonder ? await token() : null;
 const kayit = [];
-for (const [dil, m] of Object.entries(b.metinler)) {
-  const kosul = `'wc_lang_${dil}' in topics` + (b.yalnizTL ? " && 'wc_try' in topics" : "");
+const hedefler = test ? Object.entries(b.metinler).slice(0, 1) : Object.entries(b.metinler);
+for (const [dil, m] of hedefler) {
+  const kosul = test ? "'wc_test' in topics"
+    : `'wc_lang_${dil}' in topics` + (b.yalnizTL ? " && 'wc_try' in topics" : "");
   const mesaj = { message: { condition: kosul,
     notification: { title: m.baslik, body: m.metin },
     data: b.sekme ? { tab: b.sekme } : {},
@@ -63,7 +69,7 @@ for (const [dil, m] of Object.entries(b.metinler)) {
   if (!r.ok) { console.error(`${dil} ✗ ${j.error?.message}`); continue; }
   console.log(`${dil} ✓ ${yalnizDogrula ? "doğrulandı, gönderilmedi" : j.name}`);
   if (yalnizDogrula) continue;
-  kayit.push({ zaman: new Date().toISOString(), dil, kosul, baslik: m.baslik, metin: m.metin, sekme: b.sekme || null, id: j.name });
+  if (!test) kayit.push({ zaman: new Date().toISOString(), dil, kosul, baslik: m.baslik, metin: m.metin, sekme: b.sekme || null, id: j.name });
 }
 
 if (kayit.length) {

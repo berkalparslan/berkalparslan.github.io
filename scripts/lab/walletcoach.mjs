@@ -96,6 +96,19 @@ const surumler = await rapor({ dateRanges: [{ startDate: "28daysAgo", endDate: "
 const ulkeler = await rapor({ dateRanges: aralik, dimensions: d("country"), metrics: m("totalUsers") });
 const diller = await rapor({ dateRanges: aralik, dimensions: d("language"), metrics: m("totalUsers") });
 
+/* Platform karşılaştırması: dönemin tamamı. */
+const platformlar = await rapor({ dateRanges: aralik, dimensions: d("platform"),
+  metrics: m("totalUsers", "newUsers", "activeUsers", "sessions", "engagedSessions", "userEngagementDuration") });
+const olayPlatform = await rapor({ dateRanges: aralik, dimensions: d("eventName", "platform"),
+  metrics: m("totalUsers", "eventCount") });
+/* Nereden geldiler: ilk kurulum kaynağı (Play yönlendiricisi, App Store). */
+const kaynaklar = await rapor({ dateRanges: aralik, dimensions: d("platform", "firstUserSource", "firstUserMedium"),
+  metrics: m("totalUsers") });
+const cihazlar = await rapor({ dateRanges: aralik, dimensions: d("platform", "mobileDeviceModel"), metrics: m("totalUsers") });
+const isletim = await rapor({ dateRanges: aralik, dimensions: d("platform", "operatingSystemVersion"), metrics: m("totalUsers") });
+/* Saat dağılımı: ne zaman açıyorlar. */
+const saatler = await rapor({ dateRanges: aralik, dimensions: d("hour"), metrics: m("activeUsers", "sessions") });
+
 /* Geri gelme: ilk açılış haftasına göre kaç kişi sonraki haftalarda döndü. */
 const kohort = await rapor({ dateRanges: aralik, dimensions: d("firstSessionDate", "date"),
   metrics: m("activeUsers") }).catch(() => []);
@@ -136,7 +149,7 @@ async function gemini() {
 }
 
 const paket = { uretim: new Date().toISOString(), gun: GUN, toplam, aktif, gunluk, olaylar, olayKisi,
-  ekranlar, surumler, ulkeler, diller, gemini: await gemini(),
+  ekranlar, surumler, ulkeler, diller, platformlar, olayPlatform, kaynaklar, cihazlar, isletim, saatler, gemini: await gemini(),
   bildirimler: (() => { try { return JSON.parse(readFileSync(join(homedir(), "dev", "vault", "metrikler", "veri", "wc-bildirimler.json"), "utf8")); } catch { return []; } })(),
   kohort: kohort.map(r => ({ ilk: tarih(r.firstSessionDate), t: tarih(r.date), k: r.activeUsers })) };
 
