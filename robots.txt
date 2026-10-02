@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /lab/
 
-Sitemap: https://berkalparslan.github.io/sitemap.xml
+Sitemap: https://bamstudio.dev/sitemap.xml

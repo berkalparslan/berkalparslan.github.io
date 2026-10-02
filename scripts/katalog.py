@@ -156,7 +156,7 @@ def row(a, i):
     st = a["status"]
     ios = (AS + a["ios"]) if a.get("ios") else ""
     play = (GP + a["play"]) if a.get("play") else ""
-    web = ("https://berkalparslan.github.io" + a["tour"]) if a["plat"] == "web" else ""
+    web = ("https://bamstudio.dev" + a["tour"]) if a["plat"] == "web" else ""
     attrs = (f'id="app-{a["slug"]}" data-slug="{a["slug"]}" data-tags="{a["tags"]} {a["plat"]}" data-color="{a["color"]}" '
              f'data-icon="{a["icon"] or ""}" data-ios="{e(ios)}" data-play="{e(play)}" data-web="{e(web)}" data-tour="{e(a.get("tour", ""))}" '
              f'data-title="{e(a["name"])}" data-name="{e(a["name"] + " " + a["sub"] + " " + a["search"])}"')

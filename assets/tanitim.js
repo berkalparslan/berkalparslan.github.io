@@ -26,7 +26,7 @@
   /* Kayan bant */
   document.querySelectorAll(".mq").forEach(function (m) {
     var items = []; try { items = JSON.parse(m.dataset.items || "[]"); } catch (e) { }
-    items = items.concat(["iOS · Android · watchOS · Wear OS", "BamTech"]);
+    items = items.concat(["iOS · Android · watchOS · Wear OS", "Bam Studio"]);
     var one = items.map(function (t) { return "<span>" + esc(t) + "</span><i>✦</i>"; }).join("");
     m.innerHTML = one + one + one + one;
   });

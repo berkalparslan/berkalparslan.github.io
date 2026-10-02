@@ -236,13 +236,13 @@ def render(d):
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{e(title_en)} · BamTech</title>
+<title>{e(title_en)} · Bam Studio</title>
 <meta name="description" content="{e(desc_en)}" />
-<link rel="canonical" href="https://berkalparslan.github.io/{slug}/" />
+<link rel="canonical" href="https://bamstudio.dev/{slug}/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="{e(title_en)}" />
 <meta property="og:description" content="{e(desc_en)}" />
-<meta property="og:image" content="https://berkalparslan.github.io{e(d.get("icon", "/assets/brand/og.png"))}" />
+<meta property="og:image" content="https://bamstudio.dev{e(d.get("icon", "/assets/brand/og.png"))}" />
 <meta name="theme-color" content="{color}" />
 <link rel="icon" href="{e(d.get("icon", "/assets/brand/icon-32.png"))}" />
 <link rel="apple-touch-icon" href="{e(d.get("icon", "/assets/brand/icon-180.png"))}" />
@@ -254,8 +254,8 @@ def render(d):
     if (q) lang = q[1];
     if (!lang) lang = /^tr\\b/i.test(navigator.language || "") ? "tr" : "en";
     d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
-    d.setAttribute("data-title-tr", {json.dumps(title_tr + " · BamTech", ensure_ascii=False)});
-    d.setAttribute("data-title-en", {json.dumps(title_en + " · BamTech", ensure_ascii=False)});
+    d.setAttribute("data-title-tr", {json.dumps(title_tr + " · Bam Studio", ensure_ascii=False)});
+    d.setAttribute("data-title-en", {json.dumps(title_en + " · Bam Studio", ensure_ascii=False)});
   }})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -270,7 +270,7 @@ def render(d):
 
 <header class="top">
   <div class="wrap bar">
-    <a class="logo" href="/" aria-label="BamTech">b</a>
+    <a class="logo" href="/" aria-label="Bam Studio">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
     <nav class="nav">{"".join(nav)}</nav>
     <button class="pill lang" type="button">EN</button>
@@ -302,13 +302,13 @@ def render(d):
 <footer class="foot">
   <div class="wrap">
     <nav>
-      <a href="/">BamTech</a>
+      <a href="/">Bam Studio</a>
       <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
       <a href="{e((d.get("privacy") or {}).get("href", "/privacy/"))}"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       <a href="{e(d.get("support", "/support/"))}"><span class="tr">Destek</span><span class="en">Support</span></a>
       <a href="/blog/">Blog</a>
     </nav>
-    <span class="copy">© 2026 BamTech</span>
+    <span class="copy">© 2026 Bam Studio</span>
   </div>
   <div class="giant disp" lang="en" aria-hidden="true">{e(name)}</div>
 </footer>
