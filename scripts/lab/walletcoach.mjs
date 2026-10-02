@@ -100,8 +100,44 @@ const diller = await rapor({ dateRanges: aralik, dimensions: d("language"), metr
 const kohort = await rapor({ dateRanges: aralik, dimensions: d("firstSessionDate", "date"),
   metrics: m("activeUsers") }).catch(() => []);
 
+/* Gemini, Google tarafından: günlük istek, yanıt koduna ve anahtara göre.
+   Firebase CLI'ın oturumuyla (cloud-platform kapsamı); yoksa atlanır. */
+async function gemini() {
+  try {
+    const api = await import("/opt/homebrew/lib/node_modules/firebase-tools/lib/api.js");
+    const c = JSON.parse(readFileSync(join(homedir(), ".config", "configstore", "firebase-tools.json"), "utf8"));
+    const t = await (await fetch("https://oauth2.googleapis.com/token", { method: "POST",
+      body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: c.tokens.refresh_token,
+        client_id: api.clientId(), client_secret: api.clientSecret() }) })).json();
+    const proje = "wallet-coach-87336";
+    const anahtarlar = Object.fromEntries(((await (await fetch(
+      `https://apikeys.googleapis.com/v2/projects/${proje}/locations/global/keys`,
+      { headers: { Authorization: `Bearer ${t.access_token}` } })).json()).keys || [])
+      .map(k => [k.uid, k.displayName]));
+    const u = new URL(`https://monitoring.googleapis.com/v3/projects/${proje}/timeSeries`);
+    u.searchParams.set("filter", 'metric.type="serviceruntime.googleapis.com/api/request_count" AND resource.labels.service="generativelanguage.googleapis.com"');
+    u.searchParams.set("interval.startTime", new Date(Date.now() - GUN * 864e5).toISOString());
+    u.searchParams.set("interval.endTime", new Date().toISOString());
+    u.searchParams.set("aggregation.alignmentPeriod", "86400s");
+    u.searchParams.set("aggregation.perSeriesAligner", "ALIGN_SUM");
+    u.searchParams.set("aggregation.crossSeriesReducer", "REDUCE_SUM");
+    u.searchParams.append("aggregation.groupByFields", "metric.labels.response_code");
+    u.searchParams.append("aggregation.groupByFields", "resource.labels.credential_id");
+    const j = await (await fetch(u, { headers: { Authorization: `Bearer ${t.access_token}` } })).json();
+    if (j.error) throw new Error(j.error.message);
+    const satir = [];
+    for (const s of j.timeSeries || []) {
+      const kimlik = (s.resource.labels.credential_id || "").replace(/^apikey:/, "");
+      for (const p of s.points) satir.push({ t: p.interval.endTime.slice(0, 10), kod: s.metric.labels.response_code,
+        anahtar: anahtarlar[kimlik] || kimlik || "?", n: Number(p.value.int64Value || 0) });
+    }
+    return { satir, faturalandirma: false };
+  } catch (e) { console.log(`  gemini atlandı: ${e.message}`); return null; }
+}
+
 const paket = { uretim: new Date().toISOString(), gun: GUN, toplam, aktif, gunluk, olaylar, olayKisi,
-  ekranlar, surumler, ulkeler, diller,
+  ekranlar, surumler, ulkeler, diller, gemini: await gemini(),
+  bildirimler: (() => { try { return JSON.parse(readFileSync(join(homedir(), "dev", "vault", "metrikler", "veri", "wc-bildirimler.json"), "utf8")); } catch { return []; } })(),
   kohort: kohort.map(r => ({ ilk: tarih(r.firstSessionDate), t: tarih(r.date), k: r.activeUsers })) };
 
 function parola() {

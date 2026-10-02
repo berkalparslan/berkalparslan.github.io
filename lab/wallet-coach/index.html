@@ -164,7 +164,7 @@
       "Rehber ve başlangıç": {
         onboarding_step: "Tanıtım adımı", onboarding_finished: "Tanıtım bitti", first_run_finished: "İlk kurulum bitti",
         first_run_skipped: "İlk kurulum atlandı", coach_started: "Tur başladı", coach_completed: "Tur bitti",
-        coach_skipped: "Tur atlandı", coach_acted: "Turdan işlem", notifications_asked: "Bildirim izni soruldu",
+        coach_skipped: "Tur atlandı", coach_acted: "Turdan işlem", notifications_asked: "Bildirim izni soruldu", push_opened: "Bildirime dokundu",
         notifications_on: "Bildirim açık", notifications_off: "Bildirim kapalı",
       },
       "Sistem": {
@@ -174,7 +174,7 @@
       },
     };
     const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
-    const AI = { ai_receipt: "Fiş", ai_label: "Etiket", ai_statement: "Ekstre", ai_call: "Eski sürüm (ayrımsız)" };
+    const AI = { ai_receipt: "Fiş", ai_label: "Etiket", ai_statement: "Ekstre", ai_call: "Ara sürüm (ayrımsız)" };
     const EKRAN = {
       panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", settings: "Ayarlar", statements: "Ekstreler",
       statement_detail: "Ekstre detayı", ledger: "Alacak-verecek", assets: "Varlıklar", projects: "Projeler",
@@ -229,7 +229,7 @@
       return m;
     }
 
-    const SEKMELER = { ozet: "Özet", kullanim: "Kullanım", ekranlar: "Ekranlar", ai: "Yapay zekâ", kitle: "Kitle" };
+    const SEKMELER = { ozet: "Özet", kullanim: "Kullanım", ekranlar: "Ekranlar", ai: "Yapay zekâ", bildirim: "Bildirimler", kitle: "Kitle" };
 
     function ozet() {
       const s = gunlukSeri(), top = s.reduce((a, [, r]) => ({ au: a.au + r.au, nu: a.nu + r.nu, os: a.os + r.os, sure: a.sure + r.sure }), { au: 0, nu: 0, os: 0, sure: 0 });
@@ -316,7 +316,51 @@
           ${sat.map(([k, v]) => `<tr><td>${AI[k]}</td><td class="sayi">${sayi(v.n)}</td><td class="sayi">${sayi(v.v)}</td><td class="sayi">${v.v ? sayi(v.v / v.n) : "-"}</td></tr>`).join("") || `<tr><td colspan="4" class="not">Henüz istek yok.</td></tr>`}</table>
           <p class="not" style="margin-top:10px">Milyon token başı fiyat ($): <input class="fiyat" id="fiyat" type="number" step="0.01" value="${fiyat}"> Flash Lite girdi 0,10 / çıktı 0,40; okumalar çoğunlukla girdi, karışık ~0,15.</p>
         </div>
-        ${gunler.length > 1 ? `<div class="kart"><h2>Günlük istek</h2>${cizgi([{ d: gunler.map(t => gun.get(t)), c: "var(--violet)" }], gunler, 130)}</div>` : ""}`;
+        ${gunler.length > 1 ? `<div class="kart"><h2>Günlük istek <small>uygulamanın saydığı</small></h2>${cizgi([{ d: gunler.map(t => gun.get(t)), c: "var(--violet)" }], gunler, 130)}</div>` : ""}
+        ${googleTarafi()}`;
+    }
+
+    /* Google'ın kendi sayacı: başarısız istekler dahil. 429 = ücretsiz kota doldu. */
+    function googleTarafi() {
+      const g = D.gemini; if (!g) return "";
+      const bas = sinir(), sat = g.satir.filter(r => r.t >= bas);
+      const sinif = k => k === "200" ? "ok" : k === "429" ? "kota" : k.startsWith("5") ? "google" : "hata";
+      const gun = new Map(), top = { ok: 0, kota: 0, google: 0, hata: 0 }, anahtar = {};
+      for (const r of sat) {
+        const x = gun.get(r.t) || { ok: 0, kota: 0, google: 0, hata: 0 }; x[sinif(r.kod)] += r.n; gun.set(r.t, x);
+        top[sinif(r.kod)] += r.n; (anahtar[r.anahtar] ||= { ok: 0, kota: 0, google: 0, hata: 0 })[sinif(r.kod)] += r.n;
+      }
+      const gunler = [...gun.keys()].sort(), hepsi = top.ok + top.kota + top.google + top.hata;
+      const uyari = top.kota ? `<p class="not" style="margin-top:8px"><span class="etiket sari">dikkat</span> <b>${sayi(top.kota)}</b> istek ücretsiz kotaya takıldı (429). Faturalandırma kapalı; bu okumalar kullanıcıya "okunamadı" olarak döndü.</p>` : "";
+      return `<div class="kart"><h2>Google tarafı <small>wallet-coach-87336 · tüm istekler</small></h2>
+        <div class="izgara" style="margin-bottom:10px">
+          <div class="kpi"><div class="ad">Başarılı</div><div class="deger">${sayi(top.ok)}</div><div class="alt">${hepsi ? yuzde(top.ok / hepsi) : ""}</div></div>
+          <div class="kpi"><div class="ad">Kota (429)</div><div class="deger" style="color:var(--amber)">${sayi(top.kota)}</div></div>
+          <div class="kpi"><div class="ad">Google hatası (5xx)</div><div class="deger" style="color:var(--rose)">${sayi(top.google)}</div></div>
+          <div class="kpi"><div class="ad">Diğer hata</div><div class="deger">${sayi(top.hata)}</div></div>
+        </div>
+        ${gunler.length > 1 ? cizgi([{ d: gunler.map(t => gun.get(t).ok), c: "var(--accent)" }, { d: gunler.map(t => gun.get(t).kota), c: "var(--amber)" }, { d: gunler.map(t => gun.get(t).google), c: "var(--rose)" }], gunler, 140) : ""}
+        <div class="lejant"><span style="--c:var(--accent)">başarılı</span><span style="--c:var(--amber)">kota</span><span style="--c:var(--rose)">5xx</span></div>
+        <table style="margin-top:10px"><tr><th>Anahtar</th><th class="sayi">Başarılı</th><th class="sayi">Kota</th><th class="sayi">5xx</th><th class="sayi">Diğer</th></tr>
+        ${Object.entries(anahtar).map(([a, v]) => `<tr><td>${esc(a)}</td><td class="sayi">${sayi(v.ok)}</td><td class="sayi">${sayi(v.kota)}</td><td class="sayi">${sayi(v.google)}</td><td class="sayi">${sayi(v.hata)}</td></tr>`).join("")}</table>
+        ${uyari}</div>`;
+    }
+
+    function bildirim() {
+      const k = n => D.olayKisi[n]?.k || 0;
+      const acik = k("notifications_on"), kapali = k("notifications_off"), hepsi = acik + kapali;
+      const gecmis = (D.bildirimler || []).slice().reverse();
+      return `
+        <div class="izgara">
+          <div class="kart kpi"><div class="ad">Bildirimi açık</div><div class="deger">${sayi(acik)}</div><div class="alt">${hepsi ? yuzde(acik / hepsi) + " oran" : "yeni sürümle dolacak"}</div></div>
+          <div class="kart kpi"><div class="ad">Kapalı</div><div class="deger">${sayi(kapali)}</div><div class="alt">günde bir sayılır</div></div>
+          <div class="kart kpi"><div class="ad">İzin soruldu</div><div class="deger">${sayi(k("notifications_asked"))}</div><div class="alt">kişi</div></div>
+          <div class="kart kpi"><div class="ad">Bildirime dokunan</div><div class="deger">${sayi(k("push_opened"))}</div><div class="alt">kişi</div></div>
+        </div>
+        <div class="kart"><h2>Gönderilenler <small>scripts/lab/wc-bildirim.mjs</small></h2>
+          ${gecmis.length ? `<table><tr><th>Tarih</th><th>Kime</th><th>Başlık</th><th>Sekme</th></tr>${gecmis.map(b => `<tr><td>${esc(b.zaman.slice(0, 16).replace("T", " "))}</td><td>${esc(b.kosul)}</td><td>${esc(b.baslik)}<div class="not">${esc(b.metin)}</div></td><td>${esc(b.sekme || "")}</td></tr>`).join("")}</table>`
+          : `<p class="not">Henüz gönderilen yok. Gönderme Mac'ten: <code>node scripts/lab/wc-bildirim.mjs --dosya bildirim.json</code></p>`}
+        </div>`;
     }
 
     function kitle() {
@@ -354,7 +398,7 @@
       secim("platform", [["hepsi", "Hepsi"], ["ios", "iOS"], ["android", "Android"]], "platform");
       document.getElementById("sekmeler").innerHTML = Object.entries(SEKMELER).map(([k, ad]) => `<button data-k="${k}" class="${durum.sekme === k ? "on" : ""}">${ad}</button>`).join("");
       document.querySelectorAll("#sekmeler button").forEach(b => b.onclick = () => { durum.sekme = b.dataset.k; kaydet(); ciz(); });
-      const f = { ozet, kullanim, ekranlar, ai, kitle }[durum.sekme] || ozet;
+      const f = { ozet, kullanim, ekranlar, ai, bildirim, kitle }[durum.sekme] || ozet;
       document.getElementById("ana").innerHTML = f();
       const fi = document.getElementById("fiyat");
       if (fi) fi.onchange = () => { try { localStorage.setItem(OTURUM + "-fiyat", fi.value); } catch (e) { } ciz(); };
