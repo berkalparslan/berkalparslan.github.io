@@ -74,9 +74,12 @@ header.top { position: sticky; top: 0; z-index: 30; padding: 12px 0; pointer-eve
 @keyframes float { 50% { translate: 0 -16px; rotate: 8deg; } }
 
 /* Sonsuz kayan mağaza görselleri */
-.promo { overflow: hidden; padding: 46px 0; background: var(--paper); border-bottom: var(--line); }
-.promo-track { display: flex; gap: 20px; width: max-content; animation: slide var(--promo-s, 60s) linear infinite; }
-.promo:hover .promo-track { animation-play-state: paused; }
+.promo { overflow-x: auto; overflow-y: hidden; padding: 46px 0; background: var(--paper); border-bottom: var(--line); scrollbar-width: none; cursor: grab; }
+.promo::-webkit-scrollbar { display: none; }
+.promo.dragging { cursor: grabbing; }
+.promo.dragging img { pointer-events: none; }
+.promo-track { display: flex; gap: 20px; width: max-content; padding: 0 20px; }
+.promo img { -webkit-user-drag: none; user-select: none; }
 .promo img { width: 250px; height: auto; border: 1.5px solid #000; border-radius: 26px; flex: none; transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
 .promo img:nth-child(odd) { transform: rotate(-2deg); } .promo img:nth-child(even) { transform: rotate(2deg) translateY(14px); }
 .promo img:hover { transform: rotate(0) scale(1.04); }

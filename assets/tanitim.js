@@ -31,16 +31,45 @@
     m.innerHTML = one + one + one + one;
   });
 
-  /* Mağaza şeridinin hızı görsel sayısına göre */
-  document.querySelectorAll(".promo-track").forEach(function (tr) {
-    var n = tr.children.length / 2; tr.style.setProperty("--promo-s", Math.max(30, n * 7) + "s");
+  /* Mağaza şeridi: kendiliğinden akar, sona gelince başa sarar; üstüne gelince durur,
+     basılı tutup sağa sola sürüklenir (dokunmatikte parmakla kaydırılır). */
+  document.querySelectorAll(".promo").forEach(function (strip) {
+    var pos = 0, hover = false, until = 0, down = false, moved = false, sx = 0, sl = 0;
+    var hold = function (ms) { until = Math.max(until, performance.now() + ms); };
+    strip.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hover = true; });
+    strip.addEventListener("pointerleave", function () { hover = false; hold(500); });
+    strip.addEventListener("touchstart", function () { hold(4000); }, { passive: true });
+    strip.addEventListener("wheel", function () { hold(2500); }, { passive: true });
+    strip.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = false; sx = e.clientX; sl = strip.scrollLeft; e.preventDefault();
+    });
+    addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 4) { moved = true; strip.classList.add("dragging"); }
+      if (moved) { var half = strip.scrollWidth / 2, v = sl - dx; if (v < 0) { v += half; sl += half; } if (v >= half) { v -= half; sl -= half; } strip.scrollLeft = v; pos = v; }
+    });
+    addEventListener("pointerup", function () { if (!down) return; down = false; hold(1500); setTimeout(function () { strip.classList.remove("dragging"); }, 0); });
+    function loop(now) {
+      var half = strip.scrollWidth / 2;
+      if (half > strip.clientWidth) {
+        if (Math.abs(pos - strip.scrollLeft) > 3) pos = strip.scrollLeft;
+        if (!still && !hover && !down && now > until && strip.offsetParent) pos += .5;
+        if (pos >= half) pos -= half;
+        if (pos < 0) pos += half;
+        if (Math.abs(strip.scrollLeft - pos) >= .5) strip.scrollLeft = pos;
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
   });
 
   /* Temalı çıkartmalar: hero'da uçuşur, sürüklenir */
   var hero = document.querySelector(".hero");
   if (hero) {
     var em = []; try { em = JSON.parse(hero.dataset.emoji || "[]"); } catch (e) { }
-    var spots = [[6, 18], [86, 14], [12, 66], [82, 62], [30, 84], [66, 86], [48, 8]];
+    var spots = [[6, 18], [86, 14], [12, 66], [82, 62], [30, 84], [66, 86], [61, 13]];
     var cols = ["#ffd731", "#e9ccff", "#55db9c", "#ffb3d9", "#dceeff", "#c8f560", "#fff"];
     var narrow = innerWidth < 640;
     em.slice(0, narrow ? 2 : 7).forEach(function (g, i) {

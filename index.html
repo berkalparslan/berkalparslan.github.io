@@ -100,7 +100,6 @@
     .hero-txt .brand b { width: 26px; height: 26px; border-radius: 50%; background: var(--sun); color: #000; display: grid; place-items: center; font-family: var(--disp); font-weight: 400; font-size: 16px; }
     .hero h1 { font-size: clamp(44px, 8.2vw, 150px); margin: 22px auto 0; }
     .hero h1 > span > span { display: block; }
-    .hero h1 .l2 { color: var(--paper); -webkit-text-stroke: 3px #000; paint-order: stroke fill; }
     .hero-sub { max-width: 56ch; margin: 26px auto 0; font-size: 17px; }
     .hero-cta { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
 
@@ -272,7 +271,6 @@
       .stores .pill { padding: 10px 12px; }
       .hero { padding: 250px 0 70px; }
       .hero h1 { font-size: clamp(46px, 14vw, 90px); line-height: 1.02; }
-      .hero h1 .l2 { -webkit-text-stroke: 2px #000; }
       .sticker { width: 66px; height: 66px; padding: 5px; }
       .rail-nav { display: none; }
       .ph { width: 220px; }
@@ -364,10 +362,13 @@
     <section class="stats" aria-label="Studio in numbers">
       <div class="wrap stat-grid">
         <div class="stat" style="--c:var(--sun);--r:-4deg"><b id="sLive">0</b><span class="tr">uygulama mağazada</span><span class="en">apps in the stores</span></div>
-        <div class="stat v" style="--c:var(--violet);--r:3deg"><b><span id="sWatch">0</span><small>⌚</small></b><span class="tr">tanesi akıllı saatte de var</span><span class="en">of them on a smartwatch too</span></div>
+        <div class="stat v" style="--c:var(--violet);--r:3deg"><b id="sWatch">0</b><span class="tr">tanesi akıllı saatte de var</span><span class="en">of them on a smartwatch too</span></div>
         <div class="stat" style="--c:var(--mint);--r:-2deg"><b>2</b><span>App Store + Google Play</span></div>
-        <div class="stat" style="--c:var(--lav);--r:5deg"><b id="sWeb">0</b><span class="tr">web uygulaması</span><span class="en">web apps</span></div>
-        <div class="stat" style="--c:var(--paper);--r:-3deg"><b>0</b><span class="tr">satılan veri</span><span class="en">data sold</span></div>
+        <div class="stat" style="--c:var(--pink);--r:4deg"><b>4</b><span>iOS · Android · watchOS · Wear OS</span></div>
+        <div class="stat" style="--c:var(--lav);--r:-3deg"><b id="sWeb">0</b><span class="tr">web uygulaması</span><span class="en">web apps</span></div>
+        <div class="stat" style="--c:var(--sky);--r:2deg"><b>2023</b><span class="tr">yılından beri mağazada</span><span class="en">the year the first app shipped</span></div>
+        <div class="stat" style="--c:var(--lime);--r:-5deg"><b>1</b><span class="tr">kişilik stüdyo</span><span class="en">person studio</span></div>
+        <div class="stat" style="--c:var(--paper);--r:3deg"><b>0</b><span class="tr">satılan veri</span><span class="en">data sold</span></div>
       </div>
     </section>
 
@@ -376,13 +377,13 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Tüm uygulamalar</span><span class="en">All the apps</span></h2>
-          <p><span class="tr">Her biri bir ihtiyaçtan çıktı. Bir uygulamanın paneline dokun, vitrindeki yerine gidelim.</span><span class="en">Each one started as a need. Tap an app's panel and we'll jump to it in the showcase.</span></p>
+          <p><span class="tr">Her biri bir ihtiyaçtan çıktı. Görsele dokun, tanıtımı aç; "Vitrinde gör" ile vitrindeki yerine git.</span><span class="en">Each one started as a need. Tap the picture to open its tour, or "On the shelf" to find it in the showcase.</span></p>
         </div>
         <div id="list">
       <!-- katalog:başla -->
         <article class="zrow z-l" id="app-walletcoach" data-slug="walletcoach" data-tags="tools finance ios android" data-color="#dceeff" data-icon="/walletcoach/assets/icon-512.png" data-ios="https://apps.apple.com/app/id6798041415" data-play="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" data-web="" data-tour="/walletcoach/" data-title="Wallet Coach" data-name="Wallet Coach Monthly Budget wallet coach bütçe ev ekonomisi budget para" style="--c:#dceeff">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Wallet Coach: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/walletcoach/" aria-label="Wallet Coach"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/walletcoach/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">01</span>
           </div>
@@ -396,7 +397,7 @@
         </article>
         <article class="zrow z-r" id="app-tennis-padel" data-slug="tennis-padel" data-tags="sport ios android watchos wearos" data-color="#c8f560" data-icon="/tennis-padel/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756925523" data-play="https://play.google.com/store/apps/details?id=com.aberk.wear" data-web="" data-tour="/tennis-padel/" data-title="Tennis &amp; Padel" data-name="Tennis &amp; Padel Score Keeper tennis padel tenis skor score" style="--c:#c8f560">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Tennis &amp; Padel: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tennis-padel/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/tennis-padel/" aria-label="Tennis &amp; Padel"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tennis-padel/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/tennis-padel/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">02</span>
           </div>
@@ -410,7 +411,7 @@
         </article>
         <article class="zrow z-l" id="app-nubi" data-slug="nubi" data-tags="fun ios" data-color="#ffd731" data-icon="/assets/home/nubi-icon.webp" data-ios="https://apps.apple.com/app/id6816090205" data-play="" data-web="" data-tour="/nubi/" data-title="Nubi" data-name="Nubi Virtual Pet nubi sanal evcil hayvan tamagotchi pet virtual" data-released="2026-10-01" style="--c:#ffd731">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Nubi: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/nubi/" aria-label="Nubi"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/nubi-icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">03</span>
           </div>
@@ -424,7 +425,7 @@
         </article>
         <article class="zrow z-r" id="app-daily-whisper" data-slug="daily-whisper" data-tags="health ios watchos" data-color="#e9ccff" data-icon="/assets/home/daily-whisper-icon.webp" data-ios="https://apps.apple.com/app/id6757824195" data-play="" data-web="" data-tour="/daily-whisper/" data-title="Daily Whisper" data-name="Daily Whisper Affirmations daily whisper affirmations olumlama manifest hikaye" data-released="2026-10-02" style="--c:#e9ccff">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Daily Whisper: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/daily-whisper/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/daily-whisper/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/daily-whisper/" aria-label="Daily Whisper"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/daily-whisper/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/daily-whisper/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/daily-whisper-icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">04</span>
           </div>
@@ -438,7 +439,7 @@
         </article>
         <article class="zrow z-l" id="app-o-mu-bu-mu" data-slug="o-mu-bu-mu" data-tags="fun ios android watchos wearos" data-color="#5c4ade" data-icon="/assets/home/omubumu-icon.webp" data-ios="https://apps.apple.com/app/id6740251305" data-play="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" data-web="" data-tour="/o-mu-bu-mu/" data-title="O mu Bu mu?" data-name="O mu Bu mu? This or That o mu bu mu would you rather tercih oyunu turnuva" style="--c:#5c4ade">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="O mu Bu mu?: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/o-mu-bu-mu/" aria-label="O mu Bu mu?"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/omubumu-icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">05</span>
           </div>
@@ -450,53 +451,11 @@
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener">Google Play ↗</a><a class="pill" href="/o-mu-bu-mu/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-leafbook" data-slug="leafbook" data-tags="lifestyle ios" data-color="#55db9c" data-icon="/assets/home/leafbook-icon.webp" data-ios="https://apps.apple.com/app/id6811846217" data-play="" data-web="" data-tour="/leafbook/" data-title="Leafbook" data-name="Leafbook Plant Tracker leafbook bitki takip sulama hayalet kamera plant" data-released="2026-09-29" style="--c:#55db9c">
+        <article class="zrow z-r" id="app-tasbih-tally" data-slug="tasbih-tally" data-tags="tools ios watchos" data-color="#55db9c" data-icon="/tasbih-tally/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756802776" data-play="" data-web="" data-tour="/tasbih-tally/" data-title="Tasbih Tally" data-name="Tasbih Tally Digital Counter tasbih tally zikir tesbih namaz kıble counter" style="--c:#55db9c">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Leafbook: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/en/01.webp" alt="" loading="lazy" /></span></span></button>
-            <img class="zicon" src="/assets/home/leafbook-icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">06</span>
-          </div>
-          <div class="ztxt">
-            <p class="zkick">Plant Tracker <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
-            <h3 class="disp" lang="en">Leafbook</h3>
-            <p class="zp"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth.</span></p>
-            <div class="chips"><span class="chip">iOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/leafbook/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
-          </div>
-        </article>
-        <article class="zrow z-l" id="app-kit" data-slug="kit" data-tags="tools ios watchos" data-color="#4da2ff" data-icon="/assets/home/kit-icon.webp" data-ios="https://apps.apple.com/app/id6446224550" data-play="" data-web="" data-tour="/kit-qr/" data-title="Kit" data-name="Kit QR Scanner &amp; Wallet kit qr scanner wallet barcode kod cüzdan kart bilet" data-released="2026-10-01" style="--c:#4da2ff">
-          <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Kit: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/kit/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/kit/en/01.webp" alt="" loading="lazy" /></span></span></button>
-            <img class="zicon" src="/assets/home/kit-icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">07</span>
-          </div>
-          <div class="ztxt">
-            <p class="zkick">QR Scanner &amp; Wallet <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
-            <h3 class="disp" lang="en">Kit</h3>
-            <p class="zp"><span class="tr">Her kodu okur, sadakat kartlarını ve biletleri tek cüzdanda tutar, güzel görünen QR kodlar üretir. Linki açmadan önce de kontrol eder. Reklam yok, hesap yok.</span><span class="en">Reads every code, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. Checks a link before you open it. No ads, no account.</span></p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/kit-qr/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
-          </div>
-        </article>
-        <article class="zrow z-r" id="app-yonca" data-slug="yonca" data-tags="tools ios" data-color="#55db9c" data-icon="/assets/home/yonca-icon.webp" data-ios="https://apps.apple.com/app/id6802312123" data-play="" data-web="" data-tour="/yonca/" data-title="Yonca" data-name="Yonca Çekiliş yonca çekiliş takip giveaway kampanya draw" style="--c:#55db9c">
-          <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Yonca: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/yonca/any/01.webp" alt="" loading="lazy" /></span></span></button>
-            <img class="zicon" src="/assets/home/yonca-icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">08</span>
-          </div>
-          <div class="ztxt">
-            <p class="zkick">Çekiliş </p>
-            <h3 class="disp" lang="en">Yonca</h3>
-            <p class="zp"><span class="tr">Kendi çekilişini yap ya da katıldıklarını takip et. İsimleri yapıştır, kazananı çek, kartı paylaş; sonuç günü de hatırlatır.</span><span class="en">Run your own giveaway or track the ones you entered. Paste the names, draw the winners, share the card; it reminds you on result day too.</span></p>
-            <div class="chips"><span class="chip">iOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6802312123" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
-          </div>
-        </article>
-        <article class="zrow z-l" id="app-tasbih-tally" data-slug="tasbih-tally" data-tags="tools ios watchos" data-color="#55db9c" data-icon="/tasbih-tally/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756802776" data-play="" data-web="" data-tour="/tasbih-tally/" data-title="Tasbih Tally" data-name="Tasbih Tally Digital Counter tasbih tally zikir tesbih namaz kıble counter" style="--c:#55db9c">
-          <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Tasbih Tally: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/tasbih-tally/" aria-label="Tasbih Tally"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/tasbih-tally/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">09</span>
+            <span class="znum disp">06</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Digital Counter </p>
@@ -506,25 +465,11 @@
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/tasbih-tally/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-matchday" data-slug="matchday" data-tags="sport soon ios android" data-color="#c8f560" data-icon="/matchday/assets/icon-512.png" data-ios="" data-play="" data-web="" data-tour="/matchday/" data-title="Matchday" data-name="Matchday Five a side matchday halısaha futbol five a side maç kadro" style="--c:#c8f560">
-          <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Matchday: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/matchday/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/matchday/en/01.webp" alt="" loading="lazy" /></span></span></button>
-            <img class="zicon" src="/matchday/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">10</span>
-          </div>
-          <div class="ztxt">
-            <p class="zkick">Five a side <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
-            <h3 class="disp" lang="en">Matchday</h3>
-            <p class="zp"><span class="tr">Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.</span><span class="en">The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously.</span></p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
-            <div class="rl"><a class="pill" href="/matchday/"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
-          </div>
-        </article>
         <article class="zrow z-l" id="app-bodybook" data-slug="bodybook" data-tags="health android" data-color="#fb4903" data-icon="/assets/home/bodybook-icon.webp" data-ios="" data-play="https://play.google.com/store/apps/details?id=com.aberk.bodybook" data-web="" data-tour="/bodybook/" data-title="BodyBook" data-name="BodyBook Health Tracker bodybook sağlık tansiyon cilt ben health" style="--c:#fb4903">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="BodyBook: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bodybook/any/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/bodybook/" aria-label="BodyBook"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bodybook/any/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/bodybook-icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">11</span>
+            <span class="znum disp">07</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Health Tracker </p>
@@ -534,25 +479,25 @@
             <div class="rl"><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener">Google Play ↗</a><a class="pill" href="/bodybook/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-pickleball" data-slug="pickleball" data-tags="sport ios watchos" data-color="#4da2ff" data-icon="/pickleball/assets/icon.webp" data-ios="https://apps.apple.com/app/id6760598754" data-play="" data-web="" data-tour="/pickleball/" data-title="Pickleball" data-name="Pickleball Score Keeper pickleball score skor" style="--c:#4da2ff">
+        <article class="zrow z-r" id="app-leafbook" data-slug="leafbook" data-tags="lifestyle ios" data-color="#55db9c" data-icon="/assets/home/leafbook-icon.webp" data-ios="https://apps.apple.com/app/id6811846217" data-play="" data-web="" data-tour="/leafbook/" data-title="Leafbook" data-name="Leafbook Plant Tracker leafbook bitki takip sulama hayalet kamera plant" data-released="2026-09-29" style="--c:#55db9c">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Pickleball: show on the shelf"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/pickleball/en/01.webp" alt="" loading="lazy" /></span></span></span></button>
-            <img class="zicon" src="/pickleball/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">12</span>
+            <a class="zhit" href="/leafbook/" aria-label="Leafbook"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/assets/home/leafbook-icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">08</span>
           </div>
           <div class="ztxt">
-            <p class="zkick">Score Keeper </p>
-            <h3 class="disp" lang="en">Pickleball</h3>
-            <p class="zp"><span class="tr">Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.</span><span class="en">Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score.</span></p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/pickleball/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <p class="zkick">Plant Tracker <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
+            <h3 class="disp" lang="en">Leafbook</h3>
+            <p class="zp"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth.</span></p>
+            <div class="chips"><span class="chip">iOS</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/leafbook/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
         <article class="zrow z-l" id="app-bosyeryok" data-slug="bosyeryok" data-tags="fun android" data-color="#ffd731" data-icon="/bosyeryok/assets/icon-512.png" data-ios="" data-play="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" data-web="" data-tour="/bosyeryok/" data-title="Boş Yer Yok" data-name="Boş Yer Yok Parking Tycoon boş yer yok no spaces otopark parking tycoon oyun game" style="--c:#ffd731">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Boş Yer Yok: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/bosyeryok/" aria-label="Boş Yer Yok"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/bosyeryok/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">13</span>
+            <span class="znum disp">09</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Parking Tycoon </p>
@@ -562,9 +507,65 @@
             <div class="rl"><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" target="_blank" rel="noopener">Google Play ↗</a><a class="pill" href="/bosyeryok/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
+        <article class="zrow z-r" id="app-kit" data-slug="kit" data-tags="tools ios watchos" data-color="#4da2ff" data-icon="/assets/home/kit-icon.webp" data-ios="https://apps.apple.com/app/id6446224550" data-play="" data-web="" data-tour="/kit-qr/" data-title="Kit" data-name="Kit QR Scanner &amp; Wallet kit qr scanner wallet barcode kod cüzdan kart bilet" data-released="2026-10-01" style="--c:#4da2ff">
+          <div class="zpanel">
+            <a class="zhit" href="/kit-qr/" aria-label="Kit"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/kit/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/kit/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/assets/home/kit-icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">10</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">QR Scanner &amp; Wallet <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
+            <h3 class="disp" lang="en">Kit</h3>
+            <p class="zp"><span class="tr">Her kodu okur, sadakat kartlarını ve biletleri tek cüzdanda tutar, güzel görünen QR kodlar üretir. Linki açmadan önce de kontrol eder. Reklam yok, hesap yok.</span><span class="en">Reads every code, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. Checks a link before you open it. No ads, no account.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6446224550" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/kit-qr/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
+        <article class="zrow z-l" id="app-yonca" data-slug="yonca" data-tags="tools ios" data-color="#55db9c" data-icon="/assets/home/yonca-icon.webp" data-ios="https://apps.apple.com/app/id6802312123" data-play="" data-web="" data-tour="/yonca/" data-title="Yonca" data-name="Yonca Çekiliş yonca çekiliş takip giveaway kampanya draw" style="--c:#55db9c">
+          <div class="zpanel">
+            <a class="zhit" href="/yonca/" aria-label="Yonca"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/yonca/any/01.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/assets/home/yonca-icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">11</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">Çekiliş </p>
+            <h3 class="disp" lang="en">Yonca</h3>
+            <p class="zp"><span class="tr">Kendi çekilişini yap ya da katıldıklarını takip et. İsimleri yapıştır, kazananı çek, kartı paylaş; sonuç günü de hatırlatır.</span><span class="en">Run your own giveaway or track the ones you entered. Paste the names, draw the winners, share the card; it reminds you on result day too.</span></p>
+            <div class="chips"><span class="chip">iOS</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6802312123" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/yonca/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
+        <article class="zrow z-r" id="app-matchday" data-slug="matchday" data-tags="sport soon ios android" data-color="#c8f560" data-icon="/matchday/assets/icon-512.png" data-ios="" data-play="" data-web="" data-tour="/matchday/" data-title="Matchday" data-name="Matchday Five a side matchday halısaha futbol five a side maç kadro" style="--c:#c8f560">
+          <div class="zpanel">
+            <a class="zhit" href="/matchday/" aria-label="Matchday"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/matchday/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/matchday/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/matchday/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">12</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">Five a side <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
+            <h3 class="disp" lang="en">Matchday</h3>
+            <p class="zp"><span class="tr">Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.</span><span class="en">The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+            <div class="rl"><a class="pill" href="/matchday/"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
+        <article class="zrow z-l" id="app-pickleball" data-slug="pickleball" data-tags="sport ios watchos" data-color="#4da2ff" data-icon="/pickleball/assets/icon.webp" data-ios="https://apps.apple.com/app/id6760598754" data-play="" data-web="" data-tour="/pickleball/" data-title="Pickleball" data-name="Pickleball Score Keeper pickleball score skor" style="--c:#4da2ff">
+          <div class="zpanel">
+            <a class="zhit" href="/pickleball/" aria-label="Pickleball"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/pickleball/en/01.webp" alt="" loading="lazy" /></span></span></span></a>
+            <img class="zicon" src="/pickleball/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">13</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">Score Keeper </p>
+            <h3 class="disp" lang="en">Pickleball</h3>
+            <p class="zp"><span class="tr">Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.</span><span class="en">Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6760598754" target="_blank" rel="noopener">App Store ↗</a><a class="pill" href="/pickleball/"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
         <article class="zrow z-r" id="app-orbix-roulette" data-slug="orbix-roulette" data-tags="fun watchos wearos" data-color="#5c4ade" data-icon="/orbix-roulette/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756230899" data-play="https://play.google.com/store/apps/details?id=com.aberk.orbixroulette" data-web="" data-tour="/orbix-roulette/" data-title="Orbix" data-name="Orbix Roulette orbix roulette çark wheel spin karar" style="--c:#5c4ade">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Orbix: show on the shelf"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/orbix-roulette/any/01.webp" alt="" loading="lazy" /></span></span></span></button>
+            <a class="zhit" href="/orbix-roulette/" aria-label="Orbix"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/orbix-roulette/any/01.webp" alt="" loading="lazy" /></span></span></span></a>
             <img class="zicon" src="/orbix-roulette/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">14</span>
           </div>
@@ -578,7 +579,7 @@
         </article>
         <article class="zrow z-l" id="app-volleyball" data-slug="volleyball" data-tags="sport ios watchos" data-color="#ffd731" data-icon="/volleyball/assets/icon.webp" data-ios="https://apps.apple.com/app/id6760615315" data-play="" data-web="" data-tour="/volleyball/" data-title="Volleyball" data-name="Volleyball Score Keeper volleyball voleybol score skor" style="--c:#ffd731">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Volleyball: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/volleyball/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/volleyball/" aria-label="Volleyball"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/volleyball/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/volleyball/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">15</span>
           </div>
@@ -592,7 +593,7 @@
         </article>
         <article class="zrow z-r" id="app-rally-badminton" data-slug="rally-badminton" data-tags="sport ios watchos" data-color="#e9ccff" data-icon="/rally-badminton/assets/icon.webp" data-ios="https://apps.apple.com/app/id6802337158" data-play="" data-web="" data-tour="/rally-badminton/" data-title="Rally: Badminton" data-name="Rally: Badminton Score Keeper rally badminton skor score" style="--c:#e9ccff">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Rally: Badminton: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-badminton/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/rally-badminton/" aria-label="Rally: Badminton"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-badminton/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/rally-badminton/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">16</span>
           </div>
@@ -606,7 +607,7 @@
         </article>
         <article class="zrow z-l" id="app-rally-table-tennis" data-slug="rally-table-tennis" data-tags="sport ios watchos" data-color="#fb4903" data-icon="/rally-table-tennis/assets/icon.webp" data-ios="https://apps.apple.com/app/id6802339775" data-play="" data-web="" data-tour="/rally-table-tennis/" data-title="Rally: Table Tennis" data-name="Rally: Table Tennis Score Keeper rally table tennis masa tenisi ping pong skor" style="--c:#fb4903">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Rally: Table Tennis: show on the shelf"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-table-tennis/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/rally-table-tennis/" aria-label="Rally: Table Tennis"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-table-tennis/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/rally-table-tennis/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">17</span>
           </div>
@@ -620,7 +621,7 @@
         </article>
         <article class="zrow z-r" id="app-bumpline" data-slug="bumpline" data-tags="health soon ios" data-color="#ffb3d9" data-icon="/bumpline/assets/icon.webp" data-ios="" data-play="" data-web="" data-tour="/bumpline/" data-title="Bumpline" data-name="Bumpline Pregnancy Tracker bumpline kırk hafta hamilelik gebelik pregnancy" style="--c:#ffb3d9">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Bumpline: show on the shelf"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/en/01.webp" alt="" loading="lazy" /></span></span></button>
+            <a class="zhit" href="/bumpline/" aria-label="Bumpline"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/bumpline/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">18</span>
           </div>
@@ -634,7 +635,7 @@
         </article>
         <article class="zrow z-l" id="app-store-mockup" data-slug="store-mockup" data-tags="tools web web" data-color="#e9ccff" data-icon="/assets/home/icons/store-mockup.svg" data-ios="" data-play="" data-web="https://berkalparslan.github.io/web/store-mockup/" data-tour="/web/store-mockup/" data-title="Store Mockup" data-name="Store Mockup Studio store mockup studio screenshot ekran görüntüsü web" style="--c:#e9ccff">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Store Mockup: show on the shelf"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/store-mockup/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></button>
+            <a class="zhit" href="/web/store-mockup/" aria-label="Store Mockup"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/store-mockup/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></a>
             <img class="zicon" src="/assets/home/icons/store-mockup.svg" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">19</span>
           </div>
@@ -648,7 +649,7 @@
         </article>
         <article class="zrow z-r" id="app-mihenk" data-slug="mihenk" data-tags="tools web web" data-color="#ffd731" data-icon="/assets/home/icons/mihenk.svg" data-ios="" data-play="" data-web="https://berkalparslan.github.io/lab/mihenk/" data-tour="/lab/mihenk/" data-title="Mihenk" data-name="Mihenk App Estimator mihenk indirme gelir tahmin downloads revenue estimate web" style="--c:#ffd731">
           <div class="zpanel">
-            <button class="zhit" type="button" aria-label="Mihenk: show on the shelf"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/mihenk/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></button>
+            <a class="zhit" href="/lab/mihenk/" aria-label="Mihenk"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/mihenk/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></a>
             <img class="zicon" src="/assets/home/icons/mihenk.svg" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">20</span>
           </div>
@@ -952,7 +953,6 @@
         setTimeout(() => step((phones[slug] || [])[0]), 700);
       }
       rows.forEach(r => {
-        r.querySelector(".zhit").addEventListener("click", () => focusApp(r.dataset.slug));
         r.querySelector(".show").addEventListener("click", () => focusApp(r.dataset.slug));
       });
 
