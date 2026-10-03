@@ -248,7 +248,6 @@
     .fav-app img { width: 38px; height: 38px; border-radius: 10px; border: 1px solid #000; flex: none; }
     .fav-app:hover { transform: rotate(-1.5deg) scale(1.03); }
     .fav-app[aria-pressed="true"] { background: var(--ink); color: var(--paper); transform: rotate(-2deg); }
-    .fav-app[aria-pressed="true"]::after { content: "♥"; margin-left: auto; color: var(--ember); }
     .fav-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     .fav-count { background: var(--paper); border: var(--line); border-radius: 999px; padding: 8px 14px; }
     .seg { display: inline-flex; border: var(--line); border-radius: 999px; overflow: hidden; background: var(--paper); }
@@ -736,7 +735,7 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Favori 3'ün hangisi?</span><span class="en">Pick your top 3</span></h2>
-          <p><span class="tr">En sevdiğin üç uygulamayı seç, e-postanı yaz. Seçtiklerin için %20 indirim kodların mailine gelsin. 🎁</span><span class="en">Pick the three apps you love most and leave your email. Your 20% off codes for them land in your inbox. 🎁</span></p>
+          <p><span class="tr">En sevdiğin üç uygulamayı seç, e-postanı yaz. Seçtiklerin için %20 indirim kodların mailine gelsin.</span><span class="en">Pick the three apps you love most and leave your email. Your 20% off codes for them land in your inbox.</span></p>
         </div>
         <form class="fav-form" id="favForm" novalidate>
           <div class="fav-apps" id="favApps" role="group" aria-label="Apps"></div>
@@ -839,7 +838,7 @@
   <aside class="toast" id="favToast" hidden aria-label="Favori 3">
     <button class="toast-x" type="button" aria-label="Kapat">×</button>
     <div class="toast-icons" id="toastIcons" aria-hidden="true"></div>
-    <p><b><span class="tr">Favori 3'ünü söyle,</span><span class="en">Tell us your top 3,</span></b> <span class="tr">%20 indirimi kap! 🎁</span><span class="en">grab 20% off! 🎁</span></p>
+    <p><b><span class="tr">Favori 3'ünü söyle,</span><span class="en">Tell us your top 3,</span></b> <span class="tr">%20 indirimi kap!</span><span class="en">grab 20% off!</span></p>
     <a class="pill dark" href="#favori" data-umami-event="kose-anket"><span class="tr">Seçmeye başla →</span><span class="en">Start picking →</span></a>
   </aside>
 
@@ -906,8 +905,8 @@
       /* ── Çıkartmalar: her uygulama, metnin etrafında ── */
       const field = $("#stickerField");
       const SLOTS = [
-        [1, 2], [10, 20], [0, 40], [9, 58], [1, 78], [12, 96],
-        [89, 0], [80, 18], [91, 37], [81, 56], [90, 75], [78, 95],
+        [1, 2], [7, 20], [0, 40], [6, 58], [1, 78], [9, 98],
+        [90, 0], [86, 19], [92, 38], [87, 57], [91, 76], [85, 98],
         [22, -34], [72, -36], [27, 104], [42, 110], [57, 108], [68, 102], [36, -42], [56, -40]
       ];
       const MOBILE = [[2, -150], [26, -128], [51, -152], [76, -126], [38, -80]];
@@ -937,7 +936,6 @@
           tip.style.left = `calc(${first.style.left} + ${narrow() ? 30 : 64}px)`;
           tip.style.top = `calc(${first.style.top} - 30px)`;
           setTimeout(() => first.classList.add("wiggle"), 1000);
-          setTimeout(() => tip.classList.add("gone"), 7000);
           field.addEventListener("pointerdown", () => tip.classList.add("gone"), { once: true });
         }
       }

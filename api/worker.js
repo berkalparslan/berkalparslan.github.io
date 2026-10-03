@@ -4,6 +4,7 @@
    - GET  /api/confirm     bülten onayı
    - GET  /api/unsubscribe bültenden çıkış
    - POST /api/poll        "en sevdiğin 3 uygulama" anketi; seçilen uygulamaların %20 kodlarını mailler
+   - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
    Veri D1'de (binding: DB), mail Resend ile (secret: RESEND_KEY). */
 import APPS from "./apps.json";
 
@@ -18,8 +19,9 @@ export default {
     const url = new URL(req.url);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(req);
     try {
-      if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
       const route = url.pathname.replace(/\/+$/, "");
+      if (route === "/api/live") return await live(req, env);
+      if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
       if (route === "/api/subscribe" && req.method === "POST") return await subscribe(req, env);
       if (route === "/api/confirm") return await confirm(url, env);
       if (route === "/api/unsubscribe") return await unsubscribe(url, env);
@@ -162,12 +164,18 @@ const p = (t) => `<p style="margin:0 0 14px;font-size:16px;line-height:1.55">${t
 const btn = (href, t, bg = "#000", fg = "#fff") => `<a href="${href}" style="display:inline-block;background:${bg};color:${fg};text-decoration:none;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;border:2px solid #000">${t}</a>`;
 
 function mailConfirm(lang, token) {
+  /* Bilerek sade: görsel, renkli kutu, düğme yok. Gmail kişisel yazışmaya benzeyen maili
+     "Tanıtımlar" yerine "Birincil"e koyma eğiliminde. */
   const T = lang === "tr", link = `${SITE}/api/confirm?t=${token}`;
-  const inner = h1(T ? "Bir tık kaldı" : "One more tap") +
-    p(T ? "Bam Studio bültenine katılmak için e-postanı onayla. Yeni uygulamalar ve büyük güncellemeler çıktığında, arada bir yazarız. Spam yok." : "Confirm your email to join the Bam Studio newsletter. We write now and then, when a new app or a big update ships. No spam.") +
-    `<p style="margin:22px 0">${btn(link, T ? "Evet, haberdar et" : "Yes, keep me posted")}</p>` +
-    p(`<span style="font-size:13px;opacity:.7">${T ? "Bu isteği sen yapmadıysan bu maili yok sayabilirsin." : "If this wasn't you, just ignore this email."}</span>`);
-  return { subject: T ? "Bam Studio bültenini onayla" : "Confirm the Bam Studio newsletter", html: shell(lang, T ? "Bir tıkla onayla" : "Confirm with one tap", inner, null), text: (T ? "Onaylamak için: " : "Confirm here: ") + link };
+  const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"></head><body style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#111">
+<p>${T ? "Merhaba," : "Hi,"}</p>
+<p>${T ? "Bam Studio bültenine katılmak istediğini görünce sevindim. Onaylamak için şu bağlantıya dokunman yeterli:" : "Glad you want to join the Bam Studio newsletter. To confirm, just tap this link:"}</p>
+<p><a href="${link}">${link}</a></p>
+<p>${T ? "Arada bir, yeni bir uygulama ya da büyük bir güncelleme olduğunda yazarım. İstediğin an tek tıkla çıkabilirsin." : "I write now and then, when a new app or a big update ships. You can leave any time with one click."}</p>
+<p>${T ? "Bu isteği sen yapmadıysan bu maili yok sayabilirsin." : "If this wasn't you, just ignore this email."}</p>
+<p>${T ? "Sevgiyle," : "Cheers,"}<br>Bam Studio<br><a href="${SITE}">bamstudio.dev</a></p>
+</body></html>`;
+  return { subject: T ? "Bültene katılımını onaylar mısın?" : "Can you confirm your subscription?", html, text: (T ? "Onaylamak için: " : "Confirm here: ") + link };
 }
 
 function appCard(a, lang, c) {
@@ -204,4 +212,127 @@ function mailPoll(lang, apps, codes, platform, confirmToken) {
     p(`<span style="font-size:13px;opacity:.75">${T ? "Sevgiyle, Bam Studio" : "With love, Bam Studio"}</span>`);
   const text = (T ? "Seçtiklerin: " : "Your picks: ") + apps.map((s) => (BY[s] ? BY[s].name : s) + (codes[s] ? ` ${codes[s].code}` : "")).join(", ");
   return { subject: T ? (got ? "%20 indirim kodların burada" : "Seçimlerin için teşekkürler") : (got ? "Your 20% off codes are here" : "Thanks for your picks"), html: shell(lang, T ? "En sevdiğin uygulamalar için hediye" : "A little gift for your favourite apps", inner, null), text };
+}
+
+/* ── canlı (lab paneli) ─────────────────────────────────────
+   Uygulamaların Firestore'undaki installs/ belgelerinden son ~3 dakikada sinyal
+   verenler. Kimlik: yalnız roles/datastore.viewer'ı olan servis hesabı
+   (secret GCP_SA_KEY, lab-live-reader@wallet-coach-87336). Koruma: panelin
+   şifreli paketinde duran paylaşılan anahtar (secret LIVE_KEY), x-live-key
+   başlığıyla gelir. Kişisel alan (e-posta, ad) okunmaz, döndürülmez. */
+const LIVE_ORIGINS = ["https://bamstudio.dev", "https://www.bamstudio.dev", "https://berkalparslan.github.io"];
+const LIVE_APPS = [
+  { slug: "walletcoach", ad: "Wallet Coach", proje: "wallet-coach-87336", tur: "installs", panel: "/lab/wallet-coach/" },
+  { slug: "daily-whisper", ad: "Daily Whisper", proje: "kit-app-a91b5", tur: "installs", panel: "/lab/daily-whisper/" },
+  /* O mu Bu mu?: kalp atışı yok, users.lastSeenAt yalnız açılışta yazılır → "son açanlar". */
+  { slug: "o-mu-bu-mu", ad: "O mu Bu mu?", proje: "thisone-ba533", tur: "users", panel: "/lab/omubumu/" },
+];
+const INSTALL_ALAN = ["platform", "appVersion", "build", "language", "region", "pro", "premium", "plan", "tester", "screen", "lastScreen", "firstSeen", "lastSeen", "onboarded", "sessions", "ev.session_sec", "ev.session"];
+const USER_ALAN = ["platform", "appVersion", "lastSeenAt", "createdAt", "isAnonymous", "language", "locale", "country", "region"];
+let gTok = null, gTokBitis = 0, liveCache = null, liveCacheT = 0;
+
+function liveCors(req) {
+  const o = req.headers.get("origin") || "";
+  return { "access-control-allow-origin": LIVE_ORIGINS.includes(o) ? o : LIVE_ORIGINS[0], "access-control-allow-methods": "GET, OPTIONS",
+    "access-control-allow-headers": "x-live-key", "access-control-max-age": "600", vary: "origin" };
+}
+function esit(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
+  let d = 0; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i); return d === 0;
+}
+const b64u = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const b64uStr = (s) => b64u(new TextEncoder().encode(s));
+
+async function googleToken(env) {
+  if (gTok && Date.now() < gTokBitis - 60_000) return gTok;
+  const sa = JSON.parse(env.GCP_SA_KEY);
+  const simdi = Math.floor(Date.now() / 1000);
+  const govde = `${b64uStr(JSON.stringify({ alg: "RS256", typ: "JWT", kid: sa.private_key_id }))}.${b64uStr(JSON.stringify({
+    iss: sa.client_email, scope: "https://www.googleapis.com/auth/datastore", aud: "https://oauth2.googleapis.com/token", iat: simdi, exp: simdi + 3600 }))}`;
+  const pem = sa.private_key.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "");
+  const anahtar = await crypto.subtle.importKey("pkcs8", Uint8Array.from(atob(pem), (c) => c.charCodeAt(0)), { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
+  const imza = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", anahtar, new TextEncoder().encode(govde));
+  const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion: `${govde}.${b64u(imza)}` }) });
+  const j = await r.json();
+  if (!r.ok) throw new Error("google token " + r.status + " " + (j.error || ""));
+  gTok = j.access_token; gTokBitis = Date.now() + (j.expires_in || 3600) * 1000;
+  return gTok;
+}
+
+const fsDeger = (f) => {
+  if (!f) return null;
+  if ("mapValue" in f) return Object.fromEntries(Object.entries(f.mapValue.fields || {}).map(([k, v]) => [k, fsDeger(v)]));
+  if ("integerValue" in f) return Number(f.integerValue);
+  if ("doubleValue" in f) return f.doubleValue;
+  return f.stringValue ?? f.timestampValue ?? f.booleanValue ?? null;
+};
+async function fsSorgu(tok, proje, parent, sorgu) {
+  const r = await fetch(`https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents${parent}:runQuery`, {
+    method: "POST", headers: { authorization: `Bearer ${tok}`, "content-type": "application/json" }, body: JSON.stringify({ structuredQuery: sorgu }) });
+  const j = await r.json();
+  if (!r.ok) throw new Error(`${r.status} ${(j.error?.message || j[0]?.error?.message || "").slice(0, 120)}`);
+  return j.filter((x) => x.document).map((x) => ({ id: x.document.name.split("/").pop(), ...Object.fromEntries(Object.entries(x.document.fields || {}).map(([k, v]) => [k, fsDeger(v)])) }));
+}
+async function fsSay(tok, proje, tur, alan, sinceIso) {
+  const r = await fetch(`https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents:runAggregationQuery`, {
+    method: "POST", headers: { authorization: `Bearer ${tok}`, "content-type": "application/json" },
+    body: JSON.stringify({ structuredAggregationQuery: { structuredQuery: { from: [{ collectionId: tur }], where: { fieldFilter: { field: { fieldPath: alan }, op: "GREATER_THAN_OR_EQUAL", value: { timestampValue: sinceIso } } } }, aggregations: [{ alias: "n", count: {} }] } }) });
+  const j = await r.json();
+  if (!r.ok) return null;
+  return Number(j[0]?.result?.aggregateFields?.n?.integerValue ?? 0);
+}
+const iso = (ms) => new Date(ms).toISOString();
+
+/* Oturumun başı: zaman çizelgesinde son "session" olayından (önceki oturumun
+   kapanışı) sonraki ilk olay. Olay yoksa bilinmiyor. */
+async function oturumBasi(tok, a, id) {
+  try {
+    const l = await fsSorgu(tok, a.proje, `/installs/${encodeURIComponent(id)}`, { from: [{ collectionId: "events" }], select: { fields: [{ fieldPath: "t" }, { fieldPath: "e" }] }, orderBy: [{ field: { fieldPath: "t" }, direction: "DESCENDING" }], limit: 60 });
+    let bas = null;
+    for (const e of l) { if (e.e === "session") break; bas = e.t; }
+    return bas;
+  } catch { return null; }
+}
+
+async function uygulamaCanli(tok, a, simdi) {
+  const ESIK = 3 * 60_000;
+  if (a.tur === "users") {
+    const l = await fsSorgu(tok, a.proje, "", { from: [{ collectionId: "users" }], select: { fields: USER_ALAN.map((f) => ({ fieldPath: f })) },
+      where: { fieldFilter: { field: { fieldPath: "lastSeenAt" }, op: "GREATER_THAN_OR_EQUAL", value: { timestampValue: iso(simdi - 10 * 60_000) } } },
+      orderBy: [{ field: { fieldPath: "lastSeenAt" }, direction: "DESCENDING" }], limit: 100 });
+    const [s15, s60, s24] = await Promise.all([15, 60, 1440].map((m) => fsSay(tok, a.proje, "users", "lastSeenAt", iso(simdi - m * 60_000))));
+    return { slug: a.slug, ad: a.ad, panel: a.panel, tur: "acilis", son15: s15, son60: s60, son24: s24,
+      liste: l.map((u) => ({ id: u.id.slice(0, 8), ekran: null, ulke: u.country || u.region || null, dil: u.language || u.locale || null, platform: u.platform || null,
+        surum: u.appVersion || null, pro: false, test: false, sonSinyal: u.lastSeenAt, oturumBasi: u.lastSeenAt, toplamSn: null, ilk: u.createdAt || null, canli: simdi - Date.parse(u.lastSeenAt) < ESIK })) };
+  }
+  const l = await fsSorgu(tok, a.proje, "", { from: [{ collectionId: "installs" }], select: { fields: INSTALL_ALAN.map((f) => ({ fieldPath: f })) },
+    where: { fieldFilter: { field: { fieldPath: "lastSeen" }, op: "GREATER_THAN_OR_EQUAL", value: { timestampValue: iso(simdi - ESIK) } } },
+    orderBy: [{ field: { fieldPath: "lastSeen" }, direction: "DESCENDING" }], limit: 150 });
+  const on = l.filter((i) => i.screen && i.screen !== "closed");
+  const [s15, s60, s24] = await Promise.all([15, 60, 1440].map((m) => fsSay(tok, a.proje, "installs", "lastSeen", iso(simdi - m * 60_000))));
+  const baslar = await Promise.all(on.slice(0, 25).map((i) => oturumBasi(tok, a, i.id)));
+  return { slug: a.slug, ad: a.ad, panel: a.panel, tur: "kalp", son15: s15, son60: s60, son24: s24,
+    yeniKapanan: l.filter((i) => i.screen === "closed").length,
+    liste: on.map((i, k) => ({ id: i.id.slice(0, 8), ekran: i.screen, oncekiEkran: i.lastScreen || null, ulke: /^[A-Z]{2}$/.test(i.region || "") ? i.region : null, dil: i.language || null,
+      platform: i.platform || null, surum: i.appVersion ? `${i.appVersion}${i.build ? ` (${i.build})` : ""}` : null, pro: !!(i.pro || i.premium), plan: i.plan || null,
+      test: !!i.tester, onboarded: i.onboarded ?? null, sonSinyal: i.lastSeen, oturumBasi: baslar[k] || null, ilk: i.firstSeen || null,
+      toplamSn: i.ev?.session_sec ?? null, oturumSay: i.ev?.session ?? i.sessions ?? null, canli: true })) };
+}
+
+async function live(req, env) {
+  const cors = liveCors(req);
+  const yanit = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...cors } });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+  if (req.method !== "GET") return yanit({ ok: false, error: "method" }, 405);
+  if (!env.LIVE_KEY || !env.GCP_SA_KEY) return yanit({ ok: false, error: "not_configured" }, 503);
+  if (!esit(req.headers.get("x-live-key") || "", env.LIVE_KEY)) return yanit({ ok: false, error: "unauthorized" }, 401);
+  /* Aynı isolate'te 10 sn önbellek: panel birden çok sekmede açıksa Firestore'u dövmesin. */
+  if (liveCache && Date.now() - liveCacheT < 10_000) return yanit(liveCache);
+  const simdi = Date.now();
+  const tok = await googleToken(env);
+  const apps = await Promise.all(LIVE_APPS.map((a) => uygulamaCanli(tok, a, simdi).catch((e) => ({ slug: a.slug, ad: a.ad, panel: a.panel, hata: String(e.message || e).slice(0, 160), liste: [] }))));
+  liveCache = { ok: true, zaman: iso(simdi), esikDk: 3, toplam: apps.reduce((t, a) => t + a.liste.filter((x) => x.canli).length, 0), apps };
+  liveCacheT = Date.now();
+  return yanit(liveCache);
 }
