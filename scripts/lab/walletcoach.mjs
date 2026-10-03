@@ -5,7 +5,7 @@
  * Uygulamanın sunucusu yok, kullanıcı verisi telefonda; panelin gördüğü tek
  * şey Analytics olayları. Tutar, ad, metin hiçbir olayda yok (Telemetry.swift).
  * Kimlik ve parola panel ile aynı: gplay servis hesabı (GA4 Viewer) ve
- * Keychain'deki bamtech-lab-panel. Çıktı: lab/wallet-coach/data.enc.json
+ * Firebase CLI oturumu. Çıktı: Firestore panel/ga4 (yalnız panelin yöneticisi okur)
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
