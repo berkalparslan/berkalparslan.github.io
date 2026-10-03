@@ -1,462 +1,1316 @@
 <!doctype html>
 <html lang="tr">
-
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/wallet-coach-64.png">
-  <link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/wallet-coach-180.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Wallet Coach · Lab</title>
-  <meta name="robots" content="noindex, nofollow, noarchive" />
-  <meta name="referrer" content="no-referrer" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <script>
-    (function () {
-      var t = null;
-      try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
-      if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", t);
-    })();
-  </script>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f3f4f7; --surface: #fff; --surface-2: #f7f7fa; --text: #14141a; --subtle: #5f6270;
-      --faint: #9a9daa; --border: #e2e3ea; --accent: #0f9f6e; --accent-soft: rgba(15, 159, 110, .12);
-      --sky: #0a6fe0; --violet: #6d4fe0; --amber: #c77d00; --rose: #d6455d;
-      --shadow: 0 1px 2px rgba(20, 20, 40, .05), 0 6px 20px rgba(20, 20, 40, .05);
-      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-    }
-    :root[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #0a0a0d; --surface: #141419; --surface-2: #1a1a21; --text: #f2f2f6; --subtle: #a0a2ae;
-      --faint: #6a6c78; --border: #24242c; --accent: #34d399; --accent-soft: rgba(52, 211, 153, .14);
-      --sky: #5aa8ff; --violet: #a28cff; --amber: #f5b53c; --rose: #ff6f88;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    [hidden] { display: none !important; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
-    a { color: var(--accent); text-decoration: none; }
-    button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
-
-    .gate { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
-    .gate form { width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 18px; padding: 26px; box-shadow: var(--shadow); display: grid; gap: 12px; }
-    .gate h1 { font-size: 20px; }
-    .gate p { color: var(--subtle); font-size: 14px; }
-    .gate input { padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); font: inherit; color: var(--text); }
-    .gate button { padding: 12px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 600; }
-    .gate .hata { color: var(--rose); font-size: 13px; min-height: 18px; }
-
-    header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent);
-      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    .ust { max-width: 1180px; margin: 0 auto; padding: 12px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .ust h1 { font-size: 17px; display: flex; gap: 8px; align-items: center; }
-    .ust h1 img { width: 26px; height: 26px; border-radius: 7px; }
-    .ust .bos { flex: 1; }
-    .secim { display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
-    .secim button { padding: 5px 11px; border-radius: 7px; font-size: 13px; color: var(--subtle); }
-    .secim button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-    nav.sekme { max-width: 1180px; margin: 0 auto; padding: 0 16px 10px; display: flex; gap: 6px; overflow-x: auto; }
-    nav.sekme button { padding: 7px 13px; border-radius: 999px; font-size: 14px; color: var(--subtle); white-space: nowrap; }
-    nav.sekme button.on { background: var(--text); color: var(--bg); }
-
-    main { max-width: 1180px; margin: 0 auto; padding: 18px 16px 60px; display: grid; gap: 16px; }
-    .izgara { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-    .kart { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); min-width: 0; }
-    .kart h2 { font-size: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
-    .kart h2 small { color: var(--faint); font-weight: 400; font-size: 12px; }
-    .kpi .ad { color: var(--subtle); font-size: 13px; }
-    .kpi .deger { font-size: 28px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-    .kpi .alt { color: var(--faint); font-size: 12px; }
-    .iki { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { text-align: left; color: var(--faint); font-weight: 500; font-size: 12px; padding: 6px 4px; border-bottom: 1px solid var(--border); }
-    td { padding: 7px 4px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
-    td.sayi, th.sayi { text-align: right; }
-    tr:last-child td { border-bottom: 0; }
-    .cubuk { height: 6px; background: var(--accent-soft); border-radius: 3px; overflow: hidden; margin-top: 4px; }
-    .cubuk i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
-    .grup { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding-top: 14px !important; }
-    svg { display: block; width: 100%; height: auto; }
-    .not { color: var(--subtle); font-size: 13px; }
-    .not b { color: var(--text); }
-    .etiket { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--surface-2); color: var(--subtle); }
-    .etiket.yesil { background: var(--accent-soft); color: var(--accent); }
-    .etiket.sari { background: color-mix(in srgb, var(--amber) 14%, transparent); color: var(--amber); }
-    .lejant { display: flex; gap: 14px; font-size: 12px; color: var(--subtle); margin-top: 6px; flex-wrap: wrap; }
-    .lejant span::before { content: ""; display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; background: var(--c); }
-    input.fiyat { width: 90px; padding: 4px 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font: inherit; }
-    footer { color: var(--faint); font-size: 12px; text-align: center; padding: 20px; }
-  </style>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/wallet-coach-64.png">
+<link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/wallet-coach-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Wallet Coach Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<style>
+:root{color-scheme:light;--bg:#f3f5f4;--card:#fff;--ink:#14181a;--soft:#5f6670;--line:#e1e5e8;--accent:#0f9f6e;--on-accent:#fff;--rose:#d6455d;--ok:#0f9f6e;--warn:#c77d00;--sky:#0a6fe0;--side:#e9f1ed}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0b0d0e;--card:#15181a;--ink:#f1f4f3;--soft:#a0a8ae;--line:#262b2e;--accent:#34d399;--on-accent:#06281c;--rose:#ff6f88;--ok:#34d399;--warn:#f5b53c;--sky:#5aa8ff;--side:#111517}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0b0d0e;--card:#15181a;--ink:#f1f4f3;--soft:#a0a8ae;--line:#262b2e;--accent:#34d399;--on-accent:#06281c;--rose:#ff6f88;--ok:#34d399;--warn:#f5b53c;--sky:#5aa8ff;--side:#111517}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:26px 0 10px}
+.muted{color:var(--soft);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;min-width:0}
+.card h2:first-child{margin-top:0}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+select option{background:var(--card);color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+input[type=checkbox]{width:auto}
+button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
+button:disabled{opacity:.5;cursor:default}
+button.ghost{background:transparent;color:var(--soft);border:1px solid var(--line);padding:6px 12px;font-size:12px}
+button.danger{background:transparent;color:var(--rose);border:1px solid var(--rose);padding:6px 12px;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.row{grid-template-columns:1fr}}
+.lang{font-size:11px;font-weight:700;color:var(--soft);margin:0 0 3px}
+.hidden{display:none!important}
+#login{max-width:380px;margin:12vh auto;padding:22px}@media(max-width:420px){#login{margin:10vh 16px}}
+#login h1{display:flex;gap:10px;align-items:center}#login h1 img{width:32px;height:32px;border-radius:8px}
+.layout{display:flex;min-height:100vh}
+aside{width:220px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
+aside .brand{font-weight:800;font-size:17px;margin:0 8px 18px;display:flex;gap:8px;align-items:center}
+aside .brand img{width:26px;height:26px;border-radius:7px}
+aside a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+aside a.on{background:var(--accent);color:var(--on-accent)}
+aside .spacer{flex:1}
+aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--soft);margin:14px 12px 4px}
+main{flex:1;min-width:0;padding:26px 24px 120px;max-width:1180px}
+.topbar{position:sticky;top:0;z-index:3;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:-26px -24px 14px;padding:12px 24px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar select{width:auto}
+.topbar .muted{margin-right:auto}
+@media(max-width:760px){
+  .layout{flex-direction:column}
+  aside{width:auto;height:auto;position:sticky;top:0;z-index:4;flex-direction:row;overflow-x:auto;padding:8px 10px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
+  aside .brand{margin:0 10px 0 4px;font-size:15px;white-space:nowrap}
+  aside .navlabel,aside .spacer{display:none}
+  aside a{padding:8px 10px;font-size:13px}
+  main{padding:14px 16px 120px}
+  .topbar{position:static;margin:-14px -16px 12px;padding:10px 16px;flex-wrap:nowrap;gap:8px}
+  .topbar .muted{font-size:11px;min-width:0}
+  .topbar button{padding:8px 14px}
+  h1{font-size:21px}
+}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.kpi b{display:block;font-size:26px;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--soft);font-size:12px;font-weight:600}
+.kpi small{color:var(--soft);font-size:11px}
+.kpi.warn b{color:var(--warn)}.kpi.bad b{color:var(--rose)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid2>*{min-width:0}@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.cbox{position:relative;height:260px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+th{color:var(--soft);font-weight:700;font-size:12px;position:sticky;top:0;background:var(--card)}
+th.sort{cursor:pointer;user-select:none}th.sort:hover{color:var(--ink)}
+td.n,th.n{text-align:right}
+td.wrap{white-space:normal;min-width:200px}
+tr.click:hover{background:color-mix(in srgb,var(--accent) 10%,transparent);cursor:pointer}
+tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding-top:16px}
+.tablewrap{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.card .tablewrap{border:0;max-height:none;border-radius:0}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.pill.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.pill.no{background:color-mix(in srgb,var(--soft) 15%,transparent);color:var(--soft)}
+.pill.pro{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.pill.bad{background:color-mix(in srgb,var(--rose) 16%,transparent);color:var(--rose)}
+.pill.sky{background:color-mix(in srgb,var(--sky) 16%,transparent);color:var(--sky)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--card);border-left:1px solid var(--line);padding:22px;overflow:auto;box-shadow:-20px 0 40px rgba(0,0,0,.25);z-index:6}
+.dl{display:grid;grid-template-columns:150px 1fr;gap:6px 10px;font-size:13px}.dl>div:nth-child(odd){color:var(--soft)}.dl>div{min-width:0;overflow-wrap:anywhere}
+@media(max-width:420px){.dl{grid-template-columns:110px 1fr}.drawer{padding:16px}}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.toolbar input,.toolbar select{width:auto;min-width:180px;flex:1 1 180px;max-width:320px}
+.rates{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.rates label{font-size:12px;color:var(--soft)}
+.bars{display:flex;flex-direction:column;gap:7px}
+.brow{display:grid;grid-template-columns:minmax(100px,200px) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.brow>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .track{height:12px;border-radius:999px;background:color-mix(in srgb,var(--soft) 14%,transparent);overflow:hidden}
+.brow .fill{height:100%;border-radius:999px;background:var(--accent)}
+.brow small{color:var(--soft);white-space:nowrap}
+@media(max-width:480px){.brow{grid-template-columns:minmax(80px,120px) 1fr auto;gap:6px}}
+.note{background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:12px;padding:10px 12px;font-size:13px;margin:8px 0}
+.note.err{background:color-mix(in srgb,var(--rose) 10%,transparent);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
+.note.okn{background:color-mix(in srgb,var(--ok) 10%,transparent);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+.tl{font-size:13px;border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl div{padding:3px 0}.tl time{color:var(--soft);font-size:11px;margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .day{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.05em;margin-top:8px}
+.tl .buy{color:var(--warn);font-weight:700}.tl .pw{color:var(--sky)}
+.checks{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0}.checks label{display:flex;gap:8px;align-items:center;font-size:14px}
+.bad-input{border-color:var(--rose)!important}
+.notif{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--soft) 10%,var(--card));border:1px solid var(--line);border-radius:18px;padding:12px 14px;max-width:380px;margin:8px 0}
+.notif img{width:34px;height:34px;border-radius:8px;flex:none;background:var(--accent)}
+.notif .app{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em}
+.notif b{display:block;font-size:14px}.notif p{margin:2px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.demo{background:var(--warn);color:#1b1300;text-align:center;font-size:12px;font-weight:700;padding:5px}
+pre.res{white-space:pre-wrap;font:12px ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(--soft) 8%,transparent);padding:10px;border-radius:10px;overflow:auto}
+.links a{display:block;padding:6px 0}
+code{font:12px ui-monospace,Menlo,monospace}
+</style>
 </head>
-
 <body>
-  <div class="gate" id="gate">
-    <form id="giris">
-      <h1>Wallet Coach</h1>
-      <p>Kullanıcılar, kullanım, ekranlar ve yapay zekâ harcaması. Veri Firebase Analytics'ten, dosya şifreli.</p>
-      <input type="password" id="pw" placeholder="parola" autocomplete="current-password" autofocus />
-      <button type="submit">Aç</button>
-      <div class="hata" id="hata"></div>
-      <div class="not"><a href="/lab/">← Lab</a></div>
-    </form>
-  </div>
+<div id="demoBar" class="demo hidden">DEMO: sahte veri, Firestore'a bağlanmıyor</div>
 
-  <div id="uygulama" hidden>
-    <header>
-      <div class="ust">
-        <h1><img src="/assets/home/walletcoach-icon.webp" alt="" onerror="this.remove()">Wallet Coach</h1>
-        <span class="bos"></span>
-        <div class="secim" id="aralik"></div>
-        <div class="secim" id="platform"></div>
-        <button id="tema" class="etiket">tema</button>
+<section id="login" class="card hidden">
+  <h1><img src="/assets/lab-icons/wallet-coach-180.png" alt="" onerror="this.remove()">Wallet Coach</h1>
+  <p class="muted">Yönetim paneli. Şifre yok: e-postana giriş bağlantısı gelir, ona dokununca bu sayfa açılır ve girmiş olursun.</p>
+  <div id="loginForm">
+    <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
+    <p><button id="sendLink">Giriş bağlantısı gönder</button></p>
+  </div>
+  <div id="loginMsg" class="muted"></div>
+  <p id="loginOut" class="hidden"><button class="ghost" id="signoutLogin">Çıkış yap</button></p>
+  <p class="muted" style="margin-top:16px"><a href="/lab/">Lab'e dön</a></p>
+</section>
+
+<div class="layout hidden" id="app">
+  <aside>
+    <div class="brand"><img src="/assets/lab-icons/wallet-coach-180.png" alt="" onerror="this.remove()">Wallet Coach</div>
+    <div class="navlabel">ANALİZ</div>
+    <a data-page="overview" class="on">Genel bakış</a>
+    <a data-page="live">Canlı</a>
+    <a data-page="screens">Ekranlar</a>
+    <a data-page="revenue">Paywall ve satın alma</a>
+    <a data-page="engage">Kullanım</a>
+    <a data-page="users">Kullanıcılar</a>
+    <a data-page="ai">Yapay zeka</a>
+    <a data-page="ga4">Analytics</a>
+    <div class="navlabel">YÖNET</div>
+    <a data-page="push">Bildirim gönder</a>
+    <a data-page="sent">Gönderilenler</a>
+    <a data-page="settings">Ayarlar</a>
+    <div class="spacer"></div>
+    <a id="themeBtn">Tema</a>
+    <a id="refresh">Yenile</a>
+    <a id="signout">Çıkış</a>
+  </aside>
+  <main>
+    <div class="topbar"><span class="muted" id="topMeta"></span><select id="range"><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option></select><button id="refreshTop">Yenile</button></div>
+    <div id="loadErr" class="note err hidden"></div>
+
+    <!-- Overview -->
+    <section data-view="overview">
+      <h1>Genel bakış</h1>
+      <p class="muted" id="ovMeta"></p>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük aktiflik</h2><div class="cbox"><canvas id="chActive"></canvas></div></div>
+        <div class="card"><h2>Dönüşüm hunisi</h2><p class="muted" style="margin-top:-6px">Seçili dönemde kurulanlar.</p><div class="cbox"><canvas id="chFunnel"></canvas></div></div>
+        <div class="card"><h2>Sürüm ve platform</h2><div class="cbox"><canvas id="chVer"></canvas></div></div>
+        <div class="card"><h2>Diller</h2><div class="cbox"><canvas id="chLang"></canvas></div></div>
+        <div class="card"><h2>Geri dönüş (kurulum gününe göre)</h2><div class="cbox"><canvas id="chRet"></canvas></div></div>
+        <div class="card"><h2>Para birimi</h2><div class="bars" id="ovCur"></div></div>
       </div>
-      <nav class="sekme" id="sekmeler"></nav>
-    </header>
-    <main id="ana"></main>
-    <footer id="alt"></footer>
-  </div>
+    </section>
 
-  <script>
-    const OTURUM = "bamtech-wc-panel";
-    const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-    async function coz(paket, parola) {
-      const temel = await crypto.subtle.importKey("raw", new TextEncoder().encode(parola), "PBKDF2", false, ["deriveKey"]);
-      const k = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(paket.kdf.salt), iterations: paket.kdf.tur, hash: "SHA-256" },
-        temel, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
-      const acik = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(paket.iv) }, k, b64(paket.ct));
-      return JSON.parse(new TextDecoder().decode(acik));
+    <!-- Live -->
+    <section data-view="live" class="hidden">
+      <h1>Canlı</h1>
+      <p class="muted">Şu an uygulamayı açık tutanlar ve hangi ekranda oldukları. Uygulama açıkken dakikada bir sinyal gönderir; son 2 dakikada sinyal veren ve uygulamayı kapatmamış olan online sayılır. Sayfa açıkken 30 saniyede bir kendini yeniler.</p>
+      <div class="kpis" id="liveKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Online olanlar nerede?</h2><div class="bars" id="liveScreens"></div></div>
+        <div class="card"><h2>Son kapatılan ekran (son 24 saat)</h2><p class="muted" style="margin-top:-6px">Uygulamayı en son nerede bırakıp çıktılar.</p><div class="bars" id="liveLeft"></div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th></th><th>Kurulum</th><th>Ekran</th><th>Durum</th><th>Platform</th><th>Dil</th><th>Son sinyal</th><th class="n">Uygulamada toplam</th></tr></thead><tbody id="liveRows"></tbody></table></div>
+    </section>
+
+    <!-- Screens -->
+    <section data-view="screens" class="hidden">
+      <h1>Ekranlar</h1>
+      <p class="muted">Hangi ekranda ne kadar vakit geçiyor. Süre, uygulamanın kendi ölçtüğü saniyeler (ekran açık ve uygulama önde iken). Dönem sütunları günlük kayıtlardan, kişi sütunları kurulumların toplamından.</p>
+      <div class="kpis" id="scKpis"></div>
+      <div class="card"><h2>Ekran başına süre</h2><div class="tablewrap"><table><thead><tr><th>Ekran</th><th class="n">Süre (dönem)</th><th class="n">Açılış (dönem)</th><th class="n">Açılış başı</th><th class="n">Kişi (hepsi)</th><th class="n">Kişi başı (hepsi)</th></tr></thead><tbody id="scRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2>Süre dağılımı (dönem)</h2><div class="cbox"><canvas id="chScreens"></canvas></div></div>
+        <div class="card"><h2>Analytics'e göre ekranlar</h2><p class="muted" style="margin-top:-6px" id="scGaMeta"></p><div class="tablewrap"><table><thead><tr><th>Ekran</th><th class="n">Süre</th><th class="n">Görüntüleme</th><th class="n">Kişi</th><th class="n">Kişi başı</th></tr></thead><tbody id="scGaRows"></tbody></table></div></div>
+      </div>
+    </section>
+
+    <!-- Revenue -->
+    <section data-view="revenue" class="hidden">
+      <h1>Paywall ve satın alma</h1>
+      <p class="muted">Paywall hangi ekrandan açıldı, ne kadar açık kaldı, kapatıldı mı alındı mı.</p>
+      <div class="kpis" id="revKpis"></div>
+      <div class="card"><h2>Kaynağa göre (dönem)</h2><div class="tablewrap"><table><thead><tr><th>Nereden açıldı</th><th class="n">Gösterim</th><th class="n">Kapatan</th><th class="n">Kapatana kadar</th><th class="n">Alıp kapatan</th><th class="n">Alana kadar</th><th class="n">Satın alma</th><th class="n">Dönüşüm</th><th class="n">Şu an Pro</th></tr></thead><tbody id="revRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük gösterim ve satın alma</h2><div class="cbox"><canvas id="chRev"></canvas></div></div>
+        <div class="card"><h2>Plan ve açık kalma süresi</h2><div class="bars" id="revPlans"></div><h2>Kapatana kadar geçen süre</h2><div class="bars" id="revDur"></div></div>
+      </div>
+      <div class="card"><h2>Son paywall yolculukları</h2><p class="muted" style="margin-top:-6px" id="pwMeta">Paywall gören en son kurulumların zaman çizelgesinden.</p>
+        <div class="tablewrap"><table><thead><tr><th>Ne zaman</th><th>Kurulum</th><th>Nereden</th><th class="n">Açık kaldı</th><th>Sonuç</th><th>Platform</th><th>Dil</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>
+    </section>
+
+    <!-- Engagement -->
+    <section data-view="engage" class="hidden">
+      <h1>Kullanım</h1>
+      <p class="muted">Ne yapıyorlar. Kez: seçili dönemde olay sayısı. Kişi: bu olayı en az bir kez yapmış kurulum (tüm zamanlar).</p>
+      <div class="kpis" id="engKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Kişi başı toplam süre</h2><p class="muted" style="margin-top:-6px">Seçili dönemde kurulanlar uygulamada toplam ne kadar durdu.</p><div class="cbox"><canvas id="chTime"></canvas></div></div>
+        <div class="card"><h2>Neyi tutuyorlar</h2><p class="muted" style="margin-top:-6px">Kurulumların şu anki kayıt sayıları (yalnız adet, içerik yok).</p><div class="tablewrap"><table><thead><tr><th>Kayıt</th><th class="n">Olan kişi</th><th class="n">Ortalama</th><th class="n">En çok</th><th class="n">Toplam</th></tr></thead><tbody id="engCounts"></tbody></table></div></div>
+      </div>
+      <div class="card"><h2>Olaylar</h2><div class="tablewrap"><table><thead><tr><th>Olay</th><th class="n">Kez</th><th class="n">Kişi</th><th class="n">iOS kişi</th><th class="n">Android kişi</th></tr></thead><tbody id="engRows"></tbody></table></div></div>
+    </section>
+
+    <!-- Users -->
+    <section data-view="users" class="hidden">
+      <h1>Kullanıcılar</h1>
+      <p class="muted">Her satır bir kurulum. Hesap yok, kimlik anonim. Sütun başlığına dokununca sıralanır, satıra dokununca ayrıntı ve zaman çizelgesi açılır.</p>
+      <div class="toolbar">
+        <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz">
+        <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="pro">Pro</option><option value="free">Pro olmayan</option><option value="ios">iOS</option><option value="android">Android</option><option value="notonb">Tanıtım yarım</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="new">Dönemde kurulan</option></select>
+        <span class="muted" id="uCount"></span>
+      </div>
+      <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
+    </section>
+
+    <!-- AI -->
+    <section data-view="ai" class="hidden">
+      <h1>Yapay zeka</h1>
+      <p class="muted">Fiş, ekstre ve etiket okumaları (Gemini). Uygulamanın saydığı istekler ve tokenlar, Google'ın kendi sayacı ve Analytics. Maliyet aşağıdaki fiyatlarla yapılan tahmindir; gerçek fatura Google Cloud'da.</p>
+      <div id="aiWarn"></div>
+      <div class="kpis" id="aiKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük istek</h2><div class="cbox"><canvas id="chAiReq"></canvas></div></div>
+        <div class="card"><h2>Günlük token</h2><div class="cbox"><canvas id="chAiTok"></canvas></div></div>
+        <div class="card"><h2>En çok kullananlar (tüm zamanlar)</h2><div class="tablewrap"><table><thead><tr><th>Kurulum</th><th class="n">İstek</th><th class="n">Token girdi</th><th class="n">Token çıktı</th><th class="n">Tavana takıldı</th><th class="n">Hata</th><th class="n">Tahmini $</th></tr></thead><tbody id="aiTop"></tbody></table></div></div>
+        <div class="card"><h2>Hatalar (dönem)</h2><p class="muted" style="margin-top:-6px">Özellik ve kod. Tavan: günlük kişi başı sınır doldu.</p><div class="bars" id="aiErrors"></div></div>
+      </div>
+      <div class="card" id="aiGoogle"></div>
+      <div class="card"><h2>Analytics'e göre özellikler</h2><p class="muted" style="margin-top:-6px" id="aiGaMeta"></p><div class="tablewrap"><table><thead><tr><th>Özellik</th><th class="n">İstek</th><th class="n">Token</th><th class="n">İstek başı</th></tr></thead><tbody id="aiGaRows"></tbody></table></div></div>
+      <div class="card">
+        <h2>Fiyatlar (USD, 1 milyon token)</h2>
+        <div class="rates">
+          <div><label>Girdi</label><input id="rIn" type="number" step="0.01" min="0"></div>
+          <div><label>Çıktı</label><input id="rOut" type="number" step="0.01" min="0"></div>
+        </div>
+        <p class="muted">Gemini Flash Lite: girdi 0,10, çıktı 0,40. Bu tarayıcıda saklanır.</p>
+      </div>
+    </section>
+
+    <!-- GA4 -->
+    <section data-view="ga4" class="hidden">
+      <h1>Analytics</h1>
+      <p class="muted" id="gaMeta"></p>
+      <div class="toolbar"><select id="gaPlat"><option value="hepsi">Hepsi</option><option value="ios">iOS</option><option value="android">Android</option></select><span class="muted">Platform filtresi günlük seriler, olaylar ve sürümlere uygulanır.</span></div>
+      <div id="gaBody"></div>
+    </section>
+
+    <!-- Push -->
+    <section data-view="push" class="hidden">
+      <h1>Bildirim gönder</h1>
+      <p class="muted">Her dil kendi konusuna gider (<code>wc_lang_xx</code>): kişi uygulamayı hangi dilde kullanıyorsa o dildeki metni alır; metin yazmadığın dile hiçbir şey gitmez. Uzun tire kullanma.</p>
+      <div id="pushSetup" class="note hidden"></div>
+      <div class="card">
+        <div class="row">
+          <div><p class="lang">TÜRKÇE</p><input id="pt_tr" placeholder="Başlık" maxlength="80"><textarea id="pb_tr" placeholder="Metin" maxlength="300" style="margin-top:6px"></textarea></div>
+          <div><p class="lang">ENGLISH</p><input id="pt_en" placeholder="Title" maxlength="80"><textarea id="pb_en" placeholder="Text" maxlength="300" style="margin-top:6px"></textarea></div>
+        </div>
+        <details style="margin-top:10px"><summary class="muted" style="cursor:pointer">Diğer diller (boş bırakırsan o dile gitmez)</summary>
+          <div class="row" style="margin-top:10px" id="pOther"></div>
+        </details>
+        <h2>Ayarlar</h2>
+        <div class="rates">
+          <div><label>Açınca gideceği sekme</label><select id="pTab"><option value="">Varsayılan</option><option value="panel">Panel</option><option value="month">Ay</option><option value="analysis">Analiz</option><option value="wallet">Cüzdan</option></select></div>
+        </div>
+        <div class="checks">
+          <label><input type="checkbox" id="pTL"> Yalnız TL bütçeler (wc_try)</label>
+          <label><input type="checkbox" id="pTest" checked> Yalnız test cihazları</label>
+        </div>
+        <p class="muted" id="pTestNote">Test açıkken yalnız ilk dolu dildeki metin <code>wc_test</code> konusuna gider (TestFlight sürümü ve Ayarlar'da sürüme 7 dokunan cihazlar).</p>
+        <h2>Önizleme</h2>
+        <div id="pPreview"><p class="muted">Başlık ve metin yazınca burada görünür.</p></div>
+        <div class="toolbar" style="margin-top:14px">
+          <button id="pSend">Gönder</button>
+          <span class="muted" id="pStatus"></span>
+        </div>
+        <div id="pResult"></div>
+      </div>
+    </section>
+
+    <!-- Sent -->
+    <section data-view="sent" class="hidden">
+      <h1>Gönderilenler</h1>
+      <p class="muted">Panelden giden bildirimler, en yenisi üstte (son 100).</p>
+      <div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Metin</th><th>Diller</th><th>Kime</th><th>Sekme</th><th>Sonuç</th></tr></thead><tbody id="sentRows"></tbody></table></div>
+    </section>
+
+    <!-- Settings -->
+    <section data-view="settings" class="hidden">
+      <h1>Ayarlar ve hakkında</h1>
+      <div class="card">
+        <h2>Görünüm</h2>
+        <p><button class="ghost" id="themeBtn2">Açık / koyu tema</button> <span class="muted">Diğer lab panelleriyle ortak.</span></p>
+        <p class="muted" id="whoami"></p>
+      </div>
+      <div class="card links">
+        <h2>Bağlantılar</h2>
+        <a href="https://console.firebase.google.com/project/wallet-coach-87336/overview" target="_blank" rel="noopener">Firebase konsolu</a>
+        <a href="https://console.firebase.google.com/project/wallet-coach-87336/firestore/databases/-default-/data" target="_blank" rel="noopener">Firestore verisi</a>
+        <a href="https://console.firebase.google.com/project/wallet-coach-87336/analytics" target="_blank" rel="noopener">Firebase Analytics</a>
+        <a href="https://console.firebase.google.com/project/wallet-coach-87336/functions" target="_blank" rel="noopener">Cloud Functions (sendPush)</a>
+        <a href="https://console.firebase.google.com/project/wallet-coach-87336/usage/details" target="_blank" rel="noopener">Plan ve kullanım (Blaze)</a>
+        <a href="https://console.cloud.google.com/billing/linkedaccount?project=wallet-coach-87336" target="_blank" rel="noopener">Google Cloud faturalandırma</a>
+        <a href="https://console.cloud.google.com/apis/api/generativelanguage.googleapis.com/metrics?project=wallet-coach-87336" target="_blank" rel="noopener">Gemini API istekleri</a>
+      </div>
+      <div class="card">
+        <h2>Veri nasıl toplanıyor</h2>
+        <p>Uygulamanın hesabı yok. Her kurulum rastgele bir kimlikle kendi kaydını yazar (<code>installs/{id}</code>): ilk ve son görülme, platform, sürüm, dil, bölge, para birimi, Pro durumu, bildirim izni, şu anki ekran ve kaç ay, satır, kişi, varlık tuttuğu. Ne yaptığı sayaç olarak (<code>ev</code>) ve zaman çizelgesi olarak (<code>events</code>, 90 gün sonra silinir) tutulur. Günlük toplamlar <code>stats/{gün}</code> belgesinde (UTC).</p>
+        <p><b>Tutar, isim, not, ekstre ya da fiş içeriği hiç toplanmaz.</b> Yalnız sayı, ekran adı ve süre. Geliştirme sürümleri ve ekran görüntüsü modu hiçbir şey yazmaz.</p>
+        <p>Yazma uygulamadan doğrudan Firestore'a gider; kurallar yalnız bilinen alanları kabul eder, okumayı yalnız panel sahibi yapabilir. Analytics bölümü Mac'teki günlük işin (<code>scripts/lab/walletcoach.mjs</code>, <code>gunluk.sh</code> içinde, 07:00) <code>panel/ga4</code> belgesine yazdığı özetten gelir.</p>
+        <p class="muted">Bildirim gönderme <code>sendPush</code> fonksiyonuyla çalışır; fonksiyon proje Blaze planına geçmeden kurulamaz. Kurulu değilse gönderirken hata metni olduğu gibi gösterilir.</p>
+      </div>
+      <div class="card">
+        <h2>Demo</h2>
+        <p class="muted">Adrese <code>?demo</code> eklersen panel sahte veriyle açılır, Firestore'a hiç bağlanmaz. Tasarım denemek için.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="drawer hidden" id="drawer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script type="module">
+const DEMO = new URLSearchParams(location.search).has("demo");
+const ADMIN = "aberkalparslan@gmail.com";
+const EMAIL_KEY = "wc-panel-email";
+const firebaseConfig = {
+  apiKey: "AIzaSyD3N9_z4h2WGT57yUUz_Ip6C0pZINHVQJE",
+  authDomain: "wallet-coach-87336.firebaseapp.com",
+  projectId: "wallet-coach-87336",
+  appId: "1:516767341196:web:ed76884517bcfc3cd4b9a9",
+  messagingSenderId: "516767341196",
+  storageBucket: "wallet-coach-87336.firebasestorage.app",
+};
+
+const $ = id => document.getElementById(id);
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { } } };
+const fmt = n => Math.round(+n || 0).toLocaleString("tr-TR");
+const money = n => "$" + (n ?? 0).toFixed(n < 1 ? 3 : 2);
+const dayKey = d => new Date(d).toISOString().slice(0, 10);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ts = v => v?.toDate ? v.toDate() : (v ? new Date(v) : null);
+const ago = d => { if (!d) return "-"; const m = Math.max(0, (Date.now() - d) / 6e4); return m < 1 ? "az önce" : m < 60 ? `${Math.round(m)} dk önce` : m < 1440 ? `${Math.round(m / 60)} sa önce` : `${Math.round(m / 1440)} gün önce`; };
+const dateS = v => ts(v)?.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" }) || "-";
+const dtS = v => ts(v)?.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) || "-";
+const sum = (arr, k) => arr.reduce((a, x) => a + (+x[k] || 0), 0);
+const ev = (o, k) => +(o?.ev?.[k] || 0);
+const evSum = (arr, k) => arr.reduce((a, x) => a + ev(x, k), 0);
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const mins = sec => { sec = +sec || 0; return sec < 60 ? `${Math.round(sec)} sn` : sec < 3600 ? `${(sec / 60).toFixed(sec < 600 ? 1 : 0).replace(".", ",")} dk` : `${(sec / 3600).toFixed(1).replace(".", ",")} sa`; };
+const kpiH = (label, value, sub = "", cls = "") => `<div class="kpi ${cls}"><span>${label}</span><b>${value}</b><small>${sub}</small></div>`;
+const shortId = id => String(id || "").slice(0, 8);
+
+// ---------- Names ----------
+/* Olay adları: Türkçe ad ve grup. Listede olmayanlar "Diğer"de çıkar. */
+const OLAY = {
+  "Plan": {
+    month_created: "Yeni ay", plan_entry_added: "Plan satırı eklendi", plan_entry_toggled: "Ödendi işareti",
+    section_added: "Yeni blok", calendar_opened: "Vade takvimi açıldı", reminder_scheduled: "Hatırlatma kuruldu",
+    expense_added: "Harcama eklendi", voice_entry_started: "Sesle giriş başladı", voice_entry_added: "Sesle giriş eklendi",
+  },
+  "Defterler": {
+    party_added: "Kişi/marka eklendi", ledger_entry_added: "Alacak-verecek kaydı", ledger_settled: "Hesap kapandı",
+    asset_added: "Varlık eklendi", asset_updated: "Varlık güncellendi", project_created: "Proje açıldı",
+    purchase_added: "Alım eklendi", saving_pot_added: "Birikim kabı", saving_added: "Birikim eklendi",
+    board_created: "Birikim panosu", board_tile_ticked: "Pano kutusu", board_completed: "Pano bitti",
+    item_added: "Listeye eklendi", item_decided: "Listede karar", subscription_added: "Abonelik eklendi",
+  },
+  "Ekstre ve fiş": {
+    statement_shared: "Ekstre paylaşımla geldi", statement_read: "Ekstre okundu", statement_read_failed: "Ekstre okunamadı",
+    statement_saved: "Ekstre kaydedildi", statement_plan_linked: "Ekstre plana bağlandı", statement_sector_changed: "Sektör değişti",
+    statement_row_edited: "Ekstre satırı düzenlendi", statement_fix_applied: "Ekstre düzeltmesi", statement_deleted: "Ekstre silindi",
+    receipt_scanned: "Fiş tarandı", receipt_saved: "Fiş kaydedildi",
+  },
+  "Araçlar ve paylaşım": {
+    calculation_made: "Hesaplayıcı", article_opened: "Okuma açıldı", share_card: "Paylaşım kartı",
+    data_exported: "Dışa aktarma", export_started: "Dışa aktarma başladı", export_shared: "Dışa aktarma paylaşıldı",
+    data_imported: "İçe aktarma", import_prompt_copied: "İçe aktarma komutu", backup_saved: "Yedek alındı",
+    backup_restored: "Yedekten döndü", wallet_reordered: "Cüzdan sıralandı", privacy_toggled: "Tutarları gizle",
+  },
+  "Para": {
+    paywall_shown: "Paywall gösterildi", paywall_dismissed: "Paywall kapatıldı", purchase_completed: "Satın alma",
+    in_app_purchase: "Mağaza satın alması", app_store_subscription_renew: "Abonelik yenilendi",
+  },
+  "Rehber ve başlangıç": {
+    onboarding_step: "Tanıtım adımı", onboarding_finished: "Tanıtım bitti", first_run_finished: "İlk kurulum bitti",
+    first_run_skipped: "İlk kurulum atlandı", coach_started: "Tur başladı", coach_completed: "Tur bitti",
+    coach_skipped: "Tur atlandı", coach_acted: "Turdan işlem", notifications_asked: "Bildirim izni soruldu", push_opened: "Bildirime dokundu",
+    notifications_on: "Bildirim açık", notifications_off: "Bildirim kapalı", push_tester_toggled: "Test cihazı açıldı/kapandı",
+  },
+  "Sistem": {
+    first_open: "İlk açılış", session_start: "Oturum", app_update: "Güncelleme", app_remove: "Silindi",
+    app_clear_data: "Veri temizlendi", os_update: "iOS/Android güncellemesi", data_cleared: "Uygulamada veri silindi",
+    tab_opened: "Sekme değişti", screen_view: "Ekran görüntüleme", user_engagement: "Etkileşim",
+  },
+};
+const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
+const AI = { ai_receipt: "Fiş", ai_label: "Etiket", ai_statement: "Ekstre", ai_call: "Ara sürüm (ayrımsız)" };
+const EKRAN = {
+  panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", settings: "Ayarlar", statements: "Ekstreler",
+  statement_detail: "Ekstre detayı", ledger: "Alacak-verecek", assets: "Varlıklar", projects: "Projeler",
+  savings: "Birikim", price_log: "Fiyat takibi", converter: "Fiyatı saate çevir", wishlist: "Listem",
+  time_value: "Şimdi ne kadar", net_salary: "Brütten nete", raise: "Zam", learn: "Öğren", paywall: "Paywall",
+};
+const SOURCES = {
+  onboarding: "Tanıtım sonu", analysis: "Analiz", asset_limit: "Varlık sınırı", board_limit: "Pano sınırı",
+  custom_section: "Özel blok", export: "Dışa aktarma", ledger_party_limit: "Kişi/marka sınırı", list_limit: "Liste sınırı",
+  month_limit: "Ay sınırı", preview: "Önizleme", project_limit: "Proje sınırı", receipt_limit: "Fiş sınırı",
+  savings_limit: "Birikim sınırı", settings: "Ayarlar", statement_limit: "Ekstre sınırı", statement_share: "Paylaşılan ekstre", unknown: "Bilinmiyor",
+};
+const N_FIELDS = { n_months: "Ay", n_entries: "Plan satırı", n_parties: "Kişi/marka", n_assets: "Varlık", n_projects: "Proje", n_purchases: "Alım", n_pots: "Birikim kabı", n_boards: "Pano", n_statements: "Ekstre", n_wishes: "Liste (bekleyen)" };
+const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", ru: "Rusça" };
+const TABS = { panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan" };
+const COUNTERS = ["installs_new", "sessions", "onboarding_done", "paywall_views", "purchases", "ai_requests", "ai_tokens_in", "ai_tokens_out", "ai_blocked", "ai_failed"];
+
+const screenName = sc => !sc ? "-" : (EKRAN[sc] || sc);
+const srcName = s => SOURCES[s] || s || "-";
+const platName = p => p === "ios" ? "iOS" : p === "android" ? "Android" : (p || "?");
+const isOnline = i => !!ts(i.lastSeen) && Date.now() - ts(i.lastSeen) < 120e3 && !!i.screen && i.screen !== "closed";
+function whereIs(i) {
+  if (isOnline(i)) return screenName(i.screen);
+  if (i.screen === "closed") return "Kapattı · " + screenName(i.lastScreen);
+  if (i.screen) return "Sessiz · " + screenName(i.screen);
+  return "-";
+}
+function eventText(e) {
+  const p = e.p || "", s = +e.s || 0;
+  switch (e.e) {
+    case "screen": return "Ekran: " + screenName(p);
+    case "screen_time": return `${screenName(p)} ekranında ${mins(s)}`;
+    case "pw_view": return "Paywall açıldı · " + srcName(p);
+    case "pw_close": return `Paywall'u kapattı · ${mins(s)} açık kaldı`;
+    case "pw_close_bought": return `Paywall kapandı (aldıktan sonra) · ${mins(s)}`;
+    case "pw_buy": return `★ SATIN ALDI · ${srcName(p)} · ${mins(s)} sonra`;
+    case "session": return `Uygulamadan çıktı · oturum ${mins(s)}`;
+    case "ai_error": return "Yapay zeka hatası: " + p;
+    case "tab_opened": return "Sekme: " + (TABS[p] || screenName(p));
+    case "paywall_shown": return "Paywall gösterildi (Analytics) · " + srcName(p);
+    case "onboarding_step": return "Tanıtım adımı: " + p;
+    default: return (OLAY_AD[e.e] || e.e) + (p ? " · " + p : "") + (s ? ` · ${mins(s)}` : "");
+  }
+}
+const evClass = e => e.e === "pw_buy" || e.e === "pw_close_bought" ? "buy" : e.e.startsWith("pw_") ? "pw" : "";
+
+// ev map helpers. Screen keys: ev.screen_<name> (views), ev.screen_<name>_sec.
+// The screen_time event also lands under screen_time*, which is not a screen.
+function screenMap(o) {
+  const m = {}, e = o?.ev || {};
+  for (const [k, v] of Object.entries(e)) {
+    const r = /^screen_(.+)_sec$/.exec(k); if (!r) continue;
+    const n = r[1];
+    if (n === "time" || (n.startsWith("time_") && e[`screen_${n.slice(5)}_sec`] != null && n !== "time_value")) continue;
+    (m[n] ||= { sec: 0, views: 0 }).sec += +v || 0;
+  }
+  for (const n of Object.keys(m)) m[n].views = +(e[`screen_${n}`] || 0);
+  return m;
+}
+function screenAgg(arr) {
+  const m = {};
+  for (const x of arr) for (const [n, v] of Object.entries(screenMap(x))) { const t = m[n] ||= { sec: 0, views: 0, people: 0 }; t.sec += v.sec; t.views += v.views; if (v.sec > 0) t.people++; }
+  return m;
+}
+function evPrefix(arr, prefix, skip = []) {
+  const m = {};
+  for (const x of arr) for (const [k, v] of Object.entries(x.ev || {}))
+    if (k.startsWith(prefix) && !k.endsWith("_sec") && !skip.some(s => k.startsWith(s))) { const n = k.slice(prefix.length); m[n] = (m[n] || 0) + (+v || 0); }
+  return m;
+}
+function bars(id, rows, emptyText = "Henüz veri yok.") {
+  const max = Math.max(1, ...rows.map(r => r.value));
+  $(id).innerHTML = rows.length ? rows.map(r => `<div class="brow"><span title="${esc(r.label)}">${esc(r.label)}</span><div class="track"><div class="fill" style="width:${r.value / max * 100}%${r.color ? ";background:" + r.color : ""}"></div></div><small>${r.sub ?? fmt(r.value)}</small></div>`).join("")
+    : `<p class="muted">${emptyText}</p>`;
+}
+const sorted = (m, names = {}) => Object.entries(m).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: names[k] || k, value: v }));
+const countBy = (arr, f) => { const m = {}; arr.forEach(x => { const k = f(x); m[k] = (m[k] || 0) + 1; }); return m; };
+
+// ---------- Charts ----------
+let charts = {};
+const C = ["#0f9f6e", "#0a6fe0", "#c77d00", "#6d4fe0", "#d6455d", "#14b8a6", "#8a8fa0", "#e67e22"];
+function themeCharts() {
+  if (!window.Chart) return;
+  const cs = getComputedStyle(document.documentElement);
+  Chart.defaults.color = cs.getPropertyValue("--soft").trim();
+  Chart.defaults.borderColor = cs.getPropertyValue("--line").trim();
+  Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+}
+function chart(id, type, labels, datasets, opts = {}) {
+  if (!window.Chart || !$(id)) return;
+  charts[id]?.destroy();
+  charts[id] = new Chart($(id), { type, data: { labels, datasets }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { boxWidth: 10 } } }, ...opts } });
+}
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  store.set("bamtech-panel-tema", t);
+  themeCharts(); renderAll();
+}
+const toggleTheme = () => setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+$("themeBtn").onclick = toggleTheme; $("themeBtn2").onclick = toggleTheme;
+themeCharts();
+
+// ---------- State ----------
+let installs = [], stats = [], pushes = [], G = null, gaError = "";
+let evCache = {}, pwLoaded = false, pwLoading = false;
+let FB = null; // Firebase handles, never set in demo mode
+let currentPage = "overview";
+
+// ---------- Firebase (not loaded at all in demo) ----------
+if (!DEMO) {
+  const V = "10.14.1", base = `https://www.gstatic.com/firebasejs/${V}/`;
+  const [appM, authM, fsM, fnM] = await Promise.all(["firebase-app", "firebase-auth", "firebase-firestore", "firebase-functions"].map(m => import(base + m + ".js")));
+  const app = appM.initializeApp(firebaseConfig);
+  FB = { auth: authM.getAuth(app), db: fsM.getFirestore(app), fns: fnM.getFunctions(app, "europe-west1"), A: authM, F: fsM, Fn: fnM };
+}
+
+// ---------- Auth ----------
+function showLogin(msg = "", denied = false) {
+  $("login").classList.remove("hidden"); $("app").classList.add("hidden");
+  $("loginMsg").innerHTML = msg;
+  $("loginForm").classList.toggle("hidden", denied);
+  $("loginOut").classList.toggle("hidden", !denied);
+}
+function deniedText(email) {
+  return `<div class="note err"><b>Yetkin yok.</b> ${email ? `${esc(email)} adresiyle girdin; ` : ""}bu panelin verisini yalnız ${ADMIN} okuyabilir. Çıkış yapıp o adresle tekrar dene.</div>`;
+}
+if (!DEMO) {
+  const { auth } = FB, A = FB.A;
+  $("email").value = store.get(EMAIL_KEY) || ADMIN;
+  $("sendLink").onclick = async () => {
+    const email = $("email").value.trim();
+    if (!email) { $("loginMsg").textContent = "Önce e-posta adresini yaz."; return; }
+    $("sendLink").disabled = true; $("loginMsg").textContent = "Gönderiliyor…";
+    try {
+      await A.sendSignInLinkToEmail(auth, email, { url: location.origin + location.pathname, handleCodeInApp: true });
+      store.set(EMAIL_KEY, email);
+      $("loginMsg").innerHTML = `<div class="note okn">Bağlantı <b>${esc(email)}</b> adresine gönderildi. Gelen kutunu (ve spam klasörünü) aç, bağlantıya bu tarayıcıda dokun.</div>`;
+    } catch (e) { $("loginMsg").innerHTML = `<div class="note err">Gönderilemedi: ${esc(e.code || e.message)}</div>`; }
+    finally { $("sendLink").disabled = false; }
+  };
+  $("email").addEventListener("keydown", e => { if (e.key === "Enter") $("sendLink").click(); });
+  const out = () => A.signOut(auth);
+  $("signout").onclick = out; $("signoutLogin").onclick = out;
+
+  if (A.isSignInWithEmailLink(auth, location.href)) {
+    let email = store.get(EMAIL_KEY);
+    if (!email) email = prompt("Giriş bağlantısını hangi e-posta adresine gönderdin?", ADMIN);
+    try { await A.signInWithEmailLink(auth, (email || "").trim(), location.href); store.set(EMAIL_KEY, email); }
+    catch (e) { showLogin(`<div class="note err">Bağlantıyla giriş olmadı: ${esc(e.code || e.message)}. Bağlantı eskimiş ya da kullanılmış olabilir; yenisini iste.</div>`); }
+    history.replaceState(null, "", location.pathname + location.hash);
+  }
+
+  A.onAuthStateChanged(auth, async user => {
+    if (!user) { showLogin(); return; }
+    if ((user.email || "").toLowerCase() !== ADMIN) { showLogin(deniedText(user.email), true); return; }
+    $("login").classList.add("hidden"); $("app").classList.remove("hidden");
+    $("whoami").textContent = `Giriş: ${user.email}`;
+    await refreshAll();
+  });
+} else {
+  $("demoBar").classList.remove("hidden");
+  $("signout").onclick = () => { location.href = location.pathname; };
+  $("app").classList.remove("hidden");
+  $("whoami").textContent = "Demo modu: giriş yok, veri sahte.";
+}
+
+// ---------- Navigation ----------
+document.querySelectorAll("aside a[data-page]").forEach(a => a.onclick = () => go(a.dataset.page));
+function go(page) {
+  if (!document.querySelector(`section[data-view="${page}"]`)) page = "overview";
+  document.querySelectorAll("aside a[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
+  const aside = document.querySelector("aside"), on = aside.querySelector("a.on");
+  if (on && aside.scrollWidth > aside.clientWidth) aside.scrollLeft = on.offsetLeft - (aside.clientWidth - on.offsetWidth) / 2;
+  document.querySelectorAll("main section[data-view]").forEach(s => s.classList.toggle("hidden", s.dataset.view !== page));
+  currentPage = page;
+  history.replaceState(null, "", location.pathname + location.search + "#" + page);
+  if (page === "revenue") loadJourneys();
+  // Charts drawn while their page was hidden have no size yet.
+  const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
+  requestAnimationFrame(fit); setTimeout(fit, 120);
+  window.scrollTo(0, 0);
+}
+if (location.hash) go(location.hash.slice(1));
+window.addEventListener("hashchange", () => { if (location.hash.slice(1) !== currentPage) go(location.hash.slice(1)); });
+// The live page refreshes itself while it is open.
+setInterval(() => { if (currentPage === "live" && !document.hidden && (DEMO || FB?.auth.currentUser)) loadData(false); }, 30000);
+$("refresh").onclick = () => refreshAll();
+$("refreshTop").onclick = () => refreshAll();
+$("range").onchange = () => { stats = []; loadData(false); };
+
+// ---------- Data ----------
+async function refreshAll() {
+  $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
+  evCache = {}; pwLoaded = false;
+  try { await loadData(true); } finally { $("refreshTop").disabled = false; }
+  if (currentPage === "revenue") loadJourneys();
+}
+async function loadData(withGa) {
+  const days = +$("range").value;
+  const from = new Date(Date.now() - (days - 1) * 864e5);
+  $("loadErr").classList.add("hidden");
+  try {
+    if (DEMO) {
+      if (!demo) await makeDemo();
+      installs = demo.installs; pushes = demo.pushes; G = demo.ga4;
+      var byDay = demo.stats;
+    } else {
+      const { db, F } = FB;
+      const [iSnap, sSnap, pSnap] = await Promise.all([
+        F.getDocs(F.query(F.collection(db, "installs"), F.limit(5000))),
+        F.getDocs(F.query(F.collection(db, "stats"), F.where(F.documentId(), ">=", dayKey(from)))),
+        F.getDocs(F.query(F.collection(db, "pushes"), F.orderBy("createdAt", "desc"), F.limit(100))).catch(() => ({ docs: [] })),
+      ]);
+      installs = iSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      pushes = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      var byDay = Object.fromEntries(sSnap.docs.map(d => [d.id, d.data()]));
+      if (withGa || !G) {
+        try {
+          const g = await F.getDoc(F.doc(db, "panel", "ga4"));
+          G = g.exists() && g.data().json ? JSON.parse(g.data().json) : null;
+          gaError = G ? "" : "panel/ga4 belgesi yok. Mac'te scripts/lab/walletcoach.mjs çalışınca dolar.";
+        } catch (e) { gaError = "Analytics özeti okunamadı: " + (e.code || e.message); }
+      }
     }
+  } catch (e) {
+    console.error(e);
+    if (e.code === "permission-denied") { showLogin(deniedText(FB?.auth.currentUser?.email), true); return; }
+    $("loadErr").classList.remove("hidden"); $("loadErr").textContent = "Veri okunamadı: " + (e.code || e.message);
+    $("topMeta").textContent = ""; return;
+  }
+  stats = [];
+  for (let i = 0; i < days; i++) { const k = dayKey(from.getTime() + i * 864e5); stats.push({ day: k, ...(byDay[k] || {}) }); }
+  $("ovMeta").textContent = `${fmt(installs.length)} kurulum · ${fmt(installs.filter(i => i.platform === "ios").length)} iOS, ${fmt(installs.filter(i => i.platform === "android").length)} Android`;
+  $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
+  renderAll();
+}
+function renderAll() {
+  if (!stats.length) return;
+  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderAI, renderGA4, renderSent, renderJourneys]) {
+    try { f(); } catch (e) { console.error(f.name, e); }
+  }
+}
 
-    /* Olay adları → Türkçe ad ve grup. Listede olmayanlar "Diğer"de çıkar. */
-    const OLAY = {
-      "Plan": {
-        month_created: "Yeni ay", plan_entry_added: "Plan satırı eklendi", plan_entry_toggled: "Ödendi işareti",
-        section_added: "Yeni blok", calendar_opened: "Vade takvimi açıldı", reminder_scheduled: "Hatırlatma kuruldu",
-        expense_added: "Harcama eklendi",
-      },
-      "Defterler": {
-        party_added: "Kişi/marka eklendi", ledger_entry_added: "Alacak-verecek kaydı", ledger_settled: "Hesap kapandı",
-        asset_added: "Varlık eklendi", asset_updated: "Varlık güncellendi", project_created: "Proje açıldı",
-        purchase_added: "Alım eklendi", saving_pot_added: "Birikim kabı", saving_added: "Birikim eklendi",
-        board_created: "Birikim panosu", board_tile_ticked: "Pano kutusu", board_completed: "Pano bitti",
-        item_added: "Listeye eklendi", item_decided: "Listede karar", subscription_added: "Abonelik eklendi",
-      },
-      "Ekstre ve fiş": {
-        statement_shared: "Ekstre paylaşımla geldi", statement_read: "Ekstre okundu", statement_read_failed: "Ekstre okunamadı",
-        statement_saved: "Ekstre kaydedildi", statement_plan_linked: "Ekstre plana bağlandı", statement_sector_changed: "Sektör değişti",
-        statement_row_edited: "Ekstre satırı düzenlendi", statement_fix_applied: "Ekstre düzeltmesi", statement_deleted: "Ekstre silindi",
-        receipt_scanned: "Fiş tarandı", receipt_saved: "Fiş kaydedildi",
-      },
-      "Araçlar ve paylaşım": {
-        calculation_made: "Hesaplayıcı", article_opened: "Okuma açıldı", share_card: "Paylaşım kartı",
-        data_exported: "Dışa aktarma", export_started: "Dışa aktarma başladı", export_shared: "Dışa aktarma paylaşıldı",
-        data_imported: "İçe aktarma", import_prompt_copied: "İçe aktarma komutu", backup_saved: "Yedek alındı",
-        backup_restored: "Yedekten döndü", wallet_reordered: "Cüzdan sıralandı", privacy_toggled: "Tutarları gizle",
-      },
-      "Para": {
-        paywall_shown: "Paywall gösterildi", paywall_dismissed: "Paywall kapatıldı", purchase_completed: "Satın alma",
-        in_app_purchase: "Mağaza satın alması", app_store_subscription_renew: "Abonelik yenilendi",
-      },
-      "Rehber ve başlangıç": {
-        onboarding_step: "Tanıtım adımı", onboarding_finished: "Tanıtım bitti", first_run_finished: "İlk kurulum bitti",
-        first_run_skipped: "İlk kurulum atlandı", coach_started: "Tur başladı", coach_completed: "Tur bitti",
-        coach_skipped: "Tur atlandı", coach_acted: "Turdan işlem", notifications_asked: "Bildirim izni soruldu", push_opened: "Bildirime dokundu",
-        notifications_on: "Bildirim açık", notifications_off: "Bildirim kapalı",
-      },
-      "Sistem": {
-        first_open: "İlk açılış", session_start: "Oturum", app_update: "Güncelleme", app_remove: "Silindi",
-        app_clear_data: "Veri temizlendi", os_update: "iOS/Android güncellemesi", data_cleared: "Uygulamada veri silindi",
-        tab_opened: "Sekme değişti", screen_view: "Ekran görüntüleme", user_engagement: "Etkileşim",
-      },
+const rangeFrom = () => Date.now() - (+$("range").value) * 864e5;
+const cohort = () => installs.filter(i => ts(i.firstSeen) && ts(i.firstSeen) >= rangeFrom());
+const onlineNow = () => installs.filter(isOnline);
+const labelsOf = () => stats.map(s => s.day.slice(8) + "." + s.day.slice(5, 7));
+
+// ---------- Overview ----------
+function renderOverview() {
+  const now = Date.now();
+  const active = d => installs.filter(i => ts(i.lastSeen) && now - ts(i.lastSeen) < d * 864e5).length;
+  const withNotif = installs.filter(i => typeof i.notif === "boolean"), notifOn = withNotif.filter(i => i.notif).length;
+  const pro = installs.filter(i => i.pro).length;
+  $("kpis").innerHTML = [
+    kpiH("Şu an online", fmt(onlineNow().length), "son 2 dakikada sinyal"),
+    kpiH("Toplam kurulum", fmt(installs.length), `${fmt(sum(stats, "installs_new"))} yeni (dönem)`),
+    kpiH("Bugün aktif", fmt(active(1)), "son 24 saat"),
+    kpiH("7 gün aktif", fmt(active(7))),
+    kpiH("30 gün aktif", fmt(active(30))),
+    kpiH("Oturum", fmt(sum(stats, "sessions")), "dönem"),
+    kpiH("Pro", fmt(pro), `${fmt(sum(stats, "purchases"))} satın alma (dönem)`),
+    kpiH("Bildirim açık", withNotif.length ? `%${pct(notifOn, withNotif.length)}` : "-", `${fmt(notifOn)} / ${fmt(withNotif.length)} kurulum`),
+    kpiH("Tanıtımı bitiren", fmt(installs.filter(i => i.onboarded).length), installs.length ? `%${pct(installs.filter(i => i.onboarded).length, installs.length)}` : ""),
+    kpiH("Paywall gösterimi", fmt(sum(stats, "paywall_views")), "dönem"),
+  ].join("");
+  const labels = labelsOf();
+  const ds = [
+    { label: "Oturum", data: stats.map(s => s.sessions || 0), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+    { label: "Yeni kurulum", data: stats.map(s => s.installs_new || 0), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+    { label: "Tanıtım biten", data: stats.map(s => s.onboarding_done || 0), borderColor: C[2], backgroundColor: C[2], tension: .3 },
+  ];
+  if (G?.gunluk) {
+    const au = {}; G.gunluk.forEach(r => au[r.t] = (au[r.t] || 0) + r.au);
+    ds.push({ label: "Aktif kişi (Analytics)", data: stats.map(s => au[s.day] ?? null), borderColor: C[3], backgroundColor: C[3], borderDash: [5, 4], tension: .3, spanGaps: true });
+  }
+  chart("chActive", "line", labels, ds);
+  const co = cohort();
+  const steps = [
+    ["Kurulum", co.length],
+    ["Tanıtımı bitirdi", co.filter(i => i.onboarded).length],
+    ["İlk plan satırı", co.filter(i => ev(i, "plan_entry_added") > 0).length],
+    ["Paywall gördü", co.filter(i => ev(i, "pw_view") > 0 || i.paywall_views > 0).length],
+    ["Satın aldı", co.filter(i => i.pro || i.purchases > 0).length],
+  ];
+  chart("chFunnel", "bar", steps.map(s => s[0]), [{ label: "Kurulum", data: steps.map(s => s[1]), backgroundColor: C }],
+    { indexAxis: "y", plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${fmt(c.raw)} (%${pct(c.raw, steps[0][1])})` } } } });
+  const langs = countBy(installs, i => LANG[i.language] || i.language || "?");
+  const lk = Object.keys(langs).sort((a, b) => langs[b] - langs[a]);
+  chart("chLang", "doughnut", lk, [{ data: lk.map(k => langs[k]), backgroundColor: C, borderWidth: 0 }], { plugins: { legend: { position: "right", labels: { boxWidth: 10 } } } });
+  const back = d => co.filter(i => ts(i.lastSeen) - ts(i.firstSeen) >= d * 864e5).length;
+  chart("chRet", "bar", ["1 gün sonra", "3 gün", "7 gün", "14 gün", "30 gün"],
+    [{ label: `% (${co.length} kurulum)`, data: [1, 3, 7, 14, 30].map(d => pct(back(d), co.length)), backgroundColor: C[0] }],
+    { scales: { y: { max: 100, ticks: { callback: v => v + "%" } } } });
+  const vers = countBy(installs, i => `${platName(i.platform)} ${i.appVersion || "?"} (${i.build || "?"})`);
+  const vk = Object.keys(vers).sort((a, b) => vers[b] - vers[a]).slice(0, 8);
+  chart("chVer", "bar", vk, [{ label: "Kurulum", data: vk.map(k => vers[k]), backgroundColor: vk.map(k => k.startsWith("iOS") ? C[1] : C[0]) }], { indexAxis: "y", plugins: { legend: { display: false } } });
+  bars("ovCur", sorted(countBy(installs, i => i.currency || "Bilinmiyor")).slice(0, 10));
+}
+
+// ---------- Live ----------
+function renderLive() {
+  const on = onlineNow().sort((a, b) => ts(b.lastSeen) - ts(a.lastSeen)), now = Date.now();
+  const within = m => installs.filter(i => ts(i.lastSeen) && now - ts(i.lastSeen) < m * 6e4).length;
+  $("liveKpis").innerHTML = [
+    kpiH("Şu an online", fmt(on.length)), kpiH("Son 15 dakika", fmt(within(15))), kpiH("Son 1 saat", fmt(within(60))), kpiH("Son 24 saat", fmt(within(1440))),
+    kpiH("Paywall'da", fmt(on.filter(i => i.screen === "paywall").length)), kpiH("Pro olan online", fmt(on.filter(i => i.pro).length)),
+  ].join("");
+  bars("liveScreens", sorted(countBy(on, i => screenName(i.screen))), "Şu an uygulamayı açık tutan yok.");
+  bars("liveLeft", sorted(countBy(installs.filter(i => i.screen === "closed" && i.lastScreen && now - ts(i.lastSeen) < 864e5), i => screenName(i.lastScreen))));
+  $("liveRows").innerHTML = on.length ? on.map(i => `<tr class="click" data-id="${esc(i.id)}"><td><span class="dot"></span></td>
+    <td><code>${esc(shortId(i.id))}</code></td><td>${esc(screenName(i.screen))}</td>
+    <td>${i.pro ? '<span class="pill pro">Pro</span> ' : ''}${i.onboarded ? '' : '<span class="pill no">Tanıtımda</span> '}${i.tester ? '<span class="pill sky">Test</span>' : ''}</td>
+    <td>${platName(i.platform)} ${esc(i.appVersion || "")}</td><td>${esc(i.language || "")}</td><td>${ago(ts(i.lastSeen))}</td><td class="n">${mins(ev(i, "session_sec"))}</td></tr>`).join("")
+    : `<tr><td colspan="8" class="muted">Şu an kimse yok.</td></tr>`;
+  document.querySelectorAll("#liveRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Screens ----------
+function renderScreens() {
+  const per = screenAgg(stats), all = screenAgg(installs);
+  const keys = [...new Set([...Object.keys(per), ...Object.keys(all)])].sort((a, b) => (per[b]?.sec || 0) - (per[a]?.sec || 0) || (all[b]?.sec || 0) - (all[a]?.sec || 0));
+  const total = Object.values(per).reduce((a, v) => a + v.sec, 0), views = Object.values(per).reduce((a, v) => a + v.views, 0);
+  const top = keys[0];
+  $("scKpis").innerHTML = [
+    kpiH("Ekranlarda toplam", mins(total), "dönem, herkes"),
+    kpiH("Ekran açılışı", fmt(views), "dönem"),
+    kpiH("Açılış başı", views ? mins(total / views) : "-"),
+    kpiH("En çok vakit", top && per[top]?.sec ? esc(screenName(top)) : "-", top && per[top]?.sec ? `%${pct(per[top].sec, total)} süre` : ""),
+  ].join("");
+  $("scRows").innerHTML = keys.length ? keys.map(k => { const p = per[k] || { sec: 0, views: 0 }, a = all[k] || { sec: 0, people: 0 };
+    return `<tr><td>${esc(screenName(k))} <span class="muted">${esc(k)}</span></td><td class="n">${mins(p.sec)}</td><td class="n">${fmt(p.views)}</td><td class="n">${p.views ? mins(p.sec / p.views) : "-"}</td><td class="n">${fmt(a.people)}</td><td class="n">${a.people ? mins(a.sec / a.people) : "-"}</td></tr>`; }).join("")
+    : `<tr><td colspan="6" class="muted">Henüz ekran süresi yok.</td></tr>`;
+  const ck = keys.filter(k => per[k]?.sec).slice(0, 12);
+  chart("chScreens", "bar", ck.map(screenName), [{ label: "Dakika", data: ck.map(k => +(per[k].sec / 60).toFixed(1)), backgroundColor: C[0] }], { indexAxis: "y", plugins: { legend: { display: false } } });
+  // Analytics (secondary)
+  if (!G?.ekranlar) { $("scGaMeta").textContent = gaError || "Analytics özeti yok."; $("scGaRows").innerHTML = ""; return; }
+  $("scGaMeta").textContent = `${G.gun} gün, toplam etkileşim süresi · veri ${new Date(G.uretim).toLocaleString("tr-TR")}`;
+  const m = {};
+  for (const e of G.ekranlar) { const x = m[e.ad] ||= { g: 0, sure: 0, k: 0 }; x.g += e.g; x.sure += e.sure; x.k += e.k; }
+  const sat = Object.entries(m).sort((a, b) => b[1].sure - a[1].sure);
+  $("scGaRows").innerHTML = sat.map(([ad, v]) => `<tr><td>${ad === "(not set)" ? '<span class="muted">(adsız, eski sürümler)</span>' : esc(screenName(ad))}</td><td class="n">${mins(v.sure)}</td><td class="n">${fmt(v.g)}</td><td class="n">${fmt(v.k)}</td><td class="n">${v.k ? mins(v.sure / v.k) : "-"}</td></tr>`).join("");
+}
+
+// ---------- Paywall ----------
+function renderRevenue() {
+  const views = evPrefix(stats, "pw_view_"), closes = evPrefix(stats, "pw_close_", ["pw_close_bought"]), bought = evPrefix(stats, "pw_close_bought_"), buys = evPrefix(stats, "pw_buy_");
+  const proBy = countBy(installs.filter(i => i.pro && i.buySource), i => i.buySource);
+  const pv = sum(stats, "paywall_views"), pu = sum(stats, "purchases");
+  const closeN = evSum(stats, "pw_close"), closeSec = evSum(stats, "pw_close_sec");
+  const buyN = evSum(stats, "pw_buy"), buySec = evSum(stats, "pw_buy_sec");
+  $("revKpis").innerHTML = [
+    kpiH("Paywall gösterimi", fmt(pv), "dönem"), kpiH("Satın alma", fmt(pu), "dönem"),
+    kpiH("Dönüşüm", pv ? `%${(pu / pv * 100).toFixed(1).replace(".", ",")}` : "-", "satın alma / gösterim"),
+    kpiH("Kapatana kadar", closeN ? mins(closeSec / closeN) : "-", `${fmt(closeN)} kapatma ortalaması`),
+    kpiH("Alana kadar", buyN ? mins(buySec / buyN) : "-", "açılıştan satın almaya"),
+    kpiH("Pro kişi", fmt(installs.filter(i => i.pro).length), "şu an"),
+    kpiH("Paywall gören kişi", fmt(installs.filter(i => ev(i, "pw_view") > 0).length), "tüm zamanlar"),
+  ].join("");
+  const keys = [...new Set([...Object.keys(views), ...Object.keys(buys), ...Object.keys(proBy)])].sort((a, b) => (buys[b] || 0) - (buys[a] || 0) || (views[b] || 0) - (views[a] || 0));
+  const avg = (k, n) => n ? mins(evSum(stats, k) / n) : "-";
+  $("revRows").innerHTML = keys.length ? keys.map(k => `<tr><td>${esc(srcName(k))}</td><td class="n">${fmt(views[k])}</td><td class="n">${fmt(closes[k])}</td><td class="n">${avg(`pw_close_${k}_sec`, closes[k])}</td>
+    <td class="n">${fmt(bought[k])}</td><td class="n">${avg(`pw_close_bought_${k}_sec`, bought[k])}</td><td class="n"><b>${fmt(buys[k])}</b></td><td class="n">${views[k] ? `%${((buys[k] || 0) / views[k] * 100).toFixed(1).replace(".", ",")}` : "-"}</td><td class="n">${fmt(proBy[k])}</td></tr>`).join("")
+    : `<tr><td colspan="9" class="muted">Bu dönemde paywall açılmadı.</td></tr>`;
+  chart("chRev", "bar", labelsOf(), [
+    { label: "Gösterim", data: stats.map(s => s.paywall_views || 0), backgroundColor: C[1] },
+    { label: "Satın alma", data: stats.map(s => s.purchases || 0), backgroundColor: C[0] },
+  ]);
+  const plans = countBy(installs.filter(i => i.pro && i.plan), i => i.plan);
+  bars("revPlans", sorted(plans).map(r => ({ ...r, label: r.label.replace(/^.*\./, "") })), "Henüz Pro yok.");
+  const per = keys.filter(k => closes[k]).map(k => ({ label: srcName(k), value: evSum(stats, `pw_close_${k}_sec`) / closes[k], sub: `${mins(evSum(stats, `pw_close_${k}_sec`) / closes[k])} · ${fmt(closes[k])} kez` })).sort((a, b) => b.value - a.value);
+  bars("revDur", per, "Bu dönemde kapatılan paywall yok.");
+}
+
+// Recent paywall journeys: read the timelines of the installs that saw it last.
+async function loadEvents(id, n = 300) {
+  if (evCache[id]) return evCache[id];
+  let list;
+  if (DEMO) list = (demo.events[id] || []).slice(0, n);
+  else {
+    const { db, F } = FB;
+    const snap = await F.getDocs(F.query(F.collection(db, "installs", id, "events"), F.orderBy("t", "desc"), F.limit(n)));
+    list = snap.docs.map(x => x.data());
+  }
+  return evCache[id] = list;
+}
+async function loadJourneys() {
+  if (pwLoaded || pwLoading || !installs.length) return;
+  pwLoading = true; $("pwMeta").textContent = "Zaman çizelgeleri okunuyor…";
+  const who = installs.filter(i => ev(i, "pw_view") > 0).sort((a, b) => ts(b.lastSeen) - ts(a.lastSeen)).slice(0, 25);
+  try { await Promise.all(who.map(i => loadEvents(i.id))); pwLoaded = true; }
+  catch (e) { $("pwMeta").textContent = "Okunamadı: " + (e.code || e.message); pwLoading = false; return; }
+  pwLoading = false; renderJourneys();
+}
+function journeysOf(i) {
+  const evs = (evCache[i.id] || []).slice().sort((a, b) => ts(a.t) - ts(b.t)), out = [];
+  let cur = null;
+  for (const e of evs) {
+    if (e.e === "pw_view") { if (cur) out.push(cur); cur = { i, t: ts(e.t), src: e.p, sec: null, res: "open" }; }
+    else if (cur && e.e === "pw_buy") { cur.res = "bought"; cur.sec = +e.s || cur.sec; }
+    else if (cur && (e.e === "pw_close" || e.e === "pw_close_bought")) { cur.sec = +e.s || 0; if (e.e === "pw_close_bought") cur.res = "bought"; else if (cur.res !== "bought") cur.res = "closed"; out.push(cur); cur = null; }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+function renderJourneys() {
+  if (!pwLoaded) return;
+  const all = installs.filter(i => evCache[i.id]).flatMap(journeysOf).sort((a, b) => b.t - a.t).slice(0, 150);
+  $("pwMeta").textContent = `Paywall gören son ${Object.keys(evCache).length} kurulumun zaman çizelgesinden, ${all.length} açılış.`;
+  const res = j => j.res === "bought" ? '<span class="pill pro">Satın aldı</span>' : j.res === "closed" ? '<span class="pill no">Kapattı</span>'
+    : (isOnline(j.i) && j.i.screen === "paywall" && Date.now() - j.t < 36e5 ? '<span class="pill ok">Şu an açık</span>' : '<span class="pill no">Kapanış yok</span>');
+  $("pwRows").innerHTML = all.length ? all.map(j => `<tr class="click" data-id="${esc(j.i.id)}"><td>${dtS(j.t)}</td><td><code>${esc(shortId(j.i.id))}</code></td><td>${esc(srcName(j.src))}</td><td class="n">${j.sec != null ? mins(j.sec) : "-"}</td><td>${res(j)}</td><td>${platName(j.i.platform)}</td><td>${esc(j.i.language || "")}</td></tr>`).join("")
+    : `<tr><td colspan="7" class="muted">Henüz paywall yolculuğu yok.</td></tr>`;
+  document.querySelectorAll("#pwRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Engagement ----------
+function renderEngage() {
+  const sess = evSum(stats, "session"), sessSec = evSum(stats, "session_sec");
+  const people = k => installs.filter(i => ev(i, k) > 0);
+  $("engKpis").innerHTML = [
+    kpiH("Oturum", fmt(sum(stats, "sessions")), "dönem"), kpiH("Ortalama oturum", sess ? mins(sessSec / sess) : "-"), kpiH("Toplam süre", mins(sessSec), "herkes, dönem"),
+    kpiH("Plan satırı", fmt(evSum(stats, "plan_entry_added")), "eklenen, dönem"), kpiH("Yeni ay", fmt(evSum(stats, "month_created")), "dönem"),
+    kpiH("Fiş ve ekstre", fmt(evSum(stats, "receipt_scanned") + evSum(stats, "statement_read")), "okuma, dönem"),
+    kpiH("Yedek alan", fmt(people("backup_saved").length), "kişi"),
+  ].join("");
+  const co = cohort(), buckets = [["1 dk altı", 0, 60], ["1-5 dk", 60, 300], ["5-15 dk", 300, 900], ["15-30 dk", 900, 1800], ["30-60 dk", 1800, 3600], ["1 saat üstü", 3600, 1e12]];
+  chart("chTime", "bar", buckets.map(b => b[0]), [{ label: `Kişi (${co.length} kurulum)`, data: buckets.map(([, a, b]) => co.filter(i => ev(i, "session_sec") >= a && ev(i, "session_sec") < b).length), backgroundColor: C[3] }]);
+  $("engCounts").innerHTML = Object.entries(N_FIELDS).map(([k, ad]) => {
+    const has = installs.filter(i => +i[k] > 0), tot = sum(installs, k);
+    return `<tr><td>${ad}</td><td class="n">${fmt(has.length)} <span class="muted">%${pct(has.length, installs.length)}</span></td><td class="n">${has.length ? (tot / has.length).toFixed(1).replace(".", ",") : "-"}</td><td class="n">${fmt(Math.max(0, ...installs.map(i => +i[k] || 0)))}</td><td class="n">${fmt(tot)}</td></tr>`;
+  }).join("");
+  const count = k => evSum(stats, k);
+  const pp = (k, p) => installs.filter(i => ev(i, k) > 0 && (!p || i.platform === p)).length;
+  let h = "";
+  for (const [grup, liste] of Object.entries(OLAY)) {
+    const sat = Object.keys(liste).filter(k => count(k) || pp(k)).sort((a, b) => count(b) - count(a));
+    if (!sat.length) continue;
+    h += `<tr class="group"><td colspan="5">${grup}</td></tr>` + sat.map(k => `<tr><td>${liste[k]} <span class="muted">${k}</span></td><td class="n">${fmt(count(k))}</td><td class="n">${fmt(pp(k))}</td><td class="n">${fmt(pp(k, "ios"))}</td><td class="n">${fmt(pp(k, "android"))}</td></tr>`).join("");
+  }
+  // Base names in the ev maps that no group knows (event names without their _param variants).
+  const base = new Set();
+  for (const x of [...stats, ...installs]) for (const k of Object.keys(x.ev || {})) base.add(k);
+  const known = Object.keys(OLAY_AD), internal = ["screen", "screen_time", "pw_view", "pw_close", "pw_close_bought", "pw_buy", "session", "ai_error"];
+  const isVariant = k => [...known, ...internal].some(b => k.startsWith(b + "_"));
+  const other = [...base].filter(k => !known.includes(k) && !internal.includes(k) && !k.endsWith("_sec") && !isVariant(k)).sort((a, b) => count(b) - count(a));
+  if (other.length) h += `<tr class="group"><td colspan="5">Diğer</td></tr>` + other.map(k => `<tr><td>${esc(k)}</td><td class="n">${fmt(count(k))}</td><td class="n">${fmt(pp(k))}</td><td class="n">${fmt(pp(k, "ios"))}</td><td class="n">${fmt(pp(k, "android"))}</td></tr>`).join("");
+  $("engRows").innerHTML = h || `<tr><td colspan="5" class="muted">Henüz olay yok.</td></tr>`;
+}
+
+// ---------- Users ----------
+const daysSince = i => ts(i.firstSeen) ? Math.floor((Date.now() - ts(i.firstSeen)) / 864e5) : null;
+const verStr = i => `${i.appVersion || "?"}${i.build ? ` (${i.build})` : ""}`;
+const U_COLS = [
+  ["firstSeen", "İlk görülme", i => ts(i.firstSeen)?.getTime() || 0, i => dateS(i.firstSeen)],
+  ["age", "Gün", i => daysSince(i) ?? -1, i => daysSince(i) ?? "-", true],
+  ["lastSeen", "Son görülme", i => ts(i.lastSeen)?.getTime() || 0, i => ago(ts(i.lastSeen))],
+  ["status", "Durum", i => (isOnline(i) ? 4 : 0) + (i.pro ? 2 : 0) + (i.tester ? 1 : 0), i => `${isOnline(i) ? '<span class="dot"></span>' : ''}${i.pro ? '<span class="pill pro">Pro</span> ' : ''}${i.onboarded ? '' : '<span class="pill no">Tanıtım yarım</span> '}${i.tester ? '<span class="pill sky">Test</span>' : ''}`],
+  ["screen", "Ekran", i => whereIs(i), i => esc(whereIs(i))],
+  ["platform", "Platform", i => i.platform || "", i => platName(i.platform)],
+  ["appVersion", "Sürüm", i => verStr(i), i => esc(verStr(i))],
+  ["language", "Dil", i => i.language || "", i => esc(i.language || "")],
+  ["currency", "Para", i => i.currency || "", i => esc(i.currency || "")],
+  ["region", "Bölge", i => i.region || "", i => esc(i.region || "")],
+  ["sessions", "Oturum", i => +i.sessions || 0, i => fmt(i.sessions), true],
+  ["time", "Toplam süre", i => ev(i, "session_sec"), i => ev(i, "session_sec") ? mins(ev(i, "session_sec")) : "-", true],
+  ["pw", "Paywall", i => ev(i, "pw_view"), i => fmt(ev(i, "pw_view")), true],
+  ["ai", "AI istek", i => +i.ai_requests || 0, i => fmt(i.ai_requests), true],
+  ...Object.entries(N_FIELDS).map(([k, ad]) => [k, ad, i => +i[k] || 0, i => i[k] != null ? fmt(i[k]) : "-", true]),
+];
+let uSort = { k: "lastSeen", dir: -1 };
+$("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+function renderUsers() {
+  const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = rangeFrom();
+  const keep = {
+    all: () => true, online: isOnline, pro: i => i.pro, free: i => !i.pro, ios: i => i.platform === "ios", android: i => i.platform === "android",
+    notonb: i => !i.onboarded, paywall: i => ev(i, "pw_view") > 0, tester: i => i.tester, new: i => ts(i.firstSeen) >= from,
+  }[f] || (() => true);
+  const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[2];
+  const rows = installs.filter(i => keep(i) && (!q || [i.id, i.language, i.region, i.appVersion, i.build, i.device, i.currency, i.tz, i.platform].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
+  $("uCount").textContent = `${fmt(rows.length)} kurulum`;
+  $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
+  document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : -1 }; renderUsers(); });
+  $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}"><td><code>${esc(shortId(i.id))}</code></td>${U_COLS.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
+    : `<tr><td colspan="${U_COLS.length + 1}" class="muted">Kurulum yok.</td></tr>`;
+  document.querySelectorAll("#uRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+async function openUser(id) {
+  const i = installs.find(x => x.id === id); if (!i) return;
+  const d = $("drawer"); d.classList.remove("hidden"); d.scrollTop = 0;
+  const yes = b => b == null ? "-" : b ? "Evet" : "Hayır";
+  const sm = screenMap(i);
+  const pwSrc = evPrefix([i], "pw_view_");
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">Kurulum <code>${esc(shortId(id))}</code></h2><button class="ghost" id="dClose">Kapat</button></div>
+    <p class="muted" style="overflow-wrap:anywhere">${esc(id)}</p>
+    <div class="dl">
+      <div>Şu an</div><div>${isOnline(i) ? '<span class="dot"></span>' : ''}${esc(whereIs(i))}</div>
+      <div>Son görülme</div><div>${ts(i.lastSeen)?.toLocaleString("tr-TR") || "-"} (${ago(ts(i.lastSeen))})</div>
+      <div>İlk görülme</div><div>${ts(i.firstSeen)?.toLocaleString("tr-TR") || "-"}${daysSince(i) != null ? ` · ${daysSince(i)} gün önce` : ""}</div>
+      <div>Platform</div><div>${platName(i.platform)} ${esc(verStr(i))}</div>
+      <div>Cihaz</div><div>${esc(i.device || "-")}${i.os ? ` · ${i.platform === "android" ? "Android" : "iOS"} ${esc(i.os)}` : ""}</div>
+      <div>Dil / bölge</div><div>${esc(LANG[i.language] || i.language || "-")} / ${esc(i.region || "-")}</div>
+      <div>Para birimi</div><div>${esc(i.currency || "-")}</div>
+      <div>Saat dilimi</div><div>${esc(i.tz || "-")}</div>
+      <div>Pro</div><div>${i.pro ? `<span class="pill pro">Pro</span> ${esc(i.plan || "")}` : "Hayır"}</div>
+      ${i.pro || i.purchasedAt ? `<div>Satın alma</div><div>${dtS(i.purchasedAt)} · ${esc(srcName(i.buySource))}</div>` : ""}
+      <div>Bildirim izni</div><div>${i.notif == null ? "-" : i.notif ? "Açık" : "Kapalı"}</div>
+      <div>Tanıtım</div><div>${i.onboarded ? "Bitti" : i.onboarded === false ? "Yarım" : "-"}</div>
+      <div>Test cihazı</div><div>${yes(i.tester)}</div>
+      <div>Oturum</div><div>${fmt(i.sessions)} · toplam ${mins(ev(i, "session_sec"))}${ev(i, "session") ? ` · ortalama ${mins(ev(i, "session_sec") / ev(i, "session"))}` : ""}</div>
+      <div>Paywall</div><div>${fmt(ev(i, "pw_view"))} gösterim · ${fmt(ev(i, "pw_close"))} kapatma · ${fmt(ev(i, "pw_buy"))} satın alma</div>
+      <div>Yapay zeka</div><div>${fmt(i.ai_requests)} istek · ${fmt(i.ai_tokens_in)} / ${fmt(i.ai_tokens_out)} token · ${fmt(i.ai_blocked)} tavan · ${fmt(i.ai_failed)} hata</div>
+    </div>
+    <h2>Kayıtlar</h2>
+    <div class="dl">${Object.entries(N_FIELDS).map(([k, ad]) => `<div>${ad}</div><div>${i[k] != null ? fmt(i[k]) : "-"}</div>`).join("")}</div>
+    <h2>Ekranlarda geçen süre</h2><div class="bars" id="dScreens"></div>
+    ${Object.keys(pwSrc).length ? `<h2>Paywall kaynakları</h2><div class="bars" id="dPw"></div>` : ""}
+    <details style="margin-top:18px"><summary class="muted" style="cursor:pointer">Bütün sayaçlar</summary>
+      <div class="dl" style="margin-top:10px">${COUNTERS.map(k => `<div>${k}</div><div>${fmt(i[k])}</div>`).join("")}
+      ${Object.keys(i.ev || {}).sort().map(k => `<div>ev.${esc(k)}</div><div>${fmt(i.ev[k])}</div>`).join("")}</div></details>
+    <h2>Zaman çizelgesi</h2><div id="dTimeline" class="muted">Yükleniyor…</div>`;
+  $("dClose").onclick = () => d.classList.add("hidden");
+  bars("dScreens", Object.entries(sm).filter(([, v]) => v.sec > 0).sort((a, b) => b[1].sec - a[1].sec).map(([k, v]) => ({ label: screenName(k), value: v.sec, sub: `${mins(v.sec)} · ${fmt(v.views)} kez` })), "Ekran süresi yok.");
+  if ($("dPw")) bars("dPw", Object.entries(pwSrc).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: srcName(k), value: v, sub: `${fmt(v)} gösterim · ${fmt(ev(i, `pw_buy_${k}`))} alım` })));
+  try {
+    const evs = (await loadEvents(id)).slice().sort((a, b) => ts(b.t) - ts(a.t));
+    if (!$("dTimeline")) return;
+    let lastDay = "";
+    $("dTimeline").innerHTML = evs.length ? `<p class="muted">Son ${evs.length} olay, en yenisi üstte.</p><div class="tl">${evs.map(e => {
+      const t = ts(e.t), dk = t?.toLocaleDateString("tr-TR", { weekday: "short", day: "2-digit", month: "long" }) || "";
+      const head = dk !== lastDay ? `<div class="day">${dk}</div>` : ""; lastDay = dk;
+      return `${head}<div class="${evClass(e)}"><time>${t?.toLocaleTimeString("tr-TR") || ""}</time>${esc(eventText(e))}</div>`;
+    }).join("")}</div>` : "Zaman çizelgesi boş.";
+  } catch (e) { if ($("dTimeline")) $("dTimeline").textContent = "Okunamadı: " + (e.code || e.message); }
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("drawer").classList.add("hidden"); });
+
+// ---------- AI ----------
+const RATES_KEY = "wc-panel-fiyat";
+const rates = { in: 0.10, out: 0.40 };
+try { const r = JSON.parse(store.get(RATES_KEY) || "{}"); if (typeof r === "object" && r) Object.assign(rates, r); } catch { }
+$("rIn").value = rates.in; $("rOut").value = rates.out;
+["rIn", "rOut"].forEach(id => $(id).oninput = () => { rates.in = +$("rIn").value || 0; rates.out = +$("rOut").value || 0; store.set(RATES_KEY, JSON.stringify(rates)); renderAI(); });
+const costOf = s => (+s.ai_tokens_in || 0) / 1e6 * rates.in + (+s.ai_tokens_out || 0) / 1e6 * rates.out;
+
+function gaFrom() {
+  if (!G?.gunluk?.length) return "0000";
+  const last = G.gunluk.reduce((m, r) => r.t > m ? r.t : m, "");
+  const d = new Date(last + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - (+$("range").value) + 1);
+  return d.toISOString().slice(0, 10);
+}
+function renderAI() {
+  const req = sum(stats, "ai_requests"), tin = sum(stats, "ai_tokens_in"), tout = sum(stats, "ai_tokens_out");
+  const total = stats.reduce((a, s) => a + costOf(s), 0);
+  $("aiKpis").innerHTML = [
+    kpiH("İstek", fmt(req), "dönem, başarılı"), kpiH("Token girdi", fmt(tin)), kpiH("Token çıktı", fmt(tout)),
+    kpiH("İstek başı token", req ? fmt((tin + tout) / req) : "-"),
+    kpiH("Tavana takılan", fmt(sum(stats, "ai_blocked")), "günlük sınır", sum(stats, "ai_blocked") ? "warn" : ""),
+    kpiH("Hata", fmt(sum(stats, "ai_failed")), "", sum(stats, "ai_failed") ? "bad" : ""),
+    kpiH("Tahmini maliyet", money(total), "seçili dönem"),
+    kpiH("Kullanan kişi", fmt(installs.filter(i => i.ai_requests > 0).length), "tüm zamanlar"),
+  ].join("");
+  const labels = labelsOf();
+  chart("chAiReq", "bar", labels, [
+    { label: "Başarılı", data: stats.map(s => s.ai_requests || 0), backgroundColor: C[0], stack: "a" },
+    { label: "Tavan", data: stats.map(s => s.ai_blocked || 0), backgroundColor: C[2], stack: "a" },
+    { label: "Hata", data: stats.map(s => s.ai_failed || 0), backgroundColor: C[4], stack: "a" },
+  ], { scales: { x: { stacked: true }, y: { stacked: true } } });
+  chart("chAiTok", "line", labels, [
+    { label: "Girdi", data: stats.map(s => s.ai_tokens_in || 0), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+    { label: "Çıktı", data: stats.map(s => s.ai_tokens_out || 0), borderColor: C[3], backgroundColor: C[3], tension: .3 },
+  ]);
+  const top = installs.filter(i => i.ai_requests > 0 || i.ai_blocked > 0 || i.ai_failed > 0).sort((a, b) => (b.ai_requests || 0) - (a.ai_requests || 0)).slice(0, 15);
+  $("aiTop").innerHTML = top.length ? top.map(i => `<tr class="click" data-id="${esc(i.id)}"><td><code>${esc(shortId(i.id))}</code> ${i.pro ? '<span class="pill pro">Pro</span>' : ''}</td><td class="n">${fmt(i.ai_requests)}</td><td class="n">${fmt(i.ai_tokens_in)}</td><td class="n">${fmt(i.ai_tokens_out)}</td><td class="n">${fmt(i.ai_blocked)}</td><td class="n">${fmt(i.ai_failed)}</td><td class="n">${money(costOf(i))}</td></tr>`).join("")
+    : `<tr><td colspan="7" class="muted">Henüz yapay zeka kullanan yok.</td></tr>`;
+  document.querySelectorAll("#aiTop tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+  const errs = evPrefix(stats, "ai_error_");
+  const errRows = sorted(errs).map(r => ({ ...r, color: "var(--rose)" }));
+  if (sum(stats, "ai_blocked")) errRows.unshift({ label: "Günlük tavan", value: sum(stats, "ai_blocked"), color: "var(--warn)" });
+  bars("aiErrors", errRows, "Bu dönemde hata yok.");
+
+  // Google side (Cloud Monitoring, from the Mac snapshot)
+  const g = G?.gemini;
+  let warn = "";
+  if (!g) $("aiGoogle").innerHTML = `<h2>Google tarafı</h2><p class="muted">${esc(gaError || "Gemini sayacı özete girmemiş (Firebase CLI oturumu gerekiyor).")}</p>`;
+  else {
+    const bas = gaFrom(), sat = g.satir.filter(r => r.t >= bas);
+    const cls = k => k === "200" ? "ok" : k === "429" ? "kota" : String(k).startsWith("5") ? "google" : "hata";
+    const gun = new Map(), top = { ok: 0, kota: 0, google: 0, hata: 0 }, key = {};
+    for (const r of sat) {
+      const x = gun.get(r.t) || { ok: 0, kota: 0, google: 0, hata: 0 }; x[cls(r.kod)] += r.n; gun.set(r.t, x);
+      top[cls(r.kod)] += r.n; (key[r.anahtar] ||= { ok: 0, kota: 0, google: 0, hata: 0 })[cls(r.kod)] += r.n;
+    }
+    const all = top.ok + top.kota + top.google + top.hata, days = [...gun.keys()].sort();
+    if (top.kota) warn = `<div class="note"><b>Dikkat:</b> ${fmt(top.kota)} istek Google kotasına takıldı (429). Bu okumalar kullanıcıya "okunamadı" olarak döndü. Faturalandırma ${g.faturalandirma ? "açık" : "kapalı"}; ücretsiz katman doluyor olabilir.</div>`;
+    $("aiGoogle").innerHTML = `<h2>Google tarafı <span class="muted">wallet-coach-87336 · tüm istekler, başarısızlar dahil</span></h2>
+      <div class="kpis" style="margin-bottom:10px">${kpiH("Başarılı", fmt(top.ok), all ? `%${pct(top.ok, all)}` : "")}${kpiH("Kota (429)", fmt(top.kota), "", top.kota ? "warn" : "")}${kpiH("Google hatası (5xx)", fmt(top.google), "", top.google ? "bad" : "")}${kpiH("Diğer hata", fmt(top.hata))}</div>
+      <div class="cbox" style="height:220px"><canvas id="chGemini"></canvas></div>
+      <div class="tablewrap"><table><thead><tr><th>Anahtar</th><th class="n">Başarılı</th><th class="n">Kota</th><th class="n">5xx</th><th class="n">Diğer</th></tr></thead><tbody>
+      ${Object.entries(key).map(([a, v]) => `<tr><td>${esc(a)}</td><td class="n">${fmt(v.ok)}</td><td class="n">${fmt(v.kota)}</td><td class="n">${fmt(v.google)}</td><td class="n">${fmt(v.hata)}</td></tr>`).join("") || `<tr><td colspan="5" class="muted">Bu dönemde istek yok.</td></tr>`}</tbody></table></div>
+      ${warn}<p class="muted">Veri ${new Date(G.uretim).toLocaleString("tr-TR")} itibarıyla, günlük Mac işi.</p>`;
+    chart("chGemini", "bar", days.map(t => t.slice(8) + "." + t.slice(5, 7)), [
+      { label: "Başarılı", data: days.map(t => gun.get(t).ok), backgroundColor: C[0], stack: "g" },
+      { label: "Kota", data: days.map(t => gun.get(t).kota), backgroundColor: C[2], stack: "g" },
+      { label: "5xx", data: days.map(t => gun.get(t).google), backgroundColor: C[4], stack: "g" },
+      { label: "Diğer", data: days.map(t => gun.get(t).hata), backgroundColor: C[6], stack: "g" },
+    ], { scales: { x: { stacked: true }, y: { stacked: true } } });
+  }
+  $("aiWarn").innerHTML = warn;
+  // Analytics ai_* events
+  if (!G?.olaylar) { $("aiGaMeta").textContent = gaError || "Analytics özeti yok."; $("aiGaRows").innerHTML = ""; return; }
+  const bas = gaFrom(), m = {};
+  for (const r of G.olaylar) if (r.t >= bas && gaOk(r.p) && AI[r.o]) { const x = m[r.o] ||= { n: 0, v: 0 }; x.n += r.n; x.v += r.v; }
+  $("aiGaMeta").textContent = `Analytics olayları (ai_*), değer = token · ${bas} sonrası`;
+  $("aiGaRows").innerHTML = Object.entries(m).map(([k, v]) => `<tr><td>${AI[k]}</td><td class="n">${fmt(v.n)}</td><td class="n">${fmt(v.v)}</td><td class="n">${v.n && v.v ? fmt(v.v / v.n) : "-"}</td></tr>`).join("") || `<tr><td colspan="4" class="muted">Bu dönemde istek yok.</td></tr>`;
+}
+
+// ---------- Analytics (GA4 snapshot, ported from the old encrypted panel) ----------
+let gaPlat = store.get("wc-panel-ga-platform") || "hepsi";
+$("gaPlat").value = gaPlat;
+$("gaPlat").onchange = () => { gaPlat = $("gaPlat").value; store.set("wc-panel-ga-platform", gaPlat); renderGA4(); renderAI(); };
+const gaOk = p => gaPlat === "hepsi" || String(p).toLowerCase() === gaPlat;
+const yuzde = x => `%${Math.round((x || 0) * 100)}`;
+const opk = (olay, p) => (G.olayPlatform || []).find(r => r.eventName === olay && r.platform === p)?.totalUsers || 0;
+
+function renderGA4() {
+  if (!G) { $("gaMeta").textContent = ""; $("gaBody").innerHTML = `<div class="note">${esc(gaError || "Analytics özeti yok.")}</div>`; return; }
+  const days = +$("range").value, bas = gaFrom();
+  $("gaMeta").textContent = `Firebase Analytics özeti · veri ${new Date(G.uretim).toLocaleString("tr-TR")} · ${G.toplam?.totalUsers ?? 0} kullanıcı / ${G.gun} gün. Mac'teki günlük iş yazar; bugünün verisi eksik olabilir. Tutar, ad ya da metin hiçbir olayda yok.`;
+  // Daily
+  const m = new Map();
+  for (const r of G.gunluk) if (r.t >= bas && gaOk(r.p)) { const x = m.get(r.t) || { au: 0, nu: 0, os: 0, sure: 0 }; x.au += r.au; x.nu += r.nu; x.os += r.os; x.sure += r.sure; m.set(r.t, x); }
+  const s = [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const top = s.reduce((a, [, r]) => ({ nu: a.nu + r.nu, os: a.os + r.os, sure: a.sure + r.sure }), { nu: 0, os: 0, sure: 0 });
+  const o = {};
+  for (const r of G.olaylar) if (r.t >= bas && gaOk(r.p)) { const x = o[r.o] ||= { n: 0, k: 0, v: 0 }; x.n += r.n; x.k += r.k; x.v += r.v; }
+  const k = n => G.olayKisi?.[n]?.k || 0;
+  const acik = k("notifications_on"), kapali = k("notifications_off");
+  // Most done
+  const sistem = new Set(Object.keys(OLAY["Sistem"]).concat(Object.keys(OLAY["Rehber ve başlangıç"])));
+  const enCok = Object.entries(o).filter(([n]) => !sistem.has(n) && !n.startsWith("ai_") && OLAY_AD[n]).sort((a, b) => b[1].n - a[1].n).slice(0, 10);
+  // Funnel
+  const adim = [["first_open", "İlk açılış"], ["onboarding_finished", "Tanıtımı bitirdi"], ["plan_entry_added", "Plan satırı ekledi"], ["month_created", "Yeni ay açtı"], ["paywall_shown", "Paywall gördü"], ["purchase_completed", "Satın aldı"]];
+  const ilk = k("first_open") || 1;
+  // Platform comparison
+  const P = ["iOS", "Android"], pl = Object.fromEntries((G.platformlar || []).map(r => [r.platform, r]));
+  const oran = (olay, p) => { const b = opk("first_open", p) || pl[p]?.newUsers || 1; return `${fmt(opk(olay, p))} <span class="muted">${yuzde(opk(olay, p) / b)}</span>`; };
+  const satir = (ad, f) => `<tr><td>${ad}</td>${P.map(p => `<td class="n">${pl[p] ? f(p, pl[p]) : "-"}</td>`).join("")}</tr>`;
+  const grupla = (liste, alan) => P.map(p => `<div class="card"><h2>${p}</h2><div class="tablewrap"><table>${liste.filter(r => r.platform === p).sort((a, b) => b.totalUsers - a.totalUsers).slice(0, 10).map(r => `<tr><td>${esc(alan(r))}</td><td class="n">${fmt(r.totalUsers)}</td></tr>`).join("") || '<tr><td class="muted">Veri yok.</td></tr>'}</table></div></div>`).join("");
+  const tablo = (baslik, sat, k1) => `<div class="card"><h2>${baslik}</h2><div class="tablewrap"><table>${sat.slice(0, 12).map(r => `<tr><td>${esc(r[k1])}</td><td class="n">${fmt(r.totalUsers ?? r.activeUsers)}</td></tr>`).join("")}</table></div></div>`;
+  const surum = (G.surumler || []).filter(r => gaOk(r.platform)).sort((a, b) => b.activeUsers - a.activeUsers).map(r => ({ ad: `${r.platform} ${r.appVersion}`, activeUsers: r.activeUsers }));
+  $("gaBody").innerHTML = `
+    <div class="kpis">
+      ${kpiH("Bugün aktif", fmt(G.aktif?.dau), "son 1 gün")}${kpiH("Haftalık aktif", fmt(G.aktif?.wau), "son 7 gün")}${kpiH("Aylık aktif", fmt(G.aktif?.mau), "son 28 gün")}
+      ${kpiH("Yeni kullanıcı", fmt(top.nu), `son ${days} gün`)}${kpiH("Oturum başı süre", mins(top.os ? top.sure / top.os : 0), `${fmt(top.os)} oturum`)}
+      ${kpiH("Silen", fmt(o.app_remove?.n || 0), "app_remove (yalnız Android)")}
+      ${kpiH("Bildirimi açık", fmt(acik), acik + kapali ? yuzde(acik / (acik + kapali)) + " oran" : "")}${kpiH("Bildirime dokunan", fmt(k("push_opened")), "kişi")}
+    </div>
+    <div class="card"><h2>Günlük kullanıcı <span class="muted">son ${days} gün</span></h2><div class="cbox"><canvas id="chGaDaily"></canvas></div></div>
+    <div class="grid2">
+      <div class="card"><h2>En çok yapılan <span class="muted">olay sayısı</span></h2><div class="bars" id="gaTop"></div></div>
+      <div class="card"><h2>Huni <span class="muted">kişi, ${G.gun} gün</span></h2><div class="tablewrap"><table>${adim.map(([n, ad]) => { const v = k(n); return `<tr><td>${ad}</td><td class="n">${fmt(v)}</td><td class="n">${yuzde(v / ilk)}</td></tr>`; }).join("")}</table></div><p class="muted">Kişi sayıları dönemin tamamı için, platform filtresi uygulanmaz.</p></div>
+    </div>
+    <div class="card"><h2>iOS / Android karşılaştırması <span class="muted">${G.gun} gün</span></h2><div class="tablewrap"><table><tr><th></th>${P.map(p => `<th class="n">${p}</th>`).join("")}</tr>
+      ${satir("Kullanıcı", (p, r) => fmt(r.totalUsers))}${satir("Oturum", (p, r) => fmt(r.sessions))}
+      ${satir("Kişi başı oturum", (p, r) => (r.sessions / r.totalUsers).toFixed(1).replace(".", ","))}${satir("Etkileşimli oturum", (p, r) => yuzde(r.engagedSessions / r.sessions))}
+      ${satir("Kişi başı süre", (p, r) => mins(r.userEngagementDuration / r.totalUsers))}
+      <tr class="group"><td colspan="3">Huni (ilk açılışa göre)</td></tr>
+      ${satir("Tanıtımı bitirdi", p => oran("onboarding_finished", p))}${satir("Plan satırı ekledi", p => oran("plan_entry_added", p))}
+      ${satir("Yeni ay açtı", p => oran("month_created", p))}${satir("Paywall gördü", p => oran("paywall_shown", p))}
+      ${satir("Satın aldı", p => oran("purchase_completed", p))}${satir("Sildi", p => oran("app_remove", p))}
+    </table></div><p class="muted">iOS silmeyi bildirmez (app_remove yalnız Android).</p></div>
+    <h2>Nereden geldiler <span class="muted">ilk kurulum kaynağı</span></h2>
+    <div class="grid2">${grupla(G.kaynaklar || [], r => `${r.firstUserSource} / ${r.firstUserMedium}`)}</div>
+    <h2>Cihazlar</h2>
+    <div class="grid2">${grupla(G.cihazlar || [], r => r.mobileDeviceModel)}</div>
+    <div class="grid2">${grupla(G.isletim || [], r => r.operatingSystemVersion)}</div>
+    <div class="card"><h2>Günün saatine göre oturum <span class="muted">cihaz saatiyle</span></h2><div class="cbox" style="height:200px"><canvas id="chGaHour"></canvas></div></div>
+    <div class="grid2">
+      ${tablo("Sürüm <span class='muted'>aktif, 28 gün</span>", surum, "ad")}
+      ${tablo("Ülke", (G.ulkeler || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), "country")}
+      ${tablo("Dil", (G.diller || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), "language")}
+      <div class="card"><h2>Geri gelme <span class="muted">ilk haftaya göre</span></h2>${kohortTablo()}</div>
+    </div>
+    ${(G.bildirimler || []).length ? `<div class="card"><h2>Mac'ten gönderilen bildirimler <span class="muted">eski yol, wc-bildirim.mjs</span></h2><div class="tablewrap"><table><tr><th>Tarih</th><th>Kime</th><th>Başlık</th><th>Sekme</th></tr>${G.bildirimler.slice().reverse().map(b => `<tr><td>${esc((b.zaman || "").slice(0, 16).replace("T", " "))}</td><td>${esc(b.kosul)}</td><td class="wrap">${esc(b.baslik)}<div class="muted">${esc(b.metin)}</div></td><td>${esc(b.sekme || "")}</td></tr>`).join("")}</table></div></div>` : ""}`;
+  chart("chGaDaily", "line", s.map(([t]) => t.slice(8) + "." + t.slice(5, 7)), [
+    { label: "Aktif", data: s.map(([, r]) => r.au), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+    { label: "Yeni", data: s.map(([, r]) => r.nu), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+  ]);
+  bars("gaTop", enCok.map(([n, v]) => ({ label: OLAY_AD[n], value: v.n })));
+  const saat = (G.saatler || []).slice().sort((a, b) => +a.hour - +b.hour);
+  chart("chGaHour", "bar", saat.map(r => r.hour), [{ label: "Oturum", data: saat.map(r => r.sessions), backgroundColor: C[0] }], { plugins: { legend: { display: false } } });
+}
+function kohortTablo() {
+  const hafta = t => { const d = new Date(t + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
+  const fark = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5 / 7);
+  const m = {};
+  for (const r of G.kohort || []) { const h = hafta(r.ilk), w = fark(h, hafta(r.t)); const x = m[h] ||= {}; x[w] = (x[w] || 0) + r.k; }
+  const haftalar = Object.keys(m).sort().slice(-8);
+  return `<div class="tablewrap"><table><tr><th>Hafta</th><th class="n">Yeni</th>${[1, 2, 3, 4].map(i => `<th class="n">+${i}</th>`).join("")}</tr>
+    ${haftalar.map(h => { const x = m[h], y = x[0] || 0; return `<tr><td>${h.slice(8)}.${h.slice(5, 7)}</td><td class="n">${fmt(y)}</td>${[1, 2, 3, 4].map(i => `<td class="n">${x[i] != null && y ? yuzde(x[i] / y) : ""}</td>`).join("")}</tr>`; }).join("")}</table></div>
+    <p class="muted">Hücre: o haftanın yeni kullanıcılarından kaç kişi n hafta sonra açtı (günlük aktiflerin toplamı, kaba).</p>`;
+}
+
+// ---------- Push ----------
+const PUSH_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский" };
+const DASH = /[\u2014\u2013]/;
+$("pOther").innerHTML = ["de", "es", "fr", "pt", "ru"].map(l => `<div><p class="lang">${PUSH_LANGS[l].toUpperCase()}</p><input id="pt_${l}" placeholder="Başlık" maxlength="80"><textarea id="pb_${l}" placeholder="Metin" maxlength="300" style="margin-top:6px"></textarea></div>`).join("");
+function pushDraft() {
+  const metinler = {}, bad = [];
+  for (const l of Object.keys(PUSH_LANGS)) {
+    const t = $(`pt_${l}`), b = $(`pb_${l}`);
+    [t, b].forEach(el => { const isBad = DASH.test(el.value); el.classList.toggle("bad-input", isBad); if (isBad) bad.push(l); });
+    if (t.value.trim() && b.value.trim()) metinler[l] = { baslik: t.value.trim(), metin: b.value.trim() };
+  }
+  return { metinler, sekme: $("pTab").value || null, yalnizTL: $("pTL").checked, test: $("pTest").checked, bad: [...new Set(bad)] };
+}
+function renderPreview() {
+  const d = pushDraft();
+  const langs = Object.keys(d.metinler), shown = d.test ? langs.slice(0, 1) : langs;
+  $("pPreview").innerHTML = (d.bad.length ? `<div class="note err">Uzun tire var (${d.bad.join(", ")}). Virgül ya da nokta kullan; bu haliyle gönderilmez.</div>` : "") +
+    (shown.length ? shown.map(l => `<p class="lang" style="margin-top:10px">${PUSH_LANGS[l].toUpperCase()} · ${d.test ? "wc_test" : `wc_lang_${l}${d.yalnizTL ? " ve wc_try" : ""}`}</p>
+      <div class="notif"><img src="/assets/lab-icons/wallet-coach-180.png" alt=""><div><div class="app">Wallet Coach · şimdi</div><b>${esc(d.metinler[l].baslik)}</b><p>${esc(d.metinler[l].metin)}</p></div></div>`).join("")
+      + `<p class="muted">Açınca: ${d.sekme ? TABS[d.sekme] + " sekmesi" : "uygulamanın açık kaldığı yer"}.${d.test && langs.length > 1 ? ` Test açık: yalnız ${PUSH_LANGS[langs[0]]} gider.` : ""}</p>`
+      : `<p class="muted">Başlık ve metin yazınca burada görünür. Bir dilin gitmesi için ikisi de dolu olmalı.</p>`);
+  $("pSend").textContent = d.test ? "Test cihazlarına gönder" : "Herkese gönder";
+}
+document.querySelectorAll("section[data-view=push] input, section[data-view=push] textarea, section[data-view=push] select").forEach(el => el.addEventListener("input", renderPreview));
+$("pTest").onchange = renderPreview; $("pTL").onchange = renderPreview;
+renderPreview();
+$("pSend").onclick = async () => {
+  const d = pushDraft();
+  $("pResult").innerHTML = "";
+  if (d.bad.length) { $("pStatus").textContent = "Uzun tireyi kaldır."; return; }
+  const langs = Object.keys(d.metinler);
+  if (!langs.length) { $("pStatus").textContent = "En az bir dilde başlık ve metin yaz."; return; }
+  const who = d.test ? "yalnız test cihazlarına" : `${langs.map(l => PUSH_LANGS[l]).join(", ")} kullananlara${d.yalnizTL ? " (yalnız TL bütçeler)" : ""}`;
+  if (!confirm(`Bildirim ${who} gönderilsin mi?${d.test ? "" : " Geri alınamaz."}`)) return;
+  const payload = { metinler: d.metinler, sekme: d.sekme, yalnizTL: d.yalnizTL, test: d.test };
+  $("pSend").disabled = true; $("pStatus").textContent = "Gönderiliyor…";
+  try {
+    if (DEMO) { $("pStatus").textContent = "Demo: gönderilmedi. Giden istek bu olurdu:"; $("pResult").innerHTML = `<pre class="res">${esc(JSON.stringify(payload, null, 2))}</pre>`; return; }
+    const r = (await FB.Fn.httpsCallable(FB.fns, "sendPush")(payload)).data;
+    $("pStatus").textContent = `Gönderildi: ${r.results?.length || 0} mesaj.`;
+    $("pResult").innerHTML = `<div class="note okn">${(r.results || []).map(x => `${esc(PUSH_LANGS[x.dil] || x.dil)}: <code>${esc(x.condition)}</code>`).join("<br>")}</div>`;
+    loadData(false);
+  } catch (e) {
+    console.error(e);
+    $("pStatus").textContent = "Gönderilemedi.";
+    const missing = /not-found|internal|unavailable|unimplemented/.test(e.code || "");
+    $("pResult").innerHTML = `<div class="note err"><b>${esc(e.code || "hata")}</b>: ${esc(e.message || "")}${e.details ? `<br>${esc(JSON.stringify(e.details))}` : ""}
+      ${missing ? `<br><br>Fonksiyon büyük ihtimalle kurulu değil. <code>sendPush</code> Blaze planı ister; proje Blaze'e geçince <code>firebase deploy --only functions</code> ile kurulur.` : ""}</div>`;
+  } finally { $("pSend").disabled = false; }
+};
+
+function renderSent() {
+  $("sentRows").innerHTML = pushes.length ? pushes.map(p => {
+    const m = p.metinler || {}, first = m.tr || m.en || Object.values(m)[0] || {};
+    const res = p.results || [];
+    return `<tr><td>${dtS(p.createdAt)}</td><td class="wrap"><b>${esc(first.baslik || "")}</b><div class="muted">${esc(first.metin || "")}</div></td>
+      <td>${Object.keys(m).join(", ")}</td><td>${p.test ? '<span class="pill sky">Test cihazları</span>' : "Herkes"}${p.yalnizTL ? ' <span class="pill pro">Yalnız TL</span>' : ""}</td>
+      <td>${esc(TABS[p.sekme] || p.sekme || "-")}</td><td>${res.length ? `${res.length} mesaj` : "-"}<div class="muted">${res.map(r => esc(r.condition)).join("<br>")}</div></td></tr>`;
+  }).join("") : `<tr><td colspan="6" class="muted">Panelden henüz bildirim gönderilmedi.</td></tr>`;
+}
+
+// ---------- Demo data (never touches Firestore) ----------
+let demo = null;
+async function makeDemo() {
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const now = Date.now(), statsMap = {}, events = {}, list = [];
+  const bump = (o, k, n = 1) => { o[k] = (o[k] || 0) + n; };
+  const SCR = ["panel", "panel", "month", "month", "month", "analysis", "wallet", "wallet", "settings", "statements", "statement_detail", "ledger", "assets", "savings", "projects", "wishlist", "converter", "learn", "time_value", "net_salary"];
+  const ACT = { month: ["plan_entry_added", "plan_entry_added", "plan_entry_toggled", "calendar_opened", "expense_added", "section_added"], wallet: ["tab_opened"], ledger: ["party_added", "ledger_entry_added", "ledger_settled"], assets: ["asset_added", "asset_updated"], savings: ["saving_pot_added", "saving_added"], projects: ["project_created", "purchase_added"], wishlist: ["item_added", "item_decided"], statements: ["statement_read", "statement_saved"], converter: ["calculation_made"], learn: ["article_opened"], settings: ["backup_saved", "privacy_toggled"] };
+  const PW = ["onboarding", "onboarding", "month_limit", "receipt_limit", "statement_limit", "analysis", "settings", "ledger_party_limit", "export"];
+  const langs = ["tr", "tr", "tr", "en", "en", "de", "es", "fr", "pt", "ru"], curOf = { tr: "TRY", en: "USD", de: "EUR", es: "EUR", fr: "EUR", pt: "BRL", ru: "RUB" };
+  for (let n = 0; n < 40; n++) {
+    const id = Array.from({ length: 4 }, () => Math.floor(rnd() * 0xffffffff).toString(16).padStart(8, "0").toUpperCase()).join("-");
+    const ios = rnd() < .7, lang = pick(langs), first = now - 40 * 6e4 - Math.pow(rnd(), 1.4) * 75 * 864e5;
+    const inst = { id, platform: ios ? "ios" : "android", appVersion: ios ? pick(["2.4", "2.4", "2.3"]) : pick(["2.4", "2.3.1"]), build: ios ? pick(["16", "17"]) : pick(["14", "15"]),
+      language: lang, region: { tr: "TR", en: pick(["US", "GB", "CA"]), de: "DE", es: "ES", fr: "FR", pt: "BR", ru: "RU" }[lang], currency: rnd() < .85 ? curOf[lang] : "USD",
+      tz: { tr: "Europe/Istanbul", en: "America/New_York", de: "Europe/Berlin", es: "Europe/Madrid", fr: "Europe/Paris", pt: "America/Sao_Paulo", ru: "Europe/Moscow" }[lang],
+      device: ios ? pick(["iPhone15,2", "iPhone16,1", "iPhone14,7", "iPhone17,3"]) : pick(["SM-S918B", "Pixel 8", "Redmi Note 12"]), os: ios ? pick(["26.0", "26.0.1", "18.6"]) : pick(["14", "15"]),
+      pro: false, notif: rnd() < .55, onboarded: false, tester: n < 2, ev: {}, firstSeen: new Date(first) };
+    COUNTERS.forEach(k => inst[k] = 0);
+    const evs = [];
+    const st = t => statsMap[dayKey(t)] ||= { ev: {} };
+    const rec = (t, name, p, s) => {
+      for (const o of [inst, st(t)]) { bump(o.ev, name); if (p) bump(o.ev, `${name}_${p}`); if (s > 0) { bump(o.ev, `${name}_sec`, s); if (p) bump(o.ev, `${name}_${p}_sec`, s); } }
+      evs.push({ t: new Date(t), e: name, ...(p ? { p } : {}), ...(s != null ? { s } : {}) });
     };
-    const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
-    const AI = { ai_receipt: "Fiş", ai_label: "Etiket", ai_statement: "Ekstre", ai_call: "Ara sürüm (ayrımsız)" };
-    const EKRAN = {
-      panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", settings: "Ayarlar", statements: "Ekstreler",
-      statement_detail: "Ekstre detayı", ledger: "Alacak-verecek", assets: "Varlıklar", projects: "Projeler",
-      savings: "Birikim", price_log: "Fiyat takibi", converter: "Fiyatı saate çevir", wishlist: "Listem",
-      time_value: "Şimdi ne kadar", net_salary: "Brütten nete", raise: "Zam", learn: "Öğren", paywall: "Paywall",
-    };
-
-    let D = null;
-    const durum = { aralik: 30, platform: "hepsi", sekme: "ozet" };
-    try { Object.assign(durum, JSON.parse(localStorage.getItem(OTURUM + "-durum") || "{}")); } catch (e) { }
-    const kaydet = () => { try { localStorage.setItem(OTURUM + "-durum", JSON.stringify(durum)); } catch (e) { } };
-
-    const sayi = n => new Intl.NumberFormat("tr-TR").format(Math.round(n));
-    const sure = sn => sn >= 3600 ? `${(sn / 3600).toFixed(1).replace(".", ",")} sa` : sn >= 60 ? `${Math.round(sn / 60)} dk` : `${Math.round(sn)} sn`;
-    const yuzde = x => `%${Math.round(x * 100)}`;
-    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-
-    function sinir() {
-      const son = D.gunluk.reduce((m, r) => r.t > m ? r.t : m, "");
-      const d = new Date(son + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - durum.aralik + 1);
-      return d.toISOString().slice(0, 10);
-    }
-    const pOk = p => durum.platform === "hepsi" || p === durum.platform;
-
-    function cizgi(seriler, gunler, yuk = 160) {
-      const g = 640, pad = 26, maks = Math.max(1, ...seriler.flatMap(s => s.d));
-      const x = i => pad + (gunler.length < 2 ? 0 : i * (g - pad - 6) / (gunler.length - 1));
-      const y = v => yuk - 18 - v * (yuk - 30) / maks;
-      let s = `<svg viewBox="0 0 ${g} ${yuk}" role="img">`;
-      for (const k of [0, .5, 1]) s += `<line x1="${pad}" x2="${g}" y1="${y(maks * k)}" y2="${y(maks * k)}" stroke="var(--border)"/><text x="0" y="${y(maks * k) + 4}" font-size="10" fill="var(--faint)">${sayi(maks * k)}</text>`;
-      for (const sr of seriler) s += `<polyline fill="none" stroke="${sr.c}" stroke-width="2" stroke-linejoin="round" points="${sr.d.map((v, i) => `${x(i)},${y(v)}`).join(" ")}"/>`;
-      const adim = Math.max(1, Math.ceil(gunler.length / 6));
-      gunler.forEach((t, i) => { if (i % adim === 0) s += `<text x="${x(i)}" y="${yuk - 2}" font-size="10" fill="var(--faint)" text-anchor="middle">${t.slice(8)}.${t.slice(5, 7)}</text>`; });
-      return s + "</svg>";
-    }
-
-    function gunlukSeri() {
-      const bas = sinir(), m = new Map();
-      for (const r of D.gunluk) if (r.t >= bas && pOk(r.p)) {
-        const x = m.get(r.t) || { au: 0, nu: 0, os: 0, sure: 0 };
-        x.au += r.au; x.nu += r.nu; x.os += r.os; x.sure += r.sure; m.set(r.t, x);
+    const cnt = (t, k, v = 1) => { bump(inst, k, v); bump(st(t), k, v); };
+    const evAdd = (t, k, v) => { bump(inst.ev, k, v); bump(st(t).ev, k, v); };
+    cnt(first, "installs_new");
+    const online = n >= 2 && n < 6, sessions = online ? 2 + Math.floor(rnd() * 6) : 1 + Math.floor(rnd() * rnd() * 22);
+    let t = first, lastScreen = "panel";
+    for (let si = 0; si < sessions && t < now; si++) {
+      const start = t; cnt(t, "sessions");
+      if (si === 0) {
+        for (let k = 0; k < 4; k++) { rec(t, "onboarding_step", String(k + 1)); t += 8e3 + rnd() * 2e4; }
+        if (rnd() < .8) { inst.onboarded = true; rec(t, "onboarding_finished"); cnt(t, "onboarding_done"); }
       }
-      return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-    }
-
-    function olayToplam() {
-      const bas = sinir(), m = {};
-      for (const r of D.olaylar) if (r.t >= bas && pOk(r.p)) {
-        const x = m[r.o] ||= { n: 0, kg: 0, v: 0 };
-        x.n += r.n; x.kg += r.k; x.v += r.v;
+      const screensN = 2 + Math.floor(rnd() * 5);
+      for (let k = 0; k < screensN; k++) {
+        const sc = pick(SCR); lastScreen = sc; rec(t, "screen", sc);
+        const dur = Math.round(4 + Math.pow(rnd(), 2) * 260);
+        if (ACT[sc] && rnd() < .6) { const a = pick(ACT[sc]); rec(t + dur * 400, a, a === "tab_opened" ? pick(["panel", "month", "analysis", "wallet"]) : null); }
+        if ((sc === "statements" || sc === "month") && rnd() < .3) {
+          const tt = t + dur * 500;
+          if (rnd() < .12) { cnt(tt, "ai_blocked"); } else if (rnd() < .08) { cnt(tt, "ai_failed"); rec(tt, "ai_error", pick(["receipt_429", "statement_500", "label_429"])); }
+          else { cnt(tt, "ai_requests"); cnt(tt, "ai_tokens_in", 1200 + Math.floor(rnd() * 5000)); cnt(tt, "ai_tokens_out", 150 + Math.floor(rnd() * 900)); if (sc === "month") rec(tt, "receipt_scanned"); }
+        }
+        t += dur * 1000; evAdd(t, `screen_${sc}_sec`, dur); rec(t, "screen_time", sc, dur);
       }
-      return m;
-    }
-
-    const SEKMELER = { ozet: "Özet", platform: "iOS / Android", kullanim: "Kullanım", ekranlar: "Ekranlar", ai: "Yapay zekâ", bildirim: "Bildirimler", kitle: "Kitle" };
-
-    function ozet() {
-      const s = gunlukSeri(), top = s.reduce((a, [, r]) => ({ au: a.au + r.au, nu: a.nu + r.nu, os: a.os + r.os, sure: a.sure + r.sure }), { au: 0, nu: 0, os: 0, sure: 0 });
-      const o = olayToplam(), silinen = o.app_remove?.n || 0;
-      const kpi = (ad, deger, alt) => `<div class="kart kpi"><div class="ad">${ad}</div><div class="deger">${deger}</div><div class="alt">${alt || ""}</div></div>`;
-      return `
-        <div class="izgara">
-          ${kpi("Bugün aktif", sayi(D.aktif.dau), "son 1 gün")}
-          ${kpi("Haftalık aktif", sayi(D.aktif.wau), "son 7 gün")}
-          ${kpi("Aylık aktif", sayi(D.aktif.mau), "son 28 gün")}
-          ${kpi("Yeni kullanıcı", sayi(top.nu), `son ${durum.aralik} gün`)}
-          ${kpi("Oturum başı süre", sure(top.os ? top.sure / top.os : 0), `${sayi(top.os)} oturum`)}
-          ${kpi("Silen", sayi(silinen), "app_remove (Android)")}
-        </div>
-        <div class="kart"><h2>Günlük kullanıcı <small>son ${durum.aralik} gün</small></h2>
-          ${cizgi([{ d: s.map(([, r]) => r.au), c: "var(--accent)" }, { d: s.map(([, r]) => r.nu), c: "var(--sky)" }], s.map(([t]) => t))}
-          <div class="lejant"><span style="--c:var(--accent)">aktif</span><span style="--c:var(--sky)">yeni</span></div>
-        </div>
-        <div class="iki">
-          <div class="kart"><h2>En çok yapılan <small>kişi sayısı</small></h2>${enCok(o, 10)}</div>
-          <div class="kart"><h2>Huni <small>${durum.aralik} gün</small></h2>${huni(o)}</div>
-        </div>`;
-    }
-
-    function enCok(o, n) {
-      const sistem = new Set(Object.keys(OLAY["Sistem"]).concat(Object.keys(OLAY["Rehber ve başlangıç"])));
-      const sat = Object.entries(o).filter(([k]) => !sistem.has(k) && !k.startsWith("ai_") && OLAY_AD[k]).sort((a, b) => b[1].n - a[1].n).slice(0, n);
-      const maks = Math.max(1, ...sat.map(([, v]) => v.n));
-      return `<table>${sat.map(([k, v]) => `<tr><td>${OLAY_AD[k]}<div class="cubuk"><i style="width:${v.n / maks * 100}%"></i></div></td><td class="sayi">${sayi(v.n)}</td></tr>`).join("")}</table>`;
-    }
-
-    function huni(o) {
-      const adim = [["first_open", "İlk açılış"], ["onboarding_finished", "Tanıtımı bitirdi"], ["plan_entry_added", "Plan satırı ekledi"],
-        ["month_created", "Yeni ay açtı"], ["paywall_shown", "Paywall gördü"], ["purchase_completed", "Satın aldı"]];
-      const ilk = D.olayKisi.first_open?.k || 1;
-      return `<table>${adim.map(([k, ad]) => { const v = D.olayKisi[k]?.k || 0; return `<tr><td>${ad}<div class="cubuk"><i style="width:${Math.min(100, v / ilk * 100)}%"></i></div></td><td class="sayi">${sayi(v)}</td><td class="sayi">${yuzde(v / ilk)}</td></tr>`; }).join("")}</table>
-        <p class="not" style="margin-top:8px">Kişi sayıları dönemin tamamı (${D.gun} gün) için, platform filtresi uygulanmaz.</p>`;
-    }
-
-    function kullanim() {
-      const o = olayToplam();
-      const bilinen = new Set(Object.keys(OLAY_AD));
-      let h = "";
-      for (const [grup, liste] of Object.entries(OLAY)) {
-        const sat = Object.keys(liste).filter(k => o[k] || D.olayKisi[k]);
-        if (!sat.length) continue;
-        h += `<tr><td class="grup" colspan="3">${grup}</td></tr>` + sat.sort((a, b) => (o[b]?.n || 0) - (o[a]?.n || 0)).map(k =>
-          `<tr><td>${liste[k]} <span class="not">${k}</span></td><td class="sayi">${sayi(o[k]?.n || 0)}</td><td class="sayi">${sayi(D.olayKisi[k]?.k || 0)}</td><td class="sayi">${sayi(opk(k, "iOS"))}</td><td class="sayi">${sayi(opk(k, "Android"))}</td></tr>`).join("");
+      if ((si === 0 && inst.onboarded) || rnd() < .25) {
+        const src = si === 0 ? "onboarding" : pick(PW), dur = Math.round(3 + rnd() * 70);
+        rec(t, "pw_view", src); cnt(t, "paywall_views"); rec(t, "paywall_shown", src);
+        t += dur * 1000;
+        if (!inst.pro && rnd() < .14) {
+          rec(t, "pw_buy", src, dur); cnt(t, "purchases"); rec(t, "purchase_completed");
+          Object.assign(inst, { pro: true, plan: pick(["wc_pro_yearly", "wc_pro_monthly", "wc_pro_lifetime"]), buySource: src, purchasedAt: new Date(t) });
+          t += 2000; rec(t, "pw_close_bought", src, dur + 2);
+        } else { rec(t, "pw_close", src, dur); rec(t, "paywall_dismissed", src); }
       }
-      const diger = Object.keys(o).filter(k => !bilinen.has(k) && !k.startsWith("ai_"));
-      if (diger.length) h += `<tr><td class="grup" colspan="3">Diğer</td></tr>` + diger.map(k => `<tr><td>${esc(k)}</td><td class="sayi">${sayi(o[k].n)}</td><td class="sayi">${sayi(D.olayKisi[k]?.k || 0)}</td></tr>`).join("");
-      return `<div class="kart"><h2>Ne yapıyorlar <small>olay sayısı son ${durum.aralik} gün · kişi ${D.gun} gün</small></h2>
-        <table><tr><th>Olay</th><th class="sayi">Kez</th><th class="sayi">Kişi</th><th class="sayi">iOS kişi</th><th class="sayi">Android kişi</th></tr>${h}</table></div>`;
+      const len = Math.round((t - start) / 1000); rec(t, "session", null, len);
+      if (si < sessions - 1) t += online && si === sessions - 2 ? 0 : (0.5 + rnd() * 70) * 36e5;
     }
-
-    const opk = (olay, p) => (D.olayPlatform || []).find(r => r.eventName === olay && r.platform === p)?.totalUsers || 0;
-
-    function platformSekme() {
-      const P = ["iOS", "Android"], pl = Object.fromEntries((D.platformlar || []).map(r => [r.platform, r]));
-      const oran = (olay, p) => { const ilk = opk("first_open", p) || pl[p]?.newUsers || 1; return `${sayi(opk(olay, p))} <span class="not">${yuzde(opk(olay, p) / ilk)}</span>`; };
-      const satir = (ad, f) => `<tr><td>${ad}</td>${P.map(p => `<td class="sayi">${pl[p] ? f(p, pl[p]) : "-"}</td>`).join("")}</tr>`;
-      const tablo = `<table><tr><th></th>${P.map(p => `<th class="sayi">${p}</th>`).join("")}</tr>
-        ${satir("Kullanıcı", (p, r) => sayi(r.totalUsers))}
-        ${satir("Oturum", (p, r) => sayi(r.sessions))}
-        ${satir("Kişi başı oturum", (p, r) => (r.sessions / r.totalUsers).toFixed(1).replace(".", ","))}
-        ${satir("Etkileşimli oturum", (p, r) => yuzde(r.engagedSessions / r.sessions))}
-        ${satir("Kişi başı süre", (p, r) => sure(r.userEngagementDuration / r.totalUsers))}
-        <tr><td class="grup" colspan="3">Huni (ilk açılışa göre)</td></tr>
-        ${satir("Tanıtımı bitirdi", p => oran("onboarding_finished", p))}
-        ${satir("Plan satırı ekledi", p => oran("plan_entry_added", p))}
-        ${satir("Yeni ay açtı", p => oran("month_created", p))}
-        ${satir("Paywall gördü", p => oran("paywall_shown", p))}
-        ${satir("Satın aldı", p => oran("purchase_completed", p))}
-        ${satir("Sildi", p => oran("app_remove", p))}
-      </table><p class="not" style="margin-top:8px">${D.gun} gün. iOS silmeyi bildirmez (app_remove yalnız Android). Süre geliştirme ve ekran görüntüsü oturumlarını da içeriyor; 2.4 ile geliştirme build'leri sayılmayacak.</p>`;
-      const grupla = (liste, alan) => P.map(p => `<div class="kart"><h2>${p}</h2><table>${liste.filter(r => r.platform === p).sort((a, b) => b.totalUsers - a.totalUsers).slice(0, 10).map(r => `<tr><td>${esc(alan(r))}</td><td class="sayi">${sayi(r.totalUsers)}</td></tr>`).join("")}</table></div>`).join("");
-      const saat = (D.saatler || []).sort((a, b) => +a.hour - +b.hour), sm = Math.max(1, ...saat.map(r => r.sessions));
-      const saatSvg = `<svg viewBox="0 0 640 120">${saat.map(r => { const h = r.sessions / sm * 90; return `<rect x="${+r.hour * 26.5 + 4}" y="${100 - h}" width="20" height="${h}" rx="3" fill="var(--accent)"/><text x="${+r.hour * 26.5 + 14}" y="114" font-size="9" fill="var(--faint)" text-anchor="middle">${r.hour}</text>`; }).join("")}</svg>`;
-      return `<div class="kart"><h2>Karşılaştırma</h2>${tablo}</div>
-        <div class="kart"><h2>Nereden geldiler <small>ilk kurulum kaynağı</small></h2></div>
-        <div class="iki">${grupla(D.kaynaklar || [], r => `${r.firstUserSource} / ${r.firstUserMedium}`)}</div>
-        <div class="kart"><h2>Cihazlar</h2></div>
-        <div class="iki">${grupla(D.cihazlar || [], r => r.mobileDeviceModel)}</div>
-        <div class="iki">${grupla(D.isletim || [], r => r.operatingSystemVersion)}</div>
-        <div class="kart"><h2>Günün saatine göre oturum <small>cihaz saatiyle</small></h2>${saatSvg}</div>`;
-    }
-
-    function ekranlar() {
-      const m = {};
-      for (const e of D.ekranlar) if (pOk(e.p)) { const x = m[e.ad] ||= { g: 0, sure: 0, k: 0 }; x.g += e.g; x.sure += e.sure; x.k += e.k; }
-      const sat = Object.entries(m).filter(([ad]) => ad && ad !== "(not set)").sort((a, b) => b[1].sure - a[1].sure);
-      const maks = Math.max(1, ...sat.map(([, v]) => v.sure));
-      const bos = !sat.length ? `<p class="not">Ekran adları 2.4 build 16 / vc 14 ile gönderilmeye başlıyor; o sürümden önce hepsi "(not set)". İlk veriler yeni sürüm yayılınca dolacak.</p>` : "";
-      return `<div class="kart"><h2>Nerede ne kadar vakit <small>${D.gun} gün, toplam etkileşim süresi</small></h2>${bos}
-        <table><tr><th>Ekran</th><th class="sayi">Süre</th><th class="sayi">Görüntüleme</th><th class="sayi">Kişi</th><th class="sayi">Kişi başı</th></tr>
-        ${sat.map(([ad, v]) => `<tr><td>${EKRAN[ad] || esc(ad)}<div class="cubuk"><i style="width:${v.sure / maks * 100}%"></i></div></td><td class="sayi">${sure(v.sure)}</td><td class="sayi">${sayi(v.g)}</td><td class="sayi">${sayi(v.k)}</td><td class="sayi">${sure(v.k ? v.sure / v.k : 0)}</td></tr>`).join("")}</table></div>`;
-    }
-
-    function ai() {
-      const o = olayToplam();
-      let fiyat = 0.15;
-      try { fiyat = Number(localStorage.getItem(OTURUM + "-fiyat")) || 0.15; } catch (e) { }
-      const sat = Object.keys(AI).filter(k => o[k]).map(k => [k, o[k]]);
-      const top = sat.reduce((a, [, v]) => ({ n: a.n + v.n, v: a.v + v.v }), { n: 0, v: 0 });
-      const bas = sinir(), gun = new Map();
-      for (const r of D.olaylar) if (r.t >= bas && pOk(r.p) && AI[r.o]) gun.set(r.t, (gun.get(r.t) || 0) + r.n);
-      const gunler = [...gun.keys()].sort();
-      return `
-        <div class="izgara">
-          <div class="kart kpi"><div class="ad">İstek</div><div class="deger">${sayi(top.n)}</div><div class="alt">son ${durum.aralik} gün</div></div>
-          <div class="kart kpi"><div class="ad">Token</div><div class="deger">${sayi(top.v)}</div><div class="alt">yeni sürümden itibaren</div></div>
-          <div class="kart kpi"><div class="ad">Tahmini maliyet</div><div class="deger">$${(top.v / 1e6 * fiyat).toFixed(2)}</div><div class="alt">faturalandırma kapalıyken ücretsiz katman</div></div>
-        </div>
-        <div class="kart"><h2>Özelliğe göre</h2>
-          <table><tr><th>Özellik</th><th class="sayi">İstek</th><th class="sayi">Token</th><th class="sayi">İstek başı</th></tr>
-          ${sat.map(([k, v]) => `<tr><td>${AI[k]}</td><td class="sayi">${sayi(v.n)}</td><td class="sayi">${sayi(v.v)}</td><td class="sayi">${v.v ? sayi(v.v / v.n) : "-"}</td></tr>`).join("") || `<tr><td colspan="4" class="not">Henüz istek yok.</td></tr>`}</table>
-          <p class="not" style="margin-top:10px">Milyon token başı fiyat ($): <input class="fiyat" id="fiyat" type="number" step="0.01" value="${fiyat}"> Flash Lite girdi 0,10 / çıktı 0,40; okumalar çoğunlukla girdi, karışık ~0,15.</p>
-        </div>
-        ${gunler.length > 1 ? `<div class="kart"><h2>Günlük istek <small>uygulamanın saydığı</small></h2>${cizgi([{ d: gunler.map(t => gun.get(t)), c: "var(--violet)" }], gunler, 130)}</div>` : ""}
-        ${googleTarafi()}`;
-    }
-
-    /* Google'ın kendi sayacı: başarısız istekler dahil. 429 = ücretsiz kota doldu. */
-    function googleTarafi() {
-      const g = D.gemini; if (!g) return "";
-      const bas = sinir(), sat = g.satir.filter(r => r.t >= bas);
-      const sinif = k => k === "200" ? "ok" : k === "429" ? "kota" : k.startsWith("5") ? "google" : "hata";
-      const gun = new Map(), top = { ok: 0, kota: 0, google: 0, hata: 0 }, anahtar = {};
-      for (const r of sat) {
-        const x = gun.get(r.t) || { ok: 0, kota: 0, google: 0, hata: 0 }; x[sinif(r.kod)] += r.n; gun.set(r.t, x);
-        top[sinif(r.kod)] += r.n; (anahtar[r.anahtar] ||= { ok: 0, kota: 0, google: 0, hata: 0 })[sinif(r.kod)] += r.n;
+    if (online) {
+      t = now - rnd() * 70e3; inst.lastSeen = new Date(t); inst.screen = rnd() < .3 ? "paywall" : pick(SCR);
+      if (inst.screen === "paywall") { rec(t - 20e3, "pw_view", "month_limit"); cnt(t, "paywall_views"); }
+    } else { inst.lastSeen = new Date(Math.min(t, now - 5 * 6e4)); inst.screen = "closed"; inst.lastScreen = lastScreen; }
+    const r = (a, b) => Math.floor(a + rnd() * (b - a));
+    const engaged = inst.sessions > 3;
+    Object.assign(inst, { n_months: engaged ? r(1, 6) : r(0, 2), n_entries: engaged ? r(8, 60) : r(0, 8), n_parties: r(0, 4), n_assets: rnd() < .4 ? r(1, 8) : 0, n_projects: rnd() < .2 ? r(1, 3) : 0, n_purchases: rnd() < .2 ? r(1, 12) : 0, n_pots: rnd() < .3 ? r(1, 4) : 0, n_boards: rnd() < .15 ? 1 : 0, n_statements: rnd() < .25 ? r(1, 5) : 0, n_wishes: rnd() < .3 ? r(1, 6) : 0 });
+    events[id] = evs.sort((a, b) => b.t - a.t);
+    list.push(inst);
+  }
+  let ga4 = null;
+  // ?demo&ga4=file.json loads a real snapshot saved next to the page (kept out of git).
+  const gaFile = new URLSearchParams(location.search).get("ga4");
+  if (gaFile && /^[\w.-]+\.json$/.test(gaFile)) try { const r = await fetch(gaFile, { cache: "no-store" }); if (r.ok) ga4 = await r.json(); } catch { }
+  demo = { installs: list, stats: statsMap, events, ga4: ga4 || fakeGA4(rnd, pick),
+    pushes: [
+      { id: "p2", createdAt: new Date(now - 2 * 864e5), metinler: { tr: { baslik: "Yeni ay hazır", metin: "Ekim planını açmak bir dokunuş." }, en: { baslik: "New month is ready", metin: "Open your October plan in one tap." } }, sekme: "month", yalnizTL: false, test: false, results: [{ dil: "tr", condition: "'wc_lang_tr' in topics", id: "x" }, { dil: "en", condition: "'wc_lang_en' in topics", id: "y" }] },
+      { id: "p1", createdAt: new Date(now - 9 * 864e5), metinler: { tr: { baslik: "Kur güncellendi", metin: "Dolar ve euro bugün değişti." } }, sekme: "wallet", yalnizTL: true, test: true, results: [{ dil: "tr", condition: "'wc_test' in topics", id: "z" }] },
+    ] };
+}
+function fakeGA4(rnd, pick) {
+  const now = Date.now(), gun = 90, g = { uretim: new Date(now - 4 * 36e5).toISOString(), gun, gunluk: [], olaylar: [], kohort: [], bildirimler: [] };
+  const names = Object.keys(OLAY_AD).filter(n => !["app_remove", "app_clear_data"].includes(n)).concat(["app_remove", "ai_receipt", "ai_statement", "ai_label"]);
+  const kisi = {}, olayP = {};
+  for (let d = gun - 1; d >= 0; d--) {
+    const t = dayKey(now - d * 864e5);
+    for (const p of ["ios", "android"]) {
+      const au = Math.round((p === "ios" ? 14 : 6) * (0.5 + rnd()) * (1 + (gun - d) / gun)), nu = Math.round(au * (.2 + rnd() * .3));
+      g.gunluk.push({ t, p, au, nu, os: Math.round(au * 1.8), sure: au * Math.round(300 + rnd() * 400), ekran: au * 6 });
+      for (const o of names) if (rnd() < .35) {
+        const n = 1 + Math.floor(rnd() * au), k = Math.max(1, Math.round(n / 2));
+        g.olaylar.push({ t, o, p, n, k, v: o.startsWith("ai_") ? n * (1500 + Math.floor(rnd() * 3000)) : 0 });
+        (kisi[o] ||= { k: 0, n: 0 }).n += n; kisi[o].k += k;
+        const P = p === "ios" ? "iOS" : "Android"; (olayP[o + "|" + P] ||= { eventName: o, platform: P, totalUsers: 0, eventCount: 0 }).totalUsers += k; olayP[o + "|" + P].eventCount += n;
       }
-      const gunler = [...gun.keys()].sort(), hepsi = top.ok + top.kota + top.google + top.hata;
-      const uyari = top.kota ? `<p class="not" style="margin-top:8px"><span class="etiket sari">dikkat</span> <b>${sayi(top.kota)}</b> istek ücretsiz kotaya takıldı (429). Faturalandırma kapalı; bu okumalar kullanıcıya "okunamadı" olarak döndü.</p>` : "";
-      return `<div class="kart"><h2>Google tarafı <small>wallet-coach-87336 · tüm istekler</small></h2>
-        <div class="izgara" style="margin-bottom:10px">
-          <div class="kpi"><div class="ad">Başarılı</div><div class="deger">${sayi(top.ok)}</div><div class="alt">${hepsi ? yuzde(top.ok / hepsi) : ""}</div></div>
-          <div class="kpi"><div class="ad">Kota (429)</div><div class="deger" style="color:var(--amber)">${sayi(top.kota)}</div></div>
-          <div class="kpi"><div class="ad">Google hatası (5xx)</div><div class="deger" style="color:var(--rose)">${sayi(top.google)}</div></div>
-          <div class="kpi"><div class="ad">Diğer hata</div><div class="deger">${sayi(top.hata)}</div></div>
-        </div>
-        ${gunler.length > 1 ? cizgi([{ d: gunler.map(t => gun.get(t).ok), c: "var(--accent)" }, { d: gunler.map(t => gun.get(t).kota), c: "var(--amber)" }, { d: gunler.map(t => gun.get(t).google), c: "var(--rose)" }], gunler, 140) : ""}
-        <div class="lejant"><span style="--c:var(--accent)">başarılı</span><span style="--c:var(--amber)">kota</span><span style="--c:var(--rose)">5xx</span></div>
-        <table style="margin-top:10px"><tr><th>Anahtar</th><th class="sayi">Başarılı</th><th class="sayi">Kota</th><th class="sayi">5xx</th><th class="sayi">Diğer</th></tr>
-        ${Object.entries(anahtar).map(([a, v]) => `<tr><td>${esc(a)}</td><td class="sayi">${sayi(v.ok)}</td><td class="sayi">${sayi(v.kota)}</td><td class="sayi">${sayi(v.google)}</td><td class="sayi">${sayi(v.hata)}</td></tr>`).join("")}</table>
-        ${uyari}</div>`;
     }
+  }
+  const tu = g.gunluk.reduce((a, r) => a + r.nu, 0);
+  kisi.first_open = { k: tu, n: tu };
+  for (const P of ["iOS", "Android"]) olayP["first_open|" + P] = { eventName: "first_open", platform: P, totalUsers: Math.round(tu * (P === "iOS" ? .7 : .3)), eventCount: Math.round(tu * (P === "iOS" ? .7 : .3)) };
+  g.olayKisi = kisi; g.olayPlatform = Object.values(olayP);
+  g.toplam = { totalUsers: tu, newUsers: tu, activeUsers: tu, sessions: tu * 3, userEngagementDuration: tu * 2000, engagedSessions: tu * 2 };
+  g.aktif = { dau: 21, wau: 48, mau: 140 };
+  g.ekranlar = ["(not set)", ...Object.keys(EKRAN)].flatMap(ad => ["ios", "android"].map(p => ({ ad, p, g: Math.floor(rnd() * 400), sure: Math.floor(rnd() * 30000), k: 1 + Math.floor(rnd() * 60) })));
+  g.surumler = [{ platform: "iOS", appVersion: "2.4", activeUsers: 52 }, { platform: "iOS", appVersion: "2.3", activeUsers: 31 }, { platform: "Android", appVersion: "2.4", activeUsers: 22 }, { platform: "Android", appVersion: "2.3.1", activeUsers: 9 }];
+  g.ulkeler = [["Türkiye", 120], ["United States", 60], ["Germany", 30], ["Brazil", 18], ["Spain", 12], ["France", 9]].map(([country, totalUsers]) => ({ country, totalUsers }));
+  g.diller = [["Turkish", 118], ["English", 101], ["German", 28], ["Portuguese", 17], ["Spanish", 13]].map(([language, totalUsers]) => ({ language, totalUsers }));
+  g.platformlar = [{ platform: "iOS", totalUsers: Math.round(tu * .7), newUsers: Math.round(tu * .7), activeUsers: Math.round(tu * .7), sessions: Math.round(tu * 2.2), engagedSessions: Math.round(tu * 1.6), userEngagementDuration: tu * 1500 }, { platform: "Android", totalUsers: Math.round(tu * .3), newUsers: Math.round(tu * .3), activeUsers: Math.round(tu * .3), sessions: Math.round(tu * .9), engagedSessions: Math.round(tu * .5), userEngagementDuration: tu * 400 }];
+  g.kaynaklar = [{ platform: "iOS", firstUserSource: "(direct)", firstUserMedium: "(none)", totalUsers: Math.round(tu * .7) }, { platform: "Android", firstUserSource: "google-play", firstUserMedium: "organic", totalUsers: Math.round(tu * .22) }, { platform: "Android", firstUserSource: "(direct)", firstUserMedium: "(none)", totalUsers: Math.round(tu * .08) }];
+  g.cihazlar = [["iOS", "iPhone", 52], ["iOS", "iPhone 15 Pro", 20], ["iOS", "iPhone 13", 14], ["Android", "SM-S918B", 8], ["Android", "Pixel 8", 5]].map(([platform, mobileDeviceModel, totalUsers]) => ({ platform, mobileDeviceModel, totalUsers }));
+  g.isletim = [["iOS", "26.0", 60], ["iOS", "18.6", 30], ["Android", "15", 15], ["Android", "14", 9]].map(([platform, operatingSystemVersion, totalUsers]) => ({ platform, operatingSystemVersion, totalUsers }));
+  g.saatler = Array.from({ length: 24 }, (_, h) => ({ hour: String(h).padStart(2, "0"), activeUsers: 5, sessions: Math.round(4 + 30 * Math.max(0, Math.sin((h - 6) / 18 * Math.PI)) * (0.7 + rnd() * .6)) }));
+  g.gemini = { faturalandirma: false, satir: [] };
+  for (let d = 30; d >= 0; d--) { const t = dayKey(now - d * 864e5); g.gemini.satir.push({ t, kod: "200", anahtar: "wallet-coach", n: Math.floor(rnd() * 40) }); if (rnd() < .2) g.gemini.satir.push({ t, kod: "429", anahtar: "wallet-coach", n: 1 + Math.floor(rnd() * 6) }); if (rnd() < .1) g.gemini.satir.push({ t, kod: "503", anahtar: "wallet-coach", n: 1 }); }
+  for (let w = 8; w >= 0; w--) { const ilk = dayKey(now - w * 7 * 864e5); let k = 20 + Math.floor(rnd() * 20); for (let j = 0; j <= w && j < 5; j++) { g.kohort.push({ ilk, t: dayKey(now - (w - j) * 7 * 864e5), k }); k = Math.round(k * (.3 + rnd() * .3)); } }
+  return g;
+}
 
-    function bildirim() {
-      const k = n => D.olayKisi[n]?.k || 0;
-      const acik = k("notifications_on"), kapali = k("notifications_off"), hepsi = acik + kapali;
-      const gecmis = (D.bildirimler || []).slice().reverse();
-      return `
-        <div class="izgara">
-          <div class="kart kpi"><div class="ad">Bildirimi açık</div><div class="deger">${sayi(acik)}</div><div class="alt">${hepsi ? yuzde(acik / hepsi) + " oran" : "yeni sürümle dolacak"}</div></div>
-          <div class="kart kpi"><div class="ad">Kapalı</div><div class="deger">${sayi(kapali)}</div><div class="alt">günde bir sayılır</div></div>
-          <div class="kart kpi"><div class="ad">İzin soruldu</div><div class="deger">${sayi(k("notifications_asked"))}</div><div class="alt">kişi</div></div>
-          <div class="kart kpi"><div class="ad">Bildirime dokunan</div><div class="deger">${sayi(k("push_opened"))}</div><div class="alt">kişi</div></div>
-        </div>
-        <div class="kart"><h2>Gönderilenler <small>scripts/lab/wc-bildirim.mjs</small></h2>
-          ${gecmis.length ? `<table><tr><th>Tarih</th><th>Kime</th><th>Başlık</th><th>Sekme</th></tr>${gecmis.map(b => `<tr><td>${esc(b.zaman.slice(0, 16).replace("T", " "))}</td><td>${esc(b.kosul)}</td><td>${esc(b.baslik)}<div class="not">${esc(b.metin)}</div></td><td>${esc(b.sekme || "")}</td></tr>`).join("")}</table>`
-          : `<p class="not">Henüz gönderilen yok. Gönderme Mac'ten: <code>node scripts/lab/wc-bildirim.mjs --dosya bildirim.json</code></p>`}
-        </div>`;
-    }
-
-    function kitle() {
-      const tablo = (baslik, sat, k1) => `<div class="kart"><h2>${baslik}</h2><table>${sat.slice(0, 12).map(r => `<tr><td>${esc(r[k1])}</td><td class="sayi">${sayi(r.totalUsers ?? r.activeUsers)}</td></tr>`).join("")}</table></div>`;
-      const surum = D.surumler.filter(r => pOk(r.platform.toLowerCase())).sort((a, b) => b.activeUsers - a.activeUsers)
-        .map(r => ({ ad: `${r.platform} ${r.appVersion}`, activeUsers: r.activeUsers }));
-      return `<div class="iki">
-        ${tablo("Sürüm <small>aktif, 28 gün</small>", surum, "ad")}
-        ${tablo("Ülke", D.ulkeler.sort((a, b) => b.totalUsers - a.totalUsers), "country")}
-        ${tablo("Dil", D.diller.sort((a, b) => b.totalUsers - a.totalUsers), "language")}
-        <div class="kart"><h2>Geri gelme <small>ilk haftaya göre</small></h2>${kohortTablo()}</div>
-      </div>`;
-    }
-
-    function kohortTablo() {
-      const hafta = t => { const d = new Date(t + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
-      const fark = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5 / 7);
-      const m = {};
-      for (const r of D.kohort) {
-        const h = hafta(r.ilk), w = fark(h, hafta(r.t));
-        const x = m[h] ||= {}; x[w] = Math.max(x[w] || 0, 0) + r.k;
-      }
-      const haftalar = Object.keys(m).sort().slice(-8);
-      return `<table><tr><th>Hafta</th><th class="sayi">Yeni</th>${[1, 2, 3, 4].map(i => `<th class="sayi">+${i}</th>`).join("")}</tr>
-        ${haftalar.map(h => { const x = m[h], y = x[0] || 0; return `<tr><td>${h.slice(8)}.${h.slice(5, 7)}</td><td class="sayi">${sayi(y)}</td>${[1, 2, 3, 4].map(i => `<td class="sayi">${x[i] != null && y ? yuzde(x[i] / y) : ""}</td>`).join("")}</tr>`; }).join("")}</table>
-        <p class="not" style="margin-top:8px">Hücre: o haftanın yeni kullanıcılarından kaç kişi n hafta sonra açtı (günlük aktiflerin toplamı, kaba).</p>`;
-    }
-
-    function ciz() {
-      const secim = (id, ops, anahtar) => {
-        document.getElementById(id).innerHTML = ops.map(([v, ad]) => `<button data-v="${v}" class="${String(durum[anahtar]) === String(v) ? "on" : ""}">${ad}</button>`).join("");
-        document.querySelectorAll(`#${id} button`).forEach(b => b.onclick = () => { durum[anahtar] = isNaN(+b.dataset.v) ? b.dataset.v : +b.dataset.v; kaydet(); ciz(); });
-      };
-      secim("aralik", [[7, "7g"], [30, "30g"], [90, "90g"]], "aralik");
-      secim("platform", [["hepsi", "Hepsi"], ["ios", "iOS"], ["android", "Android"]], "platform");
-      document.getElementById("sekmeler").innerHTML = Object.entries(SEKMELER).map(([k, ad]) => `<button data-k="${k}" class="${durum.sekme === k ? "on" : ""}">${ad}</button>`).join("");
-      document.querySelectorAll("#sekmeler button").forEach(b => b.onclick = () => { durum.sekme = b.dataset.k; kaydet(); ciz(); });
-      const f = { ozet, platform: platformSekme, kullanim, ekranlar, ai, bildirim, kitle }[durum.sekme] || ozet;
-      document.getElementById("ana").innerHTML = f();
-      const fi = document.getElementById("fiyat");
-      if (fi) fi.onchange = () => { try { localStorage.setItem(OTURUM + "-fiyat", fi.value); } catch (e) { } ciz(); };
-      document.getElementById("alt").textContent = `Veri: ${new Date(D.uretim).toLocaleString("tr-TR")} · Firebase Analytics, ${D.toplam.totalUsers} kullanıcı / ${D.gun} gün · Tutar, ad ya da metin hiçbir olayda yok.`;
-    }
-
-    async function ac(parola) {
-      const r = await fetch("data.enc.json", { cache: "no-store" });
-      D = await coz(await r.json(), parola);
-      try { sessionStorage.setItem(OTURUM, parola); } catch (e) { }
-      document.getElementById("gate").hidden = true;
-      document.getElementById("uygulama").hidden = false;
-      ciz();
-    }
-    document.getElementById("giris").onsubmit = async e => {
-      e.preventDefault();
-      try { await ac(document.getElementById("pw").value); }
-      catch (err) { document.getElementById("hata").textContent = "Parola yanlış ya da veri okunamadı."; }
-    };
-    document.getElementById("tema").onclick = () => {
-      const t = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", t);
-      try { localStorage.setItem("bamtech-panel-tema", t); } catch (e) { }
-    };
-    (async () => { let p = null; try { p = sessionStorage.getItem(OTURUM); } catch (e) { } if (p) try { await ac(p); } catch (e) { } })();
-  </script>
+if (DEMO) await refreshAll();
+</script>
 </body>
-
 </html>
