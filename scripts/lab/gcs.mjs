@@ -88,3 +88,13 @@ export async function indir(kova, ad) {
   if (ham[0] === 0xFF && ham[1] === 0xFE) return ham.toString("utf16le").slice(1);
   return ham.toString("utf8").replace(/^﻿/, "");
 }
+
+/** Tek bir nesneyi ham bayt olarak indirir (sales/earnings zip'leri). */
+export async function indirHam(kova, ad) {
+  const t = await token();
+  const u = `https://storage.googleapis.com/storage/v1/b/${kovaAdi(kova)}/o/` +
+            `${encodeURIComponent(ad)}?alt=media`;
+  const r = await fetch(u, { headers: { Authorization: `Bearer ${t}` } });
+  if (!r.ok) throw new Error(`indir ${ad}: ${r.status}`);
+  return Buffer.from(await r.arrayBuffer());
+}

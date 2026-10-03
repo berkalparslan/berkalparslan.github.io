@@ -1,9 +1,21 @@
 # /lab/panel/ — günlük mağaza verisi
 
-App Store Connect ve Google Play verisini tek panelde toplar. Sunucu yok,
-Supabase yok, GitHub Actions yok: bütün istekleri `ascelerate` ve `gplay`
-CLI'larına devrediyor, onlar kendi kimlik bilgilerini kullanıyor. **Bu depoda
-hiçbir anahtar durmuyor.**
+App Store Connect, Google Play, Firebase Analytics, uygulama panellerinin
+Firestore telemetrisi ve site trafiğini (Cloudflare Web Analytics) tek panelde
+toplar. Sunucu yok, GitHub Actions yok; her sabah 07:00 Mac'te `gunluk.sh`.
+Kimlikler Mac'teki yerlerinde duruyor, **bu depoda hiçbir anahtar yok**:
+
+| Kaynak | Kimlik |
+|---|---|
+| App Store (satış, yorum, sürüm) | `~/.ascelerate/config.aberk.json` (Berk) ve `config.page.json` (Elif: Daily Whisper, Nubi), API doğrudan. Etkin `config.json`'a bakılmaz: başka oturumlar onu hesaptan hesaba çeviriyor, 24 Eyl 2026'da iOS bu yüzden iki hafta boş geldi. Elif hesabında `vendorNumber` yok, satış raporu o yüzden gelmiyor. |
+| Play (sürüm, toplu raporlar) | `gplay` servis hesabı (`~/.gplay/config.json`) |
+| GA4 | aynı servis hesabı (Viewer), mülkler `ga4.mjs` PROPERTIES |
+| Firestore telemetrisi | Firebase CLI oturumu, projeler `telemetri.mjs` PROJELER |
+| Cloudflare Web Analytics | wrangler OAuth oturumu (eskiyse `wrangler whoami` yeniler) |
+
+Hata yüzünden boş kaydedilen gün (`ios-*.json` içinde `sebep` "apple-rapor-yok"
+değilse) her çalıştırmada yeniden denenir. Bir kaynak günlerdir gelmiyorsa
+`build.mjs` ve panelin Veri sekmesi "UYARI" yazar.
 
 ## Parola
 
@@ -60,10 +72,17 @@ açık — en az 5 kelimelik bir parola seç.
 | `collect.mjs` | ascelerate + gplay çağırır, ham JSON'ları vault'a yazar |
 | `gcs.mjs` | Cloud Storage'daki toplu raporları okur (yorum geçmişi, indirme) |
 | `csv.mjs` | Play'in UTF-16LE, tırnaklı CSV'lerini ayrıştırır |
+| `telemetri.mjs` | Uygulama panellerinin `installs/` belgeleri → aktif, yeni, ülke, canlı |
+| `web.mjs` | Cloudflare RUM → günlük ziyaret, ülke, sayfa, yönlendiren |
 
 ## Panelde ne var
 
-Dört sekme: **Özet** (kartlar, günlük grafik, uygulama tablosu, ülkeler),
+**Kitle** sekmesi (Ekim 2026): bütün uygulamaların toplamı (aktif kullanıcı,
+Play kurulu cihaz, indirme, gelir), bayraklı ülke dağılımı ve ısı listesi
+(indirme, GA4 aktif, Play cihaz, telemetri, site), uygulama kırılımı, trendler.
+Aralık penceresi son verili güne demirli (Apple 1-2 gün, Play ~7-10 gün geriden).
+
+Diğer sekmeler: **Özet** (kartlar, günlük grafik, uygulama tablosu, ülkeler),
 **Yorumlar** (tam metin + senin cevabın, cevapsız ve 3★ altı süzgeçleri),
 **Görevler** (vault notlarındaki `- [ ]` satırları), **Veri** (her kaynağın
 durumu ve son tarihi).
@@ -97,7 +116,10 @@ Play Developer API bunları vermiyor:
 | Veri | Nerede |
 |---|---|
 | İndirme, kaldırma, ülke, cihaz | Cloud Storage: `stats/installs/installs_<paket>_<YYYYMM>_overview.csv` |
-| Gelir | Cloud Storage: `earnings/`, `sales/` (zip) |
+| Gelir | Cloud Storage: `sales/salesreport_<YYYYMM>.zip` (günlük sipariş; Item Price × 0,85, iade eksi) |
+| Ülke, aktif cihaz | `stats/installs/..._country.csv` |
+| Çökme, ANR | `stats/crashes/..._overview.csv` |
+| Mağaza puanı | `stats/ratings/..._overview.csv` (Total Average Rating) |
 | **Tüm yorum geçmişi** | Cloud Storage: `reviews/reviews_<paket>_<YYYYMM>.csv` |
 | Son 7 günün yorumları | `gplay reviews list` — API daha eskisini hiç vermiyor |
 

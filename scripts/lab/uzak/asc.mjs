@@ -70,7 +70,9 @@ export function ascIstemci(env) {
         return {
           puan: x.attributes.rating ?? null, baslik: x.attributes.title || "", metin: x.attributes.body || "",
           kisi: x.attributes.reviewerNickname || "", ulke: x.attributes.territory || "", tarih: x.attributes.createdDate || "",
-          cevap: c && c.state === "PUBLISHED" ? { metin: c.responseBody || "", tarih: c.lastModifiedDate || "" } : null
+          /* PENDING_PUBLISH: cevap yazılmış, Apple henüz yayınlamamış; cevapsız değil. */
+          cevap: c && ["PUBLISHED", "PENDING_PUBLISH"].includes(c.state)
+            ? { metin: c.responseBody || "", tarih: c.lastModifiedDate || "", bekliyor: c.state === "PENDING_PUBLISH" || undefined } : null
         };
       });
       const puanlar = liste.map(x => x.puan).filter(Number.isFinite);

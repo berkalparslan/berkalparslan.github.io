@@ -4,9 +4,10 @@
  *
  *   node scripts/lab/collect.mjs [--days 30] [--force]
  *
- * Kimlik bilgisi tutmaz: bütün istekleri `ascelerate` ve `gplay` CLI'larına
- * devrediyor, onlar kendi yapılandırmalarını kullanıyor. Bu yüzden repoda
- * hiçbir anahtar yok ve GitHub Actions'a gerek yok.
+ * Kimlik bilgisi tutmaz. App Store: ~/.ascelerate/config.<hesap>.json ile API
+ * doğrudan (etkin config.json'a bakılmaz). Play: gplay CLI ve onun servis
+ * hesabı. Firestore: Firebase CLI oturumu. Cloudflare: wrangler oturumu.
+ * Repoda hiçbir anahtar yok ve GitHub Actions'a gerek yok.
  *
  * Ham çıktılar vault'a (private depo) yazılıyor:
  *   ~/dev/vault/metrikler/veri/ios-YYYY-MM-DD.json
@@ -26,8 +27,14 @@ import { homedir } from "node:os";
 import { APPS, SKU_SLUG, PKG_SLUG } from "./apps.mjs";
 import { satisAyristir } from "./satis.mjs";
 import { vaultAyristir } from "./vaultmetin.mjs";
-import { listele, indir, kovaAdi } from "./gcs.mjs";
+import { listele, indir, indirHam, kovaAdi } from "./gcs.mjs";
 import { csvNesneler } from "./csv.mjs";
+import { ascIstemci } from "./uzak/asc.mjs";
+import { playSatir } from "./uzak/google.mjs";
+import { telemetri } from "./telemetri.mjs";
+import { web } from "./web.mjs";
+import { tmpdir } from "node:os";
+import { rmSync } from "node:fs";
 
 const VERI = join(homedir(), "dev", "vault", "metrikler", "veri");
 const args = process.argv.slice(2);
@@ -54,15 +61,43 @@ function sh(cmd, argv) {
 
 const iso = d => d.toISOString().slice(0, 10);
 
+/* ── App Store Connect hesapları ─────────────────────────────────────────
+   ascelerate'in etkin ayarı (~/.ascelerate/config.json) başka oturumlarca
+   hesaptan hesaba çevriliyor; 24 Eyl 2026'da Oncopace hesabına dönük kaldı ve
+   iOS verisi iki hafta boş geldi. O yüzden CLI yerine App Store Connect API
+   doğrudan, hesap dosyası adıyla: config.aberk.json (Berk) ve config.page.json
+   (Elif: Daily Whisper, Nubi). config.json'a hiç dokunulmuyor. */
+const ASC_DIR = join(homedir(), ".ascelerate");
+function ascHesap(ad) {
+  const yol = join(ASC_DIR, `config.${ad}.json`);
+  if (!existsSync(yol)) return null;
+  const c = JSON.parse(readFileSync(yol, "utf8"));
+  const pem = readFileSync(String(c.privateKeyPath).replace(/^~/, homedir()), "utf8");
+  return { ad, vendor: c.vendorNumber || null,
+    api: ascIstemci({ ASC_KEY_ID: c.keyId, ASC_ISSUER_ID: c.issuerId, ASC_PRIVATE_KEY: pem, ASC_VENDOR: c.vendorNumber }) };
+}
+const HESAPLAR = Object.fromEntries(["aberk", "page"].map(a => [a, ascHesap(a)]).filter(([, h]) => h));
+const hesapAdi = app => app.ios?.hesap || "aberk";
+const NOTLAR = [];
+if (!HESAPLAR.aberk) NOTLAR.push("~/.ascelerate/config.aberk.json yok: Berk'in iOS verisi çekilemedi.");
+if (HESAPLAR.page && !HESAPLAR.page.vendor)
+  NOTLAR.push("Elif hesabının (Daily Whisper, Nubi iOS) vendor numarası yok: ~/.ascelerate/config.page.json içine vendorNumber yazılınca iOS indirmeleri de gelir (App Store Connect → Payments and Financial Reports, sol üst).");
+
 /* ── iOS: Sales & Trends günlük raporu ─────────────────────────────────
-   Ayrıştırma satis.mjs'te (uzak çalıştırıcıyla ortak). Burada yalnız CLI. */
-function iosGunuCek(tarih) {
-  const r = sh("ascelerate", ["reports", "sales", "--frequency", "DAILY", "--date", tarih, "--raw"]);
-  if (!r.ok) {
-    const yok = /404|not found|no report|no data/i.test(r.out);
-    return { tarih, veri: false, sebep: yok ? "apple-rapor-yok" : r.out.trim().slice(0, 300), apps: {} };
+   Ayrıştırma satis.mjs'te. Vendor numarası olan her hesap çekilip uygulamalar
+   birleştiriliyor (slug'lar çakışmıyor). Bir hesap rapor verirse gün "veri var". */
+async function iosGunuCek(tarih) {
+  const sonuc = { tarih, veri: false, apps: {} };
+  const sebepler = [];
+  for (const h of Object.values(HESAPLAR).filter(h => h.vendor)) {
+    try {
+      const g = await h.api.satisGunu(tarih);
+      if (g.veri) { sonuc.veri = true; Object.assign(sonuc.apps, g.apps); }
+      else sebepler.push(g.sebep);
+    } catch (e) { sebepler.push(e.message.slice(0, 200)); }
   }
-  return satisAyristir(r.out, tarih);
+  if (!sonuc.veri) sonuc.sebep = sebepler.every(s => s === "apple-rapor-yok") && sebepler.length ? "apple-rapor-yok" : sebepler.join(" · ") || "hesap yok";
+  return sonuc;
 }
 
 /* ── Android: sürüm/track durumu ve vitals ───────────────────────────────
@@ -128,7 +163,7 @@ function aylar(sayi) {
 }
 
 async function androidKova(ay = 3) {
-  const cikti = { uretim: new Date().toISOString(), gunluk: {}, yorumlar: {}, hata: null };
+  const cikti = { uretim: new Date().toISOString(), gunluk: {}, yorumlar: {}, puan: {}, hata: null };
   if (!KOVA) { cikti.hata = "kova tanımsız"; return cikti; }
 
   const ayListesi = aylar(ay);
@@ -157,15 +192,63 @@ async function androidKova(ay = 3) {
         const tarih = (r["Date"] || "").trim();
         if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih)) continue;
         const g = cikti.gunluk[tarih] ||= {};
-        g[app.slug] = {
-          indirme:   Number(r["Daily Device Installs"]) || 0,
-          kaldirma:  Number(r["Daily Device Uninstalls"]) || 0,
-          guncelleme: Number(r["Daily Device Upgrades"]) || 0,
-          aktif:     Number(r["Active Device Installs"]) || 0
-        };
+        g[app.slug] = { ...(g[app.slug] || {}), ...playSatir(r) };
       }
+      /* Ülke: günlük kurulum ve aktif cihaz (o günün anlık sayısı). */
+      try {
+        for (const r of csvNesneler(await indir(KOVA, `stats/installs/installs_${app.android}_${a}_country.csv`))) {
+          const tarih = (r["Date"] || "").trim(), u = (r["Country"] || "").trim() || "??";
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih)) continue;
+          const p = playSatir(r);
+          const g = (cikti.gunluk[tarih] ||= {})[app.slug] ||= {};
+          if (p.indirme) (g.ulke ||= {})[u] = (g.ulke?.[u] || 0) + p.indirme;
+          if (p.aktif) (g.aktifUlke ||= {})[u] = p.aktif;
+        }
+      } catch { /* ülke dosyası yok */ }
+      /* Çökme ve ANR: günlük adet. */
+      try {
+        for (const r of csvNesneler(await indir(KOVA, `stats/crashes/crashes_${app.android}_${a}_overview.csv`))) {
+          const tarih = (r["Date"] || "").trim(); if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih)) continue;
+          const g = (cikti.gunluk[tarih] ||= {})[app.slug] ||= {};
+          g.cokme = (g.cokme || 0) + (Number(r["Daily Crashes"]) || 0);
+          g.anr = (g.anr || 0) + (Number(r["Daily ANRs"]) || 0);
+        }
+      } catch { /* çökme dosyası yok */ }
+      /* Puan: mağazadaki toplam ortalama (yorum CSV'si yalnız metinli yorumları taşır). */
+      try {
+        const son = csvNesneler(await indir(KOVA, `stats/ratings/ratings_${app.android}_${a}_overview.csv`))
+          .filter(r => Number(r["Total Average Rating"]) > 0).sort((x, y) => String(x.Date).localeCompare(String(y.Date))).at(-1);
+        if (son && !(cikti.puan[app.slug]?.tarih > son.Date)) cikti.puan[app.slug] = { ortalama: +Number(son["Total Average Rating"]).toFixed(2), tarih: son.Date };
+      } catch { /* puan dosyası yok */ }
       log(`  kova indirme ${app.slug} ${a} ✓`);
     }
+  }
+
+  /* Gelir: sales/salesreport_<YYYYMM>.zip, sipariş başına satır, günlük ve
+     güncel (earnings/ ayda bir, ay bitince geliyor). Item Price vergisiz liste
+     fiyatı; Google payı %15 düşülerek Apple'ın "Developer Proceeds"ine denk
+     getiriliyor. İade eksi. Ücretli uygulama satışı zaten kurulumda sayılı,
+     satın alma adedine yalnız uygulama içi ürün ve abonelik giriyor. */
+  for (const a of ayListesi) {
+    const zip = join(tmpdir(), `lab-play-satis-${a}.zip`);
+    try { writeFileSync(zip, await indirHam(KOVA, `sales/salesreport_${a}.zip`)); }
+    catch { continue; }
+    try {
+      const metin = execFileSync("unzip", ["-p", zip], { encoding: "utf8", maxBuffer: 64 << 20 });
+      for (const r of csvNesneler(metin)) {
+        const slug = PKG_SLUG.get((r["Package ID"] || "").trim()); if (!slug) continue;
+        const tarih = (r["Order Charged Date"] || "").trim(); if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih)) continue;
+        const iade = /refund/i.test(r["Financial Status"] || "");
+        const tutar = Number(String(r["Item Price"] || "0").replace(/,/g, "")) * 0.85 * (iade ? -1 : 1);
+        const para = (r["Currency of Sale"] || "").trim(); if (!para || !tutar) continue;
+        const g = (cikti.gunluk[tarih] ||= {})[slug] ||= {};
+        (g.gelir ||= {})[para] = +((g.gelir[para] || 0) + tutar).toFixed(4);
+        if (!/paid app/i.test(r["Product Type"] || "")) g.satis = (g.satis || 0) + (iade ? -1 : 1);
+        const u = (r["Country of Buyer"] || "").trim(); if (u && !iade) (g.satisUlke ||= {})[u] = (g.satisUlke[u] || 0) + 1;
+      }
+      log(`  kova satış ${a} ✓`);
+    } catch (e) { log(`  kova satış ${a} ✗ ${e.message.slice(0, 80)}`); }
+    finally { try { rmSync(zip); } catch { } }
   }
 
   /* Yorumlar: reviews/reviews_<paket>_<YYYYMM>.csv — tüm geçmiş burada. */
@@ -190,45 +273,28 @@ async function androidKova(ay = 3) {
   return cikti;
 }
 
-/* ── iOS yorumları ───────────────────────────────────────────────────── */
+/* ── iOS yorumları ve sürüm durumu (App Store Connect API) ─────────────── */
 
-function iosYorumlar() {
+async function iosKimlikler() {
+  const h = {};
+  for (const [ad, hs] of Object.entries(HESAPLAR)) {
+    try { h[ad] = await hs.api.uygulamalar(); }
+    catch (e) { h[ad] = {}; NOTLAR.push(`App Store Connect (${ad}) uygulama listesi okunamadı: ${e.message.slice(0, 120)}`); }
+  }
+  return h;
+}
+
+async function iosYorumlar(kimlik) {
   const cikti = {};
   for (const app of APPS.filter(a => a.ios)) {
-    const r = sh("ascelerate", ["reviews", "list", app.ios.bundle, "--json", "--limit", "200"]);
-    let liste = [];
-    if (r.ok) {
-      try {
-        const j = JSON.parse(r.out);
-        liste = Array.isArray(j) ? j : (j.reviews || j.data || []);
-      } catch { /* json değilse atla */ }
-    }
-    const puanlar = liste.map(x => x.rating).filter(Number.isFinite);
-    /* PENDING_PUBLISH: cevap yazılmış, Apple henüz yayınlamamış — cevapsız değil. */
-    const cevapli = x => ["PUBLISHED", "PENDING_PUBLISH"].includes(x.response?.state);
-    const cevapsiz = liste.filter(x => !cevapli(x)).length;
-    cikti[app.slug] = {
-      adet: r.ok ? liste.length : null,
-      ortalama: puanlar.length ? +(puanlar.reduce((a, b) => a + b, 0) / puanlar.length).toFixed(2) : null,
-      cevapsiz,
-      son: liste.map(x => x.createdDate).sort().at(-1) || null,
-      /* Tam metin panelde okunuyor. Yeniden eskiye; uzun metinler kırpılmıyor,
-         asıl iş cevap yazmak ve kırpılmış yorumdan cevap yazılmaz. */
-      liste: liste
-        .sort((a, b) => String(b.createdDate).localeCompare(String(a.createdDate)))
-        .map(x => ({
-          puan: x.rating ?? null,
-          baslik: x.title || "",
-          metin: x.body || "",
-          kisi: x.reviewerNickname || "",
-          ulke: x.territory || "",
-          tarih: x.createdDate || "",
-          cevap: cevapli(x)
-            ? { metin: x.response.body || "", tarih: x.response.lastModifiedDate || "",
-                bekliyor: x.response.state === "PENDING_PUBLISH" || undefined } : null
-        }))
-    };
-    log(`  yorum ${app.slug} ${liste.length}${cevapsiz ? ` (${cevapsiz} cevapsız)` : ""}`);
+    const hs = HESAPLAR[hesapAdi(app)], id = kimlik[hesapAdi(app)]?.[app.ios.bundle]?.id;
+    if (!hs || !id) { log(`  yorum ${app.slug}: hesapta yok`); continue; }
+    try {
+      const y = await hs.api.yorumlar(id);
+      /* Tam metin panelde okunuyor; kırpılmış yorumdan cevap yazılmaz. */
+      cikti[app.slug] = { ...y, cevapsiz: y.liste.filter(x => !x.cevap).length };
+      log(`  yorum ${app.slug} ${y.adet}${cikti[app.slug].cevapsiz ? ` (${cikti[app.slug].cevapsiz} cevapsız)` : ""}`);
+    } catch (e) { log(`  yorum ${app.slug} ✗ ${e.message.slice(0, 100)}`); }
   }
   return cikti;
 }
@@ -253,19 +319,16 @@ async function kurlar() {
 }
 
 /* ── iOS: App Store sürüm durumu ─────────────────────────────────────────
-   Hangi uygulama incelemede, hangisi reddedildi, hangisi yayın bekliyor.
-   Panelde "şirket" görünümünün mağaza sağlığı satırı. */
-function iosDurum() {
+   Hangi uygulama incelemede, hangisi reddedildi, hangisi yayın bekliyor. */
+async function iosDurum(kimlik) {
   const cikti = { uretim: new Date().toISOString(), apps: {} };
   for (const app of APPS.filter(a => a.ios)) {
-    const r = sh("ascelerate", ["apps", "versions", app.ios.bundle, "--json"]);
-    if (!r.ok) { log(`  sürüm ${app.slug} okunamadı`); continue; }
+    const hs = HESAPLAR[hesapAdi(app)], id = kimlik[hesapAdi(app)]?.[app.ios.bundle]?.id;
+    if (!hs || !id) continue;
     try {
-      const l = JSON.parse(r.out);
-      cikti.apps[app.slug] = (Array.isArray(l) ? l : []).slice(0, 4)
-        .map(v => ({ surum: v.version, durum: v.state, tarih: v.createdDate, platform: v.platform }));
+      cikti.apps[app.slug] = await hs.api.surumler(id);
       log(`  sürüm ${app.slug} ${cikti.apps[app.slug][0]?.surum || "?"} ${cikti.apps[app.slug][0]?.durum || ""}`);
-    } catch { /* json değilse atla */ }
+    } catch (e) { log(`  sürüm ${app.slug} okunamadı: ${e.message.slice(0, 80)}`); }
   }
   return cikti;
 }
@@ -304,10 +367,12 @@ for (let i = 1; i <= DAYS; i++) {
   const yol = join(VERI, `ios-${tarih}.json`);
   if (existsSync(yol) && !FORCE) {
     const eski = JSON.parse(readFileSync(yol, "utf8"));
-    /* Veri yok diye kaydedilmiş son 3 gün tekrar denenir — Apple geç yayınlıyor. */
-    if (eski.veri || i > 3) continue;
+    /* Veri yok diye kaydedilmiş son 3 gün tekrar denenir (Apple geç yayınlıyor).
+       Hata yüzünden boş kalan gün (sebep "apple-rapor-yok" değil: kimlik,
+       vendor numarası, ağ) her çalıştırmada yeniden denenir; boşluk kendini onarır. */
+    if (eski.veri || (i > 3 && eski.sebep === "apple-rapor-yok")) continue;
   }
-  const g = iosGunuCek(tarih);
+  const g = await iosGunuCek(tarih);
   writeFileSync(yol, JSON.stringify(g, null, 2));
   const toplam = Object.values(g.apps).reduce((a, x) => a + x.indirme, 0);
   log(`  ${tarih} ${g.veri ? `${toplam} indirme` : `veri yok (${g.sebep})`}`);
@@ -315,11 +380,12 @@ for (let i = 1; i <= DAYS; i++) {
 
 log("Android durum");
 writeFileSync(join(VERI, "android-durum.json"), JSON.stringify(androidDurum(), null, 2));
+const iosId = await iosKimlikler();
 log("iOS sürüm durumu");
-writeFileSync(join(VERI, "ios-durum.json"), JSON.stringify(iosDurum(), null, 2));
+writeFileSync(join(VERI, "ios-durum.json"), JSON.stringify(await iosDurum(iosId), null, 2));
 
 log("iOS yorumları");
-writeFileSync(join(VERI, "ios-yorumlar.json"), JSON.stringify(iosYorumlar(), null, 2));
+writeFileSync(join(VERI, "ios-yorumlar.json"), JSON.stringify(await iosYorumlar(iosId), null, 2));
 
 log("Döviz kurları");
 writeFileSync(join(VERI, "kurlar.json"), JSON.stringify(await kurlar(), null, 2));
@@ -328,7 +394,7 @@ log("Vault notları");
 writeFileSync(join(VERI, "vault.json"), JSON.stringify(vaultNotlari(), null, 2));
 
 log("Android toplu raporlar (Cloud Storage)");
-const kovaVeri = await androidKova(3);
+const kovaVeri = await androidKova(4);
 writeFileSync(join(VERI, "android-kova.json"), JSON.stringify(kovaVeri, null, 2));
 if (kovaVeri.hata) log(`  ! ${kovaVeri.hata}`);
 
@@ -338,9 +404,18 @@ try {
   const { PROPERTIES, OLAYLAR } = await import("./ga4.mjs");
   const cfg = JSON.parse(readFileSync(join(homedir(), ".gplay", "config.json"), "utf8"));
   const profil = cfg.profiles.find(p => p.name === (cfg.default_profile || "default")) || cfg.profiles[0];
-  const ga = await googleIstemci({ GPLAY_SA_JSON: readFileSync(profil.key_path, "utf8") }).ga4(PROPERTIES, OLAYLAR, 45, log);
+  const ga = await googleIstemci({ GPLAY_SA_JSON: readFileSync(profil.key_path, "utf8") }).ga4(PROPERTIES, OLAYLAR, 90, log);
   writeFileSync(join(VERI, "ga4.json"), JSON.stringify(ga, null, 2));
 } catch (e) { log(`  ga4 ✗ ${e.message}`); }
+
+log("Uygulama telemetrisi (Firestore installs)");
+writeFileSync(join(VERI, "telemetri.json"), JSON.stringify(await telemetri(log), null, 2));
+
+log("Site trafiği (Cloudflare Web Analytics)");
+writeFileSync(join(VERI, "web.json"), JSON.stringify(await web(log), null, 2));
+
+writeFileSync(join(VERI, "toplama-notlar.json"), JSON.stringify(NOTLAR, null, 2));
+NOTLAR.forEach(n => log(`  ! ${n}`));
 
 log(`\nBitti. Ham veri: ${VERI}`);
 log("Sırada: node scripts/lab/build.mjs");

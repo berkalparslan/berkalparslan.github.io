@@ -13,7 +13,7 @@
 import { APPS } from "./apps.mjs";
 import { PROFIL, SERVISLER, SABIT_GIDER, TAKVIM, HEDEF } from "./profil.mjs";
 
-export const PAKET_SURUM = 6;
+export const PAKET_SURUM = 7;
 
 export function panelOlustur(ham) {
   const gunluk = [...(ham.gunluk || [])].sort((a, b) => a.tarih.localeCompare(b.tarih));
@@ -24,13 +24,19 @@ export function panelOlustur(ham) {
   const iosDurum = ham.iosDurum || { apps: {} };
   const vault = ham.vault || { apps: {}, genel: [] };
   const ga4 = ham.ga4 || null;
+  const telemetri = ham.telemetri || null;
+  const web = ham.web || null;
 
   const androidGun = kova.gunluk || {};
   const androidVar = Object.keys(androidGun).length > 0;
 
   /* Günlük matris: i=iOS indirme, g=güncelleme, s=satın alma, a=Android indirme,
      k=kaldırma, u=ülkeler, p=gelir, au=aktif kullanıcı (GA4), nu=yeni kullanıcı,
-     e=olaylar (GA4). Yalnız dolu günler. */
+     e=olaylar (GA4), gu=GA4 aktif kullanıcı ülkeye göre.
+     Play (sürüm 7): ak=aktif cihaz (o günün anlık sayısı, toplanmaz),
+     ua=Play kurulum ülkeye göre, cr=çökme, an=ANR, pa=Play geliri (para birimi
+     haritası, Google payı düşülmüş), ps=Play uygulama içi satın alma.
+     Yalnız dolu günler. */
   const gunler = gunluk.map(g => g.tarih);
   const iosVeriYok = gunluk.map(g => !g.veri);
   const veri = {};
@@ -47,10 +53,16 @@ export function panelOlustur(ham) {
       }
     }
     for (const [slug, a] of Object.entries(androidGun[g.tarih] || {})) {
-      if (!a.indirme && !a.kaldirma) continue;
+      if (!a.indirme && !a.kaldirma && !a.aktif && !a.cokme && !a.anr && !a.gelir) continue;
       const h = (veri[slug] ||= {})[ix] ||= {};
       if (a.indirme)  h.a = a.indirme;
       if (a.kaldirma) h.k = a.kaldirma;
+      if (a.aktif)    h.ak = a.aktif;
+      if (a.cokme)    h.cr = a.cokme;
+      if (a.anr)      h.an = a.anr;
+      if (Object.keys(a.ulke || {}).length)  h.ua = a.ulke;
+      if (Object.keys(a.gelir || {}).length) h.pa = a.gelir;
+      if (a.satis)    h.ps = a.satis;
     }
     for (const [slug, gg] of Object.entries(ga4?.gunluk || {})) {
       const x = gg[g.tarih]; if (!x) continue;
@@ -60,6 +72,7 @@ export function panelOlustur(ham) {
       if (Object.keys(x.olay || {}).length) h.e = x.olay;
       if (x.gelir) h.ga = +x.gelir.toFixed(2);
       if (x.reklam) h.ar = +x.reklam.toFixed(2);
+      if (Object.keys(x.ulke || {}).length) h.gu = x.ulke;
     }
   });
 
@@ -72,7 +85,14 @@ export function panelOlustur(ham) {
     iosSurum: iosDurum.apps?.[app.slug] || null,
     vault: vault.apps?.[app.slug] || null,
     profil: PROFIL[app.slug] || null,
-    ga4: ga4?.gunluk?.[app.slug] ? true : false
+    ga4: ga4?.gunluk?.[app.slug] ? true : false,
+    iosHesap: app.ios?.hesap || (app.ios ? "aberk" : null),
+    playPuan: kova.puan?.[app.slug] || null,
+    playAktifUlke: (() => {
+      /* En son günün ülke başına aktif cihazı. */
+      const t = Object.keys(androidGun).filter(t => androidGun[t]?.[app.slug]?.aktifUlke).sort().at(-1);
+      return t ? { tarih: t, ulke: androidGun[t][app.slug].aktifUlke } : null;
+    })()
   }));
   const profilsiz = apps.filter(a => !a.profil).map(a => a.slug);
 
@@ -99,14 +119,31 @@ export function panelOlustur(ham) {
       durum: ga4 && Object.keys(ga4.gunluk || {}).length ? "ok" : ga4?.hatalar?.length ? "engel" : "yok", son: ga4?.uretim || null,
       not: ga4 ? `${Object.keys(ga4.gunluk || {}).length} uygulama · ${ga4.satinalma?.length || 0} satın alma satırı` +
            (ga4.hatalar?.length ? ` · ${ga4.hatalar.length} mülk okunamadı` : "") : "çekilmedi" },
+    { ad: "Uygulama telemetrisi (Firestore)", arac: "installs/ · Firebase CLI oturumu",
+      durum: telemetri && Object.keys(telemetri.apps || {}).length ? "ok" : telemetri?.hatalar?.length ? "engel" : "yok", son: telemetri?.uretim || null,
+      not: telemetri ? Object.entries(telemetri.apps || {}).map(([s, a]) => `${s} ${a.toplam} kurulum`).join(" · ") +
+        (telemetri.hatalar?.length ? ` · ${telemetri.hatalar.map(h => h.proje + ": " + h.hata.slice(0, 60)).join("; ")}` : "") : "çekilmedi" },
+    { ad: "Site trafiği · Cloudflare Web Analytics", arac: "GraphQL rumPageloadEventsAdaptiveGroups",
+      durum: web && !web.hata ? "ok" : web?.hata ? "engel" : "yok", son: web?.uretim || null,
+      not: web?.hata || (web ? `${Object.keys(web.gunluk || {}).length} gün veri (ölçüm 2 Eki 2026'da başladı)` : "çekilmedi") },
+    { ad: "Site trafiği · Umami", arac: "cloud.umami.is API",
+      durum: "yok", son: null, not: "API anahtarı yok: Umami → Settings → API keys, anahtar vault'a (gizli.json umamiKey) konursa eklenir" },
     { ad: "Döviz kurları", arac: "open.er-api.com",
       durum: kur ? "ok" : "yok", son: kur?.tarih || null,
       not: kur ? `1 USD = ${kur.oran.TRY.toFixed(2)} TRY` : "çekilemedi, gelir ayrı para birimlerinde" }
   ];
 
-  const notlar = [...(android.notlar || [])];
+  const notlar = [...(android.notlar || []), ...(ham.toplamaNotlar || [])];
   if (kova.hata) notlar.push(`Play toplu raporları: ${kova.hata}`);
   else if (!androidVar && ham.kovaTanimli) notlar.push("Cloud Storage kovası tanımlı ama hiç indirme verisi gelmedi.");
+  /* Sessiz kesinti olmasın: 24 Eyl 2026'da iOS iki hafta boş geldi, görev yine
+     "yayınlandı" dedi. Bir kaynak günlerdir gelmiyorsa en üste UYARI. */
+  const kacGun = t => t ? Math.floor((Date.now() - Date.parse(t)) / 864e5) : null;
+  const andSon = Object.keys(androidGun).filter(t => Object.values(androidGun[t]).some(a => a.indirme || a.aktif)).sort().at(-1) || null;
+  if (!sonVeriliIos || kacGun(sonVeriliIos) > 4)
+    notlar.unshift(`UYARI: App Store satış verisi ${sonVeriliIos ? `${kacGun(sonVeriliIos)} gündür gelmiyor (son ${sonVeriliIos})` : "hiç yok"}. ~/.ascelerate/config.aberk.json ve vendorNumber'a bak; ios-*.json içindeki "sebep" alanı hatayı yazar.`);
+  if (ham.kovaTanimli && (!andSon || kacGun(andSon) > 16))
+    notlar.unshift(`UYARI: Play toplu raporu ${andSon ? `${kacGun(andSon)} gündür gelmiyor (son ${andSon})` : "hiç yok"}. Play normalde ~7-10 gün geriden yayınlar.`);
   const veriYokGun = iosVeriYok.filter(Boolean).length;
   if (veriYokGun) notlar.push(`${veriYokGun} gün için Apple raporu yok — grafikte boşluk, ortalamada paydadan düşük.`);
   if (profilsiz.length) notlar.push(`Profili olmayan uygulama: ${profilsiz.join(", ")} (scripts/lab/profil.mjs)`);
@@ -126,6 +163,10 @@ export function panelOlustur(ham) {
     kampanyaSorular: vault.kampanyaSorular || [],
     reklam: vault.reklam || [],
     ga4Satinalma: ga4?.satinalma || [],
+    ga4Donem: ga4?.donem || null,
+    telemetri: telemetri ? { uretim: telemetri.uretim, apps: telemetri.apps } : null,
+    web: web && !web.hata ? web : null,
+    androidSon: andSon,
     yenile: ham.yenile || null
   };
 }
@@ -157,6 +198,8 @@ export function ozetSatiri(panel, kapaliBoyut) {
     `${panel.gunler.length} gün · ${panel.apps.length} uygulama${kapaliBoyut ? ` · ${(kapaliBoyut / 1024).toFixed(1)} KB şifreli` : ""}`,
     `${panel.apps.reduce((t, a) => t + (a.yorum?.liste?.length || 0), 0)} yorum metni · ` +
     `${panel.apps.reduce((t, a) => t + (a.vault?.gorevler?.filter(g => !g.bitti).length || 0), 0)} açık görev · kur ${panel.kur ? "var" : "yok"}`,
-    `son 7 gün: ${son(7, "i")} iOS + ${son(7, "a")} Android · ${son(7, "s")} satın alma`
+    `son 7 gün: ${son(7, "i")} iOS + ${son(7, "a")} Android · ${son(7, "s")} satın alma`,
+    `son veri: App Store ${[...panel.gunler].reverse().find((_, j) => !panel.iosVeriYok[panel.gunler.length - 1 - j]) || "yok"} · Play ${panel.androidSon || "yok"}` +
+    ` · telemetri ${panel.telemetri ? Object.keys(panel.telemetri.apps || {}).length + " uygulama" : "yok"} · site ${panel.web ? "var" : "yok"}`
   ];
 }

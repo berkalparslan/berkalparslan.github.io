@@ -17,12 +17,12 @@ export const APPS = [
   { slug: "leafbook",           ad: "Leafbook",            ios: { bundle: "com.aberk.Leafbook",                sku: "leafbook" },                          android: "com.aberk.leafbook" },
   { slug: "matchday",           ad: "Matchday",            ios: { bundle: "com.aberk.matchday",                sku: "matchday_sku" },                      android: "com.aberk.matchday" },
 
-  /* iOS'u başka geliştirici hesabında olanlar — bu hesaptan ölçülemiyor,
-     yalnız Android tarafı burada. Daily Whisper iOS eşin hesabında (6757824195). */
-  { slug: "daily-whisper",      ad: "Daily Whisper",       ios: null,                                                                                      android: "com.aberk.dailywhisper" },
-  /* Nubi iOS da eşin hesabında (com.page.nubipet, 6816090205). Berk'in
-     hesabındaki eski com.aberk.nubi kaydı yayınlanmadı, izlenmiyor. */
-  { slug: "nubi",               ad: "Nubi",                ios: null,                                                                                      android: "com.aberk.nubi" },
+  /* iOS'u Elif'in hesabında olanlar: ios.hesap = "page" → ~/.ascelerate/config.page.json.
+     Yorum ve sürüm okunuyor; satış raporu o dosyada vendorNumber varsa geliyor.
+     Daily Whisper 6757824195, Nubi 6816090205. Berk'in hesabındaki eski
+     com.aberk.nubi kaydı yayınlanmadı, izlenmiyor. */
+  { slug: "daily-whisper",      ad: "Daily Whisper",       ios: { bundle: "com.aberk.Daily-Whisper", sku: "daily_whisper_v1", hesap: "page" },                                                                                      android: "com.aberk.dailywhisper" },
+  { slug: "nubi",               ad: "Nubi",                ios: { bundle: "com.page.nubipet", sku: "nubi_sku", hesap: "page" },                                                                                      android: "com.aberk.nubi" },
   /* Oncopace iOS Dilaynaz'ın hesabında (com.oncopace.ios). Android bam-tech'te. */
   { slug: "oncopace",           ad: "Oncopace",            ios: null,                                                                                      android: "com.aberk.oncopace" },
 

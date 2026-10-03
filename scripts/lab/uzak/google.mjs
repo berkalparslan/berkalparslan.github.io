@@ -8,6 +8,19 @@ import { rs256Anahtar, jwtUret } from "./jwt.mjs";
 import { APPS } from "../apps.mjs";
 import { csvNesneler } from "../csv.mjs";
 
+/* Play installs CSV satırı → gün. "Daily Device Installs/Uninstalls" yeni
+   raporlarda çoğu gün 0 (kaldırma hiç dolmuyor); asıl sayılar "Daily User
+   Installs", "Install events", "Uninstall events" sütunlarında. */
+export function playSatir(r) {
+  const n = k => Number(r[k]) || 0;
+  return {
+    indirme: Math.max(n("Daily User Installs"), n("Daily Device Installs")),
+    kaldirma: Math.max(n("Uninstall events"), n("Daily User Uninstalls"), n("Daily Device Uninstalls")),
+    guncelleme: Math.max(n("Update events"), n("Daily Device Upgrades")),
+    aktif: n("Active Device Installs")
+  };
+}
+
 export function googleIstemci(env) {
   const sa = JSON.parse(env.GPLAY_SA_JSON);
   let anahtar = null;
@@ -77,8 +90,7 @@ export function googleIstemci(env) {
           let metin; try { metin = await indir(`stats/installs/installs_${app.android}_${a}_overview.csv`); } catch { continue; }
           for (const r of csvNesneler(metin)) {
             const tarih = (r["Date"] || "").trim(); if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih)) continue;
-            (cikti.gunluk[tarih] ||= {})[app.slug] = { indirme: Number(r["Daily Device Installs"]) || 0, kaldirma: Number(r["Daily Device Uninstalls"]) || 0,
-              guncelleme: Number(r["Daily Device Upgrades"]) || 0, aktif: Number(r["Active Device Installs"]) || 0 };
+            (cikti.gunluk[tarih] ||= {})[app.slug] = playSatir(r);
           }
         }
         let hepsi = [];
@@ -119,7 +131,10 @@ export function googleIstemci(env) {
     async ga4(properties, olaylar, gun = 45, log = () => {}) {
       const BUNDLE_SLUG = new Map(APPS.flatMap(a => [a.ios && [a.ios.bundle, a.slug], a.android && [a.android, a.slug]].filter(Boolean)));
       const tarih = d => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`;
-      const cikti = { uretim: new Date().toISOString(), gun, mulkler: {}, gunluk: {}, satinalma: [], hatalar: [] };
+      /* donem: son 1/7/30 günün tekil aktif kullanıcısı (günlükler toplanamaz),
+         uygulama ve ülke başına. Ülke toplamı akışların toplamı: iki uygulamayı
+         birden kullanan kişi iki kez sayılır. */
+      const cikti = { uretim: new Date().toISOString(), gun, mulkler: {}, gunluk: {}, donem: {}, satinalma: [], hatalar: [] };
       const aralik = [{ startDate: `${gun}daysAgo`, endDate: "today" }];
       const rapor = async (pid, body) => {
         const j = await api(GA, `https://analyticsdata.googleapis.com/v1beta/properties/${pid}:runReport`, { method: "POST", body: JSON.stringify({ ...body, limit: 100000 }) });
@@ -151,6 +166,24 @@ export function googleIstemci(env) {
             metrics: [{ name: "purchaseRevenue" }, { name: "ecommercePurchases" }],
             metricFilter: { filter: { fieldName: "purchaseRevenue", numericFilter: { operation: "GREATER_THAN", value: { doubleValue: 0 } } } } }))
             cikti.satinalma.push({ tarih: tarih(r.date), slug: ak[r.streamId]?.slug || null, akis: ak[r.streamId]?.ad || r.streamId, para: r.currencyCode, gelirUsd: +r.purchaseRevenue.toFixed(2), adet: r.ecommercePurchases });
+          /* Ülke: günlük aktif kullanıcı, uygulama başına. */
+          for (const r of await rapor(pid, { dateRanges: aralik, dimensions: [{ name: "date" }, { name: "streamId" }, { name: "countryId" }],
+            metrics: [{ name: "activeUsers" }] })) {
+            const slug = ak[r.streamId]?.slug; if (!slug || !r.activeUsers) continue;
+            const x = g(slug, tarih(r.date)); const u = /^[A-Z]{2}$/.test(r.countryId) ? r.countryId : "??";
+            (x.ulke ||= {})[u] = (x.ulke[u] || 0) + r.activeUsers;
+          }
+          for (const n of [1, 7, 30]) {
+            const d = cikti.donem[n] ||= { apps: {}, ulke: {}, yeni: {} };
+            for (const r of await rapor(pid, { dateRanges: [{ startDate: n === 1 ? "yesterday" : `${n}daysAgo`, endDate: "today" }],
+              dimensions: [{ name: "streamId" }, { name: "countryId" }], metrics: [{ name: "activeUsers" }, { name: "newUsers" }] })) {
+              const slug = ak[r.streamId]?.slug; if (!slug) continue;
+              const u = /^[A-Z]{2}$/.test(r.countryId) ? r.countryId : "??";
+              d.apps[slug] = (d.apps[slug] || 0) + r.activeUsers;
+              d.yeni[slug] = (d.yeni[slug] || 0) + r.newUsers;
+              d.ulke[u] = (d.ulke[u] || 0) + r.activeUsers;
+            }
+          }
           log(`  ga4 ${ad} ✓ ${Object.keys(ak).length} akış`);
         } catch (e) { cikti.hatalar.push({ mulk: ad, pid, hata: e.message }); log(`  ga4 ${ad} ✗ ${e.message.slice(0, 100)}`); }
       }

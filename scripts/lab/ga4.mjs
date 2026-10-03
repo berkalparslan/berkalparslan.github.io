@@ -21,7 +21,8 @@ export const PROPERTIES = {
   "552195878": "bosyeryok-tycoon",
   "536872002": "thisone-ba533",
   "358139846": "kit-app-a91b5",
-  "424113199": "viral-sounds"
+  "424113199": "viral-sounds",
+  "555339916": "oncopace-5a0ae"
 };
 
 /* Bu olaylar sayılıyor; başka olay istenirse buraya eklenir. */
