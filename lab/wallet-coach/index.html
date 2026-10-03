@@ -115,6 +115,10 @@ tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06e
 .notif{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--soft) 10%,var(--card));border:1px solid var(--line);border-radius:18px;padding:12px 14px;max-width:380px;margin:8px 0}
 .notif img{width:34px;height:34px;border-radius:8px;flex:none;background:var(--accent)}
 .notif .app{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.04em}
+.artprev{background:color-mix(in srgb,var(--soft) 6%,var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;max-height:75vh;overflow:auto}
+.artprev h3{font-size:24px;line-height:1.2;margin:0 0 6px}.artprev .sub{color:var(--soft);font-size:16px;margin:0 0 10px}
+.artprev .meta{color:var(--soft);font-size:12px;font-weight:600;margin-bottom:14px}.artprev p.par{font-size:16px;line-height:1.6;margin:0 0 14px;white-space:pre-wrap;overflow-wrap:anywhere}
+#aBody{min-height:340px;font-size:15px;line-height:1.5}
 .notif b{display:block;font-size:14px}.notif p{margin:2px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
 .demo{background:var(--warn);color:#1b1300;text-align:center;font-size:12px;font-weight:700;padding:5px}
 pre.res{white-space:pre-wrap;font:12px ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(--soft) 8%,transparent);padding:10px;border-radius:10px;overflow:auto}
@@ -155,6 +159,7 @@ code{font:12px ui-monospace,Menlo,monospace}
     <div class="navlabel">YÖNET</div>
     <a data-page="push">Bildirim gönder</a>
     <a data-page="sent">Gönderilenler</a>
+    <a data-page="articles">Yazılar</a>
     <a data-page="settings">Ayarlar</a>
     <div class="spacer"></div>
     <a id="themeBtn">Tema</a>
@@ -289,7 +294,8 @@ code{font:12px ui-monospace,Menlo,monospace}
         </details>
         <h2>Ayarlar</h2>
         <div class="rates">
-          <div><label>Açınca gideceği sekme</label><select id="pTab"><option value="">Varsayılan</option><option value="panel">Panel</option><option value="month">Ay</option><option value="analysis">Analiz</option><option value="wallet">Cüzdan</option></select></div>
+          <div><label>Açınca gideceği sekme</label><select id="pTab"><option value="">Varsayılan</option><option value="panel">Panel</option><option value="month">Ay</option><option value="analysis">Analiz</option><option value="wallet">Cüzdan</option><option value="learn">Yazılar (liste)</option><option value="article">Belirli yazı</option></select></div>
+          <div id="pArticleBox" class="hidden"><label>Yazı (yayında olanlar)</label><select id="pArticle"></select></div>
         </div>
         <div class="checks">
           <label><input type="checkbox" id="pTL"> Yalnız TL bütçeler (wc_try)</label>
@@ -311,6 +317,44 @@ code{font:12px ui-monospace,Menlo,monospace}
       <h1>Gönderilenler</h1>
       <p class="muted">Panelden giden bildirimler, en yenisi üstte (son 100).</p>
       <div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Metin</th><th>Diller</th><th>Kime</th><th>Sekme</th><th class="n">Hedef</th><th class="n">Dokunan</th><th>Sonuç</th></tr></thead><tbody id="sentRows"></tbody></table></div>
+    </section>
+
+    <!-- Articles -->
+    <section data-view="articles" class="hidden">
+      <h1>Yazılar</h1>
+      <p class="muted">Uygulamanın Yazılar listesinde, kullanıcının dilindeki yayında yazılar en yenisi üstte görünür; uygulama listeyi birkaç saatte bir yeniler. Düz metin yaz, paragrafları boş satırla ayır. Uzun tire kullanma.</p>
+      <div class="toolbar">
+        <select id="aLangF"><option value="">Bütün diller</option></select>
+        <select id="aStatF"><option value="">Hepsi</option><option value="pub">Yayında</option><option value="draft">Taslak</option></select>
+        <button id="aNew">Yeni yazı</button>
+        <span class="muted" id="aCount"></span>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Dil</th><th>Başlık</th><th>Yazar</th><th>Durum</th><th class="n">Okuma</th><th>Yayın</th><th>Güncellendi</th></tr></thead><tbody id="aRows"></tbody></table></div>
+      <div class="card hidden" id="aEditor" style="margin-top:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0" id="aEdHead">Yeni yazı</h2><span id="aEdPill"></span></div>
+        <div class="grid2" style="margin-top:12px">
+          <div>
+            <div class="rates">
+              <div><label>Dil</label><select id="aLang"></select></div>
+              <div><label>Yazar (isteğe bağlı)</label><input id="aAuthor" maxlength="80" placeholder="örn. bir ekonomist"></div>
+            </div>
+            <p><label class="muted">Başlık</label><input id="aTitle" maxlength="120"></p>
+            <p><label class="muted">Alt başlık</label><input id="aSub" maxlength="200"></p>
+            <p><label class="muted">Metin</label><textarea id="aBody" placeholder="Paragrafları boş satırla ayır."></textarea></p>
+            <p class="muted" id="aStats"></p>
+            <div id="aErr"></div>
+            <div class="toolbar">
+              <button id="aSave" class="ghost">Taslak kaydet</button>
+              <button id="aPub">Yayınla</button>
+              <button id="aAnnounce" class="ghost">Bu yazıyı bildirimle duyur</button>
+              <button id="aDel" class="danger">Sil</button>
+              <button id="aClose" class="ghost">Kapat</button>
+            </div>
+            <p class="muted" id="aStatus"></p>
+          </div>
+          <div><p class="lang">ÖNİZLEME</p><div class="artprev" id="aPrev"></div></div>
+        </div>
+      </div>
     </section>
 
     <!-- Settings -->
@@ -439,7 +483,7 @@ const SOURCES = {
 };
 const N_FIELDS = { n_months: "Ay", n_entries: "Plan satırı", n_parties: "Kişi/marka", n_assets: "Varlık", n_projects: "Proje", n_purchases: "Alım", n_pots: "Birikim kabı", n_boards: "Pano", n_statements: "Ekstre", n_wishes: "Liste (bekleyen)" };
 const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", ru: "Rusça" };
-const TABS = { panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan" };
+const TABS = { panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", learn: "Yazılar" };
 const COUNTERS = ["installs_new", "sessions", "onboarding_done", "paywall_views", "purchases", "ai_requests", "ai_tokens_in", "ai_tokens_out", "ai_blocked", "ai_failed"];
 
 const screenName = sc => !sc ? "-" : (EKRAN[sc] || sc);
@@ -528,6 +572,7 @@ $("themeBtn").onclick = toggleTheme; $("themeBtn2").onclick = toggleTheme;
 themeCharts();
 
 // ---------- State ----------
+let articles = [];
 let installs = [], stats = [], pushes = [], G = null, gaError = "";
 let evCache = {}, pwLoaded = false, pwLoading = false;
 let FB = null; // Firebase handles, never set in demo mode
@@ -657,15 +702,17 @@ async function loadData(withGa) {
   try {
     if (DEMO) {
       if (!demo) await makeDemo();
-      installs = demo.installs; pushes = demo.pushes; G = demo.ga4;
+      installs = demo.installs; pushes = demo.pushes; G = demo.ga4; articles = demo.articles;
       var byDay = demo.stats;
     } else {
       const { db, F } = FB;
-      const [iSnap, sSnap, pSnap] = await Promise.all([
+      const [iSnap, sSnap, pSnap, aSnap] = await Promise.all([
         F.getDocs(F.query(F.collection(db, "installs"), F.limit(5000))),
         F.getDocs(F.query(F.collection(db, "stats"), F.where(F.documentId(), ">=", dayKey(from)))),
         F.getDocs(F.query(F.collection(db, "pushes"), F.orderBy("createdAt", "desc"), F.limit(100))).catch(() => ({ docs: [] })),
+        F.getDocs(F.query(F.collection(db, "articles"), F.limit(500))).catch(e => { console.warn("articles", e); return { docs: [] }; }),
       ]);
+      articles = aSnap.docs.map(d => ({ id: d.id, ...d.data() }));
       installs = iSnap.docs.map(d => ({ id: d.id, ...d.data() }));
       pushes = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
       var byDay = Object.fromEntries(sSnap.docs.map(d => [d.id, d.data()]));
@@ -691,7 +738,7 @@ async function loadData(withGa) {
 }
 function renderAll() {
   if (!stats.length) return;
-  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderAI, renderGA4, renderSent, renderJourneys]) {
+  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderAI, renderGA4, renderSent, renderJourneys, renderArticles]) {
     try { f(); } catch (e) { console.error(f.name, e); }
   }
 }
@@ -1170,7 +1217,8 @@ function pushDraft() {
     [t, b].forEach(el => { const isBad = DASH.test(el.value); el.classList.toggle("bad-input", isBad); if (isBad) bad.push(l); });
     if (t.value.trim() && b.value.trim()) metinler[l] = { baslik: t.value.trim(), metin: b.value.trim() };
   }
-  return { metinler, sekme: $("pTab").value || null, yalnizTL: $("pTL").checked, test: $("pTest").checked, bad: [...new Set(bad)] };
+  const tab = $("pTab").value;
+  return { metinler, sekme: tab === "article" ? "learn" : (tab || null), article: tab === "article" ? ($("pArticle").value || "") : null, yalnizTL: $("pTL").checked, test: $("pTest").checked, bad: [...new Set(bad)] };
 }
 /* Who a draft can reach, from the installs on hand: notifications on, seen in
    the last 60 days, in one of its languages (and on a lira budget, or a test
@@ -1193,7 +1241,7 @@ function renderPreview() {
     (shown.length ? shown.map(l => `<p class="lang" style="margin-top:10px">${PUSH_LANGS[l].toUpperCase()} · ${d.test ? "wc_test" : `wc_lang_${l}${d.yalnizTL ? " ve wc_try" : ""}`}</p>
       <div class="notif"><img src="/assets/lab-icons/wallet-coach-180.png" alt=""><div><div class="app">Wallet Coach · şimdi</div><b>${esc(d.metinler[l].baslik)}</b><p>${esc(d.metinler[l].metin)}</p></div></div>`).join("")
       + (() => { const r = reachOf(d); return `<p class="muted" style="margin-top:8px"><b>Tahmini ulaşacak: ${fmt(r.toplam)} kişi</b> (iOS ${fmt(r.ios)}, Android ${fmt(r.android)}). Bildirimi açık, son 60 günde girmiş, dili tutan kurulumlar; yeni sürümü kurmamış olanlar sayılmaz.</p>`; })()
-      + `<p class="muted">Açınca: ${d.sekme ? TABS[d.sekme] + " sekmesi" : "uygulamanın açık kaldığı yer"}.${d.test && langs.length > 1 ? ` Test açık: yalnız ${PUSH_LANGS[langs[0]]} gider.` : ""}</p>`
+      + `<p class="muted">Açınca: ${d.article != null ? (d.article ? `"${esc(articles.find(a => a.id === d.article)?.title || d.article)}" yazısı` : "<b>yazı seçilmedi</b>") : d.sekme ? TABS[d.sekme] + " sekmesi" : "uygulamanın açık kaldığı yer"}.${d.test && langs.length > 1 ? ` Test açık: yalnız ${PUSH_LANGS[langs[0]]} gider.` : ""}</p>`
       : `<p class="muted">Başlık ve metin yazınca burada görünür. Bir dilin gitmesi için ikisi de dolu olmalı.</p>`);
   $("pSend").textContent = d.test ? "Test cihazlarına gönder" : "Herkese gönder";
 }
@@ -1208,7 +1256,8 @@ $("pSend").onclick = async () => {
   if (!langs.length) { $("pStatus").textContent = "En az bir dilde başlık ve metin yaz."; return; }
   const who = d.test ? "yalnız test cihazlarına" : `${langs.map(l => PUSH_LANGS[l]).join(", ")} kullananlara${d.yalnizTL ? " (yalnız TL bütçeler)" : ""}`;
   if (!confirm(`Bildirim ${who} gönderilsin mi?${d.test ? "" : " Geri alınamaz."}`)) return;
-  const payload = { metinler: d.metinler, sekme: d.sekme, yalnizTL: d.yalnizTL, test: d.test };
+  if (d.article === "") { $("pStatus").textContent = "Duyurulacak yazıyı seç."; return; }
+  const payload = { metinler: d.metinler, sekme: d.sekme, yalnizTL: d.yalnizTL, test: d.test, ...(d.article ? { article: d.article } : {}) };
   $("pSend").disabled = true; $("pStatus").textContent = "Gönderiliyor…";
   try {
     if (DEMO) { $("pStatus").textContent = "Demo: gönderilmedi. Giden istek bu olurdu:"; $("pResult").innerHTML = `<pre class="res">${esc(JSON.stringify(payload, null, 2))}</pre>`; return; }
@@ -1231,12 +1280,121 @@ function renderSent() {
     const res = p.results || [];
     return `<tr><td>${dtS(p.createdAt)}</td><td class="wrap"><b>${esc(first.baslik || "")}</b><div class="muted">${esc(first.metin || "")}</div></td>
       <td>${Object.keys(m).join(", ")}</td><td>${p.test ? '<span class="pill sky">Test cihazları</span>' : "Herkes"}${p.yalnizTL ? ' <span class="pill pro">Yalnız TL</span>' : ""}</td>
-      <td>${esc(TABS[p.sekme] || p.sekme || "-")}</td>
+      <td>${p.article ? `Yazı: ${esc(articles.find(a => a.id === p.article)?.title || p.article)}` : esc(TABS[p.sekme] || p.sekme || "-")}</td>
       <td class="n">${p.hedef ? `<b>${fmt(p.hedef.toplam)}</b><div class="muted">iOS ${fmt(p.hedef.ios)} · Android ${fmt(p.hedef.android)}</div>` : "-"}</td>
       <td class="n">${(() => { const o = opensOf(p.id); return `<b>${fmt(o)}</b>${p.hedef?.toplam ? `<div class="muted">${yuzde(o / p.hedef.toplam)}</div>` : ""}`; })()}</td>
       <td>${res.length ? `${res.length} mesaj` : "-"}<div class="muted">${res.map(r => esc(r.condition)).join("<br>")}</div></td></tr>`;
   }).join("") : `<tr><td colspan="8" class="muted">Panelden henüz bildirim gönderilmedi.</td></tr>`;
 }
+
+// ---------- Articles (articles/{id}, read by the app's Yazılar list) ----------
+const A_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский" };
+$("aLangF").innerHTML += Object.entries(A_LANGS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
+$("aLang").innerHTML = Object.entries(A_LANGS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
+let aEditing = null; // id of the article in the editor, "" for a new one
+const words = t => (String(t || "").match(/\S+/g) || []).length;
+const readMin = t => Math.max(1, Math.round(words(t) / 200));
+const paras = t => String(t || "").split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+const statusPill = a => a.published ? '<span class="pill ok">Yayında</span>' : '<span class="pill no">Taslak</span>';
+$("aLangF").onchange = renderArticles; $("aStatF").onchange = renderArticles;
+function renderArticles() {
+  const lf = $("aLangF").value, sf = $("aStatF").value;
+  const list = articles.filter(a => (!lf || a.lang === lf) && (!sf || (sf === "pub") === !!a.published))
+    .sort((a, b) => (a.lang || "").localeCompare(b.lang || "") || (ts(b.publishedAt || b.updatedAt) || 0) - (ts(a.publishedAt || a.updatedAt) || 0));
+  $("aCount").textContent = `${fmt(list.length)} yazı · ${fmt(articles.filter(a => a.published).length)} yayında`;
+  let last = null;
+  $("aRows").innerHTML = list.length ? list.map(a => {
+    const head = !lf && a.lang !== last ? `<tr class="group"><td colspan="7">${esc(A_LANGS[a.lang] || a.lang || "?")}</td></tr>` : ""; last = a.lang;
+    return `${head}<tr class="click" data-id="${esc(a.id)}"><td>${esc(a.lang || "")}</td><td class="wrap"><b>${esc(a.title || "(başlıksız)")}</b><div class="muted">${esc(a.subtitle || "")}</div></td><td>${esc(a.author || "-")}</td><td>${statusPill(a)}</td><td class="n">${readMin(a.body)} dk</td><td>${a.publishedAt ? dtS(a.publishedAt) : "-"}</td><td>${dtS(a.updatedAt)}</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="muted">Yazı yok. "Yeni yazı" ile başla.</td></tr>`;
+  document.querySelectorAll("#aRows tr.click").forEach(tr => tr.onclick = () => openArticle(tr.dataset.id));
+  const sel = $("pArticle"), keep = sel.value, pub = articles.filter(a => a.published);
+  sel.innerHTML = `<option value="">Yazı seç</option>` + pub.map(a => `<option value="${esc(a.id)}">${esc((a.lang || "").toUpperCase())} · ${esc(a.title)}</option>`).join("");
+  if (pub.some(a => a.id === keep)) sel.value = keep;
+}
+function openArticle(id) {
+  const a = id ? articles.find(x => x.id === id) : null;
+  aEditing = a ? a.id : "";
+  $("aEditor").classList.remove("hidden");
+  $("aLang").value = a?.lang || $("aLangF").value || "tr";
+  $("aTitle").value = a?.title || ""; $("aSub").value = a?.subtitle || ""; $("aAuthor").value = a?.author || ""; $("aBody").value = a?.body || "";
+  $("aStatus").textContent = ""; renderArticleForm();
+  $("aEditor").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function articleDraft() {
+  const f = { lang: $("aLang").value, title: $("aTitle").value.trim(), subtitle: $("aSub").value.trim(), author: $("aAuthor").value.trim(), body: $("aBody").value.replace(/\r/g, "").trim() };
+  const bad = [["aTitle", "başlık"], ["aSub", "alt başlık"], ["aAuthor", "yazar"], ["aBody", "metin"]].filter(([id]) => { const b = DASH.test($(id).value); $(id).classList.toggle("bad-input", b); return b; }).map(x => x[1]);
+  return { f, bad };
+}
+function renderArticleForm() {
+  const cur = articles.find(x => x.id === aEditing), { f, bad } = articleDraft();
+  $("aEdHead").textContent = cur ? "Yazıyı düzenle" : "Yeni yazı";
+  $("aEdPill").innerHTML = cur ? statusPill(cur) : '<span class="pill no">Kaydedilmedi</span>';
+  $("aPub").textContent = cur?.published ? "Yayından kaldır" : "Yayınla";
+  $("aDel").classList.toggle("hidden", !cur);
+  $("aAnnounce").classList.toggle("hidden", !cur?.published);
+  $("aStats").textContent = `${fmt(words(f.body))} kelime · ${paras(f.body).length} paragraf · yaklaşık ${readMin(f.body)} dk okuma`;
+  $("aErr").innerHTML = bad.length ? `<div class="note err">Uzun tire var (${bad.join(", ")}). Virgül ya da nokta kullan; bu haliyle kaydedilmez.</div>` : "";
+  $("aPrev").innerHTML = f.title || f.body ? `<h3>${esc(f.title || "(başlık)")}</h3>${f.subtitle ? `<p class="sub">${esc(f.subtitle)}</p>` : ""}
+    <div class="meta">${f.author ? esc(f.author) + " · " : ""}${readMin(f.body)} dk okuma</div>${paras(f.body).map(p => `<p class="par">${esc(p)}</p>`).join("")}`
+    : `<p class="muted">Yazdıkça burada uygulamadaki gibi görünür.</p>`;
+}
+["aLang", "aTitle", "aSub", "aAuthor", "aBody"].forEach(id => $(id).addEventListener("input", renderArticleForm));
+$("aLang").onchange = renderArticleForm;
+$("aNew").onclick = () => openArticle(null);
+$("aClose").onclick = () => { $("aEditor").classList.add("hidden"); aEditing = null; };
+async function saveArticle(publish) {
+  const cur = articles.find(x => x.id === aEditing), { f, bad } = articleDraft();
+  if (bad.length) { $("aStatus").textContent = "Uzun tireyi kaldır."; return; }
+  if (!f.title || !f.body) { $("aStatus").textContent = "Başlık ve metin gerekli."; return; }
+  const published = publish == null ? !!cur?.published : publish;
+  const firstPublish = published && !cur?.publishedAt;
+  $("aStatus").textContent = "Kaydediliyor…";
+  ["aSave", "aPub"].forEach(id => $(id).disabled = true);
+  try {
+    if (DEMO) {
+      const a = { ...(cur || { id: "demo" + Date.now().toString(36) }), ...f, published, updatedAt: new Date(), ...(firstPublish ? { publishedAt: new Date() } : {}) };
+      if (!f.author) delete a.author;
+      articles = cur ? articles.map(x => x.id === a.id ? a : x) : [...articles, a]; demo.articles = articles; aEditing = a.id;
+    } else {
+      const { db, F } = FB;
+      const ref = cur ? F.doc(db, "articles", cur.id) : F.doc(F.collection(db, "articles"));
+      const data = { lang: f.lang, title: f.title, subtitle: f.subtitle, body: f.body, published, updatedAt: F.serverTimestamp() };
+      if (f.author) data.author = f.author;
+      if (firstPublish) data.publishedAt = F.serverTimestamp(); else if (cur?.publishedAt) data.publishedAt = cur.publishedAt;
+      await F.setDoc(ref, data);
+      const snap = await F.getDoc(ref);
+      const a = { id: ref.id, ...snap.data() };
+      articles = cur ? articles.map(x => x.id === a.id ? a : x) : [...articles, a]; aEditing = a.id;
+    }
+    $("aStatus").textContent = published ? (publish ? "Yayınlandı. Uygulama birkaç saat içinde listeye alır." : "Kaydedildi (yayında).") : (publish === false ? "Yayından kaldırıldı." : "Taslak kaydedildi.");
+    renderArticles(); renderArticleForm();
+  } catch (e) { console.error(e); $("aStatus").textContent = "Kaydedilemedi: " + (e.code || e.message); }
+  finally { ["aSave", "aPub"].forEach(id => $(id).disabled = false); }
+}
+$("aSave").onclick = () => saveArticle(null);
+$("aPub").onclick = () => { const cur = articles.find(x => x.id === aEditing); saveArticle(!cur?.published); };
+$("aDel").onclick = async () => {
+  const cur = articles.find(x => x.id === aEditing); if (!cur) return;
+  if (!confirm(`"${cur.title}" silinsin mi?${cur.published ? " Uygulamadaki listeden de kalkar." : ""} Geri alınamaz.`)) return;
+  try {
+    if (!DEMO) await FB.F.deleteDoc(FB.F.doc(FB.db, "articles", cur.id));
+    articles = articles.filter(x => x.id !== cur.id); if (DEMO) demo.articles = articles;
+    $("aEditor").classList.add("hidden"); aEditing = null; renderArticles();
+  } catch (e) { $("aStatus").textContent = "Silinemedi: " + (e.code || e.message); }
+};
+$("aAnnounce").onclick = () => {
+  const cur = articles.find(x => x.id === aEditing); if (!cur?.published) return;
+  renderArticles();
+  $("pTab").value = "article"; $("pArticle").value = cur.id; pushTabChanged();
+  const l = PUSH_LANGS[cur.lang] ? cur.lang : "tr";
+  if (!$(`pt_${l}`).value.trim()) $(`pt_${l}`).value = cur.title.slice(0, 80);
+  if (!$(`pb_${l}`).value.trim()) $(`pb_${l}`).value = (cur.subtitle || paras(cur.body)[0] || "").slice(0, 300);
+  if (!["tr", "en"].includes(l)) document.querySelector("section[data-view=push] details").open = true;
+  go("push"); renderPreview();
+};
+function pushTabChanged() { $("pArticleBox").classList.toggle("hidden", $("pTab").value !== "article"); renderPreview(); }
+$("pTab").onchange = pushTabChanged; $("pArticle").onchange = renderPreview;
 
 // ---------- Demo data (never touches Firestore) ----------
 let demo = null;
@@ -1316,6 +1474,14 @@ async function makeDemo() {
   const gaFile = new URLSearchParams(location.search).get("ga4");
   if (gaFile && /^[\w.-]+\.json$/.test(gaFile)) try { const r = await fetch(gaFile, { cache: "no-store" }); if (r.ok) ga4 = await r.json(); } catch { }
   demo = { installs: list, stats: statsMap, events, ga4: ga4 || fakeGA4(rnd, pick),
+    articles: [
+      { id: "demoEnflasyonEkim", lang: "tr", title: "Eylül enflasyonu bütçene ne diyor?", subtitle: "Rakamın arkasındaki üç kalem ve ekim planına etkisi", author: "Demo Ekonomist", published: true, publishedAt: new Date(now - 3 * 864e5), updatedAt: new Date(now - 3 * 864e5),
+        body: "Eylül ayında yıllık enflasyon beklentinin biraz üstünde geldi. Ama senin bütçen için asıl soru şu: hangi kalemler senin sepetinde ağır basıyor?\n\nKira, gıda ve ulaşım çoğu hanede harcamanın yarısından fazlası. Bu üçü manşet rakamdan hızlı artıyorsa, kendi enflasyonun da daha yüksektir.\n\nEkim planını açarken geçen ayın gerçekleşen tutarlarına bak. Sabit giderlerde artışı şimdiden yaz, sürprizi ay sonuna bırakma." },
+      { id: "demoCardCutDates", lang: "en", title: "Card cut dates, explained", subtitle: "Why the same purchase can be due in 20 or 50 days", author: "", published: true, publishedAt: new Date(now - 10 * 864e5), updatedAt: new Date(now - 8 * 864e5),
+        body: "Every credit card has a statement date. What you buy before it lands on this month's bill; what you buy after waits for the next one.\n\nBuying a big item right after the cut date gives you the longest time to pay without interest.\n\nWallet Coach shows each card's due date on the month view, so you can plan around it." },
+      { id: "demoTaslakBirikim", lang: "tr", title: "Acil durum fonu kaç aylık olmalı?", subtitle: "Taslak: rakamlar kontrol edilecek", author: "", published: false, updatedAt: new Date(now - 1 * 864e5),
+        body: "Genel kural üç ile altı aylık zorunlu gider.\n\nGelirin düzensizse altıya, iki gelirli bir evdeysen üçe yakın dur." },
+    ],
     pushes: [
       { id: "p2", createdAt: new Date(now - 2 * 864e5), metinler: { tr: { baslik: "Yeni ay hazır", metin: "Ekim planını açmak bir dokunuş." }, en: { baslik: "New month is ready", metin: "Open your October plan in one tap." } }, sekme: "month", yalnizTL: false, test: false, results: [{ dil: "tr", condition: "'wc_lang_tr' in topics", id: "x" }, { dil: "en", condition: "'wc_lang_en' in topics", id: "y" }] },
       { id: "p1", createdAt: new Date(now - 9 * 864e5), metinler: { tr: { baslik: "Kur güncellendi", metin: "Dolar ve euro bugün değişti." } }, sekme: "wallet", yalnizTL: true, test: true, results: [{ dil: "tr", condition: "'wc_test' in topics", id: "z" }] },
