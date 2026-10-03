@@ -23,6 +23,7 @@ const WRANGLER = [
   join(homedir(), "dev", "thisOneApp", "worker-upload", "node_modules", ".bin", "wrangler"),
   "/opt/homebrew/bin/wrangler"
 ];
+const D1_ID = "56030b37-b496-4a0b-bfbc-bb8f14ee51bc"; // bamstudio: bülten, anket, indirim kodları
 const HOSTLAR = /(^|\.)bamstudio\.dev$|berkalparslan\.github\.io$/;
 
 function tokenOku() {
@@ -82,6 +83,26 @@ export async function web(log = () => {}, gun = 90) {
     cikti.sayfa = Object.entries(sayfa).filter(([p]) => !p.startsWith("/lab") && !p.startsWith("/cdn-cgi")).sort((a, b) => b[1] - a[1]).slice(0, 15);
     cikti.kaynakSite = Object.entries(ref).filter(([, n]) => n).sort((a, b) => b[1] - a[1]).slice(0, 10);
     const top = Object.values(cikti.gunluk).reduce((t, g) => t + g.ziyaret, 0);
+    /* Site arka ucu (D1): bülten aboneleri, anket oyları, indirim kodları. E-posta panele gelmez. */
+    try {
+      const q = async sql => {
+        const r = await (await fetch(`https://api.cloudflare.com/client/v4/accounts/${hesap}/d1/database/${D1_ID}/query`, { method: "POST", headers: H, body: JSON.stringify({ sql }) })).json();
+        if (!r.success) throw new Error((r.errors?.[0]?.message || "d1").slice(0, 120));
+        return r.result?.[0]?.results || [];
+      };
+      const abone = Object.fromEntries((await q("SELECT status, COUNT(*) n FROM subscribers GROUP BY status")).map(x => [x.status, x.n]));
+      const oy = await q("SELECT apps, platform, lang, created_at FROM votes");
+      const uyg = {}, plat = {}, gunO = {};
+      for (const v of oy) {
+        for (const a of JSON.parse(v.apps || "[]")) uyg[a] = (uyg[a] || 0) + 1;
+        plat[v.platform] = (plat[v.platform] || 0) + 1;
+        const g = (v.created_at || "").slice(0, 10); gunO[g] = (gunO[g] || 0) + 1;
+      }
+      const kod = Object.fromEntries((await q("SELECT app, SUM(assigned_to IS NULL) kalan, SUM(assigned_to IS NOT NULL) verilen FROM codes GROUP BY app")).map(x => [x.app, { kalan: x.kalan, verilen: x.verilen }]));
+      const aboneGun = Object.fromEntries((await q("SELECT substr(confirmed_at,1,10) g, COUNT(*) n FROM subscribers WHERE status='active' GROUP BY g")).map(x => [x.g, x.n]));
+      cikti.arkaUc = { abone, aboneGun, anket: { toplam: oy.length, uygulama: uyg, platform: plat, gunluk: gunO }, kod };
+      log(`  site arka ucu ✓ ${abone.active || 0} abone · ${oy.length} anket`);
+    } catch (e) { cikti.arkaUcHata = e.message; log(`  site arka ucu ✗ ${e.message}`); }
     log(`  web ✓ ${Object.keys(cikti.gunluk).length} gün · ${top} ziyaret · ${Object.keys(cikti.ulke).length} ülke`);
   } catch (e) { cikti.hata = e.message; log(`  web ✗ ${e.message}`); }
   return cikti;

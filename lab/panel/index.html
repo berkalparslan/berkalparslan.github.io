@@ -1332,6 +1332,24 @@
             <div class="panel"><h4 style="font-size:13px;margin-bottom:8px">Nereden geldiler</h4><div class="bars">${(web.kaynakSite || []).slice(0, 10).map(([p, n], _, l) => `<div class="bar" style="grid-template-columns:150px 1fr 50px"><span class="code" style="overflow:hidden;text-overflow:ellipsis">${esc(p)}</span><span class="rail"><span class="fill" style="width:${(n / l[0][1] * 100).toFixed(1)}%"></span></span><span class="n">${sayi(n)}</span></div>`).join("") || '<div class="bos">Yok.</div>'}</div>
               <div class="dip">Günlük: ${webGunler.slice(-10).map(t => `${gun(t)} ${sayi(web.gunluk[t].ziyaret)}`).join(" · ")}. Ölçüm 2 Ekim 2026'da başladı. Umami ikinci kaynak; API anahtarı yok.</div></div>
           </div>
+          ${web.arkaUc ? (() => { const A = web.arkaUc, an = A.anket || {}, ab = A.abone || {};
+            const uy = Object.entries(an.uygulama || {}).sort((a, b) => b[1] - a[1]);
+            const kd = Object.entries(A.kod || {}).sort((a, b) => (b[1].verilen - a[1].verilen) || a[0].localeCompare(b[0]));
+            const enAz = kd.length ? Math.min(...kd.map(([, v]) => v.kalan)) : 0;
+            return `<div class="ikili" style="margin-top:14px">
+            <div class="panel"><h4 style="font-size:13px;margin-bottom:8px">Bülten ve anket</h4>
+              <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px">
+                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.active || 0)}</b><div class="zero" style="font-size:11.5px">onaylı abone</div></div>
+                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.pending || 0)}</b><div class="zero" style="font-size:11.5px">onay bekleyen</div></div>
+                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.unsubscribed || 0)}</b><div class="zero" style="font-size:11.5px">çıkan</div></div>
+                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(an.toplam || 0)}</b><div class="zero" style="font-size:11.5px">anket katılımı</div></div>
+              </div>
+              <div class="bars">${uy.slice(0, 10).map(([s, n], _, l) => `<div class="bar" style="grid-template-columns:150px 1fr 50px"><span>${esc(s)}</span><span class="rail"><span class="fill" style="width:${(n / l[0][1] * 100).toFixed(1)}%"></span></span><span class="n">${sayi(n)}</span></div>`).join("") || '<div class="bos">Henüz oy yok.</div>'}</div>
+              <div class="dip">Platform: ${Object.entries(an.platform || {}).map(([p, n]) => `${p} ${n}`).join(" · ") || "yok"}. Favori 3 anketi, bamstudio.dev#favori.</div></div>
+            <div class="panel"><h4 style="font-size:13px;margin-bottom:8px">%20 indirim kodları <span class="acik">· App Store, tek kullanımlık, 3 Nis 2027'ye kadar</span></h4>
+              <div class="bars">${kd.map(([s, v]) => `<div class="bar" style="grid-template-columns:150px 1fr 70px"><span>${esc(s)}</span><span class="rail"><span class="fill" style="width:${(v.verilen / (v.verilen + v.kalan) * 100).toFixed(1)}%"></span></span><span class="n">${sayi(v.verilen)} / ${sayi(v.verilen + v.kalan)}</span></div>`).join("")}</div>
+              <div class="dip">En az kalan: ${sayi(enAz)} kod. 50'nin altına inince App Store Connect'ten yeni parti gerekir.</div></div>
+          </div>`; })() : (web.arkaUcHata ? `<div class="dip">Site arka ucu okunamadı: ${esc(web.arkaUcHata)}</div>` : "")}
         </section>` : ""}`;
     }
 
