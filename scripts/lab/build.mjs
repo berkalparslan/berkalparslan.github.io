@@ -75,6 +75,19 @@ const panel = panelOlustur({
   kaynakSistem: "mac"
 });
 
+/* Canlı: site Worker'ının /api/live ucu ve onun anahtarı (Worker secret
+   LIVE_KEY ile aynı). Anahtar Keychain'de, yalnız şifreli pakete girer:
+     security add-generic-password -U -a "$USER" -s bamtech-lab-live -w <anahtar>
+   Yoksa panelin Canlı sekmesi kapalı kalır. */
+function canliAnahtar() {
+  if (process.env.LAB_LIVE_KEY) return process.env.LAB_LIVE_KEY;
+  try { return execFileSync("security", ["find-generic-password", "-s", "bamtech-lab-live", "-w"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); }
+  catch { return null; }
+}
+const canli = canliAnahtar();
+panel.canli = canli ? { url: "https://bamstudio.dev/api/live", anahtar: canli } : null;
+if (!canli) console.log("  ! canlı anahtarı yok (Keychain: bamtech-lab-live), Canlı sekmesi kapalı");
+
 const { paket, boyut } = await sifrele(panel, parolaAl());
 mkdirSync(dirname(CIKTI), { recursive: true });
 writeFileSync(CIKTI, JSON.stringify(paket) + "\n");

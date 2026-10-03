@@ -25,258 +25,214 @@
     })();
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* Sitenin Slush çizgisi (assets/tanitim.css, lab/index.html): Anton başlık,
-       Inter metin, siyah konturlu yuvarlak kartlar, pastel palet. */
+    /* Yönetim paneli: işlev önce. Sistem fontu, normal boyutlar, yoğun tablolar,
+       renk yalnız grafikte ve durum rozetlerinde. Açık ve koyu tema. */
     :root {
       color-scheme: light;
-      --c-acik: #dceeff; --c-sari: #ffd731; --c-yesil: #55db9c; --c-lila: #e9ccff;
-      --c-pembe: #ffb3d9; --c-mavi: #4da2ff; --c-turuncu: #fb4903; --c-mor: #5c4ade;
-      --bg: #dceeff;
-      --bg-2: #cfe4fa;
+      --bg: #f4f5f7;
       --surface: #ffffff;
-      --surface-2: #f2f7ff;
-      --text: #000000;
-      --subtle: #3d3d42;
-      --faint: #6f6f76;
-      --border: rgba(0, 0, 0, .12);
-      --border-2: rgba(0, 0, 0, .28);
-      --line: #000000;
-      --accent: #5c4ade;
-      --accent-soft: rgba(92, 74, 222, .12);
-      --mint: #0b8f58;
-      --mint-soft: rgba(85, 219, 156, .30);
-      --amber: #9a6400;
-      --amber-soft: rgba(255, 215, 49, .40);
-      --rose: #d93b06;
-      --rose-soft: rgba(251, 73, 3, .13);
-      --violet: #5c4ade;
-      --violet-soft: rgba(233, 204, 255, .75);
-      --shadow: none;
-      --disp: "Anton", Impact, "Arial Narrow", sans-serif;
+      --surface-2: #f0f2f5;
+      --text: #15171c;
+      --subtle: #3b404b;
+      --faint: #5f6572;
+      --border: #e1e4ea;
+      --border-2: #c9ced8;
+      --accent: #3550d6;
+      --accent-soft: rgba(53, 80, 214, .10);
+      --mint: #11804f;
+      --mint-soft: rgba(17, 128, 79, .11);
+      --amber: #94620a;
+      --amber-soft: rgba(214, 150, 20, .15);
+      --rose: #c4321a;
+      --rose-soft: rgba(196, 50, 26, .10);
+      --violet: #6b46c1;
+      --violet-soft: rgba(107, 70, 193, .10);
+      /* Grafik renkleri: iOS mavi, Play yeşil, diğer seriler ölçülü */
+      --c-mavi: #3b7ddd; --c-yesil: #1f9d5c; --c-mor: #7656d6; --c-turuncu: #e06a1b; --c-pembe: #cc4b8a; --c-sari: #c99a06;
+      --shadow: 0 1px 2px rgba(16, 20, 30, .05);
+      --disp: inherit;
       --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-      --r: 22px;
-      --r-sm: 14px;
-      --yan: 252px;
+      --r: 10px;
+      --r-sm: 8px;
+      --yan: 236px;
     }
-
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #10131c;
-      --bg-2: #0c0e15;
-      --surface: #1a1d27;
-      --surface-2: #222634;
-      --text: #f4f4f7;
-      --subtle: #c4c6d0;
-      --faint: #8b8e9b;
-      --border: rgba(255, 255, 255, .12);
-      --border-2: rgba(255, 255, 255, .26);
-      --line: #f4f4f7;
-      --accent: #a99bff;
-      --accent-soft: rgba(169, 155, 255, .16);
-      --mint: #55db9c;
-      --mint-soft: rgba(85, 219, 156, .16);
-      --amber: #ffd731;
-      --amber-soft: rgba(255, 215, 49, .16);
-      --rose: #ff7a45;
-      --rose-soft: rgba(251, 73, 3, .18);
-      --violet: #c9b5ff;
-      --violet-soft: rgba(201, 181, 255, .16);
+      --bg: #0f1115;
+      --surface: #171a20;
+      --surface-2: #1f232b;
+      --text: #e9ebef;
+      --subtle: #bcc1cb;
+      --faint: #8e94a0;
+      --border: #2a2f38;
+      --border-2: #3b414c;
+      --accent: #8199ff;
+      --accent-soft: rgba(129, 153, 255, .14);
+      --mint: #4cc98a;
+      --mint-soft: rgba(76, 201, 138, .14);
+      --amber: #e8b53c;
+      --amber-soft: rgba(232, 181, 60, .14);
+      --rose: #ff7d66;
+      --rose-soft: rgba(255, 125, 102, .14);
+      --violet: #b39cff;
+      --violet-soft: rgba(179, 156, 255, .14);
+      --c-mavi: #5b9cf0; --c-yesil: #45c07c; --c-mor: #9d85f0; --c-turuncu: #f08a45; --c-pembe: #e874a8; --c-sari: #e3b934;
       --shadow: none;
     }
-
-    /* Vurgu rengi: sol menüden seçilir, açık/koyu için ayrı ton. */
-    :root[data-renk="mavi"] { --accent: #1f7fe0; --accent-soft: rgba(77, 162, 255, .16); }
-    :root[data-theme="dark"][data-renk="mavi"] { --accent: #4da2ff; --accent-soft: rgba(77, 162, 255, .16); }
-    :root[data-renk="yesil"] { --accent: #0f9f6e; --accent-soft: rgba(15, 159, 110, .12); }
+    :root[data-renk="mavi"] { --accent: #1f6fd1; --accent-soft: rgba(31, 111, 209, .10); }
+    :root[data-theme="dark"][data-renk="mavi"] { --accent: #5ea4ff; --accent-soft: rgba(94, 164, 255, .14); }
+    :root[data-renk="yesil"] { --accent: #0f8a60; --accent-soft: rgba(15, 138, 96, .10); }
     :root[data-theme="dark"][data-renk="yesil"] { --accent: #34d399; --accent-soft: rgba(52, 211, 153, .14); }
-    :root[data-renk="turuncu"] { --accent: #fb4903; --accent-soft: rgba(251, 73, 3, .12); }
-    :root[data-theme="dark"][data-renk="turuncu"] { --accent: #ff7a45; --accent-soft: rgba(255, 122, 69, .16); }
-    :root[data-renk="pembe"] { --accent: #d63a7a; --accent-soft: rgba(214, 58, 122, .11); }
+    :root[data-renk="turuncu"] { --accent: #c94f0e; --accent-soft: rgba(201, 79, 14, .10); }
+    :root[data-theme="dark"][data-renk="turuncu"] { --accent: #ff8a4c; --accent-soft: rgba(255, 138, 76, .14); }
+    :root[data-renk="pembe"] { --accent: #c2336f; --accent-soft: rgba(194, 51, 111, .10); }
     :root[data-theme="dark"][data-renk="pembe"] { --accent: #ff7ab3; --accent-soft: rgba(255, 122, 179, .14); }
-    :root[data-renk="gri"] { --accent: #3f4351; --accent-soft: rgba(63, 67, 81, .12); }
+    :root[data-renk="gri"] { --accent: #3f4351; --accent-soft: rgba(63, 67, 81, .10); }
     :root[data-theme="dark"][data-renk="gri"] { --accent: #c9ccd8; --accent-soft: rgba(201, 204, 216, .14); }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     [hidden] { display: none !important; }
     html { -webkit-text-size-adjust: 100%; }
-
     body {
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-weight: 500;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      font-size: 15px;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.45; font-size: 14px;
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
     }
-
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
     button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
-    code { font-family: var(--mono); font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; }
+    code { font-family: var(--mono); font-size: .9em; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
     .mono { font-family: var(--mono); }
     .zero { color: var(--faint); }
     .up { color: var(--mint); }
     .down { color: var(--rose); }
     .flat { color: var(--subtle); }
 
-    /* ── Giriş ─────────────────────────────────────────────── */
+    /* Giriş */
     .gate { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
-    .gate-card {
-      width: 100%; max-width: 360px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-      padding: 30px 28px 26px; box-shadow: var(--shadow);
-    }
-    .gate-mark {
-      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
-      background: linear-gradient(135deg, var(--accent), var(--violet)); color: #fff; font-weight: 800;
-      font-size: 15px; letter-spacing: -.02em; margin-bottom: 18px;
-    }
-    .gate h1 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 4px; }
-    .gate p { color: var(--subtle); font-size: 13px; margin-bottom: 18px; }
-    .gate input {
-      width: 100%; font: inherit; font-size: 15px; padding: 11px 13px; border-radius: 10px;
-      border: 1px solid var(--border-2); background: var(--surface-2); color: var(--text); outline: 0;
-    }
+    .gate-card { width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 26px 22px; box-shadow: var(--shadow); }
+    .gate-mark img { width: 44px; height: 44px; border-radius: 11px; display: block; margin-bottom: 14px; }
+    .gate h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .gate p { color: var(--subtle); font-size: 13px; margin-bottom: 16px; }
+    .gate input { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-2); background: var(--surface); color: var(--text); outline: 0; }
     .gate input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .gate button {
-      width: 100%; margin-top: 10px; padding: 11px; border-radius: 10px; font-weight: 650;
-      background: var(--accent); color: #fff;
-    }
+    .gate button { width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 650; background: var(--accent); color: #fff; }
     .gate button[disabled] { opacity: .5; }
     .gate-err { color: var(--rose); font-size: 13px; margin-top: 10px; min-height: 18px; }
-    .gate-foot { margin-top: 16px; font-size: 12px; color: var(--faint); display: flex; justify-content: space-between; }
+    .gate-foot { margin-top: 14px; font-size: 12px; color: var(--faint); display: flex; justify-content: space-between; }
     .gate-foot a { color: var(--faint); }
 
-    /* ── Kabuk ─────────────────────────────────────────────── */
+    /* Kabuk */
     .shell { display: grid; grid-template-columns: var(--yan) 1fr; min-height: 100vh; }
-
-    aside {
-      background: var(--surface); border-right: 1px solid var(--border);
-      padding: 18px 14px 14px; position: sticky; top: 0; height: 100vh; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 16px;
-    }
+    aside { background: var(--surface); border-right: 1px solid var(--border); padding: 14px 12px 12px; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
     .marka { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
-    .marka .m { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--accent), var(--violet)); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 12px; }
-    .marka b { font-size: 15px; letter-spacing: -.01em; display: block; line-height: 1.2; }
-    .marka small { color: var(--faint); font-size: 11px; font-family: var(--mono); }
-
-    .yan-b h2 { font-size: 10.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin: 0 4px 6px; }
-
-    .seg { display: flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 2px; gap: 2px; }
-    .seg button { flex: 1; padding: 5px 4px; border-radius: 7px; font-size: 12.5px; font-weight: 550; color: var(--subtle); }
-    .seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
-
+    .marka .m img { width: 30px; height: 30px; border-radius: 8px; display: block; }
+    .marka b { font-size: 15px; display: block; line-height: 1.2; }
+    .marka small { color: var(--faint); font-size: 11.5px; }
+    .yan-b h2 { font-size: 11px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin: 0 4px 6px; }
+    .seg { display: flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 2px; gap: 2px; }
+    .seg button { flex: 1; padding: 4px 6px; border-radius: 6px; font-size: 12.5px; font-weight: 550; color: var(--subtle); white-space: nowrap; }
+    .seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
     .yig { display: flex; flex-direction: column; gap: 1px; }
-    .yig button {
-      display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px;
-      text-align: left; font-size: 13px; color: var(--subtle); white-space: nowrap; overflow: hidden;
-    }
+    .yig button { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 6px; text-align: left; font-size: 13px; color: var(--subtle); white-space: nowrap; overflow: hidden; }
     .yig button:hover { background: var(--surface-2); color: var(--text); }
     .yig button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
     .yig .ad { flex: 1; overflow: hidden; text-overflow: ellipsis; }
     .yig .say { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
     .yig .rozet { background: var(--rose); color: #fff; font-size: 10px; font-weight: 700; padding: 0 5px; border-radius: 99px; line-height: 16px; }
-    .yig .katman { width: 6px; height: 6px; border-radius: 50%; flex: none; }
-    .k-odak { background: var(--mint); }
-    .k-buyut { background: var(--accent); }
-    .k-bakim { background: var(--amber); }
-    .k-bekle { background: var(--faint); }
-    .k-kapali { background: var(--rose); }
-    .k-yok { background: transparent; border: 1px solid var(--border-2); }
-
+    .yig .canli-rozet { background: var(--mint); color: #fff; font-size: 10px; font-weight: 700; padding: 0 5px; border-radius: 99px; line-height: 16px; }
+    .yig .ayrac { height: 1px; background: var(--border); margin: 4px 6px; }
+    .yig .katman { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+    .k-odak { background: var(--mint); } .k-buyut { background: var(--accent); } .k-bakim { background: var(--amber); }
+    .k-bekle { background: var(--faint); } .k-kapali { background: var(--rose); } .k-yok { background: transparent; border: 1px solid var(--border-2); }
+    .k-site { background: var(--c-turuncu); border-radius: 2px; }
     .renkler { display: flex; gap: 8px; padding: 0 4px; }
-    .renkler button { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--border-2); }
+    .renkler button { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--border-2); }
     .renkler button[aria-pressed="true"] { border-color: var(--surface); box-shadow: 0 0 0 2px var(--text); }
-
-    /* Özet: uygulama uygulama büyük kartlar */
-    .uyg-kartlar { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-    .uk { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: 16px 18px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 12px; transition: border-color .15s, transform .15s; min-width: 0; }
-    .uk:hover { border-color: var(--accent); transform: translateY(-1px); }
-    .uk.secili { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .uk .ust { display: flex; align-items: center; gap: 11px; }
-    .uk .ikon { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; font-size: 24px; flex: none; }
-    .uk .adlar { min-width: 0; flex: 1; }
-    .uk .adlar b { display: block; font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -.01em; }
-    .uk .adlar small { color: var(--faint); font-size: 12px; display: flex; gap: 6px; align-items: center; }
-    .uk .buyuk { display: flex; align-items: baseline; gap: 10px; }
-    .uk .buyuk .n { font-size: 34px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
-    .uk .buyuk .e { font-size: 12px; color: var(--faint); }
-    .uk .buyuk .f { font-size: 12.5px; font-weight: 600; margin-left: auto; }
-    .spark-genis { width: 100%; height: 44px; display: block; }
-    .spark-genis path.cizgi { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
-    .spark-genis path.alan { fill: var(--accent-soft); stroke: none; }
-    .uk .mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .uk .mini div { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; min-width: 0; }
-    .uk .mini b { display: block; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .uk .mini small { font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); }
-    .uk .sonraki { font-size: 12.5px; color: var(--subtle); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .uk .sonraki::before { content: "→ "; color: var(--accent); font-weight: 700; }
-    .uk .sonraki code { font-size: .9em; }
-
+    .paneller { display: flex; flex-direction: column; gap: 1px; }
+    .paneller a { display: flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: 6px; color: var(--subtle); font-size: 13px; }
+    .paneller a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+    .paneller img { width: 20px; height: 20px; border-radius: 5px; flex: none; }
+    .paneller a span { flex: 1; }
+    .paneller a small { color: var(--faint); font-size: 11px; }
     .yan-alt { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; }
-    .yan-alt button, .yan-alt a {
-      font-size: 12px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
-      color: var(--subtle); background: var(--surface);
-    }
+    .yan-alt button, .yan-alt a { font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border); color: var(--subtle); background: var(--surface); }
     .yan-alt a:hover, .yan-alt button:hover { color: var(--text); text-decoration: none; border-color: var(--border-2); }
 
-    main { min-width: 0; padding: 22px 30px 60px; max-width: 1320px; }
-
-    .sekmeler { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 5; background: var(--bg); padding-top: 4px; }
-    .sekmeler button {
-      padding: 8px 12px 10px; font-size: 13.5px; font-weight: 550; color: var(--subtle);
-      border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; display: flex; gap: 6px; align-items: center;
-    }
-    .sekmeler button[aria-pressed="true"] { color: var(--text); border-bottom-color: var(--accent); }
+    main { min-width: 0; padding: 0 28px 60px; max-width: 1440px; }
+    .sekmeler { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin: 0 -28px 18px; padding: 8px 28px 0; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 5; background: var(--bg); }
+    .sekmeler button { padding: 8px 12px 9px; font-size: 13.5px; font-weight: 550; color: var(--subtle); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; display: flex; gap: 6px; align-items: center; }
+    .sekmeler button:hover { color: var(--text); }
+    .sekmeler button[aria-pressed="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 650; }
     .sekmeler .say { font-family: var(--mono); font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); padding: 0 6px; border-radius: 99px; color: var(--subtle); }
     .sekmeler .say.uyari { background: var(--rose-soft); color: var(--rose); border-color: transparent; }
+    .sekmeler .say.canli { background: var(--mint-soft); color: var(--mint); border-color: transparent; }
 
-    .baslik { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-    .baslik h2 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
-    .baslik .alt { color: var(--faint); font-size: 12.5px; font-family: var(--mono); }
+    .baslik { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .baslik h2 { font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+    .baslik .alt { color: var(--faint); font-size: 12.5px; }
 
-    section { margin-bottom: 22px; }
-    section > h3 { font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; white-space: nowrap; }
-    section > h3 .acik { font-weight: 450; letter-spacing: 0; text-transform: none; color: var(--faint); }
-    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; box-shadow: var(--shadow); }
+    section { margin-bottom: 20px; }
+    section > h3 { font-size: 14px; font-weight: 650; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    section > h3 .acik { font-weight: 450; color: var(--faint); font-size: 12.5px; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; box-shadow: var(--shadow); }
     .panel.scroll { overflow-x: auto; padding: 0; }
+    .panel h4 { font-size: 13px; font-weight: 650; margin-bottom: 8px; }
     .ikili { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .uclu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .bos { color: var(--faint); font-size: 13px; padding: 8px 0; }
+    .bos { color: var(--faint); font-size: 13px; padding: 6px 0; }
 
-    /* KPI kartları */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px 12px; box-shadow: var(--shadow); min-width: 0; }
-    .card .k { font-size: 11.5px; font-weight: 600; color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
-    .card .v { font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 2px 0; font-variant-numeric: tabular-nums; }
-    .card .v.kucuk { font-size: 20px; }
-    .card .s { font-size: 12px; color: var(--subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* KPI */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 11px 14px 10px; box-shadow: var(--shadow); min-width: 0; }
+    .card .k { font-size: 12px; font-weight: 550; color: var(--faint); }
+    .card .v { font-size: 22px; font-weight: 650; letter-spacing: -.01em; margin: 2px 0 1px; font-variant-numeric: tabular-nums; line-height: 1.25; }
+    .card .v.kucuk { font-size: 16px; }
+    .card .s { font-size: 12px; color: var(--subtle); overflow: hidden; text-overflow: ellipsis; }
     .card.vurgu { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+
+    /* Uyarılar */
+    .uyarilar { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 18px; overflow: hidden; }
+    .uyarilar .u { display: grid; grid-template-columns: 8px 140px 1fr auto; gap: 12px; align-items: baseline; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .uyarilar .u:last-child { border-bottom: 0; }
+    .uyarilar .u i { width: 8px; height: 8px; border-radius: 50%; align-self: center; }
+    .uyarilar .u.a i { background: var(--rose); } .uyarilar .u.b i { background: var(--amber); } .uyarilar .u.c i { background: var(--accent); }
+    .uyarilar .u .kim { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .uyarilar .u .kim a { color: var(--text); }
+    .uyarilar .u .sag { white-space: nowrap; }
+    .uyarilar details { border-top: 1px solid var(--border); }
+    .uyarilar details[open] summary { border-bottom: 1px solid var(--border); }
+    .uyarilar summary { padding: 7px 14px; font-size: 12.5px; color: var(--accent); cursor: pointer; list-style: none; }
+    .uyarilar summary::-webkit-details-marker { display: none; }
 
     /* Tablo */
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; }
-    th { font-size: 11px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); background: var(--surface-2); position: sticky; top: 0; }
-    th:first-child, td:first-child { padding-left: 16px; }
+    th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; }
+    th { font-size: 11.5px; font-weight: 600; color: var(--faint); background: var(--surface-2); position: sticky; top: 0; }
+    th:first-child, td:first-child { padding-left: 14px; }
+    th:last-child, td:last-child { padding-right: 14px; }
     tr:last-child td { border-bottom: 0; }
     tbody tr[data-app] { cursor: pointer; }
     tbody tr[data-app]:hover td { background: var(--surface-2); }
     tbody tr.secili td { background: var(--accent-soft); }
+    tbody tr.site-satir td { background: color-mix(in srgb, var(--c-turuncu) 5%, transparent); }
+    tfoot td { font-weight: 650; background: var(--surface-2); border-top: 1px solid var(--border-2); }
     td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
-    td .alt { display: block; font-size: 11px; color: var(--faint); font-family: var(--mono); }
+    td.genis { white-space: normal; min-width: 200px; max-width: 320px; color: var(--subtle); font-size: 12.5px; line-height: 1.35; }
+    td.genis .kirp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    td .alt { display: block; font-size: 11px; color: var(--faint); }
+    td.num .alt { font-family: var(--mono); }
+    .ad-hucre { display: flex; align-items: center; gap: 8px; }
+    .ad-hucre img, .ad-hucre .ik { width: 22px; height: 22px; border-radius: 5px; flex: none; object-fit: cover; background: var(--surface-2); display: grid; place-items: center; font-size: 12px; }
     .plat { display: inline-flex; gap: 3px; margin-left: 6px; vertical-align: 1px; }
-    .plat span { font-size: 9.5px; font-weight: 700; padding: 0 4px; border-radius: 4px; border: 1px solid var(--border-2); color: var(--faint); letter-spacing: .04em; }
+    .plat span { font-size: 9.5px; font-weight: 700; padding: 0 4px; border-radius: 3px; border: 1px solid var(--border-2); color: var(--faint); letter-spacing: .03em; }
     .plat .ios { color: var(--text); }
     .stars { color: var(--amber); font-weight: 600; }
     .cevapsiz { color: var(--rose); font-weight: 600; }
+    .nokta-canli { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 3px var(--mint-soft); vertical-align: 0; margin-right: 6px; }
 
-    .etiket { display: inline-block; font-size: 11px; font-weight: 650; padding: 1px 8px; border-radius: 99px; line-height: 18px; white-space: nowrap; }
+    .etiket { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 99px; line-height: 18px; white-space: nowrap; }
     .e-odak { background: var(--mint-soft); color: var(--mint); }
     .e-buyut { background: var(--accent-soft); color: var(--accent); }
     .e-bakim { background: var(--amber-soft); color: var(--amber); }
@@ -284,119 +240,106 @@
     .e-kapali { background: var(--rose-soft); color: var(--rose); }
     .e-model { background: var(--violet-soft); color: var(--violet); }
     .e-gri { background: var(--surface-2); color: var(--subtle); border: 1px solid var(--border); font-weight: 550; }
+    .e-canli { background: var(--mint-soft); color: var(--mint); }
+    .e-site { background: color-mix(in srgb, var(--c-turuncu) 14%, transparent); color: var(--c-turuncu); }
 
     /* Grafik */
-    .chart { width: 100%; height: 190px; display: block; }
+    .chart { width: 100%; height: 200px; display: block; }
     .chart text { font-size: 10px; fill: var(--faint); font-family: var(--mono); }
     .chart .grid { stroke: var(--border); stroke-width: 1; }
-    .chart .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-    .chart .line.and { stroke: var(--mint); }
-    .chart .dot { fill: var(--accent); }
-    .chart .dot.and { fill: var(--mint); }
-    .chart .gap { fill: var(--border); opacity: .55; }
-    .legend { display: flex; gap: 16px; font-size: 12px; color: var(--subtle); margin-bottom: 6px; }
-    .legend i { display: inline-block; width: 10px; height: 3px; border-radius: 2px; background: var(--accent); vertical-align: middle; margin-right: 6px; }
-    .legend i.i-and { background: var(--mint); }
+    .chart rect.ios { fill: var(--c-mavi); }
+    .chart rect.and { fill: var(--c-yesil); }
+    .chart rect.bos { fill: var(--border); }
+    .chart rect.web { fill: var(--c-turuncu); }
+    .chart rect.pv { fill: var(--c-mor); opacity: .55; }
+    .chart rect:hover { opacity: .75; }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--subtle); margin-bottom: 6px; }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--c-mavi); vertical-align: -1px; margin-right: 5px; }
+    .legend i.i-and { background: var(--c-yesil); } .legend i.i-tr { background: var(--c-turuncu); } .legend i.i-mor { background: var(--c-mor); } .legend i.i-sari { background: var(--c-sari); }
     .spark { display: block; }
     .spark path { fill: none; stroke: var(--accent); stroke-width: 1.5; }
 
-    .bars { display: flex; flex-direction: column; gap: 7px; }
+    .bars { display: flex; flex-direction: column; gap: 6px; }
     .bar { display: grid; grid-template-columns: 44px 1fr 50px; align-items: center; gap: 10px; font-size: 12.5px; }
     .bar .code { font-family: var(--mono); color: var(--subtle); }
-    .bar .rail { display: block; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
-    .bar .fill { display: block; height: 100%; background: var(--accent); border-radius: 5px; min-width: 2px; }
+    .bar .rail { display: block; height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+    .bar .fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; min-width: 2px; }
+    .bar .n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
     .hedef { display: grid; gap: 10px; }
-    .hedef .satir { display: grid; grid-template-columns: 120px 1fr 110px; gap: 12px; align-items: center; font-size: 13px; }
-    .hedef .rail { display: block; height: 12px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
-    .hedef .fill { display: block; height: 100%; background: var(--accent); border-radius: 6px; }
+    .hedef .satir { display: grid; grid-template-columns: 110px 1fr 120px; gap: 12px; align-items: center; font-size: 13px; }
+    .hedef .rail { display: block; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+    .hedef .fill { display: block; height: 100%; background: var(--accent); border-radius: 5px; }
     .hedef .fill.tam { background: var(--mint); }
     .hedef .n { font-family: var(--mono); font-size: 12.5px; text-align: right; }
-    .surum { display: inline-block; font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 99px; white-space: nowrap; }
+    .surum { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 99px; line-height: 18px; white-space: nowrap; }
     .s-ok { background: var(--mint-soft); color: var(--mint); }
     .s-bekle { background: var(--amber-soft); color: var(--amber); }
     .s-ret { background: var(--rose-soft); color: var(--rose); }
     .s-gri { background: var(--surface-2); color: var(--subtle); border: 1px solid var(--border); }
-    .bar .n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
-    dl.kv { display: grid; gap: 8px; font-size: 13px; }
+    dl.kv { display: grid; gap: 7px; font-size: 13px; }
     dl.kv > div { display: grid; grid-template-columns: 130px 1fr; gap: 10px; }
     dl.kv dt { color: var(--faint); }
     dl.kv dd { min-width: 0; overflow-wrap: anywhere; }
-
     ul.notes { padding-left: 18px; font-size: 13px; color: var(--subtle); display: grid; gap: 6px; }
     ul.notes strong { color: var(--text); }
 
-    /* Yapılacak listesi */
-    .adimlar { display: flex; flex-direction: column; gap: 0; }
-    .adim { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+    .adimlar { display: flex; flex-direction: column; }
+    .adim { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .adim:last-child { border-bottom: 0; }
-    .adim .n { width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--surface-2); color: var(--subtle); }
-    .adim .n.a { background: var(--rose-soft); color: var(--rose); }
-    .adim .n.b { background: var(--amber-soft); color: var(--amber); }
-    .adim .n.c { background: var(--accent-soft); color: var(--accent); }
-    .adim .kim { font-size: 11.5px; color: var(--faint); }
+    .adim .n { width: 20px; height: 20px; border-radius: 5px; display: grid; place-items: center; font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--surface-2); color: var(--subtle); }
+    .adim .n.a { background: var(--rose-soft); color: var(--rose); } .adim .n.b { background: var(--amber-soft); color: var(--amber); } .adim .n.c { background: var(--accent-soft); color: var(--accent); }
+    .adim .kim { font-size: 11.5px; color: var(--faint); display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
     .adim .kim a { color: var(--faint); }
     .adim .ne { line-height: 1.45; }
-    .adim .ne code { font-size: .88em; }
-
-    .kopya { font-size: 11px; font-weight: 650; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--border-2); color: var(--subtle); background: var(--surface); white-space: nowrap; flex: none; }
+    .kopya { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border-2); color: var(--subtle); background: var(--surface); white-space: nowrap; flex: none; }
     .kopya:hover { color: var(--accent); border-color: var(--accent); }
-    .kopya.buyuk { font-size: 12px; padding: 4px 10px; }
-    .adim .kim { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 50; box-shadow: var(--shadow); max-width: 90vw; }
+    .kopya.buyuk { font-size: 12px; padding: 3px 10px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 50; max-width: 90vw; }
     .toast.acik { opacity: 1; transform: translateX(-50%) translateY(0); }
     .h3-sag { margin-left: auto; display: flex; gap: 6px; }
 
     .takvim { display: grid; gap: 6px; }
     .takvim div { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: baseline; font-size: 13px; }
     .takvim .gun { font-family: var(--mono); font-weight: 700; font-size: 12px; color: var(--amber); }
-    .takvim .gun.yakin { color: var(--rose); }
-    .takvim .gun.uzak { color: var(--subtle); }
+    .takvim .gun.yakin { color: var(--rose); } .takvim .gun.uzak { color: var(--subtle); }
     .takvim small { color: var(--faint); }
 
-    /* Pazarlama katman kartları */
     .katmanlar { column-count: 2; column-gap: 14px; }
-    .katman-kart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; break-inside: avoid; margin-bottom: 14px; }
-    .katman-kart > header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .katman-kart > header b { font-size: 14px; }
+    .katman-kart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; break-inside: avoid; margin-bottom: 14px; }
+    .katman-kart > header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .katman-kart > header b { font-size: 13.5px; }
     .katman-kart > header small { color: var(--faint); font-size: 12px; }
-    .katman-kart .aciklama { padding: 8px 16px 0; font-size: 12.5px; color: var(--subtle); }
-    .uyg-satir { padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .uyg-satir { padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; }
     .uyg-satir:last-child { border-bottom: 0; }
     .uyg-satir:hover { background: var(--surface-2); }
     .uyg-satir .ust { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-    .uyg-satir .ust b { font-size: 14px; }
+    .uyg-satir .ust b { font-size: 13.5px; }
     .uyg-satir .ust .rakam { font-family: var(--mono); font-size: 12px; color: var(--subtle); white-space: nowrap; }
     .uyg-satir .neden { font-size: 12.5px; color: var(--subtle); margin-top: 2px; }
     .uyg-satir .sonraki { font-size: 13px; margin-top: 6px; display: flex; gap: 8px; align-items: start; }
     .uyg-satir .sonraki::before { content: "→"; color: var(--accent); font-weight: 700; flex: none; }
     .uyg-satir .kanal { font-size: 12px; color: var(--faint); margin-top: 4px; }
-
-    .kural { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; align-items: start; }
+    .kural { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; align-items: start; }
     .kural:last-child { border-bottom: 0; }
-    .kural .ik { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-size: 15px; background: var(--surface-2); }
+    .kural .ik { width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; font-size: 14px; background: var(--surface-2); }
     .kural b { display: block; margin-bottom: 1px; }
     .kural p { color: var(--subtle); font-size: 13px; }
 
-    /* Takip matrisi */
     .matris td.nokta { text-align: center; }
     .matris td.nokta span { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
     .matris td.nokta span.reklam { background: var(--amber); }
     .matris td.nokta span.bos { background: transparent; border: 1px solid var(--border); }
     .servisler { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-    .servis { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px; }
+    .servis { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
     .servis .ust { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .servis .ust b { font-size: 14px; }
+    .servis .ust b { font-size: 13.5px; }
     .servis .bak { font-size: 12.5px; color: var(--subtle); }
-    .servis .meta { font-size: 11.5px; color: var(--faint); display: flex; gap: 8px; flex-wrap: wrap; }
+    .servis .meta { font-size: 12px; color: var(--faint); display: flex; gap: 8px; flex-wrap: wrap; }
     .servis .uyg { font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px; }
-    .servis .uyg span { background: var(--surface-2); border: 1px solid var(--border); padding: 0 7px; border-radius: 99px; font-size: 11px; color: var(--subtle); }
-    .p-tam { color: var(--mint); }
-    .p-kismi { color: var(--amber); }
-    .p-yok { color: var(--faint); }
+    .servis .uyg span { background: var(--surface-2); border: 1px solid var(--border); padding: 0 7px; border-radius: 99px; font-size: 11.5px; color: var(--subtle); }
 
-    /* Yorumlar, görevler, veri (mevcut) */
-    .yorum { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .yorum { padding: 11px 0; border-bottom: 1px solid var(--border); }
     .yorum:last-child { border-bottom: 0; }
     .y-ust { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 4px; }
     .y-puan { color: var(--amber); letter-spacing: 1px; font-size: 12px; }
@@ -404,175 +347,72 @@
     .y-uyg { font-size: 11.5px; color: var(--accent); background: var(--accent-soft); padding: 0 7px; border-radius: 99px; }
     .y-meta { font-size: 12px; color: var(--faint); margin-left: auto; font-family: var(--mono); }
     .y-metin { font-size: 13.5px; white-space: pre-wrap; }
-    .y-cevap { margin-top: 8px; padding: 8px 12px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 13px; white-space: pre-wrap; }
+    .y-cevap { margin-top: 8px; padding: 8px 12px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; font-size: 13px; white-space: pre-wrap; }
     .y-cevap b { display: block; font-size: 11.5px; color: var(--faint); margin-bottom: 2px; }
     .y-bekliyor { margin-top: 6px; font-size: 12px; color: var(--rose); font-weight: 600; }
 
     .gorev-grup { margin-bottom: 14px; }
     .gorev-grup h4 { font-size: 13px; font-weight: 650; margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
     .gorev-grup h4 .say { font-family: var(--mono); font-size: 11px; color: var(--faint); font-weight: 500; }
-    .gorev { display: grid; grid-template-columns: 18px 1fr; gap: 10px; padding: 6px 0; font-size: 13.5px; border-bottom: 1px solid var(--border); align-items: start; }
+    .gorev { display: grid; grid-template-columns: 18px 1fr; gap: 10px; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border); align-items: start; }
     .gorev:last-child { border-bottom: 0; }
     .gorev input { margin-top: 3px; }
     .gorev.bitti .yazi, .gorev.yerel .yazi { color: var(--faint); text-decoration: line-through; }
     .gorev .bolum { font-size: 11.5px; color: var(--faint); font-family: var(--mono); }
-    .gorev .et { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 0 5px; border-radius: 4px; border: 1px solid var(--border-2); color: var(--subtle); margin-left: 6px; vertical-align: 1px; }
-    .gorev .et.ios { color: var(--text); } .gorev .et.android { color: var(--mint); border-color: color-mix(in srgb, var(--mint) 50%, transparent); }
+    .gorev .et { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; padding: 0 5px; border-radius: 3px; border: 1px solid var(--border-2); color: var(--subtle); margin-left: 6px; vertical-align: 1px; }
+    .gorev .et.ios { color: var(--text); } .gorev .et.android { color: var(--mint); }
     .gorev .tarih { font-size: 11px; color: var(--faint); font-family: var(--mono); margin-left: 6px; }
 
-    .kaynak { display: grid; grid-template-columns: 10px 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .kaynak { display: grid; grid-template-columns: 10px 1fr auto; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); align-items: start; }
     .kaynak:last-child { border-bottom: 0; }
     .k-isik { width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; }
-    .k-ok { background: var(--mint); }
-    .k-yok { background: var(--faint); }
-    .k-engel { background: var(--rose); }
+    .k-ok { background: var(--mint); } .k-engel { background: var(--rose); }
     .kaynak .ad { font-weight: 600; font-size: 13.5px; }
     .kaynak .arac { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
     .kaynak .not { font-size: 12.5px; color: var(--subtle); }
     .kaynak .son { font-family: var(--mono); font-size: 12px; color: var(--subtle); }
 
-    .uyari-kutu { background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
-    .bilgi-kutu { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
+    .uyari-kutu { background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: var(--r-sm); padding: 9px 13px; font-size: 13px; margin-bottom: 14px; }
+    .bilgi-kutu { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-sm); padding: 8px 12px; font-size: 12.5px; color: var(--subtle); margin-bottom: 14px; }
 
-    /* ── Slush katmanı: konturlu kartlar, Anton başlıklar, pastel vurgular ── */
-    .gate-card, .panel, .card, .uk, .katman-kart, .servis { border: 1.5px solid var(--line); border-radius: var(--r); box-shadow: none; }
-    .gate-card { border-radius: 28px; }
-    .gate-mark, .marka .m { background: none; width: auto; height: auto; }
-    .gate-mark img { width: 64px; height: 64px; transform: rotate(-6deg); display: block; }
-    .gate h1 { font-family: var(--disp); font-weight: 400; font-size: 46px; text-transform: uppercase; line-height: .95; letter-spacing: 0; }
-    .gate input { border: 1.5px solid var(--line); border-radius: 999px; padding: 12px 16px; background: var(--surface); }
-    .gate button { border-radius: 999px; background: var(--c-sari); color: #000; border: 1.5px solid #000; font-weight: 800; }
-    .gate button:hover { background: var(--c-yesil); }
-    aside { border-right: 1.5px solid var(--line); background: var(--surface); }
-    .marka .m img { width: 40px; height: 40px; transform: rotate(-6deg); display: block; transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
-    .marka:hover .m img { transform: rotate(6deg) scale(1.06); }
-    .marka b { font-family: var(--disp); font-weight: 400; font-size: 26px; text-transform: uppercase; line-height: 1; letter-spacing: .01em; }
-    .yan-b h2 { color: var(--subtle); font-weight: 800; }
-    .seg { border: 1.5px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
-    .seg button { border-radius: 999px; font-weight: 700; }
-    .seg button[aria-pressed="true"] { background: var(--c-sari); color: #000; box-shadow: none; }
-    .yig button { border-radius: 12px; font-weight: 600; }
-    .yig button[aria-pressed="true"] { background: var(--c-lila); color: #000; }
-    .yan-alt button, .yan-alt a { border: 1.5px solid var(--line); border-radius: 999px; font-weight: 700; color: var(--text); }
-    .yan-alt a:hover, .yan-alt button:hover { background: var(--c-sari); color: #000; border-color: var(--line); }
-    .paneller { display: flex; flex-direction: column; gap: 4px; }
-    .paneller a { display: flex; align-items: center; gap: 9px; padding: 5px 8px; border-radius: 12px; color: var(--text); font-size: 13px; font-weight: 600; }
-    .paneller a:hover { background: var(--surface-2); text-decoration: none; }
-    .paneller img { width: 24px; height: 24px; border-radius: 22%; transform: rotate(-4deg); flex: none; }
-    .paneller a span { flex: 1; }
-    .paneller a small { color: var(--faint); font-size: 11px; }
-
-    .sekmeler { gap: 6px; border-bottom: 0; padding: 6px 0 10px; }
-    .sekmeler button { border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 14px; margin: 0; font-weight: 700; color: var(--text); background: var(--surface); }
-    .sekmeler button:hover { background: var(--surface-2); }
-    .sekmeler button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .sekmeler button[aria-pressed="true"] .say { background: var(--c-sari); color: #000; border-color: transparent; }
-    .baslik h2 { font-family: var(--disp); font-weight: 400; font-size: 46px; text-transform: uppercase; line-height: .95; letter-spacing: .005em; }
-    .baslik .alt { font-weight: 600; color: var(--subtle); }
-    section > h3 { font-family: var(--disp); font-weight: 400; font-size: 22px; letter-spacing: .01em; color: var(--text); margin-bottom: 10px; line-height: 1.1; }
-    section > h3 .acik { font-family: "Inter", sans-serif; font-size: 12.5px; font-weight: 600; color: var(--subtle); white-space: normal; }
-
-    .cards { gap: 14px; }
-    .card { padding: 14px 18px 14px; }
-    .card .k { color: inherit; opacity: .72; font-weight: 800; }
-    .card .v { font-family: var(--disp); font-weight: 400; font-size: 40px; letter-spacing: .005em; line-height: 1.05; margin: 4px 0 2px; }
-    .card .v.kucuk { font-size: 26px; }
-    .card .s { color: inherit; opacity: .8; font-weight: 600; }
-    /* KPI kartları pastel sırayla; renkli kartta metin hep siyah (iki temada). */
-    .cards > .card:nth-child(6n+1) { background: var(--c-sari); }
-    .cards > .card:nth-child(6n+2) { background: var(--c-yesil); }
-    .cards > .card:nth-child(6n+3) { background: var(--c-lila); }
-    .cards > .card:nth-child(6n+4) { background: var(--c-pembe); }
-    .cards > .card:nth-child(6n+5) { background: var(--c-mavi); }
-    .cards > .card:nth-child(6n+6) { background: var(--c-acik); }
-    .cards > .card { color: #000; border-color: #000; }
-    .cards > .card .up { color: #04633a; } .cards > .card .down { color: #b02a00; } .cards > .card .zero { color: #0008; }
-    .cards > .card .etiket { border: 1px solid #000; }
-
-    .uk { transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), box-shadow .2s; }
-    .uk:hover { transform: translateY(-3px) rotate(-.4deg); border-color: var(--line); }
-    .uk.secili { box-shadow: 0 0 0 4px var(--c-sari); border-color: var(--line); }
-    .uk .ikon { border-radius: 22%; transform: rotate(-4deg); border: 0; }
-    .uk .adlar b { font-weight: 800; }
-    .uk .buyuk .n { font-family: var(--disp); font-weight: 400; font-size: 44px; letter-spacing: .005em; }
-    .uk .mini div { background: var(--surface-2); border-radius: 14px; }
-    .uk .mini b { font-weight: 800; }
-    .spark-genis path.cizgi { stroke: var(--c-mor); stroke-width: 2.5; }
-    .spark-genis path.alan { fill: var(--c-lila); opacity: .7; }
-    :root[data-theme="dark"] .spark-genis path.cizgi { stroke: var(--c-lila); }
-    :root[data-theme="dark"] .spark-genis path.alan { fill: var(--c-mor); opacity: .45; }
-    .etiket { font-weight: 800; }
-    th { background: var(--surface-2); color: var(--subtle); font-weight: 800; }
-    .bar .rail { height: 14px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); }
-    .bar .fill { border-radius: 99px; background: var(--c-mor); }
-    .bars .bar:nth-child(5n+1) .fill { background: var(--c-mor); }
-    .bars .bar:nth-child(5n+2) .fill { background: var(--c-mavi); }
-    .bars .bar:nth-child(5n+3) .fill { background: var(--c-yesil); }
-    .bars .bar:nth-child(5n+4) .fill { background: var(--c-pembe); }
-    .bars .bar:nth-child(5n+5) .fill { background: var(--c-sari); }
-    .hedef .rail { border-radius: 99px; border: 1px solid var(--border); }
-    .hedef .fill { background: var(--c-mor); border-radius: 99px; } .hedef .fill.tam { background: var(--c-yesil); }
-    .kopya { border: 1.5px solid var(--line); color: var(--text); font-weight: 800; }
-    .kopya:hover { background: var(--c-sari); color: #000; border-color: var(--line); }
-    .uyari-kutu { background: var(--c-sari); color: #000; border: 1.5px solid #000; border-radius: var(--r-sm); }
-    .bilgi-kutu { background: var(--c-acik); color: #000; border: 1.5px solid #000; border-radius: var(--r-sm); }
-    .toast { border-radius: 999px; }
-
-    /* Grafik: yığılmış günlük çubuklar */
-    .chart { height: 220px; }
-    .chart .grid { stroke: var(--border); }
-    .chart rect.ios { fill: var(--c-mavi); }
-    .chart rect.and { fill: var(--c-yesil); }
-    .chart rect.bos { fill: var(--border); }
-    .chart .line { stroke: var(--c-turuncu); stroke-width: 2.5; }
-    .chart .line.and { stroke: var(--c-yesil); }
-    .chart .dot { fill: var(--c-turuncu); }
-    .chart .alanTr { fill: var(--c-turuncu); opacity: .12; }
-    .chart rect:hover { opacity: .75; }
-    .legend { flex-wrap: wrap; font-weight: 600; }
-    .legend i { width: 12px; height: 12px; border-radius: 4px; vertical-align: -1px; background: var(--c-mavi); }
-    .legend i.i-and { background: var(--c-yesil); }
-    .legend i.i-tr { background: var(--c-turuncu); }
-    .legend i.i-mor { background: var(--c-mor); }
-    .legend i.i-sari { background: var(--c-sari); }
-
-    /* Kitle: ülke ısı listesi ve toplamlar */
     .ulke-tablo td.isi { position: relative; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; min-width: 92px; }
-    .ulke-tablo td.isi i { position: absolute; left: 6px; right: 6px; top: 7px; bottom: 7px; border-radius: 8px; z-index: 0; }
+    .ulke-tablo td.isi i { position: absolute; left: 4px; right: 4px; top: 4px; bottom: 4px; border-radius: 4px; z-index: 0; }
     .ulke-tablo td.isi span { position: relative; z-index: 1; padding-right: 4px; }
     .ulke-tablo td.ad { min-width: 160px; }
-    .bayrak { font-size: 18px; margin-right: 8px; vertical-align: -2px; }
-    .ulke-bar { display: grid; grid-template-columns: 26px 110px 1fr 56px; align-items: center; gap: 10px; font-size: 13px; padding: 4px 0; }
-    .ulke-bar .bayrak { margin: 0; font-size: 20px; }
-    .ulke-bar .ad { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
-    .ulke-bar .rail { display: flex; height: 16px; border-radius: 99px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--border); }
+    .bayrak { font-size: 16px; margin-right: 6px; vertical-align: -1px; }
+    .ulke-bar { display: grid; grid-template-columns: 22px 120px 1fr 56px; align-items: center; gap: 10px; font-size: 13px; padding: 3px 0; }
+    .ulke-bar .bayrak { margin: 0; font-size: 17px; }
+    .ulke-bar .ad { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ulke-bar .rail { display: flex; height: 10px; border-radius: 3px; overflow: hidden; background: var(--surface-2); }
     .ulke-bar .rail b { display: block; height: 100%; }
-    .ulke-bar .n { text-align: right; font-family: var(--mono); font-weight: 700; }
-    .metrik-sec { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
-    .metrik-sec button { font-family: "Inter", sans-serif; font-size: 12px; font-weight: 700; padding: 3px 11px; border-radius: 999px; border: 1.5px solid var(--line); text-transform: none; letter-spacing: 0; color: var(--text); background: var(--surface); }
-    .metrik-sec button[aria-pressed="true"] { background: var(--c-sari); color: #000; }
-    .dip { font-size: 12px; color: var(--subtle); margin-top: 10px; line-height: 1.45; }
+    .ulke-bar .n { text-align: right; font-family: var(--mono); font-weight: 600; }
+    .metrik-sec { display: flex; gap: 4px; flex-wrap: wrap; margin-left: auto; }
+    .metrik-sec button { font-size: 12px; font-weight: 550; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border-2); color: var(--subtle); background: var(--surface); }
+    .metrik-sec button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+    .dip { font-size: 12px; color: var(--faint); margin-top: 8px; line-height: 1.45; }
+    .mini-kpi { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 10px; }
+    .mini-kpi b { display: block; font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .mini-kpi span { font-size: 12px; color: var(--faint); }
 
-    /* Dar ekran */
     @media (max-width: 900px) {
       .shell { grid-template-columns: 1fr; }
-      aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 14px 16px; gap: 12px; }
+      aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 12px 16px; gap: 10px; }
       .yig { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; padding-bottom: 2px; }
       .yig button { flex: none; }
+      .yig .ayrac { display: none; }
       .yan-alt { margin-top: 0; }
-      main { padding: 16px 16px 48px; }
+      main { padding: 0 16px 48px; }
+      .sekmeler { margin: 0 -16px 14px; padding: 6px 16px 0; }
       .ikili, .uclu { grid-template-columns: 1fr; }
       .katmanlar { column-count: 1; }
       dl.kv > div { grid-template-columns: 1fr; gap: 2px; }
-      .baslik h2 { font-size: 34px; }
+      .uyarilar .u { grid-template-columns: 8px 1fr; }
+      .uyarilar .u .ne, .uyarilar .u .sag { grid-column: 2; }
     }
     @media (max-width: 560px) {
-      .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .card { padding: 12px 14px; }
-      .card .v { font-size: 30px; }
-      .card .v.kucuk { font-size: 20px; }
+      .cards { grid-template-columns: 1fr 1fr; gap: 8px; }
       .card .s { white-space: normal; }
-      .ulke-bar { grid-template-columns: 24px 92px 1fr 44px; gap: 8px; }
+      .ulke-bar { grid-template-columns: 20px 92px 1fr 44px; gap: 8px; }
     }
   </style>
 </head>
@@ -627,7 +467,7 @@
     const GOREV_KEY = "bamtech-panel-gorev";
     const TEMA_KEY = "bamtech-panel-tema";
 
-    /* ── Şifre çözme — build.mjs ile aynı parametreler ──────── */
+    /* ── Şifre çözme, build.mjs ile aynı parametreler ──────── */
     const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
     async function coz(paket, parola) {
       const temel = await crypto.subtle.importKey("raw", new TextEncoder().encode(parola), "PBKDF2", false, ["deriveKey"]);
@@ -646,7 +486,7 @@
     const AY = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
     const gun = t => { const [, a, g] = t.split("-"); return `${Number(g)} ${AY[Number(a) - 1]}`; };
     const tarihYazi = iso => {
-      if (!iso) return "—";
+      if (!iso) return "·";
       const d = new Date(iso); if (isNaN(d)) return String(iso).slice(0, 10);
       return `${d.getDate()} ${AY[d.getMonth()]} ${d.getFullYear()}`;
     };
@@ -683,7 +523,7 @@
       const s = [];
       s.push(`Uygulama: ${a.ad} (slug: ${a.slug})`);
       if (v.repo) s.push(`Repo: ${v.repo}`);
-      s.push(`Vault notu: ~/dev/vault/uygulamalar/${a.slug}.md — ÖNCE bunu oku, sonra ~/dev/vault/00-Panel.md`);
+      s.push(`Vault notu: ~/dev/vault/uygulamalar/${a.slug}.md, ÖNCE bunu oku, sonra ~/dev/vault/00-Panel.md`);
       const m = [];
       if (a.ios) m.push(`iOS ${a.ios}${/^id\d+/.test(v.store || "") ? ` (${v.store})` : ""}`);
       if (a.android) m.push(`Play ${a.android}`);
@@ -716,7 +556,7 @@
     let toastZ = null;
     function toast(m) { const t = $("#toast"); t.textContent = m; t.classList.add("acik"); clearTimeout(toastZ); toastZ = setTimeout(() => t.classList.remove("acik"), 2200); }
     async function kopyala(metin) {
-      try { await navigator.clipboard.writeText(metin); toast("Kopyalandı — Claude Code'a yapıştır"); }
+      try { await navigator.clipboard.writeText(metin); toast("Kopyalandı, Claude Code'a yapıştır"); }
       catch { const ta = document.createElement("textarea"); ta.value = metin; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Kopyalandı"); }
     }
 
@@ -736,6 +576,7 @@
     /* Hazırlanıyor (PREPARE_FOR_SUBMISSION) sorun değil, taslak. */
     const surumSorunlu = a => { const v = surumSon(a); return v && !/READY_FOR|REPLACED|PREPARE_FOR/.test(v.durum); };
 
+    const ikonKucuk = a => { const i = a?.profil?.ikon; return !i ? `<span class="ik">${esc((a?.ad || "?")[0])}</span>` : i.startsWith("/") ? `<img src="${esc(i)}" alt="" loading="lazy">` : `<span class="ik">${esc(i)}</span>`; };
     const ikonHtml = a => { const i = a.profil?.ikon; if (!i) return `<div class="ikon">${esc((a.ad || "?")[0])}</div>`; return i.startsWith("/") ? `<img class="ikon" src="${esc(i)}" alt="" loading="lazy">` : `<div class="ikon">${esc(i)}</div>`; };
 
     /* ── Durum ───────────────────────────────────────────────── */
@@ -855,14 +696,14 @@
         if (o.puan !== null && o.puan < 3 && o.yorumAdet && katman !== "bakim") { katman = "bakim"; neden.push("puan düşük → bakım"); }
       }
 
-      /* Adımlar — önem sırasıyla. İlk adım "sonraki iş" olur. */
+      /* Adımlar, önem sırasıyla. İlk adım "sonraki iş" olur. */
       if (o.cevapsiz) adimlar.push({ s: "a", ne: `${o.cevapsiz} cevapsız yorum → <code>ascelerate reviews respond</code>` });
       if (katman !== "kapali" && katman !== "bekle") {
-        if (o.puan !== null && o.puan < 3 && o.yorumAdet) adimlar.push({ s: "a", ne: `Puan ★${o.puan} — paylaşım/reklam yapma, önce yorumdaki şikâyeti çöz` });
+        if (o.puan !== null && o.puan < 3 && o.yorumAdet) adimlar.push({ s: "a", ne: `Puan ★${o.puan}, paylaşım/reklam yapma, önce yorumdaki şikayeti çöz` });
         if (a.android && !playProd && (durum === "yayında")) adimlar.push({ s: "b", ne: `Play'de production yok (${play.length ? play.map(t => t.track).join(", ") : "track okunmadı"})` });
         if (p.model === "ucretli") adimlar.push({ s: "b", ne: "Ücretli model düz seyrediyor → bedava + abonelik adayı (tenis kanıtı: Haziran'da geçti, Temmuz rekor)" });
         if (p.model === "bedava" && o.indirme > 0) adimlar.push({ s: "b", ne: "İndirme var, para modeli yok → model kararı (IAP mi, reklam mı, kapatma mı)" });
-        if (o.fark !== null && o.fark <= -30) adimlar.push({ s: "b", ne: `İndirme önceki döneme göre ▼${Math.abs(o.fark)}% — sebep? (paylaşım kesildi mi, sıralama düştü mü)` });
+        if (o.fark !== null && o.fark <= -30) adimlar.push({ s: "b", ne: `İndirme önceki döneme göre ▼${Math.abs(o.fark)}%, sebep? (paylaşım kesildi mi, sıralama düştü mü)` });
         if (o.indirme === 0 && durum === "yayında") adimlar.push(olculemez
           ? { s: "b", ne: "Play indirmesi panele düşmüyor → servis hesabına hesap geneli rapor yetkisi ver (Takip sekmesi)" }
           : { s: "b", ne: "Bu aralıkta hiç indirme yok → mağaza adı/alt başlık/anahtar kelime baştan" });
@@ -870,10 +711,10 @@
         if ((p.diller || 1) <= 1 && o.indirme > 0) adimlar.push({ s: "c", ne: "Listeleme tek dilde → en az EN + TR; 7 dil kalıbı Wallet Coach'ta hazır" });
         if (p.reklam) adimlar.push({ s: "c", ne: "AdMob geliri panelde görünmüyor → apps.admob.com'a ayda bir bak" });
         if (a.ios && !a.android && o.aylik >= 5) adimlar.push({ s: "c", ne: `Yalnız iOS, ayda ≈${Math.round(o.aylik)} indirme → Android/Wear OS karşılığı değerlendir (Play'de rakip az mı, iOS talebi taşınır mı)` });
-        if (monetize && !(p.servisler || []).includes("firebase")) adimlar.push({ s: "c", ne: "Paywall'un kaç kez göründüğü ölçülmüyor (analitik yok) — dönüşüm sadece RevenueCat'ten okunur" });
+        if (monetize && !(p.servisler || []).includes("firebase")) adimlar.push({ s: "c", ne: "Paywall'un kaç kez göründüğü ölçülmüyor (analitik yok), dönüşüm sadece RevenueCat'ten okunur" });
       }
-      if (katman === "bekle" && durum === "engellendi") adimlar.push({ s: "a", ne: "Apple 4.3(a) — itiraz sürüyor, yeniden gönderim yok. Android tarafı bağımsız ilerler" });
-      if (katman === "bekle" && durum === "geliştirme") adimlar.push({ s: "c", ne: "Yayınlanmadı. Geliştirme durdu (25 Ağu kararı) — yalnız Play kapalı testi açılabilir" });
+      if (katman === "bekle" && durum === "engellendi") adimlar.push({ s: "a", ne: "Apple 4.3(a), itiraz sürüyor, yeniden gönderim yok. Android tarafı bağımsız ilerler" });
+      if (katman === "bekle" && durum === "geliştirme") adimlar.push({ s: "c", ne: "Yayınlanmadı. Geliştirme durdu (25 Ağu kararı), yalnız Play kapalı testi açılabilir" });
 
       /* Kanal önerisi: kategoriden. Kanıtlı olan tek kanal Instagram yakın arkadaşlar. */
       const KANAL = {
@@ -881,7 +722,7 @@
         Spor: "Kulüp/antrenör WhatsApp grupları · Reddit r/10s, r/padel, r/Pickleball · Apple Watch forumları",
         Oyun: "Ekşi Sözlük · TikTok/Reels oynanış klibi · r/incremental_games",
         Sağlık: "Play'de Türkçe ASO (rekabet zayıf) · sağlık forumları · Peace Prize açısı",
-        Eğlence: "Instagram hikâye/reels (oyun anı) · arkadaş grupları",
+        Eğlence: "Instagram hikaye/reels (oyun anı) · arkadaş grupları",
         Araç: "ASO tek kanal · Yonca için yılbaşı çekiliş sezonu, Instagram çekiliş hesapları",
         Yaşam: "Instagram bitki/anne hesapları · Türkçe ASO boşluğu"
       };
@@ -964,13 +805,13 @@
     const TRACK_SIRA = ["production", "beta", "alpha", "internal"];
     const trackSirala = t => { const puan = x => { const i = TRACK_SIRA.findIndex(k => x.track.endsWith(k)); return i < 0 ? 99 : i; }; return [...t].sort((a, b) => puan(a) - puan(b)); };
     function playYazi(a) {
-      if (!a.play?.length) return a.android ? '<span class="zero">—</span>' : "";
+      if (!a.play?.length) return a.android ? '<span class="zero">·</span>' : "";
       const s = trackSirala(a.play), b = s[0];
       const etiket = b.track.endsWith("production") ? `<b>${esc(b.track)}</b>` : esc(b.track);
       return `<span title="${esc(s.map(x => `${x.track} ${x.surum}`).join("\n"))}">${etiket} ${esc(b.surum)}${s.length > 1 ? ` <span class="zero">+${s.length - 1}</span>` : ""}</span>`;
     }
     const puanSatir = (y, e) => !y?.adet ? "" : `<div><span class="stars">${y.ortalama ?? "?"}★</span> <span class="${y.cevapsiz ? "cevapsiz" : "zero"}">${y.adet}${y.cevapsiz ? ` (${y.cevapsiz}↩)` : ""}</span> <span class="zero">${e}</span></div>`;
-    const puanYazi = a => ((S.platform !== "and" ? puanSatir(a.yorum, "iOS") : "") + (S.platform !== "ios" ? puanSatir(a.androidYorum, "Play") : "")) || '<span class="zero">—</span>';
+    const puanYazi = a => ((S.platform !== "and" ? puanSatir(a.yorum, "iOS") : "") + (S.platform !== "ios" ? puanSatir(a.androidYorum, "Play") : "")) || '<span class="zero">·</span>';
     const katmanEtiket = k => `<span class="etiket ${KATMAN[k].s}">${KATMAN[k].e}</span>`;
     const platYazi = a => `<span class="plat">${a.ios ? '<span class="ios">iOS</span>' : ""}${a.android ? '<span class="and">AND</span>' : ""}</span>`;
     const storeLink = a => {
@@ -978,7 +819,7 @@
       if (a.ios && /^id\d+/.test(id || "")) l.push(`<a href="https://apps.apple.com/app/${id}" target="_blank" rel="noopener">App Store ↗</a>`);
       if (a.android) l.push(`<a href="https://play.google.com/store/apps/details?id=${esc(a.android)}" target="_blank" rel="noopener">Google Play ↗</a>`);
       if (a.profil?.sayfa) l.push(`<a href="${esc(a.profil.sayfa)}" target="_blank" rel="noopener">Tanıtım ↗</a>`);
-      return l.join(" · ") || "—";
+      return l.join(" · ") || "·";
     };
 
     function tumYorumlar() {
@@ -1004,7 +845,7 @@
     /* ── Yan menü ────────────────────────────────────────────── */
     function yanCiz() {
       $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
-      $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3–5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
+      $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3-5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
       const { bas, son } = pencere();
@@ -1015,11 +856,14 @@
         .sort((x, y) => SIRA.indexOf(x.d.katman) - SIRA.indexOf(y.d.katman) || y.n - x.n || x.a.ad.localeCompare(y.a.ad, "tr"));
       $("#yigUyg").innerHTML =
         `<button data-app="" aria-pressed="${!S.app}"><span class="katman k-yok"></span><span class="ad">Tümü</span><span class="say">${sayi(hepsi.reduce((t, a) => t + say(a), 0))}</span></button>` +
+        (D.web ? `<button data-app="${SITE}" aria-pressed="${S.app === SITE}" title="bamstudio.dev: trafik, bülten, anket, kodlar"><span class="katman k-site"></span><span class="ad">bamstudio.dev (site)</span><span class="say">${sayi(webOzet()?.z7 || 0)}</span></button>` : "") +
+        `<div class="ayrac"></div>` +
         sirali.map(({ a, d, n }) => {
           const cevapsiz = (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0);
-          return `<button data-app="${esc(a.slug)}" aria-pressed="${S.app === a.slug}" title="${esc(a.ad)} · ${KATMAN[d.katman].e}">
+          const cn = canliSay().app[a.slug] || 0;
+          return `<button data-app="${esc(a.slug)}" aria-pressed="${S.app === a.slug}" title="${esc(a.ad)} · ${KATMAN[d.katman].e}${cn ? ` · şu an ${cn} kişi` : ""}">
             <span class="katman k-${d.katman}"></span><span class="ad">${esc(a.ad)}</span>
-            ${cevapsiz ? `<span class="rozet" title="cevapsız yorum">${cevapsiz}</span>` : ""}<span class="say">${sayi(n)}</span></button>`;
+            ${cn ? `<span class="canli-rozet" title="şu an uygulamada">${cn}</span>` : ""}${cevapsiz ? `<span class="rozet" title="cevapsız yorum">${cevapsiz}</span>` : ""}<span class="say">${sayi(n)}</span></button>`;
         }).join("");
     }
 
@@ -1043,26 +887,63 @@
     }
     const GA_ULKE_YOK = () => !D.ga4Donem;
 
-    /* ── Sekme: özet ─────────────────────────────────────────── */
+    /* ── Sekme: genel bakış ──────────────────────────────────────
+       Ana panel: uyarılar en üstte, sonra bütün uygulamalar + site tek
+       tabloda (indirme, aktif, gelir, puan, çökme, canlı, durum). */
+    function aktifApp(a) {
+      const d = D.ga4Donem || {}, t = D.telemetri?.apps?.[a.slug];
+      return { g7: Math.max(d[7]?.apps?.[a.slug] || 0, t?.aktif7 || 0), g30: Math.max(d[30]?.apps?.[a.slug] || 0, t?.aktif30 || 0), dun: Math.max(d[1]?.apps?.[a.slug] || 0, t?.aktif1 || 0) };
+    }
+    function webOzet() {
+      const w = D.web; if (!w) return null;
+      const g = Object.keys(w.gunluk || {}).sort(), son = g.at(-1);
+      const topla = n => g.filter(t => son && gunFarki(son, t) < n).reduce((s, t) => s + (w.gunluk[t].ziyaret || 0), 0);
+      const pv = n => g.filter(t => son && gunFarki(son, t) < n).reduce((s, t) => s + (w.gunluk[t].pv || 0), 0);
+      const A = w.arkaUc || {}, kd = Object.entries(A.kod || {});
+      return { z1: topla(1), z7: topla(7), z30: topla(30), pv30: pv(30), gunSay: g.length, son, ulke30: Object.keys(w.ulke || {}).filter(k => k !== "??").length,
+        abone: A.abone?.active || 0, bekleyen: A.abone?.pending || 0, anket: A.anket?.toplam || 0,
+        enAzKod: kd.length ? Math.min(...kd.map(([, v]) => v.kalan)) : null, enAzKodApp: kd.length ? kd.sort((x, y) => x[1].kalan - y[1].kalan)[0][0] : null };
+    }
+    function cokme(a, bas, son) { let t = 0; for (let i = bas; i < son; i++) { const h = D.veri[a.slug]?.[i]; if (h) t += (h.cr || 0) + (h.an || 0); } return t; }
+    function uyariListe(slugs) {
+      const { bas, son } = pencere(), l = [];
+      for (const a of slugs) {
+        const o = appOzet(a), v = surumSon(a);
+        if (o.cevapsiz) l.push({ s: "a", a, ne: `${o.cevapsiz} cevapsız yorum`, sag: `<a href="#" data-sekme="yorum">Yorumlar</a>` });
+        if (surumSorunlu(a)) { const [e, c] = SURUM[v.durum] || [v.durum, "s-gri"]; l.push({ s: c === "s-ret" ? "a" : "b", a, ne: `App Store ${esc(v.surum)}: ${esc(e)}`, sag: tarihYazi(v.tarih) }); }
+        if (o.puan !== null && o.puan < 3 && o.yorumAdet) l.push({ s: "a", a, ne: `Puan ★${o.puan}`, sag: `${o.yorumAdet} yorum` });
+        const cr = cokme(a, bas, son); if (cr) l.push({ s: "b", a, ne: `${sayi(cr)} çökme / ANR (Play, seçili aralık)`, sag: "" });
+        if (o.fark !== null && o.fark <= -30 && o.onceki >= 10) l.push({ s: "b", a, ne: `İndirme önceki döneme göre ▼${Math.abs(o.fark)}%`, sag: `${sayi(o.onceki)} → ${sayi(o.indirme)}` });
+      }
+      if (!S.app) {
+        const w = webOzet();
+        if (w?.enAzKod !== null && w?.enAzKod < 50) l.push({ s: "b", kim: "bamstudio.dev", ne: `İndirim kodu azaldı: ${esc(appAdi(w.enAzKodApp))} için ${w.enAzKod} kaldı`, sag: `<a href="#" data-app="${SITE}">Site</a>` });
+        for (const k of D.kaynaklar || []) if (k.durum === "engel") l.push({ s: "c", kim: "Veri", ne: `${esc(k.ad)}: ${esc((k.not || "").slice(0, 140))}`, sag: `<a href="#" data-sekme="veri">Veri</a>` });
+        const takvim = (D.takvim || []).map(t => ({ ...t, kalan: gunFarki(t.tarih, bugun()) })).filter(t => t.kalan >= 0 && t.kalan <= 3);
+        for (const t of takvim) l.push({ s: "b", kim: esc(t.konu), ne: esc(t.ne), sag: t.kalan ? `${t.kalan} gün` : "bugün" });
+        if (CANLI.hata) l.push({ s: "c", kim: "Canlı", ne: `Canlı veri alınamadı: ${esc(CANLI.hata)}`, sag: "" });
+      }
+      const SIRA = { a: 0, b: 1, c: 2 };
+      return l.sort((x, y) => SIRA[x.s] - SIRA[y.s]);
+    }
     function ozetCiz() {
       const { bas, son, uzun } = pencere(), onc = pencere(1);
       const slugs = secili();
       const indirme = topla("indirme", bas, son, slugs);
       const oncekiI = topla("indirme", onc.bas, onc.son, slugs);
-      const guncelleme = topla("g", bas, son, slugs);
       const para = paraOzet(toplaHarita("p", bas, son, slugs));
       const m = maliyet(son - bas);
       const tamOnceki = onc.son - onc.bas === uzun;
       const fark = tamOnceki && oncekiI ? Math.round((indirme - oncekiI) / oncekiI * 100) : null;
-      const farkSinif = fark === null ? "flat" : fark > 0 ? "up" : fark < 0 ? "down" : "flat";
-      const farkYazi = fark !== null ? `${fark > 0 ? "▲" : fark < 0 ? "▼" : "="} ${Math.abs(fark)}% · önceki ${uzun} gün ${sayi(oncekiI)}`
-        : !S.aralik ? `${D.gunler.length} günün tamamı` : tamOnceki ? `önceki ${uzun} günde hiç indirme yok` : `geçmiş ${uzun} güne yetmiyor`;
+      const farkYazi = fark !== null ? `${fark > 0 ? "▲" : fark < 0 ? "▼" : "="} ${Math.abs(fark)}% · önceki ${sayi(oncekiI)}` : !S.aralik ? `${D.gunler.length} gün` : "önceki dönem yok";
       const cevapsiz = tumYorumlar().filter(y => !y.cevap).length;
       const net = para.tl !== null && m.aralikTl !== null ? para.tl - m.aralikTl : null;
-      const birim = indirme && para.tl !== null ? para.tl / indirme : null;
       const secim = secApp();
+      const aktif = aktifOzet(slugs);
+      const w = !secim ? webOzet() : null;
+      const cs = canliSay(slugs.map(a => a.slug));
+      const uy = uyariListe(slugs);
 
-      /* Bu hafta: her uygulamanın ilk adımı, katman sırasıyla; artı takvim. */
       const SIRA = ["odak", "buyut", "bakim", "bekle", "kapali"];
       const adimListe = D.apps.filter(a => (!secim || a.slug === secim.slug) && platUyar(a))
         .map(a => ({ a, d: degerlendir(a) })).filter(x => x.d.adimlar.length && x.d.katman !== "kapali")
@@ -1071,52 +952,62 @@
         .sort((x, y) => x.s.localeCompare(y.s)).slice(0, 8);
       const takvim = (D.takvim || []).map(t => ({ ...t, kalan: gunFarki(t.tarih, bugun()) })).filter(t => t.kalan >= -1).sort((a, b) => a.kalan - b.kalan).slice(0, 6);
 
-      const satirlar = slugs.map(a => ({ a, n: topla("indirme", bas, son, [a]), d: degerlendir(a) }))
-        .sort((x, y) => SIRA.indexOf(x.d.katman) - SIRA.indexOf(y.d.katman) || y.n - x.n || x.a.ad.localeCompare(y.a.ad, "tr"));
+      const satirlar = slugs.map(a => ({ a, d: degerlendir(a), ak: aktifApp(a), cr: cokme(a, bas, son), pa: playAktif([a], son).t }))
+        .sort((x, y) => SIRA.indexOf(x.d.katman) - SIRA.indexOf(y.d.katman) || (y.d.o.gelirTl || 0) - (x.d.o.gelirTl || 0) || y.d.o.indirme - x.d.o.indirme || x.a.ad.localeCompare(y.a.ad, "tr"));
+      const T = satirlar.reduce((t, x) => ({ i: t.i + x.d.o.indirme, s: t.s + x.d.o.satis, g: t.g + (x.d.o.gelirTl || 0), a7: t.a7 + x.ak.g7, a30: t.a30 + x.ak.g30, cr: t.cr + x.cr }), { i: 0, s: 0, g: 0, a7: 0, a30: 0, cr: 0 });
       const uIos = S.platform === "and" ? {} : toplaHarita("u", bas, son, slugs, true);
       const uAnd = S.platform === "ios" ? {} : toplaHarita("ua", bas, son, slugs, true);
-      const ulkeler = [...new Set([...Object.keys(uIos), ...Object.keys(uAnd)])].map(k => [k, uIos[k] || 0, uAnd[k] || 0])
-        .sort((a, b) => (b[1] + b[2]) - (a[1] + a[2])).slice(0, 10);
+      const ulkeler = [...new Set([...Object.keys(uIos), ...Object.keys(uAnd)])].map(k => [k, uIos[k] || 0, uAnd[k] || 0]).sort((a, b) => (b[1] + b[2]) - (a[1] + a[2])).slice(0, 10);
       const enCokUlke = Math.max(1, ...ulkeler.map(u => u[1] + u[2]));
-
-      const aktif = aktifOzet(slugs);
       const sinir = veriSiniri();
+      const canliHucre = a => { if (!CANLI_APPS.includes(a.slug)) return '<td class="num zero" title="Bu uygulamada canlı telemetri yok">·</td>'; if (!CANLI.veri) return '<td class="num zero">…</td>'; const n = cs.app[a.slug] || 0; return `<td class="num ${n ? "up" : "zero"}">${n ? `<span class="nokta-canli"></span>${n}` : "0"}</td>`; };
+
       return `
-        ${sinir ? `<div class="bilgi-kutu">${sinir}</div>` : ""}
+        ${uy.length ? (() => { const sat = x => `<div class="u ${x.s}"><i></i><span class="kim">${x.a ? `<a href="#" data-app="${esc(x.a.slug)}">${esc(x.a.ad)}</a>` : x.kim}</span><span class="ne">${x.ne}</span><span class="sag zero">${x.sag || ""}</span></div>`;
+          const ILK = 8; return `<section><h3>Uyarılar <span class="acik">· ${uy.filter(x => x.s === "a").length} acil, ${uy.length} toplam</span></h3><div class="uyarilar">${uy.slice(0, ILK).map(sat).join("")}${uy.length > ILK ? `<details ${S.uyariAcik ? "open" : ""} data-uyaridetay><summary>+${uy.length - ILK} uyarı daha</summary>${uy.slice(ILK).map(sat).join("")}</details>` : ""}</div></section>`; })() : ""}
         <div class="cards">
-          <div class="card"><div class="k">Aktif kullanıcı · 30 gün</div><div class="v ${aktif.ay ? "" : "kucuk"}">${aktif.ay ? sayi(aktif.ay) : "·"}</div><div class="s">${aktif.alt}</div></div>
-          <div class="card"><div class="k">İndirme</div><div class="v">${sayi(indirme)}</div><div class="s ${farkSinif}">${farkYazi}</div></div>
-          <div class="card"><div class="k">Gelir</div><div class="v ${para.tl !== null && para.bas.length > 12 ? "kucuk" : ""}">${esc(para.bas)}</div><div class="s mono">${sayi(topla("s", bas, son, slugs))} satın alma · ${esc(para.alt)}</div></div>
-          <div class="card"><div class="k">Gider</div><div class="v ${m.aralikTl === null ? "kucuk" : ""}">${m.aralikTl !== null ? `≈ ${tl(m.aralikTl)}` : `${m.aylikUsd.toFixed(2)} $/ay`}</div><div class="s">${son - bas} gün · sabit ${m.aylikUsd.toFixed(2)} $/ay${secim ? " · portföy geneli" : ""}</div></div>
-          <div class="card ${net !== null && net < 0 ? "" : "vurgu"}"><div class="k">Net</div><div class="v ${net === null ? "kucuk" : net < 0 ? "down" : "up"}">${net === null ? "kur yok" : `${net < 0 ? "−" : "+"}${tl(Math.abs(net))}`}</div><div class="s">${birim !== null ? `indirme başına ≈ ${birim.toFixed(0)} ₺` : "gelir − sabit gider"}</div></div>
-          <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz}↩` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı · " + sayi(guncelleme) + " güncelleme"}</div></div>
-          ${(() => { const l = D.apps.filter(a => (!secim || a.slug === secim.slug) && surumSorunlu(a)); return `<div class="card"><div class="k">App Store</div><div class="v ${l.length ? "down" : ""}">${l.length}</div><div class="s" title="${esc(l.map(a => `${a.ad}: ${(SURUM[surumSon(a).durum] || [surumSon(a).durum])[0]}`).join(" · "))}">${l.length ? l.map(a => `${a.ad}: ${(SURUM[surumSon(a).durum] || [surumSon(a).durum])[0]}`).join(" · ") : "sürümlerin hepsi yayında"}</div></div>`; })()}
+          <div class="card"><div class="k">Şu an uygulamada</div><div class="v ${cs.toplam ? "up" : ""}">${CANLI.veri ? sayi(cs.toplam) : "…"}</div><div class="s">${CANLI.veri ? `son 1 saat ${sayi(cs.s60)} · <a href="#" data-sekme="canli">Canlı</a>` : D.canli ? "yükleniyor" : "canlı kaynak yok"}</div></div>
+          <div class="card"><div class="k">Aktif kullanıcı · 30 gün</div><div class="v">${aktif.ay ? sayi(aktif.ay) : "·"}</div><div class="s">${aktif.alt}</div></div>
+          <div class="card"><div class="k">İndirme · ${son - bas} gün</div><div class="v">${sayi(indirme)}</div><div class="s ${fark === null ? "" : fark > 0 ? "up" : fark < 0 ? "down" : ""}">${farkYazi}</div></div>
+          <div class="card"><div class="k">Gelir · ${son - bas} gün</div><div class="v">${esc(para.bas)}</div><div class="s">${sayi(topla("s", bas, son, slugs))} satın alma</div></div>
+          <div class="card"><div class="k">Net</div><div class="v ${net === null ? "kucuk" : net < 0 ? "down" : "up"}">${net === null ? "kur yok" : `${net < 0 ? "−" : "+"}${tl(Math.abs(net))}`}</div><div class="s">gider ${m.aralikTl !== null ? tl(m.aralikTl) : `${m.aylikUsd.toFixed(2)} $/ay`}</div></div>
+          <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz} cevapsız` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı"}</div></div>
+          ${w ? `<div class="card"><div class="k">Site ziyareti · 7 gün</div><div class="v">${sayi(w.z7)}</div><div class="s">30 gün ${sayi(w.z30)} · ${sayi(w.abone)} abone</div></div>` : ""}
         </div>
+        ${sinir ? `<div class="bilgi-kutu">${sinir}</div>` : ""}
 
         <section>
-          <h3>Uygulamalar <span class="acik">· karta tıkla, detay açılır · tablo görünümü Uygulamalar sekmesinde</span></h3>
-          ${satirlar.length ? `<div class="uyg-kartlar">${satirlar.map(({ a, n, d }) => {
-            const p = a.profil || {}, o = d.o;
-            const f = o.fark;
-            return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
-              <div class="ust">${ikonHtml(a)}
-                <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "—")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
-                <span style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${katmanEtiket(d.katman)}${surumSorunlu(a) ? surumEtiket(a) : ""}</span></div>
-              <div class="buyuk"><span class="n ${n ? "" : "zero"}">${sayi(n)}</span><span class="e">indirme</span>
-                ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
-              ${sparkGenis(a.slug, bas, son)}
-              <div class="mini">
-                <div><b class="${o.gelirTl ? "" : "zero"}">${o.gelirTl ? tl(o.gelirTl) : "0 ₺"}</b><small>gelir</small></div>
-                <div><b class="${o.satis ? "" : "zero"}">${sayi(o.satis)}</b><small>satın alma</small></div>
-                <div><b class="${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}${o.cevapsiz ? ` <span class="cevapsiz">${o.cevapsiz}↩</span>` : ""}</b><small>puan</small></div>
-              </div>
-              ${d.adimlar[0] ? `<div class="sonraki">${d.adimlar[0].ne}</div>` : ""}
-            </div>`; }).join("")}</div>` : '<div class="panel"><div class="bos">Bu filtreye uyan uygulama yok.</div></div>'}
+          <h3>${secim ? esc(secim.ad) : "Uygulamalar ve site"} <span class="acik">· satıra tıkla, detay açılır · aktif: GA4 ya da telemetri, hangisi büyükse</span></h3>
+          <div class="panel scroll">
+            <table><thead><tr><th>Uygulama</th><th>Durum</th><th class="num">İndirme</th><th class="num">Aktif 7g</th><th class="num">Aktif 30g</th><th class="num">Gelir</th><th class="num">Satın alma</th><th>Puan</th><th class="num">Çökme</th><th class="num">Canlı</th><th>Sonraki adım</th></tr></thead>
+            <tbody>${satirlar.map(({ a, d, ak, cr, pa }) => { const o = d.o; return `<tr data-app="${esc(a.slug)}" class="${S.app === a.slug ? "secili" : ""}">
+              <td><span class="ad-hucre">${ikonKucuk(a)}<span>${esc(a.ad)}${platYazi(a)}</span></span></td>
+              <td>${katmanEtiket(d.katman)}${surumSorunlu(a) ? ` ${surumEtiket(a)}` : ""}</td>
+              <td class="num ${o.indirme ? "" : "zero"}">${sayi(o.indirme)}${o.fark !== null ? `<span class="alt ${o.fark > 0 ? "up" : o.fark < 0 ? "down" : ""}">${o.fark > 0 ? "▲" : o.fark < 0 ? "▼" : "="}${Math.abs(o.fark)}%</span>` : ""}</td>
+              <td class="num ${ak.g7 ? "" : "zero"}">${ak.g7 ? sayi(ak.g7) : "·"}</td>
+              <td class="num ${ak.g30 || pa ? "" : "zero"}">${ak.g30 ? sayi(ak.g30) : "·"}${pa ? `<span class="alt" title="Play kurulu cihaz">${sayi(pa)} cihaz</span>` : ""}</td>
+              <td class="num ${o.gelirTl ? "" : "zero"}">${o.gelirTl ? tl(o.gelirTl) : "0"}</td>
+              <td class="num ${o.satis ? "" : "zero"}">${sayi(o.satis)}</td>
+              <td>${o.puan !== null ? `<span class="stars ${o.puan < 3 ? "down" : ""}">★${o.puan}</span> <span class="zero">${o.yorumAdet}</span>${o.cevapsiz ? ` <span class="cevapsiz">${o.cevapsiz} cevapsız</span>` : ""}` : '<span class="zero">·</span>'}</td>
+              <td class="num ${cr ? "down" : "zero"}">${cr ? sayi(cr) : "·"}</td>
+              ${canliHucre(a)}
+              <td class="genis">${d.adimlar[0] ? `<span class="kirp" title="${esc(duzMetin(d.adimlar[0].ne))}">${d.adimlar[0].ne}</span>` : '<span class="zero">·</span>'}</td></tr>`; }).join("")}
+            ${w ? `<tr data-app="${SITE}" class="site-satir">
+              <td><span class="ad-hucre"><span class="ik">🌐</span><span>bamstudio.dev</span></span></td>
+              <td><span class="etiket e-site">Site</span></td>
+              <td class="num zero">·</td>
+              <td class="num">${sayi(w.z7)}<span class="alt">ziyaret</span></td>
+              <td class="num">${sayi(w.z30)}<span class="alt">ziyaret</span></td>
+              <td class="num zero">·</td><td class="num zero">·</td><td class="zero">·</td><td class="num zero">·</td><td class="num zero">·</td>
+              <td class="genis">${sayi(w.abone)} onaylı abone${w.bekleyen ? ` (+${w.bekleyen} bekleyen)` : ""} · ${sayi(w.anket)} anket${w.enAzKod !== null ? ` · en az kalan kod ${w.enAzKod}` : ""}</td></tr>` : ""}
+            </tbody>
+            ${satirlar.length > 1 ? `<tfoot><tr><td>Toplam (${satirlar.length})</td><td></td><td class="num">${sayi(T.i)}</td><td class="num">${sayi(T.a7)}</td><td class="num">${sayi(T.a30)}</td><td class="num">${tl(T.g)}</td><td class="num">${sayi(T.s)}</td><td></td><td class="num">${T.cr ? sayi(T.cr) : "·"}</td><td class="num">${CANLI.veri ? sayi(cs.toplam) : "…"}</td><td></td></tr></tfoot>` : ""}</table>
+          </div>
         </section>
 
         <div class="ikili">
           <section>
-            <h3>Bu hafta <span class="acik">· öncelik motorundan, seçili aralığa göre</span>${adimListe.length ? `<span class="h3-sag">${kopyaDugme(komutTopla(adimListe), "Hepsini Claude'a", "buyuk")}</span>` : ""}</h3>
+            <h3>Bu hafta <span class="acik">· öncelik motorundan</span>${adimListe.length ? `<span class="h3-sag">${kopyaDugme(komutTopla(adimListe), "Hepsini Claude'a", "buyuk")}</span>` : ""}</h3>
             <div class="panel">
               ${adimListe.length ? `<div class="adimlar">${adimListe.map((x, i) => `
                 <div class="adim"><span class="n ${x.s}">${i + 1}</span>
@@ -1145,10 +1036,186 @@
         <section>
           <h3>Günlük indirme</h3>
           <div class="panel">
-            <div class="legend">${S.platform !== "and" ? '<span><i></i>App Store</span>' : ""}${S.platform !== "ios" && D.androidVeriVar ? '<span><i class="i-and"></i>Google Play</span>' : ""}${!D.androidVeriVar && S.platform !== "ios" ? '<span class="zero">Play indirmesi yok (yetki bekliyor)</span>' : ""}</div>
+            <div class="legend">${S.platform !== "and" ? '<span><i></i>App Store</span>' : ""}${S.platform !== "ios" && D.androidVeriVar ? '<span><i class="i-and"></i>Google Play</span>' : ""}</div>
             ${grafik(bas, son, slugs)}
           </div>
         </section>`;
+    }
+
+    /* ── Canlı ───────────────────────────────────────────────────
+       Kaynak: site Worker'ı GET /api/live (anahtar şifreli pakette). Uç,
+       uygulamaların Firestore installs/ belgelerinden son 3 dakikada kalp
+       atışı verenleri döndürür. Sayfa açıkken 30 sn'de bir yenilenir. */
+    const CANLI_APPS = ["walletcoach", "daily-whisper", "o-mu-bu-mu"];
+    let CANLI = { veri: null, hata: null, zaman: null, imza: "" };
+    function canliSay(slugs) {
+      const r = { toplam: 0, s15: 0, s60: 0, s24: 0, app: {} };
+      for (const a of CANLI.veri?.apps || []) {
+        if (slugs && !slugs.includes(a.slug)) continue;
+        const n = (a.liste || []).filter(x => x.canli).length;
+        r.app[a.slug] = n; r.toplam += n; r.s15 += a.son15 || 0; r.s60 += a.son60 || 0; r.s24 += a.son24 || 0;
+      }
+      return r;
+    }
+    async function canliCek(zorla) {
+      if (!D?.canli?.url || (document.hidden && !zorla)) return;
+      try {
+        const r = await fetch(D.canli.url, { headers: { "x-live-key": D.canli.anahtar }, cache: "no-store" });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+        CANLI.veri = j; CANLI.hata = null;
+      } catch (e) { CANLI.hata = String(e.message || e); }
+      CANLI.zaman = new Date();
+      const imza = JSON.stringify([CANLI.hata, (CANLI.veri?.apps || []).map(a => [a.slug, a.son15, a.son60, (a.liste || []).map(x => x.id + x.ekran)])]);
+      const degisti = imza !== CANLI.imza; CANLI.imza = imza;
+      if (S.sekme === "canli" || (degisti && S.sekme === "ozet" && S.app !== SITE)) ciz(); else if (degisti) { canliRozet(); }
+    }
+    /* Yan menü ve sekme rozetini, ana alanı yeniden çizmeden güncelle. */
+    function canliRozet() { const y = $("#yigUyg"); if (y) yanCiz(); const t = document.querySelector('[data-sekme="canli"] .say'); const n = canliSay().toplam; if (t) t.textContent = n || ""; }
+    const once = iso => { if (!iso) return "·"; const s = Math.max(0, (Date.now() - Date.parse(iso)) / 1000); return s < 45 ? "şimdi" : s < 3600 ? `${Math.round(s / 60)} dk önce` : s < 86400 ? `${Math.round(s / 3600)} sa önce` : `${Math.round(s / 86400)} gün önce`; };
+    const sure = sn => { if (sn === null || sn === undefined || isNaN(sn)) return "·"; sn = Math.round(sn); if (sn < 60) return `${sn} sn`; const dk = Math.round(sn / 60); if (dk < 60) return `${dk} dk`; return `${Math.floor(dk / 60)} sa ${dk % 60} dk`; };
+    const PLAT_AD = { ios: "iOS", android: "Android", watchos: "watchOS", wearos: "Wear OS" };
+    function canliCiz() {
+      if (!D.canli) return `<div class="panel"><div class="bos">Canlı kaynak bu pakette yok. <code>build.mjs</code> Keychain'deki <code>bamtech-lab-live</code> anahtarını pakete koyar; anahtar yoksa canlı kapalı kalır.</div></div>`;
+      const secim = secApp();
+      const uyg = (CANLI.veri?.apps || []).filter(a => !secim || a.slug === secim.slug);
+      const cs = canliSay(uyg.map(a => a.slug));
+      const liste = uyg.flatMap(a => (a.liste || []).map(x => ({ ...x, app: a }))).sort((x, y) => (y.canli - x.canli) || Date.parse(y.sonSinyal) - Date.parse(x.sonSinyal));
+      const on = liste.filter(x => x.canli);
+      const ekran = {}; for (const x of on.filter(x => x.ekran)) { const k = `${uyg.length > 1 ? x.app.ad + " · " : ""}${x.ekran}`; ekran[k] = (ekran[k] || 0) + 1; }
+      const ekranL = Object.entries(ekran).sort((a, b) => b[1] - a[1]);
+      const ulke = {}; for (const x of on) { const k = x.ulke || "??"; ulke[k] = (ulke[k] || 0) + 1; }
+      const durum = CANLI.zaman ? `Son yenileme ${CANLI.zaman.toLocaleTimeString("tr-TR")} · 30 sn'de bir · canlı = son 3 dakikada kalp atışı ve uygulama açık` : "Yükleniyor…";
+      return `
+        <div class="bilgi-kutu" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span>${durum}</span>${CANLI.hata ? `<span class="down">Hata: ${esc(CANLI.hata)}</span>` : ""}<button class="kopya" data-canliyenile="1" style="margin-left:auto">Şimdi yenile</button></div>
+        <div class="cards">
+          <div class="card"><div class="k">Şu an uygulamada</div><div class="v ${cs.toplam ? "up" : ""}">${CANLI.veri ? sayi(cs.toplam) : "…"}</div><div class="s">${uyg.length} uygulama izleniyor</div></div>
+          <div class="card"><div class="k">Son 15 dakika</div><div class="v">${sayi(cs.s15)}</div><div class="s">sinyal veren kurulum</div></div>
+          <div class="card"><div class="k">Son 1 saat</div><div class="v">${sayi(cs.s60)}</div><div class="s">sinyal veren kurulum</div></div>
+          <div class="card"><div class="k">Son 24 saat</div><div class="v">${sayi(cs.s24)}</div><div class="s">sinyal veren kurulum</div></div>
+          <div class="card"><div class="k">Paywall'da</div><div class="v">${sayi(on.filter(x => x.ekran === "paywall").length)}</div><div class="s">şu an</div></div>
+          <div class="card"><div class="k">Pro / premium</div><div class="v">${sayi(on.filter(x => x.pro).length)}</div><div class="s">şu an uygulamada olanlardan</div></div>
+        </div>
+
+        <section>
+          <h3>Uygulama bazında</h3>
+          <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th class="num">Şu an</th><th class="num">Son 15 dk</th><th class="num">Son 1 saat</th><th class="num">Son 24 saat</th><th>Ölçüm</th><th>Panel</th></tr></thead>
+            <tbody>${uyg.map(a => { const ap = D.apps.find(x => x.slug === a.slug); const n = (a.liste || []).filter(x => x.canli).length; return `<tr data-app="${esc(a.slug)}">
+              <td><span class="ad-hucre">${ap ? ikonKucuk(ap) : ""}<span>${esc(a.ad)}</span></span></td>
+              <td class="num ${n ? "up" : "zero"}">${n ? `<span class="nokta-canli"></span>${n}` : "0"}</td>
+              <td class="num">${a.son15 ?? "·"}</td><td class="num">${a.son60 ?? "·"}</td><td class="num">${a.son24 ?? "·"}</td>
+              <td>${a.hata ? `<span class="down">${esc(a.hata)}</span>` : a.tur === "acilis" ? '<span class="zero">yalnız açılış (kalp atışı yok, son 10 dk açanlar listede)</span>' : '<span class="zero">kalp atışı, 60 sn</span>'}</td>
+              <td><a href="${esc(a.panel)}" target="_blank" rel="noopener">aç ↗</a></td></tr>`; }).join("") || '<tr><td colspan="7" class="zero">Veri bekleniyor.</td></tr>'}</tbody></table></div>
+        </section>
+
+        <section>
+          <h3>Kim nerede <span class="acik">· ${on.length} canlı${liste.length > on.length ? `, ${liste.length - on.length} son açılış` : ""}</span></h3>
+          <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th>Kurulum</th><th>Ekran</th><th>Ülke</th><th>Dil</th><th>Platform</th><th>Sürüm</th><th>Durum</th><th class="num">Bu oturum</th><th>Son sinyal</th><th class="num">Uygulamada toplam</th><th class="num">Oturum</th><th>İlk görülme</th></tr></thead>
+            <tbody>${liste.map(x => { const ap = D.apps.find(a => a.slug === x.app.slug); return `<tr>
+              <td><span class="ad-hucre">${ap ? ikonKucuk(ap) : ""}<span>${esc(x.app.ad)}</span></span></td>
+              <td class="mono">${x.canli ? '<span class="nokta-canli"></span>' : ""}${esc(x.id)}</td>
+              <td>${x.ekran ? `<code>${esc(x.ekran)}</code>` : '<span class="zero">açtı</span>'}${x.oncekiEkran && x.oncekiEkran !== x.ekran ? `<span class="alt">önce ${esc(x.oncekiEkran)}</span>` : ""}</td>
+              <td>${x.ulke ? `<span class="bayrak">${bayrak(x.ulke)}</span>${esc(ulkeAd(x.ulke))}` : '<span class="zero">·</span>'}</td>
+              <td>${esc(x.dil || "·")}</td>
+              <td>${esc(PLAT_AD[(x.platform || "").toLowerCase()] || x.platform || "·")}</td>
+              <td class="mono">${esc(x.surum || "·")}</td>
+              <td>${x.pro ? '<span class="etiket e-odak">Pro</span> ' : ""}${x.test ? '<span class="etiket e-gri">Test</span> ' : ""}${x.onboarded === false ? '<span class="etiket e-bakim">Tanıtımda</span> ' : ""}${!x.canli ? '<span class="etiket e-gri">açılış</span>' : ""}</td>
+              <td class="num">${x.oturumBasi ? sure((Date.now() - Date.parse(x.oturumBasi)) / 1000) : "·"}</td>
+              <td>${once(x.sonSinyal)}</td>
+              <td class="num">${x.toplamSn !== null ? sure(x.toplamSn) : "·"}</td>
+              <td class="num">${x.oturumSay ?? "·"}</td>
+              <td>${x.ilk ? tarihYazi(x.ilk) : "·"}</td></tr>`; }).join("") || `<tr><td colspan="13" class="zero">${CANLI.veri ? "Şu an kimse uygulamada değil." : "Yükleniyor…"}</td></tr>`}</tbody></table></div>
+          <div class="dip">Kurulum: uygulamaya özel rastgele kimliğin ilk 8 karakteri. Bu oturum: zaman çizelgesinde önceki oturumun kapanışından sonraki ilk olaydan bu yana. Uygulamada toplam: kurulumun bütün oturumlarının toplamı. Kişisel bilgi (ad, e-posta) bu uçtan gelmez; ayrıntı için uygulamanın kendi paneli.</div>
+        </section>
+
+        ${on.length ? `<div class="ikili">
+          <section><h3>Şu an hangi ekranda</h3><div class="panel"><div class="bars">${ekranL.map(([k, n]) => `<div class="bar" style="grid-template-columns:200px 1fr 40px"><span class="code" style="overflow:hidden;text-overflow:ellipsis">${esc(k)}</span><span class="rail"><span class="fill" style="width:${(n / ekranL[0][1] * 100).toFixed(1)}%"></span></span><span class="n">${n}</span></div>`).join("")}</div></div></section>
+          <section><h3>Şu an hangi ülkede</h3><div class="panel">${Object.entries(ulke).sort((a, b) => b[1] - a[1]).map(([k, n], _, l) => ulkeCubuk(k, [[n, "var(--c-yesil)", "canlı"]], l[0][1])).join("")}</div></section>
+        </div>` : ""}`;
+    }
+
+    /* ── Site: bamstudio.dev ─────────────────────────────────────
+       Uygulama seçicide bir uygulama gibi. Cloudflare Web Analytics +
+       site arka ucu (D1: bülten, anket, indirim kodları). */
+    const SITE = "__site";
+    const appAdi = s => (D.apps.find(a => a.slug === s) || D.apps.find(a => a.slug.startsWith(s + "-")))?.ad || s;
+    function cubukGrafik(etiketler, seriler, H = 200) {
+      /* seriler = [{sinif, ad, deger: [..]}] yığılmış */
+      const W = 900, P = { u: 14, s: 38, a: 24, so: 8 };
+      const iy = H - P.u - P.a, ix = W - P.s - P.so, n = Math.max(1, etiketler.length);
+      const top = etiketler.map((_, i) => seriler.reduce((t, s) => t + (s.deger[i] || 0), 0));
+      const enCok = Math.max(1, ...top);
+      const adimX = ix / n, gen = Math.max(1, Math.min(22, adimX * .72));
+      const x = i => P.s + i * adimX + (adimX - gen) / 2;
+      const cub = [];
+      etiketler.forEach((t, i) => {
+        let taban = P.u + iy; const et = `${gun(t)} · ${seriler.map(s => `${s.ad} ${sayi(s.deger[i] || 0)}`).join(" · ")}`;
+        for (const s of seriler) { const v = s.deger[i] || 0; if (!v) continue; const yuk = v / enCok * iy; taban -= yuk;
+          cub.push(`<rect class="${s.sinif}" x="${x(i).toFixed(1)}" y="${taban.toFixed(1)}" width="${gen.toFixed(1)}" height="${Math.max(1, yuk - .8).toFixed(1)}" rx="2"><title>${et}</title></rect>`); }
+      });
+      const yatay = [0, .5, 1].map(f => { const yy = (P.u + iy - f * iy).toFixed(1); return `<line class="grid" x1="${P.s}" y1="${yy}" x2="${W - P.so}" y2="${yy}" /><text x="${P.s - 6}" y="${(+yy + 3).toFixed(1)}" text-anchor="end">${Math.round(f * enCok)}</text>`; }).join("");
+      const etAdim = Math.max(1, Math.ceil(n / 9));
+      const alt = etiketler.map((t, i) => i % etAdim === 0 ? `<text x="${(x(i) + gen / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${gun(t)}</text>` : "").join("");
+      return `<svg class="chart" style="height:${H}px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">${yatay}${cub.join("")}${alt}</svg>`;
+    }
+    function siteCiz() {
+      const w = D.web, o = webOzet();
+      if (!w) return `<div class="panel"><div class="bos">Site verisi bu pakette yok (web.mjs çekilmedi ya da Cloudflare hatası; Veri sekmesine bak).</div></div>`;
+      const gunler = Object.keys(w.gunluk || {}).sort();
+      const pencereG = S.aralik ? gunler.slice(-S.aralik) : gunler;
+      const A = w.arkaUc || {}, an = A.anket || {}, ab = A.abone || {};
+      const ulke30 = Object.entries(w.ulke || {}).sort((a, b) => b[1] - a[1]);
+      const ulke7 = w.ulke7 || {};
+      const toplam30 = ulke30.reduce((t, [, v]) => t + v, 0) || 1;
+      const sayfaTop = (w.sayfa || []).reduce((t, [, n]) => t + n, 0) || 1;
+      const refTop = (w.kaynakSite || []).reduce((t, [, n]) => t + n, 0) || 1;
+      const oylar = Object.entries(an.uygulama || {}).sort((a, b) => b[1] - a[1]);
+      const kodlar = Object.entries(A.kod || {}).sort((a, b) => a[1].kalan - b[1].kalan || a[0].localeCompare(b[0]));
+      const aboneGun = Object.entries(A.aboneGun || {}).filter(([g]) => g && g !== "null").sort((a, b) => b[0].localeCompare(a[0]));
+      const anketGun = Object.entries(an.gunluk || {}).filter(([g]) => g).sort((a, b) => b[0].localeCompare(a[0]));
+      return `
+        <div class="cards">
+          <div class="card"><div class="k">Ziyaret · son gün</div><div class="v">${sayi(o.z1)}</div><div class="s">${o.son ? gun(o.son) : "·"}</div></div>
+          <div class="card"><div class="k">Ziyaret · 7 gün</div><div class="v">${sayi(o.z7)}</div><div class="s">tekil oturum</div></div>
+          <div class="card"><div class="k">Ziyaret · 30 gün</div><div class="v">${sayi(o.z30)}</div><div class="s">${sayi(o.pv30)} sayfa görüntüleme</div></div>
+          <div class="card"><div class="k">Ülke · 30 gün</div><div class="v">${sayi(o.ulke30)}</div><div class="s">${ulke30.slice(0, 5).map(([k]) => bayrak(k)).join(" ")}</div></div>
+          <div class="card"><div class="k">Bülten</div><div class="v">${sayi(ab.active || 0)}</div><div class="s">onaylı · ${sayi(ab.pending || 0)} bekleyen · ${sayi(ab.unsubscribed || 0)} çıkan</div></div>
+          <div class="card"><div class="k">Anket katılımı</div><div class="v">${sayi(an.toplam || 0)}</div><div class="s">favori 3 uygulama</div></div>
+        </div>
+        <section>
+          <h3>Günlük ziyaret <span class="acik">· ${pencereG.length} gün · ölçüm ${gunler[0] ? tarihYazi(gunler[0]) : "·"} itibarıyla</span></h3>
+          <div class="panel"><div class="legend"><span><i class="i-tr"></i>Ziyaret</span><span><i class="i-mor"></i>Ek sayfa görüntüleme</span></div>
+            ${pencereG.length ? cubukGrafik(pencereG, [{ sinif: "web", ad: "ziyaret", deger: pencereG.map(t => w.gunluk[t].ziyaret || 0) }, { sinif: "pv", ad: "ek görüntüleme", deger: pencereG.map(t => Math.max(0, (w.gunluk[t].pv || 0) - (w.gunluk[t].ziyaret || 0))) }]) : '<div class="bos">Gün yok.</div>'}</div>
+        </section>
+        <div class="ikili">
+          <section><h3>Ülkeler <span class="acik">· ziyaret</span></h3>
+            <div class="panel scroll"><table><thead><tr><th>Ülke</th><th class="num">30 gün</th><th class="num">Pay</th><th class="num">7 gün</th></tr></thead>
+              <tbody>${ulke30.slice(0, 25).map(([k, v]) => `<tr><td><span class="bayrak">${bayrak(k)}</span>${esc(ulkeAd(k))}</td><td class="num">${sayi(v)}</td><td class="num zero">%${(v / toplam30 * 100).toFixed(0)}</td><td class="num ${ulke7[k] ? "" : "zero"}">${sayi(ulke7[k] || 0)}</td></tr>`).join("") || '<tr><td colspan="4" class="zero">Yok.</td></tr>'}</tbody></table></div></section>
+          <section><h3>Sayfalar <span class="acik">· görüntüleme, 30 gün, /lab hariç</span></h3>
+            <div class="panel scroll"><table><thead><tr><th>Yol</th><th class="num">Görüntüleme</th><th class="num">Pay</th></tr></thead>
+              <tbody>${(w.sayfa || []).map(([p, n]) => `<tr><td class="mono" style="font-size:12px"><a href="${esc(p)}" target="_blank" rel="noopener">${esc(p)}</a></td><td class="num">${sayi(n)}</td><td class="num zero">%${(n / sayfaTop * 100).toFixed(0)}</td></tr>`).join("") || '<tr><td colspan="3" class="zero">Yok.</td></tr>'}</tbody></table></div>
+            <h3 style="margin-top:16px">Yönlendirenler <span class="acik">· ziyaret, 30 gün</span></h3>
+            <div class="panel scroll"><table><thead><tr><th>Kaynak</th><th class="num">Ziyaret</th><th class="num">Pay</th></tr></thead>
+              <tbody>${(w.kaynakSite || []).map(([h, n]) => `<tr><td>${esc(h)}</td><td class="num">${sayi(n)}</td><td class="num zero">%${(n / refTop * 100).toFixed(0)}</td></tr>`).join("") || '<tr><td colspan="3" class="zero">Yok.</td></tr>'}</tbody></table></div></section>
+        </div>
+        ${A.abone || A.anket ? `<div class="ikili">
+          <section><h3>Anket: favori 3 uygulama <span class="acik">· bamstudio.dev#favori</span></h3>
+            <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th class="num">Oy</th><th class="num">Pay</th></tr></thead>
+              <tbody>${oylar.map(([s, n]) => `<tr><td>${esc(appAdi(s))}</td><td class="num">${sayi(n)}</td><td class="num zero">%${(n / Math.max(1, an.toplam) * 100).toFixed(0)}</td></tr>`).join("") || '<tr><td colspan="3" class="zero">Henüz oy yok.</td></tr>'}</tbody></table></div>
+            <div class="dip">Platform: ${Object.entries(an.platform || {}).map(([p, n]) => `${esc(p)} ${n}`).join(" · ") || "yok"}. Günlük katılım: ${anketGun.slice(0, 10).map(([g, n]) => `${gun(g)} ${n}`).join(" · ") || "yok"}.</div></section>
+          <section><h3>Bülten</h3>
+            <div class="panel"><div class="mini-kpi"><div><b>${sayi(ab.active || 0)}</b><span>onaylı</span></div><div><b>${sayi(ab.pending || 0)}</b><span>onay bekleyen</span></div><div><b>${sayi(ab.unsubscribed || 0)}</b><span>çıkan</span></div></div>
+              ${aboneGun.length ? `<table><thead><tr><th>Onay günü</th><th class="num">Yeni abone</th></tr></thead><tbody>${aboneGun.slice(0, 10).map(([g, n]) => `<tr><td>${tarihYazi(g)}</td><td class="num">${n}</td></tr>`).join("")}</tbody></table>` : '<div class="bos">Onaylı abone yok.</div>'}</div></section>
+        </div>
+        <section><h3>%20 indirim kodları <span class="acik">· App Store, tek kullanımlık, ankete katılana mail ile</span></h3>
+          <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th class="num">Verilen</th><th class="num">Kalan</th><th class="num">Toplam</th><th style="width:40%">Kullanım</th></tr></thead>
+            <tbody>${kodlar.map(([s, v]) => `<tr><td>${esc(appAdi(s))}</td><td class="num">${sayi(v.verilen)}</td><td class="num ${v.kalan < 50 ? "down" : ""}">${sayi(v.kalan)}</td><td class="num">${sayi(v.verilen + v.kalan)}</td><td><span class="bar" style="grid-template-columns:1fr"><span class="rail"><span class="fill" style="width:${(v.verilen / Math.max(1, v.verilen + v.kalan) * 100).toFixed(1)}%"></span></span></span></td></tr>`).join("") || '<tr><td colspan="5" class="zero">Kod yok.</td></tr>'}</tbody></table></div>
+          <div class="dip">50'nin altına inen uygulama için App Store Connect'ten yeni parti gerekir (genel bakışta uyarı çıkar).</div></section>` : (w.arkaUcHata ? `<div class="uyari-kutu">Site arka ucu okunamadı: ${esc(w.arkaUcHata)}</div>` : "")}
+        <section><div class="panel"><ul class="notes">
+          <li><strong>Kaynak:</strong> Cloudflare Web Analytics (çerezsiz, bamstudio.dev ve berkalparslan.github.io), günlük çekimde <code>scripts/lab/web.mjs</code>. Ziyaret = Cloudflare'in "visit" sayısı; sayfa görüntüleme ayrı.</li>
+          <li><strong>Bülten, anket, kodlar:</strong> site Worker'ının D1 veritabanı. E-posta adresleri panele gelmez, yalnız sayılar.</li>
+          <li>Son çekim: ${w.uretim ? new Date(w.uretim).toLocaleString("tr-TR") : "·"}.</li>
+        </ul></div></section>`;
     }
 
     /* Aktif kullanıcı: GA4 tekil (son 1/7/30 gün) ve uygulama panellerinin
@@ -1222,7 +1289,7 @@
         { k: "tele", e: "Telemetri", renk: "var(--c-pembe)", alt: "30 gün aktif" },
         ...(web ? [{ k: "web", e: "Site", renk: "var(--c-turuncu)", alt: "30 gün ziyaret" }] : [])
       ].filter(c => satirlar.some(([, r]) => r[c.k]));
-      const isi = (v, kol, renk) => v ? `<td class="isi"><i style="background:color-mix(in srgb, ${renk} ${Math.round(18 + 70 * v / enCok(kol))}%, transparent)"></i><span>${sayi(Math.round(v))}</span></td>` : '<td class="isi zero"><span>·</span></td>';
+      const isi = (v, kol, renk) => v ? `<td class="isi"><i style="background:color-mix(in srgb, ${renk} ${Math.round(8 + 40 * v / enCok(kol))}%, transparent)"></i><span>${sayi(Math.round(v))}</span></td>` : '<td class="isi zero"><span>·</span></td>';
 
       /* Uygulama kırılımı */
       const uyg = slugs.map(a => {
@@ -1316,9 +1383,9 @@
           <div class="servisler">${tele.map(([sl, t]) => { const a = D.apps.find(x => x.slug === sl); const enC = Object.entries(t.ulke || {}).sort((x, y) => y[1].aktif30 - x[1].aktif30).slice(0, 6); return `<div class="servis">
             <div class="ust"><b>${esc(a?.ad || sl)}</b><a href="/lab/${sl === "walletcoach" ? "wallet-coach" : sl}/" target="_blank" rel="noopener">panel ↗</a></div>
             <div class="uclu" style="gap:8px">
-              <div><b style="font-family:var(--disp);font-weight:400;font-size:28px">${sayi(t.aktif7)}</b><div class="zero" style="font-size:11.5px">7 gün aktif</div></div>
-              <div><b style="font-family:var(--disp);font-weight:400;font-size:28px">${sayi(t.yeni7)}</b><div class="zero" style="font-size:11.5px">7 gün yeni</div></div>
-              <div><b style="font-family:var(--disp);font-weight:400;font-size:28px">${sayi(t.pro)}</b><div class="zero" style="font-size:11.5px">pro / premium</div></div>
+              <div><b style="font-size:20px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(t.aktif7)}</b><div class="zero" style="font-size:11.5px">7 gün aktif</div></div>
+              <div><b style="font-size:20px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(t.yeni7)}</b><div class="zero" style="font-size:11.5px">7 gün yeni</div></div>
+              <div><b style="font-size:20px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(t.pro)}</b><div class="zero" style="font-size:11.5px">pro / premium</div></div>
             </div>
             <div class="meta"><span>${sayi(t.toplam)} kurulum</span><span>dün ${sayi(t.aktif1)}</span><span>30 gün ${sayi(t.aktif30)}</span>${t.canli ? `<span class="up">● ${t.canli} canlı</span>` : ""}<span>${Object.entries(t.platform || {}).map(([p, n]) => `${p} ${n}`).join(" · ")}</span></div>
             <div class="uyg">${enC.map(([k, v]) => `<span>${bayrak(k)} ${esc(k)} ${v.aktif30}</span>`).join("")}</div>
@@ -1339,10 +1406,10 @@
             return `<div class="ikili" style="margin-top:14px">
             <div class="panel"><h4 style="font-size:13px;margin-bottom:8px">Bülten ve anket</h4>
               <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px">
-                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.active || 0)}</b><div class="zero" style="font-size:11.5px">onaylı abone</div></div>
-                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.pending || 0)}</b><div class="zero" style="font-size:11.5px">onay bekleyen</div></div>
-                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(ab.unsubscribed || 0)}</b><div class="zero" style="font-size:11.5px">çıkan</div></div>
-                <div><b style="font-family:var(--disp);font-weight:400;font-size:34px">${sayi(an.toplam || 0)}</b><div class="zero" style="font-size:11.5px">anket katılımı</div></div>
+                <div><b style="font-size:22px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(ab.active || 0)}</b><div class="zero" style="font-size:11.5px">onaylı abone</div></div>
+                <div><b style="font-size:22px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(ab.pending || 0)}</b><div class="zero" style="font-size:11.5px">onay bekleyen</div></div>
+                <div><b style="font-size:22px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(ab.unsubscribed || 0)}</b><div class="zero" style="font-size:11.5px">çıkan</div></div>
+                <div><b style="font-size:22px;font-weight:650;font-variant-numeric:tabular-nums">${sayi(an.toplam || 0)}</b><div class="zero" style="font-size:11.5px">anket katılımı</div></div>
               </div>
               <div class="bars">${uy.slice(0, 10).map(([s, n], _, l) => `<div class="bar" style="grid-template-columns:150px 1fr 50px"><span>${esc(s)}</span><span class="rail"><span class="fill" style="width:${(n / l[0][1] * 100).toFixed(1)}%"></span></span><span class="n">${sayi(n)}</span></div>`).join("") || '<div class="bos">Henüz oy yok.</div>'}</div>
               <div class="dip">Platform: ${Object.entries(an.platform || {}).map(([p, n]) => `${p} ${n}`).join(" · ") || "yok"}. Favori 3 anketi, bamstudio.dev#favori.</div></div>
@@ -1369,23 +1436,23 @@
           <div class="panel scroll">
             <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>iOS sürüm</th><th>Servisler</th><th>Dil</th></tr></thead>
             <tbody>${l.map(({ a, d }) => { const p = a.profil || {}; return `<tr data-app="${esc(a.slug)}">
-              <td>${esc(a.ad)}${platYazi(a)}<span class="alt">${esc(p.kategori || "—")}</span></td>
+              <td>${esc(a.ad)}${platYazi(a)}<span class="alt">${esc(p.kategori || "·")}</span></td>
               <td>${katmanEtiket(d.katman)}</td>
-              <td>${esc(a.vault?.durum || "—")}</td>
+              <td>${esc(a.vault?.durum || "·")}</td>
               <td><span class="etiket e-model">${MODEL[p.model] || "?"}</span>${p.reklam ? ' <span class="etiket e-gri" title="AdMob">reklam</span>' : ""}</td>
               <td class="num ${d.o.indirme ? "" : "zero"}">${sayi(d.o.indirme)}</td>
               <td class="num ${d.o.satis ? "" : "zero"}">${sayi(d.o.satis)}</td>
               <td class="num ${d.o.gelirTl ? "" : "zero"}">${d.o.gelirTl ? tl(d.o.gelirTl) : "0"}</td>
-              <td class="num ${d.o.gelirTl && d.o.indirme ? "" : "zero"}">${d.o.gelirTl && d.o.indirme ? (d.o.gelirTl / d.o.indirme).toFixed(0) : "—"}</td>
+              <td class="num ${d.o.gelirTl && d.o.indirme ? "" : "zero"}">${d.o.gelirTl && d.o.indirme ? (d.o.gelirTl / d.o.indirme).toFixed(0) : "·"}</td>
               <td>${puanYazi(a)}</td>
-              <td>${surumEtiket(a) || '<span class="zero">—</span>'}</td>
-              <td>${(p.servisler || []).map(s => `<span class="etiket e-gri">${esc(D.servisler?.[s]?.ad || s)}</span>`).join(" ") || '<span class="zero">—</span>'}</td>
-              <td class="num">${p.diller ?? "—"}</td></tr>`; }).join("")}</tbody></table>
+              <td>${surumEtiket(a) || '<span class="zero">·</span>'}</td>
+              <td>${(p.servisler || []).map(s => `<span class="etiket e-gri">${esc(D.servisler?.[s]?.ad || s)}</span>`).join(" ") || '<span class="zero">·</span>'}</td>
+              <td class="num">${p.diller ?? "·"}</td></tr>`; }).join("")}</tbody></table>
           </div>
         </section>
         <section><div class="panel"><ul class="notes">
           <li><strong>Katman</strong> seçili aralığın rakamlarından kural tabanlı hesaplanıyor: gelir + indirme → Odak; indirme var, gelir yok → Büyüt; hacim yok → Bakım; mağazada değil/engelli → Bekle.</li>
-          <li><strong>₺/indirme</strong> = o aralıktaki gelir ÷ indirme. Reklamda ödeyebileceğin en yüksek kurulum maliyetinin tavanı budur — ayrıntı Pazarlama sekmesinde.</li>
+          <li><strong>₺/indirme</strong> = o aralıktaki gelir ÷ indirme. Reklamda ödeyebileceğin en yüksek kurulum maliyetinin tavanı budur, ayrıntı Pazarlama sekmesinde.</li>
           <li><strong>AdMob</strong> geliri App Store raporunda yok; reklamlı uygulamaların gerçek geliri burada görünenden fazla.</li>
         </ul></div></section>`;
     }
@@ -1407,7 +1474,7 @@
           <div class="card"><div class="k">Katman</div><div class="v kucuk">${katmanEtiket(d.katman)}</div><div class="s">${esc(d.neden.join(" · "))}</div></div>
           <div class="card"><div class="k">İndirme</div><div class="v">${sayi(o.indirme)}</div><div class="s ${o.fark === null ? "" : o.fark > 0 ? "up" : o.fark < 0 ? "down" : ""}">${o.fark === null ? `${o.gunSay} gün` : `${o.fark > 0 ? "▲" : o.fark < 0 ? "▼" : "="} ${Math.abs(o.fark)}% · önceki ${sayi(o.onceki)}`}</div></div>
           <div class="card"><div class="k">Gelir</div><div class="v ${o.gelirTl ? "" : "zero"}">${o.gelirTl ? `≈ ${tl(o.gelirTl)}` : "0 ₺"}</div><div class="s">${o.satis ? `${sayi(o.satis)} satın alma · ` : ""}${o.indirme && o.gelirTl ? `indirme başına ≈ ${(o.gelirTl / o.indirme).toFixed(0)} ₺` : p?.reklam ? "AdMob geliri hariç" : "App Store satış raporu"}</div></div>
-          <div class="card"><div class="k">Puan</div><div class="v ${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "—"}</div><div class="s ${o.cevapsiz ? "down" : ""}">${o.yorumAdet} yorum${o.cevapsiz ? ` · ${o.cevapsiz} cevapsız` : ""}</div></div>
+          <div class="card"><div class="k">Puan</div><div class="v ${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "·"}</div><div class="s ${o.cevapsiz ? "down" : ""}">${o.yorumAdet} yorum${o.cevapsiz ? ` · ${o.cevapsiz} cevapsız` : ""}</div></div>
         </div>
         <div class="ikili">
           <section>
@@ -1419,14 +1486,14 @@
           <section>
             <h3>Kimlik</h3>
             <div class="panel"><dl class="kv">
-              <div><dt>Durum</dt><dd>${esc(v.durum || "—")}${v.platform ? ` · ${esc(v.platform)}` : ""}</dd></div>
-              <div><dt>Model</dt><dd>${p ? `${MODEL[p.model] || "?"} — ${esc(p.fiyat)}` : "profil yok"}</dd></div>
-              <div><dt>Kategori</dt><dd>${esc(p?.kategori || "—")} · ${p?.diller ?? "?"} dil</dd></div>
-              <div><dt>Servisler</dt><dd>${(p?.servisler || []).map(s => { const sv = D.servisler?.[s]; const pr = p?.projeler?.[s]; return (sv?.url ? `<a href="${esc(sv.url)}" target="_blank" rel="noopener">${esc(sv.ad)} ↗</a>` : esc(sv?.ad || s)) + (pr ? ` <code>${esc(pr)}</code>` : ""); }).join(" · ") || "—"}${p?.reklam ? " · AdMob" : ""}</dd></div>
+              <div><dt>Durum</dt><dd>${esc(v.durum || "·")}${v.platform ? ` · ${esc(v.platform)}` : ""}</dd></div>
+              <div><dt>Model</dt><dd>${p ? `${MODEL[p.model] || "?"}, ${esc(p.fiyat)}` : "profil yok"}</dd></div>
+              <div><dt>Kategori</dt><dd>${esc(p?.kategori || "·")} · ${p?.diller ?? "?"} dil</dd></div>
+              <div><dt>Servisler</dt><dd>${(p?.servisler || []).map(s => { const sv = D.servisler?.[s]; const pr = p?.projeler?.[s]; return (sv?.url ? `<a href="${esc(sv.url)}" target="_blank" rel="noopener">${esc(sv.ad)} ↗</a>` : esc(sv?.ad || s)) + (pr ? ` <code>${esc(pr)}</code>` : ""); }).join(" · ") || "·"}${p?.reklam ? " · AdMob" : ""}</dd></div>
               <div><dt>Bağlantılar</dt><dd>${storeLink(a)}</dd></div>
               <div><dt>App Store</dt><dd>${a.ios ? `<code>${esc(a.ios)}</code>` : "yok"}${a.iosSurum?.length ? `<span class="alt">${a.iosSurum.map(v => `${esc(v.surum)} ${(SURUM[v.durum] || [v.durum])[0]} (${tarihYazi(v.tarih)})`).join(" · ")}</span>` : ""}</dd></div>
               <div><dt>Google Play</dt><dd>${a.android ? `<code>${esc(a.android)}</code>` : "yok"}${a.play?.length ? `<span class="alt">${trackSirala(a.play).map(t => `${esc(t.track)} ${esc(t.surum)}`).join(" · ")}</span>` : ""}</dd></div>
-              <div><dt>Vault</dt><dd>${esc(v.guncelleme || "—")} · ${gorevler.length} açık görev</dd></div>
+              <div><dt>Vault</dt><dd>${esc(v.guncelleme || "·")} · ${gorevler.length} açık görev</dd></div>
               ${p?.not ? `<div><dt>Not</dt><dd>${esc(p.not)}</dd></div>` : ""}
               ${v.ozet ? `<div><dt>Özet</dt><dd>${md(v.ozet)}</dd></div>` : ""}
             </dl></div>
@@ -1452,7 +1519,7 @@
           let au = 0, nu = 0, ga = 0, ar = 0, gunVar = 0; const olay = {};
           for (let i = bas; i < son; i++) { const h = D.veri[a.slug]?.[i]; if (!h || h.au === undefined && !h.e) continue; gunVar++; au += h.au || 0; nu += h.nu || 0; ga += h.ga || 0; ar += h.ar || 0; for (const [k, v] of Object.entries(h.e || {})) olay[k] = (olay[k] || 0) + v; }
           if (!gunVar) return a.ga4 || (a.profil?.servisler || []).includes("firebase")
-            ? `<section><h3>Kullanım · Firebase</h3><div class="panel"><div class="bos">Bu aralıkta GA4 verisi yok${D.kaynaklar?.find(k => k.ad.startsWith("Firebase"))?.durum === "engel" ? " — GA4 API'leri henüz açılmadı (Veri sekmesi)" : ""}.</div></div></section>` : "";
+            ? `<section><h3>Kullanım · Firebase</h3><div class="panel"><div class="bos">Bu aralıkta GA4 verisi yok${D.kaynaklar?.find(k => k.ad.startsWith("Firebase"))?.durum === "engel" ? ", GA4 API'leri henüz açılmadı (Veri sekmesi)" : ""}.</div></div></section>` : "";
           const ps = olay.paywall_shown || olay.paywall_viewed || 0, pc = olay.purchase_completed || olay.in_app_purchase || 0;
           return `<section><h3>Kullanım · Firebase <span class="acik">· seçili aralık, ${gunVar} gün</span></h3>
             <div class="cards" style="margin-bottom:0">
@@ -1540,14 +1607,14 @@
           <h3>Ay ay</h3>
           <div class="panel scroll">
             <table><thead><tr><th>Ay</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">Gider</th><th class="num">Net</th><th class="num">Raporsuz gün</th></tr></thead>
-            <tbody>${[...aylar].reverse().map(h => `<tr><td>${esc(h.ay)}${h.ay === buAy ? ' <span class="zero">(devam)</span>' : ""}</td><td class="num">${sayi(h.i)}</td><td class="num ${h.s ? "" : "zero"}">${sayi(h.s)}</td><td class="num ${h.gelirTl ? "" : "zero"}">${h.gelirTl !== null ? tl(h.gelirTl) : "—"}</td><td class="num">${h.giderTl !== null ? tl(h.giderTl) : "—"}</td><td class="num ${h.net === null ? "" : h.net < 0 ? "down" : "up"}">${h.net === null ? "—" : `${h.net < 0 ? "−" : "+"}${tl(Math.abs(h.net))}`}</td><td class="num ${h.raporsuz ? "" : "zero"}">${h.raporsuz}</td></tr>`).join("")}</tbody></table>
+            <tbody>${[...aylar].reverse().map(h => `<tr><td>${esc(h.ay)}${h.ay === buAy ? ' <span class="zero">(devam)</span>' : ""}</td><td class="num">${sayi(h.i)}</td><td class="num ${h.s ? "" : "zero"}">${sayi(h.s)}</td><td class="num ${h.gelirTl ? "" : "zero"}">${h.gelirTl !== null ? tl(h.gelirTl) : "·"}</td><td class="num">${h.giderTl !== null ? tl(h.giderTl) : "·"}</td><td class="num ${h.net === null ? "" : h.net < 0 ? "down" : "up"}">${h.net === null ? "·" : `${h.net < 0 ? "−" : "+"}${tl(Math.abs(h.net))}`}</td><td class="num ${h.raporsuz ? "" : "zero"}">${h.raporsuz}</td></tr>`).join("")}</tbody></table>
           </div>
         </section>
         <section><div class="panel"><ul class="notes">
           <li><strong>Gelir</strong> = Apple'ın "Developer Proceeds" sütunu, yani Apple payı (%15) düşülmüş net; kullanıcının ödediği fiyat değil. Kurlar günlük, yaklaşık.</li>
           <li><strong>Gider</strong> yalnız sabit üyelikler (Apple 99 $/yıl). Reklam harcaması Pazarlama → Günlük'te, otomatik toplanmıyor.</li>
-          <li><strong>AdMob</strong> ve <strong>Google Play</strong> geliri bu tabloda yok — biri hiçbir raporda, diğeri yetki bekliyor. Gerçek toplam burada görünenden yüksek.</li>
-          <li>Apple bazı günlerin raporunu 1–3 gün geç yayınlar; "raporsuz gün" o yüzden son ayda hep birkaç olur.</li>
+          <li><strong>AdMob</strong> ve <strong>Google Play</strong> geliri bu tabloda yok, biri hiçbir raporda, diğeri yetki bekliyor. Gerçek toplam burada görünenden yüksek.</li>
+          <li>Apple bazı günlerin raporunu 1-3 gün geç yayınlar; "raporsuz gün" o yüzden son ayda hep birkaç olur.</li>
         </ul></div></section>`;
     }
 
@@ -1587,7 +1654,7 @@
           <div class="panel scroll">${(() => {
             const l = (D.kampanyalar || []).filter(k => !secim || k.uygulama === secim.slug);
             return l.length ? `<table><thead><tr><th>Tarih</th><th>Kanal</th><th>Uygulama</th><th class="num">Harcama</th><th>Sonuç</th><th>Not</th></tr></thead><tbody>${[...l].reverse().map(k => `<tr><td class="mono" style="font-size:12px">${esc(k.tarih)}</td><td><span class="etiket e-gri">${esc(k.kanal)}</span></td><td>${esc(D.apps.find(a => a.slug === k.uygulama)?.ad || k.uygulama)}</td><td class="num ${k.harcama === "0" ? "zero" : ""}">${esc(k.harcama)}</td><td class="${/^\?/.test(k.sonuc) ? "zero" : ""}">${esc(k.sonuc)}</td><td style="white-space:normal;min-width:260px;color:var(--subtle)">${md(k.not)}</td></tr>`).join("")}</tbody></table>` : '<div class="bos">Günlükte satır yok.</div>'; })()}</div>
-          ${D.kampanyaSorular?.length && !secim ? `<div class="uyari-kutu" style="margin-top:12px"><strong>Eksik bilgi — cevapları bana yaz, tabloya işlerim:</strong><ul class="notes" style="margin-top:6px">${D.kampanyaSorular.map(q => `<li>${md(q)}</li>`).join("")}</ul></div>` : ""}
+          ${D.kampanyaSorular?.length && !secim ? `<div class="uyari-kutu" style="margin-top:12px"><strong>Eksik bilgi, cevapları bana yaz, tabloya işlerim:</strong><ul class="notes" style="margin-top:6px">${D.kampanyaSorular.map(q => `<li>${md(q)}</li>`).join("")}</ul></div>` : ""}
         </section>
 
         <section style="margin-top:22px">
@@ -1595,26 +1662,26 @@
           <div class="panel scroll">${(() => {
             const l = (D.reklam || []).filter(r => !secim || (r.uygulamaAdi && r.uygulamaAdi.toLowerCase().includes(secim.ad.toLowerCase().split(" ")[0])) || /tennis/i.test(r.ad) && secim.slug === "tennis-padel");
             if (!l.length) return '<div class="bos">Dışa aktarım yok. Apple Ads / Meta CSV\'lerini vault/pazarlama/gelen/ klasörüne at.</div>';
-            const p = (v, b = 2) => v === null || v === undefined ? '<span class="zero">—</span>' : Number(v).toLocaleString("tr-TR", { maximumFractionDigits: b });
+            const p = (v, b = 2) => v === null || v === undefined ? '<span class="zero">·</span>' : Number(v).toLocaleString("tr-TR", { maximumFractionDigits: b });
             return `<table><thead><tr><th>Kaynak</th><th>Kampanya</th><th>Uygulama / ülke</th><th>Dönem</th><th class="num">Günlük</th><th class="num">Harcama</th><th class="num">Gösterim</th><th class="num">Tık</th><th class="num">Kurulum</th><th class="num">CPA</th><th class="num">Dönüşüm</th><th>Durum</th></tr></thead><tbody>${l.map(r => `<tr>
               <td><span class="etiket e-gri">${esc(r.kaynak)}</span></td><td>${esc(r.ad)}</td>
-              <td>${esc(r.uygulamaAdi || "—")}${r.ulke ? `<span class="alt">${esc(r.ulke)}</span>` : ""}</td>
+              <td>${esc(r.uygulamaAdi || "·")}${r.ulke ? `<span class="alt">${esc(r.ulke)}</span>` : ""}</td>
               <td class="mono" style="font-size:12px">${esc(r.bas)}${r.son && r.son !== "N/A" ? ` → ${esc(r.son)}` : ""}</td>
               <td class="num">${p(r.gunluk)} ${esc(r.para)}</td><td class="num">${p(r.harcama)} ${esc(r.para)}</td>
-              <td class="num">${p(r.gosterim, 0)}</td><td class="num">${r.tik ? p(r.tik, 0) : '<span class="zero">—</span>'}</td>
+              <td class="num">${p(r.gosterim, 0)}</td><td class="num">${r.tik ? p(r.tik, 0) : '<span class="zero">·</span>'}</td>
               <td class="num ${r.kurulum === null ? "" : ""}">${r.kurulum === null ? '<span class="zero" title="Meta SDK yok, kurulum atfedilemiyor">ölçülmedi</span>' : p(r.kurulum, 0)}</td>
-              <td class="num">${r.cpa ? `${p(r.cpa)} ${esc(r.para)}` : '<span class="zero">—</span>'}</td>
-              <td class="num">${r.donusum ? `%${(r.donusum * 100).toFixed(0)}` : '<span class="zero">—</span>'}</td>
+              <td class="num">${r.cpa ? `${p(r.cpa)} ${esc(r.para)}` : '<span class="zero">·</span>'}</td>
+              <td class="num">${r.donusum ? `%${(r.donusum * 100).toFixed(0)}` : '<span class="zero">·</span>'}</td>
               <td>${esc(r.durum)}</td></tr>`).join("")}</tbody></table>`; })()}</div>
         </section>
 
         <section style="margin-top:22px">
-          <h3>Reklam — ne zaman, hangi bütçeyle</h3>
-          <div class="uyari-kutu"><strong>Kanıt:</strong> Ağustos'ta 10 gün Apple Ads + Meta, günde 100–200 ₺ (≈ 3–6 $, iki platforma bölünmüş) → <strong>0 kurulum</strong>. Kampanya bozuk değildi; bütçe ihaleyi kazanacak eşiğin altındaydı. Organik indirmeler o günlerde de devam etti.</div>
+          <h3>Reklam, ne zaman, hangi bütçeyle</h3>
+          <div class="uyari-kutu"><strong>Kanıt:</strong> Ağustos'ta 10 gün Apple Ads + Meta, günde 100-200 ₺ (≈ 3-6 $, iki platforma bölünmüş) → <strong>0 kurulum</strong>. Kampanya bozuk değildi; bütçe ihaleyi kazanacak eşiğin altındaydı. Organik indirmeler o günlerde de devam etti.</div>
           <div class="ikili">
             <div class="panel">
               <div class="kural"><span class="ik">₺</span><div><b>Ödeyebileceğin tavan: ${birimUsd !== null ? `≈ ${birimUsd.toFixed(2)} $ / kurulum` : birimTl ? `≈ ${birimTl.toFixed(0)} ₺ / kurulum` : "hesaplanamadı"}</b>
-                <p>Seçili aralıkta Odak + Büyüt uygulamalarında indirme başına gelir (${sayi(topI)} indirme, ${tl(topG)}). Apple Ads'te gerçek CPI çoğu kategoride 1–3 $. <strong>Tavan CPI'ın altındaysa reklam para yakar.</strong> Abonelikte ömür boyu değer bunun üstüne çıkabilir; satın alma adedi artık panelde (satış raporundaki IAP satırları), deneme → ücretli dönüşümü RevenueCat'te.</p></div></div>
+                <p>Seçili aralıkta Odak + Büyüt uygulamalarında indirme başına gelir (${sayi(topI)} indirme, ${tl(topG)}). Apple Ads'te gerçek CPI çoğu kategoride 1-3 $. <strong>Tavan CPI'ın altındaysa reklam para yakar.</strong> Abonelikte ömür boyu değer bunun üstüne çıkabilir; satın alma adedi artık panelde (satış raporundaki IAP satırları), deneme → ücretli dönüşümü RevenueCat'te.</p></div></div>
               <div class="kural"><span class="ik">🎯</span><div><b>Tek aday: ${aday ? esc(aday.a.ad) : "şu an yok"}</b>
                 <p>${aday ? `Abonelik var, puan ★${aday.d.o.puan}, ${aday.a.profil.diller} dilde listeleme, onboarding + paywall canlı. Şartları sağlayan tek uygulama.` : "Şart: abonelik/IAP + ★4,5 üstü + en az iki dil + çalışan paywall. Bunu sağlayan yok."} Ücretli 1 $'lık uygulamaya reklam <strong>hiçbir bütçede</strong> geri dönmez.</p></div></div>
               <div class="kural"><span class="ik">🧪</span><div><b>Test protokolü</b>
@@ -1622,9 +1689,9 @@
             </div>
             <div class="panel">
               <div class="kural"><span class="ik">0₺</span><div><b>Önce bedava talep ölçümü</b>
-                <p>Apple Ads kampanya oluşturucusu her anahtar kelimeye 1–5 arası <em>Search Popularity</em> veriyor; ödeme yöntemi bile gerekmiyor. Reklam açmadan hangi kelimede talep olduğunu buradan gör, sonra o kelimeyi mağaza metnine koy.</p></div></div>
+                <p>Apple Ads kampanya oluşturucusu her anahtar kelimeye 1-5 arası <em>Search Popularity</em> veriyor; ödeme yöntemi bile gerekmiyor. Reklam açmadan hangi kelimede talep olduğunu buradan gör, sonra o kelimeyi mağaza metnine koy.</p></div></div>
               <div class="kural"><span class="ik">📣</span><div><b>Çalışan tek kanal: Instagram yakın arkadaşlar</b>
-                <p>Wallet Coach'ta 4 günde 8 × ★5 yorum getirdi. Sırayla, uygulama başına bir paylaşım; tarihi vault <code>kanallar.md</code>'ye yaz ki indirme sıçramasıyla eşleşsin. Aynı metinle sekiz yorum sahte durur — farklı şeyler yazsınlar.</p></div></div>
+                <p>Wallet Coach'ta 4 günde 8 × ★5 yorum getirdi. Sırayla, uygulama başına bir paylaşım; tarihi vault <code>kanallar.md</code>'ye yaz ki indirme sıçramasıyla eşleşsin. Aynı metinle sekiz yorum sahte durur, farklı şeyler yazsınlar.</p></div></div>
               <div class="kural"><span class="ik">🔁</span><div><b>Kanıtlı büyüme hamlesi: ücretli → bedava + abonelik</b>
                 <p>Tenis Haziran'da geçti: Temmuz rekor ay, indirme dörde katlandı. Tasbih Tally ve Orbix aynı hamlenin adayı; Tasbih'te önce ★1,0 düzelmeli.</p></div></div>
               <div class="kural"><span class="ik">📆</span><div><b>Haftalık ritim</b>
@@ -1650,7 +1717,7 @@
       return `
         <div class="cards">
           <div class="card"><div class="k">Panelde olan</div><div class="v">2<span style="font-size:14px;color:var(--faint)"> / ${servisler.length}</span></div><div class="s">App Store satış + yorum. Play kısmi.</div></div>
-          <div class="card"><div class="k">RevenueCat'te</div><div class="v">${rcli.length}</div><div class="s">${rcli.map(a => a.ad).join(", ") || "—"}</div></div>
+          <div class="card"><div class="k">RevenueCat'te</div><div class="v">${rcli.length}</div><div class="s">${rcli.map(a => a.ad).join(", ") || "·"}</div></div>
           <div class="card"><div class="k">AdMob geliri</div><div class="v">${admobli.length}</div><div class="s">uygulama · panelde görünmüyor</div></div>
           <div class="card"><div class="k">Kullanım verisi yok</div><div class="v ${olcumsuz.length ? "down" : ""}">${olcumsuz.length}<span style="font-size:14px;color:var(--faint)"> / ${canli.length}</span></div><div class="s">yayındaki uygulamada analitik yok</div></div>
         </div>
@@ -1681,13 +1748,13 @@
         <section>
           <h3>Ölçüm boşlukları</h3>
           <div class="panel"><ul class="notes">
-            <li><strong>Google Play indirme, gelir ve yorum geçmişi</strong> — servis hesabının hesap geneli yetkisi yok (403). Play Console → Kullanıcılar ve izinler → servis hesabı → <em>Uygulama bilgilerini görüntüle ve toplu raporları indir</em> + <em>Finansal verileri görüntüle</em>. Açılınca <code>collect.mjs</code> kendiliğinden çeker.</li>
-            <li><strong>AdMob</strong> — ${admobli.length} uygulamanın reklam geliri hiçbir raporda yok. Ayda bir apps.admob.com; 100 $ ödeme eşiğine ne kadar kaldığını not et.</li>
-            <li><strong>RevenueCat</strong> — abonelik dönüşümü yalnız orada. Panel satış raporunu görüyor, deneme başlangıçlarını görmüyor. RC'nin <em>Charts → Active Trials</em> ve <em>Trial Conversion</em> haftalık bakılacak iki grafik.</li>
-            <li><strong>Kullanım verisi</strong> — ${olcumsuz.length ? olcumsuz.map(a => a.ad).join(", ") : "—"}: ne kadar açıldığı, hangi ekranda bırakıldığı bilinmiyor. Geliştirme durduğu için şimdilik ekleme yok; bir sürüm gönderilirken Firebase Analytics'i o sürüme koy.</li>
-            <li><strong>Site trafiği</strong> — tanıtım sayfası → mağaza tıklaması ölçülmüyor. GoatCounter ücretsiz ve çerezsiz, tek script satırı.</li>
-            <li><strong>App Store gösterim → indirme hunisi</strong> — <code>ascelerate reports analytics</code> talebi açıldı (1 Eyl), panele bağlanmadı. Hangi ekran görüntüsünün işe yaradığı ancak bununla görülür.</li>
-            <li><strong>Daily Whisper iOS</strong> — başka geliştirici hesabında, buradan ölçülemiyor.</li>
+            <li><strong>Google Play indirme, gelir ve yorum geçmişi</strong>, servis hesabının hesap geneli yetkisi yok (403). Play Console → Kullanıcılar ve izinler → servis hesabı → <em>Uygulama bilgilerini görüntüle ve toplu raporları indir</em> + <em>Finansal verileri görüntüle</em>. Açılınca <code>collect.mjs</code> kendiliğinden çeker.</li>
+            <li><strong>AdMob</strong>, ${admobli.length} uygulamanın reklam geliri hiçbir raporda yok. Ayda bir apps.admob.com; 100 $ ödeme eşiğine ne kadar kaldığını not et.</li>
+            <li><strong>RevenueCat</strong>, abonelik dönüşümü yalnız orada. Panel satış raporunu görüyor, deneme başlangıçlarını görmüyor. RC'nin <em>Charts → Active Trials</em> ve <em>Trial Conversion</em> haftalık bakılacak iki grafik.</li>
+            <li><strong>Kullanım verisi</strong>, ${olcumsuz.length ? olcumsuz.map(a => a.ad).join(", ") : "·"}: ne kadar açıldığı, hangi ekranda bırakıldığı bilinmiyor. Geliştirme durduğu için şimdilik ekleme yok; bir sürüm gönderilirken Firebase Analytics'i o sürüme koy.</li>
+            <li><strong>Site trafiği</strong>, tanıtım sayfası → mağaza tıklaması ölçülmüyor. GoatCounter ücretsiz ve çerezsiz, tek script satırı.</li>
+            <li><strong>App Store gösterim → indirme hunisi</strong>, <code>ascelerate reports analytics</code> talebi açıldı (1 Eyl), panele bağlanmadı. Hangi ekran görüntüsünün işe yaradığı ancak bununla görülür.</li>
+            <li><strong>Daily Whisper iOS</strong>, başka geliştirici hesabında, buradan ölçülemiyor.</li>
           </ul></div>
         </section>`;
     }
@@ -1708,7 +1775,7 @@
               ${y.cevap ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}${y.cevap.bekliyor ? " · yayın bekliyor" : ""}</b>${esc(y.cevap.metin)}</div>` : '<div class="y-bekliyor">cevap bekliyor</div>'}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan yorum yok.</div>'}</div>
         </section>
-        ${D.apps.some(a => a.android) && !D.androidVeriVar ? `<section><div class="panel"><ul class="notes"><li>Google Play yorumları burada yok — API yalnız son 7 günü veriyor, geçmiş toplu raporlarda; servis hesabı yetkisi açılınca düşer.</li></ul></div></section>` : ""}`;
+        ${D.apps.some(a => a.android) && !D.androidVeriVar ? `<section><div class="panel"><ul class="notes"><li>Google Play yorumları burada yok, API yalnız son 7 günü veriyor, geçmiş toplu raporlarda; servis hesabı yetkisi açılınca düşer.</li></ul></div></section>` : ""}`;
     }
 
     /* ── Sekme: görevler ─────────────────────────────────────── */
@@ -1729,11 +1796,11 @@
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
             <div class="seg" style="width:300px">${suzgecler.map(f => `<button data-gorev="${f.v}" aria-pressed="${S.gorevSuzgec === f.v}">${f.e}</button>`).join("")}</div>
             <div class="seg" style="width:470px">${ETIKET_SEG.map(f => `<button data-gorevet="${f.v}" aria-pressed="${S.gorevEtiket === f.v}">${f.e}</button>`).join("")}</div>
-            ${vaultKomut ? `<span style="margin-left:auto">${kopyaDugme(vaultKomut, `Vault'a yaz (${yerelIdler.length}) — komutu kopyala`, "buyuk")}</span>` : ""}
+            ${vaultKomut ? `<span style="margin-left:auto">${kopyaDugme(vaultKomut, `Vault'a yaz (${yerelIdler.length}), komutu kopyala`, "buyuk")}</span>` : ""}
           </div>
-          ${vaultKomut ? `<div class="bilgi-kutu">${yerelIdler.length} görev bu tarayıcıda işaretli ama vault'ta hâlâ açık. "Vault'a yaz" komutu notlarda <code>[x] … ✅ tarih</code> yapar, paneli yeniler ve vault'u push eder.</div>` : ""}
+          ${vaultKomut ? `<div class="bilgi-kutu">${yerelIdler.length} görev bu tarayıcıda işaretli ama vault'ta hala açık. "Vault'a yaz" komutu notlarda <code>[x] … ✅ tarih</code> yapar, paneli yeniler ve vault'u push eder.</div>` : ""}
           <div class="panel">${dolu.length ? dolu.map(gr => `
-            <div class="gorev-grup"><h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span>${(() => { const ac = gr.gorevler.filter(g => !g.bitti); if (!ac.length) return ""; const a = D.apps.find(x => x.slug === gr.slug); const m = a ? komut(a, ac.map(g => ({ ne: md(g.yazi) })), `${a.ad} — vault'taki açık görevler`) : `Görevler (vault: ~/dev/vault/konular/${gr.ad}.md — önce bunu oku):\n${ac.map((g, i) => `${i + 1}. ${g.yazi}`).join("\n")}\n\n${KURALLAR}`; return `<span class="h3-sag">${kopyaDugme(m)}</span>`; })()}</h4>
+            <div class="gorev-grup"><h4>${esc(gr.ad)}<span class="say">${gr.gorevler.length}</span>${(() => { const ac = gr.gorevler.filter(g => !g.bitti); if (!ac.length) return ""; const a = D.apps.find(x => x.slug === gr.slug); const m = a ? komut(a, ac.map(g => ({ ne: md(g.yazi) })), `${a.ad}, vault'taki açık görevler`) : `Görevler (vault: ~/dev/vault/konular/${gr.ad}.md, önce bunu oku):\n${ac.map((g, i) => `${i + 1}. ${g.yazi}`).join("\n")}\n\n${KURALLAR}`; return `<span class="h3-sag">${kopyaDugme(m)}</span>`; })()}</h4>
               ${gr.gorevler.map(g => { const d = gorevDurum(gr.slug, g); return `<label class="gorev ${g.bitti ? "bitti" : ""} ${d.yerel ? "yerel" : ""}"><input type="checkbox" data-gorevid="${esc(d.id)}" ${g.bitti || d.yerel ? "checked" : ""} ${g.bitti ? "disabled" : ""} /><span class="yazi">${md(g.yazi)}${(g.etiket || []).map(e => `<span class="et ${esc(e)}">${esc(e)}</span>`).join("")}${g.tarih ? `<span class="tarih">✅ ${esc(g.tarih)}</span>` : ""}${g.bolum ? `<div class="bolum">${esc(g.bolum)}</div>` : ""}</span></label>`; }).join("")}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan görev yok.</div>'}</div>
         </section>
@@ -1747,11 +1814,11 @@
       const m = maliyet(30);
       return `
         <section><h3>Kaynaklar</h3><div class="panel">${D.kaynaklar.map(k => `
-          <div class="kaynak"><span class="k-isik k-${esc(k.durum)}"></span><div style="min-width:0"><div class="ad">${esc(k.ad)}</div><div class="arac">${esc(k.arac)}</div><div class="not">${esc(k.not)}</div></div><div class="son">${k.son ? tarihYazi(k.son) : "—"}</div></div>`).join("")}</div></section>
+          <div class="kaynak"><span class="k-isik k-${esc(k.durum)}"></span><div style="min-width:0"><div class="ad">${esc(k.ad)}</div><div class="arac">${esc(k.arac)}</div><div class="not">${esc(k.not)}</div></div><div class="son">${k.son ? tarihYazi(k.son) : "·"}</div></div>`).join("")}</div></section>
         <div class="ikili">
           <section><h3>Kapsam</h3><div class="panel"><dl class="kv">
             <div><dt>Veri aralığı</dt><dd>${esc(D.gunler[0])} → ${esc(D.gunler.at(-1))} (${D.gunler.length} gün)</dd></div>
-            <div><dt>Son iOS raporu</dt><dd>${esc(sonIos || "—")}</dd></div>
+            <div><dt>Son iOS raporu</dt><dd>${esc(sonIos || "·")}</dd></div>
             <div><dt>Raporsuz gün</dt><dd>${D.iosVeriYok.filter(Boolean).length}</dd></div>
             <div><dt>Uygulama</dt><dd>${D.apps.length} · ${D.apps.filter(a => a.ios).length} iOS, ${D.apps.filter(a => a.android).length} Play · ${D.apps.filter(a => a.profil).length} profilli</dd></div>
             <div><dt>Çekim</dt><dd>${new Date(D.uretim).toLocaleString("tr-TR")}</dd></div>
@@ -1765,7 +1832,7 @@
           <h3 style="margin-top:16px">Eksikler</h3><div class="panel">${D.notlar?.length ? `<ul class="notes">${D.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : '<div class="bos">Eksik yok.</div>'}</div></section>
         </div>
         <section><div class="panel"><ul class="notes">
-          <li><strong>Yenile</strong> (sol alt): GitHub Actions token'ı yoksa şu komutu kopyalar, terminale yapıştır: <code>${esc(YENILE_KOMUT)}</code>. Apple + Play + Firebase + vault + şifreleme + push; 3–5 dakika.</li>
+          <li><strong>Yenile</strong> (sol alt): GitHub Actions token'ı yoksa şu komutu kopyalar, terminale yapıştır: <code>${esc(YENILE_KOMUT)}</code>. Apple + Play + Firebase + vault + şifreleme + push; 3-5 dakika.</li>
           <li><strong>Her sabah 07:00</strong> Mac'teki zamanlanmış görev <code>scripts/lab/gunluk.sh</code>'ı çalıştırır (App Store API, Play kovası, GA4, Firestore telemetrisi, Cloudflare, şifreleme, push). Sayfa statik; Mac kapalıysa o gün veri gelmez, elle: <code>sh scripts/lab/gunluk.sh</code>.</li>
           <li><strong>App Store</strong> hesapları <code>~/.ascelerate/config.aberk.json</code> (Berk) ve <code>config.page.json</code> (Elif) ile doğrudan okunur; etkin <code>config.json</code> hangi hesaba dönük olursa olsun panel etkilenmez. Hata yüzünden boş kalan gün her çalıştırmada yeniden denenir.</li>
           <li>Elle yenilemek: <code>node scripts/lab/collect.mjs --days 45</code> → <code>node scripts/lab/build.mjs</code> → commit + push. Ham veri vault'ta (private), buraya yalnız şifreli özet gider.</li>
@@ -1775,13 +1842,23 @@
 
     /* ── Çizim ───────────────────────────────────────────────── */
     function anaCiz() {
+      if (S.app === SITE) {
+        S.sekme = "site";
+        $("#ana").innerHTML = `
+          <div class="sekmeler"><button data-sekme="site" aria-pressed="true">Site</button><button data-app="">← Tüm uygulamalar</button></div>
+          <div class="baslik"><h2>bamstudio.dev</h2><span class="alt">Cloudflare Web Analytics · bülten · anket · indirim kodları</span></div>
+          ${siteCiz()}`;
+        return;
+      }
+      if (S.sekme === "site") S.sekme = "ozet";
       const { bas, son } = pencere();
       const secim = secApp();
       const platEt = S.platform === "ios" ? "App Store" : S.platform === "and" ? "Google Play" : "iki mağaza";
       const cevapsizSay = tumYorumlar().filter(y => !y.cevap).length;
       const acikGorev = tumGorevler().reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
       const SEKMELER = [
-        { v: "ozet", e: "Özet" },
+        { v: "ozet", e: "Genel bakış" },
+        { v: "canli", e: "Canlı", say: CANLI.veri ? (canliSay(secim ? [secim.slug] : null).toplam || "") : "", canli: true },
         { v: "kitle", e: "Kitle" },
         { v: "portfoy", e: secim ? "Uygulama" : "Uygulamalar" },
         { v: "finans", e: "Finans" },
@@ -1791,23 +1868,26 @@
         { v: "gorev", e: "Görevler", say: acikGorev || "" },
         { v: "veri", e: "Veri", say: D.notlar?.length || "" }
       ];
-      const govde = ({ kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
-      const altYazi = ["ozet", "kitle", "portfoy", "pazarlama", "finans"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
+      const govde = ({ canli: canliCiz, kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
+      const altYazi = S.sekme === "canli" ? "anlık, Firestore telemetrisi" : ["ozet", "kitle", "portfoy", "pazarlama", "finans"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
       $("#ana").innerHTML = `
-        <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
-        <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:34px;height:34px;border-radius:9px;font-size:18px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2);border:1px solid var(--border)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
+        <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : t.canli ? "canli" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
+        <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:28px;height:28px;border-radius:7px;font-size:16px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
         ${govde}`;
     }
     function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
+    document.addEventListener("toggle", e => { if (e.target.matches?.("[data-uyaridetay]")) S.uyariAcik = e.target.open; }, true);
     document.addEventListener("change", e => {
       const c = e.target.closest("[data-gorevid]"); if (!c) return;
       if (c.checked) YEREL[c.dataset.gorevid] = true; else delete YEREL[c.dataset.gorevid];
       yaz(GOREV_KEY, YEREL); ciz();
     });
     document.addEventListener("click", e => {
+      if (e.target.closest("a[target='_blank']")) return;
       if (e.target.closest("a[href^='http'], a[href^='/']") && !e.target.closest("[data-app]")) return;
+      if (e.target.closest("[data-canliyenile]")) { e.preventDefault(); canliCek(true); return; }
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
       const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-gorevet],[data-renk],[data-ulkem]");
@@ -1830,25 +1910,25 @@
         const yeni = d.app || null;
         /* Menüde aynısına basınca seçim kalkar; tablo/kart satırında seçer. */
         S.app = (b.closest("#yigUyg") && S.app === yeni) ? null : yeni;
-        if (b.closest(".uyg-satir, tr, .adim, .uk")) S.sekme = "portfoy";
+        if (S.app && S.app !== SITE && b.closest(".uyg-satir, tr, .adim") && S.sekme !== "canli") S.sekme = "portfoy";
         if (S.app) window.scrollTo({ top: 0 });
       }
       ciz();
     });
     /* Yenile: şifreli pakette Actions token'ı varsa workflow_dispatch tetikler.
-       Sonuç 3–5 dakika sonra data.enc.json'a düşer; sayfa yeniden açılır. */
+       Sonuç 3-5 dakika sonra data.enc.json'a düşer; sayfa yeniden açılır. */
     const YENILE_KOMUT = "cd ~/dev/web-githubpages/berkalparslan.github.io && sh scripts/lab/gunluk.sh";
     $("#yenile").onclick = async () => {
       const y = D?.yenile;
       /* Actions token'ı yoksa (GitHub kilitli): Mac'te çalıştırılacak komutu kopyala.
-         collect + ga4 + build + push; 3–5 dakika sürer, sonra sayfayı yenile. */
-      if (!y) { await kopyala(YENILE_KOMUT); toast("Komut kopyalandı — terminale yapıştır, bitince sayfayı yenile"); return; }
+         collect + ga4 + build + push; 3-5 dakika sürer, sonra sayfayı yenile. */
+      if (!y) { await kopyala(YENILE_KOMUT); toast("Komut kopyalandı, terminale yapıştır, bitince sayfayı yenile"); return; }
       const b = $("#yenile"); b.disabled = true; b.textContent = "tetikleniyor…";
       try {
         const r = await fetch(`https://api.github.com/repos/${y.repo}/actions/workflows/${y.workflow}/dispatches`, {
           method: "POST", headers: { Authorization: `Bearer ${y.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
           body: JSON.stringify({ ref: "main" }) });
-        if (r.status === 204) { toast("Çekim başladı — 3–5 dk sonra sayfayı yenile"); b.textContent = "başladı"; }
+        if (r.status === 204) { toast("Çekim başladı, 3-5 dk sonra sayfayı yenile"); b.textContent = "başladı"; }
         else { toast(`GitHub ${r.status}: token yetkisi?`); b.textContent = "yenile"; b.disabled = false; }
       } catch (e) { toast("Ağ hatası"); b.textContent = "yenile"; b.disabled = false; }
     };
@@ -1876,16 +1956,21 @@
       for (const a of D.apps) for (const g of a.vault?.gorevler || []) if (g.bitti) delete YEREL[`${a.slug}|${kimlik(g.yazi)}`];
       for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
       yaz(GOREV_KEY, YEREL);
-      if (S.app && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (S.app && S.app !== SITE && !D.apps.some(a => a.slug === S.app)) S.app = null;
+      if (!["ozet", "canli", "site", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz();
+      if (D.canli?.url && !CANLI.zamanlayici) {
+        canliCek(true);
+        CANLI.zamanlayici = setInterval(() => canliCek(false), 30000);
+        document.addEventListener("visibilitychange", () => { if (!document.hidden) canliCek(false); });
+      }
     }
     $("#form").addEventListener("submit", async e => {
       e.preventDefault();
       const pw = $("#pw").value; if (!pw) return;
       $("#go").disabled = true; $("#err").textContent = "";
       try { await ac(pw); }
-      catch (err) { $("#err").textContent = err.message === "veri-yok" ? "data.enc.json bulunamadı — build.mjs çalıştırıldı mı?" : "Parola yanlış."; $("#pw").select(); }
+      catch (err) { $("#err").textContent = err.message === "veri-yok" ? "data.enc.json bulunamadı, build.mjs çalıştırıldı mı?" : "Parola yanlış."; $("#pw").select(); }
       finally { $("#go").disabled = false; }
     });
     (async () => {
