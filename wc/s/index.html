@@ -7,94 +7,395 @@
 <meta name="referrer" content="no-referrer">
 <title>Wallet Coach</title>
 <link rel="icon" href="/walletcoach/assets/icon-512.png">
+<link rel="apple-touch-icon" href="/walletcoach/assets/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#eef4fb; --card:#fff; --text:#14141a; --sub:#5f6270; --line:#e3e7ef; --accent:#2b8ce8; --mint:#12a37f; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0b0d12; --card:#151821; --text:#f2f2f6; --sub:#a0a4b2; --line:#242836; --accent:#5aa8ff; --mint:#34d3a0; } }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
-  main { max-width: 560px; margin: 0 auto; padding: 20px 16px 48px; display: grid; gap: 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
-  .head { display: flex; gap: 14px; align-items: center; }
-  .head img { width: 56px; height: 56px; border-radius: 14px; }
-  h1 { font-size: 22px; line-height: 1.2; }
-  .sub { color: var(--sub); font-size: 14px; }
-  .btn { display: block; text-align: center; padding: 14px; border-radius: 999px; font-weight: 600; text-decoration: none; }
-  .btn.main { background: var(--accent); color: #fff; }
-  .btn.alt { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
-  .total { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
-  .total b { font-size: 24px; color: var(--accent); }
-  .row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .row:last-child { border-bottom: 0; }
-  .row .t { font-weight: 600; font-size: 15px; }
-  .row .d { color: var(--sub); font-size: 13px; }
-  .row .a { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .stores { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  footer { text-align: center; color: var(--sub); font-size: 12px; }
-  .hidden { display: none; }
+/* Slush line, as on /walletcoach/: black outlines, pastel bands, Anton
+   headings, no shadows. Dark mode swaps paper and ink, keeps the pastels. */
+:root {
+  color-scheme: light;
+  --ink: #000; --paper: #fff; --soft: #555; --wash: #fafafa;
+  --app: #ffb3d9; --blue: #4da2ff; --mint: #55db9c; --lav: #e9ccff; --sun: #ffd731; --violet: #5c4ade;
+  --hero: color-mix(in srgb, var(--app) 55%, #fff);
+  --disp: "Anton", "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --line: 1.5px solid var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; --ink: #f2f2f2; --paper: #121214; --soft: #b4b4bc; --wash: #19191c; --hero: color-mix(in srgb, var(--app) 26%, #121214); }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); font-weight: 500; font-size: 16px; line-height: 1.5; letter-spacing: -.01em; background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+.hidden { display: none !important; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+.disp { font-family: var(--disp); font-weight: 400; text-transform: uppercase; line-height: .9; letter-spacing: -.005em; }
+
+.marquee { background: var(--ink); color: var(--paper); overflow: hidden; white-space: nowrap; }
+.mq { display: inline-flex; gap: 28px; padding: 8px 0; animation: slide 40s linear infinite; }
+.mq span { font-weight: 700; font-size: 12px; letter-spacing: .032em; text-transform: uppercase; }
+@keyframes slide { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .mq, .sticker { animation: none !important; } }
+
+.bar { display: flex; align-items: center; gap: 8px; padding: 12px 0; }
+.logo { width: 42px; height: 42px; border: var(--line); border-radius: 50%; background: var(--paper); display: grid; place-items: center; font-family: var(--disp); font-size: 24px; flex: none; }
+.brand { font-weight: 700; font-size: 13px; letter-spacing: .03em; }
+.langs { margin-left: auto; display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+.langs button { font: inherit; font-weight: 700; font-size: 11px; letter-spacing: .03em; color: var(--ink); background: var(--paper); border: var(--line); border-radius: 999px; padding: 5px 8px; cursor: pointer; }
+.langs button.on { background: var(--ink); color: var(--paper); }
+
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: var(--line); border-radius: 999px; background: var(--paper); padding: 14px 22px; font-weight: 700; font-size: 15px; letter-spacing: .02em; white-space: nowrap; transition: transform .15s; }
+.pill:hover { transform: translateY(-2px) rotate(-1deg); }
+.pill.dark { background: var(--ink); color: var(--paper); }
+.pill svg { width: 16px; height: 16px; fill: currentColor; }
+
+.hero { background: var(--hero); border-bottom: var(--line); padding: 26px 0 30px; text-align: center; }
+.sticker { width: 92px; height: 92px; margin: 0 auto; border: 2px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-size: 46px; line-height: 1; background: var(--sun); transform: rotate(-6deg); animation: bob 4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: rotate(4deg) translateY(-6px); } }
+.kick { margin-top: 18px; font-weight: 700; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; align-items: center; }
+.tag { border: var(--line); border-radius: 999px; padding: 3px 10px; background: var(--paper); }
+.hero h1 { font-size: clamp(44px, 13vw, 84px); margin-top: 12px; overflow-wrap: anywhere; }
+.hero .upd { margin-top: 10px; font-size: 14px; color: var(--soft); font-weight: 700; }
+.hero .pill { margin-top: 20px; }
+.hero .hint { margin-top: 10px; font-size: 13px; color: var(--soft); }
+
+.listing { padding: 26px 0 8px; }
+.box { border: var(--line); border-radius: 26px; background: var(--paper); overflow: hidden; }
+.sum { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; background: var(--mint); color: #000; border-bottom: var(--line); flex-wrap: wrap; }
+.sum span { font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+.sum b { font-family: var(--disp); font-weight: 400; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.sum .side { font-size: 13px; font-weight: 700; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); }
+.row:last-child { border-bottom: 0; }
+.row .t { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
+.row .d { color: var(--soft); font-size: 13px; }
+.row .a { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.row.off .t, .row.off .a { opacity: .45; text-decoration: line-through; }
+.st { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 1px 7px; margin-left: 6px; vertical-align: 2px; }
+.empty { padding: 18px; color: var(--soft); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 6px; padding: 16px 18px; }
+.tiles i { font-style: normal; border: 1.5px solid var(--ink); border-radius: 12px; padding: 8px 2px; text-align: center; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tiles i.done { background: var(--sun); color: #000; }
+.meter { height: 12px; border: var(--line); border-radius: 999px; overflow: hidden; margin: 0 18px 4px; background: var(--wash); }
+.meter b { display: block; height: 100%; background: var(--violet); }
+
+section.how { padding: 34px 0 10px; }
+.how h2, .get h2 { font-size: clamp(36px, 10vw, 56px); line-height: .98; }
+.cards { display: grid; gap: 12px; margin-top: 18px; }
+.card { border: 2px solid var(--ink); border-radius: 26px; padding: 18px 20px; background: var(--c); color: #000; transform: rotate(var(--r)); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+.card:hover { transform: rotate(0) scale(1.02); }
+.card h3 { font-family: var(--disp); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: .95; display: flex; gap: 10px; align-items: center; }
+.card h3 em { font-style: normal; font-size: 24px; }
+.card p { margin-top: 8px; font-size: 15px; }
+
+section.get { margin-top: 30px; padding: 34px 0; background: var(--sun); color: #000; border-top: var(--line); border-bottom: var(--line); --ink: #000; --paper: #fff; }
+.get p { margin: 12px 0 18px; font-size: 16px; max-width: 46ch; }
+.stores { display: flex; gap: 8px; flex-wrap: wrap; }
+.stores .pill { background: #000; color: #fff; border-color: #000; }
+
+footer { padding: 22px 0 36px; color: var(--soft); font-size: 13px; }
+footer .priv { margin-bottom: 10px; color: var(--ink); }
+.missing { padding: 30px 0 10px; }
+@media (max-width: 420px) { .langs button { padding: 4px 7px; font-size: 10px; } .brand { display: none; } }
 </style>
 </head>
 <body>
-<main>
-  <div class="card head">
-    <img src="/walletcoach/assets/icon-512.png" alt="">
-    <div><h1 id="title">…</h1><div class="sub" id="kind"></div><div class="sub" id="updated"></div></div>
+<div class="marquee" aria-hidden="true"><div class="mq" id="mq"></div></div>
+
+<div class="wrap bar">
+  <a class="logo" href="/" aria-label="Bam Studio">b</a>
+  <span class="brand">Bam Studio</span>
+  <div class="langs" id="langs" role="group" aria-label="Language"></div>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="sticker" id="icon" aria-hidden="true">💸</div>
+    <p class="kick"><span class="tag hidden" id="kind"></span><span id="sharedWith"></span></p>
+    <h1 class="disp" id="title">…</h1>
+    <p class="upd" id="updated"></p>
+    <a class="pill dark" id="open" href="#"></a>
+    <p class="hint" id="openHint"></p>
   </div>
-  <a class="btn main" id="open" href="#">Uygulamada aç</a>
-  <div class="card" id="list"></div>
-  <div class="card">
-    <p class="sub" id="pitch" style="margin-bottom:12px"></p>
+</section>
+
+<main class="wrap">
+  <div class="listing" id="listing"><div class="box" id="list"><p class="empty" id="loading"></p></div></div>
+
+  <section class="how" id="how">
+    <h2 class="disp" id="howTitle"></h2>
+    <div class="cards">
+      <div class="card" style="--c:var(--blue);--r:-1deg"><h3><em>👀</em><span id="c1t"></span></h3><p id="c1p"></p></div>
+      <div class="card" style="--c:var(--mint);--r:1deg"><h3><em>📥</em><span id="c2t"></span></h3><p id="c2p"></p></div>
+      <div class="card" id="c3" style="--c:var(--lav);--r:-.6deg"><h3><em>✍️</em><span id="c3t"></span></h3><p id="c3p"></p></div>
+    </div>
+  </section>
+</main>
+
+<section class="get">
+  <div class="wrap">
+    <h2 class="disp" id="getTitle"></h2>
+    <p id="getP"></p>
     <div class="stores">
-      <a class="btn alt" href="https://apps.apple.com/app/id6798041415">App Store</a>
-      <a class="btn alt" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach">Google Play</a>
+      <a class="pill" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a>
+      <a class="pill" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a>
     </div>
   </div>
-  <footer>Bam Studio · Wallet Coach</footer>
-</main>
+</section>
+
+<footer class="wrap">
+  <p class="priv" id="priv"></p>
+  <p>Bam Studio · Wallet Coach</p>
+</footer>
+
 <script>
-const tr = (navigator.language || "tr").toLowerCase().startsWith("tr");
-const T = tr ? {
-  open: "Uygulamada aç", pitch: "Wallet Coach ile takip et, kendi uygulamana kopyala ya da ekleme öner. Uygulama yoksa önce indir, sonra bu bağlantıyı yeniden aç.",
-  updated: "Son güncelleme", total: "Toplam", missing: "Bu bağlantı artık çalışmıyor", missingSub: "Sahibi paylaşımı durdurmuş olabilir.",
-  kinds: { project: "Proje", priceLog: "Fiyat takibi", assets: "Varlıklar", savingsPot: "Birikim kabı", board: "Birikim panosu", wishlist: "İstek listesi" },
-  board: (d, n) => `${n} kutunun ${d} tanesi tamam`
-} : {
-  open: "Open in the app", pitch: "Follow it in Wallet Coach, copy it into your own app or suggest an addition. No app yet? Get it, then open this link again.",
-  updated: "Updated", total: "Total", missing: "This link no longer works", missingSub: "Its owner may have stopped sharing it.",
-  kinds: { project: "Project", priceLog: "Price log", assets: "Assets", savingsPot: "Savings pot", board: "Savings board", wishlist: "Wish list" },
-  board: (d, n) => `${d} of ${n} squares done`
+const LANGS = ["tr", "en", "de", "es", "fr", "pt", "ru"];
+const LOCALE = { tr: "tr-TR", en: "en-US", de: "de-DE", es: "es-ES", fr: "fr-FR", pt: "pt-BR", ru: "ru-RU" };
+const I18N = {
+  tr: {
+    open: "Uygulamada aç", openHint: "Wallet Coach yüklüyse doğrudan açılır.", shared: "Wallet Coach ile paylaşıldı",
+    updated: "Son güncelleme", total: "Toplam", spent: "Harcanan", budget: "Bütçe", saved: "Biriken", left: "Kalan", items: n => `${n} kalem`,
+    tilesDone: (d, n) => `${n} kutunun ${d} tanesi tamam`, empty: "Henüz içinde bir şey yok.", loading: "Yükleniyor…",
+    pending: "Bekliyor", bought: "Alındı", skipped: "Vazgeçildi", latest: "Son fiyat",
+    kinds: { project: "Proje", priceLog: "Fiyat takibi", assets: "Varlıklar", savingsPot: "Birikim kabı", board: "Birikim panosu", wishlist: "İstek listesi" },
+    howTitle: "Bununla ne yapabilirsin?",
+    c1t: "Takip et", c1p: "Araçlar > Paylaşılanlar içinde kalır; sahibi ekledikçe senin ekranında da güncellenir.",
+    c2t: "Kopyasını al", c2p: "Kendi uygulamana bir kopya ekle. Artık senindir, istediğin gibi değiştirirsin; sahibinin eklemeleri artık gelmez.",
+    c3t: "Ekleme öner", c3p: "Bir şey eklemeyi öner. Sahibine öneri olarak gider; yalnızca kabul ederse eklenir.",
+    getTitle: "Uygulama sende yok mu?", getP: "Wallet Coach'u yükle, sonra bu bağlantıyı yeniden aç. Paylaşılan liste doğrudan uygulamada açılır.",
+    priv: "Bunu sahibi paylaştı. Paylaşımı istediği an durdurabilir; o zaman bu sayfa da çalışmaz.",
+    missing: "Bu bağlantı çalışmıyor", missingSub: "Sahibi paylaşımı durdurmuş ya da bağlantı eksik kopyalanmış olabilir.",
+    marquee: ["Paylaşılan liste", "Wallet Coach", "Takip et · kopyala · öner"],
+  },
+  en: {
+    open: "Open in the app", openHint: "Opens straight away if Wallet Coach is installed.", shared: "Shared with Wallet Coach",
+    updated: "Last updated", total: "Total", spent: "Spent", budget: "Budget", saved: "Saved", left: "Left", items: n => `${n} items`,
+    tilesDone: (d, n) => `${d} of ${n} squares done`, empty: "Nothing in it yet.", loading: "Loading…",
+    pending: "Waiting", bought: "Bought", skipped: "Skipped", latest: "Latest price",
+    kinds: { project: "Project", priceLog: "Price log", assets: "Assets", savingsPot: "Savings pot", board: "Savings board", wishlist: "Wish list" },
+    howTitle: "What can you do with this?",
+    c1t: "Follow", c1p: "It stays in Tools > Shared and updates on your screen as the owner adds to it.",
+    c2t: "Copy it", c2p: "Add a copy to your own app. It is yours to change; the owner's additions no longer reach it.",
+    c3t: "Suggest an addition", c3p: "Suggest something to add. It goes to the owner as a suggestion and is added only if they accept it.",
+    getTitle: "Don't have the app?", getP: "Install Wallet Coach, then open this link again. The shared list opens right in the app.",
+    priv: "Shared by its owner. They can stop sharing at any time; then this page stops working.",
+    missing: "This link doesn't work", missingSub: "Its owner may have stopped sharing it, or the link was copied only in part.",
+    marquee: ["Shared list", "Wallet Coach", "Follow · copy · suggest"],
+  },
+  de: {
+    open: "In der App öffnen", openHint: "Öffnet sich direkt, wenn Wallet Coach installiert ist.", shared: "Geteilt mit Wallet Coach",
+    updated: "Zuletzt aktualisiert", total: "Summe", spent: "Ausgegeben", budget: "Budget", saved: "Gespart", left: "Offen", items: n => `${n} Einträge`,
+    tilesDone: (d, n) => `${d} von ${n} Feldern erledigt`, empty: "Noch nichts darin.", loading: "Wird geladen…",
+    pending: "Offen", bought: "Gekauft", skipped: "Verzichtet", latest: "Letzter Preis",
+    kinds: { project: "Projekt", priceLog: "Preisbuch", assets: "Vermögen", savingsPot: "Spartopf", board: "Spartafel", wishlist: "Wunschliste" },
+    howTitle: "Was kannst du damit machen?",
+    c1t: "Folgen", c1p: "Es bleibt unter Werkzeuge > Geteilt und aktualisiert sich, wenn der Besitzer etwas hinzufügt.",
+    c2t: "Kopieren", c2p: "Füge eine Kopie in deine eigene App ein. Sie gehört dir und du kannst sie ändern; Ergänzungen des Besitzers kommen nicht mehr an.",
+    c3t: "Ergänzung vorschlagen", c3p: "Schlage etwas vor. Es geht als Vorschlag an den Besitzer und wird nur übernommen, wenn er zustimmt.",
+    getTitle: "Noch keine App?", getP: "Installiere Wallet Coach und öffne diesen Link dann noch einmal. Die geteilte Liste öffnet sich direkt in der App.",
+    priv: "Vom Besitzer geteilt. Er kann das Teilen jederzeit beenden; dann funktioniert diese Seite nicht mehr.",
+    missing: "Dieser Link funktioniert nicht", missingSub: "Der Besitzer teilt es vielleicht nicht mehr, oder der Link wurde nur teilweise kopiert.",
+    marquee: ["Geteilte Liste", "Wallet Coach", "Folgen · kopieren · vorschlagen"],
+  },
+  es: {
+    open: "Abrir en la app", openHint: "Se abre directamente si tienes Wallet Coach.", shared: "Compartido con Wallet Coach",
+    updated: "Actualizado", total: "Total", spent: "Gastado", budget: "Presupuesto", saved: "Ahorrado", left: "Falta", items: n => `${n} elementos`,
+    tilesDone: (d, n) => `${d} de ${n} casillas hechas`, empty: "Todavía no tiene nada.", loading: "Cargando…",
+    pending: "Pendiente", bought: "Comprado", skipped: "Descartado", latest: "Último precio",
+    kinds: { project: "Proyecto", priceLog: "Registro de precios", assets: "Bienes", savingsPot: "Hucha", board: "Tablero de ahorro", wishlist: "Lista de deseos" },
+    howTitle: "¿Qué puedes hacer con esto?",
+    c1t: "Seguir", c1p: "Queda en Herramientas > Compartido y se actualiza en tu pantalla cuando su dueño añade algo.",
+    c2t: "Copiar", c2p: "Añade una copia a tu propia app. Es tuya y puedes cambiarla; lo que añada el dueño ya no le llega.",
+    c3t: "Sugerir algo", c3p: "Sugiere algo para añadir. Le llega al dueño como sugerencia y solo se añade si la acepta.",
+    getTitle: "¿No tienes la app?", getP: "Instala Wallet Coach y vuelve a abrir este enlace. La lista compartida se abre directamente en la app.",
+    priv: "Lo compartió su dueño. Puede dejar de compartirlo cuando quiera; entonces esta página deja de funcionar.",
+    missing: "Este enlace no funciona", missingSub: "Puede que su dueño haya dejado de compartirlo o que el enlace se copiara incompleto.",
+    marquee: ["Lista compartida", "Wallet Coach", "Seguir · copiar · sugerir"],
+  },
+  fr: {
+    open: "Ouvrir dans l'app", openHint: "S'ouvre directement si Wallet Coach est installé.", shared: "Partagé avec Wallet Coach",
+    updated: "Mis à jour", total: "Total", spent: "Dépensé", budget: "Budget", saved: "Épargné", left: "Reste", items: n => `${n} éléments`,
+    tilesDone: (d, n) => `${d} cases sur ${n} faites`, empty: "Rien pour l'instant.", loading: "Chargement…",
+    pending: "En attente", bought: "Acheté", skipped: "Abandonné", latest: "Dernier prix",
+    kinds: { project: "Projet", priceLog: "Suivi des prix", assets: "Patrimoine", savingsPot: "Cagnotte", board: "Tableau d'épargne", wishlist: "Liste d'envies" },
+    howTitle: "Que faire avec ceci ?",
+    c1t: "Suivre", c1p: "Il reste dans Outils > Partagés et se met à jour quand son propriétaire ajoute quelque chose.",
+    c2t: "Copier", c2p: "Ajoute une copie dans ta propre app. Elle est à toi, tu la modifies comme tu veux ; les ajouts du propriétaire n'y arrivent plus.",
+    c3t: "Proposer un ajout", c3p: "Propose quelque chose à ajouter. Ça part au propriétaire comme suggestion, ajouté seulement s'il accepte.",
+    getTitle: "Pas encore l'app ?", getP: "Installe Wallet Coach, puis rouvre ce lien. La liste partagée s'ouvre directement dans l'app.",
+    priv: "Partagé par son propriétaire. Il peut arrêter le partage à tout moment ; cette page ne marchera alors plus.",
+    missing: "Ce lien ne marche pas", missingSub: "Son propriétaire a peut-être arrêté de le partager, ou le lien a été copié en partie.",
+    marquee: ["Liste partagée", "Wallet Coach", "Suivre · copier · proposer"],
+  },
+  pt: {
+    open: "Abrir no app", openHint: "Abre direto se você tiver o Wallet Coach.", shared: "Compartilhado pelo Wallet Coach",
+    updated: "Atualizado", total: "Total", spent: "Gasto", budget: "Orçamento", saved: "Guardado", left: "Falta", items: n => `${n} itens`,
+    tilesDone: (d, n) => `${d} de ${n} quadrados feitos`, empty: "Ainda não tem nada.", loading: "Carregando…",
+    pending: "Pendente", bought: "Comprado", skipped: "Desistiu", latest: "Último preço",
+    kinds: { project: "Projeto", priceLog: "Registro de preços", assets: "Bens", savingsPot: "Cofrinho", board: "Quadro de poupança", wishlist: "Lista de desejos" },
+    howTitle: "O que dá para fazer com isso?",
+    c1t: "Seguir", c1p: "Fica em Ferramentas > Compartilhados e se atualiza na sua tela quando o dono adiciona algo.",
+    c2t: "Copiar", c2p: "Adicione uma cópia ao seu app. Ela é sua para mudar; o que o dono adicionar não chega mais nela.",
+    c3t: "Sugerir algo", c3p: "Sugira algo para adicionar. Vai para o dono como sugestão e só entra se ele aceitar.",
+    getTitle: "Ainda não tem o app?", getP: "Instale o Wallet Coach e abra este link de novo. A lista compartilhada abre direto no app.",
+    priv: "Compartilhado pelo dono. Ele pode parar de compartilhar quando quiser; aí esta página deixa de funcionar.",
+    missing: "Este link não funciona", missingSub: "O dono pode ter parado de compartilhar, ou o link foi copiado pela metade.",
+    marquee: ["Lista compartilhada", "Wallet Coach", "Seguir · copiar · sugerir"],
+  },
+  ru: {
+    open: "Открыть в приложении", openHint: "Откроется сразу, если Wallet Coach установлен.", shared: "Поделились через Wallet Coach",
+    updated: "Обновлено", total: "Итого", spent: "Потрачено", budget: "Бюджет", saved: "Накоплено", left: "Осталось", items: n => `Позиций: ${n}`,
+    tilesDone: (d, n) => `Готово ${d} из ${n}`, empty: "Пока пусто.", loading: "Загрузка…",
+    pending: "Ждёт", bought: "Куплено", skipped: "Отказ", latest: "Последняя цена",
+    kinds: { project: "Проект", priceLog: "Журнал цен", assets: "Активы", savingsPot: "Копилка", board: "Доска накоплений", wishlist: "Список желаний" },
+    howTitle: "Что с этим можно сделать?",
+    c1t: "Следить", c1p: "Остаётся в разделе Инструменты > Общие и обновляется, когда владелец что-то добавляет.",
+    c2t: "Скопировать", c2p: "Добавь копию в своё приложение. Она твоя, меняй как хочешь; добавления владельца в неё больше не попадают.",
+    c3t: "Предложить", c3p: "Предложи, что добавить. Владелец получит это как предложение и добавит, только если согласится.",
+    getTitle: "Нет приложения?", getP: "Установи Wallet Coach и открой эту ссылку ещё раз. Список откроется прямо в приложении.",
+    priv: "Этим поделился владелец. Он может в любой момент прекратить доступ, и тогда эта страница перестанет работать.",
+    missing: "Ссылка не работает", missingSub: "Возможно, владелец перестал делиться или ссылка скопирована не полностью.",
+    marquee: ["Общий список", "Wallet Coach", "Следить · копировать · предлагать"],
+  },
 };
-document.documentElement.lang = tr ? "tr" : "en";
+const ICONS = { project: "🔨", priceLog: "🏷️", assets: "📦", savingsPot: "🐷", board: "🟩", wishlist: "📝" };
+const LANG_KEY = "wc-share-lang";
+
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const id = new URLSearchParams(location.search).get("id") || "";
-$("open").textContent = T.open; $("pitch").textContent = T.pitch;
-$("open").href = "walletcoach://share/" + encodeURIComponent(id);
-const money = (v, sym) => { const n = new Intl.NumberFormat(tr ? "tr-TR" : "en-US", { maximumFractionDigits: 2 }).format(v || 0); return (sym || "") + n; };
-const day = s => s ? new Date(s).toLocaleDateString(tr ? "tr-TR" : "en-US", { day: "numeric", month: "short" }) : "";
-(async () => {
-  if (!/^[A-Za-z0-9]{10,64}$/.test(id)) return missing();
-  const r = await fetch(`https://firestore.googleapis.com/v1/projects/wallet-coach-87336/databases/(default)/documents/shares/${id}`);
-  if (!r.ok) return missing();
-  const f = (await r.json()).fields || {};
-  let p; try { p = JSON.parse(f.payload.stringValue); } catch { return missing(); }
-  document.title = `${p.title} · Wallet Coach`;
-  $("title").textContent = p.title; $("kind").textContent = T.kinds[p.kind] || "";
-  if (f.updatedAt) $("updated").textContent = `${T.updated}: ${day(f.updatedAt.timestampValue)}`;
-  const sym = p.currency;
-  let rows = [];
-  if (p.kind === "project" || p.kind === "priceLog") rows = (p.purchases || []).sort((a, b) => new Date(b.date) - new Date(a.date)).map(x => [x.name, [x.vendor, day(x.date)].filter(Boolean).join(" · "), x.amount]);
-  else if (p.kind === "assets") rows = (p.assets || []).map(x => [x.name, "", x.value]);
-  else if (p.kind === "savingsPot") rows = (p.savingEntries || []).map(x => [x.note || day(x.date), day(x.date), x.quantity]);
-  else if (p.kind === "wishlist") rows = (p.wishes || []).map(x => [x.name, "", x.price]);
-  else if (p.kind === "board" && p.board) rows = [[T.board((p.board.tiles || []).filter(t => t.isDone).length, (p.board.tiles || []).length), "", p.board.target || null]];
-  const total = rows.reduce((s, r) => s + (+r[2] || 0), 0);
-  $("list").innerHTML = (total && p.kind !== "board" ? `<div class="total"><span>${T.total}</span><b>${money(total, sym)}</b></div>` : "") +
-    rows.map(r => `<div class="row"><div><div class="t">${esc(r[0])}</div>${r[1] ? `<div class="d">${esc(r[1])}</div>` : ""}</div>${r[2] != null ? `<div class="a">${money(r[2], sym)}</div>` : ""}</div>`).join("");
-})();
-function missing() {
-  $("title").textContent = T.missing; $("kind").textContent = T.missingSub;
-  $("open").classList.add("hidden"); $("list").classList.add("hidden");
+let lang = null, share = null, payload = null, failed = false;
+
+/* Language: a choice made here wins; otherwise the sharer's language when
+   the viewer's browser lists it, else the viewer's first supported language,
+   else the sharer's. */
+function pickLang(docLang) {
+  let saved = null; try { saved = localStorage.getItem(LANG_KEY); } catch (e) { }
+  if (LANGS.includes(saved)) return saved;
+  const nav = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).slice(0, 2).toLowerCase());
+  if (docLang && LANGS.includes(docLang) && nav.includes(docLang)) return docLang;
+  const viewer = nav.find(l => LANGS.includes(l));
+  return viewer || (LANGS.includes(docLang) ? docLang : "en");
 }
+function setLang(l, remember) {
+  lang = l;
+  if (remember) try { localStorage.setItem(LANG_KEY, l); } catch (e) { }
+  document.documentElement.lang = l;
+  render();
+}
+$("langs").innerHTML = LANGS.map(l => `<button type="button" data-l="${l}">${l.toUpperCase()}</button>`).join("");
+document.querySelectorAll("#langs button").forEach(b => b.onclick = () => setLang(b.dataset.l, true));
+
+const nf = (v, max = 2) => new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: max }).format(+v || 0);
+const money = (v, sym) => (sym || "") + nf(v);
+const day = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleDateString(LOCALE[lang], { day: "numeric", month: "short", year: d.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined }); };
+const row = (t, d, a, cls = "") => `<div class="row ${cls}"><div><div class="t">${t}</div>${d ? `<div class="d">${d}</div>` : ""}</div>${a != null && a !== "" ? `<div class="a">${a}</div>` : ""}</div>`;
+const sumBar = (label, value, side = "") => `<div class="sum"><div><span>${label}</span><br><b>${value}</b></div>${side ? `<div class="side">${side}</div>` : ""}</div>`;
+
+function listHTML(T, p) {
+  const sym = p.currency || "";
+  const pSym = x => x.currency || sym;
+  const qty = x => x.quantity && x.quantity !== 1 ? `${nf(x.quantity, 3)} ${x.unit && x.unit !== "piece" ? x.unit : "×"} · ` : "";
+  switch (p.kind) {
+    case "project": {
+      const ps = (p.purchases || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+      const bought = ps.filter(x => x.priceOnly !== true), spent = bought.reduce((s, x) => s + (+x.amount || 0), 0);
+      const budget = p.project?.budget;
+      return sumBar(T.spent, money(spent, sym), budget ? `${T.budget}: ${money(budget, sym)}<br>${T.left}: ${money(Math.max(0, budget - spent), sym)}` : T.items(ps.length))
+        + (budget ? `<div style="padding-top:12px"><div class="meter"><b style="width:${Math.min(100, spent / budget * 100)}%"></b></div></div>` : "")
+        + (ps.map(x => row(esc(x.name), esc([qty(x) + (x.vendor || ""), day(x.date)].filter(Boolean).join(" · ").replace(/^ · /, "")), money(x.amount, pSym(x)))).join("") || `<p class="empty">${T.empty}</p>`);
+    }
+    case "priceLog": {
+      // Latest price per item, newest first.
+      const latest = new Map();
+      for (const x of (p.purchases || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date))) {
+        const k = String(x.name || "").trim().toLowerCase(); if (!latest.has(k)) latest.set(k, { x, n: 0 }); latest.get(k).n++;
+      }
+      const items = [...latest.values()];
+      return sumBar(T.latest, T.items(items.length))
+        + (items.map(({ x, n }) => row(esc(x.name), esc([qty(x) + (x.vendor || ""), day(x.date), n > 1 ? `×${n}` : ""].filter(Boolean).join(" · ").replace(/^ · /, "")), money(x.amount, pSym(x)))).join("") || `<p class="empty">${T.empty}</p>`);
+    }
+    case "assets": {
+      const as = (p.assets || []).slice().sort((a, b) => (b.value || 0) - (a.value || 0));
+      return sumBar(T.total, money(as.reduce((s, x) => s + (+x.value || 0), 0), sym), T.items(as.length))
+        + (as.map(x => row(esc(x.name), esc(day(x.valuedAt)), money(x.value, sym))).join("") || `<p class="empty">${T.empty}</p>`);
+    }
+    case "savingsPot": {
+      const pot = p.pot || {}, es = (p.savingEntries || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+      const unit = pot.unit === "usd" ? "$" : pot.unit === "gold" ? "gr" : pot.unit === "custom" ? (pot.unitLabel || "") : sym;
+      const fmtQ = v => pot.unit === "money" || pot.unit === "usd" || !pot.unit ? money(v, unit) : `${nf(v, 3)} ${esc(unit)}`;
+      const total = es.reduce((s, x) => s + (+x.quantity || 0), 0);
+      return sumBar(T.saved, fmtQ(total), pot.target ? `${T.left}: ${fmtQ(Math.max(0, pot.target - total))}` : T.items(es.length))
+        + (pot.target ? `<div style="padding-top:12px"><div class="meter"><b style="width:${Math.min(100, total / pot.target * 100)}%"></b></div></div>` : "")
+        + (es.map(x => row(esc(x.note || day(x.date)), esc(x.note ? day(x.date) : ""), fmtQ(x.quantity))).join("") || `<p class="empty">${T.empty}</p>`);
+    }
+    case "board": {
+      const b = p.board || {}, tiles = (b.tiles || []).slice().sort((a, c) => a.id - c.id), done = tiles.filter(t => t.doneAt);
+      const bs = b.isCurrency === false ? "" : (b.symbol || sym), saved = done.reduce((s, t) => s + (+t.amount || 0), 0);
+      return sumBar(T.saved, money(saved, bs), `${T.tilesDone(done.length, tiles.length)}<br>${T.left}: ${money(Math.max(0, (b.target || 0) - saved), bs)}`)
+        + `<div style="padding-top:12px"><div class="meter"><b style="width:${b.target ? Math.min(100, saved / b.target * 100) : 0}%"></b></div></div>`
+        + (tiles.length ? `<div class="tiles">${tiles.map(t => `<i class="${t.doneAt ? "done" : ""}">${nf(t.amount, 0)}</i>`).join("")}</div>` : `<p class="empty">${T.empty}</p>`);
+    }
+    case "wishlist": {
+      const order = { pending: 0, bought: 1, skipped: 2 };
+      const ws = (p.wishes || []).slice().sort((a, b) => (order[a.decision] ?? 0) - (order[b.decision] ?? 0) || new Date(b.createdAt) - new Date(a.createdAt));
+      const pend = ws.filter(x => (x.decision || "pending") === "pending");
+      return sumBar(T.total, money(pend.reduce((s, x) => s + (+x.price || 0), 0), sym), `${T.pending}: ${pend.length}`)
+        + (ws.map(x => { const d = x.decision || "pending";
+          return row(esc(x.name) + (d !== "pending" ? `<span class="st">${d === "bought" ? T.bought : T.skipped}</span>` : ""), "", money(x.price, x.currency || sym), d === "skipped" ? "off" : ""); }).join("") || `<p class="empty">${T.empty}</p>`);
+    }
+  }
+  return `<p class="empty">${T.empty}</p>`;
+}
+
+function render() {
+  const T = I18N[lang];
+  document.querySelectorAll("#langs button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  const mq = [...T.marquee, ...T.marquee, ...T.marquee, ...T.marquee];
+  $("mq").innerHTML = [...mq, ...mq].map(s => `<span>${esc(s)}</span>`).join("");
+  // Headings are set in capitals here, with the language's own rules (i and İ in Turkish).
+  const up = s => String(s).toLocaleUpperCase(LOCALE[lang]);
+  for (const k of ["c1p", "c2p", "c3p", "getP", "priv", "openHint"]) $(k).textContent = T[k];
+  for (const k of ["howTitle", "c1t", "c2t", "c3t", "getTitle"]) $(k).textContent = up(T[k]);
+  $("open").textContent = T.open;
+  $("open").href = "walletcoach://share/" + encodeURIComponent(id);
+  if ($("loading")) $("loading").textContent = T.loading;
+  if (failed) {
+    document.title = "Wallet Coach";
+    $("title").textContent = up(T.missing); $("updated").textContent = T.missingSub;
+    $("kind").classList.add("hidden"); $("sharedWith").textContent = "";
+    $("icon").textContent = "🔗";
+    ["open", "openHint", "listing", "how"].forEach(x => $(x).classList.add("hidden"));
+    $("priv").classList.add("hidden");
+    return;
+  }
+  if (!payload) return;
+  document.title = `${payload.title} · Wallet Coach`;
+  $("icon").textContent = ICONS[payload.kind] || "💸";
+  $("kind").textContent = T.kinds[payload.kind] || payload.kind;
+  $("sharedWith").textContent = T.shared;
+  $("title").textContent = up(payload.title || T.kinds[payload.kind] || "");
+  $("kind").classList.remove("hidden");
+  const upd = share.updatedAt?.timestampValue;
+  $("updated").textContent = upd ? `${T.updated}: ${new Date(upd).toLocaleString(LOCALE[lang], { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}` : "";
+  $("list").innerHTML = listHTML(T, payload);
+  $("c3").classList.toggle("hidden", payload.kind === "board");
+}
+
+(async () => {
+  lang = pickLang(null); render();
+  if (!/^[A-Za-z0-9]{10,64}$/.test(id)) { failed = true; return render(); }
+  try {
+    const r = await fetch(`https://firestore.googleapis.com/v1/projects/wallet-coach-87336/databases/(default)/documents/shares/${id}`);
+    if (!r.ok) throw new Error(r.status);
+    share = (await r.json()).fields || {};
+    payload = JSON.parse(share.payload.stringValue);
+  } catch (e) { failed = true; return render(); }
+  const docLang = String(share.lang?.stringValue || "").slice(0, 2);
+  setLang(pickLang(docLang), false);
+})();
 </script>
 </body>
 </html>

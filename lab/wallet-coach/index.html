@@ -156,6 +156,7 @@ code{font:12px ui-monospace,Menlo,monospace}
     <a data-page="users">Kullanıcılar</a>
     <a data-page="ai">Yapay zeka</a>
     <a data-page="ga4">Analytics</a>
+    <a data-page="rates">Kur ve enflasyon</a>
     <div class="navlabel">YÖNET</div>
     <a data-page="push">Bildirim gönder</a>
     <a data-page="sent">Gönderilenler</a>
@@ -277,6 +278,20 @@ code{font:12px ui-monospace,Menlo,monospace}
       <p class="muted" id="gaMeta"></p>
       <div class="toolbar"><select id="gaPlat"><option value="hepsi">Hepsi</option><option value="ios">iOS</option><option value="android">Android</option></select><span class="muted">Platform filtresi günlük seriler, olaylar ve sürümlere uygulanır.</span></div>
       <div id="gaBody"></div>
+    </section>
+
+    <!-- Rates -->
+    <section data-view="rates" class="hidden">
+      <h1>Kur ve enflasyon</h1>
+      <p class="muted" id="rtMeta">Uygulamanın kullandığı aylık seriler (<code>rates.json</code>).</p>
+      <div id="rtErr"></div>
+      <div class="kpis" id="rtKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Yıllık TÜFE değişimi</h2><div class="cbox"><canvas id="chCpi"></canvas></div></div>
+        <div class="card"><h2>Son 12 ay</h2><div class="tablewrap"><table><thead><tr><th>Ay</th><th class="n">TÜFE</th><th class="n">Aylık</th><th class="n">Yıllık</th><th class="n">Dolar</th><th class="n">Gram altın</th></tr></thead><tbody id="rtRows"></tbody></table></div></div>
+      </div>
+      <div class="card"><h2>Kaynaklar</h2><p class="muted">TÜFE: TCMB EVDS (2025=100 serisi, eski 2003=100 seviyesine bağlandı). Dolar: TCMB EVDS döviz alış aylık ortalama. Gram altın: EVDS Mayıs 2026'ya kadar, sonrası Londra ons x dolar zinciri. Her sabah 07:00 kendiliğinden güncellenir (tools/rates_auto.sh).</p>
+        <p class="muted"><a href="https://wallet-coach-87336.web.app/walletcoach/rates.json" target="_blank" rel="noopener">rates.json</a></p></div>
     </section>
 
     <!-- Push -->
@@ -573,6 +588,7 @@ themeCharts();
 
 // ---------- State ----------
 let articles = [];
+let rateData = null, ratesAt = 0; // Kur ve enflasyon
 let installs = [], stats = [], pushes = [], G = null, gaError = "";
 let evCache = {}, pwLoaded = false, pwLoading = false;
 let FB = null; // Firebase handles, never set in demo mode
@@ -675,6 +691,7 @@ function go(page) {
   currentPage = page;
   history.replaceState(null, "", location.pathname + location.search + "#" + page);
   if (page === "revenue") loadJourneys();
+  if (page === "rates") loadRates();
   // Charts drawn while their page was hidden have no size yet.
   const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
   requestAnimationFrame(fit); setTimeout(fit, 120);
@@ -694,6 +711,7 @@ async function refreshAll() {
   evCache = {}; pwLoaded = false;
   try { await loadData(true); } finally { $("refreshTop").disabled = false; }
   if (currentPage === "revenue") loadJourneys();
+  if (currentPage === "rates") loadRates(true);
 }
 async function loadData(withGa) {
   const days = +$("range").value;
@@ -738,7 +756,7 @@ async function loadData(withGa) {
 }
 function renderAll() {
   if (!stats.length) return;
-  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderAI, renderGA4, renderSent, renderJourneys, renderArticles]) {
+  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderAI, renderGA4, renderSent, renderJourneys, renderArticles, renderRates]) {
     try { f(); } catch (e) { console.error(f.name, e); }
   }
 }
@@ -1285,6 +1303,41 @@ function renderSent() {
       <td class="n">${(() => { const o = opensOf(p.id); return `<b>${fmt(o)}</b>${p.hedef?.toplam ? `<div class="muted">${yuzde(o / p.hedef.toplam)}</div>` : ""}`; })()}</td>
       <td>${res.length ? `${res.length} mesaj` : "-"}<div class="muted">${res.map(r => esc(r.condition)).join("<br>")}</div></td></tr>`;
   }).join("") : `<tr><td colspan="8" class="muted">Panelden henüz bildirim gönderilmedi.</td></tr>`;
+}
+
+// ---------- Kur ve enflasyon (public rates.json the app reads) ----------
+const AYLAR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+const ayAd = m => m ? `${AYLAR[+m.slice(5, 7) - 1]} ${m.slice(0, 4)}` : "-";
+const pctS = x => x == null || !isFinite(x) ? "-" : `%${(x * 100).toFixed(2).replace(".", ",")}`;
+const num = (v, d = 2) => v == null ? "-" : (+v).toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d });
+async function loadRates(force) {
+  if (!force && rateData && Date.now() - ratesAt < 10 * 6e4) return renderRates();
+  $("rtErr").innerHTML = ""; $("rtMeta").textContent = "Yükleniyor…";
+  try {
+    const r = await fetch("https://wallet-coach-87336.web.app/walletcoach/rates.json", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    rateData = await r.json(); ratesAt = Date.now();
+  } catch (e) { $("rtMeta").textContent = ""; $("rtErr").innerHTML = `<div class="note err">rates.json okunamadı: ${esc(e.message)}</div>`; return; }
+  renderRates();
+}
+function renderRates() {
+  if (!rateData?.months) return;
+  const ms = rateData.months, byM = Object.fromEntries(ms.map(x => [x.m, x]));
+  const back = (m, n) => { const d = new Date(Date.UTC(+m.slice(0, 4), +m.slice(5, 7) - 1 - n, 1)); return d.toISOString().slice(0, 7); };
+  const chg = (m, n) => { const a = byM[m]?.cpi, b = byM[back(m, n)]?.cpi; return a && b ? a / b - 1 : null; };
+  const L = rateData.latest || {};
+  $("rtMeta").textContent = `Güncellendi: ${rateData.updated || "-"} · kaynak ${rateData.source || "-"} · ${ms.length} ay (${ms[0]?.m} ile ${ms[ms.length - 1]?.m} arası)`;
+  $("rtKpis").innerHTML = [
+    kpiH("TÜFE endeksi", num(L.cpi?.v), `${ayAd(L.cpi?.m)} · yıllık ${pctS(L.cpi ? chg(L.cpi.m, 12) : null)}`),
+    kpiH("Aylık TÜFE", pctS(L.cpi ? chg(L.cpi.m, 1) : null), ayAd(L.cpi?.m)),
+    kpiH("Dolar", `${rateData.currency || "₺"}${num(L.usd?.v, 4)}`, `${ayAd(L.usd?.m)} ortalaması`),
+    kpiH("Gram altın", `${rateData.currency || "₺"}${num(L.gold?.v)}`, ayAd(L.gold?.m)),
+  ].join("");
+  const last = ms.slice(-12).reverse();
+  $("rtRows").innerHTML = last.map(x => `<tr><td>${ayAd(x.m)}</td><td class="n">${num(x.cpi)}</td><td class="n">${x.cpi ? pctS(chg(x.m, 1)) : "-"}</td><td class="n">${x.cpi ? pctS(chg(x.m, 12)) : "-"}</td><td class="n">${num(x.usd, 4)}</td><td class="n">${num(x.gold)}</td></tr>`).join("");
+  const cpiMs = ms.filter(x => x.cpi && byM[back(x.m, 12)]?.cpi).slice(-36);
+  chart("chCpi", "line", cpiMs.map(x => x.m.slice(5) + "." + x.m.slice(2, 4)), [{ label: "Yıllık TÜFE %", data: cpiMs.map(x => +(chg(x.m, 12) * 100).toFixed(2)), borderColor: C[4], backgroundColor: C[4], tension: .3, pointRadius: 2 }],
+    { plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `%${c.raw.toLocaleString("tr-TR")}` } } }, scales: { y: { ticks: { callback: v => "%" + v } } } });
 }
 
 // ---------- Articles (articles/{id}, read by the app's Yazılar list) ----------
