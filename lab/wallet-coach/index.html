@@ -310,7 +310,7 @@ code{font:12px ui-monospace,Menlo,monospace}
     <section data-view="sent" class="hidden">
       <h1>Gönderilenler</h1>
       <p class="muted">Panelden giden bildirimler, en yenisi üstte (son 100).</p>
-      <div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Metin</th><th>Diller</th><th>Kime</th><th>Sekme</th><th>Sonuç</th></tr></thead><tbody id="sentRows"></tbody></table></div>
+      <div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Metin</th><th>Diller</th><th>Kime</th><th>Sekme</th><th class="n">Hedef</th><th class="n">Dokunan</th><th>Sonuç</th></tr></thead><tbody id="sentRows"></tbody></table></div>
     </section>
 
     <!-- Settings -->
@@ -1172,12 +1172,27 @@ function pushDraft() {
   }
   return { metinler, sekme: $("pTab").value || null, yalnizTL: $("pTL").checked, test: $("pTest").checked, bad: [...new Set(bad)] };
 }
+/* Who a draft can reach, from the installs on hand: notifications on, seen in
+   the last 60 days, in one of its languages (and on a lira budget, or a test
+   device). The same filter sendPush records with the broadcast. */
+function reachOf(d) {
+  const since = Date.now() - 60 * 864e5, langs = new Set(Object.keys(d.metinler));
+  const r = installs.filter(i => i.notif === true && (+ts(i.lastSeen) || 0) >= since)
+    .filter(i => d.test ? i.tester === true : langs.has(String(i.language || "").slice(0, 2)))
+    .filter(i => !d.yalnizTL || i.currency === "\u20BA");
+  return { toplam: r.length, ios: r.filter(i => i.platform === "ios").length, android: r.filter(i => i.platform === "android").length };
+}
+function opensOf(id) {
+  const key = "push_open_" + String(id).toLowerCase().replace(/[^a-z0-9]/g, "_").slice(0, 30);
+  return installs.reduce((n, i) => n + (i.ev?.[key] ? 1 : 0), 0);
+}
 function renderPreview() {
   const d = pushDraft();
   const langs = Object.keys(d.metinler), shown = d.test ? langs.slice(0, 1) : langs;
   $("pPreview").innerHTML = (d.bad.length ? `<div class="note err">Uzun tire var (${d.bad.join(", ")}). Virgül ya da nokta kullan; bu haliyle gönderilmez.</div>` : "") +
     (shown.length ? shown.map(l => `<p class="lang" style="margin-top:10px">${PUSH_LANGS[l].toUpperCase()} · ${d.test ? "wc_test" : `wc_lang_${l}${d.yalnizTL ? " ve wc_try" : ""}`}</p>
       <div class="notif"><img src="/assets/lab-icons/wallet-coach-180.png" alt=""><div><div class="app">Wallet Coach · şimdi</div><b>${esc(d.metinler[l].baslik)}</b><p>${esc(d.metinler[l].metin)}</p></div></div>`).join("")
+      + (() => { const r = reachOf(d); return `<p class="muted" style="margin-top:8px"><b>Tahmini ulaşacak: ${fmt(r.toplam)} kişi</b> (iOS ${fmt(r.ios)}, Android ${fmt(r.android)}). Bildirimi açık, son 60 günde girmiş, dili tutan kurulumlar; yeni sürümü kurmamış olanlar sayılmaz.</p>`; })()
       + `<p class="muted">Açınca: ${d.sekme ? TABS[d.sekme] + " sekmesi" : "uygulamanın açık kaldığı yer"}.${d.test && langs.length > 1 ? ` Test açık: yalnız ${PUSH_LANGS[langs[0]]} gider.` : ""}</p>`
       : `<p class="muted">Başlık ve metin yazınca burada görünür. Bir dilin gitmesi için ikisi de dolu olmalı.</p>`);
   $("pSend").textContent = d.test ? "Test cihazlarına gönder" : "Herkese gönder";
@@ -1198,7 +1213,7 @@ $("pSend").onclick = async () => {
   try {
     if (DEMO) { $("pStatus").textContent = "Demo: gönderilmedi. Giden istek bu olurdu:"; $("pResult").innerHTML = `<pre class="res">${esc(JSON.stringify(payload, null, 2))}</pre>`; return; }
     const r = (await FB.Fn.httpsCallable(FB.fns, "sendPush")(payload)).data;
-    $("pStatus").textContent = `Gönderildi: ${r.results?.length || 0} mesaj.`;
+    $("pStatus").textContent = `Gönderildi: ${r.results?.length || 0} mesaj, tahmini ${fmt(r.hedef?.toplam || 0)} kişi.`;
     $("pResult").innerHTML = `<div class="note okn">${(r.results || []).map(x => `${esc(PUSH_LANGS[x.dil] || x.dil)}: <code>${esc(x.condition)}</code>`).join("<br>")}</div>`;
     loadData(false);
   } catch (e) {
@@ -1216,8 +1231,11 @@ function renderSent() {
     const res = p.results || [];
     return `<tr><td>${dtS(p.createdAt)}</td><td class="wrap"><b>${esc(first.baslik || "")}</b><div class="muted">${esc(first.metin || "")}</div></td>
       <td>${Object.keys(m).join(", ")}</td><td>${p.test ? '<span class="pill sky">Test cihazları</span>' : "Herkes"}${p.yalnizTL ? ' <span class="pill pro">Yalnız TL</span>' : ""}</td>
-      <td>${esc(TABS[p.sekme] || p.sekme || "-")}</td><td>${res.length ? `${res.length} mesaj` : "-"}<div class="muted">${res.map(r => esc(r.condition)).join("<br>")}</div></td></tr>`;
-  }).join("") : `<tr><td colspan="6" class="muted">Panelden henüz bildirim gönderilmedi.</td></tr>`;
+      <td>${esc(TABS[p.sekme] || p.sekme || "-")}</td>
+      <td class="n">${p.hedef ? `<b>${fmt(p.hedef.toplam)}</b><div class="muted">iOS ${fmt(p.hedef.ios)} · Android ${fmt(p.hedef.android)}</div>` : "-"}</td>
+      <td class="n">${(() => { const o = opensOf(p.id); return `<b>${fmt(o)}</b>${p.hedef?.toplam ? `<div class="muted">${yuzde(o / p.hedef.toplam)}</div>` : ""}`; })()}</td>
+      <td>${res.length ? `${res.length} mesaj` : "-"}<div class="muted">${res.map(r => esc(r.condition)).join("<br>")}</div></td></tr>`;
+  }).join("") : `<tr><td colspan="8" class="muted">Panelden henüz bildirim gönderilmedi.</td></tr>`;
 }
 
 // ---------- Demo data (never touches Firestore) ----------
