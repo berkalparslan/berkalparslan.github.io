@@ -196,4 +196,8 @@ new, n = re.subn(r"(<!-- katalog:başla -->\n).*?(\s*<!-- katalog:bitti -->)",
                  lambda m: m.group(1) + rows + m.group(2), src, flags=re.S)
 assert n == 1, "katalog işaretleri bulunamadı"
 idx.write_text(new)
+# Arka uç (api/worker.js) mailde uygulama kartlarını bu listeden çizer.
+(ROOT / "api/apps.json").write_text(json.dumps([
+    {k: a.get(k) for k in ("slug", "name", "sub", "icon", "color", "ios", "play", "tour", "status")} | {"tr": a["tr"], "en": a["en"]}
+    for a in APPS], ensure_ascii=False, indent=1))
 print("satır:", len(APPS))

@@ -1,7 +1,9 @@
-// Cloudflare (bamstudio.dev) yayını: reponun kendisi statik site olarak yüklenir.
+// Cloudflare (bamstudio.dev) yayını: reponun kendisi statik site olarak yüklenir,
+// yalnız /api/* arka uca (api/worker.js) düşer.
 // GitHub Pages (berkalparslan.github.io) aynı repodan yayınlanmaya devam eder.
 {
   "name": "bamstudio",
+  "main": "api/worker.js",
   "compatibility_date": "2026-10-01",
   "routes": [
     { "pattern": "bamstudio.dev", "custom_domain": true },
@@ -9,7 +11,13 @@
   ],
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "bamstudio", "database_id": "56030b37-b496-4a0b-bfbc-bb8f14ee51bc" }
+  ],
+  "observability": { "enabled": true }
 }
