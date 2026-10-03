@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Wallet Coach</title>
+<link rel="icon" href="/walletcoach/assets/icon-512.png">
+<style>
+  :root { --bg:#eef4fb; --card:#fff; --text:#14141a; --sub:#5f6270; --line:#e3e7ef; --accent:#2b8ce8; --mint:#12a37f; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b0d12; --card:#151821; --text:#f2f2f6; --sub:#a0a4b2; --line:#242836; --accent:#5aa8ff; --mint:#34d3a0; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
+  main { max-width: 560px; margin: 0 auto; padding: 20px 16px 48px; display: grid; gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+  .head { display: flex; gap: 14px; align-items: center; }
+  .head img { width: 56px; height: 56px; border-radius: 14px; }
+  h1 { font-size: 22px; line-height: 1.2; }
+  .sub { color: var(--sub); font-size: 14px; }
+  .btn { display: block; text-align: center; padding: 14px; border-radius: 999px; font-weight: 600; text-decoration: none; }
+  .btn.main { background: var(--accent); color: #fff; }
+  .btn.alt { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+  .total { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+  .total b { font-size: 24px; color: var(--accent); }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .row:last-child { border-bottom: 0; }
+  .row .t { font-weight: 600; font-size: 15px; }
+  .row .d { color: var(--sub); font-size: 13px; }
+  .row .a { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .stores { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  footer { text-align: center; color: var(--sub); font-size: 12px; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="card head">
+    <img src="/walletcoach/assets/icon-512.png" alt="">
+    <div><h1 id="title">…</h1><div class="sub" id="kind"></div><div class="sub" id="updated"></div></div>
+  </div>
+  <a class="btn main" id="open" href="#">Uygulamada aç</a>
+  <div class="card" id="list"></div>
+  <div class="card">
+    <p class="sub" id="pitch" style="margin-bottom:12px"></p>
+    <div class="stores">
+      <a class="btn alt" href="https://apps.apple.com/app/id6798041415">App Store</a>
+      <a class="btn alt" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach">Google Play</a>
+    </div>
+  </div>
+  <footer>Bam Studio · Wallet Coach</footer>
+</main>
+<script>
+const tr = (navigator.language || "tr").toLowerCase().startsWith("tr");
+const T = tr ? {
+  open: "Uygulamada aç", pitch: "Wallet Coach ile takip et, kendi uygulamana kopyala ya da ekleme öner. Uygulama yoksa önce indir, sonra bu bağlantıyı yeniden aç.",
+  updated: "Son güncelleme", total: "Toplam", missing: "Bu bağlantı artık çalışmıyor", missingSub: "Sahibi paylaşımı durdurmuş olabilir.",
+  kinds: { project: "Proje", priceLog: "Fiyat takibi", assets: "Varlıklar", savingsPot: "Birikim kabı", board: "Birikim panosu", wishlist: "İstek listesi" },
+  board: (d, n) => `${n} kutunun ${d} tanesi tamam`
+} : {
+  open: "Open in the app", pitch: "Follow it in Wallet Coach, copy it into your own app or suggest an addition. No app yet? Get it, then open this link again.",
+  updated: "Updated", total: "Total", missing: "This link no longer works", missingSub: "Its owner may have stopped sharing it.",
+  kinds: { project: "Project", priceLog: "Price log", assets: "Assets", savingsPot: "Savings pot", board: "Savings board", wishlist: "Wish list" },
+  board: (d, n) => `${d} of ${n} squares done`
+};
+document.documentElement.lang = tr ? "tr" : "en";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const id = new URLSearchParams(location.search).get("id") || "";
+$("open").textContent = T.open; $("pitch").textContent = T.pitch;
+$("open").href = "walletcoach://share/" + encodeURIComponent(id);
+const money = (v, sym) => { const n = new Intl.NumberFormat(tr ? "tr-TR" : "en-US", { maximumFractionDigits: 2 }).format(v || 0); return (sym || "") + n; };
+const day = s => s ? new Date(s).toLocaleDateString(tr ? "tr-TR" : "en-US", { day: "numeric", month: "short" }) : "";
+(async () => {
+  if (!/^[A-Za-z0-9]{10,64}$/.test(id)) return missing();
+  const r = await fetch(`https://firestore.googleapis.com/v1/projects/wallet-coach-87336/databases/(default)/documents/shares/${id}`);
+  if (!r.ok) return missing();
+  const f = (await r.json()).fields || {};
+  let p; try { p = JSON.parse(f.payload.stringValue); } catch { return missing(); }
+  document.title = `${p.title} · Wallet Coach`;
+  $("title").textContent = p.title; $("kind").textContent = T.kinds[p.kind] || "";
+  if (f.updatedAt) $("updated").textContent = `${T.updated}: ${day(f.updatedAt.timestampValue)}`;
+  const sym = p.currency;
+  let rows = [];
+  if (p.kind === "project" || p.kind === "priceLog") rows = (p.purchases || []).sort((a, b) => new Date(b.date) - new Date(a.date)).map(x => [x.name, [x.vendor, day(x.date)].filter(Boolean).join(" · "), x.amount]);
+  else if (p.kind === "assets") rows = (p.assets || []).map(x => [x.name, "", x.value]);
+  else if (p.kind === "savingsPot") rows = (p.savingEntries || []).map(x => [x.note || day(x.date), day(x.date), x.quantity]);
+  else if (p.kind === "wishlist") rows = (p.wishes || []).map(x => [x.name, "", x.price]);
+  else if (p.kind === "board" && p.board) rows = [[T.board((p.board.tiles || []).filter(t => t.isDone).length, (p.board.tiles || []).length), "", p.board.target || null]];
+  const total = rows.reduce((s, r) => s + (+r[2] || 0), 0);
+  $("list").innerHTML = (total && p.kind !== "board" ? `<div class="total"><span>${T.total}</span><b>${money(total, sym)}</b></div>` : "") +
+    rows.map(r => `<div class="row"><div><div class="t">${esc(r[0])}</div>${r[1] ? `<div class="d">${esc(r[1])}</div>` : ""}</div>${r[2] != null ? `<div class="a">${money(r[2], sym)}</div>` : ""}</div>`).join("");
+})();
+function missing() {
+  $("title").textContent = T.missing; $("kind").textContent = T.missingSub;
+  $("open").classList.add("hidden"); $("list").classList.add("hidden");
+}
+</script>
+</body>
+</html>
