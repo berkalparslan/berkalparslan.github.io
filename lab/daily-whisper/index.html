@@ -80,6 +80,8 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
 <section id="login" class="card">
   <h1>Daily Whisper</h1>
   <p class="muted">Admin paneli. Firebase'de açtığın admin hesabıyla gir.</p>
+  <p><button id="google" style="width:100%">Google ile giriş</button></p>
+  <p class="muted" style="text-align:center;margin:4px 0">ya da</p>
   <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
   <p><input id="pass" type="password" placeholder="Şifre" autocomplete="current-password"></p>
   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="signin">Giriş</button><button class="ghost" id="forgot">Şifremi unuttum</button></div>
@@ -342,7 +344,7 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, where, orderBy, limit, documentId, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
 
@@ -401,6 +403,11 @@ document.getElementById("addVoice").onclick = () => { voices.push({ name: "", id
 $("signin").onclick = async () => {
   $("loginMsg").textContent = "Giriş yapılıyor…";
   try { await signInWithEmailAndPassword(auth, $("email").value.trim(), $("pass").value); }
+  catch (e) { $("loginMsg").textContent = "Olmadı: " + e.code; }
+};
+$("google").onclick = async () => {
+  $("loginMsg").textContent = "Google açılıyor…";
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
   catch (e) { $("loginMsg").textContent = "Olmadı: " + e.code; }
 };
 $("forgot").onclick = async () => {

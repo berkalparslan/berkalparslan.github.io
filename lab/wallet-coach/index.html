@@ -127,10 +127,13 @@ code{font:12px ui-monospace,Menlo,monospace}
 
 <section id="login" class="card hidden">
   <h1><img src="/assets/lab-icons/wallet-coach-180.png" alt="" onerror="this.remove()">Wallet Coach</h1>
-  <p class="muted">Yönetim paneli. Şifre yok: e-postana giriş bağlantısı gelir, ona dokununca bu sayfa açılır ve girmiş olursun.</p>
+  <p class="muted">Yönetim paneli.</p>
   <div id="loginForm">
+    <p><button id="google" style="width:100%">Google ile giriş</button></p>
+    <p class="muted" style="text-align:center;margin:4px 0">ya da</p>
     <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
-    <p><button id="sendLink">Giriş bağlantısı gönder</button></p>
+    <p><input id="pass" type="password" placeholder="Şifre" autocomplete="current-password"></p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="signin">Giriş</button><button class="ghost" id="forgot">Şifremi unuttum</button><button class="ghost" id="create">Şifreli hesap oluştur</button></div>
   </div>
   <div id="loginMsg" class="muted"></div>
   <p id="loginOut" class="hidden"><button class="ghost" id="signoutLogin">Çıkış yap</button></p>
@@ -551,18 +554,40 @@ function deniedText(email) {
 if (!DEMO) {
   const { auth } = FB, A = FB.A;
   $("email").value = store.get(EMAIL_KEY) || ADMIN;
-  $("sendLink").onclick = async () => {
-    const email = $("email").value.trim();
-    if (!email) { $("loginMsg").textContent = "Önce e-posta adresini yaz."; return; }
-    $("sendLink").disabled = true; $("loginMsg").textContent = "Gönderiliyor…";
-    try {
-      await A.sendSignInLinkToEmail(auth, email, { url: location.origin + location.pathname, handleCodeInApp: true });
-      store.set(EMAIL_KEY, email);
-      $("loginMsg").innerHTML = `<div class="note okn">Bağlantı <b>${esc(email)}</b> adresine gönderildi. Gelen kutunu (ve spam klasörünü) aç, bağlantıya bu tarayıcıda dokun.</div>`;
-    } catch (e) { $("loginMsg").innerHTML = `<div class="note err">Gönderilemedi: ${esc(e.code || e.message)}</div>`; }
-    finally { $("sendLink").disabled = false; }
+  const msg = (html) => { $("loginMsg").innerHTML = html; };
+  const fail = (e) => msg(`<div class="note err">Olmadı: ${esc(e.code || e.message)}</div>`);
+  $("google").onclick = async () => {
+    msg("Google açılıyor…");
+    try { await A.signInWithPopup(auth, new A.GoogleAuthProvider()); }
+    catch (e) {
+      if (e.code === "auth/operation-not-allowed")
+        msg(`<div class="note err">Google girişi bu projede henüz açık değil: Firebase konsolu → Authentication → Sign-in method → Google → Enable.</div>`);
+      else fail(e);
+    }
   };
-  $("email").addEventListener("keydown", e => { if (e.key === "Enter") $("sendLink").click(); });
+  $("signin").onclick = async () => {
+    msg("Giriş yapılıyor…");
+    try { await A.signInWithEmailAndPassword(auth, $("email").value.trim(), $("pass").value); store.set(EMAIL_KEY, $("email").value.trim()); }
+    catch (e) { fail(e); }
+  };
+  $("forgot").onclick = async () => {
+    const email = $("email").value.trim();
+    if (!email) { msg("Önce e-posta adresini yaz."); return; }
+    try { await A.sendPasswordResetEmail(auth, email); msg(`<div class="note okn">Şifre sıfırlama bağlantısı gönderildi.</div>`); }
+    catch (e) { fail(e); }
+  };
+  // The password account is made by its owner, once: only the admin address
+  // reads anything, so a stranger's account opens nothing.
+  $("create").onclick = async () => {
+    const email = $("email").value.trim(), pass = $("pass").value;
+    if (email.toLowerCase() !== ADMIN) { msg(deniedText(email)); return; }
+    if (pass.length < 8) { msg("Şifre en az 8 karakter olsun."); return; }
+    try {
+      const cred = await A.createUserWithEmailAndPassword(auth, email, pass);
+      await A.sendEmailVerification(cred.user);
+    } catch (e) { fail(e); }
+  };
+  $("pass").addEventListener("keydown", e => { if (e.key === "Enter") $("signin").click(); });
   const out = () => A.signOut(auth);
   $("signout").onclick = out; $("signoutLogin").onclick = out;
 
@@ -577,6 +602,12 @@ if (!DEMO) {
   A.onAuthStateChanged(auth, async user => {
     if (!user) { showLogin(); return; }
     if ((user.email || "").toLowerCase() !== ADMIN) { showLogin(deniedText(user.email), true); return; }
+    // The rules want a verified address: Google's always is; a password
+    // account is once its owner has clicked the mail.
+    if (!user.emailVerified) {
+      showLogin(`<div class="note">Şifreli hesap hazır. ${esc(user.email)} adresine gelen doğrulama e-postasındaki bağlantıya bir kez dokun, sonra burada tekrar giriş yap.</div>`, true);
+      return;
+    }
     $("login").classList.add("hidden"); $("app").classList.remove("hidden");
     $("whoami").textContent = `Giriş: ${user.email}`;
     await refreshAll();
