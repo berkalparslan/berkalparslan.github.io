@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site gizlilik politikası / Website privacy · Bam Studio</title>
+<meta name="description" content="Bam Studio sitesinin gizlilik politikası: çerezsiz istatistik, e-posta ve haklar.">
+<link rel="canonical" href="https://bamstudio.dev/privacy/site/">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
+  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Studio</span></a>
+    <nav>
+      <a href="/">Uygulamalar</a>
+      <a href="/privacy/">Gizlilik</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Bu sitenin gizlilik politikası</h1>
+<p class="updated">Son güncelleme: 4 Ekim 2026</p>
+<p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
+<p>Bu sayfa yalnızca <strong>bamstudio.dev</strong> (ve eski adresi berkalparslan.github.io) sitesini kapsar. Her uygulamanın kendi gizlilik politikası <a href="/privacy/">burada</a>.</p>
+<h2>Kısaca</h2>
+<p>Sitede hesap yok, çerez onayı istemiyoruz çünkü çerez kullanmıyoruz. Ziyaret istatistiklerini kişiyi tanımayan, çerezsiz araçlarla tutuyoruz. Verin satılmaz.</p>
+<h2>Ziyaret istatistikleri</h2>
+<ul>
+<li><strong>Cloudflare Web Analytics:</strong> sayfa görüntüleme, ülke, tarayıcı ve sayfa hızı. Çerez kullanmaz, seni ziyaretler arasında tanımaz.</li>
+<li><strong>Umami:</strong> ziyaret süresi, hangi sayfadan çıkıldığı ve App Store, Google Play, QR gibi düğmelere tıklanma sayısı. Çerez kullanmaz, IP adresini saklamaz.</li>
+</ul>
+<h2>E-posta</h2>
+<p>merhaba@bamstudio.dev adresine yazdığında mesajın yalnızca cevap vermek için kullanılır. Bir bülten ya da kampanyaya e-postanı bırakırsan, yalnızca o amaçla saklanır ve her e-postadaki bağlantıyla istediğin an çıkabilirsin.</p>
+<h2>Üçüncü taraf bağlantılar</h2>
+<p>App Store, Google Play ve Buy Me a Coffee bağlantıları kendi sitelerine gider; oradaki veriler onların politikalarına tabidir.</p>
+<h2>Hakların</h2>
+<p>KVKK ve GDPR kapsamındaki talepler için merhaba@bamstudio.dev adresine yaz.</p>
+<hr>
+<h1 id="en">Privacy policy for this website</h1>
+<p class="updated">Last updated: 4 October 2026</p>
+<p>This page covers only the <strong>bamstudio.dev</strong> website (and its old address berkalparslan.github.io). Each app has its own policy <a href="/privacy/">here</a>.</p>
+<h2>In short</h2>
+<p>No accounts, no cookie banner because we use no cookies. Visit statistics come from cookieless tools that do not identify you. Your data is never sold.</p>
+<h2>Visit statistics</h2>
+<ul>
+<li><strong>Cloudflare Web Analytics:</strong> page views, country, browser and page speed. No cookies, no tracking across visits.</li>
+<li><strong>Umami:</strong> visit length, exit pages and clicks on buttons such as App Store, Google Play and QR. No cookies, no stored IP addresses.</li>
+</ul>
+<h2>Email</h2>
+<p>If you write to merhaba@bamstudio.dev, your message is used only to reply. If you leave your email for a newsletter or campaign, it is kept only for that purpose and every email has a link to unsubscribe at any time.</p>
+<h2>Third-party links</h2>
+<p>App Store, Google Play and Buy Me a Coffee links go to their own sites, governed by their own policies.</p>
+<h2>Your rights</h2>
+<p>For GDPR or Turkish KVKK requests, write to merhaba@bamstudio.dev.</p>
+
+</main>
+
+<footer>
+  <p>© 2026 Bam Studio · <a href="/privacy/">Gizlilik politikaları</a></p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>

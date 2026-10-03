@@ -1,0 +1,35 @@
+# Bam Studio
+
+> Bam Studio is a one-person app studio making small apps for iPhone, Apple Watch and Android. Website: https://bamstudio.dev · Contact: merhaba@bamstudio.dev
+
+Each app has a tour page, a privacy policy and store links. Apps never sell user data.
+
+## Apps
+- [Wallet Coach: Monthly Budget](https://bamstudio.dev/walletcoach/): Household books kept like a spreadsheet with a tab per month: write the month once, tick things off as they are paid, let the next month copy itself. Scans receipts, works out your own inflation.
+- [Tennis & Padel: Score Keeper](https://bamstudio.dev/tennis-padel/): Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on the watch.
+- [Nubi: Virtual Pet](https://bamstudio.dev/nubi/): A virtual pet that lives in real time. Hungry while you work, sleepy at night, a little bored when you forget it, and growing up right in front of you.
+- [Daily Whisper: Affirmations](https://bamstudio.dev/daily-whisper/): Every morning a short story written just for you: a scene from the life you are working towards, with your name in it, read aloud in a warm voice.
+- [O mu Bu mu?: This or That](https://bamstudio.dev/o-mu-bu-mu/): Impossible choices and tournaments, Turkish edition. Played out loud with friends, arguments guaranteed.
+- [Tasbih Tally: Digital Counter](https://bamstudio.dev/tasbih-tally/): Dhikr counter, prayer times and qibla. Counts with haptics on the Watch so you never lose count.
+- [BodyBook: Health Tracker](https://bamstudio.dev/bodybook/): Blood pressure, weight, skincare routine, mole photos, medication, water and sleep in one panel. Everything stays on your phone.
+- [Leafbook: Plant Tracker](https://bamstudio.dev/leafbook/): A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth.
+- [Boş Yer Yok: Parking Tycoon](https://bamstudio.dev/bosyeryok/): A parking lot tycoon. You don't steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second.
+- [Kit: QR Scanner & Wallet](https://bamstudio.dev/kit-qr/): Reads every code, keeps loyalty cards and tickets in one wallet and makes QR codes that look good. Checks a link before you open it. No ads, no account.
+- [Yonca: Çekiliş](https://bamstudio.dev/yonca/): Run your own giveaway or track the ones you entered. Paste the names, draw the winners, share the card; it reminds you on result day too.
+- [Matchday: Five a side](https://bamstudio.dev/matchday/): The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously.
+- [Pickleball: Score Keeper](https://bamstudio.dev/pickleball/): Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score.
+- [Orbix: Roulette](https://bamstudio.dev/orbix-roulette/): A beautiful decision wheel. Who pays, who goes first, where to eat: spin it and stop arguing.
+- [Volleyball: Score Keeper](https://bamstudio.dev/volleyball/): Live set scoring with a match logbook and heart rate stats pulled from your workout.
+- [Rally: Badminton: Score Keeper](https://bamstudio.dev/rally-badminton/): Rally scoring, service court and side changes handled for you, with 21-point games and the two-point rule built in.
+- [Rally: Table Tennis: Score Keeper](https://bamstudio.dev/rally-table-tennis/): Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud.
+- [Bumpline: Pregnancy Tracker](https://bamstudio.dev/bumpline/): Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.
+- [Store Mockup: Studio](https://bamstudio.dev/web/store-mockup/): Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser.
+- [Mihenk: App Estimator](https://bamstudio.dev/lab/mihenk/): Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market.
+
+## Pages
+- [Home](https://bamstudio.dev/): showcase of all apps
+- [Support](https://bamstudio.dev/support/): help and contact
+- [Privacy policies](https://bamstudio.dev/privacy/): per-app privacy policies
+- [Website privacy](https://bamstudio.dev/privacy/site/)
+- [Terms of use](https://bamstudio.dev/terms/)
+- [Blog](https://bamstudio.dev/blog/): notes on building and shipping apps

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kullanım şartları / Terms of use · Bam Studio</title>
+<meta name="description" content="Bam Studio sitesi ve uygulamaları için kullanım şartları.">
+<link rel="canonical" href="https://bamstudio.dev/terms/">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır — aksi hâlde açık/koyu geçişi
+  // gözle görülür bir sıçrama yapıyor. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Studio</span></a>
+    <nav>
+      <a href="/">Uygulamalar</a>
+      <a href="/privacy/">Gizlilik</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Kullanım şartları</h1>
+<p class="updated">Son güncelleme: 4 Ekim 2026</p>
+<p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
+<h2>Site</h2>
+<p>bamstudio.dev, Bam Studio uygulamalarını tanıtan bir sitedir. İçerik bilgi amaçlıdır; özellikler ve fiyatlar mağazalardaki güncel sürümle değişebilir.</p>
+<h2>Uygulamalar</h2>
+<p>Uygulamaları App Store ya da Google Play üzerinden indirirsin. Satın alma, abonelik, iptal ve iade işlemleri o mağazanın kurallarına tabidir. App Store uygulamaları için Apple'ın standart son kullanıcı lisans sözleşmesi (<a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">EULA</a>) geçerlidir.</p>
+<h2>Sorumluluk</h2>
+<p>Uygulamalar ve site olduğu gibi sunulur. Sağlık, finans ya da benzeri konulardaki uygulamalar uzman tavsiyesinin yerine geçmez.</p>
+<h2>Fikri mülkiyet</h2>
+<p>Uygulama adları, ikonlar, ekran görüntüleri ve metinler Bam Studio'ya aittir; izinsiz kopyalanamaz.</p>
+<h2>İletişim</h2>
+<p>merhaba@bamstudio.dev</p>
+<hr>
+<h1 id="en">Terms of use</h1>
+<p class="updated">Last updated: 4 October 2026</p>
+<h2>Website</h2>
+<p>bamstudio.dev presents the apps made by Bam Studio. Content is informational; features and prices may change with the current store versions.</p>
+<h2>Apps</h2>
+<p>Apps are downloaded from the App Store or Google Play. Purchases, subscriptions, cancellations and refunds follow that store's rules. Apple's standard end user license agreement (<a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">EULA</a>) applies to App Store apps.</p>
+<h2>Liability</h2>
+<p>The apps and this site are provided as is. Health, finance or similar apps do not replace professional advice.</p>
+<h2>Intellectual property</h2>
+<p>App names, icons, screenshots and texts belong to Bam Studio and may not be copied without permission.</p>
+<h2>Contact</h2>
+<p>merhaba@bamstudio.dev</p>
+
+</main>
+
+<footer>
+  <p>© 2026 Bam Studio · <a href="/privacy/">Gizlilik politikaları</a></p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>

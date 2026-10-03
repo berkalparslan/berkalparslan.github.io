@@ -308,6 +308,7 @@ def render(d):
       <a href="{e((d.get("privacy") or {}).get("href", "/privacy/"))}"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       <a href="{e(d.get("support", "/support/"))}"><span class="tr">Destek</span><span class="en">Support</span></a>
       <a href="/blog/">Blog</a>
+      <a href="/terms/"><span class="tr">Şartlar</span><span class="en">Terms</span></a>
       <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
     </nav>
     <span class="copy">© 2026 Bam Studio</span>
@@ -317,6 +318,7 @@ def render(d):
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script src="/assets/tanitim.js?v={ver("assets/tanitim.js")}"></script>
+<script src="/assets/caps.js?v={ver("assets/caps.js")}" defer></script>
 {f"<script>{d['extra_script']}</script>" if d.get("extra_script") else ""}
 </body>
 </html>

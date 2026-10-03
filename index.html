@@ -101,6 +101,7 @@
     .hero h1 { font-size: clamp(44px, 8.2vw, 150px); margin: 22px auto 0; }
     .hero h1 > span > span { display: block; }
     .hero-sub { max-width: 56ch; margin: 26px auto 0; font-size: 17px; }
+    .hero-note { margin: 10px auto 0; font-size: 13px; font-weight: 700; opacity: .7; }
     .hero-cta { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
 
     /* Çıkartmalar: her uygulama, siyah konturlu, sürüklenir, tıklanınca vitrine götürür */
@@ -164,7 +165,7 @@
     .m-phone .scr { border-radius: 24px; }
     .m-phone .isl { position: absolute; top: 12px; left: 50%; translate: -50% 0; width: 54px; height: 15px; border-radius: 10px; background: #0b0b0d; z-index: 2; }
     .m-watch { display: block; position: relative; transform: rotate(var(--tilt, 0deg)); }
-    .m-watch::before, .m-watch::after { content: ""; position: absolute; left: 50%; translate: -50% 0; width: 62%; height: 60px; background: #000; border: 2px solid #000; }
+    .m-watch::before, .m-watch::after { content: ""; position: absolute; left: 50%; translate: -50% 0; width: 62%; height: 60px; background: var(--strap, var(--ember)); border: 2px solid #000; }
     .m-watch::before { bottom: 100%; border-radius: 22px 22px 4px 4px; }
     .m-watch::after { top: 100%; border-radius: 4px 4px 22px 22px; }
     .m-watch .case { display: block; width: 180px; aspect-ratio: 416 / 496; background: #0b0b0d; border-radius: 46px; padding: 10px; border: 2px solid #000; }
@@ -222,6 +223,17 @@
     .ztxt .chips { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 14px; }
     .rl { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 22px; }
     .list-empty { padding: 40px; text-align: center; border: var(--line); border-radius: 24px; }
+
+    /* ── Sık sorulanlar ── */
+    .faq { padding: 80px 0; background: var(--sky); border-top: var(--line); }
+    .qas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; align-items: start; }
+    .qa { background: var(--paper); border: var(--line); border-radius: 24px; padding: 18px 22px; }
+    .qa summary { cursor: pointer; font-weight: 700; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    .qa summary::-webkit-details-marker { display: none; }
+    .qa summary::after { content: "+"; font-family: var(--disp); font-size: 26px; line-height: 1; transition: transform .2s; }
+    .qa[open] summary::after { transform: rotate(45deg); }
+    .qa p { margin-top: 10px; font-size: 15px; opacity: .85; }
+    @media (max-width: 800px) { .qas { grid-template-columns: 1fr; } }
 
     /* ── Yazılar ── */
     .notes { padding: 80px 0; background: var(--lav); border-top: var(--line); }
@@ -306,6 +318,7 @@
         <a href="#tum"><span class="tr">Uygulamalar</span><span class="en">Apps</span></a>
         <a href="/blog/"><span class="tr">Yazılar</span><span class="en">Notes</span></a>
         <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+        <a href="#sss"><span class="tr">SSS</span><span class="en">FAQ</span></a>
         <button class="lang" type="button">EN</button>
       </nav>
       <div class="stores">
@@ -328,9 +341,10 @@
             <span class="en"><span>Small apps that do</span><span class="l2">one thing well</span></span>
           </h1>
           <p class="hero-sub">
-            <span class="tr">iPhone, Apple Watch ve Android için sanal evcil hayvan, bitki günlüğü, kortta skor tutanlar, ev ekonomisi ve sırf keyif için yazılmış birkaç şey. Hepsi bir ihtiyaçtan çıktı, hiçbiri verini satmaz.</span>
-            <span class="en">A virtual pet, a plant diary, score keepers for the court, household books and a few things made purely for fun, for iPhone, Apple Watch and Android. Each one started as a need; none of them sells your data.</span>
+            <span class="tr">iPhone, Apple Watch ve Android için yaratılmış; sanal evcil hayvan, bitki bakım günlüğü, kortta skor takibi, ev ekonomisi gibi birçok farklı konu için keyifle yazılmış birkaç uygulama. Her biri farklı bir ihtiyaçtan doğdu.</span>
+            <span class="en">Made for iPhone, Apple Watch and Android: a virtual pet, a plant care diary, score keeping on the court, household books and more, a handful of apps written with joy. Each one was born from a different need.</span>
           </p>
+          <p class="hero-note"><span class="tr">* Verilerin satılmaz, korunur.</span><span class="en">* Your data is never sold. It stays protected.</span></p>
           <div class="hero-cta">
             <a class="pill dark big" href="#vitrin"><span class="tr">Vitrine bak ↓</span><span class="en">See the showcase ↓</span></a>
             <a class="pill big" href="#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
@@ -344,7 +358,7 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Vitrin</span><span class="en">Showcase</span></h2>
-          <p><span class="tr">Her uygulama kendi cihazında, gerçek ekranlarıyla. Vitrin kendiliğinden akar; durdurmak için üstüne gel ya da sürükle. Ekrana dokununca sıradaki ekran gelir. Köşedeki QR'a basınca kart döner: telefonunla okut, App Store ya da Google Play'de aç.</span><span class="en">Every app on its own device, with its real screens. The showcase drifts by itself; hover or drag to stop it. Tap a screen for the next one. Hit the QR in the corner and the card flips: scan it with your phone and open it on the App Store or Google Play.</span></p>
+          <p><span class="tr">Her uygulama kendi cihazında, gerçek ekranlarıyla. Görmeye hazır mısın? 🚀 Vitrin kendiliğinden akar; durdurmak için üstüne gelmen ya da sürüklemen yeterli. Ekrana dokununca sıradaki ekran gelir. Köşedeki QR'a basınca kart döner: telefonunla okut, App Store ya da Google Play'de aç.</span><span class="en">Every app on its own device, with its real screens. Ready to look? 🚀 The showcase drifts by itself; hover or drag to stop it. Tap a screen for the next one. Hit the QR in the corner and the card flips: scan it with your phone and open it on the App Store or Google Play.</span></p>
           <div class="rail-nav"><button type="button" id="prev" aria-label="Previous">←</button><button type="button" id="next" aria-label="Next">→</button></div>
         </div>
         <div class="filters" role="toolbar" aria-label="Filter by platform">
@@ -380,7 +394,7 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Tüm uygulamalar</span><span class="en">All the apps</span></h2>
-          <p><span class="tr">Her biri bir ihtiyaçtan çıktı. Görsele dokun, tanıtımı aç; "Vitrinde gör" ile vitrindeki yerine git.</span><span class="en">Each one started as a need. Tap the picture to open its tour, or "On the shelf" to find it in the showcase.</span></p>
+          <p><span class="tr">Her biri farklı bir ihtiyaçtan doğdu. Görsele dokun, tanıtımı aç; "Vitrinde gör" butonu ile vitrindeki yerine git! 👨🏻‍💻</span><span class="en">Each one was born from a different need. Tap the picture to open its tour, or use "On the shelf" to find it in the showcase! 👨🏻‍💻</span></p>
         </div>
         <div id="list">
       <!-- katalog:başla -->
@@ -669,6 +683,26 @@
       </div>
     </section>
 
+
+    <!-- ── Sık sorulanlar ────────────────────────────────── -->
+    <section class="faq" id="sss">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="disp"><span class="tr">Sık sorulanlar</span><span class="en">FAQ</span></h2>
+          <p><span class="tr">Aklına takılan başka bir şey varsa merhaba@bamstudio.dev adresine yaz.</span><span class="en">Anything else on your mind? Write to merhaba@bamstudio.dev.</span></p>
+        </div>
+        <div class="qas">
+          <details class="qa"><summary><span class="tr">Uygulamalar ücretsiz mi?</span><span class="en">Are the apps free?</span></summary><p><span class="tr">Çoğu ücretsiz indirilir ve temel özellikleri ücretsizdir. Bazılarında isteğe bağlı Pro ya da abonelik var; fiyatlar her uygulamanın tanıtım sayfasında ve mağazada yazar.</span><span class="en">Most are free to download with free core features. Some offer an optional Pro or subscription; prices are on each app's tour page and in the store.</span></p></details>
+          <details class="qa"><summary><span class="tr">Hesap açmam gerekiyor mu?</span><span class="en">Do I need an account?</span></summary><p><span class="tr">Hayır. Uygulamaların çoğu hesap istemez, verilerin telefonunda kalır. Hesap gereken birkaç uygulamada bunu tanıtım sayfasında açıkça yazıyoruz.</span><span class="en">No. Most apps need no account and keep your data on your phone. The few that need one say so on their tour page.</span></p></details>
+          <details class="qa"><summary><span class="tr">Verilerim satılıyor mu?</span><span class="en">Is my data sold?</span></summary><p><span class="tr">Hayır, hiçbir uygulama verini satmaz ya da reklam şirketleriyle paylaşmaz. Her uygulamanın gizlilik politikası ayrı sayfasında.</span><span class="en">No. None of the apps sell your data or share it with ad brokers. Each app has its own privacy policy page.</span></p></details>
+          <details class="qa"><summary><span class="tr">Android ve Apple Watch'ta var mı?</span><span class="en">Is it on Android and Apple Watch?</span></summary><p><span class="tr">Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS ve Wear OS. Her kartın altında hangi platformlarda olduğu yazar.</span><span class="en">Use the filters in the showcase: iOS, Android, watchOS and Wear OS. Each card lists the platforms it runs on.</span></p></details>
+          <details class="qa"><summary><span class="tr">Aboneliği nasıl iptal ederim?</span><span class="en">How do I cancel a subscription?</span></summary><p><span class="tr">Abonelikler Apple ya da Google üzerinden yönetilir: iPhone'da Ayarlar, adın, Abonelikler; Android'de Google Play, Ödemeler ve abonelikler.</span><span class="en">Subscriptions are managed by Apple or Google: on iPhone, Settings, your name, Subscriptions; on Android, Google Play, Payments and subscriptions.</span></p></details>
+          <details class="qa"><summary><span class="tr">Hata bulursam ya da bir fikrim olursa?</span><span class="en">Found a bug or have an idea?</span></summary><p><span class="tr">merhaba@bamstudio.dev adresine yaz. Tek kişilik bir stüdyo, yazan kişiyle konuşuyorsun; genelde birkaç gün içinde dönüş yapılır.</span><span class="en">Write to merhaba@bamstudio.dev. It's a one-person studio, so you talk to the person who builds the apps; replies usually come within a few days.</span></p></details>
+        </div>
+      </div>
+      <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Uygulamalar ücretsiz mi?", "acceptedAnswer": {"@type": "Answer", "text": "Çoğu ücretsiz indirilir ve temel özellikleri ücretsizdir. Bazılarında isteğe bağlı Pro ya da abonelik var; fiyatlar her uygulamanın tanıtım sayfasında ve mağazada yazar."}}, {"@type": "Question", "name": "Hesap açmam gerekiyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır. Uygulamaların çoğu hesap istemez, verilerin telefonunda kalır. Hesap gereken birkaç uygulamada bunu tanıtım sayfasında açıkça yazıyoruz."}}, {"@type": "Question", "name": "Verilerim satılıyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır, hiçbir uygulama verini satmaz ya da reklam şirketleriyle paylaşmaz. Her uygulamanın gizlilik politikası ayrı sayfasında."}}, {"@type": "Question", "name": "Android ve Apple Watch'ta var mı?", "acceptedAnswer": {"@type": "Answer", "text": "Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS ve Wear OS. Her kartın altında hangi platformlarda olduğu yazar."}}, {"@type": "Question", "name": "Aboneliği nasıl iptal ederim?", "acceptedAnswer": {"@type": "Answer", "text": "Abonelikler Apple ya da Google üzerinden yönetilir: iPhone'da Ayarlar, adın, Abonelikler; Android'de Google Play, Ödemeler ve abonelikler."}}, {"@type": "Question", "name": "Hata bulursam ya da bir fikrim olursa?", "acceptedAnswer": {"@type": "Answer", "text": "merhaba@bamstudio.dev adresine yaz. Tek kişilik bir stüdyo, yazan kişiyle konuşuyorsun; genelde birkaç gün içinde dönüş yapılır."}}]}</script>
+    </section>
+
     <!-- ── Yazılar ───────────────────────────────────────── -->
     <section class="notes" id="notes">
       <div class="wrap">
@@ -711,6 +745,8 @@
         <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
         <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
         <a href="/blog/">Blog</a>
+        <a href="/terms/"><span class="tr">Kullanım şartları</span><span class="en">Terms</span></a>
+        <a href="/privacy/site/"><span class="tr">Site gizliliği</span><span class="en">Site privacy</span></a>
         <a href="https://apps.apple.com/developer/id1676787785" target="_blank" rel="noopener">App Store</a>
         <a href="https://play.google.com/store/apps/developer?id=bam-tech" target="_blank" rel="noopener">Google Play</a>
         <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
@@ -720,6 +756,7 @@
     <div class="giant disp" lang="en" aria-hidden="true">Bam Studio</div>
   </footer>
 
+  <script src="/assets/caps.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
   <script>
     (function () {
@@ -856,6 +893,7 @@
         ph.dataset.slug = slug;
         if (clone) ph.setAttribute("aria-hidden", "true"); else ph.id = "ph-" + slug;
         ph.style.setProperty("--c", r.dataset.color); ph.style.setProperty("--tilt", TILT[i % TILT.length] + "deg");
+        ph.style.setProperty("--strap", /fb4903/i.test(r.dataset.color) ? "#ffd731" : "#fb4903");
         const tags = tagsOf(r), T = isTr();
         const tag = tags.includes("new") ? `<span class="badge b-new new-tag">${T ? "yeni" : "new"}</span>`
           : tags.includes("soon") ? `<span class="badge b-soon new-tag">${T ? "yolda" : "soon"}</span>`
