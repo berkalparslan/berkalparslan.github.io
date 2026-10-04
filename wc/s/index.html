@@ -89,6 +89,23 @@ section.how { padding: 34px 0 10px; }
 .card h3 { font-family: var(--disp); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: .95; display: flex; gap: 10px; align-items: center; }
 .card h3 em { font-style: normal; font-size: 24px; }
 .card p { margin-top: 8px; font-size: 15px; }
+.card .go { margin-top: 12px; padding: 9px 16px; font-size: 14px; background: #000; color: #fff; border-color: #000; cursor: pointer; font-family: inherit; }
+.sheet { margin-top: 14px; border: 2px solid var(--ink); border-radius: 26px; background: var(--paper); padding: 18px; }
+.sheet h3 { font-family: var(--disp); font-weight: 400; font-size: 30px; text-transform: uppercase; line-height: .95; }
+.sheet .foot { color: var(--soft); font-size: 13px; margin-top: 4px; }
+.fld { display: grid; gap: 4px; margin-top: 12px; }
+.fld > span { font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--soft); }
+.fld input, .fld select, .fld textarea { font: inherit; font-size: 16px; color: var(--ink); background: var(--paper); border: var(--line); border-radius: 14px; padding: 11px 13px; width: 100%; min-width: 0; }
+.fld textarea { min-height: 70px; resize: vertical; }
+.fld input.big { font-family: var(--disp); font-size: 30px; padding: 8px 13px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chk { display: flex; gap: 10px; align-items: center; margin-top: 14px; font-weight: 700; }
+.chk input { width: 22px; height: 22px; accent-color: var(--violet); }
+.acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+.acts .pill { cursor: pointer; font-family: inherit; padding: 12px 20px; }
+.msg { margin-top: 12px; font-weight: 700; font-size: 14px; }
+.msg.err { color: #d6455d; }
+.done { background: var(--mint); color: #000; border-radius: 18px; border: 2px solid #000; padding: 14px 16px; font-weight: 700; margin-top: 14px; }
 
 section.get { margin-top: 30px; padding: 34px 0; background: var(--sun); color: #000; border-top: var(--line); border-bottom: var(--line); --ink: #000; --paper: #fff; }
 .get p { margin: 12px 0 18px; font-size: 16px; max-width: 46ch; }
@@ -129,8 +146,9 @@ footer .priv { margin-bottom: 10px; color: var(--ink); }
     <div class="cards">
       <div class="card" style="--c:var(--blue);--r:-1deg"><h3><em>👀</em><span id="c1t"></span></h3><p id="c1p"></p></div>
       <div class="card" style="--c:var(--mint);--r:1deg"><h3><em>📥</em><span id="c2t"></span></h3><p id="c2p"></p></div>
-      <div class="card" id="c3" style="--c:var(--lav);--r:-.6deg"><h3><em>✍️</em><span id="c3t"></span></h3><p id="c3p"></p></div>
+      <div class="card" id="c3" style="--c:var(--lav);--r:-.6deg"><h3><em>✍️</em><span id="c3t"></span></h3><p id="c3p"></p><button type="button" class="pill go" id="sgOpen"></button></div>
     </div>
+    <div class="sheet hidden" id="sgSheet"></div>
   </section>
 </main>
 
@@ -167,6 +185,7 @@ const I18N = {
     getTitle: "Uygulama sende yok mu?", getP: "Wallet Coach'u yükle, sonra bu bağlantıyı yeniden aç. Paylaşılan liste doğrudan uygulamada açılır.",
     priv: "Bunu sahibi paylaştı. Paylaşımı istediği an durdurabilir; o zaman bu sayfa da çalışmaz.",
     missing: "Bu bağlantı çalışmıyor", missingSub: "Sahibi paylaşımı durdurmuş ya da bağlantı eksik kopyalanmış olabilir.",
+    sgOpen: "Öneri yaz", sgSent: "Gönderildi. Sahibi onaylarsa eklenir.", sgAnother: "Bir tane daha", sgNeed: "Ne olduğunu ve tutarı yaz.", sgNeedAmount: "Tutarı yaz.", sgLimit: "Kısa sürede çok öneri gönderdin. Birkaç dakika sonra tekrar dene.", sgSending: "Gönderiliyor…",
     marquee: ["Paylaşılan liste", "Wallet Coach", "Takip et · kopyala · öner"],
   },
   en: {
@@ -182,6 +201,7 @@ const I18N = {
     getTitle: "Don't have the app?", getP: "Install Wallet Coach, then open this link again. The shared list opens right in the app.",
     priv: "Shared by its owner. They can stop sharing at any time; then this page stops working.",
     missing: "This link doesn't work", missingSub: "Its owner may have stopped sharing it, or the link was copied only in part.",
+    sgOpen: "Write a suggestion", sgSent: "Sent. It is added if the owner approves it.", sgAnother: "Suggest another", sgNeed: "Write what it is and the amount.", sgNeedAmount: "Write the amount.", sgLimit: "You sent several suggestions in a short time. Try again in a few minutes.", sgSending: "Sending…",
     marquee: ["Shared list", "Wallet Coach", "Follow · copy · suggest"],
   },
   de: {
@@ -197,6 +217,7 @@ const I18N = {
     getTitle: "Noch keine App?", getP: "Installiere Wallet Coach und öffne diesen Link dann noch einmal. Die geteilte Liste öffnet sich direkt in der App.",
     priv: "Vom Besitzer geteilt. Er kann das Teilen jederzeit beenden; dann funktioniert diese Seite nicht mehr.",
     missing: "Dieser Link funktioniert nicht", missingSub: "Der Besitzer teilt es vielleicht nicht mehr, oder der Link wurde nur teilweise kopiert.",
+    sgOpen: "Vorschlag schreiben", sgSent: "Gesendet. Es wird hinzugefügt, wenn der Besitzer zustimmt.", sgAnother: "Noch einen", sgNeed: "Schreib, was es ist, und den Betrag.", sgNeedAmount: "Schreib den Betrag.", sgLimit: "Du hast in kurzer Zeit mehrere Vorschläge gesendet. Versuch es in ein paar Minuten noch einmal.", sgSending: "Wird gesendet…",
     marquee: ["Geteilte Liste", "Wallet Coach", "Folgen · kopieren · vorschlagen"],
   },
   es: {
@@ -212,6 +233,7 @@ const I18N = {
     getTitle: "¿No tienes la app?", getP: "Instala Wallet Coach y vuelve a abrir este enlace. La lista compartida se abre directamente en la app.",
     priv: "Lo compartió su dueño. Puede dejar de compartirlo cuando quiera; entonces esta página deja de funcionar.",
     missing: "Este enlace no funciona", missingSub: "Puede que su dueño haya dejado de compartirlo o que el enlace se copiara incompleto.",
+    sgOpen: "Escribir una sugerencia", sgSent: "Enviado. Se añade si el dueño lo aprueba.", sgAnother: "Sugerir otra", sgNeed: "Escribe qué es y el importe.", sgNeedAmount: "Escribe el importe.", sgLimit: "Enviaste varias sugerencias en poco tiempo. Vuelve a intentarlo en unos minutos.", sgSending: "Enviando…",
     marquee: ["Lista compartida", "Wallet Coach", "Seguir · copiar · sugerir"],
   },
   fr: {
@@ -227,6 +249,7 @@ const I18N = {
     getTitle: "Pas encore l'app ?", getP: "Installe Wallet Coach, puis rouvre ce lien. La liste partagée s'ouvre directement dans l'app.",
     priv: "Partagé par son propriétaire. Il peut arrêter le partage à tout moment ; cette page ne marchera alors plus.",
     missing: "Ce lien ne marche pas", missingSub: "Son propriétaire a peut-être arrêté de le partager, ou le lien a été copié en partie.",
+    sgOpen: "Écrire une proposition", sgSent: "Envoyé. Ce sera ajouté si le propriétaire accepte.", sgAnother: "En proposer une autre", sgNeed: "Écris ce que c'est et le montant.", sgNeedAmount: "Écris le montant.", sgLimit: "Tu as envoyé plusieurs propositions en peu de temps. Réessaie dans quelques minutes.", sgSending: "Envoi…",
     marquee: ["Liste partagée", "Wallet Coach", "Suivre · copier · proposer"],
   },
   pt: {
@@ -242,6 +265,7 @@ const I18N = {
     getTitle: "Ainda não tem o app?", getP: "Instale o Wallet Coach e abra este link de novo. A lista compartilhada abre direto no app.",
     priv: "Compartilhado pelo dono. Ele pode parar de compartilhar quando quiser; aí esta página deixa de funcionar.",
     missing: "Este link não funciona", missingSub: "O dono pode ter parado de compartilhar, ou o link foi copiado pela metade.",
+    sgOpen: "Escrever sugestão", sgSent: "Enviado. Entra se o dono aprovar.", sgAnother: "Sugerir outra", sgNeed: "Escreva o que é e o valor.", sgNeedAmount: "Escreva o valor.", sgLimit: "Você enviou várias sugestões em pouco tempo. Tente de novo em alguns minutos.", sgSending: "Enviando…",
     marquee: ["Lista compartilhada", "Wallet Coach", "Seguir · copiar · sugerir"],
   },
   ru: {
@@ -257,9 +281,19 @@ const I18N = {
     getTitle: "Нет приложения?", getP: "Установи Wallet Coach и открой эту ссылку ещё раз. Список откроется прямо в приложении.",
     priv: "Этим поделился владелец. Он может в любой момент прекратить доступ, и тогда эта страница перестанет работать.",
     missing: "Ссылка не работает", missingSub: "Возможно, владелец перестал делиться или ссылка скопирована не полностью.",
+    sgOpen: "Написать предложение", sgSent: "Отправлено. Добавится, если владелец одобрит.", sgAnother: "Ещё одно", sgNeed: "Напиши, что это, и сумму.", sgNeedAmount: "Напиши сумму.", sgLimit: "Ты отправил несколько предложений за короткое время. Попробуй через несколько минут.", sgSending: "Отправка…",
     marquee: ["Общий список", "Wallet Coach", "Следить · копировать · предлагать"],
   },
 };
+/* Generated from WalletCoach/Localizable.xcstrings (order: tr,en,de,es,fr,pt,ru). */
+const APP = {"cat":{"activity":["Gezi ve etkinlik","Outings and tickets","Ausflüge und Tickets","Excursiones y entradas","Sorties et billets","Passeios e ingressos","Экскурсии и билеты"],"baby":["Bebek","Baby","Baby","Bebé","Bébé","Bebê","Детское"],"bakery":["Ekmek ve unlu","Bread & baking","Brot & Backwaren","Pan y bollería","Pain & pâtisserie","Pães e massas","Хлеб и выпечка"],"breakfast":["Kahvaltılık","Breakfast","Frühstück","Desayuno","Petit-déjeuner","Café da manhã","Завтрак"],"clothing":["Giyim ve hazırlık","Clothing and grooming","Kleidung und Styling","Ropa y arreglo","Tenue et préparatifs","Roupa e preparação","Одежда и подготовка"],"coffee":["Kahve","Coffee","Kaffee","Café","Café","Café","Кофе"],"dairy":["Süt ürünleri","Dairy","Molkereiprodukte","Lácteos","Produits laitiers","Laticínios","Молочное"],"deposit":["Depozito ve kira","Deposit and rent","Kaution und Miete","Depósito y alquiler","Caution et loyer","Depósito e aluguel","Залог и аренда"],"drinks":["İçecek","Drinks","Getränke","Bebidas","Boissons","Bebidas","Напитки"],"fee":["Resmî harç","Fees","Gebühren","Tasas","Frais officiels","Taxas","Пошлины"],"food":["Yemek ve ikram","Food and drink","Essen und Trinken","Comida y bebida","Repas et boissons","Comida e bebida","Еда и напитки"],"frozen":["Dondurulmuş","Frozen","Tiefkühl","Congelados","Surgelés","Congelados","Заморозка"],"fuel":["Yakıt","Fuel","Kraftstoff","Combustible","Carburant","Combustível","Топливо"],"furniture":["Eşya","Furniture","Möbel","Muebles","Mobilier","Móveis","Мебель"],"household":["Temizlik ve ev","Household","Haushalt","Hogar","Maison","Casa e limpeza","Для дома"],"labour":["İşçilik","Labour","Arbeit","Mano de obra","Main-d’œuvre","Mão de obra","Работа"],"maintenance":["Bakım ve parça","Servicing and parts","Wartung und Teile","Mantenimiento y piezas","Entretien et pièces","Manutenção e peças","Обслуживание и запчасти"],"material":["Malzeme","Materials","Material","Materiales","Matériaux","Materiais","Материалы"],"meat":["Et ve şarküteri","Meat & deli","Fleisch & Wurst","Carne y charcutería","Viande & charcuterie","Carnes e frios","Мясо и деликатесы"],"media":["Fotoğraf ve müzik","Photography and music","Foto und Musik","Fotografía y música","Photo et musique","Fotografia e música","Фото и музыка"],"other":["Diğer","Other","Sonstiges","Otro","Autre","Outro","Другое"],"pantry":["Bakliyat ve kiler","Store cupboard","Vorratskammer","Despensa","Épicerie","Mercearia","Бакалея"],"personal":["Kişisel bakım","Personal care","Körperpflege","Cuidado personal","Soins personnels","Cuidados pessoais","Личная гигиена"],"pet":["Evcil hayvan","Pet","Haustier","Mascotas","Animaux","Pets","Питомцы"],"produce":["Meyve ve sebze","Fruit & veg","Obst & Gemüse","Fruta y verdura","Fruits & légumes","Frutas e verduras","Фрукты и овощи"],"service":["Hizmet","Service","Dienstleistung","Servicio","Service","Serviço","Услуги"],"shopping":["Alışveriş ve hediye","Shopping and gifts","Einkäufe und Geschenke","Compras y regalos","Achats et cadeaux","Compras e presentes","Покупки и подарки"],"snacks":["Atıştırmalık","Snacks","Snacks","Aperitivos","En-cas","Lanches","Снеки"],"stay":["Konaklama","Accommodation","Unterkunft","Alojamiento","Hébergement","Hospedagem","Проживание"],"tax":["Vergi ve sigorta","Tax and insurance","Steuer und Versicherung","Impuestos y seguro","Taxes et assurance","Impostos e seguro","Налоги и страховка"],"tea":["Çay","Tea","Tee","Té","Thé","Chá","Чай"],"transport":["Nakliye","Transport","Transport","Transporte","Transport","Transporte","Доставка"],"travel":["Ulaşım","Travel","Fahrt","Transporte","Trajet","Deslocamento","Проезд"],"vehicle":["Alış bedeli","Purchase price","Kaufpreis","Precio de compra","Prix d'achat","Preço de compra","Стоимость покупки"],"venue":["Mekan","Venue","Location","Lugar","Lieu","Local","Площадка"],"visa":["Vize ve sigorta","Visa and insurance","Visum und Versicherung","Visado y seguro","Visa et assurance","Visto e seguro","Виза и страховка"],"water":["Su ve maden suyu","Water & soda","Wasser & Sprudel","Agua y gaseosa","Eau & soda","Água e refrigerante","Вода и газировка"]},"unit":{"piece":["Adet","Piece","Stück","Unidad","Pièce","Unidade","Штука"],"pack":["Paket","Pack","Packung","Paquete","Paquet","Pacote","Упаковка"],"kilogram":["Kilogram","Kilogram","Kilogramm","Kilogramo","Kilogramme","Quilograma","Килограмм"],"litre":["Litre","Litre","Liter","Litro","Litre","Litro","Литр"],"metre":["Metre","Metre","Meter","Metro","Mètre","Metro","Метр"],"squareMetre":["Metrekare","Square metre","Quadratmeter","Metro cuadrado","Mètre carré","Metro quadrado","Квадратный метр"],"hour":["Saat","Hour","Stunde","Hora","Heure","Hora","Час"],"day":["Gün","Day","Tag","Día","Jour","Dia","День"],"night":["Gece","Night","Nacht","Noche","Nuit","Noite","Ночь"],"person":["Kişi","Person","Person","Persona","Personne","Pessoa","Человек"]},"akind":{"property":["Konut","Property","Immobilie","Vivienda","Logement","Imóvel","Недвижимость"],"land":["Arsa","Land","Grundstück","Terreno","Terrain","Terreno","Земля"],"vehicle":["Araç","Vehicle","Fahrzeug","Vehículo","Véhicule","Veículo","Транспорт"],"gold":["Altın","Gold","Gold","Oro","Or","Ouro","Золото"],"currency":["Döviz","Currency","Devisen","Divisas","Devises","Câmbio","Валюта"],"stock":["Hisse","Shares","Aktien","Acciones","Actions","Ações","Акции"],"fund":["Fon","Funds","Fonds","Fondos","Fonds","Fundos","Фонды"],"crypto":["Kripto","Crypto","Krypto","Cripto","Crypto","Cripto","Криптовалюта"],"savings":["Mevduat","Savings","Erspartes","Ahorros","Épargne","Poupança","Сбережения"],"other":["Diğer","Other","Sonstiges","Otros","Autre","Outros","Другое"]},"s":{"name":["Ne","What","Was","Qué","Quoi","O quê","Что"],"vendor":["Nereden (isteğe bağlı)","Where (optional)","Wo (optional)","Dónde (opcional)","Où (facultatif)","Onde (opcional)","Где (необязательно)"],"date":["Tarih","Date","Datum","Fecha","Date","Data","Дата"],"note":["Ona bir not (isteğe bağlı)","A note for them (optional)","Notiz (optional)","Una nota (opcional)","Un mot (facultatif)","Um recado (opcional)","Комментарий (необязательно)"],"footer":["Sahibine öneri olarak gider; yalnızca kabul ederse eklenir.","It goes to the owner as a suggestion; it is added only if they accept it.","Es geht als Vorschlag an den Besitzer und wird nur übernommen, wenn er zustimmt.","Le llega al dueño como sugerencia; solo se añade si la acepta.","Cela part chez le propriétaire comme proposition ; ajouté seulement s'il accepte.","Vai para o dono como sugestão; só entra se ele aceitar.","Уйдёт владельцу как предложение; добавится, только если он согласится."],"send":["Gönder","Send","Senden","Enviar","Envoyer","Enviar","Отправить"],"bought":["Aldım","Bought it","Gekauft","Lo compré","Acheté","Comprei","Куплено"],"what_saving":["Ne için (isteğe bağlı)","What it was (optional)","Wofür (optional)","Para qué (opcional)","Pour quoi (facultatif)","Para quê (opcional)","На что (необязательно)"],"what_asset":["Ne","What it is","Was","Qué es","Quoi","O quê","Что это"],"amount":["Ne kadar tuttu","What it cost","Was es gekostet hat","Cuánto costó","Combien ça a coûté","Quanto custou","Сколько стоило"],"amount_price":["Fiyatı","The price","Der Preis","El precio","Le prix","O preço","Цена"],"amount_value":["Tahmini değeri","What it is worth","Was es wert ist","Cuánto vale","Ce que ça vaut","Quanto vale","Сколько стоит"],"amount_saving":["Ne kadar","How much","Wie viel","Cuánto","Combien","Quanto","Сколько"],"purchase_quantity":["Miktar","Quantity","Menge","Cantidad","Quantité","Quantidade","Количество"],"purchase_category":["Kategori","Category","Kategorie","Categoría","Catégorie","Categoria","Категория"],"asset_kind":["Tür","Type","Art","Tipo","Type","Tipo","Тип"],"asset_cost":["Alış fiyatı","Paid","Kaufpreis","Pagado","Prix payé","Preço pago","Цена покупки"],"common_cancel":["Vazgeç","Cancel","Abbrechen","Cancelar","Annuler","Cancelar","Отмена"],"share_link_failed":["Sunucuya ulaşılamadı","Could not reach the server","Server nicht erreichbar","No se pudo conectar con el servidor","Serveur injoignable","Não foi possível falar com o servidor","Сервер недоступен"],"share_link_failed_message":["Bağlantını kontrol edip tekrar dene.","Check the connection and try again.","Prüfe die Verbindung und versuch es nochmal.","Revisa la conexión y vuelve a intentarlo.","Vérifie la connexion et réessaie.","Verifique a conexão e tente de novo.","Проверь соединение и попробуй снова."]}};
+const LI = l => Math.max(0, LANGS.indexOf(l));
+const A = (group, key) => (APP[group][key] || [])[LI(lang)] || (APP[group][key] || [])[1] || key;
+/* The plan kinds' own buckets (PurchaseStore.swift ProjectKind.categories). */
+const PROJECT_CATS = { general: ["service", "transport", "shopping", "fee", "other"], build: ["material", "labour", "service", "transport", "fee", "other"], trip: ["travel", "stay", "food", "activity", "shopping", "visa", "other"], event: ["venue", "food", "clothing", "media", "service", "shopping", "other"], move: ["transport", "deposit", "furniture", "service", "material", "other"], car: ["vehicle", "tax", "fuel", "maintenance", "service", "other"] };
+const SHOPPING = ["water", "drinks", "tea", "coffee", "dairy", "bakery", "produce", "meat", "pantry", "snacks", "breakfast", "frozen", "household", "personal", "baby", "pet"];
+const UNITS = ["piece", "pack", "kilogram", "litre", "metre", "squareMetre", "hour", "day", "night", "person"];
+const AKINDS = ["property", "land", "vehicle", "gold", "currency", "stock", "fund", "crypto", "savings", "other"];
 const ICONS = { project: "🔨", priceLog: "🏷️", assets: "📦", savingsPot: "🐷", board: "🟩", wishlist: "📝" };
 const LANG_KEY = "wc-share-lang";
 
@@ -382,6 +416,120 @@ function render() {
   $("updated").textContent = upd ? `${T.updated}: ${new Date(upd).toLocaleString(LOCALE[lang], { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}` : "";
   $("list").innerHTML = listHTML(T, payload);
   $("c3").classList.toggle("hidden", payload.kind === "board");
+  $("sgOpen").textContent = T.sgOpen;
+  if (!$("sgSheet").classList.contains("hidden")) buildSuggest();
+}
+
+// ---------- Ekleme öner: shares/{id}/requests, the owner accepts it in the app ----------
+const FB_CFG = { apiKey: "AIzaSyD3N9_z4h2WGT57yUUz_Ip6C0pZINHVQJE", authDomain: "wallet-coach-87336.firebaseapp.com", projectId: "wallet-coach-87336", appId: "1:516767341196:web:ed76884517bcfc3cd4b9a9" };
+let fb = null, sgState = "form", sgError = "";
+const sgVals = {};
+const THROTTLE_KEY = "wc-suggest-" + id;
+function categoriesFor(p) {
+  const out = [], seen = new Set(), add = r => { r = String(r || "").trim(); if (r && !seen.has(r)) { seen.add(r); out.push(r); } };
+  if (p.project) { (PROJECT_CATS[p.project.kind] || PROJECT_CATS.general).forEach(add); (p.project.extraCategories || []).forEach(add); }
+  else SHOPPING.forEach(add);
+  (p.purchases || []).map(x => x.category).forEach(add);
+  add("other");
+  return out;
+}
+const parseNum = raw => {
+  let t = String(raw || "").replace(/[\s ']/g, "");
+  if (!t) return null;
+  const c = t.lastIndexOf(","), d = t.lastIndexOf(".");
+  if (c > -1 && d > -1) t = c > d ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
+  else if (c > -1) t = t.replace(",", ".");
+  const n = Number(t);
+  return isFinite(n) ? n : null;
+};
+const isoNoMs = d => d.toISOString().replace(/\.\d{3}Z$/, "Z");
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+function readVals() { document.querySelectorAll("#sgSheet [data-f]").forEach(el => sgVals[el.dataset.f] = el.type === "checkbox" ? el.checked : el.value); }
+function buildSuggest() {
+  const T = I18N[lang], S = k => A("s", k), k = payload.kind, isPurchase = k === "project" || k === "priceLog";
+  readVals();
+  const v = (f, d = "") => sgVals[f] ?? d;
+  const sel = (f, opts, label) => `<select data-f="${f}">${opts.map(o => `<option value="${esc(o)}"${v(f, opts[0]) === o ? " selected" : ""}>${esc(label(o))}</option>`).join("")}</select>`;
+  const head = `<h3>${esc(T.c3t.toLocaleUpperCase(LOCALE[lang]))}</h3><p class="foot">${esc(S("footer"))}</p>`;
+  if (sgState === "sent") {
+    $("sgSheet").innerHTML = head + `<div class="done">${esc(T.sgSent)}</div><div class="acts"><button type="button" class="pill" id="sgAgain">${esc(T.sgAnother)}</button></div>`;
+    $("sgAgain").onclick = () => { sgState = "form"; for (const f of ["name", "amount", "vendor", "note", "price"]) delete sgVals[f]; buildSuggest(); };
+    return;
+  }
+  const nameLabel = k === "savingsPot" ? S("what_saving") : k === "assets" ? S("what_asset") : S("name");
+  const amountLabel = k === "assets" ? S("amount_value") : k === "savingsPot" ? S("amount_saving") : k === "priceLog" ? S("amount_price") : S("amount");
+  const sym = esc(payload.currency || "");
+  let h = head + `<label class="fld"><span>${esc(nameLabel)}</span><input data-f="name" maxlength="120" value="${esc(v("name"))}"></label>
+    <label class="fld"><span>${esc(amountLabel)}${sym ? ` (${sym})` : ""}</span><input data-f="amount" class="big" inputmode="decimal" placeholder="0" value="${esc(v("amount"))}"></label>`;
+  if (isPurchase) {
+    h += `<div class="two"><label class="fld"><span>${esc(S("purchase_quantity"))}</span><input data-f="qty" inputmode="decimal" value="${esc(v("qty", "1"))}"></label>
+      <label class="fld"><span>&nbsp;</span>${sel("unit", UNITS, u => A("unit", u))}</label></div>
+      <label class="fld"><span>${esc(S("purchase_category"))}</span>${sel("category", categoriesFor(payload), c => APP.cat[c] ? A("cat", c) : c)}</label>
+      <label class="fld"><span>${esc(S("vendor"))}</span><input data-f="vendor" maxlength="80" value="${esc(v("vendor"))}"></label>
+      <label class="fld"><span>${esc(S("date"))}</span><input data-f="date" type="date" value="${esc(v("date", today()))}"></label>`;
+    if (k === "priceLog") h += `<label class="chk"><input type="checkbox" data-f="bought"${v("bought", true) ? " checked" : ""}> ${esc(S("bought"))}</label>`;
+  }
+  if (k === "assets") h += `<label class="fld"><span>${esc(S("asset_kind"))}</span>${sel("akind", AKINDS, a => A("akind", a))}</label>
+      <label class="fld"><span>${esc(S("asset_cost"))}${sym ? ` (${sym})` : ""}</span><input data-f="cost" inputmode="decimal" value="${esc(v("cost"))}"></label>`;
+  if (k === "savingsPot") h += `<label class="fld"><span>${esc(S("date"))}</span><input data-f="date" type="date" value="${esc(v("date", today()))}"></label>`;
+  h += `<label class="fld"><span>${esc(S("note"))}</span><textarea data-f="note" maxlength="280">${esc(v("note"))}</textarea></label>
+    <div class="acts"><button type="button" class="pill dark" id="sgSend">${esc(sgState === "sending" ? T.sgSending : S("send"))}</button><button type="button" class="pill" id="sgCancel">${esc(S("common_cancel"))}</button></div>
+    ${sgError ? `<p class="msg err">${esc(sgError === "failed" ? `${A("s", "share_link_failed")}. ${A("s", "share_link_failed_message")}` : T[sgError])}</p>` : ""}`;
+  $("sgSheet").innerHTML = h;
+  $("sgSend").disabled = sgState === "sending";
+  $("sgSend").onclick = sendSuggestion;
+  $("sgCancel").onclick = () => { $("sgSheet").classList.add("hidden"); sgError = ""; };
+}
+$("sgOpen").onclick = () => {
+  if (!payload) return;
+  $("sgSheet").classList.remove("hidden"); if (sgState !== "sent") sgState = "form"; buildSuggest();
+  $("sgSheet").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+function recent() {
+  let list = []; try { list = JSON.parse(localStorage.getItem(THROTTLE_KEY) || "[]"); } catch (e) { }
+  return list.filter(t => Date.now() - t < 10 * 6e4);
+}
+async function sendSuggestion() {
+  const T = I18N[lang], k = payload.kind;
+  readVals(); sgError = "";
+  const name = String(sgVals.name || "").trim(), amount = parseNum(sgVals.amount);
+  if ((k !== "savingsPot" && !name) || !(amount > 0)) { sgError = k === "savingsPot" ? "sgNeedAmount" : "sgNeed"; return buildSuggest(); }
+  if (recent().length >= 3) { sgError = "sgLimit"; return buildSuggest(); }
+  // The app's ShareRequestItem; nil fields are left out, dates as ISO8601 without fractions.
+  const item = { name, amount };
+  const note = String(sgVals.note || "");
+  if (note.trim()) item.note = note.trim();
+  const dateOf = () => { const [y, m, d] = String(sgVals.date || today()).split("-").map(Number); const n = new Date(); return isoNoMs(new Date(y, m - 1, d, n.getHours(), n.getMinutes(), n.getSeconds())); };
+  if (k === "project" || k === "priceLog") {
+    if (String(sgVals.vendor || "").trim()) item.vendor = String(sgVals.vendor).trim();
+    item.date = dateOf();
+    const q = parseNum(sgVals.qty); if (q > 0) item.quantity = q;
+    item.unit = sgVals.unit || "piece";
+    item.category = sgVals.category || "other";
+    if (k === "priceLog") item.priceOnly = !sgVals.bought;
+  } else if (k === "assets") {
+    item.assetKind = sgVals.akind || "other";
+    const c = parseNum(sgVals.cost); if (c != null) item.purchasePrice = c;
+  } else if (k === "savingsPot") item.date = dateOf();
+  sgState = "sending"; buildSuggest();
+  try {
+    if (!fb) {
+      const base = "https://www.gstatic.com/firebasejs/10.14.1/";
+      const [appM, authM, fsM] = await Promise.all(["firebase-app", "firebase-auth", "firebase-firestore"].map(m => import(base + m + ".js")));
+      const app = appM.initializeApp(FB_CFG);
+      fb = { auth: authM.getAuth(app), db: fsM.getFirestore(app), A: authM, F: fsM };
+    }
+    const user = fb.auth.currentUser || (await fb.A.signInAnonymously(fb.auth)).user;
+    await fb.F.addDoc(fb.F.collection(fb.db, "shares", id, "requests"), {
+      from: user.uid, kind: k, item: JSON.stringify(item), note: note.slice(0, 280), createdAt: fb.F.serverTimestamp(),
+    });
+    const list = recent(); list.push(Date.now()); try { localStorage.setItem(THROTTLE_KEY, JSON.stringify(list)); } catch (e) { }
+    sgState = "sent";
+  } catch (e) {
+    console.warn("suggest", e);
+    sgState = "form"; sgError = "failed";
+  }
+  buildSuggest();
 }
 
 (async () => {
