@@ -97,7 +97,7 @@
   "icon": "/assets/home/leafbook-icon.webp",
   "color": "#55db9c",
   "ios": "6811846217",
-  "play": null,
+  "play": "com.aberk.leafbook",
   "tour": "/leafbook/",
   "status": "new",
   "tr": "Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.",

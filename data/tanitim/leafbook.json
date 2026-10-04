@@ -14,8 +14,8 @@
  "accent": "#c8f560",
  "status": "new",
  "kicker": {
-  "tr": "iPhone · Türkçe ve İngilizce",
-  "en": "iPhone · English and Turkish"
+  "tr": "iPhone ve Android · Türkçe ve İngilizce",
+  "en": "iPhone and Android · English and Turkish"
  },
  "lede": {
   "tr": "Bitkilerinin defteri: ne olduğunu, ne zaman sulanacağını ve ne kadar büyüdüğünü tutar. Takvime göre değil, bitkinin gerçekten yaşadığı köşeye göre.",
@@ -44,9 +44,11 @@
   }
  ],
  "platforms": [
-  "ios"
+  "ios",
+  "android"
  ],
  "ios": "6811846217",
+ "play": "com.aberk.leafbook",
  "emoji": [
   "🌱",
   "💧",
