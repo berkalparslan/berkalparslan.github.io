@@ -309,7 +309,7 @@ code{font:12px ui-monospace,Menlo,monospace}
         </details>
         <h2>Ayarlar</h2>
         <div class="rates">
-          <div><label>Açınca gideceği sekme</label><select id="pTab"><option value="">Varsayılan</option><option value="panel">Panel</option><option value="month">Ay</option><option value="analysis">Analiz</option><option value="wallet">Cüzdan</option><option value="learn">Yazılar (liste)</option><option value="article">Belirli yazı</option></select></div>
+          <div><label>Açınca gideceği sekme</label><select id="pTab"><option value="">Varsayılan</option><option value="panel">Cüzdan (ana sayfa)</option><option value="month">Ay</option><option value="analysis">Analiz</option><option value="wallet">Araçlar</option><option value="learn">Yazılar (liste)</option><option value="article">Belirli yazı</option></select></div>
           <div id="pArticleBox" class="hidden"><label>Yazı (yayında olanlar)</label><select id="pArticle"></select></div>
         </div>
         <div class="checks">
@@ -485,10 +485,14 @@ const OLAY = {
 const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
 const AI = { ai_receipt: "Fiş", ai_label: "Etiket", ai_statement: "Ekstre", ai_call: "Ara sürüm (ayrımsız)" };
 const EKRAN = {
-  panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", settings: "Ayarlar", statements: "Ekstreler",
+  // Ekran adları uygulamada sabit kalır (eski veriyle aynı anahtar); sekmeler
+  // yeniden adlandırılınca yalnız buradaki etiketler değişir. 4 Eki: panel
+  // sekmesi "Cüzdan", wallet sekmesi "Araçlar", Ayarlar alt bardan çıktı.
+  panel: "Cüzdan (ana sayfa)", month: "Ay", analysis: "Analiz", wallet: "Araçlar", settings: "Ayarlar", statements: "Ekstreler",
   statement_detail: "Ekstre detayı", ledger: "Alacak-verecek", assets: "Varlıklar", projects: "Projeler",
   savings: "Birikim", price_log: "Fiyat takibi", converter: "Fiyatı saate çevir", wishlist: "Listem",
-  time_value: "Şimdi ne kadar", net_salary: "Brütten nete", raise: "Zam", learn: "Öğren", paywall: "Paywall",
+  time_value: "Şimdi ne kadar", net_salary: "Brütten nete", raise: "Zam", learn: "Yazılar", paywall: "Paywall",
+  shared: "Paylaşılanlar", closed: "Kapalı",
 };
 const SOURCES = {
   onboarding: "Tanıtım sonu", analysis: "Analiz", asset_limit: "Varlık sınırı", board_limit: "Pano sınırı",
@@ -498,7 +502,7 @@ const SOURCES = {
 };
 const N_FIELDS = { n_months: "Ay", n_entries: "Plan satırı", n_parties: "Kişi/marka", n_assets: "Varlık", n_projects: "Proje", n_purchases: "Alım", n_pots: "Birikim kabı", n_boards: "Pano", n_statements: "Ekstre", n_wishes: "Liste (bekleyen)" };
 const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", ru: "Rusça" };
-const TABS = { panel: "Panel", month: "Ay", analysis: "Analiz", wallet: "Cüzdan", learn: "Yazılar" };
+const TABS = { panel: "Cüzdan (ana sayfa)", month: "Ay", analysis: "Analiz", wallet: "Araçlar", learn: "Yazılar" };
 const COUNTERS = ["installs_new", "sessions", "onboarding_done", "paywall_views", "purchases", "ai_requests", "ai_tokens_in", "ai_tokens_out", "ai_blocked", "ai_failed"];
 
 const screenName = sc => !sc ? "-" : (EKRAN[sc] || sc);
