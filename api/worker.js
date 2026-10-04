@@ -150,13 +150,12 @@ function shell(lang, preheader, inner, unsubToken) {
     ? `<a href="${SITE}/api/unsubscribe?t=${unsubToken}" style="color:#000">${T ? "Bültenden çık" : "Unsubscribe"}</a> · `
     : "";
   return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Bam Studio</title></head>
-<body style="margin:0;padding:0;background:${C.sky};font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#000">
+<body style="margin:0;padding:0;background:#fff;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#000">
 <span style="display:none;opacity:0;max-height:0;overflow:hidden">${esc(preheader)}</span>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.sky}"><tr><td align="center" style="padding:28px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:20px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px">
-<tr><td style="padding:0 0 16px"><img src="${SITE}/assets/brand/icon-180.png" width="56" height="56" alt="Bam Studio" style="display:block;border:0;border-radius:14px"></td></tr>
-<tr><td style="background:#fff;border:2px solid #000;border-radius:28px;padding:30px 28px">${inner}</td></tr>
-<tr><td style="padding:18px 6px;font-size:12px;line-height:1.5;color:#000;opacity:.75">${foot}<a href="${SITE}" style="color:#000">bamstudio.dev</a> · <a href="${SITE}/privacy/site/" style="color:#000">${T ? "Gizlilik" : "Privacy"}</a><br>${T ? "Bu maili bamstudio.dev'de e-postanı bıraktığın için aldın." : "You got this email because you left your address on bamstudio.dev."}</td></tr>
+<tr><td style="background:${C.sky};border:2px solid #000;border-radius:28px;padding:28px 24px">${inner}</td></tr>
+<tr><td style="padding:18px 6px;font-size:12px;line-height:1.5;color:#000;opacity:.75">${foot}<a href="${SITE}" style="color:#000">bamstudio.dev</a> · <a href="${SITE}/privacy/site/" style="color:#000">${T ? "Gizlilik" : "Privacy"}</a><br>${T ? "Bu maili bamstudio.dev'de seçim yapıp e-postanı bıraktığın için aldın. Cevap yazarsan doğrudan bana gelir." : "You got this email because you made your picks on bamstudio.dev. Reply and it comes straight to me."}</td></tr>
 </table></td></tr></table></body></html>`;
 }
 const h1 = (t) => `<h1 style="margin:0 0 14px;font-family:Impact,'Arial Black',sans-serif;font-weight:900;font-size:40px;line-height:.95;text-transform:uppercase;letter-spacing:-.5px">${t}</h1>`;
@@ -208,10 +207,13 @@ function mailPoll(lang, apps, codes, platform, confirmToken) {
   const news = confirmToken
     ? `<div style="margin-top:18px;padding:16px;border:2px solid #000;border-radius:18px;background:${C.mint}">${p(T ? "Bültene de katılmak istedin. Onaylamak için:" : "You also asked to join the newsletter. Confirm here:")}${btn(`${SITE}/api/confirm?t=${confirmToken}`, T ? "Bülteni onayla" : "Confirm newsletter")}</div>`
     : "";
-  const inner = h1(T ? "Favorilerin geldi" : "Your favourites") + p(lead) + cards + android + news +
+  const inner = p(T ? "Merhaba," : "Hi,") + h1(T ? "Favorilerin geldi" : "Your favourites") + p(lead) + cards + android + news +
     p(`<span style="font-size:13px;opacity:.75">${T ? "Sevgiyle, Bam Studio" : "With love, Bam Studio"}</span>`);
-  const text = (T ? "Seçtiklerin: " : "Your picks: ") + apps.map((s) => (BY[s] ? BY[s].name : s) + (codes[s] ? ` ${codes[s].code}` : "")).join(", ");
-  return { subject: T ? (got ? "%20 indirim kodların burada" : "Seçimlerin için teşekkürler") : (got ? "Your 20% off codes are here" : "Thanks for your picks"), html: shell(lang, T ? "En sevdiğin uygulamalar için hediye" : "A little gift for your favourite apps", inner, null), text };
+  const text = [T ? "Merhaba," : "Hi,", "", lead, ""].concat(apps.map((s) => {
+    const a = BY[s]; if (!a) return s; const c = codes[s];
+    return c && a.ios ? `${a.name}: ${c.code}\nhttps://apps.apple.com/redeem?ctx=offercodes&id=${a.ios}&code=${encodeURIComponent(c.code)}` : a.name;
+  })).concat(["", T ? "Sevgiyle, Bam Studio" : "With love, Bam Studio", SITE]).join("\n");
+  return { subject: T ? (got ? "Seçtiğin uygulamalar ve kodların" : "Seçimlerin için teşekkürler") : (got ? "Your picks and your codes" : "Thanks for your picks"), html: shell(lang, T ? "Merhaba, seçtiğin uygulamalar için kodları yazdım." : "Hi, here are the codes for the apps you picked.", inner, null), text };
 }
 
 /* ── canlı (lab paneli) ─────────────────────────────────────
