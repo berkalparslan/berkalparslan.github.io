@@ -30,7 +30,7 @@ import { vaultAyristir } from "./vaultmetin.mjs";
 import { listele, indir, indirHam, kovaAdi } from "./gcs.mjs";
 import { csvNesneler } from "./csv.mjs";
 import { ascIstemci } from "./uzak/asc.mjs";
-import { playSatir } from "./uzak/google.mjs";
+import { playSatir, playYorumlar, playYorumOzet, playApiCevap } from "./uzak/google.mjs";
 import { telemetri } from "./telemetri.mjs";
 import { web } from "./web.mjs";
 import { tmpdir } from "node:os";
@@ -259,15 +259,14 @@ async function androidKova(ay = 3) {
       try { hepsi = hepsi.concat(csvNesneler(await indir(KOVA, ad))); }
       catch { /* o ay yorum yok */ }
     }
-    const puanlar = hepsi.map(r => Number(r["Star Rating"])).filter(Number.isFinite);
-    cikti.yorumlar[app.slug] = {
-      adet: hepsi.length,
-      ortalama: puanlar.length
-        ? +(puanlar.reduce((x, y) => x + y, 0) / puanlar.length).toFixed(2) : null,
-      cevapsiz: hepsi.filter(r => !(r["Developer Reply Text"] || "").trim()).length,
-      son: hepsi.map(r => r["Review Last Update Date and Time"]).filter(Boolean).sort().at(-1) || null
-    };
-    log(`  kova yorum ${app.slug} ${hepsi.length}`);
+    const y = playYorumlar(hepsi);
+    /* CSV günde bir yenileniyor; cevapsız görünenleri Play API'dan teyit et. */
+    for (const x of y.liste) if (!x.cevap && x.metin && !/\|/.test(x.kimlik)) {
+      const r = sh("gplay", ["reviews", "get", "--package", app.android, "--review", x.kimlik]);
+      if (r.ok) { try { x.cevap = playApiCevap(JSON.parse(r.out)); } catch { } }
+    }
+    cikti.yorumlar[app.slug] = playYorumOzet(y.liste);
+    log(`  kova yorum ${app.slug} ${y.liste.length}${cikti.yorumlar[app.slug].cevapsiz ? ` (${cikti.yorumlar[app.slug].cevapsiz} cevapsız)` : ""}`);
   }
 
   return cikti;

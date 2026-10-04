@@ -3,14 +3,20 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/panel-64.png">
-  <link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/panel-180.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/lab-icons/panel-64.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/lab-icons/panel-180.png">
+  <link rel="manifest" href="/lab/panel/manifest.webmanifest">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Panel · Lab</title>
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <meta name="referrer" content="no-referrer" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Panel" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#f2f7fe" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e1117" media="(prefers-color-scheme: dark)" />
+  <meta name="format-detection" content="telephone=no" />
 
   <script>
     /* Tema sayfa boyanmadan: kayıtlı tercih > sistem. Anahtar panelin kendine ait. */
@@ -130,6 +136,10 @@
     .gate input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
     .gate button { width: 100%; margin-top: 10px; padding: 11px; border-radius: 12px; font-weight: 650; background: var(--accent); color: #fff; }
     .gate button[disabled] { opacity: .5; }
+    .gate button.ikincil { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-2); }
+    .gate button.face { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0; margin-bottom: 14px; padding: 13px; font-size: 16px; }
+    .gate-ayrac { display: flex; align-items: center; gap: 10px; color: var(--faint); font-size: 13px; margin: 0 0 12px; }
+    .gate-ayrac::before, .gate-ayrac::after { content: ""; flex: 1; height: 1px; background: var(--border); }
     .gate-err { color: var(--rose); font-size: 13px; margin-top: 10px; min-height: 18px; }
     .gate-foot { margin-top: 14px; font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
     .gate-foot a { color: var(--faint); }
@@ -227,6 +237,15 @@
     .uyarilar details[open] summary { border-bottom: 1px solid var(--border); }
     .uyarilar summary { padding: 8px 16px; font-size: 13.5px; color: var(--accent); cursor: pointer; list-style: none; font-weight: 600; }
     .uyarilar summary::-webkit-details-marker { display: none; }
+
+    .uyari-blok { margin-bottom: 18px; }
+    .uyari-blok > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; padding: 10px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); font-size: 14px; }
+    .uyari-blok > summary::-webkit-details-marker { display: none; }
+    .uyari-blok > summary .ozet-sat { color: var(--subtle); font-size: 13.5px; }
+    .uyari-blok > summary .ok { margin-left: auto; color: var(--faint); transition: transform .15s; }
+    .uyari-blok[open] > summary { border-radius: var(--r) var(--r) 0 0; border-bottom-color: transparent; }
+    .uyari-blok[open] > summary .ok { transform: rotate(90deg); }
+    .uyari-blok[open] > .uyarilar { border-radius: 0 0 var(--r) var(--r); margin-bottom: 0; }
 
     /* Tablo: hücre metni kesilmez; geniş tablo kendi içinde kayar */
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -361,8 +380,13 @@
     .katman-baslik:first-child { margin-top: 0; }
 
     /* Uygulama görünümü: kare kare yuvarlak kartlar */
-    .bento { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; grid-auto-flow: dense; margin-bottom: 22px; }
-    .kare { border-radius: 22px; padding: 16px 17px; border: 1px solid var(--p-kenar); background: var(--surface); min-width: 0; min-height: 230px; display: flex; flex-direction: column; gap: 10px; }
+    /* Kartlar satır yüksekliğine esnemez (align-items: start): grafik rakamın
+       hemen altında kalır. Çok uzun kart katlanır, "Devamını göster" ile açılır. */
+    .bento { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; grid-auto-flow: dense; margin-bottom: 22px; align-items: start; }
+    .kare { border-radius: 22px; padding: 16px 17px; border: 1px solid var(--p-kenar); background: var(--surface); min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+    .kare-ic { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .kare.katli .kare-ic { max-height: 360px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), transparent); mask-image: linear-gradient(#000 calc(100% - 64px), transparent); }
+    .katla-dugme { align-self: flex-start; font-size: 13px; font-weight: 650; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border-2); background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--accent); }
     .kare.genis { grid-column: span 2; }
     .kare.serbest { min-height: 0; }
     .kare.t-mavi { background: var(--p-mavi); } .kare.t-sari { background: var(--p-sari); } .kare.t-yesil { background: var(--p-yesil); }
@@ -376,7 +400,7 @@
     .kare .buyuk .e { font-size: 13.5px; color: var(--subtle); }
     .kare .buyuk .f { font-size: 13.5px; font-weight: 650; }
     .kare .alt-satir { font-size: 13.5px; color: var(--subtle); line-height: 1.45; }
-    .kare .grafik { margin-top: auto; }
+    .kare .grafik { margin-top: 2px; }
     .kare .ikil { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; }
     .kare .ikil div { background: color-mix(in srgb, var(--surface) 70%, transparent); border-radius: 12px; padding: 7px 10px; }
     .kare .ikil b { display: block; font-size: 16px; font-variant-numeric: tabular-nums; line-height: 1.3; }
@@ -434,6 +458,8 @@
     .y-puan { color: var(--amber); letter-spacing: 1px; font-size: 13px; }
     .y-baslik { font-weight: 650; }
     .y-uyg { font-size: 13px; color: var(--accent); background: var(--accent-soft); padding: 0 8px; border-radius: 99px; }
+    .y-kay { font-size: 12px; font-weight: 700; padding: 0 6px; border-radius: 5px; border: 1px solid var(--border-2); color: var(--text); }
+    .y-kay.and { color: var(--mint); }
     .y-meta { font-size: 13px; color: var(--faint); margin-left: auto; font-family: var(--mono); }
     .y-metin { font-size: 14px; white-space: pre-wrap; }
     .y-cevap { margin-top: 8px; padding: 8px 12px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 13.5px; white-space: pre-wrap; }
@@ -484,22 +510,34 @@
     .mini-kpi b { display: block; font-size: 21px; font-weight: 650; font-variant-numeric: tabular-nums; }
     .mini-kpi span { font-size: 13px; color: var(--faint); }
 
+    /* Telefon ve dar ekran: uygulama gibi. Üstte ince bar (menü, seçili
+       uygulama, tema), yan menü soldan açılan çekmece, sekmeler barın altında
+       yapışık. Ana ekrana eklenince (standalone) çentik/durum çubuğu payı. */
+    .mbar, .perde { display: none; }
     @media (max-width: 900px) {
+      :root { --mbar: calc(52px + env(safe-area-inset-top)); }
       .shell { grid-template-columns: minmax(0, 1fr); }
-      aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 12px 16px; gap: 10px; }
-      .yig { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; padding-bottom: 2px; }
-      .yig button { flex: none; white-space: nowrap; border: 1px solid var(--border); }
-      .yig .ayrac { display: none; }
-      .paneller { flex-direction: row; flex-wrap: wrap; }
-      .yan-alt { margin-top: 0; }
-      main { padding: 0 16px 48px; }
-      .sekmeler { margin: 0 -16px 14px; padding: 8px 16px; }
+      .mbar { display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 20; height: var(--mbar); padding: env(safe-area-inset-top) max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left)); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+      .mbar button { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-size: 19px; color: var(--text); flex: none; }
+      .mbar button:active { background: var(--surface-2); }
+      .mbar img { width: 28px; height: 28px; border-radius: 8px; flex: none; }
+      .mbar .mbar-ad { flex: 1; min-width: 0; line-height: 1.2; }
+      .mbar .mbar-ad b { display: block; font-size: 15px; }
+      .mbar .mbar-ad small { display: block; color: var(--faint); font-size: 12.5px; }
+      aside { position: fixed; z-index: 40; left: 0; top: 0; bottom: 0; height: 100dvh; width: min(320px, 86vw); transform: translateX(-102%); transition: transform .22s ease; padding: calc(14px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); box-shadow: 0 0 40px rgba(0, 0, 0, .25); }
+      body.menu-acik aside { transform: none; }
+      body.menu-acik .perde { display: block; position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, .35); }
+      body.menu-acik { overflow: hidden; }
+      .yig button { padding: 9px 10px; font-size: 14.5px; }
+      main { padding: 0 max(12px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+      .sekmeler { margin: 0 -12px 14px; padding: 8px 12px; top: var(--mbar); }
       .ikili, .uclu { grid-template-columns: minmax(0, 1fr); }
       .katmanlar { column-count: 1; }
       dl.kv > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
       .uyarilar .u { grid-template-columns: 10px minmax(0, 1fr); padding: 9px 14px; }
       .uyarilar .u .ne, .uyarilar .u .sag { grid-column: 2; }
       .uyarilar .u .sag { white-space: normal; }
+      .baslik { margin-bottom: 12px; }
     }
     @media (max-width: 640px) {
       .bento { grid-template-columns: minmax(0, 1fr); }
@@ -524,7 +562,8 @@
       <div class="gate-mark"><img src="/assets/lab-icons/panel-180.png" alt="" /></div>
       <h1>Panel</h1>
       <p>App Store ve Google Play günlük verisi, pazarlama önceliği, servis takibi. Dosya şifreli, parola tarayıcıdan çıkmıyor.</p>
-      <input type="password" id="pw" placeholder="parola" autocomplete="current-password" autofocus />
+      <div id="faceKutu" hidden><button type="button" class="face" id="faceAc">Face ID ile aç</button><div class="gate-ayrac">ya da parola</div></div>
+      <input type="password" id="pw" placeholder="parola" autocomplete="current-password" />
       <button type="submit" id="go">Aç</button>
       <div class="gate-err" id="err"></div>
       <div class="gate-foot"><a href="/lab/">← Lab</a><span>AES-256-GCM · PBKDF2</span></div>
@@ -532,7 +571,14 @@
   </div>
 
   <div class="shell" id="shell" hidden>
-    <aside>
+    <header class="mbar">
+      <button id="menuAc" aria-label="Menü" aria-controls="yan">☰</button>
+      <img src="/assets/lab-icons/panel-180.png" alt="" />
+      <div class="mbar-ad"><b id="mbarAd">Panel</b><small id="mbarAlt"></small></div>
+      <button id="mbarTema" aria-label="Tema">◐</button>
+    </header>
+    <div class="perde" id="perde"></div>
+    <aside id="yan">
       <div class="marka">
         <div class="m"><img src="/assets/lab-icons/panel-180.png" alt="" /></div>
         <div><b>Panel</b><small id="cekim"></small></div>
@@ -552,6 +598,7 @@
         <button id="yenile" title="Çekim komutunu kopyalar; terminale yapıştır">yenile</button>
         <button id="tema">tema</button>
         <button id="kilit">kilitle</button>
+        <button id="faceKur" hidden title="Bu cihazda parolayı Face ID / Touch ID ile aç">Face ID</button>
         <a href="/lab/">Lab</a>
       </div>
     </aside>
@@ -567,6 +614,8 @@
     const DURUM_KEY = "bamtech-panel-durum";
     const GOREV_KEY = "bamtech-panel-gorev";
     const TEMA_KEY = "bamtech-panel-tema";
+    const UYARI_KEY = "bamtech-panel-uyari-acik";
+    const uyariAcik = () => { try { return localStorage.getItem(UYARI_KEY) === "1"; } catch (e) { return false; } };
 
     /* ── Şifre çözme, build.mjs ile aynı parametreler ──────── */
     const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -759,8 +808,7 @@
       const gunSay = son - bas;
       const satis = topla("s", bas, son, [a]);
       const puan = a.yorum?.ortalama ?? a.androidYorum?.ortalama ?? null;
-      const yorumAdet = (a.yorum?.adet || 0) + (a.androidYorum?.adet || 0);
-      const cevapsiz = (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0);
+      const ys = yorumSay(a), yorumAdet = ys.adet, cevapsiz = ys.cevapsiz;
       const fark = tamOnceki && onceki ? Math.round((indirme - onceki) / onceki * 100) : null;
       return { indirme, onceki, fark, gelirHarita, gelirTl, gunSay, satis, puan, yorumAdet, cevapsiz, aylik: gunSay ? indirme / gunSay * 30 : 0 };
     }
@@ -798,7 +846,7 @@
       }
 
       /* Adımlar, önem sırasıyla. İlk adım "sonraki iş" olur. */
-      if (o.cevapsiz) adimlar.push({ s: "a", ne: `${o.cevapsiz} cevapsız yorum → <code>ascelerate reviews respond</code>` });
+      if (o.cevapsiz) adimlar.push({ s: "a", ne: `${o.cevapsiz} cevapsız yorum → Yorumlar sekmesi (<code>ascelerate reviews respond</code> / <code>gplay reviews reply</code>)` });
       if (katman !== "kapali" && katman !== "bekle") {
         if (o.puan !== null && o.puan < 3 && o.yorumAdet) adimlar.push({ s: "a", ne: `Puan ★${o.puan}, paylaşım/reklam yapma, önce yorumdaki şikayeti çöz` });
         if (a.android && !playProd && (durum === "yayında")) adimlar.push({ s: "b", ne: `Play'de production yok (${play.length ? play.map(t => t.track).join(", ") : "track okunmadı"})` });
@@ -932,11 +980,31 @@
       return l.join(" · ") || "·";
     };
 
-    function tumYorumlar() {
+    /* Bir uygulamanın yorumları: App Store + Play, platform süzgecine göre.
+       Sayaçlar (cevapsız rozeti, uyarı, tablo) ve Yorumlar sekmesi aynı
+       listeden sayar; eskiden sayaç Play'i de sayıyor, sekme yalnız App
+       Store'u listeliyordu. Play listesi yoksa (eski paket) yalnız sayı. */
+    const yorumCevaplanabilir = y => y.kaynak !== "play" || !!y.metin;
+    function appYorumlar(a) {
       const l = [];
-      for (const a of D.apps) { if (S.app && a.slug !== S.app) continue; if (!platUyar(a)) continue; for (const y of (a.yorum?.liste || [])) l.push({ ...y, uygulama: a.ad, slug: a.slug }); }
+      if (S.platform !== "and") for (const y of (a.yorum?.liste || [])) l.push({ ...y, kaynak: "ios" });
+      if (S.platform !== "ios") for (const y of (a.androidYorum?.liste || [])) l.push({ ...y, kaynak: "play" });
       return l.sort((x, y) => String(y.tarih).localeCompare(String(x.tarih)));
     }
+    function yorumSay(a) {
+      const l = appYorumlar(a);
+      let adet = l.length, cevapsiz = l.filter(y => !y.cevap && yorumCevaplanabilir(y)).length;
+      /* Listesi gelmemiş kaynak: yalnız sayı */
+      if (S.platform !== "and" && a.yorum && !a.yorum.liste) { adet += a.yorum.adet || 0; cevapsiz += a.yorum.cevapsiz || 0; }
+      if (S.platform !== "ios" && a.androidYorum && !a.androidYorum.liste) { adet += a.androidYorum.adet || 0; cevapsiz += a.androidYorum.cevapsiz || 0; }
+      return { adet, cevapsiz };
+    }
+    function tumYorumlar() {
+      const l = [];
+      for (const a of D.apps) { if (S.app && a.slug !== S.app) continue; if (!platUyar(a)) continue; for (const y of appYorumlar(a)) l.push({ ...y, uygulama: a.ad, slug: a.slug }); }
+      return l.sort((x, y) => String(y.tarih).localeCompare(String(x.tarih)));
+    }
+    const cevapBekler = y => !y.cevap && yorumCevaplanabilir(y);
     function tumGorevler() {
       const gruplar = [];
       for (const a of D.apps) { if (S.app && a.slug !== S.app) continue; if (!platUyar(a)) continue; const g = a.vault?.gorevler || []; if (g.length) gruplar.push({ ad: a.ad, slug: a.slug, gorevler: g }); }
@@ -956,6 +1024,9 @@
     function yanCiz() {
       $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
       $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3-5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
+      const sa = secApp();
+      $("#mbarAd").textContent = S.app === SITE ? "bamstudio.dev" : sa ? sa.ad : "Tüm uygulamalar";
+      $("#mbarAlt").textContent = `${ARALIKLAR.find(x => x.v === S.aralik)?.e || ""} · ${PLATFORMLAR.find(x => x.v === S.platform)?.e || ""} · ${$("#cekim").textContent}`;
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
       const { bas, son } = pencere();
@@ -969,7 +1040,7 @@
         (D.web ? `<button data-app="${SITE}" aria-pressed="${S.app === SITE}" title="bamstudio.dev: trafik, bülten, anket, kodlar"><span class="katman k-site"></span><span class="ad">bamstudio.dev (site)</span><span class="say">${sayi(webOzet()?.z7 || 0)}</span></button>` : "") +
         `<div class="ayrac"></div>` +
         sirali.map(({ a, d, n }) => {
-          const cevapsiz = (a.yorum?.cevapsiz || 0) + (a.androidYorum?.cevapsiz || 0);
+          const cevapsiz = yorumSay(a).cevapsiz;
           const cn = canliSay().app[a.slug] || 0;
           return `<button data-app="${esc(a.slug)}" aria-pressed="${S.app === a.slug}" title="${esc(a.ad)} · ${KATMAN[d.katman].e}${cn ? ` · şu an ${cn} kişi` : ""}">
             <span class="katman k-${d.katman}"></span><span class="ad">${esc(a.ad)}</span>
@@ -1046,7 +1117,7 @@
       const tamOnceki = onc.son - onc.bas === uzun;
       const fark = tamOnceki && oncekiI ? Math.round((indirme - oncekiI) / oncekiI * 100) : null;
       const farkYazi = fark !== null ? `${fark > 0 ? "▲" : fark < 0 ? "▼" : "="} ${Math.abs(fark)}% · önceki ${sayi(oncekiI)}` : !S.aralik ? `${D.gunler.length} gün` : "önceki dönem yok";
-      const cevapsiz = tumYorumlar().filter(y => !y.cevap).length;
+      const cevapsiz = tumYorumlar().filter(cevapBekler).length;
       const net = para.tl !== null && m.aralikTl !== null ? para.tl - m.aralikTl : null;
       const secim = secApp();
       const aktif = aktifOzet(slugs);
@@ -1073,7 +1144,8 @@
       const canliHucre = a => { if (!CANLI_APPS.includes(a.slug)) return '<td class="num zero" title="Bu uygulamada canlı telemetri yok">·</td>'; if (!CANLI.veri) return '<td class="num zero">…</td>'; const n = cs.app[a.slug] || 0; return `<td class="num ${n ? "up" : "zero"}">${n ? `<span class="nokta-canli"></span>${n}` : "0"}</td>`; };
 
       const uyHtml = uy.length ? (() => { const sat = x => `<div class="u ${x.s}"><i></i><span class="kim">${x.a ? `<a href="#" data-app="${esc(x.a.slug)}">${esc(x.a.ad)}</a>` : x.kim}</span><span class="ne">${x.ne}</span><span class="sag zero">${x.sag || ""}</span></div>`;
-          const ILK = 8; return `<section><h3>Uyarılar <span class="acik">· ${uy.filter(x => x.s === "a").length} acil, ${uy.length} toplam</span></h3><div class="uyarilar">${uy.slice(0, ILK).map(sat).join("")}${uy.length > ILK ? `<details ${S.uyariAcik ? "open" : ""} data-uyaridetay><summary>+${uy.length - ILK} uyarı daha</summary>${uy.slice(ILK).map(sat).join("")}</details>` : ""}</div></section>`; })() : "";
+          const acil = uy.filter(x => x.s === "a").length;
+          return `<details class="uyari-blok" data-uyariblok ${uyariAcik() ? "open" : ""}><summary><b>Uyarılar</b><span class="ozet-sat"> · ${acil ? `<span class="cevapsiz">${acil} acil</span>, ` : ""}${uy.length} toplam</span><span class="ok" aria-hidden="true">▸</span></summary><div class="uyarilar">${uy.map(sat).join("")}</div></details>`; })() : "";
       /* Uygulama seçiliyse genel bakış = o uygulamanın kare kare görünümü. */
       if (secim) return uyHtml + uygulamaDetay(secim);
 
@@ -1089,6 +1161,13 @@
           ${w ? `<div class="card"><div class="k">Site ziyareti · 7 gün</div><div class="v">${sayi(w.z7)}</div><div class="s">30 gün ${sayi(w.z30)} · ${sayi(w.abone)} abone</div></div>` : ""}
         </div>
         ${sinir ? `<div class="bilgi-kutu">${sinir}</div>` : ""}
+
+        <section>
+          <h3>Uygulama kartları <span class="acik">· odak sırasıyla, ${son - bas} günlük pencere · karta tıkla, kare kare ayrıntı açılır</span></h3>
+          ${SIRA.map(k => { const g = satirlar.filter(x => x.d.katman === k); if (!g.length) return "";
+            return `<div class="katman-baslik">${katmanEtiket(k)}<span>${g.length} uygulama · ${esc(KATMAN[k].a)}</span></div>
+            <div class="uyg-kartlar">${g.map(({ a, d }) => uygKart(a, d, bas, son)).join("")}</div>`; }).join("")}
+        </section>
 
         <section>
           <h3>${secim ? esc(secim.ad) : "Uygulamalar ve site"} <span class="acik">· satıra tıkla, detay açılır · aktif: GA4 ya da telemetri, hangisi büyükse</span></h3>
@@ -1117,13 +1196,6 @@
             </tbody>
             ${satirlar.length > 1 ? `<tfoot><tr><td>Toplam (${satirlar.length})</td><td></td><td class="num">${sayi(T.i)}</td><td class="num">${sayi(T.a7)}</td><td class="num">${sayi(T.a30)}</td><td class="num">${tl(T.g)}</td><td class="num">${sayi(T.s)}</td><td></td><td class="num">${T.cr ? sayi(T.cr) : "·"}</td><td class="num">${CANLI.veri ? sayi(cs.toplam) : "…"}</td><td></td></tr></tfoot>` : ""}</table>
           </div>
-        </section>
-
-        <section>
-          <h3>Uygulama kartları <span class="acik">· odak sırasıyla, ${son - bas} günlük pencere · karta tıkla, kare kare ayrıntı açılır</span></h3>
-          ${SIRA.map(k => { const g = satirlar.filter(x => x.d.katman === k); if (!g.length) return "";
-            return `<div class="katman-baslik">${katmanEtiket(k)}<span>${g.length} uygulama · ${esc(KATMAN[k].a)}</span></div>
-            <div class="uyg-kartlar">${g.map(({ a, d }) => uygKart(a, d, bas, son)).join("")}</div>`; }).join("")}
         </section>
 
         <div class="ikili">
@@ -1620,7 +1692,8 @@
       const ulTop = ul.length;
       ul = ul.slice(0, 6);
       /* Yorumlar */
-      const yl = [...(a.yorum?.liste || [])].sort((x, y) => String(y.tarih).localeCompare(String(x.tarih)));
+      const yl = appYorumlar(a);
+      const ylIlk = yl.find(cevapBekler) || yl[0];
       const dag = [5, 4, 3, 2, 1].map(s => [s, yl.filter(y => y.puan === s).length]);
       const dagEnCok = Math.max(1, ...dag.map(x => x[1]));
       /* Canlı */
@@ -1679,7 +1752,7 @@
         <div class="buyuk"><span class="n ${o.puan !== null && o.puan < 3 ? "down" : ""}">${o.puan !== null ? `★${o.puan}` : "·"}</span><span class="e">${sayi(o.yorumAdet)} yorum</span>${o.cevapsiz ? `<span class="cevapsiz">${o.cevapsiz} cevapsız</span>` : ""}</div>
         ${a.playPuan ? `<div class="alt-satir">Play mağaza puanı ★${a.playPuan.ortalama}</div>` : ""}
         ${yl.length ? `<div class="bars">${dag.map(([s, n]) => `<div class="bar"><span class="code">${s}★</span><span class="rail"><span class="fill" style="width:${(n / dagEnCok * 100).toFixed(1)}%;background:var(--c-sari)"></span></span><span class="n">${n}</span></div>`).join("")}</div>
-          <div class="yorum-kisa"><span class="y-puan">${yildiz(yl[0].puan)}</span><b>${esc(yl[0].baslik || "")}</b> <span class="zero">${tarihYazi(yl[0].tarih)}</span><div>${esc(yl[0].metin || "")}</div>${yl[0].cevap ? "" : '<div class="y-bekliyor">cevap bekliyor</div>'}</div>` : '<div class="alt-satir" style="margin-top:auto">App Store yorumu yok.</div>'}
+          <div class="yorum-kisa"><span class="y-puan">${yildiz(ylIlk.puan)}</span><b>${esc(ylIlk.baslik || "")}</b> <span class="y-kay ${ylIlk.kaynak === "play" ? "and" : ""}">${ylIlk.kaynak === "play" ? "Play" : "App Store"}</span> <span class="zero">${tarihYazi(ylIlk.tarih)}</span><div>${esc(ylIlk.metin || "")}</div>${cevapBekler(ylIlk) ? '<div class="y-bekliyor">cevap bekliyor</div>' : ""}</div>` : '<div class="alt-satir">Yorum yok.</div>'}
       </div>`);
       /* Canlı */
       if (canliVar) kareler.push(`<div class="kare t-lime">
@@ -1972,17 +2045,17 @@
     /* ── Sekme: yorumlar ─────────────────────────────────────── */
     function yorumCiz() {
       let l = tumYorumlar(); const toplam = l.length;
-      if (S.yorumSuzgec === "cevapsiz") l = l.filter(y => !y.cevap);
+      if (S.yorumSuzgec === "cevapsiz") l = l.filter(cevapBekler);
       if (S.yorumSuzgec === "dusuk") l = l.filter(y => (y.puan || 5) <= 3);
-      const suzgecler = [{ v: "hepsi", e: `Hepsi ${toplam}` }, { v: "cevapsiz", e: `Cevapsız ${tumYorumlar().filter(y => !y.cevap).length}` }, { v: "dusuk", e: `3★ ve altı ${tumYorumlar().filter(y => (y.puan || 5) <= 3).length}` }];
+      const suzgecler = [{ v: "hepsi", e: `Hepsi ${toplam}` }, { v: "cevapsiz", e: `Cevapsız ${tumYorumlar().filter(cevapBekler).length}` }, { v: "dusuk", e: `3★ ve altı ${tumYorumlar().filter(y => (y.puan || 5) <= 3).length}` }];
       return `
         <section>
           <div class="seg" style="max-width:420px;margin-bottom:14px">${suzgecler.map(f => `<button data-yorum="${f.v}" aria-pressed="${S.yorumSuzgec === f.v}">${f.e}</button>`).join("")}</div>
           <div class="panel">${l.length ? l.map(y => `
             <div class="yorum">
-              <div class="y-ust"><span class="y-puan" title="${y.puan} yıldız">${yildiz(y.puan)}</span>${y.baslik ? `<span class="y-baslik">${esc(y.baslik)}</span>` : ""}${!S.app ? `<span class="y-uyg">${esc(y.uygulama)}</span>` : ""}<span class="y-meta">${esc(y.ulke)} · ${tarihYazi(y.tarih)}${y.kisi ? ` · ${esc(y.kisi)}` : ""}</span></div>
-              <div class="y-metin">${esc(y.metin)}</div>
-              ${y.cevap ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}${y.cevap.bekliyor ? " · yayın bekliyor" : ""}</b>${esc(y.cevap.metin)}</div>` : '<div class="y-bekliyor">cevap bekliyor</div>'}
+              <div class="y-ust"><span class="y-puan" title="${y.puan} yıldız">${yildiz(y.puan)}</span>${y.baslik ? `<span class="y-baslik">${esc(y.baslik)}</span>` : ""}${!S.app ? `<span class="y-uyg">${esc(y.uygulama)}</span>` : ""}<span class="y-kay ${y.kaynak === "play" ? "and" : ""}">${y.kaynak === "play" ? "Play" : "App Store"}</span><span class="y-meta">${esc(y.ulke)}${y.cihaz ? ` · ${esc(y.cihaz)}` : ""} · ${tarihYazi(y.tarih)}${y.kisi ? ` · ${esc(y.kisi)}` : ""}</span></div>
+              <div class="y-metin">${y.metin ? esc(y.metin) : '<span class="zero">yalnız puan, metin yok</span>'}</div>
+              ${y.cevap ? `<div class="y-cevap"><b>Cevabın · ${tarihYazi(y.cevap.tarih)}${y.cevap.bekliyor ? " · yayın bekliyor" : ""}</b>${esc(y.cevap.metin)}</div>` : yorumCevaplanabilir(y) ? `<div class="y-bekliyor">cevap bekliyor${y.link ? ` · <a href="${esc(y.link)}" target="_blank" rel="noopener">Play Console'da cevapla ↗</a>` : y.kaynak === "play" ? " · <code>gplay reviews reply</code>" : " · <code>ascelerate reviews respond</code>"}</div>` : ""}
             </div>`).join("") : '<div class="bos">Bu süzgece uyan yorum yok.</div>'}</div>
         </section>
         ${D.apps.some(a => a.android) && !D.androidVeriVar ? `<section><div class="panel"><ul class="notes"><li>Google Play yorumları burada yok, API yalnız son 7 günü veriyor, geçmiş toplu raporlarda; servis hesabı yetkisi açılınca düşer.</li></ul></div></section>` : ""}`;
@@ -2064,7 +2137,7 @@
       const { bas, son } = pencere();
       const secim = secApp();
       const platEt = S.platform === "ios" ? "App Store" : S.platform === "and" ? "Google Play" : "iki mağaza";
-      const cevapsizSay = tumYorumlar().filter(y => !y.cevap).length;
+      const cevapsizSay = tumYorumlar().filter(cevapBekler).length;
       const acikGorev = tumGorevler().reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
       const SEKMELER = [
         { v: "ozet", e: "Genel bakış" },
@@ -2085,10 +2158,30 @@
         <div class="baslik"><h2 style="display:flex;align-items:center;gap:10px">${secim ? ikonHtml(secim).replace('class="ikon"', 'class="ikon" style="width:28px;height:28px;border-radius:7px;font-size:16px;display:inline-grid;place-items:center;object-fit:cover;background:var(--surface-2)"') : ""}${esc(secim ? secim.ad : "Tüm uygulamalar")}</h2><span class="alt">${altYazi}</span></div>
         ${govde}`;
     }
-    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); yaz(DURUM_KEY, S); }
+    /* Uzun kare kartları katla: içerik .kare-ic'e sarılır, 360px'te kesilir,
+       altına aç/kapat düğmesi. Açık olanlar (uygulama + kart başlığı) hatırlanır. */
+    const KARE_ACIK = new Set();
+    function kareKatla() {
+      for (const k of document.querySelectorAll(".bento > .kare")) {
+        if (k.scrollHeight < 470) continue;
+        const ad = `${S.app}|${k.querySelector("header b, h3")?.textContent || ""}`;
+        const ic = document.createElement("div"); ic.className = "kare-ic";
+        while (k.firstChild) ic.appendChild(k.firstChild);
+        k.appendChild(ic);
+        const acik = KARE_ACIK.has(ad);
+        k.classList.toggle("katli", !acik);
+        const b = document.createElement("button");
+        b.className = "katla-dugme"; b.dataset.katla = ad; b.setAttribute("aria-expanded", acik);
+        b.textContent = acik ? "Kapat ▴" : "Devamını göster ▾";
+        k.appendChild(b);
+      }
+    }
+    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); kareKatla(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
-    document.addEventListener("toggle", e => { if (e.target.matches?.("[data-uyaridetay]")) S.uyariAcik = e.target.open; }, true);
+    document.addEventListener("toggle", e => {
+      if (e.target.matches?.("[data-uyariblok]")) { try { localStorage.setItem(UYARI_KEY, e.target.open ? "1" : "0"); } catch (x) { } }
+    }, true);
     document.addEventListener("change", e => {
       const c = e.target.closest("[data-gorevid]"); if (!c) return;
       if (c.checked) YEREL[c.dataset.gorevid] = true; else delete YEREL[c.dataset.gorevid];
@@ -2097,6 +2190,13 @@
     document.addEventListener("click", e => {
       if (e.target.closest("a[target='_blank']")) return;
       if (e.target.closest("a[href^='http'], a[href^='/']") && !e.target.closest("[data-app]")) return;
+      const kd = e.target.closest("[data-katla]");
+      if (kd) {
+        const k = kd.closest(".kare"), acik = k.classList.toggle("katli") === false;
+        if (acik) KARE_ACIK.add(kd.dataset.katla); else { KARE_ACIK.delete(kd.dataset.katla); k.scrollIntoView({ block: "nearest" }); }
+        kd.setAttribute("aria-expanded", acik); kd.textContent = acik ? "Kapat ▴" : "Devamını göster ▾";
+        return;
+      }
       if (e.target.closest("[data-canliyenile]")) { e.preventDefault(); canliCek(true); return; }
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
@@ -2122,6 +2222,7 @@
         S.app = (b.closest("#yigUyg") && S.app === yeni) ? null : yeni;
         if (S.app && S.app !== SITE && b.closest(".uyg-satir, tr, .adim, .uk") && S.sekme !== "canli") S.sekme = "ozet";
         if (S.app) window.scrollTo({ top: 0 });
+        if (b.closest("#yan")) menuKapat();
       }
       ciz();
     });
@@ -2142,12 +2243,117 @@
         else { toast(`GitHub ${r.status}: token yetkisi?`); b.textContent = "yenile"; b.disabled = false; }
       } catch (e) { toast("Ağ hatası"); b.textContent = "yenile"; b.disabled = false; }
     };
+    const menuKapat = () => document.body.classList.remove("menu-acik");
+    $("#menuAc").onclick = () => document.body.classList.toggle("menu-acik");
+    $("#perde").onclick = menuKapat;
+    addEventListener("keydown", e => { if (e.key === "Escape") menuKapat(); });
+    $("#mbarTema").onclick = () => $("#tema").click();
     $("#kilit").onclick = () => { try { sessionStorage.removeItem(OTURUM); } catch (e) { } location.reload(); };
     $("#tema").onclick = () => {
       const su = document.documentElement.getAttribute("data-theme");
       const yeni = su === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", yeni);
       try { localStorage.setItem(TEMA_KEY, yeni); } catch (e) { }
+    };
+
+
+    /* ── Face ID ile açma (WebAuthn passkey + PRF) ──────────────
+       Parolayla açtıktan sonra "Face ID" düğmesi bu cihazda bir passkey
+       oluşturur. Passkey'in PRF uzantısı her doğrulamada aynı 32 baytı verir
+       (yalnız bu passkey ve bu tuz için); o bayttan HKDF ile AES-GCM anahtarı
+       türetilip parola şifrelenir, localStorage'a yalnız şifreli hali yazılır.
+       Açarken Face ID → aynı PRF çıktısı → parola çözülür → normal açılış.
+       Düz parola hiçbir yerde saklanmaz. PRF yoksa (iOS 18 öncesi, bazı
+       tarayıcılar) parola ile devam. rpId sayfanın alan adı: bamstudio.dev'de
+       kurulan passkey yalnız orada çalışır. */
+    const FACE_KEY = "bamtech-panel-faceid";
+    const b64u = u8 => btoa(String.fromCharCode(...new Uint8Array(u8))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const b64uC = s => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4)), c => c.charCodeAt(0));
+    const faceOku = () => { try { const j = JSON.parse(localStorage.getItem(FACE_KEY)); return j && j.v === 1 && j.rp === location.hostname ? j : null; } catch (e) { return null; } };
+    const faceYaz = j => { try { if (j) localStorage.setItem(FACE_KEY, JSON.stringify(j)); else localStorage.removeItem(FACE_KEY); return true; } catch (e) { return false; } };
+    const faceDestek = () => !!(window.PublicKeyCredential && navigator.credentials?.create && window.isSecureContext);
+    async function prfAnahtar(cikti, tuz) {
+      const ham = await crypto.subtle.importKey("raw", cikti, "HKDF", false, ["deriveKey"]);
+      return crypto.subtle.deriveKey({ name: "HKDF", hash: "SHA-256", salt: tuz, info: new TextEncoder().encode("bamtech-panel-faceid-v1") },
+        ham, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+    }
+    async function prfAl(credId, tuz) {
+      const c = await navigator.credentials.get({ publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)), rpId: location.hostname, timeout: 60000,
+        allowCredentials: [{ type: "public-key", id: credId }], userVerification: "required",
+        extensions: { prf: { eval: { first: tuz } } } } });
+      const r = c?.getClientExtensionResults?.()?.prf?.results?.first;
+      if (!r) throw new Error("prf-yok");
+      return r;
+    }
+    /* Kurulum: önce passkey oluştur. iOS bazen PRF çıktısını oluştururken
+       vermiyor; o zaman ikinci bir Face ID onayı (get) gerekiyor. */
+    let FACE_ARA = null;
+    async function faceKur() {
+      const parola = (() => { try { return sessionStorage.getItem(OTURUM); } catch (e) { return null; } })() || SON_PAROLA;
+      if (!parola) { toast("Önce parolayla aç"); return; }
+      const b = $("#faceKur"); b.disabled = true;
+      try {
+        let credId, tuz, cikti = null;
+        if (FACE_ARA) ({ credId, tuz } = FACE_ARA);
+        else {
+          tuz = crypto.getRandomValues(new Uint8Array(32));
+          const c = await navigator.credentials.create({ publicKey: {
+            rp: { name: "Panel", id: location.hostname },
+            user: { id: crypto.getRandomValues(new Uint8Array(16)), name: "panel", displayName: "Panel" },
+            challenge: crypto.getRandomValues(new Uint8Array(32)),
+            pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
+            authenticatorSelection: { authenticatorAttachment: "platform", residentKey: "preferred", userVerification: "required" },
+            timeout: 60000, attestation: "none",
+            extensions: { prf: { eval: { first: tuz } } } } });
+          const ex = c.getClientExtensionResults?.()?.prf;
+          if (!ex || ex.enabled === false) { toast("Bu cihaz Face ID ile açmayı desteklemiyor (PRF yok), parola kullan"); return; }
+          credId = new Uint8Array(c.rawId);
+          cikti = ex.results?.first || null;
+          if (!cikti) { FACE_ARA = { credId, tuz }; b.textContent = "Face ID: son adım"; toast("Passkey hazır, onaylamak için düğmeye bir kez daha bas"); return; }
+        }
+        if (!cikti) cikti = await prfAl(credId, tuz);
+        const anahtar = await prfAnahtar(cikti, tuz);
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, anahtar, new TextEncoder().encode(parola));
+        if (!faceYaz({ v: 1, rp: location.hostname, cred: b64u(credId), tuz: b64u(tuz), iv: b64u(iv), ct: b64u(ct) })) { toast("Tarayıcı depolaması kapalı, kaydedilemedi"); return; }
+        FACE_ARA = null; toast("Face ID kuruldu, bir dahaki açılışta Face ID ile aç");
+      } catch (e) {
+        FACE_ARA = null;
+        toast(e?.message === "prf-yok" ? "Bu cihaz Face ID ile açmayı desteklemiyor (PRF yok)" : e?.name === "NotAllowedError" ? "Face ID iptal edildi" : `Face ID kurulamadı: ${e?.name || e}`);
+      } finally { b.disabled = false; faceDugmeleri(); }
+    }
+    async function faceAc() {
+      const f = faceOku(); if (!f) return;
+      const b = $("#faceAc"); b.disabled = true; $("#err").textContent = "";
+      let parola;
+      try {
+        const tuz = b64uC(f.tuz);
+        const anahtar = await prfAnahtar(await prfAl(b64uC(f.cred), tuz), tuz);
+        parola = new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64uC(f.iv) }, anahtar, b64uC(f.ct)));
+      } catch (e) {
+        b.disabled = false;
+        $("#err").textContent = e?.name === "NotAllowedError" ? "Face ID iptal edildi, tekrar dene ya da parola gir." : e?.message === "prf-yok" ? "Bu cihazda Face ID ile açma desteklenmiyor, parola gir." : "Face ID ile açılamadı, parola gir.";
+        return;
+      }
+      try { await ac(parola); }
+      catch (err) {
+        if (err.message === "veri-yok") $("#err").textContent = "data.enc.json bulunamadı.";
+        else { faceYaz(null); faceDugmeleri(); $("#err").textContent = "Parola değişmiş. Parolayla aç, sonra Face ID'yi yeniden kur."; }
+      } finally { b.disabled = false; }
+    }
+    function faceDugmeleri() {
+      const f = faceOku(), d = faceDestek();
+      $("#faceKutu").hidden = !(f && d);
+      const k = $("#faceKur");
+      k.hidden = !d;
+      if (!FACE_ARA) k.textContent = f ? "Face ID ✓" : "Face ID ile aç";
+      k.title = f ? "Bu cihazda Face ID kurulu. Kaldırmak için bas." : "Bu cihazda parolayı Face ID / Touch ID ile aç";
+    }
+    $("#faceAc").onclick = faceAc;
+    $("#faceKur").onclick = () => {
+      if (faceOku() && !FACE_ARA) { if (confirm("Bu cihazdaki Face ID ile açma kaldırılsın mı? (Passkey'i Ayarlar → Parolalar'dan da silebilirsin.)")) { faceYaz(null); faceDugmeleri(); toast("Face ID kaldırıldı"); } return; }
+      faceKur();
     };
 
     /* ── Açılış ──────────────────────────────────────────────── */
@@ -2158,8 +2364,10 @@
       if (!r.ok) throw new Error("veri-yok");
       PAKET = await r.json(); return PAKET;
     }
+    let SON_PAROLA = null;
     async function ac(parola) {
       D = await coz(await paketAl(), parola);
+      SON_PAROLA = parola;
       try { sessionStorage.setItem(OTURUM, parola); } catch (e) { }
       S = { ...S, ...oku(DURUM_KEY, {}) };
       YEREL = oku(GOREV_KEY, {});
@@ -2168,7 +2376,7 @@
       yaz(GOREV_KEY, YEREL);
       if (S.app && S.app !== SITE && !D.apps.some(a => a.slug === S.app)) S.app = null;
       if (!["ozet", "canli", "site", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
-      $("#gate").hidden = true; $("#shell").hidden = false; ciz();
+      $("#gate").hidden = true; $("#shell").hidden = false; ciz(); faceDugmeleri();
       if (D.canli?.url && !CANLI.zamanlayici) {
         canliCek(true);
         CANLI.zamanlayici = setInterval(() => canliCek(false), 30000);
@@ -2183,6 +2391,8 @@
       catch (err) { $("#err").textContent = err.message === "veri-yok" ? "data.enc.json bulunamadı, build.mjs çalıştırıldı mı?" : "Parola yanlış."; $("#pw").select(); }
       finally { $("#go").disabled = false; }
     });
+    faceDugmeleri();
+    if (!faceOku() && matchMedia("(pointer: fine)").matches) $("#pw").focus();
     (async () => {
       let kayitli = null;
       try { kayitli = sessionStorage.getItem(OTURUM); } catch (e) { }

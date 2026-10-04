@@ -21,6 +21,53 @@ export function playSatir(r) {
   };
 }
 
+/* Play yorum CSV satırları (aylık dosyalar birleşik) → panelin yorum şekli.
+   Aynı yorum güncellenince ya da cevaplanınca sonraki ayın dosyasında yeniden
+   çıkabiliyor; yorum kimliğine (Review Link → reviewId) göre tekilleştirilip
+   en son güncellenen satır tutuluyor. Eskiden yalnız sayı tutuluyordu, liste
+   yoktu: sayaç "2 cevapsız" derken Yorumlar sekmesi bu yorumları göstermiyordu.
+   iOS listesiyle aynı alanlar + kaynak: "play", kimlik, link. */
+export function playYorumlar(satirlar) {
+  const tekil = new Map();
+  for (const r of satirlar) {
+    const link = (r["Review Link"] || "").trim();
+    const id = (link.match(/reviewId=([^&]+)/) || [])[1] || `${r["Review Submit Millis Since Epoch"]}|${r["Device"]}`;
+    const zaman = Number(r["Review Last Update Millis Since Epoch"]) || 0;
+    const onceki = tekil.get(id);
+    if (!onceki || zaman >= onceki.zaman) tekil.set(id, { r, zaman, id, link });
+  }
+  const liste = [...tekil.values()].map(({ r, id, link }) => {
+    const cevap = (r["Developer Reply Text"] || "").trim();
+    return {
+      kaynak: "play", kimlik: id, link: link.replace(/^http:/, "https:"),
+      puan: Number(r["Star Rating"]) || null, baslik: (r["Review Title"] || "").trim(), metin: (r["Review Text"] || "").trim(),
+      kisi: "", ulke: (r["Reviewer Language"] || "").trim(), cihaz: (r["Device"] || "").trim(),
+      tarih: r["Review Submit Date and Time"] || r["Review Last Update Date and Time"] || "",
+      cevap: cevap ? { metin: cevap, tarih: r["Developer Reply Date and Time"] || "" } : null
+    };
+  }).sort((a, b) => String(b.tarih).localeCompare(String(a.tarih)));
+  return playYorumOzet(liste);
+}
+/* Yalnız yazılı yorum cevaplanabilir; metinsiz puan cevapsız sayılmaz. */
+export function playYorumOzet(liste) {
+  const puanlar = liste.map(x => x.puan).filter(Number.isFinite);
+  return {
+    adet: liste.length,
+    ortalama: puanlar.length ? +(puanlar.reduce((x, y) => x + y, 0) / puanlar.length).toFixed(2) : null,
+    cevapsiz: liste.filter(x => !x.cevap && x.metin).length,
+    son: liste.map(x => x.tarih).filter(Boolean).sort().at(-1) || null,
+    liste
+  };
+}
+/* Play API yorumu (reviews.get) → cevap ya da null. CSV günde bir yenilendiği
+   için az önce yazılan cevap orada henüz yok; API anlık. */
+export function playApiCevap(j) {
+  const d = (j?.comments || []).map(c => c.developerComment).find(Boolean);
+  if (!d?.text) return null;
+  const sn = Number(d.lastModified?.seconds);
+  return { metin: d.text, tarih: sn ? new Date(sn * 1000).toISOString() : "" };
+}
+
 export function googleIstemci(env) {
   const sa = JSON.parse(env.GPLAY_SA_JSON);
   let anahtar = null;
@@ -95,11 +142,12 @@ export function googleIstemci(env) {
         }
         let hepsi = [];
         for (const a of aylar(24)) { try { hepsi = hepsi.concat(csvNesneler(await indir(`reviews/reviews_${app.android}_${a}.csv`))); } catch { } }
-        const puanlar = hepsi.map(r => Number(r["Star Rating"])).filter(Number.isFinite);
-        cikti.yorumlar[app.slug] = { adet: hepsi.length,
-          ortalama: puanlar.length ? +(puanlar.reduce((x, y) => x + y, 0) / puanlar.length).toFixed(2) : null,
-          cevapsiz: hepsi.filter(r => !(r["Developer Reply Text"] || "").trim()).length,
-          son: hepsi.map(r => r["Review Last Update Date and Time"]).filter(Boolean).sort().at(-1) || null };
+        const y = playYorumlar(hepsi);
+        /* CSV'de cevapsız görünenleri API'dan teyit et (cevap sonradan yazılmış olabilir). */
+        for (const x of y.liste) if (!x.cevap && x.metin && !/\|/.test(x.kimlik)) {
+          try { x.cevap = playApiCevap(await api(PUB, `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${app.android}/reviews/${encodeURIComponent(x.kimlik)}`)); } catch { }
+        }
+        cikti.yorumlar[app.slug] = playYorumOzet(y.liste);
         log(`  kova ${app.slug} ✓`);
       }
       return cikti;

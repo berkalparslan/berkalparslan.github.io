@@ -1,0 +1,18 @@
+{
+  "id": "/lab/panel/",
+  "name": "Panel · Lab",
+  "short_name": "Panel",
+  "description": "Uygulamaların günlük verisi, yorumlar, uyarılar.",
+  "lang": "tr",
+  "start_url": "/lab/panel/",
+  "scope": "/lab/panel/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
+  "icons": [
+    { "src": "/assets/lab-icons/panel-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/lab-icons/panel-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/lab-icons/panel-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
