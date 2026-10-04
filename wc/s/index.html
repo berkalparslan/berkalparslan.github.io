@@ -42,9 +42,9 @@ a { color: inherit; text-decoration: none; }
 .bar { display: flex; align-items: center; gap: 8px; padding: 12px 0; }
 .logo { width: 42px; height: 42px; border: var(--line); border-radius: 50%; background: var(--paper); display: grid; place-items: center; font-family: var(--disp); font-size: 24px; flex: none; }
 .brand { font-weight: 700; font-size: 13px; letter-spacing: .03em; }
-.langs { margin-left: auto; display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
-.langs button { font: inherit; font-weight: 700; font-size: 11px; letter-spacing: .03em; color: var(--ink); background: var(--paper); border: var(--line); border-radius: 999px; padding: 5px 8px; cursor: pointer; }
-.langs button.on { background: var(--ink); color: var(--paper); }
+.langs { margin-left: auto; min-width: 0; max-width: 46vw; font: inherit; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: var(--ink); background: var(--paper); border: var(--line); border-radius: 999px; padding: 6px 28px 6px 12px; cursor: pointer; -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 14px center, right 9px center; background-size: 5px 5px; background-repeat: no-repeat; text-overflow: ellipsis; }
+.langs option { color: #000; background: #fff; }
 
 .pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: var(--line); border-radius: 999px; background: var(--paper); padding: 14px 22px; font-weight: 700; font-size: 15px; letter-spacing: .02em; white-space: nowrap; transition: transform .15s; }
 .pill:hover { transform: translateY(-2px) rotate(-1deg); }
@@ -124,7 +124,7 @@ footer .priv { margin-bottom: 10px; color: var(--ink); }
 <div class="wrap bar">
   <a class="logo" href="/" aria-label="Bam Studio">b</a>
   <span class="brand">Bam Studio</span>
-  <div class="langs" id="langs" role="group" aria-label="Language"></div>
+  <select class="langs" id="langs" aria-label="Language"></select>
 </div>
 
 <section class="hero">
@@ -169,8 +169,12 @@ footer .priv { margin-bottom: 10px; color: var(--ink); }
 </footer>
 
 <script>
-const LANGS = ["tr", "en", "de", "es", "fr", "pt", "ru"];
-const LOCALE = { tr: "tr-TR", en: "en-US", de: "de-DE", es: "es-ES", fr: "fr-FR", pt: "pt-BR", ru: "ru-RU" };
+const LANGS = ["tr", "en", "de", "es", "fr", "pt", "ru", "ja", "ko", "zh", "it", "nl", "pl", "id", "vi", "hi", "uk"];
+const LOCALE = { tr: "tr-TR", en: "en-US", de: "de-DE", es: "es-ES", fr: "fr-FR", pt: "pt-BR", ru: "ru-RU", ja: "ja-JP", ko: "ko-KR", zh: "zh-CN", it: "it-IT", nl: "nl-NL", pl: "pl-PL", id: "id-ID", vi: "vi-VN", hi: "hi-IN", uk: "uk-UA" };
+const NATIVE = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский", ja: "日本語", ko: "한국어", zh: "简体中文", it: "Italiano", nl: "Nederlands", pl: "Polski", id: "Bahasa Indonesia", vi: "Tiếng Việt", hi: "हिन्दी", uk: "Українська" };
+/* Count forms: 0 one, 1 few, 2 many. */
+const plForm = n => { const a = n % 100, b = n % 10; return n === 1 ? 0 : b >= 2 && b <= 4 && (a < 12 || a > 14) ? 1 : 2; };
+const ukForm = n => { const a = n % 100, b = n % 10; return b === 1 && a !== 11 ? 0 : b >= 2 && b <= 4 && (a < 12 || a > 14) ? 1 : 2; };
 const I18N = {
   tr: {
     open: "Uygulamada aç", openHint: "Wallet Coach yüklüyse doğrudan açılır.", shared: "Wallet Coach ile paylaşıldı",
@@ -284,9 +288,169 @@ const I18N = {
     sgOpen: "Написать предложение", sgSent: "Отправлено. Добавится, если владелец одобрит.", sgAnother: "Ещё одно", sgNeed: "Напиши, что это, и сумму.", sgNeedAmount: "Напиши сумму.", sgLimit: "Ты отправил несколько предложений за короткое время. Попробуй через несколько минут.", sgSending: "Отправка…",
     marquee: ["Общий список", "Wallet Coach", "Следить · копировать · предлагать"],
   },
+  ja: {
+    open: "アプリで開く", openHint: "Wallet Coach が入っていれば、そのまま開きます。", shared: "Wallet Coach で共有",
+    updated: "最終更新", total: "合計", spent: "使った額", budget: "予算", saved: "貯めた額", left: "残り", items: n => `${n}件`,
+    tilesDone: (d, n) => `${n}マス中${d}マス達成`, empty: "まだ何もありません。", loading: "読み込み中…",
+    pending: "検討中", bought: "購入済み", skipped: "見送り", latest: "最新価格",
+    kinds: { project: "プロジェクト", priceLog: "価格メモ", assets: "資産", savingsPot: "積立", board: "貯金ボード", wishlist: "欲しいものリスト" },
+    howTitle: "これでできること",
+    c1t: "フォロー", c1p: "ツール > 共有 に残り、持ち主が追加するたびにあなたの画面でも更新されます。",
+    c2t: "コピーする", c2p: "自分のアプリにコピーを追加します。コピーは自由に変更でき、持ち主の追加は反映されなくなります。",
+    c3t: "追加を提案", c3p: "追加したいものを提案できます。持ち主に提案として届き、承認された場合だけ追加されます。",
+    getTitle: "アプリがまだない場合", getP: "Wallet Coach をインストールしてから、このリンクをもう一度開いてください。共有リストがアプリで直接開きます。",
+    priv: "持ち主が共有しています。共有はいつでも停止でき、その場合このページは使えなくなります。",
+    missing: "このリンクは使えません", missingSub: "持ち主が共有を停止したか、リンクが途中までしかコピーされていない可能性があります。",
+    sgOpen: "提案を書く", sgSent: "送信しました。持ち主が承認すると追加されます。", sgAnother: "もうひとつ提案", sgNeed: "内容と金額を入力してください。", sgNeedAmount: "金額を入力してください。", sgLimit: "短時間に何件も提案を送りました。数分後にもう一度お試しください。", sgSending: "送信中…",
+    marquee: ["共有リスト", "Wallet Coach", "フォロー · コピー · 提案"],
+  },
+  ko: {
+    open: "앱에서 열기", openHint: "Wallet Coach가 설치되어 있으면 바로 열려요.", shared: "Wallet Coach로 공유됨",
+    updated: "마지막 업데이트", total: "합계", spent: "지출", budget: "예산", saved: "모은 금액", left: "남음", items: n => `${n}개 항목`,
+    tilesDone: (d, n) => `${n}칸 중 ${d}칸 완료`, empty: "아직 아무것도 없어요.", loading: "불러오는 중…",
+    pending: "대기 중", bought: "구매함", skipped: "건너뜀", latest: "최근 가격",
+    kinds: { project: "프로젝트", priceLog: "가격 기록", assets: "자산", savingsPot: "저금통", board: "저축 보드", wishlist: "위시리스트" },
+    howTitle: "이걸로 무엇을 할 수 있나요?",
+    c1t: "팔로우", c1p: "도구 > 공유됨에 남아 있고, 소유자가 추가할 때마다 내 화면에서도 업데이트돼요.",
+    c2t: "복사하기", c2p: "내 앱에 사본을 추가해요. 사본은 내 것이라 마음대로 바꿀 수 있고, 소유자가 추가한 내용은 더 이상 반영되지 않아요.",
+    c3t: "추가 항목 제안", c3p: "추가할 것을 제안해 보세요. 소유자에게 제안으로 전달되고, 수락한 경우에만 추가돼요.",
+    getTitle: "앱이 없나요?", getP: "Wallet Coach를 설치한 뒤 이 링크를 다시 여세요. 공유된 목록이 앱에서 바로 열려요.",
+    priv: "소유자가 공유한 목록이에요. 언제든 공유를 중지할 수 있고, 그러면 이 페이지도 작동하지 않아요.",
+    missing: "이 링크는 작동하지 않아요", missingSub: "소유자가 공유를 중지했거나 링크가 일부만 복사되었을 수 있어요.",
+    sgOpen: "제안 작성", sgSent: "보냈어요. 소유자가 승인하면 추가돼요.", sgAnother: "하나 더 제안", sgNeed: "무엇인지와 금액을 입력하세요.", sgNeedAmount: "금액을 입력하세요.", sgLimit: "짧은 시간에 제안을 여러 번 보냈어요. 몇 분 뒤에 다시 시도하세요.", sgSending: "보내는 중…",
+    marquee: ["공유 목록", "Wallet Coach", "팔로우 · 복사 · 제안"],
+  },
+  zh: {
+    open: "在应用中打开", openHint: "如果已安装 Wallet Coach，会直接打开。", shared: "通过 Wallet Coach 分享",
+    updated: "最后更新", total: "合计", spent: "已花费", budget: "预算", saved: "已存", left: "剩余", items: n => `${n} 项`,
+    tilesDone: (d, n) => `${n} 格中已完成 ${d} 格`, empty: "还没有任何内容。", loading: "加载中…",
+    pending: "待定", bought: "已购买", skipped: "已放弃", latest: "最新价格",
+    kinds: { project: "项目", priceLog: "价格记录", assets: "资产", savingsPot: "存钱罐", board: "存钱板", wishlist: "心愿清单" },
+    howTitle: "你可以用它做什么？",
+    c1t: "关注", c1p: "它会保留在 工具 > 共享 中，所有者添加内容时，你的屏幕上也会同步更新。",
+    c2t: "复制一份", c2p: "在你自己的应用中添加一份副本。副本归你，可以随意修改；所有者之后添加的内容不会再同步过来。",
+    c3t: "建议添加", c3p: "建议添加一些内容。它会以建议的形式发给所有者，只有对方接受才会添加。",
+    getTitle: "还没有这个应用？", getP: "安装 Wallet Coach，然后再次打开此链接。分享的清单会直接在应用中打开。",
+    priv: "由所有者分享。对方可以随时停止分享，届时此页面将无法使用。",
+    missing: "此链接无法使用", missingSub: "所有者可能已停止分享，或者链接没有完整复制。",
+    sgOpen: "写建议", sgSent: "已发送。所有者批准后就会添加。", sgAnother: "再提一个", sgNeed: "请填写是什么以及金额。", sgNeedAmount: "请填写金额。", sgLimit: "你在短时间内发送了多条建议。请几分钟后再试。", sgSending: "发送中…",
+    marquee: ["共享清单", "Wallet Coach", "关注 · 复制 · 建议"],
+  },
+  it: {
+    open: "Apri nell'app", openHint: "Si apre subito se hai Wallet Coach.", shared: "Condiviso con Wallet Coach",
+    updated: "Ultimo aggiornamento", total: "Totale", spent: "Speso", budget: "Budget", saved: "Risparmiato", left: "Restano", items: n => `${n} ${n === 1 ? "voce" : "voci"}`,
+    tilesDone: (d, n) => `${d} caselle su ${n} completate`, empty: "Ancora niente qui.", loading: "Caricamento…",
+    pending: "In attesa", bought: "Comprato", skipped: "Lasciato perdere", latest: "Ultimo prezzo",
+    kinds: { project: "Progetto", priceLog: "Diario prezzi", assets: "Patrimonio", savingsPot: "Salvadanaio", board: "Tabella risparmi", wishlist: "Lista desideri" },
+    howTitle: "Cosa puoi farci?",
+    c1t: "Segui", c1p: "Resta in Strumenti > Condivisi e si aggiorna sul tuo schermo quando il proprietario aggiunge qualcosa.",
+    c2t: "Copialo", c2p: "Aggiungi una copia alla tua app. È tua e puoi modificarla; le aggiunte del proprietario non arrivano più.",
+    c3t: "Suggerisci un'aggiunta", c3p: "Suggerisci qualcosa da aggiungere. Arriva al proprietario come suggerimento e viene aggiunto solo se lo accetta.",
+    getTitle: "Non hai l'app?", getP: "Installa Wallet Coach, poi riapri questo link. La lista condivisa si apre direttamente nell'app.",
+    priv: "Condiviso dal proprietario. Può smettere di condividerlo quando vuole; a quel punto questa pagina non funziona più.",
+    missing: "Questo link non funziona", missingSub: "Il proprietario potrebbe aver smesso di condividerlo, oppure il link è stato copiato solo in parte.",
+    sgOpen: "Scrivi un suggerimento", sgSent: "Inviato. Viene aggiunto se il proprietario lo approva.", sgAnother: "Suggeriscine un altro", sgNeed: "Scrivi cos'è e l'importo.", sgNeedAmount: "Scrivi l'importo.", sgLimit: "Hai inviato diversi suggerimenti in poco tempo. Riprova tra qualche minuto.", sgSending: "Invio…",
+    marquee: ["Lista condivisa", "Wallet Coach", "Segui · copia · suggerisci"],
+  },
+  nl: {
+    open: "Openen in de app", openHint: "Opent meteen als je Wallet Coach hebt.", shared: "Gedeeld via Wallet Coach",
+    updated: "Laatst bijgewerkt", total: "Totaal", spent: "Uitgegeven", budget: "Budget", saved: "Gespaard", left: "Over", items: n => `${n} ${n === 1 ? "item" : "items"}`,
+    tilesDone: (d, n) => `${d} van ${n} vakjes klaar`, empty: "Er staat nog niets in.", loading: "Laden…",
+    pending: "Wacht", bought: "Gekocht", skipped: "Overgeslagen", latest: "Laatste prijs",
+    kinds: { project: "Project", priceLog: "Prijslogboek", assets: "Bezittingen", savingsPot: "Spaarpotje", board: "Spaarbord", wishlist: "Verlanglijst" },
+    howTitle: "Wat kun je hiermee?",
+    c1t: "Volgen", c1p: "Het blijft in Tools > Gedeeld staan en wordt op je scherm bijgewerkt als de eigenaar iets toevoegt.",
+    c2t: "Kopiëren", c2p: "Voeg een kopie toe aan je eigen app. Die is van jou om aan te passen; wat de eigenaar toevoegt, komt er niet meer in.",
+    c3t: "Aanvulling voorstellen", c3p: "Stel iets voor om toe te voegen. Het gaat als voorstel naar de eigenaar en komt er alleen in als die het accepteert.",
+    getTitle: "Heb je de app nog niet?", getP: "Installeer Wallet Coach en open deze link opnieuw. De gedeelde lijst opent dan meteen in de app.",
+    priv: "Gedeeld door de eigenaar. Die kan altijd stoppen met delen; dan werkt deze pagina niet meer.",
+    missing: "Deze link werkt niet", missingSub: "De eigenaar is misschien gestopt met delen, of de link is maar half gekopieerd.",
+    sgOpen: "Voorstel schrijven", sgSent: "Verstuurd. Het wordt toegevoegd als de eigenaar het goedkeurt.", sgAnother: "Nog een voorstellen", sgNeed: "Schrijf wat het is en het bedrag.", sgNeedAmount: "Schrijf het bedrag.", sgLimit: "Je hebt in korte tijd meerdere voorstellen gestuurd. Probeer het over een paar minuten opnieuw.", sgSending: "Versturen…",
+    marquee: ["Gedeelde lijst", "Wallet Coach", "Volgen · kopiëren · voorstellen"],
+  },
+  pl: {
+    open: "Otwórz w aplikacji", openHint: "Otworzy się od razu, jeśli masz Wallet Coach.", shared: "Udostępnione przez Wallet Coach",
+    updated: "Ostatnia aktualizacja", total: "Suma", spent: "Wydane", budget: "Budżet", saved: "Odłożone", left: "Zostało", items: n => `${n} ${["pozycja", "pozycje", "pozycji"][plForm(n)]}`,
+    tilesDone: (d, n) => `Gotowe: ${d} z ${n}`, empty: "Na razie nic tu nie ma.", loading: "Wczytywanie…",
+    pending: "Czeka", bought: "Kupione", skipped: "Odpuszczone", latest: "Ostatnia cena",
+    kinds: { project: "Projekt", priceLog: "Dziennik cen", assets: "Majątek", savingsPot: "Skarbonka", board: "Tablica oszczędności", wishlist: "Lista życzeń" },
+    howTitle: "Co możesz z tym zrobić?",
+    c1t: "Obserwuj", c1p: "Zostaje w Narzędzia > Udostępnione i aktualizuje się na Twoim ekranie, gdy właściciel coś doda.",
+    c2t: "Skopiuj", c2p: "Dodaj kopię do swojej aplikacji. Jest Twoja i możesz ją zmieniać; dodatki właściciela już do niej nie trafią.",
+    c3t: "Zaproponuj dodanie", c3p: "Zaproponuj coś do dodania. Trafi do właściciela jako propozycja i zostanie dodane tylko, jeśli ją zaakceptuje.",
+    getTitle: "Nie masz aplikacji?", getP: "Zainstaluj Wallet Coach i otwórz ten link jeszcze raz. Udostępniona lista otworzy się prosto w aplikacji.",
+    priv: "Udostępnione przez właściciela. Może w każdej chwili przestać udostępniać; wtedy ta strona przestanie działać.",
+    missing: "Ten link nie działa", missingSub: "Właściciel mógł przestać go udostępniać albo link został skopiowany tylko częściowo.",
+    sgOpen: "Napisz propozycję", sgSent: "Wysłano. Zostanie dodane, jeśli właściciel zatwierdzi.", sgAnother: "Zaproponuj kolejną", sgNeed: "Wpisz, co to jest, i kwotę.", sgNeedAmount: "Wpisz kwotę.", sgLimit: "Za dużo propozycji w krótkim czasie. Spróbuj ponownie za kilka minut.", sgSending: "Wysyłanie…",
+    marquee: ["Udostępniona lista", "Wallet Coach", "Obserwuj · kopiuj · proponuj"],
+  },
+  id: {
+    open: "Buka di aplikasi", openHint: "Langsung terbuka kalau Wallet Coach sudah terpasang.", shared: "Dibagikan lewat Wallet Coach",
+    updated: "Terakhir diperbarui", total: "Total", spent: "Terpakai", budget: "Anggaran", saved: "Terkumpul", left: "Sisa", items: n => `${n} item`,
+    tilesDone: (d, n) => `${d} dari ${n} kotak selesai`, empty: "Belum ada isinya.", loading: "Memuat…",
+    pending: "Menunggu", bought: "Dibeli", skipped: "Batal", latest: "Harga terakhir",
+    kinds: { project: "Proyek", priceLog: "Catatan harga", assets: "Aset", savingsPot: "Celengan", board: "Papan tabungan", wishlist: "Daftar keinginan" },
+    howTitle: "Apa yang bisa kamu lakukan?",
+    c1t: "Ikuti", c1p: "Tetap ada di Alat > Dibagikan dan ikut diperbarui di layarmu saat pemiliknya menambahkan sesuatu.",
+    c2t: "Salin", c2p: "Tambahkan salinan ke aplikasimu sendiri. Salinan itu milikmu dan bisa kamu ubah; tambahan dari pemilik tidak masuk lagi.",
+    c3t: "Sarankan tambahan", c3p: "Sarankan sesuatu untuk ditambahkan. Saranmu dikirim ke pemilik dan hanya ditambahkan kalau dia menerimanya.",
+    getTitle: "Belum punya aplikasinya?", getP: "Pasang Wallet Coach, lalu buka tautan ini lagi. Daftar yang dibagikan langsung terbuka di aplikasi.",
+    priv: "Dibagikan oleh pemiliknya. Dia bisa berhenti membagikan kapan saja; setelah itu halaman ini tidak berfungsi lagi.",
+    missing: "Tautan ini tidak berfungsi", missingSub: "Mungkin pemiliknya sudah berhenti membagikan, atau tautannya tidak tersalin lengkap.",
+    sgOpen: "Tulis saran", sgSent: "Terkirim. Akan ditambahkan kalau pemilik menyetujuinya.", sgAnother: "Sarankan lagi", sgNeed: "Tulis apa itu dan jumlahnya.", sgNeedAmount: "Tulis jumlahnya.", sgLimit: "Kamu mengirim beberapa saran dalam waktu singkat. Coba lagi beberapa menit lagi.", sgSending: "Mengirim…",
+    marquee: ["Daftar bersama", "Wallet Coach", "Ikuti · salin · sarankan"],
+  },
+  vi: {
+    open: "Mở trong ứng dụng", openHint: "Mở ngay nếu bạn đã cài Wallet Coach.", shared: "Chia sẻ qua Wallet Coach",
+    updated: "Cập nhật lần cuối", total: "Tổng", spent: "Đã chi", budget: "Ngân sách", saved: "Đã để dành", left: "Còn lại", items: n => `${n} mục`,
+    tilesDone: (d, n) => `Xong ${d}/${n} ô`, empty: "Chưa có gì ở đây.", loading: "Đang tải…",
+    pending: "Đang chờ", bought: "Đã mua", skipped: "Bỏ qua", latest: "Giá mới nhất",
+    kinds: { project: "Dự án", priceLog: "Nhật ký giá", assets: "Tài sản", savingsPot: "Quỹ tiết kiệm", board: "Bảng tiết kiệm", wishlist: "Danh sách mong muốn" },
+    howTitle: "Bạn có thể làm gì với nó?",
+    c1t: "Theo dõi", c1p: "Nó nằm trong Công cụ > Được chia sẻ và tự cập nhật trên màn hình của bạn khi chủ sở hữu thêm mục mới.",
+    c2t: "Sao chép", c2p: "Thêm một bản sao vào ứng dụng của bạn. Bản sao là của bạn, tùy ý sửa; những gì chủ sở hữu thêm sau đó sẽ không còn xuất hiện.",
+    c3t: "Đề xuất thêm mục", c3p: "Đề xuất một mục để thêm. Đề xuất được gửi đến chủ sở hữu và chỉ được thêm nếu họ chấp nhận.",
+    getTitle: "Chưa có ứng dụng?", getP: "Cài Wallet Coach rồi mở lại liên kết này. Danh sách được chia sẻ sẽ mở ngay trong ứng dụng.",
+    priv: "Do chủ sở hữu chia sẻ. Họ có thể ngừng chia sẻ bất cứ lúc nào; khi đó trang này sẽ không hoạt động nữa.",
+    missing: "Liên kết này không hoạt động", missingSub: "Có thể chủ sở hữu đã ngừng chia sẻ, hoặc liên kết bị sao chép thiếu.",
+    sgOpen: "Viết đề xuất", sgSent: "Đã gửi. Mục này sẽ được thêm nếu chủ sở hữu đồng ý.", sgAnother: "Đề xuất thêm", sgNeed: "Hãy ghi đó là gì và số tiền.", sgNeedAmount: "Hãy ghi số tiền.", sgLimit: "Bạn đã gửi nhiều đề xuất trong thời gian ngắn. Hãy thử lại sau vài phút.", sgSending: "Đang gửi…",
+    marquee: ["Danh sách chia sẻ", "Wallet Coach", "Theo dõi · sao chép · đề xuất"],
+  },
+  hi: {
+    open: "ऐप में खोलें", openHint: "अगर Wallet Coach इंस्टॉल है, तो यह सीधे खुल जाएगा।", shared: "Wallet Coach से शेयर किया गया",
+    updated: "पिछला अपडेट", total: "कुल", spent: "खर्च", budget: "बजट", saved: "जमा", left: "बाकी", items: n => `${n} आइटम`,
+    tilesDone: (d, n) => `${n} में से ${d} खाने पूरे`, empty: "अभी इसमें कुछ नहीं है।", loading: "लोड हो रहा है…",
+    pending: "इंतज़ार में", bought: "खरीदा", skipped: "छोड़ दिया", latest: "ताज़ा कीमत",
+    kinds: { project: "प्रोजेक्ट", priceLog: "कीमत लॉग", assets: "संपत्तियाँ", savingsPot: "बचत गुल्लक", board: "बचत बोर्ड", wishlist: "विश लिस्ट" },
+    howTitle: "आप इससे क्या कर सकते हैं?",
+    c1t: "फ़ॉलो करें", c1p: "यह टूल्स > शेयर्ड में रहता है, और जब मालिक कुछ जोड़ता है तो आपकी स्क्रीन पर भी अपडेट हो जाता है।",
+    c2t: "कॉपी लें", c2p: "अपने ऐप में इसकी एक कॉपी जोड़ें। वह आपकी है, आप उसे बदल सकते हैं; मालिक की नई चीज़ें उसमें नहीं आएँगी।",
+    c3t: "कुछ जोड़ने का सुझाव दें", c3p: "कुछ जोड़ने का सुझाव दें। यह मालिक के पास सुझाव के रूप में जाता है और तभी जुड़ता है जब वह इसे मान ले।",
+    getTitle: "ऐप नहीं है?", getP: "Wallet Coach इंस्टॉल करें, फिर यह लिंक दोबारा खोलें। शेयर की गई लिस्ट सीधे ऐप में खुलेगी।",
+    priv: "इसे इसके मालिक ने शेयर किया है। वह कभी भी शेयर करना बंद कर सकता है; तब यह पेज काम नहीं करेगा।",
+    missing: "यह लिंक काम नहीं कर रहा", missingSub: "शायद मालिक ने शेयर करना बंद कर दिया है, या लिंक पूरा कॉपी नहीं हुआ।",
+    sgOpen: "सुझाव लिखें", sgSent: "भेज दिया। मालिक मंज़ूरी दे तो यह जुड़ जाएगा।", sgAnother: "एक और सुझाव", sgNeed: "लिखें कि यह क्या है और रकम कितनी है।", sgNeedAmount: "रकम लिखें।", sgLimit: "आपने कम समय में कई सुझाव भेजे हैं। कुछ मिनट बाद फिर कोशिश करें।", sgSending: "भेजा जा रहा है…",
+    marquee: ["शेयर की गई लिस्ट", "Wallet Coach", "फ़ॉलो · कॉपी · सुझाव"],
+  },
+  uk: {
+    open: "Відкрити в застосунку", openHint: "Відкриється одразу, якщо Wallet Coach встановлено.", shared: "Поділилися через Wallet Coach",
+    updated: "Оновлено", total: "Разом", spent: "Витрачено", budget: "Бюджет", saved: "Накопичено", left: "Залишок", items: n => `${n} ${["позиція", "позиції", "позицій"][ukForm(n)]}`,
+    tilesDone: (d, n) => `Готово ${d} з ${n}`, empty: "Поки що порожньо.", loading: "Завантаження…",
+    pending: "Чекає", bought: "Куплено", skipped: "Відмова", latest: "Остання ціна",
+    kinds: { project: "Проєкт", priceLog: "Журнал цін", assets: "Активи", savingsPot: "Скарбничка", board: "Дошка заощаджень", wishlist: "Список бажань" },
+    howTitle: "Що з цим можна зробити?",
+    c1t: "Стежити", c1p: "Залишається в розділі Інструменти > Спільне й оновлюється на твоєму екрані, коли власник щось додає.",
+    c2t: "Скопіювати", c2p: "Додай копію у свій застосунок. Вона твоя, змінюй як хочеш; додане власником у неї більше не потрапляє.",
+    c3t: "Запропонувати доповнення", c3p: "Запропонуй, що додати. Власник отримає це як пропозицію й додасть, лише якщо погодиться.",
+    getTitle: "Немає застосунку?", getP: "Встанови Wallet Coach і відкрий це посилання ще раз. Список відкриється просто в застосунку.",
+    priv: "Цим поділився власник. Він може будь-коли припинити доступ, і тоді ця сторінка перестане працювати.",
+    missing: "Посилання не працює", missingSub: "Можливо, власник припинив доступ або посилання скопійовано не повністю.",
+    sgOpen: "Написати пропозицію", sgSent: "Надіслано. Додасться, якщо власник погодить.", sgAnother: "Ще одну", sgNeed: "Напиши, що це, і суму.", sgNeedAmount: "Напиши суму.", sgLimit: "Забагато пропозицій за короткий час. Спробуй за кілька хвилин.", sgSending: "Надсилання…",
+    marquee: ["Спільний список", "Wallet Coach", "Стежити · копіювати · пропонувати"],
+  },
 };
-/* Generated from WalletCoach/Localizable.xcstrings (order: tr,en,de,es,fr,pt,ru). */
-const APP = {"cat":{"activity":["Gezi ve etkinlik","Outings and tickets","Ausflüge und Tickets","Excursiones y entradas","Sorties et billets","Passeios e ingressos","Экскурсии и билеты"],"baby":["Bebek","Baby","Baby","Bebé","Bébé","Bebê","Детское"],"bakery":["Ekmek ve unlu","Bread & baking","Brot & Backwaren","Pan y bollería","Pain & pâtisserie","Pães e massas","Хлеб и выпечка"],"breakfast":["Kahvaltılık","Breakfast","Frühstück","Desayuno","Petit-déjeuner","Café da manhã","Завтрак"],"clothing":["Giyim ve hazırlık","Clothing and grooming","Kleidung und Styling","Ropa y arreglo","Tenue et préparatifs","Roupa e preparação","Одежда и подготовка"],"coffee":["Kahve","Coffee","Kaffee","Café","Café","Café","Кофе"],"dairy":["Süt ürünleri","Dairy","Molkereiprodukte","Lácteos","Produits laitiers","Laticínios","Молочное"],"deposit":["Depozito ve kira","Deposit and rent","Kaution und Miete","Depósito y alquiler","Caution et loyer","Depósito e aluguel","Залог и аренда"],"drinks":["İçecek","Drinks","Getränke","Bebidas","Boissons","Bebidas","Напитки"],"fee":["Resmî harç","Fees","Gebühren","Tasas","Frais officiels","Taxas","Пошлины"],"food":["Yemek ve ikram","Food and drink","Essen und Trinken","Comida y bebida","Repas et boissons","Comida e bebida","Еда и напитки"],"frozen":["Dondurulmuş","Frozen","Tiefkühl","Congelados","Surgelés","Congelados","Заморозка"],"fuel":["Yakıt","Fuel","Kraftstoff","Combustible","Carburant","Combustível","Топливо"],"furniture":["Eşya","Furniture","Möbel","Muebles","Mobilier","Móveis","Мебель"],"household":["Temizlik ve ev","Household","Haushalt","Hogar","Maison","Casa e limpeza","Для дома"],"labour":["İşçilik","Labour","Arbeit","Mano de obra","Main-d’œuvre","Mão de obra","Работа"],"maintenance":["Bakım ve parça","Servicing and parts","Wartung und Teile","Mantenimiento y piezas","Entretien et pièces","Manutenção e peças","Обслуживание и запчасти"],"material":["Malzeme","Materials","Material","Materiales","Matériaux","Materiais","Материалы"],"meat":["Et ve şarküteri","Meat & deli","Fleisch & Wurst","Carne y charcutería","Viande & charcuterie","Carnes e frios","Мясо и деликатесы"],"media":["Fotoğraf ve müzik","Photography and music","Foto und Musik","Fotografía y música","Photo et musique","Fotografia e música","Фото и музыка"],"other":["Diğer","Other","Sonstiges","Otro","Autre","Outro","Другое"],"pantry":["Bakliyat ve kiler","Store cupboard","Vorratskammer","Despensa","Épicerie","Mercearia","Бакалея"],"personal":["Kişisel bakım","Personal care","Körperpflege","Cuidado personal","Soins personnels","Cuidados pessoais","Личная гигиена"],"pet":["Evcil hayvan","Pet","Haustier","Mascotas","Animaux","Pets","Питомцы"],"produce":["Meyve ve sebze","Fruit & veg","Obst & Gemüse","Fruta y verdura","Fruits & légumes","Frutas e verduras","Фрукты и овощи"],"service":["Hizmet","Service","Dienstleistung","Servicio","Service","Serviço","Услуги"],"shopping":["Alışveriş ve hediye","Shopping and gifts","Einkäufe und Geschenke","Compras y regalos","Achats et cadeaux","Compras e presentes","Покупки и подарки"],"snacks":["Atıştırmalık","Snacks","Snacks","Aperitivos","En-cas","Lanches","Снеки"],"stay":["Konaklama","Accommodation","Unterkunft","Alojamiento","Hébergement","Hospedagem","Проживание"],"tax":["Vergi ve sigorta","Tax and insurance","Steuer und Versicherung","Impuestos y seguro","Taxes et assurance","Impostos e seguro","Налоги и страховка"],"tea":["Çay","Tea","Tee","Té","Thé","Chá","Чай"],"transport":["Nakliye","Transport","Transport","Transporte","Transport","Transporte","Доставка"],"travel":["Ulaşım","Travel","Fahrt","Transporte","Trajet","Deslocamento","Проезд"],"vehicle":["Alış bedeli","Purchase price","Kaufpreis","Precio de compra","Prix d'achat","Preço de compra","Стоимость покупки"],"venue":["Mekan","Venue","Location","Lugar","Lieu","Local","Площадка"],"visa":["Vize ve sigorta","Visa and insurance","Visum und Versicherung","Visado y seguro","Visa et assurance","Visto e seguro","Виза и страховка"],"water":["Su ve maden suyu","Water & soda","Wasser & Sprudel","Agua y gaseosa","Eau & soda","Água e refrigerante","Вода и газировка"]},"unit":{"piece":["Adet","Piece","Stück","Unidad","Pièce","Unidade","Штука"],"pack":["Paket","Pack","Packung","Paquete","Paquet","Pacote","Упаковка"],"kilogram":["Kilogram","Kilogram","Kilogramm","Kilogramo","Kilogramme","Quilograma","Килограмм"],"litre":["Litre","Litre","Liter","Litro","Litre","Litro","Литр"],"metre":["Metre","Metre","Meter","Metro","Mètre","Metro","Метр"],"squareMetre":["Metrekare","Square metre","Quadratmeter","Metro cuadrado","Mètre carré","Metro quadrado","Квадратный метр"],"hour":["Saat","Hour","Stunde","Hora","Heure","Hora","Час"],"day":["Gün","Day","Tag","Día","Jour","Dia","День"],"night":["Gece","Night","Nacht","Noche","Nuit","Noite","Ночь"],"person":["Kişi","Person","Person","Persona","Personne","Pessoa","Человек"]},"akind":{"property":["Konut","Property","Immobilie","Vivienda","Logement","Imóvel","Недвижимость"],"land":["Arsa","Land","Grundstück","Terreno","Terrain","Terreno","Земля"],"vehicle":["Araç","Vehicle","Fahrzeug","Vehículo","Véhicule","Veículo","Транспорт"],"gold":["Altın","Gold","Gold","Oro","Or","Ouro","Золото"],"currency":["Döviz","Currency","Devisen","Divisas","Devises","Câmbio","Валюта"],"stock":["Hisse","Shares","Aktien","Acciones","Actions","Ações","Акции"],"fund":["Fon","Funds","Fonds","Fondos","Fonds","Fundos","Фонды"],"crypto":["Kripto","Crypto","Krypto","Cripto","Crypto","Cripto","Криптовалюта"],"savings":["Mevduat","Savings","Erspartes","Ahorros","Épargne","Poupança","Сбережения"],"other":["Diğer","Other","Sonstiges","Otros","Autre","Outros","Другое"]},"s":{"name":["Ne","What","Was","Qué","Quoi","O quê","Что"],"vendor":["Nereden (isteğe bağlı)","Where (optional)","Wo (optional)","Dónde (opcional)","Où (facultatif)","Onde (opcional)","Где (необязательно)"],"date":["Tarih","Date","Datum","Fecha","Date","Data","Дата"],"note":["Ona bir not (isteğe bağlı)","A note for them (optional)","Notiz (optional)","Una nota (opcional)","Un mot (facultatif)","Um recado (opcional)","Комментарий (необязательно)"],"footer":["Sahibine öneri olarak gider; yalnızca kabul ederse eklenir.","It goes to the owner as a suggestion; it is added only if they accept it.","Es geht als Vorschlag an den Besitzer und wird nur übernommen, wenn er zustimmt.","Le llega al dueño como sugerencia; solo se añade si la acepta.","Cela part chez le propriétaire comme proposition ; ajouté seulement s'il accepte.","Vai para o dono como sugestão; só entra se ele aceitar.","Уйдёт владельцу как предложение; добавится, только если он согласится."],"send":["Gönder","Send","Senden","Enviar","Envoyer","Enviar","Отправить"],"bought":["Aldım","Bought it","Gekauft","Lo compré","Acheté","Comprei","Куплено"],"what_saving":["Ne için (isteğe bağlı)","What it was (optional)","Wofür (optional)","Para qué (opcional)","Pour quoi (facultatif)","Para quê (opcional)","На что (необязательно)"],"what_asset":["Ne","What it is","Was","Qué es","Quoi","O quê","Что это"],"amount":["Ne kadar tuttu","What it cost","Was es gekostet hat","Cuánto costó","Combien ça a coûté","Quanto custou","Сколько стоило"],"amount_price":["Fiyatı","The price","Der Preis","El precio","Le prix","O preço","Цена"],"amount_value":["Tahmini değeri","What it is worth","Was es wert ist","Cuánto vale","Ce que ça vaut","Quanto vale","Сколько стоит"],"amount_saving":["Ne kadar","How much","Wie viel","Cuánto","Combien","Quanto","Сколько"],"purchase_quantity":["Miktar","Quantity","Menge","Cantidad","Quantité","Quantidade","Количество"],"purchase_category":["Kategori","Category","Kategorie","Categoría","Catégorie","Categoria","Категория"],"asset_kind":["Tür","Type","Art","Tipo","Type","Tipo","Тип"],"asset_cost":["Alış fiyatı","Paid","Kaufpreis","Pagado","Prix payé","Preço pago","Цена покупки"],"common_cancel":["Vazgeç","Cancel","Abbrechen","Cancelar","Annuler","Cancelar","Отмена"],"share_link_failed":["Sunucuya ulaşılamadı","Could not reach the server","Server nicht erreichbar","No se pudo conectar con el servidor","Serveur injoignable","Não foi possível falar com o servidor","Сервер недоступен"],"share_link_failed_message":["Bağlantını kontrol edip tekrar dene.","Check the connection and try again.","Prüfe die Verbindung und versuch es nochmal.","Revisa la conexión y vuelve a intentarlo.","Vérifie la connexion et réessaie.","Verifique a conexão e tente de novo.","Проверь соединение и попробуй снова."]}};
+/* Generated from WalletCoach/Localizable.xcstrings (order: tr,en,de,es,fr,pt,ru,ja,ko,zh-Hans,it,nl,pl,id,vi,hi,uk). */
+const APP = {"cat":{"activity":["Gezi ve etkinlik","Outings and tickets","Ausflüge und Tickets","Excursiones y entradas","Sorties et billets","Passeios e ingressos","Экскурсии и билеты","お出かけ・チケット","나들이와 티켓","出游与门票","Uscite e biglietti","Uitjes en tickets","Wyjścia i bilety","Jalan-jalan dan tiket","Đi chơi và vé","घूमना और टिकट","Розваги й квитки"],"baby":["Bebek","Baby","Baby","Bebé","Bébé","Bebê","Детское","ベビー","아기","母婴","Neonato","Baby","Dziecko","Bayi","Em bé","बच्चा","Дитина"],"bakery":["Ekmek ve unlu","Bread & baking","Brot & Backwaren","Pan y bollería","Pain & pâtisserie","Pães e massas","Хлеб и выпечка","パン・ベーカリー","빵 & 베이커리","面包烘焙","Pane e prodotti da forno","Brood & bakken","Pieczywo i wypieki","Roti & kue","Bánh mì & đồ nướng","ब्रेड और बेकरी","Хліб і випічка"],"breakfast":["Kahvaltılık","Breakfast","Frühstück","Desayuno","Petit-déjeuner","Café da manhã","Завтрак","朝食","아침 식사","早餐","Colazione","Ontbijt","Śniadanie","Sarapan","Bữa sáng","नाश्ता","Сніданок"],"clothing":["Giyim ve hazırlık","Clothing and grooming","Kleidung und Styling","Ropa y arreglo","Tenue et préparatifs","Roupa e preparação","Одежда и подготовка","衣類・身だしなみ","의류와 미용","服饰与个护","Abbigliamento e cura personale","Kleding en verzorging","Ubrania i pielęgnacja","Pakaian dan perawatan diri","Quần áo và chăm sóc","कपड़े और ग्रूमिंग","Одяг і догляд"],"coffee":["Kahve","Coffee","Kaffee","Café","Café","Café","Кофе","コーヒー","커피","咖啡","Caffè","Koffie","Kawa","Kopi","Cà phê","कॉफ़ी","Кава"],"dairy":["Süt ürünleri","Dairy","Molkereiprodukte","Lácteos","Produits laitiers","Laticínios","Молочное","乳製品","유제품","乳制品","Latticini","Zuivel","Nabiał","Produk susu","Sữa & chế phẩm","डेयरी","Молочне"],"deposit":["Depozito ve kira","Deposit and rent","Kaution und Miete","Depósito y alquiler","Caution et loyer","Depósito e aluguel","Залог и аренда","敷金・家賃","보증금과 월세","押金与租金","Caparra e affitto","Borg en huur","Kaucja i czynsz","Deposit dan sewa","Đặt cọc và tiền thuê","डिपॉज़िट और किराया","Застава й оренда"],"drinks":["İçecek","Drinks","Getränke","Bebidas","Boissons","Bebidas","Напитки","飲み物","음료","饮料","Bevande","Dranken","Napoje","Minuman","Đồ uống","ड्रिंक्स","Напої"],"fee":["Resmî harç","Fees","Gebühren","Tasas","Frais officiels","Taxas","Пошлины","手数料","수수료","手续费","Tariffe","Kosten","Opłaty","Biaya administrasi","Phí","फ़ीस","Збори"],"food":["Yemek ve ikram","Food and drink","Essen und Trinken","Comida y bebida","Repas et boissons","Comida e bebida","Еда и напитки","飲食","음식과 음료","餐饮","Cibo e bevande","Eten en drinken","Jedzenie i picie","Makanan dan minuman","Ăn uống","खाना-पीना","Їжа й напої"],"frozen":["Dondurulmuş","Frozen","Tiefkühl","Congelados","Surgelés","Congelados","Заморозка","冷凍食品","냉동식품","冷冻食品","Surgelati","Diepvries","Mrożonki","Makanan beku","Đồ đông lạnh","फ़्रोज़न","Заморожене"],"fuel":["Yakıt","Fuel","Kraftstoff","Combustible","Carburant","Combustível","Топливо","燃料","연료","燃油","Carburante","Brandstof","Paliwo","Bahan bakar","Nhiên liệu","ईंधन","Пальне"],"furniture":["Eşya","Furniture","Möbel","Muebles","Mobilier","Móveis","Мебель","家具","가구","家具","Mobili","Meubels","Meble","Perabot","Nội thất","फ़र्नीचर","Меблі"],"household":["Temizlik ve ev","Household","Haushalt","Hogar","Maison","Casa e limpeza","Для дома","日用品","생활용품","家居","Casa","Huishouden","Dom","Rumah tangga","Đồ gia dụng","घरेलू सामान","Побут"],"labour":["İşçilik","Labour","Arbeit","Mano de obra","Main-d’œuvre","Mão de obra","Работа","人件費","인건비","人工","Manodopera","Arbeid","Robocizna","Upah tukang","Nhân công","मज़दूरी","Робота"],"maintenance":["Bakım ve parça","Servicing and parts","Wartung und Teile","Mantenimiento y piezas","Entretien et pièces","Manutenção e peças","Обслуживание и запчасти","整備・部品","정비와 부품","保养与配件","Manutenzione e ricambi","Onderhoud en onderdelen","Serwis i części","Servis dan suku cadang","Bảo dưỡng và phụ tùng","सर्विसिंग और पार्ट्स","Обслуговування й запчастини"],"material":["Malzeme","Materials","Material","Materiales","Matériaux","Materiais","Материалы","資材","자재","材料","Materiali","Materialen","Materiały","Material","Vật liệu","सामग्री","Матеріали"],"meat":["Et ve şarküteri","Meat & deli","Fleisch & Wurst","Carne y charcutería","Viande & charcuterie","Carnes e frios","Мясо и деликатесы","肉・惣菜","육류 & 델리","肉类熟食","Carne e salumi","Vlees & vleeswaren","Mięso i wędliny","Daging & olahan","Thịt & đồ nguội","मीट और डेली","М'ясо й ковбаси"],"media":["Fotoğraf ve müzik","Photography and music","Foto und Musik","Fotografía y música","Photo et musique","Fotografia e música","Фото и музыка","写真・音楽","사진과 음악","摄影与音乐","Foto e musica","Fotografie en muziek","Fotografia i muzyka","Foto dan musik","Chụp ảnh và âm nhạc","फ़ोटोग्राफ़ी और म्यूज़िक","Фото й музика"],"other":["Diğer","Other","Sonstiges","Otro","Autre","Outro","Другое","その他","기타","其他","Altro","Overig","Inne","Lainnya","Khác","अन्य","Інше"],"pantry":["Bakliyat ve kiler","Store cupboard","Vorratskammer","Despensa","Épicerie","Mercearia","Бакалея","保存食品","식료품 저장","粮油调味","Dispensa","Voorraadkast","Spiżarnia","Bahan pokok","Đồ khô","राशन","Бакалія"],"personal":["Kişisel bakım","Personal care","Körperpflege","Cuidado personal","Soins personnels","Cuidados pessoais","Личная гигиена","パーソナルケア","개인 위생","个人护理","Cura personale","Persoonlijke verzorging","Higiena osobista","Perawatan diri","Chăm sóc cá nhân","पर्सनल केयर","Особиста гігієна"],"pet":["Evcil hayvan","Pet","Haustier","Mascotas","Animaux","Pets","Питомцы","ペット","반려동물","宠物","Animali","Huisdier","Zwierzę","Hewan peliharaan","Thú cưng","पालतू जानवर","Тварини"],"produce":["Meyve ve sebze","Fruit & veg","Obst & Gemüse","Fruta y verdura","Fruits & légumes","Frutas e verduras","Фрукты и овощи","野菜・果物","과일 & 채소","蔬菜水果","Frutta e verdura","Groente & fruit","Owoce i warzywa","Buah & sayur","Rau củ quả","फल और सब्ज़ी","Овочі й фрукти"],"service":["Hizmet","Service","Dienstleistung","Servicio","Service","Serviço","Услуги","サービス","서비스","服务","Servizio","Service","Usługa","Layanan","Dịch vụ","सर्विस","Послуга"],"shopping":["Alışveriş ve hediye","Shopping and gifts","Einkäufe und Geschenke","Compras y regalos","Achats et cadeaux","Compras e presentes","Покупки и подарки","買い物・ギフト","쇼핑과 선물","购物与礼品","Shopping e regali","Winkelen en cadeaus","Zakupy i prezenty","Belanja dan hadiah","Mua sắm và quà tặng","शॉपिंग और तोहफ़े","Покупки й подарунки"],"snacks":["Atıştırmalık","Snacks","Snacks","Aperitivos","En-cas","Lanches","Снеки","お菓子","간식","零食","Snack","Snacks","Przekąski","Camilan","Đồ ăn vặt","स्नैक्स","Снеки"],"stay":["Konaklama","Accommodation","Unterkunft","Alojamiento","Hébergement","Hospedagem","Проживание","宿泊","숙소","住宿","Alloggio","Accommodatie","Nocleg","Penginapan","Chỗ ở","ठहरना","Житло"],"tax":["Vergi ve sigorta","Tax and insurance","Steuer und Versicherung","Impuestos y seguro","Taxes et assurance","Impostos e seguro","Налоги и страховка","税金・保険","세금과 보험","税费与保险","Tasse e assicurazione","Belasting en verzekering","Podatki i ubezpieczenie","Pajak dan asuransi","Thuế và bảo hiểm","टैक्स और बीमा","Податки й страхування"],"tea":["Çay","Tea","Tee","Té","Thé","Chá","Чай","お茶","차","茶","Tè","Thee","Herbata","Teh","Trà","चाय","Чай"],"transport":["Nakliye","Transport","Transport","Transporte","Transport","Transporte","Доставка","交通","교통","交通","Trasporti","Vervoer","Transport","Transportasi","Đi lại","आना-जाना","Транспорт"],"travel":["Ulaşım","Travel","Fahrt","Transporte","Trajet","Deslocamento","Проезд","旅行","여행","旅行","Viaggio","Reizen","Podróż","Perjalanan","Du lịch","यात्रा","Подорожі"],"vehicle":["Alış bedeli","Purchase price","Kaufpreis","Precio de compra","Prix d'achat","Preço de compra","Стоимость покупки","購入価格","구매 가격","购买价格","Prezzo d'acquisto","Aankoopprijs","Cena zakupu","Harga beli","Giá mua","खरीद कीमत","Ціна купівлі"],"venue":["Mekan","Venue","Location","Lugar","Lieu","Local","Площадка","会場","장소","场地","Location","Locatie","Sala","Tempat acara","Địa điểm","जगह","Місце проведення"],"visa":["Vize ve sigorta","Visa and insurance","Visum und Versicherung","Visado y seguro","Visa et assurance","Visto e seguro","Виза и страховка","ビザ・保険","비자와 보험","签证与保险","Visto e assicurazione","Visum en verzekering","Wiza i ubezpieczenie","Visa dan asuransi","Visa và bảo hiểm","वीज़ा और बीमा","Віза й страхування"],"water":["Su ve maden suyu","Water & soda","Wasser & Sprudel","Agua y gaseosa","Eau & soda","Água e refrigerante","Вода и газировка","水・炭酸飲料","생수 & 탄산음료","饮用水与汽水","Acqua e bibite","Water & frisdrank","Woda i napoje gazowane","Air & soda","Nước & nước ngọt","पानी और सोडा","Вода й газовані напої"]},"unit":{"piece":["Adet","Piece","Stück","Unidad","Pièce","Unidade","Штука","個","개","件","Pezzo","Stuk","Sztuka","Buah","Cái","पीस","Штука"],"pack":["Paket","Pack","Packung","Paquete","Paquet","Pacote","Упаковка","パック","팩","包","Confezione","Verpakking","Opakowanie","Pak","Gói","पैक","Упаковка"],"kilogram":["Kilogram","Kilogram","Kilogramm","Kilogramo","Kilogramme","Quilograma","Килограмм","キログラム","킬로그램","千克","Chilogrammo","Kilogram","Kilogram","Kilogram","Kilôgam","किलोग्राम","Кілограм"],"litre":["Litre","Litre","Liter","Litro","Litre","Litro","Литр","リットル","리터","升","Litro","Liter","Litr","Liter","Lít","लीटर","Літр"],"metre":["Metre","Metre","Meter","Metro","Mètre","Metro","Метр","メートル","미터","米","Metro","Meter","Metr","Meter","Mét","मीटर","Метр"],"squareMetre":["Metrekare","Square metre","Quadratmeter","Metro cuadrado","Mètre carré","Metro quadrado","Квадратный метр","平方メートル","제곱미터","平方米","Metro quadro","Vierkante meter","Metr kwadratowy","Meter persegi","Mét vuông","वर्ग मीटर","Квадратний метр"],"hour":["Saat","Hour","Stunde","Hora","Heure","Hora","Час","時間","시간","小时","Ora","Uur","Godzina","Jam","Giờ","घंटा","Година"],"day":["Gün","Day","Tag","Día","Jour","Dia","День","日","일","天","Giorno","Dag","Dzień","Hari","Ngày","दिन","День"],"night":["Gece","Night","Nacht","Noche","Nuit","Noite","Ночь","泊","박","晚","Notte","Nacht","Noc","Malam","Đêm","रात","Ніч"],"person":["Kişi","Person","Person","Persona","Personne","Pessoa","Человек","人","인","人","Persona","Persoon","Osoba","Orang","Người","व्यक्ति","Особа"]},"akind":{"property":["Konut","Property","Immobilie","Vivienda","Logement","Imóvel","Недвижимость","不動産","부동산","房产","Immobile","Woning","Nieruchomość","Properti","Nhà đất","प्रॉपर्टी","Нерухомість"],"land":["Arsa","Land","Grundstück","Terreno","Terrain","Terreno","Земля","土地","토지","土地","Terreno","Grond","Grunt","Tanah","Đất","ज़मीन","Земля"],"vehicle":["Araç","Vehicle","Fahrzeug","Vehículo","Véhicule","Veículo","Транспорт","車両","차량","车辆","Veicolo","Voertuig","Pojazd","Kendaraan","Xe","वाहन","Транспорт"],"gold":["Altın","Gold","Gold","Oro","Or","Ouro","Золото","金","금","黄金","Oro","Goud","Złoto","Emas","Vàng","सोना","Золото"],"currency":["Döviz","Currency","Devisen","Divisas","Devises","Câmbio","Валюта","外貨","외화","外币","Valuta","Valuta","Waluta","Valuta asing","Ngoại tệ","विदेशी मुद्रा","Валюта"],"stock":["Hisse","Shares","Aktien","Acciones","Actions","Ações","Акции","株式","주식","股票","Azioni","Aandelen","Akcje","Saham","Cổ phiếu","शेयर","Акції"],"fund":["Fon","Funds","Fonds","Fondos","Fonds","Fundos","Фонды","投資信託","펀드","基金","Fondi","Fondsen","Fundusze","Reksa dana","Quỹ đầu tư","फंड","Фонди"],"crypto":["Kripto","Crypto","Krypto","Cripto","Crypto","Cripto","Криптовалюта","暗号資産","암호화폐","加密货币","Cripto","Crypto","Kryptowaluty","Kripto","Tiền điện tử","क्रिप्टो","Крипта"],"savings":["Mevduat","Savings","Erspartes","Ahorros","Épargne","Poupança","Сбережения","預金","예금","存款","Risparmi","Spaargeld","Oszczędności","Tabungan","Tiết kiệm","बचत","Заощадження"],"other":["Diğer","Other","Sonstiges","Otros","Autre","Outros","Другое","その他","기타","其他","Altro","Overig","Inne","Lainnya","Khác","अन्य","Інше"]},"s":{"name":["Ne","What","Was","Qué","Quoi","O quê","Что","内容","품목","内容","Cosa","Wat","Co","Apa","Món gì","क्या","Що"],"vendor":["Nereden (isteğe bağlı)","Where (optional)","Wo (optional)","Dónde (opcional)","Où (facultatif)","Onde (opcional)","Где (необязательно)","場所(任意)","구매처 (선택)","地点（选填）","Dove (facoltativo)","Waar (optioneel)","Gdzie (opcjonalnie)","Di mana (opsional)","Ở đâu (không bắt buộc)","कहाँ (वैकल्पिक)","Де (необов'язково)"],"date":["Tarih","Date","Datum","Fecha","Date","Data","Дата","日付","날짜","日期","Data","Datum","Data","Tanggal","Ngày","तारीख","Дата"],"note":["Ona bir not (isteğe bağlı)","A note for them (optional)","Notiz (optional)","Una nota (opcional)","Un mot (facultatif)","Um recado (opcional)","Комментарий (необязательно)","相手へのメモ(任意)","상대방에게 남길 메모 (선택)","给对方的留言（选填）","Una nota per il proprietario (facoltativa)","Een notitie voor de eigenaar (optioneel)","Wiadomość dla właściciela (opcjonalnie)","Catatan untuk mereka (opsional)","Ghi chú cho họ (không bắt buộc)","उनके लिए एक नोट (वैकल्पिक)","Примітка для власника (необов'язково)"],"footer":["Sahibine öneri olarak gider; yalnızca kabul ederse eklenir.","It goes to the owner as a suggestion; it is added only if they accept it.","Es geht als Vorschlag an den Besitzer und wird nur übernommen, wenn er zustimmt.","Le llega al dueño como sugerencia; solo se añade si la acepta.","Cela part chez le propriétaire comme proposition ; ajouté seulement s'il accepte.","Vai para o dono como sugestão; só entra se ele aceitar.","Уйдёт владельцу как предложение; добавится, только если он согласится.","持ち主に提案として届きます。承認された場合のみ追加されます。","소유자에게 제안으로 전달되고, 수락해야만 추가돼요.","它会作为建议发给所有者；只有对方接受后才会添加。","Arriva al proprietario come suggerimento; viene aggiunta solo se la accetta.","Het gaat als voorstel naar de eigenaar; het wordt alleen toegevoegd als die het accepteert.","Trafia do właściciela jako propozycja; zostanie dodana tylko, jeśli ją przyjmie.","Dikirim ke pemilik sebagai saran; hanya ditambahkan jika mereka menerimanya.","Nó được gửi đến chủ sở hữu dưới dạng đề xuất; chỉ được thêm nếu họ chấp nhận.","यह मालिक को सुझाव के रूप में जाता है; वे मानें तभी जुड़ता है।","Це надійде власнику як пропозиція; додасться, лише якщо він її прийме."],"send":["Gönder","Send","Senden","Enviar","Envoyer","Enviar","Отправить","送信","보내기","发送","Invia","Versturen","Wyślij","Kirim","Gửi","भेजें","Надіслати"],"bought":["Aldım","Bought it","Gekauft","Lo compré","Acheté","Comprei","Куплено","買った","샀어요","已购买","Comprato","Gekocht","Kupione","Sudah dibeli","Đã mua","खरीद लिया","Куплено"],"what_saving":["Ne için (isteğe bağlı)","What it was (optional)","Wofür (optional)","Para qué (opcional)","Pour quoi (facultatif)","Para quê (opcional)","На что (необязательно)","何だったか(任意)","품목 (선택)","是什么（选填）","Cos'era (facoltativo)","Wat het was (optioneel)","Co to było (opcjonalnie)","Barang apa (opsional)","Đó là gì (không bắt buộc)","यह क्या था (वैकल्पिक)","Що це було (необов'язково)"],"what_asset":["Ne","What it is","Was","Qué es","Quoi","O quê","Что это","内容","품목","是什么","Cos'è","Wat het is","Co to jest","Barang apa","Đó là gì","यह क्या है","Що це"],"amount":["Ne kadar tuttu","What it cost","Was es gekostet hat","Cuánto costó","Combien ça a coûté","Quanto custou","Сколько стоило","費用","비용","花了多少","Quanto è costato","Wat het kostte","Ile kosztowało","Berapa harganya","Đã tốn bao nhiêu","कितने का पड़ा","Скільки коштувало"],"amount_price":["Fiyatı","The price","Der Preis","El precio","Le prix","O preço","Цена","価格","가격","价格","Il prezzo","De prijs","Cena","Harganya","Giá","कीमत","Ціна"],"amount_value":["Tahmini değeri","What it is worth","Was es wert ist","Cuánto vale","Ce que ça vaut","Quanto vale","Сколько стоит","価値","가치","价值多少","Quanto vale","Wat het waard is","Ile jest warte","Berapa nilainya","Đáng giá bao nhiêu","इसकी कीमत क्या है","Скільки варте"],"amount_saving":["Ne kadar","How much","Wie viel","Cuánto","Combien","Quanto","Сколько","金額","수량","多少","Quanto","Hoeveel","Ile","Berapa banyak","Bao nhiêu","कितना","Скільки"],"purchase_quantity":["Miktar","Quantity","Menge","Cantidad","Quantité","Quantidade","Количество","数量","수량","数量","Quantità","Hoeveelheid","Ilość","Jumlah","Số lượng","मात्रा","Кількість"],"purchase_category":["Kategori","Category","Kategorie","Categoría","Catégorie","Categoria","Категория","カテゴリ","카테고리","分类","Categoria","Categorie","Kategoria","Kategori","Danh mục","कैटेगरी","Категорія"],"asset_kind":["Tür","Type","Art","Tipo","Type","Tipo","Тип","種類","유형","类型","Tipo","Soort","Rodzaj","Jenis","Loại","प्रकार","Тип"],"asset_cost":["Alış fiyatı","Paid","Kaufpreis","Pagado","Prix payé","Preço pago","Цена покупки","支払額","낸 금액","已付","Pagato","Betaald","Zapłacono","Dibayar","Đã trả","चुकाया","Сплачено"],"common_cancel":["Vazgeç","Cancel","Abbrechen","Cancelar","Annuler","Cancelar","Отмена","キャンセル","취소","取消","Annulla","Annuleren","Anuluj","Batal","Hủy","रद्द करें","Скасувати"],"share_link_failed":["Sunucuya ulaşılamadı","Could not reach the server","Server nicht erreichbar","No se pudo conectar con el servidor","Serveur injoignable","Não foi possível falar com o servidor","Сервер недоступен","サーバーに接続できませんでした","서버에 연결할 수 없어요","无法连接服务器","Impossibile raggiungere il server","Kon de server niet bereiken","Nie udało się połączyć z serwerem","Tidak dapat menghubungi server","Không kết nối được máy chủ","सर्वर तक नहीं पहुँच सके","Не вдалося з'єднатися із сервером"],"share_link_failed_message":["Bağlantını kontrol edip tekrar dene.","Check the connection and try again.","Prüfe die Verbindung und versuch es nochmal.","Revisa la conexión y vuelve a intentarlo.","Vérifie la connexion et réessaie.","Verifique a conexão e tente de novo.","Проверь соединение и попробуй снова.","接続を確認して、もう一度お試しください。","연결을 확인하고 다시 시도하세요.","请检查网络连接后重试。","Controlla la connessione e riprova.","Controleer de verbinding en probeer het opnieuw.","Sprawdź połączenie i spróbuj ponownie.","Periksa koneksi dan coba lagi.","Hãy kiểm tra kết nối và thử lại.","कनेक्शन जाँचकर फिर कोशिश करें।","Перевір з'єднання й спробуй ще раз."]}};
 const LI = l => Math.max(0, LANGS.indexOf(l));
 const A = (group, key) => (APP[group][key] || [])[LI(lang)] || (APP[group][key] || [])[1] || key;
 /* The plan kinds' own buckets (PurchaseStore.swift ProjectKind.categories). */
@@ -305,10 +469,15 @@ let lang = null, share = null, payload = null, failed = false;
 /* Language: a choice made here wins; otherwise the sharer's language when
    the viewer's browser lists it, else the viewer's first supported language,
    else the sharer's. */
+/* "zh-CN", "zh-Hans" -> "zh"; the old Java code "in" -> "id". */
+function baseLang(l) {
+  const b = String(l || "").slice(0, 2).toLowerCase();
+  return b === "in" ? "id" : b;
+}
 function pickLang(docLang) {
   let saved = null; try { saved = localStorage.getItem(LANG_KEY); } catch (e) { }
   if (LANGS.includes(saved)) return saved;
-  const nav = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).slice(0, 2).toLowerCase());
+  const nav = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(baseLang);
   if (docLang && LANGS.includes(docLang) && nav.includes(docLang)) return docLang;
   const viewer = nav.find(l => LANGS.includes(l));
   return viewer || (LANGS.includes(docLang) ? docLang : "en");
@@ -319,8 +488,8 @@ function setLang(l, remember) {
   document.documentElement.lang = l;
   render();
 }
-$("langs").innerHTML = LANGS.map(l => `<button type="button" data-l="${l}">${l.toUpperCase()}</button>`).join("");
-document.querySelectorAll("#langs button").forEach(b => b.onclick = () => setLang(b.dataset.l, true));
+$("langs").innerHTML = LANGS.map(l => `<option value="${l}" lang="${l}">${NATIVE[l]}</option>`).join("");
+$("langs").onchange = e => setLang(e.target.value, true);
 
 const nf = (v, max = 2) => new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: max }).format(+v || 0);
 const money = (v, sym) => (sym || "") + nf(v);
@@ -386,7 +555,7 @@ function listHTML(T, p) {
 
 function render() {
   const T = I18N[lang];
-  document.querySelectorAll("#langs button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  $("langs").value = lang;
   const mq = [...T.marquee, ...T.marquee, ...T.marquee, ...T.marquee];
   $("mq").innerHTML = [...mq, ...mq].map(s => `<span>${esc(s)}</span>`).join("");
   // Headings are set in capitals here, with the language's own rules (i and İ in Turkish).
@@ -541,7 +710,7 @@ async function sendSuggestion() {
     share = (await r.json()).fields || {};
     payload = JSON.parse(share.payload.stringValue);
   } catch (e) { failed = true; return render(); }
-  const docLang = String(share.lang?.stringValue || "").slice(0, 2);
+  const docLang = baseLang(share.lang?.stringValue);
   setLang(pickLang(docLang), false);
 })();
 </script>

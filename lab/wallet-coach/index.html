@@ -501,7 +501,7 @@ const SOURCES = {
   savings_limit: "Birikim sınırı", settings: "Ayarlar", statement_limit: "Ekstre sınırı", statement_share: "Paylaşılan ekstre", unknown: "Bilinmiyor",
 };
 const N_FIELDS = { n_months: "Ay", n_entries: "Plan satırı", n_parties: "Kişi/marka", n_assets: "Varlık", n_projects: "Proje", n_purchases: "Alım", n_pots: "Birikim kabı", n_boards: "Pano", n_statements: "Ekstre", n_wishes: "Liste (bekleyen)" };
-const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", ru: "Rusça" };
+const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", ru: "Rusça", ja: "Japonca", ko: "Korece", zh: "Çince", it: "İtalyanca", nl: "Felemenkçe", pl: "Lehçe", id: "Endonezce", vi: "Vietnamca", hi: "Hintçe", uk: "Ukraynaca" };
 const TABS = { panel: "Cüzdan (ana sayfa)", month: "Ay", analysis: "Analiz", wallet: "Araçlar", learn: "Yazılar" };
 const COUNTERS = ["installs_new", "sessions", "onboarding_done", "paywall_views", "purchases", "ai_requests", "ai_tokens_in", "ai_tokens_out", "ai_blocked", "ai_failed"];
 
@@ -1229,9 +1229,9 @@ function kohortTablo() {
 }
 
 // ---------- Push ----------
-const PUSH_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский" };
+const PUSH_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский", ja: "日本語", ko: "한국어", zh: "简体中文", it: "Italiano", nl: "Nederlands", pl: "Polski", id: "Bahasa Indonesia", vi: "Tiếng Việt", hi: "हिन्दी", uk: "Українська" };
 const DASH = /[\u2014\u2013]/;
-$("pOther").innerHTML = ["de", "es", "fr", "pt", "ru"].map(l => `<div><p class="lang">${PUSH_LANGS[l].toUpperCase()}</p><input id="pt_${l}" placeholder="Başlık" maxlength="80"><textarea id="pb_${l}" placeholder="Metin" maxlength="300" style="margin-top:6px"></textarea></div>`).join("");
+$("pOther").innerHTML = ["de", "es", "fr", "pt", "ru", "ja", "ko", "zh", "it", "nl", "pl", "id", "vi", "hi", "uk"].map(l => `<div><p class="lang">${PUSH_LANGS[l].toUpperCase()}</p><input id="pt_${l}" placeholder="Başlık" maxlength="80"><textarea id="pb_${l}" placeholder="Metin" maxlength="300" style="margin-top:6px"></textarea></div>`).join("");
 function pushDraft() {
   const metinler = {}, bad = [];
   for (const l of Object.keys(PUSH_LANGS)) {
@@ -1345,7 +1345,7 @@ function renderRates() {
 }
 
 // ---------- Articles (articles/{id}, read by the app's Yazılar list) ----------
-const A_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский" };
+const A_LANGS = { tr: "Türkçe", en: "English", de: "Deutsch", es: "Español", fr: "Français", pt: "Português", ru: "Русский", ja: "日本語", ko: "한국어", zh: "简体中文", it: "Italiano", nl: "Nederlands", pl: "Polski", id: "Bahasa Indonesia", vi: "Tiếng Việt", hi: "हिन्दी", uk: "Українська" };
 $("aLangF").innerHTML += Object.entries(A_LANGS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
 $("aLang").innerHTML = Object.entries(A_LANGS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
 let aEditing = null; // id of the article in the editor, "" for a new one
