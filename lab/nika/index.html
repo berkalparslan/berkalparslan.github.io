@@ -115,6 +115,17 @@ code{font:12px ui-monospace,Menlo,monospace}
 fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
 .lang{font-size:11px;font-weight:700;color:var(--soft);margin:0 0 3px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.row{grid-template-columns:1fr}}
+.notif{background:color-mix(in srgb,var(--soft) 10%,transparent);border-radius:18px;padding:12px 14px;margin:6px 0 10px;max-width:380px}
+.notifHead{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--soft);font-weight:700;letter-spacing:.04em;margin-bottom:6px}.notifHead img{width:18px;height:18px;border-radius:5px}.notifHead small{margin-left:auto;font-weight:500}
+.notif b{display:block;font-size:14px}.notif div{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+table.strings td{white-space:normal;vertical-align:top;min-width:180px;max-width:320px;overflow-wrap:anywhere}
+table.strings td.k{font-weight:600;min-width:200px}
+table.strings td.v{cursor:text}table.strings td.v:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+table.strings td.miss{color:var(--rose);font-style:italic}
+table.strings td.ed{box-shadow:inset 3px 0 0 var(--warn)}
+table.strings td textarea{min-height:54px;font-size:13px}
+table.strings .pl{font-size:11px;color:var(--soft);font-weight:700}
+.kpi .acts{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -122,10 +133,19 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
 
 <section id="login" class="card hidden">
   <h1><img src="/assets/lab-icons/nika-180.png" alt="" onerror="this.remove()">Nika</h1>
-  <p class="muted">Yönetim paneli. E-postana 6 haneli bir kod gelir.</p>
-  <div id="stepEmail">
+  <p class="muted">Yönetim paneli.</p>
+  <div id="stepPass">
+    <p><input id="pemail" type="email" placeholder="E-posta" autocomplete="username"></p>
+    <p><input id="password" type="password" placeholder="Şifre" autocomplete="current-password"></p>
+    <p><button id="passLogin" style="width:100%">Giriş</button></p>
+    <div id="googleBox" class="hidden" style="margin:6px 0 4px"><div id="googleBtn"></div></div>
+    <p class="muted"><a href="#" id="toCode">E-posta koduyla giriş</a></p>
+  </div>
+  <div id="stepEmail" class="hidden">
+    <p class="muted">E-postana 6 haneli bir kod gelir.</p>
     <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
     <p><button id="sendCode" style="width:100%">Kod gönder</button></p>
+    <p class="muted"><a href="#" id="toPass">Şifreyle giriş</a></p>
   </div>
   <div id="stepCode" class="hidden">
     <p class="muted" id="codeTo"></p>
@@ -150,7 +170,8 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
     <a data-page="storage">Depolama</a>
     <a data-page="infra">Altyapı</a>
     <div class="navlabel">YÖNET</div>
-    <a data-page="push" class="off">Bildirim gönder</a>
+    <a data-page="push">Bildirim gönder</a>
+    <a data-page="strings">Metinler</a>
     <a data-page="settings">Ayarlar</a>
     <div class="spacer"></div>
     <a id="themeBtn">Tema</a>
@@ -235,7 +256,7 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
 
     <section data-view="storage" class="hidden">
       <h1>Depolama</h1>
-      <p class="muted">Fotoğraf ve videolar R2'de (<code>nika-media</code>), düğün alanı başına kota: ücretsiz 500 MB, Premium 10 GB. Sayılar sunucu tablolarından (alan kotası ve medya kayıtları).</p>
+      <p class="muted">Fotoğraf ve videolar R2'de (<code>nika-media</code>), düğün alanı başına kota: ücretsiz 1 GB, Premium 10 GB, her 25 GB paketi (<code>storage25</code>) +25 GB. Sayılar sunucu tablolarından (alan kotası ve medya kayıtları).</p>
       <div class="kpis" id="stKpis"></div>
       <div class="grid2">
         <div class="card"><h2>Kim yüklüyor</h2><div class="bars" id="stWho"></div></div>
@@ -260,14 +281,64 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
 
     <section data-view="push" class="hidden">
       <h1>Bildirim gönder</h1>
-      <div class="note big"><b>APNs anahtarı bekleniyor.</b> Nika'da henüz bildirim altyapısı yok: Apple Developer'da APNs anahtarı (.p8) oluşturulup sunucuya eklenince ve uygulamaya bildirim izni ve kayıt eklenince bu sayfa açılır.</div>
-      <fieldset disabled class="card">
-        <div class="row">
-          <div><p class="lang">TÜRKÇE</p><input placeholder="Başlık"><textarea placeholder="Metin" style="margin-top:6px"></textarea></div>
-          <div><p class="lang">ENGLISH</p><input placeholder="Title"><textarea placeholder="Text" style="margin-top:6px"></textarea></div>
+      <p class="muted">Uygulamaya bildirim izni veren cihazlar. Düğün olayları (katılım yanıtı, misafir fotoğrafı, şarkı isteği, eş ve yardımcı katılımı) çiftin cihazlarına kendiliğinden gider; burası elle duyuru içindir.</p>
+      <div id="pushState"></div>
+      <div class="kpis" id="pushKpis"></div>
+      <div class="grid2">
+        <div class="card">
+          <h2>Yeni bildirim</h2>
+          <div class="row">
+            <div><p class="lang">KİME</p><select id="pAud"><option value="all">Tüm cihazlar</option><option value="testers">Yalnız test cihazları</option></select></div>
+            <div><p class="lang">DİL</p><select id="pLang"><option value="">Tüm diller</option></select></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div><p class="lang">PLATFORM</p><select id="pPlat"><option value="">iOS ve Android</option><option value="ios">iOS</option><option value="android">Android</option></select></div>
+            <div><p class="lang">AÇILACAK SAYFA</p><select id="pRoute"><option value="">Ana sayfa</option><option value="guests">Davetliler</option><option value="memories">Anılar</option><option value="music">Müzik</option><option value="settings">Ayarlar</option></select></div>
+          </div>
+          <p style="margin-top:12px"><input id="pTitle" maxlength="100" placeholder="Başlık (isteğe bağlı)"></p>
+          <p><textarea id="pBody" maxlength="500" placeholder="Metin"></textarea></p>
+          <div id="pMsg"></div>
+          <div class="toolbar"><button id="pSend">Gönder</button><span class="muted" id="pCount"></span></div>
+          <p class="muted">Tek dilde yazılır ve seçilen kitleye aynen gider. Farklı dillere ayrı ayrı gönder. Uzun tire kullanılamaz.</p>
         </div>
-        <div class="toolbar" style="margin-top:14px"><button>Gönder</button><span class="muted">APNs anahtarı bekleniyor</span></div>
-      </fieldset>
+        <div class="card">
+          <h2>Önizleme</h2>
+          <div class="notif"><div class="notifHead"><img src="/assets/lab-icons/nika-180.png" alt="" onerror="this.remove()"><span>NIKA</span><small>şimdi</small></div><b id="pvTitle">Başlık</b><div id="pvBody" class="muted">Metin</div></div>
+          <h2>Cihazlar</h2><div class="bars" id="pushLangs"></div>
+        </div>
+      </div>
+      <div class="card"><h2>Geçmiş</h2><div class="tablewrap"><table><thead><tr><th>Tarih</th><th>Başlık ve metin</th><th>Kitle</th><th class="n">Hedef</th><th class="n">Giden</th><th class="n">Hata</th><th class="n">Silinen token</th><th class="n">Atlanan</th><th>Durum</th></tr></thead><tbody id="pushRows"></tbody></table></div></div>
+    </section>
+
+    <section data-view="strings" class="hidden">
+      <h1>Metinler</h1>
+      <p class="muted">Uygulamadaki metinler. Anahtar Türkçe kaynak metindir; buradaki düzenleme uygulamadaki metni ezer, uygulamalar açılışta çekip saklar. Repo dosyalarını yenilemek için dili dışa aktar (<code>shared/strings/lang_&lt;kod&gt;.json</code>).</p>
+      <div class="kpis" id="stLangs"></div>
+      <div class="toolbar">
+        <input id="sQ" type="search" placeholder="Ara (anahtar ya da çeviri)">
+        <select id="sMissing"><option value="">Tüm anahtarlar</option></select>
+        <select id="sOnlyEdited"><option value="">Hepsi</option><option value="1">Yalnız panelde düzenlenen</option></select>
+        <span class="muted" id="sCount"></span>
+      </div>
+      <div id="sMsg"></div>
+      <div class="tablewrap" id="sWrap"><table class="strings"><thead id="sHead"></thead><tbody id="sRows"></tbody></table></div>
+      <p><button class="ghost hidden" id="sMore">Daha fazla göster</button></p>
+      <div class="grid2">
+        <div class="card">
+          <h2>Dışa ve içe aktar</h2>
+          <div class="toolbar"><select id="sExpLang"></select><button class="ghost" id="sExport">JSON indir</button><button class="ghost" id="sExportKeys">keys.json indir</button></div>
+          <div class="toolbar"><select id="sImpLang"></select><select id="sImpMode"><option value="base">Boşları ve repo değerlerini güncelle</option><option value="panel">Hepsinin üstüne yaz</option></select></div>
+          <div class="toolbar"><input type="file" id="sFile" accept="application/json,.json"><button class="ghost" id="sImport">İçe aktar</button></div>
+          <p class="muted">Dosya şekli repo ile aynı: <code>{"Türkçe anahtar": "çeviri"}</code>, çoğullar <code>{"one": "...", "other": "..."}</code>. Bilinmeyen anahtarlar atlanır.</p>
+        </div>
+        <div class="card">
+          <h2>Dil ekle</h2>
+          <div class="row"><input id="lCode" placeholder="Kod (ör. pt, ar)"><input id="lName" placeholder="Türkçe adı (ör. Portekizce)"></div>
+          <div class="row" style="margin-top:10px"><input id="lNative" placeholder="Kendi dilinde adı (ör. Português)"><label class="muted" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="lRtl" style="width:auto"> Sağdan sola</label></div>
+          <p><button id="lAdd">Dili ekle</button></p>
+          <p class="muted">Yeni dil açık eklenir; çevirisi olmayan metinler uygulamada Türkçe görünür. Hazır olana kadar yukarıdaki kartından kapatabilirsin.</p>
+        </div>
+      </div>
     </section>
 
     <section data-view="settings" class="hidden">
@@ -290,7 +361,7 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
         <h2>Veri nasıl toplanıyor</h2>
         <p>Her kurulum rastgele bir kimlikle Nika'nın kendi sunucusuna yazar (<code>POST /v1/telemetry</code>, 8 saniyede bir toplu, açıkken dakikada bir sinyal): ilk ve son görülme, platform, sürüm, dil, bölge, Premium durumu, şu anki ekran, kaç davetli, görev, ödeme, medya tuttuğu. Ne yaptığı sayaç olarak ve zaman çizelgesi olarak tutulur (zaman çizelgesi 90 gün sonra silinir). Günlük toplamlar <code>stats</code> tablosunda (UTC). Misafir web sayfalarının sayaçlarını (<code>web_*</code>) sunucu kendisi tutar.</p>
         <p><b>Ad, e-posta, tutar, not, mesaj hiç toplanmaz.</b> Sunucu yalnız bilinen alan adlarını kısa ve güvenli karakterlerle kabul eder. Geliştirme sürümleri ve ekran görüntüsü modu hiçbir şey yazmaz.</p>
-        <p>Panel girişi uygulamanın e-posta kodu ile; sunucu yalnız yönetici adresinin oturumuna <code>/v1/admin/*</code> açar. Altyapı sayfasının Cloudflare sayıları Mac'teki günlük işten gelir (<code>scripts/lab/nika.mjs</code>, <code>gunluk.sh</code> içinde, 07:00).</p>
+        <p>Panel girişi yönetici e-postası ve şifreyle (<code>POST /v1/admin/login</code>, sunucuda yalnız PBKDF2 özeti), yedek olarak e-posta koduyla; Google ile giriş istemci kimliği girilince görünür. Sunucu yalnız yönetici adresinin oturumuna <code>/v1/admin/*</code> açar. Altyapı sayfasının Cloudflare sayıları Mac'teki günlük işten gelir (<code>scripts/lab/nika.mjs</code>, <code>gunluk.sh</code> içinde, 07:00).</p>
       </div>
       <div class="card">
         <h2>Demo</h2>
@@ -306,6 +377,8 @@ fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
 <script type="module">
 const DEMO = new URLSearchParams(location.search).has("demo");
 const APIS = ["https://nika.bamstudio.dev", "https://nika-api.kittapcom.workers.dev"];
+// Google ile giriş: Google Cloud'da web OAuth istemcisi oluşunca kimliği buraya yaz (sunucuda GOOGLE_CLIENT_IDS'e de ekle).
+const GOOGLE_CLIENT_ID = "";
 const SESSION_KEY = "nika-panel-session", EMAIL_KEY = "nika-panel-email", API_KEY = "nika-panel-api";
 
 const $ = id => document.getElementById(id);
@@ -432,7 +505,7 @@ themeCharts();
 let apiBase = store.get(API_KEY) && APIS.includes(store.get(API_KEY)) ? store.get(API_KEY) : APIS[0];
 class ApiErr extends Error { constructor(status, code) { super(code || String(status)); this.status = status; this.code = code; } }
 async function api(path, { method = "GET", body, auth = true } = {}) {
-  if (DEMO) return demoApi(path);
+  if (DEMO) return demoApi(path, method, body);
   const headers = {};
   if (body) headers["content-type"] = "application/json";
   if (auth) headers.authorization = "Bearer " + store.get(SESSION_KEY);
@@ -452,12 +525,13 @@ async function api(path, { method = "GET", body, auth = true } = {}) {
 function showLogin(msg = "", denied = false) {
   $("login").classList.remove("hidden"); $("app").classList.add("hidden");
   $("loginMsg").innerHTML = msg;
-  $("stepEmail").classList.toggle("hidden", denied);
+  $("stepPass").classList.toggle("hidden", denied);
+  $("stepEmail").classList.add("hidden");
   $("stepCode").classList.add("hidden");
   $("loginOut").classList.toggle("hidden", !denied);
 }
 const ERR = {
-  rate_limited: "Çok fazla deneme. Biraz bekleyip tekrar dene.", code_invalid: "Kod yanlış ya da kullanılmış. Yeni kod iste.",
+  rate_limited: "Çok fazla deneme. Biraz bekleyip tekrar dene.", unauthorized: "E-posta ya da şifre yanlış.", code_invalid: "Kod yanlış ya da kullanılmış. Yeni kod iste.",
   code_expired: "Kodun süresi doldu (10 dakika). Yeni kod iste.", bad_request: "E-posta ya da kod biçimi hatalı.",
   service_unavailable: "Sunucu e-postayı gönderemedi. Bu hesap şimdilik yalnız doğrulanmış adrese posta atabiliyor.",
 };
@@ -470,6 +544,38 @@ async function signOut() {
 }
 $("signout").onclick = signOut; $("signout2").onclick = signOut; $("signoutLogin").onclick = signOut;
 $("email").value = store.get(EMAIL_KEY) || "";
+$("pemail").value = store.get(EMAIL_KEY) || "";
+$("toCode").onclick = e => { e.preventDefault(); $("stepPass").classList.add("hidden"); $("stepEmail").classList.remove("hidden"); $("loginMsg").textContent = ""; $("email").value = $("pemail").value; };
+$("toPass").onclick = e => { e.preventDefault(); $("stepEmail").classList.add("hidden"); $("stepPass").classList.remove("hidden"); $("loginMsg").textContent = ""; };
+$("passLogin").onclick = async () => {
+  const email = $("pemail").value.trim().toLowerCase(), password = $("password").value;
+  if (!email.includes("@") || !password) { $("loginMsg").textContent = "E-posta ve şifreyi yaz."; return; }
+  $("passLogin").disabled = true; $("loginMsg").textContent = "Giriş yapılıyor…";
+  try {
+    const r = await api("/v1/admin/login", { method: "POST", body: { email, password }, auth: false });
+    store.set(EMAIL_KEY, email); store.set(SESSION_KEY, r.session); $("password").value = "";
+    await enter();
+  } catch (e) { $("loginMsg").innerHTML = `<div class="note err">${errText(e)}</div>`; }
+  finally { $("passLogin").disabled = false; }
+};
+$("password").addEventListener("keydown", e => { if (e.key === "Enter") $("passLogin").click(); });
+$("pemail").addEventListener("keydown", e => { if (e.key === "Enter") $("password").focus(); });
+function initGoogle() {
+  if (!GOOGLE_CLIENT_ID || DEMO) return;
+  const sc = document.createElement("script");
+  sc.src = "https://accounts.google.com/gsi/client"; sc.async = true;
+  sc.onload = () => {
+    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: async (resp) => {
+      $("loginMsg").textContent = "Giriş yapılıyor…";
+      try { const r = await api("/v1/auth/google", { method: "POST", body: { idToken: resp.credential }, auth: false }); store.set(SESSION_KEY, r.session); await enter(); }
+      catch (e) { $("loginMsg").innerHTML = `<div class="note err">${errText(e)}</div>`; }
+    } });
+    google.accounts.id.renderButton($("googleBtn"), { theme: "outline", size: "large", text: "signin_with", width: 320, locale: "tr" });
+    $("googleBox").classList.remove("hidden");
+  };
+  document.head.appendChild(sc);
+}
+initGoogle();
 $("sendCode").onclick = async () => {
   const email = $("email").value.trim().toLowerCase();
   if (!email.includes("@")) { $("loginMsg").textContent = "E-posta adresini yaz."; return; }
@@ -520,7 +626,7 @@ const days = () => +$("range").value;
 const PAGE_API = {
   overview: () => `/v1/admin/overview?days=${days()}`, live: () => "/v1/admin/live", screens: () => `/v1/admin/screens?days=${days()}`,
   revenue: () => `/v1/admin/paywall?days=${days()}`, engage: () => `/v1/admin/usage?days=${days()}`, users: () => "/v1/admin/users",
-  storage: () => "/v1/admin/storage", infra: () => "/v1/admin/infra",
+  storage: () => "/v1/admin/storage", infra: () => "/v1/admin/infra", push: () => "/v1/admin/push", strings: () => "/v1/admin/strings",
 };
 function go(page) {
   if (!document.querySelector(`section[data-view="${page}"]`)) page = "overview";
@@ -554,7 +660,7 @@ async function load(page, force = false) {
 }
 const data = page => cache[PAGE_API[page]?.()];
 function render(page) {
-  const f = { overview: renderOverview, live: renderLive, screens: renderScreens, revenue: renderRevenue, engage: renderEngage, users: renderUsers, storage: renderStorage, infra: renderInfra }[page];
+  const f = { overview: renderOverview, live: renderLive, screens: renderScreens, revenue: renderRevenue, engage: renderEngage, users: renderUsers, storage: renderStorage, infra: renderInfra, push: renderPush, strings: renderStrings }[page];
   if (!f || !data(page)) return;
   try { f(data(page)); } catch (e) { console.error(page, e); }
 }
@@ -912,6 +1018,159 @@ function renderInfra(d) {
   bars("infBuckets", (acc.r2Buckets || []).map(b => ({ label: b.bucket, value: b.bytes, sub: `${bytes(b.bytes)} · ${fmt(b.objects)} nesne` })), "Kova bilgisi Cloudflare özetiyle gelir.");
 }
 
+
+// ---------- Push ----------
+const ROUTE_AD = { guests: "Davetliler", memories: "Anılar", music: "Müzik", settings: "Ayarlar" };
+const DASH_RE = /[\u2013\u2014]/;
+const audienceOf = () => ({ ...($("pAud").value === "testers" ? { testers: true } : {}), ...($("pLang").value ? { lang: $("pLang").value } : {}), ...($("pPlat").value ? { platform: $("pPlat").value } : {}) });
+const audText = a => [a?.testers ? "Test cihazları" : "Herkes", a?.lang ? (LANG[a.lang] || a.lang) : null, a?.platform ? platName(a.platform) : null].filter(Boolean).join(" · ");
+let previewTimer = null;
+function pushPreview() {
+  $("pvTitle").textContent = $("pTitle").value.trim() || "Nika";
+  $("pvBody").textContent = $("pBody").value.trim() || "Metin";
+  const bad = DASH_RE.test($("pTitle").value + $("pBody").value);
+  $("pMsg").innerHTML = bad ? `<div class="note err">Uzun ya da kısa tire kullanılamaz. Virgül ya da nokta kullan.</div>` : "";
+  $("pSend").disabled = bad || !$("pBody").value.trim();
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(async () => {
+    try { const r = await api("/v1/admin/push/preview", { method: "POST", body: { audience: audienceOf() } }); $("pCount").textContent = `${fmt(r.devices)} cihaza gidecek`; $("pSend").dataset.n = r.devices; }
+    catch (e) { $("pCount").textContent = "Sayı alınamadı"; }
+  }, 250);
+}
+["pTitle", "pBody"].forEach(id => $(id).addEventListener("input", pushPreview));
+["pAud", "pLang", "pPlat"].forEach(id => $(id).addEventListener("change", pushPreview));
+$("pSend").onclick = async () => {
+  const n = +($("pSend").dataset.n || 0);
+  if (!n) { $("pMsg").innerHTML = `<div class="note">Bu kitlede kayıtlı cihaz yok.</div>`; return; }
+  if (!confirm(`${fmt(n)} cihaza gönderilsin mi?\n\n${$("pTitle").value.trim()}\n${$("pBody").value.trim()}`)) return;
+  $("pSend").disabled = true; $("pMsg").innerHTML = `<div class="note">Gönderiliyor…</div>`;
+  try {
+    let { push } = await api("/v1/admin/push", { method: "POST", body: { title: $("pTitle").value.trim(), body: $("pBody").value.trim(), route: $("pRoute").value || undefined, audience: audienceOf() } });
+    for (let i = 0; push.status !== "done" && push.remaining > 0 && i < 500; i++) {
+      $("pMsg").innerHTML = `<div class="note">Gönderiliyor… ${fmt(push.sent)} / ${fmt(push.total)}</div>`;
+      ({ push } = await api(`/v1/admin/push/${encodeURIComponent(push.id)}/continue`, { method: "POST" }));
+    }
+    $("pMsg").innerHTML = `<div class="note okn">Bitti: ${fmt(push.sent)} giden, ${fmt(push.failed)} hata, ${fmt(push.removed)} geçersiz token silindi${push.skipped ? `, ${fmt(push.skipped)} atlandı (Android gönderimi henüz yok)` : ""}.</div>`;
+    $("pTitle").value = ""; $("pBody").value = "";
+    delete cache["/v1/admin/push"]; await load("push", true);
+  } catch (e) { $("pMsg").innerHTML = `<div class="note err">Gönderilemedi: ${e.code === "bad_request" ? "metin kurala uymuyor (boş, çok uzun ya da tire var)" : esc(e.code || e.status)}</div>`; }
+  finally { $("pSend").disabled = false; }
+};
+function renderPush(d) {
+  const dv = d.devices || {};
+  $("pushState").innerHTML = d.apns?.configured
+    ? `<div class="note okn">APNs hazır (anahtar <code>${esc(d.apns.keyId || "")}</code>, konu <code>${esc(d.apns.topic)}</code>). Android (FCM) gönderimi henüz yok; Android cihazlar sayılır ama atlanır.</div>`
+    : `<div class="note err">APNs anahtarı sunucuda yok (<code>APNS_KEY</code>).</div>`;
+  $("pushKpis").innerHTML = [
+    kpiH("Cihaz", fmt(dv.devices), `${fmt(dv.linked)} hesaba bağlı`),
+    kpiH("iOS", fmt(dv.byPlatform?.ios), `sandbox ${fmt(dv.byEnv?.sandbox)} · üretim ${fmt(dv.byEnv?.production)}`),
+    kpiH("Android", fmt(dv.byPlatform?.android), "FCM bekliyor"),
+    kpiH("Test cihazı", fmt(dv.testers), "TestFlight ve geliştirme"),
+    kpiH("Son hatalı", fmt(dv.withErrors), "son gönderimde hata alan token", dv.withErrors ? "warn" : ""),
+  ].join("");
+  const langs = Object.keys(dv.byLang || {}), cur = $("pLang").value;
+  $("pLang").innerHTML = `<option value="">Tüm diller</option>` + [...new Set([...(d.languages || []), ...langs])].map(l => `<option value="${esc(l)}">${esc(LANG[l] || l)} (${fmt(dv.byLang?.[l])})</option>`).join("");
+  $("pLang").value = cur;
+  bars("pushLangs", Object.entries(dv.byLang || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: LANG[k] || k, value: v })), "Henüz kayıtlı cihaz yok.");
+  $("pushRows").innerHTML = (d.history || []).length ? d.history.map(h => `<tr><td>${dtS(h.createdAt)}</td><td style="white-space:normal;min-width:220px"><b>${esc(h.title || "Nika")}</b><br><span class="muted">${esc(h.body)}</span>${h.route ? ` <span class="pill sky">${esc(ROUTE_AD[h.route] || h.route)}</span>` : ""}</td>
+    <td>${esc(audText(h.audience))}</td><td class="n">${fmt(h.total)}</td><td class="n">${fmt(h.sent)}</td><td class="n">${fmt(h.failed)}</td><td class="n">${fmt(h.removed)}</td><td class="n">${fmt(h.skipped)}</td>
+    <td>${h.status === "done" ? '<span class="pill ok">bitti</span>' : `<span class="pill pro">sürüyor · ${fmt(h.remaining)}</span>`}</td></tr>`).join("")
+    : `<tr><td colspan="9" class="muted">Henüz gönderim yok.</td></tr>`;
+  pushPreview();
+}
+
+// ---------- Strings ----------
+let sShown = 300;
+const valText = v => v == null ? "" : typeof v === "string" ? v : Object.entries(v).map(([k, x]) => `${k}: ${x}`).join("\n");
+const valHtml = v => typeof v === "string" ? esc(v) : Object.entries(v).map(([k, x]) => `<span class="pl">${esc(k)}</span> ${esc(x)}`).join("<br>");
+function stringsFiltered(d) {
+  const q = $("sQ").value.trim().toLocaleLowerCase("tr"), miss = $("sMissing").value, ed = $("sOnlyEdited").value;
+  return d.keys.filter(k => (!miss || !(miss in k.values)) && (!ed || k.edited.length) && (!q || k.key.toLocaleLowerCase("tr").includes(q) || Object.values(k.values).some(v => valText(v).toLocaleLowerCase("tr").includes(q))));
+}
+function renderStrings(d) {
+  const langs = d.languages;
+  $("stLangs").innerHTML = langs.map(l => `<div class="kpi ${d.missing[l.code] ? "warn" : "good"}"><span>${esc(l.nativeName)} · ${esc(l.code)}${l.rtl ? " · RTL" : ""}</span><b>${fmt(d.missing[l.code])}</b><small>eksik / ${fmt(d.total)} · rev ${fmt(l.rev)}</small>
+    <div class="acts">${l.enabled ? '<span class="pill ok">açık</span>' : '<span class="pill no">kapalı</span>'}${l.code !== "tr" ? `<button class="ghost" data-toggle="${esc(l.code)}">${l.enabled ? "Kapat" : "Aç"}</button>` : ""}</div></div>`).join("");
+  document.querySelectorAll("[data-toggle]").forEach(b => b.onclick = async () => {
+    const l = langs.find(x => x.code === b.dataset.toggle);
+    try { await api(`/v1/admin/strings/languages/${l.code}`, { method: "PATCH", body: { enabled: !l.enabled } }); l.enabled = !l.enabled; renderStrings(d); } catch (e) { sMsg(`Olmadı: ${esc(e.code || e.status)}`, "err"); }
+  });
+  const opts = langs.map(l => `<option value="${esc(l.code)}">${esc(l.name)}</option>`).join("");
+  for (const id of ["sExpLang", "sImpLang"]) { const v = $(id).value; $(id).innerHTML = opts; if (v) $(id).value = v; }
+  const mv = $("sMissing").value;
+  $("sMissing").innerHTML = `<option value="">Tüm anahtarlar</option>` + langs.filter(l => l.code !== "tr").map(l => `<option value="${esc(l.code)}">${esc(l.name)} eksikleri (${fmt(d.missing[l.code])})</option>`).join("");
+  $("sMissing").value = mv;
+  $("sHead").innerHTML = `<tr><th>Anahtar (Türkçe kaynak)</th>${langs.map(l => `<th>${esc(l.nativeName)}</th>`).join("")}</tr>`;
+  const list = stringsFiltered(d);
+  $("sCount").textContent = `${fmt(list.length)} / ${fmt(d.total)} anahtar`;
+  $("sRows").innerHTML = list.slice(0, sShown).map(k => `<tr data-key="${esc(k.key)}"><td class="k">${esc(k.key)}</td>${langs.map(l => {
+      const v = k.values[l.code];
+      return `<td class="v${v == null ? " miss" : ""}${k.edited.includes(l.code) ? " ed" : ""}" data-lang="${esc(l.code)}" ${l.rtl ? 'dir="rtl"' : ""}>${v == null ? "eksik" : valHtml(v)}</td>`;
+    }).join("")}</tr>`).join("") || `<tr><td colspan="${langs.length + 1}" class="muted">Eşleşen metin yok.</td></tr>`;
+  $("sMore").classList.toggle("hidden", list.length <= sShown);
+}
+function sMsg(html, cls = "") { $("sMsg").innerHTML = html ? `<div class="note ${cls}">${html}</div>` : ""; }
+const sData = () => cache["/v1/admin/strings"];
+$("sQ").addEventListener("input", () => { sShown = 300; renderStrings(sData()); });
+$("sMissing").onchange = $("sOnlyEdited").onchange = () => { sShown = 300; renderStrings(sData()); };
+$("sMore").onclick = () => { sShown += 300; renderStrings(sData()); };
+$("sRows").addEventListener("click", e => {
+  const td = e.target.closest("td.v"); if (!td || td.querySelector("textarea")) return;
+  const d = sData(), key = td.parentElement.dataset.key, lang = td.dataset.lang, k = d.keys.find(x => x.key === key);
+  const cur = k.values[lang];
+  const plural = (cur && typeof cur === "object") || (k.values.en && typeof k.values.en === "object");
+  const fields = plural ? ["one", "other"].map(c => `<span class="pl">${c}</span><textarea data-cat="${c}">${esc(cur?.[c] ?? (typeof cur === "string" ? cur : ""))}</textarea>`).join("") : `<textarea>${esc(cur ?? "")}</textarea>`;
+  td.innerHTML = fields + `<div class="toolbar" style="margin:6px 0 0"><button class="ghost" data-act="save">Kaydet</button><button class="ghost" data-act="cancel">Vazgeç</button>${cur != null ? '<button class="ghost" data-act="clear">Sil</button>' : ""}</div>`;
+  td.querySelector("textarea").focus();
+  const done = () => renderStrings(d);
+  const save = async (value) => {
+    if (value != null && DASH_RE.test(JSON.stringify(value))) { sMsg("Uzun ya da kısa tire kullanılamaz.", "err"); return; }
+    try {
+      const r = await api("/v1/admin/strings", { method: "PUT", body: { lang, key, value } });
+      if (value == null) delete k.values[lang]; else k.values[lang] = r.value;
+      if (!k.edited.includes(lang)) k.edited.push(lang);
+      d.missing[lang] = d.keys.filter(x => !(lang in x.values)).length;
+      sMsg(r.changed ? `Kaydedildi (rev ${fmt(r.rev)}). Uygulamalar bir sonraki açılışta alır.` : "Değişiklik yok.", "okn"); done();
+    } catch (e) { sMsg(`Kaydedilemedi: ${esc(e.code || e.status)}`, "err"); }
+  };
+  td.querySelector('[data-act="cancel"]').onclick = ev => { ev.stopPropagation(); done(); };
+  td.querySelector('[data-act="clear"]')?.addEventListener("click", ev => { ev.stopPropagation(); if (confirm("Bu çeviri silinsin mi? Uygulama gömülü metne döner.")) save(null); });
+  td.querySelector('[data-act="save"]').onclick = ev => {
+    ev.stopPropagation();
+    const tas = [...td.querySelectorAll("textarea")];
+    if (plural) { const o = {}; tas.forEach(t => { if (t.value.trim()) o[t.dataset.cat] = t.value; }); if (!o.other) { sMsg("Çoğulda other zorunlu.", "err"); return; } save(o); }
+    else { if (!tas[0].value.trim()) { sMsg("Boş metin kaydedilmez; kaldırmak için Sil.", "err"); return; } save(tas[0].value); }
+  };
+  td.addEventListener("keydown", ev => { if (ev.key === "Escape") done(); if (ev.key === "Enter" && (ev.metaKey || ev.ctrlKey)) td.querySelector('[data-act="save"]').click(); });
+});
+async function download(path, name) {
+  try {
+    const j = await api(path);
+    const blob = new Blob([JSON.stringify(j, null, 2) + "\n"], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  } catch (e) { sMsg(`İndirilemedi: ${esc(e.code || e.status)}`, "err"); }
+}
+$("sExport").onclick = () => download(`/v1/admin/strings/export/${$("sExpLang").value}`, `lang_${$("sExpLang").value}.json`);
+$("sExportKeys").onclick = () => download("/v1/admin/strings/export/tr?format=keys", "keys.json");
+$("sImport").onclick = async () => {
+  const f = $("sFile").files[0]; if (!f) { sMsg("Önce JSON dosyası seç.", "err"); return; }
+  let data; try { data = JSON.parse(await f.text()); } catch { sMsg("Dosya geçerli JSON değil.", "err"); return; }
+  const lang = $("sImpLang").value, source = $("sImpMode").value;
+  const body = Array.isArray(data) ? { lang: "tr", keys: data } : { lang, values: data, source };
+  if (source === "panel" && !Array.isArray(data) && !confirm(`${LANG[lang] || lang} için ${fmt(Object.keys(data).length)} metnin üstüne yazılsın mı?`)) return;
+  try {
+    const r = await api("/v1/admin/strings/import", { method: "POST", body });
+    sMsg(`İçe aktarıldı: ${fmt(r.changed)} değişti, ${fmt(r.keysAdded)} yeni anahtar, ${fmt(r.skippedCount)} atlandı${r.skippedCount ? ` (${esc(r.skipped.slice(0, 5).map(x => x.key + ": " + x.reason).join(", "))})` : ""}.`, "okn");
+    await load("strings", true);
+  } catch (e) { sMsg(`İçe aktarılamadı: ${esc(e.code || e.status)}`, "err"); }
+};
+$("lAdd").onclick = async () => {
+  const body = { code: $("lCode").value.trim().toLowerCase(), name: $("lName").value.trim(), nativeName: $("lNative").value.trim(), rtl: $("lRtl").checked };
+  if (!/^[a-z]{2,3}(-[a-z0-9]{2,8})?$/.test(body.code) || !body.name || !body.nativeName) { sMsg("Kod (ör. pt), Türkçe ad ve kendi dilindeki ad gerekli.", "err"); return; }
+  try { await api("/v1/admin/strings/languages", { method: "POST", body }); sMsg(`${esc(body.name)} eklendi.`, "okn"); ["lCode", "lName", "lNative"].forEach(id => $(id).value = ""); await load("strings", true); }
+  catch (e) { sMsg(e.code === "bad_request" ? "Eklenemedi: kod geçersiz ya da bu dil zaten var." : `Eklenemedi: ${esc(e.code || e.status)}`, "err"); }
+};
+
 // ---------- Demo (no network) ----------
 let demo = null;
 function makeDemo() {
@@ -975,14 +1234,15 @@ function makeDemo() {
   }
   const spaces = installs.filter(i => i.cloud && i.role === "admin").map(i => ({
     id: i.space_id, premium: i.premium, storage_used: i.n_media_bytes, storage_reserved: rnd() < .1 ? 8e6 : 0, created_at: i.first_seen, deleted_at: null,
-    admins: rnd() < .55 ? 2 : 1, helpers: Math.floor(rnd() * 3), quota: i.premium ? 10 * 1024 ** 3 : 500 * 1024 ** 2, media: i.n_media, bytes: i.n_media_bytes,
+    admins: rnd() < .55 ? 2 : 1, helpers: Math.floor(rnd() * 3), quota: i.premium ? 10 * 1024 ** 3 : 1024 ** 3, media: i.n_media, bytes: i.n_media_bytes,
     guest: i.n_guest_media, guestBytes: i.n_guest_media * 2.4e6, couple: i.n_media - i.n_guest_media, coupleBytes: (i.n_media - i.n_guest_media) * 2.4e6,
     pendingApproval: Math.floor(i.n_guest_media * .1), videos: i.premium ? Math.floor(rnd() * 8) : 0, user_id: i.user_id,
   })).sort((a, b) => b.storage_used - a.storage_used);
   demo = { installs, events, stats, spaces };
 }
-function demoApi(path) {
+function demoApi(path, method = "GET", body) {
   if (!demo) makeDemo();
+  if (path.startsWith("/v1/admin/strings") || path.startsWith("/v1/admin/push")) return Promise.resolve(demoManage(path, method, body));
   const u = new URL(path, "https://x"), p = u.pathname, nd = +(u.searchParams.get("days") || 30), now = Date.now();
   const I = demo.installs, fromTs = now - nd * 864e5, fromDay = dayKey(now - (nd - 1) * 864e5);
   const days = Object.keys(demo.stats).filter(d => d >= fromDay);
@@ -1066,6 +1326,34 @@ function demoApi(path) {
     throw new ApiErr(404, "not_found");
   })();
   return Promise.resolve(JSON.parse(JSON.stringify(out)));
+}
+
+function demoManage(path, method, body) {
+  demo.strings ||= {
+    rev: 42, total: 6, languages: [["tr", "Türkçe", "Türkçe"], ["en", "İngilizce", "English"], ["de", "Almanca", "Deutsch"]].map(([code, name, nativeName], i) => ({ code, name, nativeName, rtl: false, enabled: true, rev: 40 + i })),
+    keys: [
+      { key: "Kaydet", values: { tr: "Kaydet", en: "Save", de: "Speichern" }, edited: [] },
+      { key: "%d davetli", values: { tr: "%d davetli", en: { one: "%d guest", other: "%d guests" }, de: { one: "%d Gast", other: "%d Gäste" } }, edited: [] },
+      { key: "Düğüne kalan gün", values: { tr: "Düğüne kalan gün", en: "Days to the wedding" }, edited: ["en"] },
+      { key: "Davetiye yayınlandı", values: { tr: "Davetiye yayınlandı", en: "Invitation published", de: "Einladung veröffentlicht" }, edited: [] },
+      { key: "Bütçe", values: { tr: "Bütçe", en: "Budget", de: "Budget" }, edited: [] },
+      { key: "Misafir fotoğrafları", values: { tr: "Misafir fotoğrafları", en: "Guest photos" }, edited: [] },
+    ],
+  };
+  const S = demo.strings;
+  S.missing = Object.fromEntries(S.languages.map(l => [l.code, S.keys.filter(k => !(l.code in k.values)).length]));
+  demo.pushes ||= [{ id: "p1", createdAt: new Date(Date.now() - 2 * 864e5).toISOString(), title: "Yeni sürüm", body: "Oturma planı artık sürükle bırak.", route: null, audience: { lang: "tr" }, total: 84, sent: 81, failed: 1, removed: 2, skipped: 0, status: "done", remaining: 0 }];
+  const p = path.split("?")[0];
+  if (p === "/v1/admin/strings") return method === "PUT" ? { ok: true, changed: true, rev: ++S.rev, value: body.value } : JSON.parse(JSON.stringify(S));
+  if (p.startsWith("/v1/admin/strings/export/")) return path.includes("format=keys") ? S.keys.map(k => k.key) : Object.fromEntries(S.keys.filter(k => k.values[p.split("/").pop()]).map(k => [k.key, k.values[p.split("/").pop()]]));
+  if (p === "/v1/admin/strings/languages") { S.languages.push({ code: body.code, name: body.name, nativeName: body.nativeName, rtl: !!body.rtl, enabled: true, rev: ++S.rev }); return { language: S.languages.at(-1) }; }
+  if (p.startsWith("/v1/admin/strings/languages/")) { const l = S.languages.find(x => x.code === p.split("/").pop()); Object.assign(l, body); return { language: l }; }
+  if (p === "/v1/admin/strings/import") return { ok: true, rev: ++S.rev, changed: 0, keysAdded: 0, skipped: [], skippedCount: 0 };
+  const devices = { devices: 132, byPlatform: { ios: 118, android: 14 }, byLang: { tr: 96, en: 22, de: 8, fr: 6 }, byEnv: { production: 124, sandbox: 8 }, testers: 9, linked: 77, withErrors: 2 };
+  if (p === "/v1/admin/push/preview") return { ...devices, devices: body?.audience?.testers ? 9 : body?.audience?.lang ? devices.byLang[body.audience.lang] || 0 : 132 };
+  if (p === "/v1/admin/push" && method === "POST") { const h = { id: "p" + Date.now(), createdAt: new Date().toISOString(), title: body.title, body: body.body, route: body.route || null, audience: body.audience, total: 9, sent: 9, failed: 0, removed: 0, skipped: 0, status: "done", remaining: 0 }; demo.pushes.unshift(h); return { push: h }; }
+  if (p === "/v1/admin/push") return { apns: { configured: true, topic: "com.aberk.nika", keyId: "DEMO" }, fcm: { configured: false }, devices, languages: ["tr", "en", "de", "fr", "es", "it"], routes: ["guests", "memories", "music", "settings"], history: JSON.parse(JSON.stringify(demo.pushes)) };
+  throw new ApiErr(404, "not_found");
 }
 
 // ---------- Start ----------
