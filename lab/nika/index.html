@@ -857,7 +857,7 @@ function renderStorage(d) {
 
 // ---------- Infra ----------
 const level = f => f >= .9 ? "bad" : f >= .7 ? "warn" : "good";
-function meterKpi(label, value, frac, sub) {
+function meterKpi(label, value, frac, sub) { // 5th array item (verdict fraction) is ignored here
   const f = Math.max(0, +frac || 0);
   return `<div class="kpi ${f >= .7 ? level(f) : ""}"><span>${label}</span><b>${value}</b><div class="meter"><i style="width:${Math.min(100, f * 100)}%"></i></div><small>%${pct1(f, 1)} · ${sub}</small></div>`;
 }
@@ -873,7 +873,9 @@ function renderInfra(d) {
   const d1Size = acc.d1StorageBytes ?? d.d1.sizeBytes, r2Size = acc.r2StorageBytes ?? d.r2Tables.bytes;
   const m = [];
   if (cf && acc.workers) m.push(["Workers istek (gün)", fmt(wDay?.requests), (wDay?.requests || 0) / L.workersRequestsDay, `100k/gün · Nika ${fmt(nW?.requests)} · ${wDay?.date || "-"}`]);
-  if (cf && nika.workers) m.push(["CPU p99 (Nika, 7 gün)", `${nikaCpu.toFixed(1).replace(".", ",")} ms`, nikaCpu / L.workersCpuMs, `istek başı 10 ms sınır · p50 ${(nW?.cpuP50 ?? 0).toFixed(1).replace(".", ",")} ms`]);
+  const nikaP50 = Math.max(0, ...(nika.workers || []).slice(-7).map(x => x.cpuP50 || 0));
+  // p99 is shown, but the verdict uses p50: a few slow requests (cold start, photo EXIF strip) are not a plan problem
+  if (cf && nika.workers) m.push(["CPU p99 (Nika, 7 gün)", `${nikaCpu.toFixed(1).replace(".", ",")} ms`, nikaCpu / L.workersCpuMs, `istek başı 10 ms sınır · p50 ${nikaP50.toFixed(1).replace(".", ",")} ms`, nikaP50 / L.workersCpuMs]);
   if (cf && acc.d1) {
     m.push(["D1 satır okuma (gün)", fmt(dDay?.rowsRead), (dDay?.rowsRead || 0) / L.d1RowsReadDay, `5M/gün · Nika ${fmt(nD?.rowsRead)}`]);
     m.push(["D1 satır yazma (gün)", fmt(dDay?.rowsWritten), (dDay?.rowsWritten || 0) / L.d1RowsWrittenDay, `100k/gün · Nika ${fmt(nD?.rowsWritten)}`]);
@@ -884,10 +886,12 @@ function renderInfra(d) {
     m.push(["R2 A sınıfı (ay)", fmt(acc.r2ClassAMonth), acc.r2ClassAMonth / L.r2ClassAMonth, "yazma/listeleme, 1M/ay"]);
     m.push(["R2 B sınıfı (ay)", fmt(acc.r2ClassBMonth), acc.r2ClassBMonth / L.r2ClassBMonth, "okuma, 10M/ay"]);
   }
-  const over = m.filter(x => x[2] >= .7);
+  const over = m.filter(x => (x[4] ?? x[2]) >= .7);
+  const cpuSlow = cf && nika.workers && nikaCpu >= L.workersCpuMs && nikaP50 / L.workersCpuMs < .7;
   $("infVerdict").innerHTML = over.length
     ? `<div class="note big err"><b>Workers Paid'e geçme zamanı.</b> ${over.map(x => `${x[0]} %${pct1(x[2], 1)}`).join(", ")} ücretsiz sınırın %70'ini geçti. Workers Paid aylık 5 $: 10M istek, 30 sn CPU, D1 25 milyar okuma ve 50M yazma, 5 GB üstü depolama.</div>`
     : `<div class="note okn">Ücretsiz plan yetiyor: hiçbir ölçü sınırın %70'ine gelmedi.</div>`;
+  if (cpuSlow) $("infVerdict").innerHTML += `<div class="note">CPU p99 10 ms'yi geçiyor (p50 rahat): isteklerin %1'i yavaş. Ücretsiz planda sınırı aşan istek 1102 hatası alabilir; Worker hata sayısı ${fmt((nika.workers || []).slice(-7).reduce((a, x) => a + (x.errors || 0), 0))} (7 gün). Hata artarsa Paid'e geçme sebebi.</div>`;
   $("infKpis").innerHTML = m.map(x => meterKpi(...x)).join("");
   const list = (acc.workers || []).map(x => x.date);
   chart("chReq", "line", labelsOf(list), [
