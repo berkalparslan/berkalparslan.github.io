@@ -102,6 +102,7 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
     <a data-page="ai">AI kullanımı</a>
     <div class="navlabel">YÖNET</div>
     <a data-page="push">Bildirim gönder</a>
+    <a data-page="photos">Fotoğraflar</a>
     <a data-page="affirmations">Olumlamalar</a>
     <a data-page="zodiac">Burçlar</a>
     <a data-page="content">Metinler</a>
@@ -266,6 +267,14 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
       </div>
     </section>
 
+    <!-- Photos -->
+    <section data-view="photos" class="hidden">
+      <h1>Fotoğraflar</h1>
+      <p class="muted">Uygulamadaki kartların arkasındaki fotoğraflar. Her alanın uygulamanın içinde 5 fotoğrafı var; bir alana buradan fotoğraf eklersen o alanda yalnız seninkiler sırayla döner (her gün ya da her hikayede bir başkası). Hepsini silersen uygulama kendi fotoğraflarına döner. Telefonlar yeni fotoğrafı arka planda indirir, indirene kadar eskisini gösterir; uygulama yavaşlamaz. Yüklerken fotoğraf 1400 piksele küçültülür. Yatay ya da dikey fark etmez, kart kendine göre kırpar.</p>
+      <p class="muted" id="phStatus"></p>
+      <div id="phSlots"></div>
+    </section>
+
     <!-- Affirmations -->
     <section data-view="affirmations" class="hidden">
       <h1>Olumlamalar</h1>
@@ -347,6 +356,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, where, orderBy, limit, documentId, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
+import { getStorage, ref as sref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 const firebaseConfig = {
   "apiKey": "AIzaSyD65wOZfptvTw6IPgtAYqpAdkvCgq9Jvak",
@@ -376,6 +386,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const fns = getFunctions(app, "europe-west1");
+const storage = getStorage(app);
 const cfgRef = doc(db, "config", "app");
 const $ = id => document.getElementById(id);
 const fmt = n => (n ?? 0).toLocaleString("tr-TR");
@@ -436,7 +447,7 @@ onAuthStateChanged(auth, async user => {
   if (!admin || !admin.exists()) { $("loginMsg").textContent = "Bu hesap admin değil. UID: " + user.uid; await signOut(auth); return; }
   $("login").classList.add("hidden"); $("app").classList.remove("hidden");
   await loadConfig();
-  await Promise.all([loadData(), loadAffirmations(), loadZodiac()]);
+  await Promise.all([loadData(), loadAffirmations(), loadZodiac(), loadPhotos()]);
 });
 
 // ---------- Navigation ----------
@@ -916,6 +927,72 @@ function renderPushes() {
     if (!confirm("Zamanlanmış bildirim iptal edilsin mi?")) return;
     await updateDoc(doc(db, "pushes", b.dataset.cancel), { status: "cancelled" }); await loadData();
   });
+}
+
+// ---------- Photos ----------
+const PHOTO_SLOTS = [
+  ["story", "Hikaye", "Bugün'deki hikaye kartı, hikaye listesi ve kapakları, yeni hikaye ekranı, Premium ekranı"],
+  ["zodiac", "Burç kartı", "Bugün'deki burç kartı"],
+  ["gratitude", "Şükran", "Bugün'deki şükran kartı ve şükran günlüğü"],
+  ["affirmation", "Olumlama", "Bugün'deki günün olumlaması ve olumlama kartları"],
+  ["player", "Oynatıcı", "Hikaye dinlerken tam ekran arka plan ve mini oynatıcı"],
+];
+const phRef = doc(db, "content", "photos");
+let photoSlots = {}, photoVersion = 0;
+async function loadPhotos() {
+  const snap = await getDoc(phRef).catch(() => null);
+  const d = snap?.exists() ? snap.data() : {};
+  photoSlots = d.slots ? JSON.parse(d.slots) : {};
+  photoVersion = d.version || 0;
+  renderPhotos();
+}
+async function savePhotos() {
+  await setDoc(phRef, { slots: JSON.stringify(photoSlots), version: photoVersion + 1, updatedAt: serverTimestamp() });
+  photoVersion += 1;
+}
+function renderPhotos() {
+  $("phSlots").innerHTML = PHOTO_SLOTS.map(([key, name, where]) => {
+    const list = photoSlots[key] || [];
+    return `<div class="card"><div class="key"><span><b style="color:var(--ink);font:600 15px -apple-system">${name}</b> · ${where}</span><span class="muted">${list.length ? list.length + " fotoğraf" : "uygulamanın 5 fotoğrafı"}</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0">${list.map((u, i) => `<div style="position:relative"><img src="${u}" style="width:96px;height:120px;object-fit:cover;border-radius:12px;display:block"><button class="danger" data-del="${key}:${i}" style="position:absolute;top:4px;right:4px;padding:2px 8px;background:var(--card)">Sil</button></div>`).join("")}</div>
+      <label class="ghost" style="display:inline-block;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--soft)">+ Fotoğraf yükle<input type="file" accept="image/*" multiple data-up="${key}" style="display:none"></label></div>`;
+  }).join("");
+  document.querySelectorAll("[data-up]").forEach(inp => inp.onchange = () => uploadPhotos(inp.dataset.up, [...inp.files]));
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
+    const [key, i] = b.dataset.del.split(":"); const url = photoSlots[key][+i];
+    if (!confirm("Bu fotoğraf kaldırılsın mı?")) return;
+    photoSlots[key].splice(+i, 1); if (!photoSlots[key].length) delete photoSlots[key];
+    await savePhotos(); renderPhotos();
+    try { await deleteObject(sref(storage, decodeURIComponent(new URL(url).pathname.split("/o/")[1]))); } catch {}
+    $("phStatus").textContent = "Kaldırıldı. Telefonlar bir sonraki açılışta günceller.";
+  });
+}
+/// A photo made at most 1400 px on its longest side, as JPEG.
+function shrink(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 1400 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas"); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => b ? resolve(b) : reject(new Error("canvas")), "image/jpeg", 0.82);
+    };
+    img.onerror = reject; img.src = URL.createObjectURL(file);
+  });
+}
+async function uploadPhotos(key, files) {
+  if (!files.length) return;
+  $("phStatus").textContent = `${files.length} fotoğraf yükleniyor…`;
+  try {
+    for (const f of files) {
+      const blob = await shrink(f);
+      const r = sref(storage, `photos/${key}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.jpg`);
+      await uploadBytes(r, blob, { contentType: "image/jpeg", cacheControl: "public, max-age=31536000" });
+      (photoSlots[key] = photoSlots[key] || []).push(await getDownloadURL(r));
+    }
+    await savePhotos(); renderPhotos();
+    $("phStatus").textContent = "Yüklendi. Telefonlar bir sonraki açılışta indirir.";
+  } catch (e) { $("phStatus").textContent = "Yüklenemedi: " + (e.code || e.message); }
 }
 
 // ---------- Affirmations ----------
