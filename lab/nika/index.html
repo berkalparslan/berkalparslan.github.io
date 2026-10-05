@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/lab-icons/nika-64.png">
+<link rel="apple-touch-icon" href="/assets/lab-icons/nika-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Nika Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<style>
+:root{color-scheme:light;--bg:#f8f6f3;--card:#fff;--ink:#2d2833;--soft:#6b6375;--line:#e8e3eb;--accent:#6e5a87;--on-accent:#fff;--rose:#a93c48;--ok:#4f6e5b;--warn:#8c5e14;--sky:#4f6fae;--side:#f2eef5}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#141218;--card:#1e1b23;--ink:#f3eff6;--soft:#b3aabd;--line:#332d3a;--accent:#c4b3dd;--on-accent:#221c2b;--rose:#ffa2ad;--ok:#9cc4a8;--warn:#f0c27a;--sky:#a9b6d4;--side:#19161d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#141218;--card:#1e1b23;--ink:#f3eff6;--soft:#b3aabd;--line:#332d3a;--accent:#c4b3dd;--on-accent:#221c2b;--rose:#ffa2ad;--ok:#9cc4a8;--warn:#f0c27a;--sky:#a9b6d4;--side:#19161d}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:26px 0 10px}
+.muted{color:var(--soft);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;min-width:0}
+.card h2:first-child{margin-top:0}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+select option{background:var(--card);color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
+button:disabled{opacity:.5;cursor:default}
+button.ghost{background:transparent;color:var(--soft);border:1px solid var(--line);padding:6px 12px;font-size:12px}
+.hidden{display:none!important}
+#login{max-width:380px;margin:12vh auto;padding:22px}@media(max-width:420px){#login{margin:10vh 16px}}
+#login h1{display:flex;gap:10px;align-items:center}#login h1 img{width:32px;height:32px;border-radius:8px}
+#code{letter-spacing:6px;font-size:22px;text-align:center;font-variant-numeric:tabular-nums}
+.layout{display:flex;min-height:100vh}
+aside{width:220px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
+aside .brand{font-weight:800;font-size:17px;margin:0 8px 18px;display:flex;gap:8px;align-items:center}
+aside .brand img{width:26px;height:26px;border-radius:7px}
+aside a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+aside a.on{background:var(--accent);color:var(--on-accent)}
+aside a.off{color:var(--soft)}
+aside .spacer{flex:1}
+aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--soft);margin:14px 12px 4px}
+main{flex:1;min-width:0;padding:26px 24px 120px;max-width:1180px}
+.topbar{position:sticky;top:0;z-index:3;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:-26px -24px 14px;padding:12px 24px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar select{width:auto}
+.topbar .muted{margin-right:auto}
+@media(max-width:760px){
+  .layout{flex-direction:column}
+  aside{width:auto;height:auto;position:sticky;top:0;z-index:4;flex-direction:row;overflow-x:auto;padding:8px 10px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
+  aside .brand{margin:0 10px 0 4px;font-size:15px;white-space:nowrap}
+  aside .navlabel,aside .spacer{display:none}
+  aside a{padding:8px 10px;font-size:13px}
+  main{padding:14px 16px 120px}
+  .topbar{position:static;margin:-14px -16px 12px;padding:10px 16px;flex-wrap:nowrap;gap:8px}
+  .topbar .muted{font-size:11px;min-width:0}
+  .topbar button{padding:8px 14px}
+  h1{font-size:21px}
+}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.kpi b{display:block;font-size:26px;margin-top:4px;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kpi span{color:var(--soft);font-size:12px;font-weight:600}
+.kpi small{color:var(--soft);font-size:11px}
+.kpi.warn b{color:var(--warn)}.kpi.bad b{color:var(--rose)}.kpi.good b{color:var(--ok)}
+.meter{height:6px;border-radius:999px;background:color-mix(in srgb,var(--soft) 14%,transparent);overflow:hidden;margin:8px 0 4px}
+.meter i{display:block;height:100%;border-radius:999px;background:var(--ok)}
+.kpi.warn .meter i{background:var(--warn)}.kpi.bad .meter i{background:var(--rose)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid2>*{min-width:0}@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.cbox{position:relative;height:260px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+th{color:var(--soft);font-weight:700;font-size:12px;position:sticky;top:0;background:var(--card)}
+th.sort{cursor:pointer;user-select:none}th.sort:hover{color:var(--ink)}
+td.n,th.n{text-align:right}
+tr.click:hover{background:color-mix(in srgb,var(--accent) 10%,transparent);cursor:pointer}
+tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding-top:16px}
+.tablewrap{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.card .tablewrap{border:0;max-height:none;border-radius:0}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.pill.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.pill.no{background:color-mix(in srgb,var(--soft) 15%,transparent);color:var(--soft)}
+.pill.pro{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.pill.bad{background:color-mix(in srgb,var(--rose) 16%,transparent);color:var(--rose)}
+.pill.sky{background:color-mix(in srgb,var(--sky) 16%,transparent);color:var(--sky)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--card);border-left:1px solid var(--line);padding:22px;overflow:auto;box-shadow:-20px 0 40px rgba(0,0,0,.25);z-index:6}
+.dl{display:grid;grid-template-columns:150px 1fr;gap:6px 10px;font-size:13px}.dl>div:nth-child(odd){color:var(--soft)}.dl>div{min-width:0;overflow-wrap:anywhere}
+@media(max-width:420px){.dl{grid-template-columns:110px 1fr}.drawer{padding:16px}}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.toolbar input,.toolbar select{width:auto;min-width:180px;flex:1 1 180px;max-width:320px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.brow{display:grid;grid-template-columns:minmax(100px,200px) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.brow>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .track{height:12px;border-radius:999px;background:color-mix(in srgb,var(--soft) 14%,transparent);overflow:hidden}
+.brow .fill{height:100%;border-radius:999px;background:var(--accent)}
+.brow small{color:var(--soft);white-space:nowrap}
+@media(max-width:480px){.brow{grid-template-columns:minmax(80px,120px) 1fr auto;gap:6px}}
+.note{background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:12px;padding:10px 12px;font-size:13px;margin:8px 0}
+.note.err{background:color-mix(in srgb,var(--rose) 10%,transparent);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
+.note.okn{background:color-mix(in srgb,var(--ok) 10%,transparent);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.note.big{font-size:15px;padding:14px 16px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+.tl{font-size:13px;border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl div{padding:3px 0}.tl time{color:var(--soft);font-size:11px;margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .day{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.05em;margin-top:8px}
+.tl .buy{color:var(--warn);font-weight:700}.tl .pw{color:var(--sky)}
+.demo{background:var(--warn);color:#1b1300;text-align:center;font-size:12px;font-weight:700;padding:5px}
+.links a{display:block;padding:6px 0}
+code{font:12px ui-monospace,Menlo,monospace}
+fieldset{border:0;padding:0;margin:0}fieldset:disabled{opacity:.55}
+.lang{font-size:11px;font-weight:700;color:var(--soft);margin:0 0 3px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="demoBar" class="demo hidden">DEMO: sahte veri, sunucuya bağlanmıyor</div>
+
+<section id="login" class="card hidden">
+  <h1><img src="/assets/lab-icons/nika-180.png" alt="" onerror="this.remove()">Nika</h1>
+  <p class="muted">Yönetim paneli. E-postana 6 haneli bir kod gelir.</p>
+  <div id="stepEmail">
+    <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
+    <p><button id="sendCode" style="width:100%">Kod gönder</button></p>
+  </div>
+  <div id="stepCode" class="hidden">
+    <p class="muted" id="codeTo"></p>
+    <p><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="verify">Giriş</button><button class="ghost" id="back">E-postayı değiştir</button></div>
+  </div>
+  <div id="loginMsg" class="muted" style="margin-top:10px"></div>
+  <p id="loginOut" class="hidden"><button class="ghost" id="signoutLogin">Çıkış yap</button></p>
+  <p class="muted" style="margin-top:16px"><a href="/lab/">Lab'e dön</a></p>
+</section>
+
+<div class="layout hidden" id="app">
+  <aside>
+    <div class="brand"><img src="/assets/lab-icons/nika-180.png" alt="" onerror="this.remove()">Nika</div>
+    <div class="navlabel">ANALİZ</div>
+    <a data-page="overview" class="on">Genel bakış</a>
+    <a data-page="live">Canlı</a>
+    <a data-page="screens">Ekranlar</a>
+    <a data-page="revenue">Paywall ve satın alma</a>
+    <a data-page="engage">Kullanım</a>
+    <a data-page="users">Kullanıcılar</a>
+    <a data-page="storage">Depolama</a>
+    <a data-page="infra">Altyapı</a>
+    <div class="navlabel">YÖNET</div>
+    <a data-page="push" class="off">Bildirim gönder</a>
+    <a data-page="settings">Ayarlar</a>
+    <div class="spacer"></div>
+    <a id="themeBtn">Tema</a>
+    <a id="refresh">Yenile</a>
+    <a id="signout">Çıkış</a>
+  </aside>
+  <main>
+    <div class="topbar"><span class="muted" id="topMeta"></span><select id="range"><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option></select><button id="refreshTop">Yenile</button></div>
+    <div id="loadErr" class="note err hidden"></div>
+
+    <section data-view="overview">
+      <h1>Genel bakış</h1>
+      <p class="muted" id="ovMeta"></p>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük</h2><div class="cbox"><canvas id="chActive"></canvas></div></div>
+        <div class="card"><h2>İlk adımlar hunisi</h2><p class="muted" style="margin-top:-6px">Seçili dönemde kurulanlar.</p><div class="cbox"><canvas id="chFunnel"></canvas></div></div>
+        <div class="card"><h2>Sürüm ve platform</h2><div class="cbox"><canvas id="chVer"></canvas></div></div>
+        <div class="card"><h2>Diller</h2><div class="cbox"><canvas id="chLang"></canvas></div></div>
+        <div class="card"><h2>Geri dönüş (kurulum gününe göre)</h2><div class="cbox"><canvas id="chRet"></canvas></div></div>
+        <div class="card"><h2>Test ve mağaza</h2><p class="muted" style="margin-top:-6px">TestFlight kurulumları "test" sayılır.</p><div class="bars" id="ovTester"></div><h2>Bölge</h2><div class="bars" id="ovRegion"></div></div>
+      </div>
+    </section>
+
+    <section data-view="live" class="hidden">
+      <h1>Canlı</h1>
+      <p class="muted">Şu an uygulamayı açık tutanlar ve hangi ekranda oldukları. Uygulama açıkken dakikada bir sinyal gönderir; son 2 dakikada sinyal veren ve uygulamayı kapatmamış olan online sayılır. Sayfa açıkken 30 saniyede bir kendini yeniler.</p>
+      <div class="kpis" id="liveKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Online olanlar nerede?</h2><div class="bars" id="liveScreens"></div></div>
+        <div class="card"><h2>Son kapatılan ekran (son 24 saat)</h2><p class="muted" style="margin-top:-6px">Uygulamayı en son nerede bırakıp çıktılar.</p><div class="bars" id="liveLeft"></div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th></th><th>Kurulum</th><th>Ekran</th><th>Durum</th><th>Platform</th><th>Dil</th><th>Son sinyal</th><th class="n">Uygulamada toplam</th></tr></thead><tbody id="liveRows"></tbody></table></div>
+    </section>
+
+    <section data-view="screens" class="hidden">
+      <h1>Ekranlar</h1>
+      <p class="muted">Hangi ekranda ne kadar vakit geçiyor. Süre, uygulamanın kendi ölçtüğü saniyeler (ekran açık ve uygulama önde iken). Dönem sütunları günlük kayıtlardan, kişi sütunları kurulumların toplamından.</p>
+      <div class="kpis" id="scKpis"></div>
+      <div class="card"><h2>Ekran başına süre</h2><div class="tablewrap"><table><thead><tr><th>Ekran</th><th class="n">Süre (dönem)</th><th class="n">Açılış (dönem)</th><th class="n">Açılış başı</th><th class="n">Kişi (hepsi)</th><th class="n">Kişi başı (hepsi)</th></tr></thead><tbody id="scRows"></tbody></table></div></div>
+      <div class="card"><h2>Süre dağılımı (dönem)</h2><div class="cbox"><canvas id="chScreens"></canvas></div></div>
+    </section>
+
+    <section data-view="revenue" class="hidden">
+      <h1>Paywall ve satın alma</h1>
+      <p class="muted">Paywall hangi özellikten açıldı, ne kadar açık kaldı, kapatıldı mı alındı mı. Premium tek seferlik alım, düğün alanının tamamına açılır.</p>
+      <div class="kpis" id="revKpis"></div>
+      <div class="card"><h2>Kaynağa göre (dönem)</h2><div class="tablewrap"><table><thead><tr><th>Nereden açıldı</th><th class="n">Gösterim</th><th class="n">Kapatan</th><th class="n">Kapatana kadar</th><th class="n">Alıp kapatan</th><th class="n">Satın alma</th><th class="n">Alana kadar</th><th class="n">Dönüşüm</th><th class="n">Şu an Premium</th></tr></thead><tbody id="revRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük gösterim ve satın alma</h2><div class="cbox"><canvas id="chRev"></canvas></div></div>
+        <div class="card"><h2>Kapatana kadar geçen süre</h2><div class="bars" id="revDur"></div><h2>Plan</h2><div class="bars" id="revPlans"></div></div>
+      </div>
+      <div class="card"><h2>Son paywall yolculukları</h2><p class="muted" style="margin-top:-6px" id="pwMeta"></p>
+        <div class="tablewrap"><table><thead><tr><th>Ne zaman</th><th>Kurulum</th><th>Nereden</th><th class="n">Açık kaldı</th><th>Sonuç</th><th>Platform</th><th>Dil</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>
+    </section>
+
+    <section data-view="engage" class="hidden">
+      <h1>Kullanım</h1>
+      <p class="muted">Ne yapıyorlar. Sayılar kurulumların şu anki kayıt adetleri (ad, tutar, metin yok). Kez: seçili dönemde olay sayısı. Kişi: bu olayı en az bir kez yapmış kurulum (tüm zamanlar).</p>
+      <div class="kpis" id="engKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Davetli sayısı</h2><p class="muted" style="margin-top:-6px">Kurulum başına davetli (ücretsiz sınır 50).</p><div class="cbox"><canvas id="chGuests"></canvas></div></div>
+        <div class="card"><h2>Biten görev</h2><div class="cbox"><canvas id="chTasks"></canvas></div></div>
+        <div class="card"><h2>Düğüne kalan gün</h2><div class="bars" id="engDays"></div></div>
+        <div class="card"><h2>Kişi başı toplam süre</h2><p class="muted" style="margin-top:-6px">Seçili dönemde kurulanlar uygulamada toplam ne kadar durdu.</p><div class="cbox"><canvas id="chTime"></canvas></div></div>
+      </div>
+      <div class="card"><h2>Neyi tutuyorlar</h2><div class="tablewrap"><table><thead><tr><th>Kayıt</th><th class="n">Olan kişi</th><th class="n">Ortalama</th><th class="n">En çok</th><th class="n">Toplam</th></tr></thead><tbody id="engCounts"></tbody></table></div></div>
+      <div class="card"><h2>Misafir web sayfaları (dönem)</h2><p class="muted" style="margin-top:-6px">Sunucunun kendi saydığı: davetiye ve yükleme sayfası açılışları, web LCV, şarkı isteği, misafir fotoğrafı.</p><div class="kpis" id="webKpis"></div><div class="cbox" style="margin-top:12px"><canvas id="chWeb"></canvas></div></div>
+      <div class="card"><h2>Olaylar</h2><div class="tablewrap"><table><thead><tr><th>Olay</th><th class="n">Kez</th><th class="n">Kişi</th></tr></thead><tbody id="engRows"></tbody></table></div></div>
+    </section>
+
+    <section data-view="users" class="hidden">
+      <h1>Kullanıcılar</h1>
+      <p class="muted">Her satır bir kurulum. Kimlik anonim; hesabı olanlarda hesap kimliği görünür, ad ve e-posta yok. Sütun başlığına dokununca sıralanır, satıra dokununca ayrıntı ve zaman çizelgesi açılır.</p>
+      <div class="toolbar">
+        <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz, hesap, alan">
+        <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="premium">Premium</option><option value="free">Premium olmayan</option><option value="cloud">Bulutta (hesaplı)</option><option value="local">Yalnız cihazda</option><option value="helper">Yardımcı</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="store">Mağaza</option><option value="new">Dönemde kurulan</option></select>
+        <span class="muted" id="uCount"></span>
+      </div>
+      <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
+    </section>
+
+    <section data-view="storage" class="hidden">
+      <h1>Depolama</h1>
+      <p class="muted">Fotoğraf ve videolar R2'de (<code>nika-media</code>), düğün alanı başına kota: ücretsiz 500 MB, Premium 10 GB. Sayılar sunucu tablolarından (alan kotası ve medya kayıtları).</p>
+      <div class="kpis" id="stKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Kim yüklüyor</h2><div class="bars" id="stWho"></div></div>
+        <div class="card"><h2>Kota doluluğu</h2><div class="bars" id="stFill"></div></div>
+      </div>
+      <div class="card"><h2>En çok yer kaplayan alanlar</h2><div class="tablewrap"><table><thead><tr><th>Alan</th><th>Durum</th><th class="n">Kullanılan</th><th class="n">Kota</th><th class="n">Doluluk</th><th class="n">Medya</th><th class="n">Misafir</th><th class="n">Çift</th><th class="n">Video</th><th class="n">Onay bekleyen</th><th class="n">Yönetici</th><th class="n">Yardımcı</th><th>Açılış</th></tr></thead><tbody id="stRows"></tbody></table></div></div>
+      <div class="card"><h2>Hesap başına (yönetici olduğu alanlar)</h2><div class="tablewrap"><table><thead><tr><th>Hesap</th><th>Giriş</th><th class="n">Alan</th><th class="n">Yönetici</th><th class="n">Yardımcı</th><th class="n">Kullanılan</th><th class="n">Medya</th><th class="n">Premium alan</th></tr></thead><tbody id="stUsers"></tbody></table></div></div>
+    </section>
+
+    <section data-view="infra" class="hidden">
+      <h1>Altyapı</h1>
+      <p class="muted" id="infMeta">Cloudflare ücretsiz plan sınırları ve bugünkü kullanım (gün UTC 00:00'da sıfırlanır). Sınırlar hesap geneli; Nika'nın payı ayrıca gösterilir.</p>
+      <div id="infVerdict"></div>
+      <div class="kpis" id="infKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Workers istekleri (günlük)</h2><div class="cbox"><canvas id="chReq"></canvas></div></div>
+        <div class="card"><h2>D1 satır okuma ve yazma (günlük)</h2><div class="cbox"><canvas id="chD1"></canvas></div></div>
+        <div class="card"><h2>D1 tabloları</h2><div class="tablewrap"><table><thead><tr><th>Tablo</th><th class="n">Satır</th></tr></thead><tbody id="infTables"></tbody></table></div></div>
+        <div class="card"><h2>Kaynak durumu</h2><div id="infSource"></div><h2>R2 kovaları</h2><div class="bars" id="infBuckets"></div></div>
+      </div>
+    </section>
+
+    <section data-view="push" class="hidden">
+      <h1>Bildirim gönder</h1>
+      <div class="note big"><b>APNs anahtarı bekleniyor.</b> Nika'da henüz bildirim altyapısı yok: Apple Developer'da APNs anahtarı (.p8) oluşturulup sunucuya eklenince ve uygulamaya bildirim izni ve kayıt eklenince bu sayfa açılır.</div>
+      <fieldset disabled class="card">
+        <div class="row">
+          <div><p class="lang">TÜRKÇE</p><input placeholder="Başlık"><textarea placeholder="Metin" style="margin-top:6px"></textarea></div>
+          <div><p class="lang">ENGLISH</p><input placeholder="Title"><textarea placeholder="Text" style="margin-top:6px"></textarea></div>
+        </div>
+        <div class="toolbar" style="margin-top:14px"><button>Gönder</button><span class="muted">APNs anahtarı bekleniyor</span></div>
+      </fieldset>
+    </section>
+
+    <section data-view="settings" class="hidden">
+      <h1>Ayarlar ve hakkında</h1>
+      <div class="card">
+        <h2>Görünüm</h2>
+        <p><button class="ghost" id="themeBtn2">Açık / koyu tema</button> <span class="muted">Diğer lab panelleriyle ortak.</span></p>
+        <p class="muted" id="whoami"></p>
+        <p><button class="ghost" id="signout2">Çıkış yap</button></p>
+      </div>
+      <div class="card links">
+        <h2>Bağlantılar</h2>
+        <a href="https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/workers/services/view/nika-api/production" target="_blank" rel="noopener">Worker nika-api</a>
+        <a href="https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/workers/d1/databases/f3161bfe-3f88-471e-a146-144cd3db19f3" target="_blank" rel="noopener">D1 nika</a>
+        <a href="https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/r2/default/buckets/nika-media" target="_blank" rel="noopener">R2 nika-media</a>
+        <a href="https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/workers/plans" target="_blank" rel="noopener">Workers planı (Paid'e geçiş)</a>
+        <a href="https://appstoreconnect.apple.com/" target="_blank" rel="noopener">App Store Connect</a>
+      </div>
+      <div class="card">
+        <h2>Veri nasıl toplanıyor</h2>
+        <p>Her kurulum rastgele bir kimlikle Nika'nın kendi sunucusuna yazar (<code>POST /v1/telemetry</code>, 8 saniyede bir toplu, açıkken dakikada bir sinyal): ilk ve son görülme, platform, sürüm, dil, bölge, Premium durumu, şu anki ekran, kaç davetli, görev, ödeme, medya tuttuğu. Ne yaptığı sayaç olarak ve zaman çizelgesi olarak tutulur (zaman çizelgesi 90 gün sonra silinir). Günlük toplamlar <code>stats</code> tablosunda (UTC). Misafir web sayfalarının sayaçlarını (<code>web_*</code>) sunucu kendisi tutar.</p>
+        <p><b>Ad, e-posta, tutar, not, mesaj hiç toplanmaz.</b> Sunucu yalnız bilinen alan adlarını kısa ve güvenli karakterlerle kabul eder. Geliştirme sürümleri ve ekran görüntüsü modu hiçbir şey yazmaz.</p>
+        <p>Panel girişi uygulamanın e-posta kodu ile; sunucu yalnız yönetici adresinin oturumuna <code>/v1/admin/*</code> açar. Altyapı sayfasının Cloudflare sayıları Mac'teki günlük işten gelir (<code>scripts/lab/nika.mjs</code>, <code>gunluk.sh</code> içinde, 07:00).</p>
+      </div>
+      <div class="card">
+        <h2>Demo</h2>
+        <p class="muted">Adrese <code>?demo</code> eklersen panel sahte veriyle açılır, sunucuya hiç bağlanmaz.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="drawer hidden" id="drawer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script type="module">
+const DEMO = new URLSearchParams(location.search).has("demo");
+const APIS = ["https://nika.bamstudio.dev", "https://nika-api.kittapcom.workers.dev"];
+const SESSION_KEY = "nika-panel-session", EMAIL_KEY = "nika-panel-email", API_KEY = "nika-panel-api";
+
+const $ = id => document.getElementById(id);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { } },
+  del(k) { try { localStorage.removeItem(k); } catch { } },
+};
+const fmt = n => Math.round(+n || 0).toLocaleString("tr-TR");
+const dayKey = d => new Date(d).toISOString().slice(0, 10);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ts = v => v ? new Date(v) : null;
+const ago = d => { if (!d) return "-"; const m = Math.max(0, (Date.now() - d) / 6e4); return m < 1 ? "az önce" : m < 60 ? `${Math.round(m)} dk önce` : m < 1440 ? `${Math.round(m / 60)} sa önce` : `${Math.round(m / 1440)} gün önce`; };
+const dateS = v => ts(v)?.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" }) || "-";
+const dtS = v => ts(v)?.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) || "-";
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const pct1 = (a, b) => b ? (a / b * 100).toFixed(1).replace(".", ",") : "0";
+const mins = sec => { sec = +sec || 0; return sec < 60 ? `${Math.round(sec)} sn` : sec < 3600 ? `${(sec / 60).toFixed(sec < 600 ? 1 : 0).replace(".", ",")} dk` : `${(sec / 3600).toFixed(1).replace(".", ",")} sa`; };
+const bytes = b => { b = +b || 0; const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0; while (b >= 1024 && i < u.length - 1) { b /= 1024; i++; } return `${b.toFixed(b < 10 && i ? 1 : 0).replace(".", ",")} ${u[i]}`; };
+const kpiH = (label, value, sub = "", cls = "") => `<div class="kpi ${cls}"><span>${label}</span><b>${value}</b><small>${sub}</small></div>`;
+const shortId = id => String(id || "").slice(0, 8);
+
+// ---------- Names ----------
+// Ekran anahtarları uygulamada sabit kalır; ad değişince yalnız buradaki etiketler değişir.
+const EKRAN = {
+  home: "Ana sayfa", plan: "Plan", budget: "Bütçe", guests: "Davetliler", memories: "Anılar", seating: "Oturma planı",
+  gifts: "Hediyeler", music: "Müzik", invite_studio: "Davetiye stüdyosu", invite_editor: "Davetiye düzenleyici",
+  guest_add: "Davetli ekle", settings: "Ayarlar", album_qr: "Albüm QR", partner: "Eş daveti", paywall: "Paywall", closed: "Kapalı",
+};
+const SOURCES = {
+  guests: "Davetli sınırı", theme: "Davetiye teması", seating: "Oturma planı", helpers: "Yardımcılar", video: "Video",
+  events: "Etkinlikler", payers: "Ödeyenler", storage: "Depolama", settings: "Ayarlar", unknown: "Bilinmiyor",
+};
+const OLAY = {
+  "Başlangıç": { app_open: "Uygulama açıldı", intro_completed: "Tanıtım bitti", intro_skipped: "Tanıtım atlandı", draft_created: "Taslak düğün", plan_previewed: "Plan önizlendi" },
+  "Hesap ve eş": { account_created: "Hesap açıldı", partner_invited: "Eş davet edildi", partner_accepted: "Eş katıldı" },
+  "Davetli ve davetiye": { guest_invite_saved: "Davetli daveti kaydedildi", invitation_published: "Davetiye yayınlandı", rsvp_submitted: "LCV girildi" },
+  "Plan ve bütçe": { first_task_completed: "İlk görev bitti", payment_recorded: "Ödeme girildi" },
+  "Anılar ve hediyeler": { upload_completed: "Yükleme bitti", gift_return_recorded: "Hediye karşılığı" },
+};
+const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
+const N_FIELDS = {
+  n_guests: "Davetli", n_households: "Hane", n_tasks: "Görev", n_tasks_done: "Biten görev", n_budget_items: "Bütçe kalemi",
+  n_payments: "Ödeme", n_events: "Etkinlik", n_tables: "Masa", n_gifts: "Hediye", n_media: "Medya", n_guest_media: "Misafir medyası", n_songs: "Şarkı",
+};
+const WEB = {
+  web_invite_views: "Davetiye sayfası", web_rsvp: "Web LCV", web_rsvp_answers: "LCV cevabı", web_songs: "Şarkı isteği", web_songs_dup: "Şarkı isteği (tekrar)",
+  web_uploads: "Misafir yüklemesi", web_upload_bytes: "Misafir yükleme boyutu", web_upload_page_views: "Yükleme sayfası", web_join_views: "Katılım sayfası",
+};
+const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", it: "İtalyanca" };
+const screenName = sc => !sc ? "-" : (EKRAN[sc] || sc);
+const srcName = s => SOURCES[s] || s || "-";
+const platName = p => p === "ios" ? "iOS" : p === "ipados" ? "iPadOS" : p === "android" ? "Android" : (p || "?");
+const isOnline = i => !!ts(i.last_seen) && Date.now() - ts(i.last_seen) < 120e3 && !!i.screen && i.screen !== "closed";
+function whereIs(i) {
+  if (isOnline(i)) return screenName(i.screen);
+  if (i.screen === "closed") return "Kapattı · " + screenName(i.last_screen);
+  if (i.screen) return "Sessiz · " + screenName(i.screen);
+  return "-";
+}
+function eventText(e) {
+  const p = e.p || "", s = +e.s || 0;
+  switch (e.e) {
+    case "screen": return "Ekran: " + screenName(p);
+    case "screen_time": return `${screenName(p)} ekranında ${mins(s)}`;
+    case "pw_view": return "Paywall açıldı · " + srcName(p);
+    case "pw_close": return `Paywall'u kapattı · ${mins(s)} açık kaldı`;
+    case "pw_close_bought": return `Paywall kapandı (aldıktan sonra) · ${mins(s)}`;
+    case "pw_buy": return `★ SATIN ALDI · ${srcName(p)} · ${mins(s)} sonra`;
+    case "session": return `Uygulamadan çıktı · oturum ${mins(s)}`;
+    default: return (OLAY_AD[e.e] || e.e) + (p ? " · " + p : "") + (s ? ` · ${mins(s)}` : "");
+  }
+}
+const evClass = e => e.e === "pw_buy" || e.e === "pw_close_bought" ? "buy" : e.e.startsWith("pw_") ? "pw" : "";
+const cv = (i, k) => +(i?.c?.[k] || 0);
+// stats keys: ev.screen_<name> (views), ev.screen_<name>_sec; screen_time* is the event, not a screen
+function screenMap(m) {
+  const out = {};
+  for (const [k, v] of Object.entries(m || {})) {
+    const r = /^ev\.screen_(.+)_sec$/.exec(k); if (!r) continue;
+    const n = r[1]; if (n === "time" || n.startsWith("time_")) continue;
+    (out[n] ||= { sec: 0, views: 0 }).sec += +v || 0;
+  }
+  for (const n of Object.keys(out)) out[n].views = +(m[`ev.screen_${n}`] || 0);
+  return out;
+}
+function prefixed(m, prefix, skip = []) {
+  const o = {};
+  for (const [k, v] of Object.entries(m || {})) if (k.startsWith(prefix) && !k.endsWith("_sec") && !skip.some(s => k.startsWith(s))) o[k.slice(prefix.length)] = (o[k.slice(prefix.length)] || 0) + (+v || 0);
+  return o;
+}
+function bars(id, rows, emptyText = "Henüz veri yok.") {
+  const max = Math.max(1, ...rows.map(r => r.value));
+  $(id).innerHTML = rows.length ? rows.map(r => `<div class="brow"><span title="${esc(r.label)}">${esc(r.label)}</span><div class="track"><div class="fill" style="width:${r.value / max * 100}%${r.color ? ";background:" + r.color : ""}"></div></div><small>${r.sub ?? fmt(r.value)}</small></div>`).join("")
+    : `<p class="muted">${emptyText}</p>`;
+}
+const kn = rows => (rows || []).map(r => ({ label: r.k ?? "Bilinmiyor", value: r.n }));
+
+// ---------- Charts ----------
+let charts = {};
+const C = ["#6e5a87", "#b49572", "#7c9483", "#7f8fb0", "#b98584", "#9a9a7a", "#8c78a6", "#c77d00"];
+function themeCharts() {
+  if (!window.Chart) return;
+  const cs = getComputedStyle(document.documentElement);
+  Chart.defaults.color = cs.getPropertyValue("--soft").trim();
+  Chart.defaults.borderColor = cs.getPropertyValue("--line").trim();
+  Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+}
+function chart(id, type, labels, datasets, opts = {}) {
+  if (!window.Chart || !$(id)) return;
+  charts[id]?.destroy();
+  charts[id] = new Chart($(id), { type, data: { labels, datasets }, options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { labels: { boxWidth: 10 } } }, ...opts } });
+}
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  store.set("bamtech-panel-tema", t);
+  themeCharts(); render(currentPage);
+}
+const toggleTheme = () => setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+$("themeBtn").onclick = toggleTheme; $("themeBtn2").onclick = toggleTheme;
+themeCharts();
+
+// ---------- API ----------
+let apiBase = store.get(API_KEY) && APIS.includes(store.get(API_KEY)) ? store.get(API_KEY) : APIS[0];
+class ApiErr extends Error { constructor(status, code) { super(code || String(status)); this.status = status; this.code = code; } }
+async function api(path, { method = "GET", body, auth = true } = {}) {
+  if (DEMO) return demoApi(path);
+  const headers = {};
+  if (body) headers["content-type"] = "application/json";
+  if (auth) headers.authorization = "Bearer " + store.get(SESSION_KEY);
+  let res, lastErr;
+  // custom domain first; workers.dev when the network cannot reach it
+  for (const base of [apiBase, ...APIS.filter(b => b !== apiBase)]) {
+    try { res = await fetch(base + path, { method, headers, body: body ? JSON.stringify(body) : undefined }); if (base !== apiBase) { apiBase = base; store.set(API_KEY, base); } break; }
+    catch (e) { lastErr = e; }
+  }
+  if (!res) throw new ApiErr(0, "network: " + (lastErr?.message || ""));
+  const j = await res.json().catch(() => null);
+  if (!res.ok) throw new ApiErr(res.status, j?.error?.code || j?.error?.message_key);
+  return j;
+}
+
+// ---------- Auth ----------
+function showLogin(msg = "", denied = false) {
+  $("login").classList.remove("hidden"); $("app").classList.add("hidden");
+  $("loginMsg").innerHTML = msg;
+  $("stepEmail").classList.toggle("hidden", denied);
+  $("stepCode").classList.add("hidden");
+  $("loginOut").classList.toggle("hidden", !denied);
+}
+const ERR = {
+  rate_limited: "Çok fazla deneme. Biraz bekleyip tekrar dene.", code_invalid: "Kod yanlış ya da kullanılmış. Yeni kod iste.",
+  code_expired: "Kodun süresi doldu (10 dakika). Yeni kod iste.", bad_request: "E-posta ya da kod biçimi hatalı.",
+  service_unavailable: "Sunucu e-postayı gönderemedi. Bu hesap şimdilik yalnız doğrulanmış adrese posta atabiliyor.",
+};
+const errText = e => ERR[e.code] || (e.status === 0 ? "Sunucuya ulaşılamadı." : `Olmadı (${esc(e.code || e.status || e.message)}).`);
+async function signOut() {
+  if (!DEMO && store.get(SESSION_KEY)) api("/v1/auth/logout", { method: "POST" }).catch(() => { });
+  store.del(SESSION_KEY);
+  if (DEMO) { location.href = location.pathname; return; }
+  showLogin();
+}
+$("signout").onclick = signOut; $("signout2").onclick = signOut; $("signoutLogin").onclick = signOut;
+$("email").value = store.get(EMAIL_KEY) || "";
+$("sendCode").onclick = async () => {
+  const email = $("email").value.trim().toLowerCase();
+  if (!email.includes("@")) { $("loginMsg").textContent = "E-posta adresini yaz."; return; }
+  $("sendCode").disabled = true; $("loginMsg").textContent = "Kod gönderiliyor…";
+  try {
+    await api("/v1/auth/email/start", { method: "POST", body: { email, lang: "tr" }, auth: false });
+    store.set(EMAIL_KEY, email);
+    $("stepEmail").classList.add("hidden"); $("stepCode").classList.remove("hidden");
+    $("codeTo").textContent = `${email} adresine gelen 6 haneli kodu yaz. Kod 10 dakika geçerli.`;
+    $("loginMsg").textContent = ""; $("code").value = ""; $("code").focus();
+  } catch (e) { $("loginMsg").innerHTML = `<div class="note err">${errText(e)}</div>`; }
+  finally { $("sendCode").disabled = false; }
+};
+$("email").addEventListener("keydown", e => { if (e.key === "Enter") $("sendCode").click(); });
+$("back").onclick = () => { $("stepCode").classList.add("hidden"); $("stepEmail").classList.remove("hidden"); $("loginMsg").textContent = ""; };
+$("code").addEventListener("input", () => { $("code").value = $("code").value.replace(/\D/g, "").slice(0, 6); if ($("code").value.length === 6) $("verify").click(); });
+$("verify").onclick = async () => {
+  const code = $("code").value.trim();
+  if (!/^\d{6}$/.test(code)) { $("loginMsg").textContent = "Kod 6 hane."; return; }
+  $("verify").disabled = true; $("loginMsg").textContent = "Giriş yapılıyor…";
+  try {
+    const r = await api("/v1/auth/email/verify", { method: "POST", body: { email: store.get(EMAIL_KEY), code }, auth: false });
+    store.set(SESSION_KEY, r.session);
+    await enter();
+  } catch (e) { $("loginMsg").innerHTML = `<div class="note err">${errText(e)}</div>`; }
+  finally { $("verify").disabled = false; }
+};
+const deniedText = () => `<div class="note err"><b>Yetkin yok.</b> Bu hesapla girdin ama paneli yalnız yönetici adresi açabilir. Çıkış yapıp yönetici adresiyle tekrar dene.</div>`;
+
+async function enter() {
+  try {
+    const me = await api("/v1/admin/me");
+    $("login").classList.add("hidden"); $("app").classList.remove("hidden");
+    $("whoami").textContent = DEMO ? "Demo modu: giriş yok, veri sahte." : `Giriş: ${me.email}${me.dev ? " (DEV oturumu)" : ""} · sunucu ${apiBase.replace("https://", "")}`;
+    go(location.hash ? location.hash.slice(1) : "overview");
+  } catch (e) {
+    if (e.status === 401) { store.del(SESSION_KEY); showLogin(); }
+    else if (e.status === 403) showLogin(deniedText(), true);
+    else showLogin(`<div class="note err">${errText(e)}</div>`);
+  }
+}
+
+// ---------- Navigation ----------
+let currentPage = "overview";
+const cache = {};
+document.querySelectorAll("aside a[data-page]").forEach(a => a.onclick = () => go(a.dataset.page));
+const days = () => +$("range").value;
+const PAGE_API = {
+  overview: () => `/v1/admin/overview?days=${days()}`, live: () => "/v1/admin/live", screens: () => `/v1/admin/screens?days=${days()}`,
+  revenue: () => `/v1/admin/paywall?days=${days()}`, engage: () => `/v1/admin/usage?days=${days()}`, users: () => "/v1/admin/users",
+  storage: () => "/v1/admin/storage", infra: () => "/v1/admin/infra",
+};
+function go(page) {
+  if (!document.querySelector(`section[data-view="${page}"]`)) page = "overview";
+  document.querySelectorAll("aside a[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
+  const aside = document.querySelector("aside"), on = aside.querySelector("a.on");
+  if (on && aside.scrollWidth > aside.clientWidth) aside.scrollLeft = on.offsetLeft - (aside.clientWidth - on.offsetWidth) / 2;
+  document.querySelectorAll("main section[data-view]").forEach(s => s.classList.toggle("hidden", s.dataset.view !== page));
+  currentPage = page;
+  history.replaceState(null, "", location.pathname + location.search + "#" + page);
+  load(page);
+  window.scrollTo(0, 0);
+}
+async function load(page, force = false) {
+  const f = PAGE_API[page]; if (!f) { render(page); return; }
+  const url = f();
+  $("loadErr").classList.add("hidden");
+  if (!cache[url] || force) {
+    $("topMeta").textContent = "Yükleniyor…";
+    try { cache[url] = await api(url); }
+    catch (e) {
+      if (e.status === 401) { store.del(SESSION_KEY); showLogin("Oturum bitti, tekrar giriş yap."); return; }
+      if (e.status === 403) { showLogin(deniedText(), true); return; }
+      $("loadErr").classList.remove("hidden"); $("loadErr").textContent = "Veri okunamadı: " + (e.code || e.status || e.message); console.error(e); $("topMeta").textContent = ""; return;
+    }
+  }
+  if (page !== currentPage) return;
+  render(page);
+  $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
+  const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
+  requestAnimationFrame(fit); setTimeout(fit, 120);
+}
+const data = page => cache[PAGE_API[page]?.()];
+function render(page) {
+  const f = { overview: renderOverview, live: renderLive, screens: renderScreens, revenue: renderRevenue, engage: renderEngage, users: renderUsers, storage: renderStorage, infra: renderInfra }[page];
+  if (!f || !data(page)) return;
+  try { f(data(page)); } catch (e) { console.error(page, e); }
+}
+window.addEventListener("hashchange", () => { if (location.hash.slice(1) !== currentPage) go(location.hash.slice(1)); });
+setInterval(() => { if (currentPage === "live" && !document.hidden && !$("app").classList.contains("hidden")) load("live", true); }, 30000);
+const refreshAll = () => { for (const k of Object.keys(cache)) delete cache[k]; load(currentPage, true); };
+$("refresh").onclick = refreshAll; $("refreshTop").onclick = refreshAll;
+$("range").onchange = () => load(currentPage);
+const dayList = () => { const out = [], n = days(); for (let i = n - 1; i >= 0; i--) out.push(dayKey(Date.now() - i * 864e5)); return out; };
+const labelsOf = list => list.map(d => d.slice(8) + "." + d.slice(5, 7));
+
+// ---------- Overview ----------
+function renderOverview(d) {
+  const t = d.totals, p = d.period;
+  $("ovMeta").textContent = `${fmt(t.total)} kurulum · ${fmt(t.testers)} test, ${fmt((t.total || 0) - (t.testers || 0))} mağaza · ${fmt(t.accounts)} hesaplı`;
+  $("kpis").innerHTML = [
+    kpiH("Şu an online", fmt(t.online), "son 2 dakikada sinyal"),
+    kpiH("Toplam kurulum", fmt(t.total), `${fmt(t.newRange)} yeni (dönem)`),
+    kpiH("Bugün aktif", fmt(t.d1), "son 24 saat"),
+    kpiH("7 gün aktif", fmt(t.d7)), kpiH("30 gün aktif", fmt(t.d30)),
+    kpiH("Dönemde aktif", fmt(t.activeRange)),
+    kpiH("Oturum", fmt(p.sessions), p.session_count ? `ortalama ${mins(p.session_sec / p.session_count)}` : "dönem"),
+    kpiH("Premium", fmt(t.premium), `${fmt(p.purchases)} satın alma (dönem)`),
+    kpiH("Bulutta", fmt(t.cloud), "hesaplı ve senkronlu"),
+    kpiH("Paywall gösterimi", fmt(p.paywall_views), "dönem"),
+  ].join("");
+  const list = dayList(), s = d.series || {};
+  chart("chActive", "line", labelsOf(list), [
+    { label: "Oturum", data: list.map(k => s[k]?.sessions || 0), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+    { label: "Yeni kurulum", data: list.map(k => s[k]?.installs_new || 0), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+    { label: "Paywall", data: list.map(k => s[k]?.paywall_views || 0), borderColor: C[3], backgroundColor: C[3], tension: .3 },
+    { label: "Satın alma", data: list.map(k => s[k]?.purchases || 0), borderColor: C[2], backgroundColor: C[2], tension: .3 },
+  ]);
+  const co = d.cohort || {};
+  const steps = [["Kurulum", co.n], ["Tanıtımı bitirdi", co.intro_completed], ["Taslak düğün", co.draft_created], ["Hesap açtı", co.account_created],
+    ["Eşini davet etti", co.partner_invited], ["Eşi katıldı", co.partner_accepted], ["Davetiye yayınladı", co.invitation_published], ["Paywall gördü", co.pw_view], ["Premium", co.premium]].map(([a, b]) => [a, +b || 0]);
+  chart("chFunnel", "bar", steps.map(x => x[0]), [{ label: "Kurulum", data: steps.map(x => x[1]), backgroundColor: C }],
+    { indexAxis: "y", plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${fmt(c.raw)} (%${pct(c.raw, steps[0][1])})` } } } });
+  const langs = (d.languages || []).map(r => [LANG[r.k] || r.k || "?", r.n]);
+  chart("chLang", "doughnut", langs.map(x => x[0]), [{ data: langs.map(x => x[1]), backgroundColor: C, borderWidth: 0 }], { plugins: { legend: { position: "right", labels: { boxWidth: 10 } } } });
+  chart("chRet", "bar", ["1 gün sonra", "3 gün", "7 gün", "14 gün", "30 gün"],
+    [{ label: `% (${fmt(co.n)} kurulum)`, data: [1, 3, 7, 14, 30].map(x => pct(+co["r" + x] || 0, co.n)), backgroundColor: C[0] }],
+    { scales: { y: { max: 100, ticks: { callback: v => v + "%" } } } });
+  const vers = (d.versions || []).slice(0, 8).map(r => [String(r.k).replace(/^ios/, "iOS").replace(/^ipados/, "iPadOS"), r.n, r.testers]);
+  chart("chVer", "bar", vers.map(x => x[0]), [
+    { label: "Mağaza", data: vers.map(x => x[1] - (x[2] || 0)), backgroundColor: C[0] },
+    { label: "Test", data: vers.map(x => x[2] || 0), backgroundColor: C[3] },
+  ], { indexAxis: "y", scales: { x: { stacked: true }, y: { stacked: true } } });
+  bars("ovTester", [{ label: "TestFlight", value: +t.testers || 0, color: C[3] }, { label: "Mağaza", value: (t.total || 0) - (t.testers || 0) }].filter(r => r.value || t.total));
+  bars("ovRegion", kn(d.regions).slice(0, 10));
+}
+
+// ---------- Live ----------
+function renderLive(d) {
+  const on = d.online || [];
+  $("liveKpis").innerHTML = [
+    kpiH("Şu an online", fmt(on.length)), kpiH("Son 15 dakika", fmt(d.within?.m15)), kpiH("Son 1 saat", fmt(d.within?.h1)), kpiH("Son 24 saat", fmt(d.within?.h24)),
+    kpiH("Paywall'da", fmt(on.filter(i => i.screen === "paywall").length)), kpiH("Premium olan online", fmt(on.filter(i => i.premium).length)),
+  ].join("");
+  const cnt = {}; on.forEach(i => { const k = screenName(i.screen); cnt[k] = (cnt[k] || 0) + 1; });
+  bars("liveScreens", Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value })), "Şu an uygulamayı açık tutan yok.");
+  bars("liveLeft", (d.left || []).map(r => ({ label: screenName(r.k), value: r.n })), "Son 24 saatte kapatan yok.");
+  $("liveRows").innerHTML = on.length ? on.map(i => `<tr class="click" data-id="${esc(i.id)}"><td><span class="dot"></span></td>
+    <td><code>${esc(shortId(i.id))}</code></td><td>${esc(screenName(i.screen))}</td>
+    <td>${statusPills(i)}</td><td>${platName(i.platform)} ${esc(i.app_version || "")}</td><td>${esc(i.language || "")}</td><td>${ago(ts(i.last_seen))}</td><td class="n">${mins(i.session_sec)}</td></tr>`).join("")
+    : `<tr><td colspan="8" class="muted">Şu an kimse yok.</td></tr>`;
+  document.querySelectorAll("#liveRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+const statusPills = i => `${i.premium ? '<span class="pill pro">Premium</span> ' : ''}${i.role === "helper" ? '<span class="pill ok">Yardımcı</span> ' : ''}${i.cloud ? '<span class="pill ok">Bulut</span> ' : ''}${i.context === "guest" ? '<span class="pill no">Misafir</span> ' : ''}${i.tester ? '<span class="pill sky">Test</span>' : ''}`;
+
+// ---------- Screens ----------
+function renderScreens(d) {
+  const per = screenMap(d.period), all = {};
+  for (const r of d.people || []) {
+    const m = /^ev\.screen_(.+)_sec$/.exec(r.key); if (!m) continue;
+    all[m[1]] = { sec: r.total, people: r.people };
+  }
+  const keys = [...new Set([...Object.keys(per), ...Object.keys(all)])].sort((a, b) => (per[b]?.sec || 0) - (per[a]?.sec || 0) || (all[b]?.sec || 0) - (all[a]?.sec || 0));
+  const total = Object.values(per).reduce((a, v) => a + v.sec, 0), views = Object.values(per).reduce((a, v) => a + v.views, 0);
+  const top = keys[0];
+  $("scKpis").innerHTML = [
+    kpiH("Ekranlarda toplam", mins(total), "dönem, herkes"), kpiH("Ekran açılışı", fmt(views), "dönem"),
+    kpiH("Açılış başı", views ? mins(total / views) : "-"),
+    kpiH("En çok vakit", top && per[top]?.sec ? esc(screenName(top)) : "-", top && per[top]?.sec ? `%${pct(per[top].sec, total)} süre` : ""),
+  ].join("");
+  $("scRows").innerHTML = keys.length ? keys.map(k => { const p = per[k] || { sec: 0, views: 0 }, a = all[k] || { sec: 0, people: 0 };
+    return `<tr><td>${esc(screenName(k))} <span class="muted">${esc(k)}</span></td><td class="n">${mins(p.sec)}</td><td class="n">${fmt(p.views)}</td><td class="n">${p.views ? mins(p.sec / p.views) : "-"}</td><td class="n">${fmt(a.people)}</td><td class="n">${a.people ? mins(a.sec / a.people) : "-"}</td></tr>`; }).join("")
+    : `<tr><td colspan="6" class="muted">Henüz ekran süresi yok.</td></tr>`;
+  const ck = keys.filter(k => per[k]?.sec).slice(0, 14);
+  chart("chScreens", "bar", ck.map(screenName), [{ label: "Dakika", data: ck.map(k => +(per[k].sec / 60).toFixed(1)), backgroundColor: C[0] }], { indexAxis: "y", plugins: { legend: { display: false } } });
+}
+
+// ---------- Paywall ----------
+function renderRevenue(d) {
+  const P = d.period || {}, ev = k => +(P["ev." + k] || 0);
+  const views = prefixed(P, "ev.pw_view_"), closes = prefixed(P, "ev.pw_close_", ["ev.pw_close_bought"]), bought = prefixed(P, "ev.pw_close_bought_"), buys = prefixed(P, "ev.pw_buy_");
+  const proBy = Object.fromEntries((d.premiumBy || []).map(r => [r.k, r.n]));
+  const pv = d.totals.paywall_views, pu = d.totals.purchases;
+  $("revKpis").innerHTML = [
+    kpiH("Paywall gösterimi", fmt(pv), "dönem"), kpiH("Satın alma", fmt(pu), "dönem"),
+    kpiH("Dönüşüm", pv ? `%${pct1(pu, pv)}` : "-", "satın alma / gösterim"),
+    kpiH("Kapatana kadar", ev("pw_close") ? mins(ev("pw_close_sec") / ev("pw_close")) : "-", `${fmt(ev("pw_close"))} kapatma ortalaması`),
+    kpiH("Alana kadar", ev("pw_buy") ? mins(ev("pw_buy_sec") / ev("pw_buy")) : "-", "açılıştan satın almaya"),
+    kpiH("Premium kurulum", fmt(d.people?.premium), "şu an"), kpiH("Paywall gören kişi", fmt(d.people?.saw), "tüm zamanlar"),
+  ].join("");
+  const keys = [...new Set([...Object.keys(views), ...Object.keys(buys), ...Object.keys(proBy)])].filter(k => k !== "null").sort((a, b) => (buys[b] || 0) - (buys[a] || 0) || (views[b] || 0) - (views[a] || 0));
+  const avg = (k, n) => n ? mins(+(P[k] || 0) / n) : "-";
+  $("revRows").innerHTML = keys.length ? keys.map(k => `<tr><td>${esc(srcName(k))}</td><td class="n">${fmt(views[k])}</td><td class="n">${fmt(closes[k])}</td><td class="n">${avg(`ev.pw_close_${k}_sec`, closes[k])}</td>
+    <td class="n">${fmt(bought[k])}</td><td class="n"><b>${fmt(buys[k])}</b></td><td class="n">${avg(`ev.pw_buy_${k}_sec`, buys[k])}</td><td class="n">${views[k] ? `%${pct1(buys[k] || 0, views[k])}` : "-"}</td><td class="n">${fmt(proBy[k])}</td></tr>`).join("")
+    : `<tr><td colspan="9" class="muted">Bu dönemde paywall açılmadı.</td></tr>`;
+  const list = dayList(), s = d.series || {};
+  chart("chRev", "bar", labelsOf(list), [
+    { label: "Gösterim", data: list.map(k => s[k]?.paywall_views || 0), backgroundColor: C[3] },
+    { label: "Satın alma", data: list.map(k => s[k]?.purchases || 0), backgroundColor: C[0] },
+  ]);
+  bars("revDur", keys.filter(k => closes[k]).map(k => { const a = +(P[`ev.pw_close_${k}_sec`] || 0) / closes[k]; return { label: srcName(k), value: a, sub: `${mins(a)} · ${fmt(closes[k])} kez` }; }).sort((a, b) => b.value - a.value), "Bu dönemde kapatılan paywall yok.");
+  bars("revPlans", (d.plans || []).map(r => ({ label: String(r.k || "?").replace(/^.*\./, ""), value: r.n })), "Henüz Premium yok.");
+  // journeys
+  const by = {};
+  for (const e of (d.journeys || []).slice().reverse()) (by[e.install_id] ||= []).push(e);
+  const all = [];
+  for (const evs of Object.values(by)) {
+    let cur = null;
+    for (const e of evs) {
+      if (e.e === "pw_view") { if (cur) all.push(cur); cur = { i: e, t: ts(e.t), src: e.p, sec: null, res: "open" }; }
+      else if (cur && e.e === "pw_buy") { cur.res = "bought"; cur.sec = +e.s || cur.sec; }
+      else if (cur && (e.e === "pw_close" || e.e === "pw_close_bought")) { cur.sec = +e.s || 0; if (e.e === "pw_close_bought") cur.res = "bought"; else if (cur.res !== "bought") cur.res = "closed"; all.push(cur); cur = null; }
+    }
+    if (cur) all.push(cur);
+  }
+  all.sort((a, b) => b.t - a.t);
+  $("pwMeta").textContent = `Dönemdeki zaman çizelgelerinden ${fmt(all.length)} açılış, ${fmt(Object.keys(by).length)} kurulum.`;
+  const res = j => j.res === "bought" ? '<span class="pill pro">Satın aldı</span>' : j.res === "closed" ? '<span class="pill no">Kapattı</span>'
+    : (isOnline({ last_seen: j.i.last_seen, screen: j.i.screen }) && Date.now() - j.t < 36e5 ? '<span class="pill ok">Şu an açık</span>' : '<span class="pill no">Kapanış yok</span>');
+  $("pwRows").innerHTML = all.length ? all.slice(0, 150).map(j => `<tr class="click" data-id="${esc(j.i.install_id)}"><td>${dtS(j.t)}</td><td><code>${esc(shortId(j.i.install_id))}</code></td><td>${esc(srcName(j.src))}</td><td class="n">${j.sec != null ? mins(j.sec) : "-"}</td><td>${res(j)}</td><td>${platName(j.i.platform)}</td><td>${esc(j.i.language || "")}</td></tr>`).join("")
+    : `<tr><td colspan="7" class="muted">Henüz paywall yolculuğu yok.</td></tr>`;
+  document.querySelectorAll("#pwRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Engagement ----------
+function renderEngage(d) {
+  const n = d.n || {}, E = d.events || {}, ev = k => +(E["ev." + k] || 0), sp = d.spaces || {};
+  $("engKpis").innerHTML = [
+    kpiH("Ortalama oturum", ev("session") ? mins(ev("session_sec") / ev("session")) : "-", `${fmt(ev("session"))} oturum (dönem)`),
+    kpiH("Davetiye yayınlayan", n.invite_known ? `%${pct(n.invite_yes, n.invite_known)}` : "-", `${fmt(n.invite_yes)} / ${fmt(n.invite_known)} kurulum`),
+    kpiH("Eşi katılan alan", sp.spaces ? `%${pct(sp.partnered, sp.spaces)}` : "-", `${fmt(sp.partnered)} / ${fmt(sp.spaces)} bulut alan`),
+    kpiH("Yardımcılı alan", fmt(sp.with_helpers), `${fmt(n.helpers)} yardımcı kurulum`),
+    kpiH("Bulutta", n.cloud_known ? `%${pct(n.cloud_yes, n.cloud_known)}` : "-", `${fmt(n.cloud_yes)} kurulum hesaplı`),
+    kpiH("Ortalama davetli", n.n_guests_has ? (n.n_guests_sum / n.n_guests_has).toFixed(0) : "-", `en çok ${fmt(n.n_guests_max)}`),
+    kpiH("Biten görev", fmt(n.n_tasks_done_sum), `${fmt(n.n_tasks_sum)} görevden`),
+    kpiH("Medya", fmt(n.n_media_sum), `${bytes(n.n_media_bytes_sum)} · ${fmt(n.n_guest_media_sum)} misafirden`),
+  ].join("");
+  const order = (rows, keys) => keys.map(k => ({ k, n: (rows || []).find(r => r.k === k)?.n || 0 }));
+  const g = order(d.guests, ["0", "1-10", "11-50", "51-100", "101-200", "201-400", "400+", "?"]);
+  chart("chGuests", "bar", g.map(x => x.k === "?" ? "bilinmiyor" : x.k), [{ label: "Kurulum", data: g.map(x => x.n), backgroundColor: g.map(x => x.k === "51-100" || x.k === "101-200" || x.k === "201-400" || x.k === "400+" ? C[1] : C[0]) }], { plugins: { legend: { display: false } } });
+  const t = order(d.tasksDone, ["0", "1-5", "6-20", "21-50", "51-100", "100+", "?"]);
+  chart("chTasks", "bar", t.map(x => x.k === "?" ? "bilinmiyor" : x.k), [{ label: "Kurulum", data: t.map(x => x.n), backgroundColor: C[2] }], { plugins: { legend: { display: false } } });
+  bars("engDays", order(d.daysTo, ["0-30", "31-90", "91-180", "181-365", "365+", "gecti", "?"]).map(x => ({ label: { gecti: "Düğün geçti", "?": "Tarih yok" }[x.k] || x.k + " gün", value: x.n })));
+  const b = ["1 dk altı", "1-5 dk", "5-15 dk", "15-30 dk", "30-60 dk", "1 saat üstü"];
+  chart("chTime", "bar", b, [{ label: "Kişi", data: b.map((_, i) => (d.sess || []).find(r => r.b === i)?.n || 0), backgroundColor: C[3] }], { plugins: { legend: { display: false } } });
+  $("engCounts").innerHTML = Object.entries(N_FIELDS).map(([k, ad]) => {
+    const has = +n[k + "_has"] || 0, tot = +n[k + "_sum"] || 0;
+    return `<tr><td>${ad}</td><td class="n">${fmt(has)} <span class="muted">%${pct(has, n.installs)}</span></td><td class="n">${has ? (tot / has).toFixed(1).replace(".", ",") : "-"}</td><td class="n">${fmt(n[k + "_max"])}</td><td class="n">${fmt(tot)}</td></tr>`;
+  }).join("");
+  const W = d.web || {};
+  $("webKpis").innerHTML = ["web_invite_views", "web_rsvp", "web_rsvp_answers", "web_songs", "web_uploads", "web_upload_bytes", "web_upload_page_views", "web_join_views"]
+    .map(k => kpiH(WEB[k], k.endsWith("bytes") ? bytes(W[k]) : fmt(W[k]))).join("");
+  const list = dayList(), ws = d.webSeries || {};
+  chart("chWeb", "line", labelsOf(list), ["web_invite_views", "web_rsvp", "web_songs", "web_uploads"].map((k, i) => ({ label: WEB[k], data: list.map(x => ws[x]?.[k] || 0), borderColor: C[i], backgroundColor: C[i], tension: .3 })));
+  const people = Object.fromEntries((d.people || []).map(r => [r.key.slice(3), r.people]));
+  const count = k => +(E["ev." + k] || 0);
+  let h = "";
+  for (const [grup, liste] of Object.entries(OLAY)) {
+    const sat = Object.keys(liste).filter(k => count(k) || people[k]).sort((a, b) => count(b) - count(a));
+    if (!sat.length) continue;
+    h += `<tr class="group"><td colspan="3">${grup}</td></tr>` + sat.map(k => `<tr><td>${liste[k]} <span class="muted">${k}</span></td><td class="n">${fmt(count(k))}</td><td class="n">${fmt(people[k])}</td></tr>`).join("");
+  }
+  const known = Object.keys(OLAY_AD), internal = ["session", "screen", "screen_time"];
+  const base = [...new Set([...Object.keys(E).map(k => k.slice(3)), ...Object.keys(people)])].filter(k => !k.endsWith("_sec") && !known.includes(k) && !internal.includes(k) && ![...known, ...internal].some(x => k.startsWith(x + "_")));
+  if (base.length) h += `<tr class="group"><td colspan="3">Diğer</td></tr>` + base.sort((a, b) => count(b) - count(a)).map(k => `<tr><td>${esc(k)}</td><td class="n">${fmt(count(k))}</td><td class="n">${fmt(people[k])}</td></tr>`).join("");
+  $("engRows").innerHTML = h || `<tr><td colspan="3" class="muted">Henüz olay yok.</td></tr>`;
+}
+
+// ---------- Users ----------
+const daysSince = i => ts(i.first_seen) ? Math.floor((Date.now() - ts(i.first_seen)) / 864e5) : null;
+const verStr = i => `${i.app_version || "?"}${i.build ? ` (${i.build})` : ""}`;
+const U_COLS = [
+  ["first_seen", "İlk görülme", i => ts(i.first_seen)?.getTime() || 0, i => dateS(i.first_seen)],
+  ["age", "Gün", i => daysSince(i) ?? -1, i => daysSince(i) ?? "-", true],
+  ["last_seen", "Son görülme", i => ts(i.last_seen)?.getTime() || 0, i => ago(ts(i.last_seen))],
+  ["status", "Durum", i => (isOnline(i) ? 8 : 0) + (i.premium ? 4 : 0) + (i.cloud ? 2 : 0) + (i.tester ? 1 : 0), i => `${isOnline(i) ? '<span class="dot"></span>' : ''}${statusPills(i)}`],
+  ["screen", "Ekran", i => whereIs(i), i => esc(whereIs(i))],
+  ["platform", "Platform", i => i.platform || "", i => platName(i.platform)],
+  ["app_version", "Sürüm", i => verStr(i), i => esc(verStr(i))],
+  ["language", "Dil", i => i.language || "", i => esc(i.language || "")],
+  ["region", "Bölge", i => i.region || "", i => esc(i.region || "")],
+  ["sessions", "Oturum", i => +i.sessions || 0, i => fmt(i.sessions), true],
+  ["time", "Toplam süre", i => +i.session_sec || 0, i => i.session_sec ? mins(i.session_sec) : "-", true],
+  ["pw", "Paywall", i => +i.pw_views || 0, i => fmt(i.pw_views), true],
+  ["days_to_wedding", "Düğüne", i => i.days_to_wedding ?? -1e5, i => i.days_to_wedding == null || i.days_to_wedding <= -9999 ? "-" : `${fmt(i.days_to_wedding)} gün`, true],
+  ...Object.entries(N_FIELDS).map(([k, ad]) => [k, ad, i => +i[k] || 0, i => i[k] != null ? fmt(i[k]) : "-", true]),
+];
+let uSort = { k: "last_seen", dir: -1 };
+$("uSearch").oninput = () => render("users"); $("uFilter").onchange = () => render("users");
+function renderUsers(d) {
+  const list = d.users || [];
+  const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = Date.now() - days() * 864e5;
+  const keep = {
+    all: () => true, online: isOnline, premium: i => i.premium, free: i => !i.premium, cloud: i => i.cloud, local: i => !i.cloud, helper: i => i.role === "helper",
+    paywall: i => +i.pw_views > 0, tester: i => i.tester, store: i => !i.tester, new: i => ts(i.first_seen) >= from,
+  }[f] || (() => true);
+  const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[2];
+  const rows = list.filter(i => keep(i) && (!q || [i.id, i.language, i.region, i.app_version, i.build, i.device, i.tz, i.platform, i.user_id, i.space_id].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
+  $("uCount").textContent = `${fmt(rows.length)} / ${fmt(d.total)} kurulum`;
+  $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
+  document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : -1 }; render("users"); });
+  $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}"><td><code>${esc(shortId(i.id))}</code></td>${U_COLS.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
+    : `<tr><td colspan="${U_COLS.length + 1}" class="muted">Kurulum yok.</td></tr>`;
+  document.querySelectorAll("#uRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+async function openUser(id) {
+  const d = $("drawer"); d.classList.remove("hidden"); d.scrollTop = 0;
+  d.innerHTML = `<p class="muted">Yükleniyor…</p>`;
+  let r;
+  try { r = await api("/v1/admin/users/" + encodeURIComponent(id)); }
+  catch (e) { d.innerHTML = `<p><button class="ghost" id="dClose">Kapat</button></p><div class="note err">Okunamadı: ${esc(e.code || e.status)}</div>`; $("dClose").onclick = () => d.classList.add("hidden"); return; }
+  const i = r.install, c = i.c || {};
+  const yes = b => b == null ? "-" : b ? "Evet" : "Hayır";
+  const sm = screenMap(c), pwSrc = prefixed(c, "ev.pw_view_");
+  const acc = r.account;
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">Kurulum <code>${esc(shortId(i.id))}</code></h2><button class="ghost" id="dClose">Kapat</button></div>
+    <p class="muted" style="overflow-wrap:anywhere">${esc(i.id)}</p>
+    <div class="dl">
+      <div>Şu an</div><div>${isOnline(i) ? '<span class="dot"></span>' : ''}${esc(whereIs(i))}</div>
+      <div>Son görülme</div><div>${ts(i.last_seen)?.toLocaleString("tr-TR") || "-"} (${ago(ts(i.last_seen))})</div>
+      <div>İlk görülme</div><div>${ts(i.first_seen)?.toLocaleString("tr-TR") || "-"}${daysSince(i) != null ? ` · ${daysSince(i)} gün önce` : ""}</div>
+      <div>Platform</div><div>${platName(i.platform)} ${esc(verStr(i))}</div>
+      <div>Cihaz</div><div>${esc(i.device || "-")}${i.os ? ` · iOS ${esc(i.os)}` : ""}</div>
+      <div>Dil / bölge</div><div>${esc(LANG[i.language] || i.language || "-")} / ${esc(i.region || "-")}</div>
+      <div>Saat dilimi</div><div>${esc(i.tz || "-")}</div>
+      <div>Premium</div><div>${i.premium ? `<span class="pill pro">Premium</span> ${esc(i.plan || "")}` : "Hayır"}</div>
+      ${i.premium || i.purchased_at ? `<div>Satın alma</div><div>${dtS(i.purchased_at)} · ${esc(srcName(i.buy_source))}</div>` : ""}
+      <div>Rol</div><div>${esc(i.role || "-")}${i.context ? ` · ${esc(i.context)}` : ""}</div>
+      <div>Bulut</div><div>${yes(i.cloud)}${i.space_id ? ` · alan <code>${esc(shortId(i.space_id))}</code>` : ""}</div>
+      <div>Hesap</div><div>${i.user_id ? `<code>${esc(i.user_id)}</code>${acc ? ` · ${esc(acc.kind)} · ${dateS(acc.created_at)}` : ""}` : "-"}</div>
+      <div>Düğüne</div><div>${i.days_to_wedding == null || i.days_to_wedding <= -9999 ? "-" : `${fmt(i.days_to_wedding)} gün`}</div>
+      <div>Davetiye yayında</div><div>${yes(i.invite_published == null ? null : !!i.invite_published)}</div>
+      <div>Test cihazı</div><div>${yes(i.tester == null ? null : !!i.tester)}</div>
+      <div>Oturum</div><div>${fmt(c.sessions)} · toplam ${mins(c["ev.session_sec"])}${c["ev.session"] ? ` · ortalama ${mins(c["ev.session_sec"] / c["ev.session"])}` : ""}</div>
+      <div>Paywall</div><div>${fmt(c["ev.pw_view"])} gösterim · ${fmt(c["ev.pw_close"])} kapatma · ${fmt(c["ev.pw_buy"])} satın alma</div>
+      <div>Yükleme</div><div>${fmt(c.uploads)} · ${bytes(c.upload_bytes)}</div>
+    </div>
+    ${acc?.memberships?.length ? `<h2>Alanları</h2><div class="dl">${acc.memberships.map(m => `<div><code>${esc(shortId(m.space_id))}</code></div><div>${esc(m.role)} · ${bytes(m.storage_used)}${m.premium ? ' · <span class="pill pro">Premium</span>' : ''}${m.deleted_at ? ' · <span class="pill bad">silindi</span>' : ''}</div>`).join("")}</div>` : ""}
+    <h2>Kayıtlar</h2>
+    <div class="dl">${Object.entries(N_FIELDS).map(([k, ad]) => `<div>${ad}</div><div>${i[k] != null ? fmt(i[k]) : "-"}</div>`).join("")}<div>Medya boyutu</div><div>${i.n_media_bytes != null ? bytes(i.n_media_bytes) : "-"}</div></div>
+    <h2>Ekranlarda geçen süre</h2><div class="bars" id="dScreens"></div>
+    ${Object.keys(pwSrc).length ? `<h2>Paywall kaynakları</h2><div class="bars" id="dPw"></div>` : ""}
+    <details style="margin-top:18px"><summary class="muted" style="cursor:pointer">Bütün sayaçlar</summary>
+      <div class="dl" style="margin-top:10px">${Object.keys(c).sort().map(k => `<div>${esc(k)}</div><div>${fmt(c[k])}</div>`).join("")}</div></details>
+    <h2>Zaman çizelgesi</h2><div id="dTimeline"></div>`;
+  $("dClose").onclick = () => d.classList.add("hidden");
+  bars("dScreens", Object.entries(sm).filter(([, v]) => v.sec > 0).sort((a, b) => b[1].sec - a[1].sec).map(([k, v]) => ({ label: screenName(k), value: v.sec, sub: `${mins(v.sec)} · ${fmt(v.views)} kez` })), "Ekran süresi yok.");
+  if ($("dPw")) bars("dPw", Object.entries(pwSrc).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: srcName(k), value: v, sub: `${fmt(v)} gösterim · ${fmt(c[`ev.pw_buy_${k}`])} alım` })));
+  const evs = r.events || [];
+  let lastDay = "";
+  $("dTimeline").innerHTML = evs.length ? `<p class="muted">Son ${evs.length} olay, en yenisi üstte.</p><div class="tl">${evs.map(e => {
+    const t = ts(e.t), dk = t?.toLocaleDateString("tr-TR", { weekday: "short", day: "2-digit", month: "long" }) || "";
+    const head = dk !== lastDay ? `<div class="day">${dk}</div>` : ""; lastDay = dk;
+    return `${head}<div class="${evClass(e)}"><time>${t?.toLocaleTimeString("tr-TR") || ""}</time>${esc(eventText(e))}</div>`;
+  }).join("")}</div>` : `<p class="muted">Zaman çizelgesi boş.</p>`;
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("drawer").classList.add("hidden"); });
+
+// ---------- Storage ----------
+const R2_FREE = 10 * 1024 ** 3;
+function renderStorage(d) {
+  const t = d.totals;
+  $("stKpis").innerHTML = [
+    meterKpi("R2 (tablolara göre)", bytes(t.used + t.reserved), (t.used + t.reserved) / R2_FREE, "ücretsiz 10 GB"),
+    kpiH("Düğün alanı", fmt(t.spaces), `${fmt(t.premium)} Premium · ${fmt(t.deleted)} silinmiş`),
+    kpiH("Medya", fmt(t.media), `${fmt(t.guest)} misafir · ${fmt(t.couple)} çift`),
+    kpiH("Misafir yüklemesi", bytes(t.guestBytes), `${fmt(t.guest)} dosya`),
+    kpiH("Çiftin yüklemesi", bytes(t.coupleBytes), `${fmt(t.couple)} dosya`),
+    kpiH("Yarım yükleme", fmt(t.pendingUploads), `${bytes(t.pendingBytes)} ayrılmış, 1 saatte düşer`),
+  ].join("");
+  bars("stWho", [{ label: "Misafirler (web)", value: t.guestBytes, sub: `${bytes(t.guestBytes)} · ${fmt(t.guest)}` }, { label: "Çift (uygulama)", value: t.coupleBytes, sub: `${bytes(t.coupleBytes)} · ${fmt(t.couple)}` }]);
+  const live = (d.spaces || []).filter(s => !s.deleted_at);
+  const bk = [["%0", 0, .001], ["%1 altı", .001, .01], ["%1-10", .01, .1], ["%10-50", .1, .5], ["%50-80", .5, .8], ["%80 üstü", .8, 99]];
+  bars("stFill", bk.map(([label, a, b]) => ({ label, value: live.filter(s => { const f = (s.storage_used + s.storage_reserved) / s.quota; return f >= a && f < b; }).length, color: a >= .8 ? "var(--rose)" : a >= .5 ? "var(--warn)" : undefined })));
+  $("stRows").innerHTML = (d.spaces || []).length ? d.spaces.slice(0, 200).map(s => { const f = (s.storage_used + s.storage_reserved) / s.quota;
+    return `<tr><td><code title="${esc(s.id)}">${esc(shortId(s.id))}</code></td><td>${s.premium ? '<span class="pill pro">Premium</span>' : '<span class="pill no">Ücretsiz</span>'}${s.deleted_at ? ' <span class="pill bad">silindi</span>' : ''}</td>
+      <td class="n">${bytes(s.storage_used)}</td><td class="n">${bytes(s.quota)}</td><td class="n" style="color:${f >= .8 ? "var(--rose)" : f >= .5 ? "var(--warn)" : "inherit"}">%${pct1(s.storage_used + s.storage_reserved, s.quota)}</td>
+      <td class="n">${fmt(s.media)}</td><td class="n">${fmt(s.guest)} <span class="muted">${bytes(s.guestBytes)}</span></td><td class="n">${fmt(s.couple)} <span class="muted">${bytes(s.coupleBytes)}</span></td><td class="n">${fmt(s.videos)}</td><td class="n">${fmt(s.pendingApproval)}</td><td class="n">${fmt(s.admins)}</td><td class="n">${fmt(s.helpers)}</td><td>${dateS(s.created_at)}</td></tr>`; }).join("")
+    : `<tr><td colspan="13" class="muted">Henüz bulutta alan yok.</td></tr>`;
+  $("stUsers").innerHTML = (d.users || []).length ? d.users.slice(0, 200).map(u => `<tr><td><code title="${esc(u.user_id)}">${esc(shortId(u.user_id))}</code></td><td>${{ apple: "Apple", email: "E-posta", dev: "DEV" }[u.kind] || u.kind}</td><td class="n">${fmt(u.spaces)}</td><td class="n">${fmt(u.admin)}</td><td class="n">${fmt(u.helper)}</td><td class="n">${bytes(u.bytes)}</td><td class="n">${fmt(u.media)}</td><td class="n">${fmt(u.premium)}</td></tr>`).join("")
+    : `<tr><td colspan="8" class="muted">Hesap yok.</td></tr>`;
+}
+
+// ---------- Infra ----------
+const level = f => f >= .9 ? "bad" : f >= .7 ? "warn" : "good";
+function meterKpi(label, value, frac, sub) {
+  const f = Math.max(0, +frac || 0);
+  return `<div class="kpi ${f >= .7 ? level(f) : ""}"><span>${label}</span><b>${value}</b><div class="meter"><i style="width:${Math.min(100, f * 100)}%"></i></div><small>%${pct1(f, 1)} · ${sub}</small></div>`;
+}
+function renderInfra(d) {
+  const L = d.limits, cf = d.cloudflare, today = d.today;
+  const acc = cf?.account || {}, nika = cf?.nika || {};
+  const dayOf = (arr, k = today) => (arr || []).find(x => x.date === k) || null;
+  const wT = dayOf(acc.workers), dT = dayOf(acc.d1), nW = dayOf(nika.workers), nD = dayOf(nika.d1);
+  // CF analytics lags a bit; when today is empty fall back to the last day with data
+  const lastWith = arr => (arr || []).slice().reverse().find(x => x.requests || x.rowsRead || x.rowsWritten) || null;
+  const wDay = wT?.requests ? wT : lastWith(acc.workers), dDay = dT?.rowsRead ? dT : lastWith(acc.d1);
+  const nikaCpu = Math.max(0, ...(nika.workers || []).slice(-7).map(x => x.cpuP99 || 0));
+  const d1Size = acc.d1StorageBytes ?? d.d1.sizeBytes, r2Size = acc.r2StorageBytes ?? d.r2Tables.bytes;
+  const m = [];
+  if (cf && acc.workers) m.push(["Workers istek (gün)", fmt(wDay?.requests), (wDay?.requests || 0) / L.workersRequestsDay, `100k/gün · Nika ${fmt(nW?.requests)} · ${wDay?.date || "-"}`]);
+  if (cf && nika.workers) m.push(["CPU p99 (Nika, 7 gün)", `${nikaCpu.toFixed(1).replace(".", ",")} ms`, nikaCpu / L.workersCpuMs, `istek başı 10 ms sınır · p50 ${(nW?.cpuP50 ?? 0).toFixed(1).replace(".", ",")} ms`]);
+  if (cf && acc.d1) {
+    m.push(["D1 satır okuma (gün)", fmt(dDay?.rowsRead), (dDay?.rowsRead || 0) / L.d1RowsReadDay, `5M/gün · Nika ${fmt(nD?.rowsRead)}`]);
+    m.push(["D1 satır yazma (gün)", fmt(dDay?.rowsWritten), (dDay?.rowsWritten || 0) / L.d1RowsWrittenDay, `100k/gün · Nika ${fmt(nD?.rowsWritten)}`]);
+  }
+  m.push(["D1 depolama", bytes(d1Size), (d1Size || 0) / L.d1StorageBytes, `5 GB · Nika ${bytes(nika.d1SizeBytes ?? d.d1.sizeBytes)}`]);
+  m.push(["R2 depolama", bytes(r2Size), (r2Size || 0) / L.r2StorageBytes, `10 GB · Nika ${bytes(nika.r2?.bytes ?? d.r2Tables.bytes)}`]);
+  if (cf && acc.r2ClassAMonth != null) {
+    m.push(["R2 A sınıfı (ay)", fmt(acc.r2ClassAMonth), acc.r2ClassAMonth / L.r2ClassAMonth, "yazma/listeleme, 1M/ay"]);
+    m.push(["R2 B sınıfı (ay)", fmt(acc.r2ClassBMonth), acc.r2ClassBMonth / L.r2ClassBMonth, "okuma, 10M/ay"]);
+  }
+  const over = m.filter(x => x[2] >= .7);
+  $("infVerdict").innerHTML = over.length
+    ? `<div class="note big err"><b>Workers Paid'e geçme zamanı.</b> ${over.map(x => `${x[0]} %${pct1(x[2], 1)}`).join(", ")} ücretsiz sınırın %70'ini geçti. Workers Paid aylık 5 $: 10M istek, 30 sn CPU, D1 25 milyar okuma ve 50M yazma, 5 GB üstü depolama.</div>`
+    : `<div class="note okn">Ücretsiz plan yetiyor: hiçbir ölçü sınırın %70'ine gelmedi.</div>`;
+  $("infKpis").innerHTML = m.map(x => meterKpi(...x)).join("");
+  const list = (acc.workers || []).map(x => x.date);
+  chart("chReq", "line", labelsOf(list), [
+    { label: "Hesap", data: (acc.workers || []).map(x => x.requests || 0), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+    { label: "Nika", data: (nika.workers || []).map(x => x.requests || 0), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+  ]);
+  chart("chD1", "bar", labelsOf((acc.d1 || []).map(x => x.date)), [
+    { label: "Okuma (bin)", data: (acc.d1 || []).map(x => +((x.rowsRead || 0) / 1000).toFixed(1)), backgroundColor: C[3] },
+    { label: "Yazma (bin)", data: (acc.d1 || []).map(x => +((x.rowsWritten || 0) / 1000).toFixed(1)), backgroundColor: C[1] },
+  ]);
+  $("infTables").innerHTML = Object.entries(d.d1.rows).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<tr><td><code>${esc(k)}</code></td><td class="n">${fmt(v)}</td></tr>`).join("")
+    + `<tr><td><b>Veritabanı boyutu</b></td><td class="n">${bytes(d.d1.sizeBytes)}</td></tr>`;
+  const ownToday = Object.fromEntries((d.own || []).filter(x => x.day === today).map(x => [x.key, x.value]));
+  $("infSource").innerHTML = (cf
+    ? `<div class="note ${cf.errors?.length ? "" : "okn"}">Cloudflare GraphQL Analytics, ${dtS(cf.generatedAt)} itibarıyla (Mac'teki günlük iş, <code>scripts/lab/nika.mjs</code>).${cf.errors?.length ? `<br>Eksik: ${esc(cf.errors.join(" | "))}` : ""}</div>`
+    : `<div class="note">Cloudflare özeti henüz yok. Mac'te <code>node scripts/lab/nika.mjs</code> çalışınca dolar; o zamana kadar D1 ve R2 sayıları kendi tablolarımızdan.</div>`)
+    + `<p class="muted">Kendi sayacımız (bugün): ${fmt(ownToday.srv_telemetry)} telemetri isteği, ${fmt(ownToday.web_invite_views)} davetiye sayfası, ${fmt(ownToday.web_upload_page_views)} yükleme sayfası. R2 tablolara göre ${bytes(d.r2Tables.bytes)}, ${fmt(d.r2Tables.objects)} medya kaydı.</p>`;
+  bars("infBuckets", (acc.r2Buckets || []).map(b => ({ label: b.bucket, value: b.bytes, sub: `${bytes(b.bytes)} · ${fmt(b.objects)} nesne` })), "Kova bilgisi Cloudflare özetiyle gelir.");
+}
+
+// ---------- Demo (no network) ----------
+let demo = null;
+function makeDemo() {
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const now = Date.now(), iso = t => new Date(t).toISOString();
+  const screens = ["home", "plan", "budget", "guests", "memories", "seating", "gifts", "music", "invite_studio", "invite_editor", "guest_add", "settings", "album_qr", "partner"];
+  const srcs = ["guests", "theme", "seating", "helpers", "video", "events", "payers", "storage", "settings"];
+  const installs = [], events = {}, stats = {};
+  const st = (day, k, v) => { (stats[day] ||= {})[k] = (stats[day][k] || 0) + v; };
+  for (let n = 0; n < 160; n++) {
+    const id = Array.from({ length: 4 }, () => Math.floor(rnd() * 0xffffffff).toString(16).padStart(8, "0")).join("-");
+    const first = now - rnd() ** 1.6 * 75 * 864e5, last = Math.min(now, first + rnd() * (now - first) * (rnd() < .3 ? 1 : .4));
+    const online = n < 7, lastSeen = online ? now - rnd() * 90e3 : last;
+    const cloud = rnd() < .45, premium = rnd() < .14, tester = n % 9 === 0;
+    const i = {
+      id, first_seen: iso(first), last_seen: iso(lastSeen), platform: rnd() < .9 ? "ios" : "ipados", app_version: "0.4.0", build: pick(["5", "6", "7", "7"]),
+      language: pick(["tr", "tr", "tr", "en", "de", "fr", "es", "it"]), region: pick(["TR", "TR", "TR", "DE", "GB", "US", "NL", "FR"]), tz: "Europe/Istanbul",
+      device: pick(["iPhone15,2", "iPhone16,1", "iPhone17,3", "iPad13,4"]), os: pick(["18.6", "26.0", "26.1"]), tester: tester ? 1 : 0,
+      screen: online ? pick([...screens.slice(0, 6), "paywall"]) : rnd() < .7 ? "closed" : pick(screens), last_screen: pick(screens),
+      premium: premium ? 1 : 0, plan: premium ? "nika.premium" : null, buy_source: premium ? pick(srcs) : null, purchased_at: premium ? iso(first + rnd() * (lastSeen - first)) : null,
+      user_id: cloud ? "u_" + id.slice(0, 12) : null, space_id: cloud ? "sp_" + id.slice(9, 21) : null, role: rnd() < .1 ? "helper" : "admin", cloud: cloud ? 1 : 0, context: null,
+      n_guests: Math.floor(rnd() ** 1.5 * (premium ? 320 : 50)), n_households: 0, n_tasks: Math.floor(10 + rnd() * 70), n_tasks_done: 0, n_budget_items: Math.floor(rnd() * 30),
+      n_payments: Math.floor(rnd() * 15), n_events: 1 + Math.floor(rnd() * 3), n_tables: Math.floor(rnd() * 20), n_gifts: Math.floor(rnd() * 25), n_media: Math.floor(rnd() ** 2 * 300),
+      n_media_bytes: 0, n_guest_media: 0, n_songs: Math.floor(rnd() * 40), invite_published: rnd() < .35 ? 1 : 0, days_to_wedding: rnd() < .1 ? -9999 : Math.floor(-20 + rnd() * 420), c: {},
+    };
+    i.n_households = Math.round(i.n_guests / 2.6); i.n_tasks_done = Math.floor(i.n_tasks * rnd()); i.n_guest_media = Math.floor(i.n_media * rnd() * .7); i.n_media_bytes = i.n_media * 2.4e6;
+    const evs = [], c = i.c, add = (k, v = 1) => { c[k] = (c[k] || 0) + v; };
+    const sessionsN = 1 + Math.floor(rnd() * 14);
+    add("installs_new"); st(dayKey(first), "installs_new", 1);
+    for (let s = 0; s < sessionsN; s++) {
+      let t = first + (lastSeen - first) * (s / sessionsN), dk = dayKey(t), sessSec = 0;
+      add("sessions"); st(dk, "sessions", 1);
+      const k = 2 + Math.floor(rnd() * 6);
+      for (let j = 0; j < k; j++) {
+        const sc = j === 0 ? "home" : pick(screens), sec = Math.round(5 + rnd() ** 2 * 300);
+        evs.push({ t: iso(t), e: "screen", p: sc }); add("ev.screen"); add("ev.screen_" + sc); st(dk, "ev.screen_" + sc, 1);
+        t += sec * 1000; sessSec += sec;
+        evs.push({ t: iso(t), e: "screen_time", p: sc, s: sec }); add(`ev.screen_${sc}_sec`, sec); st(dk, `ev.screen_${sc}_sec`, sec);
+        if (rnd() < .12) {
+          const src = pick(srcs), ps = Math.round(4 + rnd() * 60), buy = premium && !c["ev.pw_buy"] && rnd() < .5;
+          evs.push({ t: iso(t), e: "pw_view", p: src }); add("paywall_views"); add("ev.pw_view"); add("ev.pw_view_" + src); st(dk, "paywall_views", 1); st(dk, "ev.pw_view_" + src, 1); st(dk, "ev.pw_view", 1);
+          t += ps * 1000;
+          if (buy) { evs.push({ t: iso(t), e: "pw_buy", p: src, s: ps }); add("purchases"); add("ev.pw_buy"); add("ev.pw_buy_" + src); st(dk, "purchases", 1); st(dk, "ev.pw_buy_" + src, 1); st(dk, "ev.pw_buy", 1); st(dk, "ev.pw_buy_sec", ps); st(dk, `ev.pw_buy_${src}_sec`, ps); }
+          const ce = buy ? "pw_close_bought" : "pw_close";
+          evs.push({ t: iso(t + 1500), e: ce, p: src, s: ps + 1 }); add("ev." + ce); add(`ev.${ce}_${src}`); st(dk, "ev." + ce, 1); st(dk, `ev.${ce}_${src}`, 1); st(dk, `ev.${ce}_sec`, ps + 1); st(dk, `ev.${ce}_${src}_sec`, ps + 1);
+        }
+        if (rnd() < .2) { const e = pick(Object.keys(OLAY_AD)); evs.push({ t: iso(t), e }); add("ev." + e); st(dk, "ev." + e, 1); }
+      }
+      evs.push({ t: iso(t), e: "session", s: sessSec }); add("ev.session"); add("ev.session_sec", sessSec); st(dk, "ev.session", 1); st(dk, "ev.session_sec", sessSec);
+    }
+    if (cloud) for (const e of ["account_created", "partner_invited"]) if (rnd() < .7) add("ev." + e);
+    add("ev.intro_completed", rnd() < .8 ? 1 : 0); add("ev.draft_created");
+    events[id] = evs.reverse();
+    installs.push(i);
+  }
+  for (const [day, o] of Object.entries(stats)) {
+    const r = () => Math.floor(rnd() * 40);
+    o.web_invite_views = r() * 3; o.web_rsvp = r(); o.web_rsvp_answers = o.web_rsvp * 3; o.web_songs = Math.floor(r() / 3); o.web_uploads = r(); o.web_upload_bytes = o.web_uploads * 2.1e6;
+    o.web_upload_page_views = r(); o.web_join_views = Math.floor(r() / 8); o.srv_telemetry = r() * 30;
+  }
+  const spaces = installs.filter(i => i.cloud && i.role === "admin").map(i => ({
+    id: i.space_id, premium: i.premium, storage_used: i.n_media_bytes, storage_reserved: rnd() < .1 ? 8e6 : 0, created_at: i.first_seen, deleted_at: null,
+    admins: rnd() < .55 ? 2 : 1, helpers: Math.floor(rnd() * 3), quota: i.premium ? 10 * 1024 ** 3 : 500 * 1024 ** 2, media: i.n_media, bytes: i.n_media_bytes,
+    guest: i.n_guest_media, guestBytes: i.n_guest_media * 2.4e6, couple: i.n_media - i.n_guest_media, coupleBytes: (i.n_media - i.n_guest_media) * 2.4e6,
+    pendingApproval: Math.floor(i.n_guest_media * .1), videos: i.premium ? Math.floor(rnd() * 8) : 0, user_id: i.user_id,
+  })).sort((a, b) => b.storage_used - a.storage_used);
+  demo = { installs, events, stats, spaces };
+}
+function demoApi(path) {
+  if (!demo) makeDemo();
+  const u = new URL(path, "https://x"), p = u.pathname, nd = +(u.searchParams.get("days") || 30), now = Date.now();
+  const I = demo.installs, fromTs = now - nd * 864e5, fromDay = dayKey(now - (nd - 1) * 864e5);
+  const days = Object.keys(demo.stats).filter(d => d >= fromDay);
+  const sumKeys = f => { const o = {}; for (const d of days) for (const [k, v] of Object.entries(demo.stats[d])) if (f(k)) o[k] = (o[k] || 0) + v; return o; };
+  const ser = keys => Object.fromEntries(days.map(d => [d, Object.fromEntries(keys.map(k => [k, demo.stats[d][k] || 0]))]));
+  const group = f => { const m = {}; I.forEach(i => { const k = f(i); (m[k] ||= { k, n: 0, testers: 0 }).n++; if (i.tester) m[k].testers++; }); return Object.values(m).sort((a, b) => b.n - a.n); };
+  const cnt = f => I.filter(f).length;
+  const row = i => ({ ...i, sessions: i.c.sessions, session_sec: i.c["ev.session_sec"], pw_views: i.c["ev.pw_view"], uploads: i.c.uploads });
+  const peopleOf = f => { const m = {}; I.forEach(i => Object.entries(i.c).forEach(([k, v]) => { if (f(k) && v > 0) { const o = m[k] ||= { key: k, people: 0, total: 0 }; o.people++; o.total += v; } })); return Object.values(m); };
+  const out = (() => {
+    switch (true) {
+      case p.endsWith("/me"): return { ok: true, email: "demo", dev: false };
+      case p.endsWith("/overview"): {
+        const co = I.filter(i => ts(i.first_seen) >= fromTs), has = k => co.filter(i => i.c["ev." + k] > 0).length;
+        const S = sumKeys(() => true);
+        return {
+          totals: { total: I.length, testers: cnt(i => i.tester), premium: cnt(i => i.premium), cloud: cnt(i => i.cloud), accounts: cnt(i => i.user_id), d1: cnt(i => now - ts(i.last_seen) < 864e5), d7: cnt(i => now - ts(i.last_seen) < 7 * 864e5), d30: cnt(i => now - ts(i.last_seen) < 30 * 864e5), activeRange: cnt(i => ts(i.last_seen) >= fromTs), newRange: co.length, online: cnt(isOnline) },
+          cohort: { n: co.length, ...Object.fromEntries([1, 3, 7, 14, 30].map(d => ["r" + d, co.filter(i => ts(i.last_seen) - ts(i.first_seen) >= d * 864e5).length])), ...Object.fromEntries(["intro_completed", "draft_created", "account_created", "partner_invited", "partner_accepted", "invitation_published", "pw_view"].map(k => [k, has(k)])), premium: co.filter(i => i.premium).length },
+          platforms: group(i => i.platform), languages: group(i => i.language), versions: group(i => `${i.platform} ${i.app_version} (${i.build})`), regions: group(i => i.region),
+          series: ser(["installs_new", "sessions", "paywall_views", "purchases"]),
+          period: { installs_new: S.installs_new, sessions: S.sessions, paywall_views: S.paywall_views, purchases: S.purchases, session_count: S["ev.session"], session_sec: S["ev.session_sec"] },
+        };
+      }
+      case p.endsWith("/live"): {
+        const w = m => cnt(i => now - ts(i.last_seen) < m * 6e4);
+        const left = {}; I.filter(i => i.screen === "closed" && now - ts(i.last_seen) < 864e5).forEach(i => left[i.last_screen] = (left[i.last_screen] || 0) + 1);
+        return { online: I.filter(isOnline).map(i => ({ ...i, session_sec: i.c["ev.session_sec"] })), within: { m15: w(15), h1: w(60), h24: w(1440) }, left: Object.entries(left).map(([k, n]) => ({ k, n })).sort((a, b) => b.n - a.n) };
+      }
+      case p.endsWith("/screens"): return { period: sumKeys(k => k.startsWith("ev.screen_")), people: peopleOf(k => k.startsWith("ev.screen_") && !k.startsWith("ev.screen_time")) };
+      case p.endsWith("/paywall"): {
+        const S = sumKeys(() => true), j = [];
+        for (const i of I) for (const e of demo.events[i.id]) if (e.e.startsWith("pw_") && ts(e.t) >= fromTs) j.push({ install_id: i.id, ...e, platform: i.platform, language: i.language, screen: i.screen, last_seen: i.last_seen });
+        j.sort((a, b) => b.t.localeCompare(a.t));
+        const by = f => { const m = {}; I.filter(i => i.premium).forEach(i => m[f(i)] = (m[f(i)] || 0) + 1); return Object.entries(m).map(([k, n]) => ({ k, n })); };
+        return { period: sumKeys(k => k.startsWith("ev.pw_")), totals: { paywall_views: S.paywall_views || 0, purchases: S.purchases || 0 }, series: ser(["paywall_views", "purchases"]), premiumBy: by(i => i.buy_source), plans: by(i => i.plan), people: { saw: cnt(i => i.c["ev.pw_view"] > 0), premium: cnt(i => i.premium) }, journeys: j.slice(0, 1500) };
+      }
+      case p.endsWith("/usage"): {
+        const n = { installs: I.length, invite_yes: cnt(i => i.invite_published), invite_known: I.length, cloud_yes: cnt(i => i.cloud), cloud_known: I.length, helpers: cnt(i => i.role === "helper") };
+        for (const k of [...Object.keys(N_FIELDS), "n_media_bytes"]) { const v = I.map(i => i[k] || 0); n[k + "_has"] = v.filter(x => x > 0).length; n[k + "_max"] = Math.max(...v); n[k + "_sum"] = v.reduce((a, b) => a + b, 0); }
+        const bucket = (k, edges) => { const m = {}; I.forEach(i => { const v = i[k]; let lab = edges[edges.length - 1] + "+"; for (let e = 0; e < edges.length; e++) if (v <= edges[e]) { lab = e === 0 ? String(edges[0]) : `${edges[e - 1] + 1}-${edges[e]}`; break; } m[lab] = (m[lab] || 0) + 1; }); return Object.entries(m).map(([k, n]) => ({ k, n })); };
+        const dt = {}; I.forEach(i => { const v = i.days_to_wedding; const k = v <= -9999 ? "?" : v < 0 ? "gecti" : v <= 30 ? "0-30" : v <= 90 ? "31-90" : v <= 180 ? "91-180" : v <= 365 ? "181-365" : "365+"; dt[k] = (dt[k] || 0) + 1; });
+        const sb = [0, 0, 0, 0, 0, 0]; I.filter(i => ts(i.first_seen) >= fromTs).forEach(i => { const s = i.c["ev.session_sec"] || 0; sb[s < 60 ? 0 : s < 300 ? 1 : s < 900 ? 2 : s < 1800 ? 3 : s < 3600 ? 4 : 5]++; });
+        const sp = demo.spaces;
+        return {
+          n, guests: bucket("n_guests", [0, 10, 50, 100, 200, 400]), tasksDone: bucket("n_tasks_done", [0, 5, 20, 50, 100]), daysTo: Object.entries(dt).map(([k, n]) => ({ k, n })), sess: sb.map((n, b) => ({ b, n })),
+          events: sumKeys(k => k.startsWith("ev.") && !k.startsWith("ev.screen_") && !k.startsWith("ev.pw_")), people: peopleOf(k => k.startsWith("ev.") && !k.startsWith("ev.screen") && !k.startsWith("ev.pw_") && !k.endsWith("_sec")),
+          web: sumKeys(k => k.startsWith("web_")), webSeries: ser(["web_invite_views", "web_rsvp", "web_uploads", "web_songs"]),
+          spaces: { spaces: sp.length, premium: sp.filter(s => s.premium).length, partnered: sp.filter(s => s.admins >= 2).length, with_helpers: sp.filter(s => s.helpers).length, published: Math.round(sp.length * .4) },
+        };
+      }
+      case /\/users\/[^/]+$/.test(p): {
+        const id = decodeURIComponent(p.split("/").pop()), i = I.find(x => x.id === id);
+        return { install: i, events: demo.events[id].slice(0, 500), account: i.user_id ? { id: i.user_id, kind: "apple", created_at: i.first_seen, memberships: [{ space_id: i.space_id, role: i.role, premium: i.premium, storage_used: i.n_media_bytes }] } : null };
+      }
+      case p.endsWith("/users"): return { total: I.length, users: I.map(row) };
+      case p.endsWith("/storage"): {
+        const sp = demo.spaces, s = k => sp.reduce((a, x) => a + x[k], 0);
+        const users = sp.map(x => ({ user_id: x.user_id, kind: "apple", spaces: 1, admin: 1, helper: 0, bytes: x.storage_used, media: x.media, premium: x.premium }));
+        return { totals: { spaces: sp.length, deleted: 1, premium: sp.filter(x => x.premium).length, used: s("storage_used"), reserved: s("storage_reserved"), media: s("media"), guest: s("guest"), guestBytes: s("guestBytes"), couple: s("couple"), coupleBytes: s("coupleBytes"), pendingUploads: 3, pendingBytes: 2.4e7 }, spaces: sp, users };
+      }
+      case p.endsWith("/infra"): {
+        const list = []; for (let k = 29; k >= 0; k--) list.push(dayKey(now - k * 864e5));
+        const grow = k => (k + 1) / 30;
+        return {
+          today: dayKey(now), d1: { rows: { users: 70, sessions: 140, spaces: demo.spaces.length, members: 110, records: 28400, idempotency: 9100, links: 640, published: 150, uploads: 3900, entitlements: 22, rate_limits: 900, analytics_daily: 400, email_codes: 3, installs: I.length, install_events: 21500, stats: 5200, admin_kv: 1 }, sizeBytes: 48e6 },
+          r2Tables: { bytes: demo.spaces.reduce((a, x) => a + x.storage_used, 0), objects: demo.spaces.reduce((a, x) => a + x.media, 0) },
+          own: [{ day: dayKey(now), key: "srv_telemetry", value: 4200 }, { day: dayKey(now), key: "web_invite_views", value: 180 }],
+          cloudflare: {
+            generatedAt: new Date(now - 3 * 36e5).toISOString(), errors: [],
+            account: {
+              workers: list.map((d, k) => ({ date: d, requests: Math.round(9000 + 70000 * grow(k) * (.8 + Math.random() * .4)) })), d1: list.map((d, k) => ({ date: d, rowsRead: Math.round(9e5 * grow(k) * (.7 + Math.random() * .6)), rowsWritten: Math.round(52000 * grow(k) * (.7 + Math.random() * .6)) })),
+              d1StorageBytes: 61e6, r2StorageBytes: 2.53e9 + demo.spaces.reduce((a, x) => a + x.storage_used, 0), r2ClassAMonth: 41000, r2ClassBMonth: 260000,
+              r2Buckets: [{ bucket: "nika-media", bytes: demo.spaces.reduce((a, x) => a + x.storage_used, 0), objects: 9000 }, { bucket: "this-one-cdn", bytes: 2.53e9, objects: 5917 }],
+            },
+            nika: { workers: list.map((d, k) => ({ date: d, requests: Math.round(60000 * grow(k)), cpuP50: 1.4, cpuP99: 8.6 })), d1: list.map((d, k) => ({ date: d, rowsRead: Math.round(8e5 * grow(k)), rowsWritten: Math.round(50000 * grow(k)) })), d1SizeBytes: 48e6, r2: { bytes: demo.spaces.reduce((a, x) => a + x.storage_used, 0), objects: 9000 } },
+          },
+          limits: { workersRequestsDay: 100000, workersCpuMs: 10, d1RowsReadDay: 5e6, d1RowsWrittenDay: 1e5, d1StorageBytes: 5 * 1024 ** 3, r2StorageBytes: 10 * 1024 ** 3, r2ClassAMonth: 1e6, r2ClassBMonth: 1e7 },
+        };
+      }
+    }
+    throw new ApiErr(404, "not_found");
+  })();
+  return Promise.resolve(JSON.parse(JSON.stringify(out)));
+}
+
+// ---------- Start ----------
+if (DEMO) {
+  $("demoBar").classList.remove("hidden");
+  enter();
+} else if (store.get(SESSION_KEY)) enter();
+else showLogin();
+</script>
+</body>
+</html>
