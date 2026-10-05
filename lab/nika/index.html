@@ -410,7 +410,7 @@ const EKRAN = {
 };
 const SOURCES = {
   guests: "Davetli sınırı", theme: "Davetiye teması", seating: "Oturma planı", helpers: "Yardımcılar", video: "Video",
-  events: "Etkinlikler", payers: "Ödeyenler", storage: "Depolama", settings: "Ayarlar", unknown: "Bilinmiyor",
+  events: "Etkinlikler", payers: "Ödeyenler", storage: "Depolama", settings: "Ayarlar", settings_info: "Ayarlar > Premium", unknown: "Bilinmiyor",
 };
 const OLAY = {
   "Başlangıç": { app_open: "Uygulama açıldı", intro_completed: "Tanıtım bitti", intro_skipped: "Tanıtım atlandı", draft_created: "Taslak düğün", plan_previewed: "Plan önizlendi" },
@@ -418,6 +418,7 @@ const OLAY = {
   "Davetli ve davetiye": { guest_invite_saved: "Davetli daveti kaydedildi", invitation_published: "Davetiye yayınlandı", rsvp_submitted: "LCV girildi" },
   "Plan ve bütçe": { first_task_completed: "İlk görev bitti", payment_recorded: "Ödeme girildi" },
   "Anılar ve hediyeler": { upload_completed: "Yükleme bitti", gift_return_recorded: "Hediye karşılığı" },
+  "Premium ve kod": { code_sheet: "Kod sayfası açıldı", code_redeemed: "★ Kod kullanıldı", purchase_bound_late: "Satın alma sonradan bağlandı", premium_restored: "Satın alım geri yüklendi", storage_gift_sent: "Misafir alan hediyesi" },
 };
 const OLAY_AD = Object.fromEntries(Object.values(OLAY).flatMap(g => Object.entries(g)));
 const N_FIELDS = {
@@ -448,6 +449,7 @@ function eventText(e) {
     case "pw_close": return `Paywall'u kapattı · ${mins(s)} açık kaldı`;
     case "pw_close_bought": return `Paywall kapandı (aldıktan sonra) · ${mins(s)}`;
     case "pw_buy": return `★ SATIN ALDI · ${srcName(p)} · ${mins(s)} sonra`;
+    case "code_sheet": return "Kod sayfası açıldı · " + srcName(p);
     case "session": return `Uygulamadan çıktı · oturum ${mins(s)}`;
     default: return (OLAY_AD[e.e] || e.e) + (p ? " · " + p : "") + (s ? ` · ${mins(s)}` : "");
   }
