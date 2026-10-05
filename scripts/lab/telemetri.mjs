@@ -18,7 +18,8 @@ import { homedir } from "node:os";
 
 export const PROJELER = {
   "wallet-coach-87336": "walletcoach",
-  "kit-app-a91b5": "daily-whisper"
+  "kit-app-a91b5": "daily-whisper",
+  "leafbook-bamtech": "leafbook"
 };
 
 const ALANLAR = ["firstSeen", "lastSeen", "platform", "region", "pro", "premium", "tester", "screen"];
