@@ -15,6 +15,10 @@
     { id: 'watch', store: 'apple', group: 'Watch', label: 'Apple Watch', w: 396, h: 484, frame: 'watch', display: 'Apple Watch Series 10', landscapeOnly: false },
     { id: 'macos', store: 'apple', group: 'Mac', label: 'Mac OS', w: 2880, h: 1800, frame: 'browser', display: 'Mac Studio Display', landscape: true },
     { id: 'visionpro', store: 'apple', group: 'Vision', label: 'Apple Vision Pro', w: 3840, h: 2160, frame: 'none', display: 'Apple Vision Pro', landscape: true },
+    // Apple creative assets: fixed placements, verified 2026-10-06.
+    { id: 'apple-header', store: 'apple', group: 'Creative Assets', label: 'Product page header · 21:9', w: 3840, h: 1646, frame: 'none', landscape: true, fixed: true, creative: true, pngOnly: true, free: true },
+    { id: 'apple-search', store: 'apple', group: 'Creative Assets', label: 'Search results · 3:2', w: 3840, h: 2560, frame: 'none', landscape: true, fixed: true, creative: true, free: true },
+    { id: 'apple-universal', store: 'apple', group: 'Creative Assets', label: 'Header + Search · 16:9', w: 5244, h: 2950, frame: 'none', landscape: true, fixed: true, creative: true, pngOnly: true, free: true },
     // Google
     { id: 'android-phone', store: 'google', group: 'Android', label: 'Android Phones - 16:9', w: 1080, h: 1920, frame: 'android', display: 'Samsung Galaxy S25', free: true },
     { id: 'android-phone-tall', store: 'google', group: 'Android', label: 'Android Phones - tall', w: 1080, h: 2340, frame: 'android', display: 'Samsung Galaxy S25' },
@@ -42,5 +46,10 @@
   ];
   const slotForOutput = (outId) => (SHOT_SLOTS.find((s) => (s.outputs || []).includes(outId)) || SHOT_SLOTS[0]).id;
 
-  global.Devices = { OUTPUTS, byId, BASE, SHOT_SLOTS, slotForOutput };
+  const dimensions = (o, orientation) => {
+    if (o.fixed) return { W: o.w, H: o.h };
+    const land = orientation === 'landscape' || o.landscape;
+    return { W: land ? Math.max(o.w,o.h) : Math.min(o.w,o.h), H: land ? Math.min(o.w,o.h) : Math.max(o.w,o.h) };
+  };
+  global.Devices = { OUTPUTS, byId, BASE, SHOT_SLOTS, slotForOutput, dimensions };
 })(typeof window !== 'undefined' ? window : globalThis);

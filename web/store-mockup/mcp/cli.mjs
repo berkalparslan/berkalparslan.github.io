@@ -33,7 +33,7 @@ function spec() {
     shots: shotsFrom(args.shots), icon: args.icon, accent: args.accent, rating: args.rating,
     addIcon: !args['no-icon'], frame: args.frame,
     device: (args['dev-x'] || args['dev-y'] || args['dev-w']) ? { x: args['dev-x'], y: args['dev-y'], w: args['dev-w'] } : undefined,
-    sizes: args.sizes ? String(args.sizes).split(',') : ['iphone-6.9'],
+    sizes: args.sizes ? String(args.sizes).split(',') : undefined,
     captions: Object.fromEntries(Object.entries(args).filter(([k]) => k.startsWith('captions-')).map(([k, v]) => [k.slice(9), fs.readFileSync(v, 'utf8').split('\n').map((x) => x.trim()).filter(Boolean)])),
     outDir: args.out || './store-screenshots',
   };

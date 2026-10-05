@@ -1,4 +1,28 @@
-# Store Mockup Studio — diğer oturumlar için akış
+# Store Mockup Studio — v0.2
+
+Yerelde çalışan screenshot + Apple Creative Assets ürünü. Ürün/fiyat/yayın kararları: [docs/PRODUCT.md](docs/PRODUCT.md).
+
+## Yeni koleksiyon ve formatlar
+
+- Katalog: 32 özgün set, 124 düzen; telefon, tablet ve 12 Creative Assets şablonu.
+- Header `apple-header`: 3840×1646 PNG; Search `apple-search`: 3840×2560 PNG/JPG; ortak `apple-universal`: 5244×2950 PNG.
+- Creative PNG çıktısı tarayıcıda ve Node’da RGB renk tipi 2’dir; alfa kanalı yok. Ayrı yerleşim şablonları ve yatay düzen ön ayarları kullanılır.
+- Eski 195 şablon anahtarı uyumluluk için korunur; vitrinden kaldırıldı. Eski `.sms.json` projeleri aynı motorla açılır.
+- Ücretsiz; ödeme hesabı, ücretli ek paket ve bağımsız marka henüz yayınlanmadı.
+
+## Çalıştır ve doğrula
+
+Mevcut site kökünden `python3 -m http.server 8765 --bind 127.0.0.1`; `/web/store-mockup/` adresini aç. Bu ürün dizininden `npm run serve` de aynı site kökünü sunar.
+
+`cd mcp && npm ci` (ilk kurulum); sonra ürün dizininden `npm test`. Kontrol yeni koleksiyonun 472 dil/boyut render’ını, eski anahtarları, boyut seçimini ve üç tam çözünürlüklü creative PNG’nin RGB çıktısını doğrular.
+
+CLI: `node mcp/cli.mjs render --template creative-paper-header --lang tr --out /tmp/header`. Boyut verilmezse şablonun boyutları kullanılır. `--sizes` açık verilirse kullanıcı tercihi uygulanır.
+
+Canlı siteye push/deploy yapılmadı. Tasarım önizlemesi: [docs/creative-assets-preview.jpg](docs/creative-assets-preview.jpg).
+
+---
+
+## Önceki sürümün mühendislik notları (legacy koleksiyon)
 
 appscreens.com tarzı, satılabilir bir App Store / Google Play screenshot ürünü. Üç giriş:
 

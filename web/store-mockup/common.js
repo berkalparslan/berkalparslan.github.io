@@ -5,14 +5,14 @@
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   const ROOT = (() => { const m = location.pathname.match(/^(.*\/store-mockup)\//); return m ? m[1] + '/' : '/web/store-mockup/'; })();
-  const NAV = [['Projects', 'app/#/projects'], ['Templates', 'templates/'], ['Sandbox', 'app/#/sandbox'], ['Automation', 'mcp/'], ['Help', 'index.html#faq']];
+  const NAV = [['Projects', 'app/#/projects'], ['Templates', 'templates/'], ['Creative Assets', 'index.html#creative-assets'], ['Sandbox', 'app/#/sandbox'], ['Automation', 'mcp/'], ['Help', 'index.html#faq']];
 
   function renderNav(active) {
     const nav = $('#nav'); if (!nav) return;
     nav.className = 'nav';
     nav.innerHTML = `<a class="brand" href="${ROOT}"><span class="mark">S</span>Store Mockup Studio</a>` +
       NAV.map(([label, href]) => `<a class="item${active === label ? ' on' : ''}" href="${ROOT}${href}" data-t>${label}</a>`).join('') +
-      `<span class="grow"></span><button class="btn ghost sm" id="uiLang" title="Language">${global.I18N.lang.toUpperCase()}</button><a class="btn primary sm" href="${ROOT}app/#/projects" data-t>Open editor</a>`;
+      `<details class="mobile-nav"><summary>${t('Menu')}</summary><div>${NAV.map(([label,href])=>`<a href="${ROOT}${href}">${t(label)}</a>`).join('')}</div></details><span class="grow"></span><button class="btn ghost sm" id="uiLang" title="Language">${global.I18N.lang.toUpperCase()}</button><a class="btn primary sm" href="${ROOT}app/#/projects" data-t>Open editor</a>`;
     global.I18N.apply(nav);
     $('#uiLang').onclick = () => { global.I18N.set(global.I18N.lang === 'tr' ? 'en' : 'tr'); location.reload(); };
   }
@@ -24,7 +24,7 @@
       <div><b>${t('Product')}</b><a href="${ROOT}index.html#how">${t('How it works')}</a><a href="${ROOT}index.html#localize">${t('Translate & localize')}</a><a href="${ROOT}index.html#sizes">${t('iOS & Android sizes')}</a><a href="${ROOT}mcp/">${t('MCP & CLI')}</a></div>
       <div><b>${t('Resources')}</b><a href="${ROOT}index.html#faq">${t('FAQ')}</a><a href="/blog/">${t('Blog & guides')}</a><a href="/support/">${t('Support')}</a></div>
       <div><b>${t('Legal')}</b><a href="/privacy/">${t('Privacy')}</a><a href="/support/">${t('Terms')}</a></div>
-    </div><p style="margin-top:22px">© ${new Date().getFullYear()} BamTech · ${t('Everything stays in your browser')}</p></div>`;
+    </div><p style="margin-top:22px">© ${new Date().getFullYear()} BamTech · ${t('Projects and screenshots stay on your device')}</p></div>`;
   }
   let toastT = null;
   function toast(msg) {
@@ -36,7 +36,7 @@
   const fmtDate = (ts) => new Date(ts || Date.now()).toLocaleDateString(global.I18N.lang === 'tr' ? 'tr-TR' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   const ago = (ts) => { const d = (Date.now() - ts) / 1000; if (d < 60) return t('just now'); if (d < 3600) return t('{n} min ago', { n: Math.floor(d / 60) }); if (d < 86400) return t('{n} h ago', { n: Math.floor(d / 3600) }); if (d < 86400 * 30) return t('{n} days ago', { n: Math.floor(d / 86400) }); return fmtDate(ts); };
 
-  global.I18N.extend({ 'Open editor': 'Editörü aç', 'Automation': 'Otomasyon', 'Free & private': 'Ücretsiz ve gizli', 'Sandbox': 'Deneme', 'Screenshot generator': 'Ekran görüntüsü üretici', 'Try now': 'Şimdi dene', 'Product': 'Ürün', 'How it works': 'Nasıl çalışır', 'Translate & localize': 'Çevir ve yerelleştir', 'iOS & Android sizes': 'iOS ve Android boyutları', 'MCP & CLI': 'MCP ve CLI', 'Resources': 'Kaynaklar', 'FAQ': 'SSS', 'Blog & guides': 'Blog ve rehberler', 'Support': 'Destek', 'Legal': 'Yasal', 'Privacy': 'Gizlilik', 'Terms': 'Koşullar', 'just now': 'az önce', '{n} min ago': '{n} dk önce', '{n} h ago': '{n} sa önce', '{n} days ago': '{n} gün önce' });
+  global.I18N.extend({ 'Creative Assets': 'Creative Assets', 'Projects and screenshots stay on your device': 'Projeler ve ekran görüntüleri cihazında kalır', 'Menu': 'Menü', 'Open editor': 'Editörü aç', 'Automation': 'Otomasyon', 'Free & private': 'Ücretsiz ve gizli', 'Sandbox': 'Deneme', 'Screenshot generator': 'Ekran görüntüsü üretici', 'Try now': 'Şimdi dene', 'Product': 'Ürün', 'How it works': 'Nasıl çalışır', 'Translate & localize': 'Çevir ve yerelleştir', 'iOS & Android sizes': 'iOS ve Android boyutları', 'MCP & CLI': 'MCP ve CLI', 'Resources': 'Kaynaklar', 'FAQ': 'SSS', 'Blog & guides': 'Blog ve rehberler', 'Support': 'Destek', 'Legal': 'Yasal', 'Privacy': 'Gizlilik', 'Terms': 'Koşullar', 'just now': 'az önce', '{n} min ago': '{n} dk önce', '{n} h ago': '{n} sa önce', '{n} days ago': '{n} gün önce' });
 
   /* ---- şablon kataloğu için ortak ---- */
   const CATEGORIES = ['books', 'business', 'developer tools', 'education', 'entertainment', 'finance', 'food & drink', 'games', 'graphics & design', 'health & fitness', 'lifestyle', 'magazines & newspapers', 'medical', 'music', 'navigation', 'news', 'photo & video', 'productivity', 'reference', 'shopping', 'social networking', 'sports', 'travel', 'utilities', 'weather'];

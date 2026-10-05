@@ -39,7 +39,7 @@ server.tool(
   'Render a complete App Store / Google Play screenshot set as PNG files from a template, captions and screenshot files. Output is organised as language / size / screen. Sizes are output ids from devices (iphone-6.9, iphone-6.5, ipad-13, android-phone, android-tablet-10, watch, macos …) or "WxH".',
   {
     ...SpecShape,
-    sizes: z.array(z.string()).default(['iphone-6.9']).describe('Output ids or "WxH". Each size gets its own subfolder when more than one.'),
+    sizes: z.array(z.string()).optional().describe('Output ids or "WxH". Each size gets its own subfolder when more than one.'),
     exportLanguages: z.array(z.string()).optional().describe('Languages to export (default: all languages present in captions).'),
     outDir: z.string().default('./store-screenshots').describe('Output directory.'),
   },

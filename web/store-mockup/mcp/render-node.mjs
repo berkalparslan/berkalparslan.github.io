@@ -2,6 +2,8 @@
    renderSet(spec) → PNG dosyaları; buildBundle(spec) → tarayıcıya içe aktarılabilir proje JSON'u. */
 import { createCanvas, loadImage, GlobalFonts, Image } from '@napi-rs/canvas';
 import vm from 'node:vm';
+import { deflateSync } from 'node:zlib';
+import '../engine/png.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -48,13 +50,14 @@ const toData = (p) => (/^data:/.test(p) ? p : `data:${MIME[path.extname(p).toLow
 export async function buildProject(spec) {
   const w = engine();
   const { Model, TEMPLATES, Render } = w;
-  const tpl = TEMPLATES.find((t) => t.key === (spec.template || 'pluto'));
+  const tpl = TEMPLATES.find((t) => t.key === (spec.template || 'studio-paper'));
   if (!tpl) throw new Error('unknown template: ' + spec.template + ' (see list_templates)');
   const lang = spec.lang || 'en';
   const languages = [...new Set([lang, ...(spec.languages || []), ...Object.keys(spec.captions || {})])];
   const project = Model.newProject(spec.name || tpl.name, { lang, orientation: tpl.orientation, sizes: spec.sizes });
   project.languages.list = languages;
   Model.applyTemplate(project, tpl);
+  if (spec.sizes && spec.sizes.length) project.sizes = spec.sizes.slice();
   const captions = Object.assign({}, spec.captions || {});
   if (spec.lines && !captions[lang]) captions[lang] = spec.lines;
   const slotMap = Array.isArray(spec.shots) ? { global: spec.shots } : (spec.shots || {});
@@ -98,7 +101,7 @@ export async function renderSet(spec) {
   const images = {};
   for (const [id, data] of Object.entries(assets)) images[id] = await img(data);
   const imageFor = (id) => images[id] || null;
-  const sizes = spec.sizes && spec.sizes.length ? spec.sizes : ['iphone-6.9'];
+  const sizes = spec.sizes && spec.sizes.length ? spec.sizes : project.sizes;
   const langs = spec.exportLanguages || project.languages.list;
   const outDir = path.resolve(spec.outDir || './store-screenshots');
   const slug = (x) => String(x || 'screen').toLowerCase().replace(/[ıİ]/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'screen';
@@ -106,19 +109,19 @@ export async function renderSet(spec) {
   for (const sid of sizes) {
     const o = Devices.byId(sid) || (/^\d+x\d+$/.test(sid) ? { id: sid, w: +sid.split('x')[0], h: +sid.split('x')[1] } : null);
     if (!o) throw new Error('unknown size: ' + sid);
-    const land = project.orientation === 'landscape' || o.landscape;
-    const W = land ? Math.max(o.w, o.h) : Math.min(o.w, o.h), H = land ? Math.min(o.w, o.h) : Math.max(o.w, o.h);
+    const { W, H } = Devices.dimensions(o, project.orientation);
     for (const l of langs) {
       const dir = path.join(outDir, ...(langs.length > 1 ? [l] : []), ...(sizes.length > 1 ? [`${o.id}_${W}x${H}`] : []));
       fs.mkdirSync(dir, { recursive: true });
-      project.screens.forEach((s, i) => {
+      for (const [i, s] of project.screens.entries()) {
         const c = createCanvas(W, H);
-        Render.renderScreen(c.getContext('2d'), W, H, s, { lang: l, defaultLang: project.languages.default, imageFor, shotSlot: Devices.slotForOutput(o.id) || 'global', pan: s.bg && s.bg.panorama ? { i, n: project.screens.length } : null, project });
+        const context = c.getContext('2d', o.creative ? { alpha: false } : undefined);
+        Render.renderScreen(context, W, H, s, { lang: l, defaultLang: project.languages.default, imageFor, shotSlot: Devices.slotForOutput(o.id) || 'global', pan: s.bg && s.bg.panorama ? { i, n: project.screens.length } : null, project });
         const title = Render.textOf((s.layers.find((L) => L.type === 'text') || {}).text, l, project.languages.default);
         const file = path.join(dir, `${String(i + 1).padStart(2, '0')}-${slug(title)}.png`);
-        fs.writeFileSync(file, c.encodeSync('png'));
+        fs.writeFileSync(file, o.creative ? await globalThis.OpaquePNG.encode(c, deflateSync) : c.encodeSync('png'));
         files.push(file);
-      });
+      }
     }
   }
   return { files, screens: project.screens.length, outDir, template: project.template, languages: langs, sizes };

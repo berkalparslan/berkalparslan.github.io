@@ -117,6 +117,18 @@
     { key: 'span-left', name: 'Span two frames · left', apply: (s) => place(s, { title: { y: 5 }, sub: { y: 15 }, dev: { x: 50, y: 30, w: 92, rot: 0 } }) },
     { key: 'span-right', name: 'Span two frames · right', apply: (s) => place(s, { title: { y: 5 }, sub: { y: 15 }, dev: { x: -42, y: 30, w: 92, rot: 0 } }) },
   ];
+  function landscapePresets(W,H) {
+    const deviceWidth = (screen) => {
+      const d=screen.layers.find(l=>l.type==='device');
+      const ratio=d && d.frame==='tablet' ? 1.33 : 2.1;
+      return Math.min(42,80*H/W/ratio);
+    };
+    return [
+      {name:'Brand left',apply:s=>place(s,{title:{x:12,y:28,w:45,h:35,align:'left'},sub:{x:12,y:66,w:45,h:15,align:'left',flow:false},dev:{x:67,y:10,w:deviceWidth(s),rot:0}})},
+      {name:'Brand right',apply:s=>place(s,{title:{x:48,y:28,w:42,h:35,align:'left'},sub:{x:48,y:66,w:42,h:15,align:'left',flow:false},dev:{x:14,y:10,w:deviceWidth(s),rot:0}})},
+      {name:'Centered headline',apply:s=>place(s,{title:{x:15,y:8,w:70,h:22,align:'center'},sub:{x:18,y:31,w:64,h:10,align:'center',flow:false},dev:{x:50-deviceWidth(s)*.3,y:45,w:deviceWidth(s)*.6,rot:0}})},
+    ];
+  }
   function place(screen, p) {
     const T = screen.layers.filter((L) => L.type === 'text'); const D = screen.layers.find((L) => L.type === 'device');
     if (T[0] && p.title) Object.assign(T[0], p.title);
@@ -125,5 +137,5 @@
     return screen;
   }
 
-  global.Model = { uid, clone, LANG_NAMES, LANG_FLAGS, RTL, defaultBg, LAYER_DEFAULTS, ELEMENT_KINDS, ELEMENT_DEFAULTS, newLayer, newScreen, newProject, getText, setText, setShot, applyTemplate, LAYOUT_PRESETS };
+  global.Model = { uid, clone, LANG_NAMES, LANG_FLAGS, RTL, defaultBg, LAYER_DEFAULTS, ELEMENT_KINDS, ELEMENT_DEFAULTS, newLayer, newScreen, newProject, getText, setText, setShot, applyTemplate, LAYOUT_PRESETS, landscapePresets };
 })(typeof window !== 'undefined' ? window : globalThis);

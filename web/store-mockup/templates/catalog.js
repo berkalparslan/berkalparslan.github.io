@@ -2,23 +2,16 @@
 (function () {
   const { $, el, esc, ROOT, renderNav, renderFooter, toast, CATEGORIES, catLabel, mockShot } = window.UI;
   const { Render, Model, Store, Devices } = window;
-  /* dolu/özenli şablonlar başa: katman, öğe, arka plan çeşitliliği ve eğik cihaz puanlanır */
-  const richness = (tpl) => {
-    let sc = 0; const bgs = new Set(); const rots = new Set();
-    tpl.screens.forEach((s) => { bgs.add(JSON.stringify(s.bg || {})); s.layers.forEach((L) => { sc += L.type === 'element' ? 1.6 : L.type === 'device' ? 1 : 0.6; if (L.type === 'device') rots.add(Math.round(L.rot || 0)); if (L.type === 'text' && L.box && L.box !== 'none') sc += 0.4; if (L.type === 'text' && L.decoration && L.decoration !== 'none') sc += 0.6; }); });
-    sc += Math.min(bgs.size, 4) * 1.5 + Math.min(rots.size, 3) * 1.2 + (tpl.background ? 2 : 0) + (tpl.skill === 'advanced' ? 2 : 0) - (tpl.free ? 4 : 0) - (tpl.key.startsWith('v2-') ? 1 : 0);
-    if (tpl.screens.length < 6) sc -= 3;
-    return sc;
-  };
-  const TPL = (window.TEMPLATES || []).slice().sort((a, b) => richness(b) - richness(a));
-  const byKey = (k) => TPL.find((x) => x.key === k);
+  const TPL = (window.TEMPLATES || []).filter((x) => !x.archived);
+  const ALL = window.TEMPLATES || [];
+  const byKey = (k) => ALL.find((x) => x.key === k);
   const PAGE = 24;
   const DEV_FILTERS = [
-    ['iphone', 'iPhone templates', 'devices'], ['ipad', 'iPad templates', 'devices'], ['android', 'Android phone templates', 'devices'], ['android-tablet', 'Android tablet templates', 'devices'],
+    ['creative', 'Creative asset templates', 'devices'], ['iphone', 'iPhone templates', 'devices'], ['ipad', 'iPad templates', 'devices'], ['android', 'Android phone templates', 'devices'], ['android-tablet', 'Android tablet templates', 'devices'],
     ['watch', 'Watch templates', 'devices'], ['mac', 'Mac, Desktop & Other', 'devices'], ['landscape', 'Landscape templates', 'orient'], ['free', 'Free templates', 'free'], ['play-feature', 'Feature graphic templates', 'devices'],
   ];
   window.I18N.extend({
-    'editable layouts': 'düzenlenebilir düzen', 'store sizes': 'mağaza boyutu', 'iPhone templates': 'iPhone şablonları', 'iPad templates': 'iPad şablonları', 'Android phone templates': 'Android telefon şablonları', 'Android tablet templates': 'Android tablet şablonları',
+    'Copy template to projects': 'Şablonu projelere kopyala', 'Save a local project in this browser.': 'Bu tarayıcıda yerel bir proje kaydet.', 'EN / TR sample copy': 'EN / TR örnek metinler', 'Creative asset templates': 'Creative Assets · Header / Search', 'editable layouts': 'düzenlenebilir düzen', 'store sizes': 'mağaza boyutu', 'iPhone templates': 'iPhone şablonları', 'iPad templates': 'iPad şablonları', 'Android phone templates': 'Android telefon şablonları', 'Android tablet templates': 'Android tablet şablonları',
     'Watch templates': 'Saat şablonları', 'Mac, Desktop & Other': 'Mac, masaüstü ve diğer', 'Landscape templates': 'Yatay şablonlar', 'Feature graphic templates': 'Öne çıkan görsel şablonları',
     'Start creates a project in your browser; Sandbox lets you try it without saving.': 'Başla, tarayıcında bir proje oluşturur; Deneme alanı kaydetmeden denemeni sağlar.',
     'No templates match these filters.': 'Bu filtrelere uyan şablon yok.', 'Project created from {name}': '{name} şablonundan proje oluşturuldu',
@@ -30,7 +23,9 @@
 
   /* ---- render yardımcıları ---- */
   function renderStrip(tpl, canvases, w) {
-    const h = Math.round(w * RATIO);
+    const output = Devices.byId((tpl.sizes || [])[0]);
+    const ratio = output ? (tpl.orientation === 'landscape' || output.landscape ? Math.min(output.w, output.h) / Math.max(output.w, output.h) : output.h / output.w) : RATIO;
+    const h = Math.round(w * ratio);
     const n = tpl.screens.length;
     const project = { background: tpl.background || tpl.screens[0].bg, app: {}, languages: { default: 'en' } };
     canvases.forEach((c, i) => {
@@ -46,7 +41,8 @@
   /* ---- filtreler ---- */
   const compat = (tpl) => {
     const d = tpl.devices || ['iphone', 'ipad', 'android'];
-    const out = [t('Any device or size')];
+    const out = tpl.sizes ? tpl.sizes.map((id) => { const o = Devices.byId(id); return o ? `${o.label} · ${o.w}×${o.h}` : id; }) : [t('Any device or size')];
+    if (tpl.sizes) return out;
     if (d.includes('iphone')) out.push('iPhones - 6.9"'); if (d.includes('ipad')) out.push('iPad - 13"'); if (d.includes('android')) out.push('Android Phones'); if (d.includes('android-tablet') || d.includes('android')) out.push('Android 10" Tablets');
     if (d.includes('watch')) out.push('Apple Watch'); if (d.includes('mac')) out.push('Mac OS');
     return out;
@@ -70,14 +66,14 @@
     const cats = $('#sideCats'); cats.innerHTML = '';
     CATEGORIES.forEach((c) => { const n = TPL.filter((x) => (x.cats || []).includes(c)).length; if (!n) return; const b = el('button', F.cat === c ? 'on' : '', `<span>${esc(catLabel(c))}</span><span class="n">${n}</span>`); b.onclick = () => { F.cat = F.cat === c ? null : c; F.dev = null; refresh(); }; cats.appendChild(b); });
     const devs = $('#sideDevices'); devs.innerHTML = '';
-    DEV_FILTERS.forEach(([k, label]) => { const b = el('button', F.dev === k ? 'on' : '', `<span>${esc(t(label))}</span>`); b.onclick = () => { F.dev = F.dev === k ? null : k; F.cat = null; refresh(); }; devs.appendChild(b); });
+    DEV_FILTERS.filter(([k]) => TPL.some((tpl) => k === 'landscape' ? tpl.orientation === 'landscape' : k === 'free' ? tpl.free : tpl.devices.includes(k))).forEach(([k, label]) => { const b = el('button', F.dev === k ? 'on' : '', `<span>${esc(t(label))}</span>`); b.onclick = () => { F.dev = F.dev === k ? null : k; F.cat = null; refresh(); }; devs.appendChild(b); });
     $('#sideAll').classList.toggle('on', !F.cat && !F.dev);
-    const chip = (label, on, fn) => { const c = el('span', 'chip' + (on ? ' on' : ''), esc(label)); c.onclick = fn; return c; };
+    const chip = (label, on, fn) => { const c = el('button', 'chip' + (on ? ' on' : ''), esc(label)); c.type = 'button'; c.setAttribute('aria-pressed', String(on)); c.onclick = fn; return c; };
     const fo = $('#fOrient'); fo.innerHTML = ''; [['portrait', 'Portrait'], ['landscape', 'Landscape']].forEach(([k, l]) => fo.appendChild(chip(t(l), F.orient === k, () => { F.orient = F.orient === k ? null : k; refresh(); })));
     const ft = $('#fTheme'); ft.innerHTML = ''; [['light', 'Light'], ['dark', 'Dark'], ['colourful', 'Colourful']].forEach(([k, l]) => ft.appendChild(chip(t(l), F.theme === k, () => { F.theme = F.theme === k ? null : k; refresh(); })));
   }
   function card(tpl, w) {
-    const c = el('article', 'tcard'); c.dataset.key = tpl.key; c.dataset.w = w || 300;
+    const c = el('article', 'tcard' + (tpl.orientation === 'landscape' ? ' landscape' : '')); c.dataset.key = tpl.key; c.dataset.w = w || 300;
     const head = el('div', 'tcard-head');
     head.appendChild(el('h3', null, esc(tpl.name)));
     if (tpl.free) head.appendChild(el('span', 'free', 'FREE'));
@@ -97,7 +93,7 @@
   function refresh() {
     buildSide();
     const list = TPL.filter(matches);
-    $('#count').textContent = list.length; $('#heroCount').textContent = TPL.length;
+    $('#count').textContent = list.length; $('#heroCount').textContent = TPL.length; $('#layoutCount').textContent = TPL.reduce((n,tpl)=>n+tpl.screens.length,0);
     const cards = $('#cards'); cards.innerHTML = '';
     if (!list.length) cards.appendChild(el('div', 'tempty', t('No templates match these filters.')));
     list.slice(0, F.shown).forEach((tpl) => cards.appendChild(card(tpl)));
@@ -112,14 +108,14 @@
     const tpl = byKey(key); if (!tpl) return showCatalog();
     $('#viewCatalog').hidden = true; $('#viewDetail').hidden = false; window.scrollTo(0, 0);
     $('#dName').textContent = tpl.name; $('#dTitle').textContent = `${tpl.name} ${t('App Store Screenshot Template')}`;
-    const strip = $('#dStrip'); strip.className = 'dstrip' + (tpl.background ? ' pan' : ''); strip.innerHTML = '';
+    const strip = $('#dStrip'); strip.className = 'dstrip' + (tpl.background ? ' pan' : '') + (tpl.orientation === 'landscape' ? ' landscape' : ''); strip.innerHTML = '';
     const cs = tpl.screens.map(() => el('canvas')); cs.forEach((c) => strip.appendChild(c)); renderStrip(tpl, cs, 360);
     $('#dTags').innerHTML = [...(tpl.tags || []).map((x) => `<span class="tag">${esc(t(x))}</span>`), ...(tpl.cats || []).map((x) => `<span class="tag">${esc(catLabel(x))}</span>`)].join('');
     const d = tpl.desc || {};
     $('#dAbout').textContent = (window.I18N.lang === 'tr' ? d.tr : d.en) || d.en || d.tr || '';
-    const outs = Devices.OUTPUTS.filter((o) => (tpl.devices || ['iphone', 'ipad', 'android']).some((dv) => o.id.startsWith(dv)) && !o.landscape === (tpl.orientation !== 'landscape'));
+    const outs = tpl.sizes ? tpl.sizes.map(Devices.byId).filter(Boolean) : Devices.OUTPUTS.filter((o) => (tpl.devices || ['iphone', 'ipad', 'android']).some((dv) => o.id.startsWith(dv)) && !o.landscape === (tpl.orientation !== 'landscape'));
     $('#dDims').innerHTML = outs.slice(0, 6).map((o) => `<li>${esc(o.label)} (${o.w}×${o.h}px)</li>`).join('') + `<li><a href="../app/#/projects">${t('Add any size or device')}</a></li>`;
-    $('#dSpecs').innerHTML = [t('Fully customisable'), t('{n} screenshots', { n: tpl.screens.length }), t('{n}+ device outputs', { n: 4 }), tpl.orientation === 'landscape' ? t('Landscape orientation') : t('Portrait orientation'), t('{n} language configured', { n: 1 }), t('Last updated {d}', { d: '2026' })].map((x) => `<li>${x}</li>`).join('');
+    $('#dSpecs').innerHTML = [t('Fully customisable'), t('{n} screenshots', { n: tpl.screens.length }), t('{n}+ device outputs', { n: outs.length }), tpl.orientation === 'landscape' ? t('Landscape orientation') : t('Portrait orientation'), t('EN / TR sample copy'), t('Last updated {d}', { d: '2026' })].map((x) => `<li>${x}</li>`).join('');
     $('#dStart').onclick = () => openStart(tpl);
     $('#dSandbox').onclick = () => startTemplate(tpl, 'sandbox');
     const more = $('#dMore'); more.innerHTML = '';
@@ -141,10 +137,10 @@
     location.href = ROOT + 'app/#/project/' + project.id;
   }
 
-  function route() { const m = location.hash.match(/^#\/t\/([a-z0-9-]+)/i); if (m) showDetail(m[1]); else showCatalog(); }
+  function route() { const m = location.hash.match(/^#\/t\/([a-z0-9-]+)/i); if (m) showDetail(m[1]); else { showCatalog(); F.dev = location.hash === '#/creative' ? 'creative' : null; refresh(); } }
   function hero() {
     const c = $('#heroCanvas'); if (!c) return;
-    const picks = ['v2-indie', 'v2-nysa', 'v2-owl', 'v2-innerglow'].map(byKey).filter(Boolean).concat(TPL.slice(0, 4)).slice(0, 4);
+    const picks = ['studio-paper', 'studio-midnight', 'studio-lime', 'studio-clay'].map(byKey).filter(Boolean).concat(TPL.slice(0, 4)).slice(0, 4);
     const w = 200, h = Math.round(w * RATIO), gap = 8; c.width = picks.length * w + (picks.length - 1) * gap; c.height = h;
     const ctx = c.getContext('2d');
     picks.forEach((tpl, i) => { const tmp = document.createElement('canvas'); tmp.width = w; tmp.height = h; Render.renderScreen(tmp.getContext('2d'), w, h, tpl.screens[0], { lang: 'en', defaultLang: 'en', imageFor: () => mock, shotSlot: 'iphone', pan: null, project: { background: tpl.background || tpl.screens[0].bg, app: {}, languages: { default: 'en' } } }); ctx.drawImage(tmp, i * (w + gap), 0); });

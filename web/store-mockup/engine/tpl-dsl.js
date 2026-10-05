@@ -126,7 +126,7 @@
     });
     return {
       key: spec.key, name: spec.name, desc: spec.desc || {}, tags: spec.tags || [], cats: spec.cats || [], theme: spec.theme || 'light', skill: spec.skill || 'simple', free: !!spec.free,
-      orientation: spec.orientation || 'portrait', devices: spec.devices || ['iphone', 'ipad', 'android'], sizes: spec.sizes || null, background: spec.panorama ? Object.assign({}, spec.pbg || spec.bg || {}) : null,
+      archived: !!spec.archived, collection: spec.collection || null, orientation: spec.orientation || 'portrait', devices: spec.devices || ['iphone', 'ipad', 'android'], sizes: spec.sizes || null, background: spec.panorama ? Object.assign({}, spec.pbg || spec.bg || {}) : null,
       screens, spec,
     };
   }

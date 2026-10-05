@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Leafbook</title>
+<link rel="icon" href="/leafbook/assets/icon-512.png">
+<link rel="apple-touch-icon" href="/leafbook/assets/icon-512.png">
+<meta name="theme-color" content="#55db9c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Same line as /leafbook/: black outlines, Anton headings, the app's green. */
+:root {
+  color-scheme: light;
+  --ink: #000; --paper: #fff; --soft: #555; --wash: #fafafa;
+  --app: #55db9c; --acc: #c8f560; --sun: #ffd731; --sky: #4da2ff; --lav: #e9ccff;
+  --hero: color-mix(in srgb, var(--app) 50%, #fff);
+  --disp: "Anton", "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --line: 1.5px solid var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; --ink: #f2f2f2; --paper: #121214; --soft: #b4b4bc; --wash: #19191c; --hero: color-mix(in srgb, var(--app) 24%, #121214); }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); font-weight: 500; font-size: 16px; line-height: 1.5; letter-spacing: -.01em; background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+.hidden { display: none !important; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+.disp { font-family: var(--disp); font-weight: 400; text-transform: uppercase; line-height: .9; }
+
+.marquee { background: var(--ink); color: var(--paper); overflow: hidden; white-space: nowrap; }
+.mq { display: inline-flex; gap: 28px; padding: 8px 0; animation: slide 40s linear infinite; }
+.mq span { font-weight: 700; font-size: 12px; letter-spacing: .032em; text-transform: uppercase; }
+@keyframes slide { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .mq, .sticker { animation: none !important; } }
+
+.bar { display: flex; align-items: center; gap: 8px; padding: 12px 0; }
+.logo { width: 42px; height: 42px; border: var(--line); border-radius: 50%; background: var(--paper); display: grid; place-items: center; font-family: var(--disp); font-size: 24px; flex: none; }
+.brand { font-weight: 700; font-size: 13px; letter-spacing: .03em; }
+.langs { margin-left: auto; font: inherit; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: var(--ink); background: var(--paper); border: var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: var(--line); border-radius: 999px; background: var(--paper); padding: 14px 22px; font-weight: 700; font-size: 15px; letter-spacing: .02em; white-space: nowrap; transition: transform .15s; }
+.pill:hover { transform: translateY(-2px) rotate(-1deg); }
+.pill.dark { background: var(--ink); color: var(--paper); }
+.pill svg { width: 16px; height: 16px; fill: currentColor; }
+
+.hero { background: var(--hero); border-bottom: var(--line); padding: 26px 0 30px; text-align: center; }
+.sticker { width: 88px; height: 88px; margin: 0 auto; border: 2px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-size: 44px; line-height: 1; background: var(--acc); transform: rotate(-6deg); animation: bob 4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: rotate(4deg) translateY(-6px); } }
+.kick { margin-top: 16px; font-weight: 700; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink); }
+.hero h1 { font-size: clamp(42px, 12vw, 76px); margin-top: 10px; overflow-wrap: anywhere; }
+.hero .sub { margin-top: 8px; font-weight: 700; font-size: 15px; color: var(--ink); }
+.hero .pill { margin-top: 20px; }
+.hero .hint { margin-top: 10px; font-size: 13px; color: color-mix(in srgb, var(--ink) 72%, transparent); }
+
+.shot { margin: 26px 0 0; border: 2px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--wash); }
+.shot img { display: block; width: 100%; height: auto; }
+.facts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.fact { border: var(--line); border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; background: var(--paper); }
+.fact.grow { background: var(--acc); color: #000; border-color: #000; }
+.box { border: var(--line); border-radius: 26px; background: var(--paper); margin-top: 16px; overflow: hidden; }
+.box h2 { font-family: var(--disp); font-weight: 400; font-size: 26px; text-transform: uppercase; padding: 14px 18px; border-bottom: var(--line); background: var(--app); color: #000; }
+.box li { list-style: none; padding: 12px 18px; border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); font-size: 15px; }
+.box li:last-child { border-bottom: 0; }
+.note { margin-top: 18px; color: var(--soft); font-size: 14px; }
+
+section.get { margin-top: 30px; padding: 32px 0; background: var(--sun); color: #000; border-top: var(--line); border-bottom: var(--line); --ink: #000; --paper: #fff; }
+.get h2 { font-family: var(--disp); font-weight: 400; text-transform: uppercase; font-size: clamp(32px, 9vw, 50px); line-height: .98; }
+.get p { margin: 12px 0 18px; font-size: 16px; max-width: 46ch; }
+.stores { display: flex; gap: 8px; flex-wrap: wrap; }
+.stores .pill { background: #000; color: #fff; border-color: #000; }
+footer { padding: 22px 0 36px; color: var(--soft); font-size: 13px; }
+footer .priv { margin-bottom: 10px; color: var(--ink); }
+.missing { padding: 36px 0 10px; text-align: center; }
+.missing h2 { font-family: var(--disp); font-weight: 400; text-transform: uppercase; font-size: 34px; }
+.missing p { margin-top: 8px; color: var(--soft); }
+@media (max-width: 420px) { .brand { display: none; } }
+</style>
+</head>
+<body>
+<div class="marquee" aria-hidden="true"><div class="mq" id="mq"></div></div>
+
+<div class="wrap bar">
+  <a class="logo" href="/" aria-label="Bam Studio">b</a>
+  <span class="brand">Bam Studio</span>
+  <button class="langs" id="langs" type="button">EN</button>
+</div>
+
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="sticker" aria-hidden="true">🪴</div>
+    <p class="kick" id="shared"></p>
+    <h1 class="disp" id="title">…</h1>
+    <p class="sub" id="species"></p>
+    <a class="pill dark" id="open" href="#"></a>
+    <p class="hint" id="openHint"></p>
+  </div>
+</section>
+
+<main class="wrap" id="main">
+  <div class="shot hidden" id="shot"><img id="photo" alt=""></div>
+  <div class="facts" id="facts"></div>
+  <div class="box hidden" id="tipsBox"><h2 id="tipsTitle"></h2><ul id="tips"></ul></div>
+  <p class="note" id="note"></p>
+</main>
+
+<section class="missing hidden" id="missing">
+  <div class="wrap"><h2 id="missingTitle"></h2><p id="missingSub"></p></div>
+</section>
+
+<section class="get">
+  <div class="wrap">
+    <h2 id="getTitle"></h2>
+    <p id="getP"></p>
+    <div class="stores">
+      <a class="pill" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a>
+      <a class="pill" href="https://play.google.com/store/apps/details?id=com.aberk.leafbook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="priv" id="priv"></p>
+  <p>Bam Studio · Leafbook</p>
+</footer>
+
+<script>
+const PROJECT = "leafbook-bamtech";
+const I18N = {
+  tr: {
+    shared: "Leafbook ile paylaşıldı", open: "Uygulamada aç", openHint: "Leafbook yüklüyse doğrudan açılır, listene eklemeyi teklif eder.",
+    water: n => `${n} günde bir su`, together: n => `${n} gündür sahibinin yanında`, photos: n => `${n} fotoğraf`,
+    grew: (p, d) => `${d} günde %${p} büyüdü`, tipsTitle: "Bu bitki hakkında",
+    note: "Bu bir kopya. Sahibi paylaşımı istediği an durdurabilir, o zaman bu sayfa da çalışmaz.",
+    getTitle: "Uygulama sende yok mu?", getP: "Leafbook'u yükle, sonra bu bağlantıyı yeniden aç. Bitki doğrudan uygulamada açılır ve tek dokunuşla kendi rafına eklenir.",
+    priv: "Bu sayfada yalnız sahibinin paylaştığı tek bitki var. Bakım geçmişi, notlar ve diğer bitkiler paylaşılmaz.",
+    missing: "Bu bağlantı çalışmıyor", missingSub: "Sahibi paylaşımı durdurmuş ya da bağlantı eksik kopyalanmış olabilir.",
+    loading: "Yükleniyor…", mq: ["Paylaşılan bitki", "Leafbook", "Bak, sula, büyüt"],
+  },
+  en: {
+    shared: "Shared with Leafbook", open: "Open in the app", openHint: "Opens straight away if Leafbook is installed, and offers to add it to your plants.",
+    water: n => `Water every ${n} days`, together: n => `${n} days with its owner`, photos: n => `${n} photos`,
+    grew: (p, d) => `Grew ${p}% in ${d} days`, tipsTitle: "About this plant",
+    note: "This is a copy. Its owner can stop sharing at any time, and then this page stops working.",
+    getTitle: "Don't have the app?", getP: "Install Leafbook, then open this link again. The plant opens right in the app and one tap puts it on your own shelf.",
+    priv: "This page holds the one plant its owner shared. The care log, the notes and the other plants are not shared.",
+    missing: "This link doesn't work", missingSub: "Its owner may have stopped sharing it, or the link was copied only in part.",
+    loading: "Loading…", mq: ["Shared plant", "Leafbook", "Look, water, grow"],
+  },
+};
+
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
+let lang = (params.get("lang") || "").slice(0, 2);
+if (!["tr", "en"].includes(lang)) {
+  try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+}
+if (!["tr", "en"].includes(lang)) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+let data = null;
+
+function paint() {
+  const t = I18N[lang];
+  document.documentElement.lang = lang;
+  $("langs").textContent = lang === "tr" ? "EN" : "TR";
+  $("mq").innerHTML = Array(4).fill(t.mq.map(s => `<span>${s}</span>`).join("")).join("");
+  $("shared").textContent = t.shared;
+  $("openHint").textContent = t.openHint;
+  $("open").textContent = t.open;
+  $("getTitle").textContent = t.getTitle;
+  $("getP").textContent = t.getP;
+  $("priv").textContent = t.priv;
+  $("missingTitle").textContent = t.missing;
+  $("missingSub").textContent = t.missingSub;
+  $("tipsTitle").textContent = t.tipsTitle;
+  $("note").textContent = t.note;
+  if (!data) { $("title").textContent = t.loading; return; }
+
+  $("title").textContent = data.name || "";
+  $("species").textContent = [data.species, data.latin].filter(Boolean).join(" · ");
+  $("open").href = "leafbook://share/" + encodeURIComponent(id);
+  if (data.photo) {
+    $("photo").src = "data:image/jpeg;base64," + data.photo;
+    $("shot").classList.remove("hidden");
+  }
+  const facts = [];
+  if (data.waterEveryDays) facts.push(["", t.water(data.waterEveryDays)]);
+  if (data.lightTitle) facts.push(["", data.lightTitle]);
+  if (data.growthPercent > 0 && data.growthDays) facts.push(["grow", t.grew(data.growthPercent, data.growthDays)]);
+  if (data.daysTogether > 0) facts.push(["", t.together(data.daysTogether)]);
+  if (data.photoCount > 1) facts.push(["", t.photos(data.photoCount)]);
+  $("facts").innerHTML = facts.map(([c, s]) => `<span class="fact ${c}">${esc(s)}</span>`).join("");
+  const tips = (data.tips || []).concat(data.scheduleNote ? [data.scheduleNote] : []);
+  if (tips.length) {
+    $("tips").innerHTML = tips.map(s => `<li>${esc(s)}</li>`).join("");
+    $("tipsBox").classList.remove("hidden");
+  }
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+$("langs").onclick = () => {
+  lang = lang === "tr" ? "en" : "tr";
+  try { localStorage.setItem("bb-lang", lang); } catch (e) {}
+  paint();
+};
+
+async function load() {
+  paint();
+  if (!id) return missing();
+  try {
+    const url = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents/shares/${encodeURIComponent(id)}`;
+    const reply = await fetch(url);
+    if (!reply.ok) return missing();
+    const doc = await reply.json();
+    const json = doc.fields && doc.fields.payload && doc.fields.payload.stringValue;
+    if (!json) return missing();
+    data = JSON.parse(json);
+    /* The owner's own language wins for the plant's own words. */
+    if (!params.get("lang") && ["tr", "en"].includes(data.lang)) lang = data.lang;
+    paint();
+  } catch (e) {
+    missing();
+  }
+}
+
+function missing() {
+  data = null;
+  $("hero").classList.add("hidden");
+  $("main").classList.add("hidden");
+  $("missing").classList.remove("hidden");
+  paint();
+}
+
+load();
+</script>
+</body>
+</html>

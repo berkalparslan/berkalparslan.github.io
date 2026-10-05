@@ -3,8 +3,15 @@
   "version": "0.1.0",
   "description": "MCP server + CLI: App Store / Google Play screenshot sets from templates (Store Mockup Studio render engine, Node canvas).",
   "type": "module",
-  "bin": { "store-mockup": "cli.mjs", "store-mockup-mcp": "server.mjs" },
-  "scripts": { "fonts": "node fonts.mjs", "start": "node server.mjs" },
+  "bin": {
+    "store-mockup": "cli.mjs",
+    "store-mockup-mcp": "server.mjs"
+  },
+  "scripts": {
+    "fonts": "node fonts.mjs",
+    "start": "node server.mjs",
+    "test": "node verify-studio.mjs"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@napi-rs/canvas": "^0.1.60",
