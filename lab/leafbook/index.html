@@ -62,9 +62,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 
 <div id="login" class="card">
   <h1>Leafbook</h1>
-  <p class="muted" id="loginNote">Panele girmek icin e-posta adresini yaz, gelen baglantiya dokun.</p>
-  <p><input id="email" type="email" placeholder="e-posta" autocomplete="email"></p>
-  <p><button id="send">Baglanti gonder</button></p>
+  <p class="muted" id="loginNote">Panele Google hesabinla gir. Yalnizca yonetici e-postasi okuyabilir.</p>
+  <p><button id="send">Google ile gir</button></p>
   <p class="muted" id="loginMsg"></p>
 </div>
 
@@ -105,7 +104,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink }
+import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, collection, getDocs, query, orderBy, limit, where, doc, documentId }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
@@ -157,21 +156,12 @@ let veri = null;
 // Giris
 
 $("#send").onclick = async () => {
-  const email = $("#email").value.trim();
-  if (!email) return;
   try {
-    await sendSignInLinkToEmail(auth, email, { url: location.href, handleCodeInApp: true });
-    localStorage.setItem("lb-panel-email", email);
-    $("#loginMsg").textContent = "Baglanti gonderildi, e-postana bak.";
+    await signInWithPopup(auth, new GoogleAuthProvider());
   } catch (e) {
     $("#loginMsg").textContent = e.message;
   }
 };
-
-if (isSignInWithEmailLink(auth, location.href)) {
-  const email = localStorage.getItem("lb-panel-email") || prompt("E-posta adresin");
-  if (email) signInWithEmailLink(auth, email, location.href).catch(e => { $("#loginMsg").textContent = e.message; });
-}
 
 onAuthStateChanged(auth, user => {
   if (user || demo) {
