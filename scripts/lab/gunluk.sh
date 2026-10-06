@@ -23,6 +23,8 @@ echo "── $(date "+%Y-%m-%d %H:%M") çekim başladı"
 node scripts/lab/collect.mjs --days 45
 node scripts/lab/build.mjs
 node scripts/lab/walletcoach.mjs --days 90 || echo "wallet-coach çekimi başarısız"
+# Bam Sports (beş spor uygulaması): GA4 özeti → bam-tech-sports Firestore panel/ga4.
+node scripts/lab/bam-sports.mjs --days 90 || echo "bam-sports çekimi başarısız"
 # Nika: Cloudflare GraphQL (Workers/D1/R2 kullanımı) → Nika D1, panelin Altyapı sayfası.
 node scripts/lab/nika.mjs --days 30 || echo "nika altyapı çekimi başarısız"
 # Wallet Coach kur ve enflasyon: yeni ay varsa ve makulse yayınlar.

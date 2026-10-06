@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/lab-icons/bam-sports-64.png">
+<link rel="apple-touch-icon" href="/assets/lab-icons/bam-sports-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Bam Sports Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<style>
+:root{color-scheme:light;--bg:#f3f5f4;--card:#fff;--ink:#14181a;--soft:#5f6670;--line:#e1e5e8;--accent:#1f9d4a;--on-accent:#fff;--rose:#d6455d;--ok:#1f9d4a;--warn:#c77d00;--sky:#0a6fe0;--side:#e8f2eb}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0b0d0e;--card:#15181a;--ink:#f1f4f3;--soft:#a0a8ae;--line:#262b2e;--accent:#2cd758;--on-accent:#04260f;--rose:#ff6f88;--ok:#2cd758;--warn:#f5b53c;--sky:#5aa8ff;--side:#111517}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0b0d0e;--card:#15181a;--ink:#f1f4f3;--soft:#a0a8ae;--line:#262b2e;--accent:#2cd758;--on-accent:#04260f;--rose:#ff6f88;--ok:#2cd758;--warn:#f5b53c;--sky:#5aa8ff;--side:#111517}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:26px 0 10px}
+.muted{color:var(--soft);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;min-width:0}
+.card h2:first-child{margin-top:0}
+input,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+select option{background:var(--card);color:var(--ink)}
+button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
+button:disabled{opacity:.5;cursor:default}
+button.ghost{background:transparent;color:var(--soft);border:1px solid var(--line);padding:6px 12px;font-size:12px}
+button.ghost.on{color:var(--ink);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.hidden{display:none!important}
+#login{max-width:400px;margin:12vh auto;padding:22px}@media(max-width:440px){#login{margin:10vh 16px}}
+#login h1{display:flex;gap:10px;align-items:center}#login h1 img{width:32px;height:32px;border-radius:8px}
+.layout{display:flex;min-height:100vh}
+aside{width:220px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
+aside .brand{font-weight:800;font-size:17px;margin:0 8px 18px;display:flex;gap:8px;align-items:center}
+aside .brand img{width:26px;height:26px;border-radius:7px}
+aside a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+aside a.on{background:var(--accent);color:var(--on-accent)}
+aside a.off{color:var(--soft);cursor:default;opacity:.7}
+aside a.off small{display:block;font-weight:500;font-size:11px}
+aside .spacer{flex:1}
+aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--soft);margin:14px 12px 4px}
+main{flex:1;min-width:0;padding:26px 24px 120px;max-width:1180px}
+.topbar{position:sticky;top:0;z-index:3;display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:-26px -24px 14px;padding:12px 24px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .muted{margin-right:auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--card);color:var(--ink);border:1px solid var(--line);padding:6px 12px;font-size:13px;font-weight:600}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--soft)}
+.chip.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.chip small{color:var(--soft);font-weight:600}
+@media(max-width:760px){
+  .layout{flex-direction:column}
+  aside{width:auto;height:auto;position:sticky;top:0;z-index:4;flex-direction:row;overflow-x:auto;padding:8px 10px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
+  aside .brand{margin:0 10px 0 4px;font-size:15px;white-space:nowrap}
+  aside .navlabel,aside .spacer,aside a.off small{display:none}
+  aside a{padding:8px 10px;font-size:13px}
+  main{padding:14px 16px 120px}
+  .topbar{position:static;margin:-14px -16px 12px;padding:10px 16px;gap:6px}
+  .topbar .muted{font-size:11px;min-width:0;flex-basis:100%}
+  h1{font-size:21px}
+}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.kpi b{display:block;font-size:26px;margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi span{color:var(--soft);font-size:12px;font-weight:600}
+.kpi small{color:var(--soft);font-size:11px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid2>*{min-width:0}@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.cbox{position:relative;height:260px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+th{color:var(--soft);font-weight:700;font-size:12px;position:sticky;top:0;background:var(--card)}
+th.sort{cursor:pointer;user-select:none}th.sort:hover{color:var(--ink)}
+td.n,th.n{text-align:right}
+tr.click:hover{background:color-mix(in srgb,var(--accent) 10%,transparent);cursor:pointer}
+tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding-top:16px}
+.tablewrap{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.card .tablewrap{border:0;max-height:none;border-radius:0}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.pill.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.pill.no{background:color-mix(in srgb,var(--soft) 15%,transparent);color:var(--soft)}
+.pill.pro{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.pill.sky{background:color-mix(in srgb,var(--sky) 16%,transparent);color:var(--sky)}
+.app{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.app i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--card);border-left:1px solid var(--line);padding:22px;overflow:auto;box-shadow:-20px 0 40px rgba(0,0,0,.25);z-index:6}
+.dl{display:grid;grid-template-columns:150px 1fr;gap:6px 10px;font-size:13px}.dl>div:nth-child(odd){color:var(--soft)}.dl>div{min-width:0;overflow-wrap:anywhere}
+@media(max-width:420px){.dl{grid-template-columns:110px 1fr}.drawer{padding:16px}}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.toolbar input,.toolbar select{width:auto;min-width:180px;flex:1 1 180px;max-width:320px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.brow{display:grid;grid-template-columns:minmax(100px,200px) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.brow>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .track{height:12px;border-radius:999px;background:color-mix(in srgb,var(--soft) 14%,transparent);overflow:hidden}
+.brow .fill{height:100%;border-radius:999px;background:var(--accent)}
+.brow small{color:var(--soft);white-space:nowrap}
+@media(max-width:480px){.brow{grid-template-columns:minmax(80px,120px) 1fr auto;gap:6px}}
+.note{background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:12px;padding:10px 12px;font-size:13px;margin:8px 0}
+.note.err{background:color-mix(in srgb,var(--rose) 10%,transparent);border-color:color-mix(in srgb,var(--rose) 35%,transparent)}
+.note.okn{background:color-mix(in srgb,var(--ok) 10%,transparent);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+.tl{font-size:13px;border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl div{padding:3px 0}.tl time{color:var(--soft);font-size:11px;margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .day{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.05em;margin-top:8px}
+.tl .buy{color:var(--warn);font-weight:700}.tl .pw{color:var(--sky)}.tl .match{color:var(--ok);font-weight:600}
+.demo{background:var(--warn);color:#1b1300;text-align:center;font-size:12px;font-weight:700;padding:5px}
+.links a{display:block;padding:6px 0}
+code{font:12px ui-monospace,Menlo,monospace}
+</style>
+</head>
+<body>
+<div id="demoBar" class="demo hidden">DEMO: sahte veri, Firestore'a bağlanmıyor</div>
+
+<section id="login" class="card hidden">
+  <h1><img src="/assets/lab-icons/bam-sports-180.png" alt="" onerror="this.remove()">Bam Sports</h1>
+  <p class="muted">Beş spor uygulamasının yönetim paneli. Şifre yok: e-postana gelen bağlantıya dokunarak girersin.</p>
+  <div id="loginForm">
+    <p><input id="email" type="email" placeholder="E-posta" autocomplete="username"></p>
+    <p><button id="sendLink" style="width:100%">Giriş bağlantısı gönder</button></p>
+    <p class="muted" style="text-align:center;margin:4px 0">ya da</p>
+    <p><button class="ghost" id="google" style="width:100%;padding:10px 12px;font-size:14px">Google ile giriş</button></p>
+  </div>
+  <div id="loginMsg" class="muted"></div>
+  <p id="loginOut" class="hidden"><button class="ghost" id="signoutLogin">Çıkış yap</button></p>
+  <p class="muted" style="margin-top:16px"><a href="/lab/">Lab'e dön</a></p>
+</section>
+
+<div class="layout hidden" id="app">
+  <aside>
+    <div class="brand"><img src="/assets/lab-icons/bam-sports-180.png" alt="" onerror="this.remove()">Bam Sports</div>
+    <div class="navlabel">ANALİZ</div>
+    <a data-page="overview" class="on">Genel bakış</a>
+    <a data-page="live">Canlı</a>
+    <a data-page="screens">Ekranlar</a>
+    <a data-page="revenue">Paywall ve satın alma</a>
+    <a data-page="engage">Kullanım</a>
+    <a data-page="users">Kullanıcılar</a>
+    <a data-page="social">Sosyal</a>
+    <a data-page="ga4">Analytics</a>
+    <div class="navlabel">YÖNET</div>
+    <a class="off" title="Cloud Functions gerekiyor, o da Blaze planı istiyor">Bildirim gönder<small>Blaze planı gerekiyor</small></a>
+    <a data-page="settings">Ayarlar</a>
+    <div class="spacer"></div>
+    <a id="themeBtn">Tema</a>
+    <a id="signout">Çıkış</a>
+  </aside>
+  <main>
+    <div class="topbar">
+      <span class="muted" id="topMeta"></span>
+      <button class="ghost range" data-d="1">Bugün</button>
+      <button class="ghost range on" data-d="7">7 gün</button>
+      <button class="ghost range" data-d="30">30 gün</button>
+      <button class="ghost range" data-d="90">90 gün</button>
+      <button id="refreshTop" style="padding:6px 14px;font-size:13px">Yenile</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="loadErr" class="note err hidden"></div>
+
+    <section data-view="overview">
+      <h1>Genel bakış</h1>
+      <p class="muted" id="ovMeta"></p>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Günlük oturum ve yeni kurulum</h2><div class="cbox"><canvas id="chActive"></canvas></div></div>
+        <div class="card"><h2>Uygulamalar</h2><p class="muted" style="margin-top:-6px">Kurulum, dönemde aktif ve Pass sahibi.</p><div class="tablewrap"><table><thead><tr><th>Uygulama</th><th class="n">Kurulum</th><th class="n">Aktif</th><th class="n">Yeni</th><th class="n">Maç</th><th class="n">Pass</th></tr></thead><tbody id="ovApps"></tbody></table></div></div>
+        <div class="card"><h2>Dönüşüm hunisi</h2><p class="muted" style="margin-top:-6px">Seçili dönemde kurulanlar.</p><div class="cbox"><canvas id="chFunnel"></canvas></div></div>
+        <div class="card"><h2>Geri dönüş (kurulum gününe göre)</h2><div class="cbox"><canvas id="chRet"></canvas></div></div>
+        <div class="card"><h2>Sürüm</h2><div class="bars" id="ovVer"></div></div>
+        <div class="card"><h2>Dil ve bölge</h2><div class="bars" id="ovLang"></div></div>
+      </div>
+    </section>
+
+    <section data-view="live" class="hidden">
+      <h1>Canlı</h1>
+      <p class="muted">Şu an uygulamayı açık tutanlar ve hangi ekranda oldukları. Uygulama açıkken dakikada bir sinyal gönderir; son 3 dakikada sinyal veren ve uygulamayı kapatmamış olan online sayılır. Sayfa açıkken 30 saniyede bir kendini yeniler.</p>
+      <div class="kpis" id="liveKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Online olanlar nerede?</h2><div class="bars" id="liveScreens"></div></div>
+        <div class="card"><h2>Son kapatılan ekran (son 24 saat)</h2><p class="muted" style="margin-top:-6px">Uygulamayı en son nerede bırakıp çıktılar.</p><div class="bars" id="liveLeft"></div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th></th><th>Kurulum</th><th>Uygulama</th><th>Ekran</th><th>Durum</th><th>Sürüm</th><th>Dil</th><th>Son sinyal</th><th class="n">Maç</th></tr></thead><tbody id="liveRows"></tbody></table></div>
+    </section>
+
+    <section data-view="screens" class="hidden">
+      <h1>Ekranlar</h1>
+      <p class="muted">Hangi ekranda ne kadar vakit geçiyor. Süre, uygulamanın kendi ölçtüğü saniyeler (ekran açık ve uygulama önde iken). Dönem sütunları günlük kayıtlardan, kişi sütunları kurulumların toplamından.</p>
+      <div class="kpis" id="scKpis"></div>
+      <div class="card"><h2>Ekran başına süre</h2><div class="tablewrap"><table><thead><tr><th>Ekran</th><th class="n">Süre (dönem)</th><th class="n">Açılış (dönem)</th><th class="n">Açılış başı</th><th class="n">Kişi (hepsi)</th><th class="n">Kişi başı (hepsi)</th></tr></thead><tbody id="scRows"></tbody></table></div></div>
+      <div class="card"><h2>Süre dağılımı (dönem)</h2><div class="cbox"><canvas id="chScreens"></canvas></div></div>
+    </section>
+
+    <section data-view="revenue" class="hidden">
+      <h1>Paywall ve satın alma</h1>
+      <p class="muted">Paywall hangi ekrandan açıldı, ne kadar açık kaldı, kapatıldı mı alındı mı. Sports Pass beş uygulamada ortak; hangi uygulamanın ürünüyle alındığı plan kimliğinin sonundan okunur.</p>
+      <div class="kpis" id="revKpis"></div>
+      <div class="card"><h2>Kaynağa göre (dönem)</h2><div class="tablewrap"><table><thead><tr><th>Nereden açıldı</th><th class="n">Gösterim</th><th class="n">Kapatan</th><th class="n">Kapatana kadar</th><th class="n">Alıp kapatan</th><th class="n">Satın alma</th><th class="n">Dönüşüm</th><th class="n">Şu an Pass</th></tr></thead><tbody id="revRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h2>Pass hangi uygulamadan alındı</h2><p class="muted" style="margin-top:-6px">Plan kimliğinin sonu (_tennis, _pickle, _volley, _badminton, _tabletennis) ve satın almanın açıldığı yer. Tüm zamanlar.</p><div class="tablewrap"><table><thead><tr><th>Ürünün uygulaması</th><th class="n">Pass</th><th>Kaynaklar</th></tr></thead><tbody id="revPassApp"></tbody></table></div></div>
+        <div class="card"><h2>Günlük gösterim ve satın alma</h2><div class="cbox"><canvas id="chRev"></canvas></div></div>
+        <div class="card"><h2>Plan</h2><div class="bars" id="revPlans"></div><h2>Kapatana kadar geçen süre</h2><div class="bars" id="revDur"></div></div>
+        <div class="card"><h2>Pass sahipleri</h2><div class="dl" id="revWho"></div></div>
+      </div>
+      <div class="card"><h2>Son paywall yolculukları</h2><p class="muted" style="margin-top:-6px" id="pwMeta">Paywall gören en son kurulumların zaman çizelgesinden.</p>
+        <div class="tablewrap"><table><thead><tr><th>Ne zaman</th><th>Kurulum</th><th>Uygulama</th><th>Nereden</th><th class="n">Açık kaldı</th><th>Sonuç</th><th>Dil</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>
+    </section>
+
+    <section data-view="engage" class="hidden">
+      <h1>Kullanım</h1>
+      <p class="muted">Ne yapıyorlar: saatte tutulan maçlar, saate gönderilen kurulumlar, paylaşımlar, reklamlar, kortlar. Dönem sayıları günlük kayıtlardan, kişi sayıları kurulumlardan.</p>
+      <div class="kpis" id="engKpis"></div>
+      <div class="card"><h2>Tamamlanan maç (gün ve uygulama)</h2><div class="cbox"><canvas id="chMatches"></canvas></div></div>
+      <div class="grid2">
+        <div class="card"><h2>Maç sonucu (dönem)</h2><div class="bars" id="engResult"></div></div>
+        <div class="card"><h2>Paylaşım türü (dönem)</h2><div class="bars" id="engShare"></div></div>
+        <div class="card"><h2>Apple Watch</h2><div class="dl" id="engWatch"></div></div>
+        <div class="card"><h2>Defterdeki maç sayısı</h2><p class="muted" style="margin-top:-6px">Kurulumların şu anki kayıtlı maçı (yalnız adet).</p><div class="bars" id="engCount"></div></div>
+      </div>
+      <div class="card"><h2>Sayaçlar (dönem)</h2><div class="tablewrap"><table><thead><tr><th>Sayaç</th><th class="n">Kez</th><th class="n">Kişi (hepsi)</th></tr></thead><tbody id="engRows"></tbody></table></div></div>
+    </section>
+
+    <section data-view="users" class="hidden">
+      <h1>Kullanıcılar</h1>
+      <p class="muted">Her satır bir uygulamanın bir kurulumu. Kimlik anonim. Sütun başlığına dokununca sıralanır, satıra dokununca ayrıntı ve zaman çizelgesi açılır.</p>
+      <div class="toolbar">
+        <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz">
+        <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="pro">Pass</option><option value="free">Pass olmayan</option><option value="watch">Saat eşli</option><option value="signed">Giriş yapmış</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="new">Dönemde kurulan</option></select>
+        <span class="muted" id="uCount"></span>
+      </div>
+      <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
+    </section>
+
+    <section data-view="social" class="hidden">
+      <h1>Sosyal</h1>
+      <p class="muted">Apple ya da Google ile giriş, arkadaşlık, paylaşılan maç sonuçları ve ligler. Belge sayıları Firestore'dan anlık sayılır (içerik okunmaz); olaylar telemetriden.</p>
+      <div class="kpis" id="soKpis"></div>
+      <div class="grid2">
+        <div class="card"><h2>Firestore belgeleri</h2><div class="tablewrap"><table><thead><tr><th>Koleksiyon</th><th class="n">Belge</th><th>Not</th></tr></thead><tbody id="soDocs"></tbody></table></div></div>
+        <div class="card"><h2>Giriş yöntemi (dönem)</h2><div class="bars" id="soSignin"></div><h2>Sosyal işlemler (dönem)</h2><div class="bars" id="soActions"></div></div>
+        <div class="card"><h2>Giriş yapmış kurulum, uygulamaya göre</h2><div class="bars" id="soByApp"></div></div>
+        <div class="card"><h2>Arkadaşlar ve lig ekranı</h2><div class="dl" id="soScreens"></div></div>
+      </div>
+    </section>
+
+    <section data-view="ga4" class="hidden">
+      <h1>Analytics</h1>
+      <p class="muted" id="gaMeta"></p>
+      <div id="gaBody"></div>
+    </section>
+
+    <section data-view="settings" class="hidden">
+      <h1>Ayarlar ve hakkında</h1>
+      <div class="card">
+        <h2>Görünüm</h2>
+        <p><button class="ghost" id="themeBtn2">Açık / koyu tema</button> <span class="muted">Diğer lab panelleriyle ortak.</span></p>
+        <p class="muted" id="whoami"></p>
+      </div>
+      <div class="card">
+        <h2>Bildirim gönder</h2>
+        <div class="note">Panelden bildirim için Cloud Functions (sendPush) gerekiyor, o da Blaze planı istiyor. Proje şu an ücretsiz planda; bu yüzden bu sayfa kapalı. Plan açılınca konular (<code>bs_all</code>, <code>bs_lang_xx</code>, <code>bs_test</code>) ve fonksiyon kurulur.</div>
+      </div>
+      <div class="card links">
+        <h2>Bağlantılar</h2>
+        <a href="https://console.firebase.google.com/project/bam-tech-sports/overview" target="_blank" rel="noopener">Firebase konsolu</a>
+        <a href="https://console.firebase.google.com/project/bam-tech-sports/firestore/databases/-default-/data" target="_blank" rel="noopener">Firestore verisi</a>
+        <a href="https://console.firebase.google.com/project/bam-tech-sports/analytics" target="_blank" rel="noopener">Firebase Analytics</a>
+        <a href="https://console.firebase.google.com/project/bam-tech-sports/authentication/users" target="_blank" rel="noopener">Authentication (sosyal hesaplar)</a>
+        <a href="https://console.firebase.google.com/project/bam-tech-sports/usage/details" target="_blank" rel="noopener">Plan ve kullanım</a>
+      </div>
+      <div class="card">
+        <h2>Veri nasıl toplanıyor</h2>
+        <p>Beş uygulama (Tenis, Pickleball, Voleybol, Badminton, Masa Tenisi) tek Firebase projesine (<code>bam-tech-sports</code>) yazar; <code>app</code> alanı onları ayırır. Her kurulum rastgele bir kimlikle kendi kaydını yazar (<code>installs/{id}</code>): ilk ve son görülme, sürüm, dil, bölge, cihaz, Pass durumu ve planı, saat eşli mi, giriş yapmış mı, şu anki ekran, defterdeki maç ve rakip sayısı. Ne yaptığı sayaç olarak (<code>ev</code>) ve zaman çizelgesi olarak (<code>events</code>) tutulur. Günlük toplamlar uygulama başına <code>stats/{uygulama}_{gün}</code> belgesinde (UTC).</p>
+        <p><b>İsim, skor, rakip adı, fotoğraf hiç toplanmaz.</b> Yalnız sayı, ekran adı ve süre. Geliştirme sürümleri ve ekran görüntüsü modu hiçbir şey yazmaz.</p>
+        <p>Okumayı yalnız panel sahibi yapabilir (doğrulanmış aberkalparslan@gmail.com). Analytics bölümü Mac'teki günlük işin (<code>scripts/lab/bam-sports.mjs</code>, <code>gunluk.sh</code> içinde, 07:00) <code>panel/ga4</code> belgesine yazdığı özetten gelir.</p>
+        <p class="muted">Blaze planı olmadığı için olay belgelerinin 90 günlük silinmesi (TTL) henüz çalışmıyor; <code>x</code> alanı yazılıyor, plan açılınca politika devreye girer.</p>
+      </div>
+      <div class="card">
+        <h2>Demo</h2>
+        <p class="muted">Adrese <code>?demo</code> eklersen panel sahte veriyle açılır, Firestore'a hiç bağlanmaz. Tasarım denemek için.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="drawer hidden" id="drawer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script type="module">
+const DEMO = new URLSearchParams(location.search).has("demo");
+const ADMIN = "aberkalparslan@gmail.com";
+const EMAIL_KEY = "bs-panel-email";
+const firebaseConfig = {
+  apiKey: "AIzaSyDPc1503lew3j3aTLWsXVCOOCWVcJ4v1HU",
+  authDomain: "bam-tech-sports.firebaseapp.com",
+  projectId: "bam-tech-sports",
+  appId: "1:64015860470:web:900e873e3ad0d41253a2d7",
+  messagingSenderId: "64015860470",
+  storageBucket: "bam-tech-sports.firebasestorage.app",
+};
+
+const $ = id => document.getElementById(id);
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { } } };
+const fmt = n => Math.round(+n || 0).toLocaleString("tr-TR");
+const dayKey = d => new Date(d).toISOString().slice(0, 10);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ts = v => v?.toDate ? v.toDate() : (v ? new Date(v) : null);
+const ago = d => { if (!d) return "-"; const m = Math.max(0, (Date.now() - d) / 6e4); return m < 1 ? "az önce" : m < 60 ? `${Math.round(m)} dk önce` : m < 1440 ? `${Math.round(m / 60)} sa önce` : `${Math.round(m / 1440)} gün önce`; };
+const dateS = v => ts(v)?.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit", year: "2-digit" }) || "-";
+const dtS = v => ts(v)?.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) || "-";
+const sum = (arr, k) => arr.reduce((a, x) => a + (+x[k] || 0), 0);
+const ev = (o, k) => +(o?.ev?.[k] || 0);
+const evSum = (arr, k) => arr.reduce((a, x) => a + ev(x, k), 0);
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const yuzde = (a, b) => b ? `%${(a / b * 100).toFixed(1).replace(".", ",")}` : "-";
+const mins = sec => { sec = +sec || 0; return sec < 60 ? `${Math.round(sec)} sn` : sec < 3600 ? `${(sec / 60).toFixed(sec < 600 ? 1 : 0).replace(".", ",")} dk` : `${(sec / 3600).toFixed(1).replace(".", ",")} sa`; };
+const kpiH = (label, value, sub = "") => `<div class="kpi"><span>${label}</span><b>${value}</b><small>${sub}</small></div>`;
+const shortId = id => String(id || "").slice(0, 8);
+
+// ---------- Adlar ----------
+/* Uygulamadaki anahtarlar sabit; yeni ekran, kaynak ya da uygulama eklenince
+   yalnız buradaki etiket haritalarına satır eklenir. */
+const APPS = {
+  tennis: { ad: "Tenis", renk: "#2CD758" },
+  pickleball: { ad: "Pickleball", renk: "#30B0C7" },
+  volleyball: { ad: "Voleybol", renk: "#FF9500" },
+  badminton: { ad: "Badminton", renk: "#FF3B30" },
+  tabletennis: { ad: "Masa Tenisi", renk: "#007AFF" },
+};
+const APP_KEYS = Object.keys(APPS);
+const EKRAN = {
+  logbook: "Maç defteri", academy: "Akademi", setup: "Maç kurulumu", courts: "Kortlar",
+  profile: "Profil", friends: "Arkadaşlar", league: "Lig", paywall: "Paywall", closed: "Kapalı",
+};
+const SOURCES = {
+  quota: "Ücretsiz maç sınırı", banner: "Banner", profile: "Profil", setup: "Maç kurulumu",
+  debug: "Debug", offer_code: "Teklif kodu", unknown: "Bilinmiyor",
+};
+const RESULT = { win: "Galibiyet", loss: "Mağlubiyet", practice: "Antrenman", draw: "Berabere" };
+const SHARE = { story: "Hikaye kartı", save: "Fotoğraflara kaydet", copy: "Kopyala", more: "Diğer", qr: "QR" };
+const SOCIAL = { follow: "Takip", share_result: "Sonuç paylaşımı", league_create: "Lig kurdu", league_join: "Lige katıldı", league_result: "Lig sonucu" };
+const SIGNIN = { apple: "Apple", google: "Google" };
+const LANG = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", pt: "Portekizce", it: "İtalyanca", nl: "Felemenkçe", ja: "Japonca", ko: "Korece", zh: "Çince", ru: "Rusça" };
+const COUNTERS = { installs_new: "Yeni kurulum", sessions: "Oturum", paywall_views: "Paywall gösterimi", purchases: "Satın alma",
+  matches_completed: "Tamamlanan maç", matches_sent: "Saate gönderilen maç", shares: "Paylaşım", ads_watched: "İzlenen reklam" };
+
+
+const appName = a => APPS[a]?.ad || a || "?";
+const appTag = a => `<span class="app"><i style="background:${APPS[a]?.renk || "var(--soft)"}"></i>${esc(appName(a))}</span>`;
+const screenName = sc => !sc ? "-" : (EKRAN[sc] || sc);
+const srcName = s => SOURCES[s] || s || "-";
+const ONLINE_MS = 3 * 60e3;
+const isOnline = i => !!ts(i.lastSeen) && Date.now() - ts(i.lastSeen) < ONLINE_MS && !!i.screen && i.screen !== "closed";
+/* Plan kimliğinin sonu → ürünün uygulaması. tabletennis önce: "_tennis" ile de biter. */
+function passApp(plan) {
+  const p = String(plan || "").toLowerCase();
+  if (!p) return null;
+  if (p === "offer_code") return "offer_code";
+  if (p.endsWith("_tabletennis")) return "tabletennis";
+  if (p.endsWith("_tennis")) return "tennis";
+  if (p.endsWith("_pickle") || p.endsWith("_pickleball")) return "pickleball";
+  if (p.endsWith("_volley") || p.endsWith("_volleyball")) return "volleyball";
+  if (p.endsWith("_badminton")) return "badminton";
+  return "?";
+}
+const passAppName = k => k === "offer_code" ? "Teklif kodu" : k === "?" ? "Tanınmayan plan" : appName(k);
+function whereIs(i) {
+  if (isOnline(i)) return screenName(i.screen);
+  if (i.screen === "closed") return "Kapattı · " + screenName(i.lastScreen);
+  if (i.screen) return "Sessiz · " + screenName(i.screen);
+  return "-";
+}
+function eventText(e) {
+  const p = e.p || "", s = +e.s || 0;
+  switch (e.e) {
+    case "screen": return "Ekran: " + screenName(p);
+    case "screen_time": return `${screenName(p)} ekranında ${mins(s)}`;
+    case "pw_view": return "Paywall açıldı · " + srcName(p);
+    case "pw_close": return `Paywall'u kapattı · ${mins(s)} açık kaldı`;
+    case "pw_close_bought": return `Paywall kapandı (aldıktan sonra) · ${mins(s)}`;
+    case "pw_buy": return `★ PASS ALDI · ${srcName(p)} · ${mins(s)} sonra`;
+    case "session": return `Uygulamadan çıktı · oturum ${mins(s)}`;
+    case "match_done": return `Maç bitti · ${RESULT[p] || p}${s ? ` · ${mins(s)}` : ""}`;
+    case "match_sent": return "Maç saate gönderildi";
+    case "match_imported": return "Maç içe aktarıldı";
+    case "share": return "Paylaştı · " + (SHARE[p] || p);
+    case "signin": return "Giriş yaptı · " + (SIGNIN[p] || p);
+    case "social": return "Sosyal · " + (SOCIAL[p] || p);
+    case "courts": return `Kortlar açıldı · ${p} sonuç`;
+    default: return e.e + (p ? " · " + p : "") + (s ? ` · ${mins(s)}` : "");
+  }
+}
+const evClass = e => e.e === "pw_buy" || e.e === "pw_close_bought" ? "buy" : e.e.startsWith("pw_") ? "pw" : e.e === "match_done" ? "match" : "";
+
+function screenMap(o) {
+  const m = {}, e = o?.ev || {};
+  for (const [k, v] of Object.entries(e)) {
+    const r = /^screen_(.+)_sec$/.exec(k); if (!r) continue;
+    const n = r[1];
+    if (n === "time" || n.startsWith("time_")) continue;
+    (m[n] ||= { sec: 0, views: 0 }).sec += +v || 0;
+  }
+  for (const [k, v] of Object.entries(e)) {
+    const r = /^screen_(.+)$/.exec(k); if (!r || k.endsWith("_sec") || r[1] === "time" || r[1].startsWith("time_")) continue;
+    (m[r[1]] ||= { sec: 0, views: 0 }).views = +v || 0;
+  }
+  return m;
+}
+function screenAgg(arr) {
+  const m = {};
+  for (const x of arr) for (const [n, v] of Object.entries(screenMap(x))) { const t = m[n] ||= { sec: 0, views: 0, people: 0 }; t.sec += v.sec; t.views += v.views; if (v.sec > 0 || v.views > 0) t.people++; }
+  return m;
+}
+function evPrefix(arr, prefix, skip = []) {
+  const m = {};
+  for (const x of arr) for (const [k, v] of Object.entries(x.ev || {}))
+    if (k.startsWith(prefix) && !k.endsWith("_sec") && !skip.some(s => k.startsWith(s))) { const n = k.slice(prefix.length); m[n] = (m[n] || 0) + (+v || 0); }
+  return m;
+}
+function bars(id, rows, emptyText = "Henüz veri yok.") {
+  const max = Math.max(1, ...rows.map(r => r.value));
+  $(id).innerHTML = rows.length ? rows.map(r => `<div class="brow"><span title="${esc(r.label)}">${esc(r.label)}</span><div class="track"><div class="fill" style="width:${r.value / max * 100}%${r.color ? ";background:" + r.color : ""}"></div></div><small>${r.sub ?? fmt(r.value)}</small></div>`).join("")
+    : `<p class="muted">${emptyText}</p>`;
+}
+const sorted = (m, names = {}) => Object.entries(m).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: names[k] || k, value: v }));
+const countBy = (arr, f) => { const m = {}; arr.forEach(x => { const k = f(x); m[k] = (m[k] || 0) + 1; }); return m; };
+
+// ---------- Grafikler ----------
+let charts = {};
+const C = ["#1f9d4a", "#0a6fe0", "#c77d00", "#6d4fe0", "#d6455d", "#14b8a6", "#8a8fa0", "#e67e22"];
+function themeCharts() {
+  if (!window.Chart) return;
+  const cs = getComputedStyle(document.documentElement);
+  Chart.defaults.color = cs.getPropertyValue("--soft").trim();
+  Chart.defaults.borderColor = cs.getPropertyValue("--line").trim();
+  Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+}
+function chart(id, type, labels, datasets, opts = {}) {
+  if (!window.Chart || !$(id)) return;
+  charts[id]?.destroy();
+  charts[id] = new Chart($(id), { type, data: { labels, datasets }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { boxWidth: 10 } } }, ...opts } });
+}
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  store.set("bamtech-panel-tema", t);
+  themeCharts(); renderAll();
+}
+const toggleTheme = () => setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+$("themeBtn").onclick = toggleTheme; $("themeBtn2").onclick = toggleTheme;
+themeCharts();
+
+// ---------- Durum ----------
+let allInstalls = [], statDocs = [], G = null, gaError = "", social = null;
+let installs = [], stats = [];          // uygulama filtresi uygulanmış
+let evCache = {}, pwLoaded = false, pwLoading = false;
+let FB = null;
+let currentPage = "overview";
+let days = +(store.get("bs-panel-aralik") || 7);
+if (![1, 7, 30, 90].includes(days)) days = 7;
+let appF = store.get("bs-panel-uygulama") || "all";
+if (appF !== "all" && !APPS[appF]) appF = "all";
+
+// ---------- Firebase (demo modunda hiç yüklenmez) ----------
+if (!DEMO) {
+  const V = "10.14.1", base = `https://www.gstatic.com/firebasejs/${V}/`;
+  const [appM, authM, fsM] = await Promise.all(["firebase-app", "firebase-auth", "firebase-firestore"].map(m => import(base + m + ".js")));
+  const app = appM.initializeApp(firebaseConfig);
+  FB = { auth: authM.getAuth(app), db: fsM.getFirestore(app), A: authM, F: fsM };
+}
+
+// ---------- Giriş ----------
+function showLogin(msg = "", denied = false) {
+  $("login").classList.remove("hidden"); $("app").classList.add("hidden");
+  $("loginMsg").innerHTML = msg;
+  $("loginForm").classList.toggle("hidden", denied);
+  $("loginOut").classList.toggle("hidden", !denied);
+}
+function deniedText(email) {
+  return `<div class="note err"><b>Yetkin yok.</b> ${email ? `${esc(email)} adresiyle girdin; ` : ""}bu panelin verisini yalnız ${ADMIN} okuyabilir. Çıkış yapıp o adresle tekrar dene.</div>`;
+}
+if (!DEMO) {
+  const { auth } = FB, A = FB.A;
+  $("email").value = store.get(EMAIL_KEY) || ADMIN;
+  const msg = html => { $("loginMsg").innerHTML = html; };
+  const fail = e => msg(`<div class="note err">Olmadı: ${esc(e.code || e.message)}</div>`);
+  $("sendLink").onclick = async () => {
+    const email = $("email").value.trim();
+    if (!email) { msg("Önce e-posta adresini yaz."); return; }
+    if (email.toLowerCase() !== ADMIN) { msg(deniedText(email)); return; }
+    msg("Gönderiliyor…");
+    try {
+      await A.sendSignInLinkToEmail(auth, email, { url: location.origin + location.pathname, handleCodeInApp: true });
+      store.set(EMAIL_KEY, email);
+      msg(`<div class="note okn">Bağlantı ${esc(email)} adresine gitti. Bu tarayıcıda aç; gereksiz klasörüne de bak.</div>`);
+    } catch (e) { fail(e); }
+  };
+  $("email").addEventListener("keydown", e => { if (e.key === "Enter") $("sendLink").click(); });
+  $("google").onclick = async () => {
+    msg("Google açılıyor…");
+    try { await A.signInWithPopup(auth, new A.GoogleAuthProvider()); }
+    catch (e) { fail(e); }
+  };
+  const out = () => A.signOut(auth);
+  $("signout").onclick = out; $("signoutLogin").onclick = out;
+
+  if (A.isSignInWithEmailLink(auth, location.href)) {
+    let email = store.get(EMAIL_KEY);
+    if (!email) email = prompt("Giriş bağlantısını hangi e-posta adresine gönderdin?", ADMIN);
+    try { await A.signInWithEmailLink(auth, (email || "").trim(), location.href); store.set(EMAIL_KEY, email); }
+    catch (e) { showLogin(`<div class="note err">Bağlantıyla giriş olmadı: ${esc(e.code || e.message)}. Bağlantı eskimiş ya da kullanılmış olabilir; yenisini iste.</div>`); }
+    history.replaceState(null, "", location.pathname + location.hash);
+  }
+
+  /* Asıl kapı Firestore kuralları: telemetriyi yalnız doğrulanmış yönetici
+     e-postası okur. Buradaki kontrol yalnız açık bir mesaj göstermek için. */
+  A.onAuthStateChanged(auth, async user => {
+    if (!user) { showLogin(); return; }
+    if ((user.email || "").toLowerCase() !== ADMIN || !user.emailVerified) { showLogin(deniedText(user.email), true); return; }
+    $("login").classList.add("hidden"); $("app").classList.remove("hidden");
+    $("whoami").textContent = `Giriş: ${user.email}`;
+    await refreshAll();
+  });
+} else {
+  $("demoBar").classList.remove("hidden");
+  $("signout").onclick = () => { location.href = location.pathname; };
+  $("app").classList.remove("hidden");
+  $("whoami").textContent = "Demo modu: giriş yok, veri sahte.";
+}
+
+// ---------- Gezinme ----------
+document.querySelectorAll("aside a[data-page]").forEach(a => a.onclick = () => go(a.dataset.page));
+function go(page) {
+  if (!document.querySelector(`section[data-view="${page}"]`)) page = "overview";
+  document.querySelectorAll("aside a[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
+  const aside = document.querySelector("aside"), on = aside.querySelector("a.on");
+  if (on && aside.scrollWidth > aside.clientWidth) aside.scrollLeft = on.offsetLeft - (aside.clientWidth - on.offsetWidth) / 2;
+  document.querySelectorAll("main section[data-view]").forEach(s => s.classList.toggle("hidden", s.dataset.view !== page));
+  currentPage = page;
+  history.replaceState(null, "", location.pathname + location.search + "#" + page);
+  if (page === "revenue") loadJourneys();
+  if (page === "social") loadSocial();
+  const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
+  requestAnimationFrame(fit); setTimeout(fit, 120);
+  window.scrollTo(0, 0);
+}
+if (location.hash) go(location.hash.slice(1));
+window.addEventListener("hashchange", () => { if (location.hash.slice(1) !== currentPage) go(location.hash.slice(1)); });
+setInterval(() => { if (currentPage === "live" && !document.hidden && (DEMO || FB?.auth.currentUser)) loadData(false); }, 30000);
+$("refreshTop").onclick = () => refreshAll();
+document.querySelectorAll(".range").forEach(b => {
+  b.classList.toggle("on", +b.dataset.d === days);
+  b.onclick = () => {
+    days = +b.dataset.d; store.set("bs-panel-aralik", String(days));
+    document.querySelectorAll(".range").forEach(x => x.classList.toggle("on", x === b));
+    loadData(false);
+  };
+});
+
+function renderChips() {
+  const n = a => allInstalls.filter(i => a === "all" || i.app === a).length;
+  $("chips").innerHTML = [["all", "Tümü", "var(--ink)"], ...APP_KEYS.map(a => [a, APPS[a].ad, APPS[a].renk])]
+    .map(([k, ad, renk]) => `<button class="chip${appF === k ? " on" : ""}" data-app="${k}"><i style="background:${renk}"></i>${ad}<small>${fmt(n(k))}</small></button>`).join("");
+  document.querySelectorAll("#chips .chip").forEach(b => b.onclick = () => {
+    appF = b.dataset.app; store.set("bs-panel-uygulama", appF);
+    applyFilter(); renderAll();
+  });
+}
+
+// ---------- Veri ----------
+async function refreshAll() {
+  $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
+  evCache = {}; pwLoaded = false; social = null;
+  try { await loadData(true); } finally { $("refreshTop").disabled = false; }
+  if (currentPage === "revenue") loadJourneys();
+  if (currentPage === "social") loadSocial();
+}
+const rangeFromKey = () => dayKey(Date.now() - (days - 1) * 864e5);
+async function loadData(withGa) {
+  $("loadErr").classList.add("hidden");
+  try {
+    if (DEMO) {
+      if (!demo) makeDemo();
+      allInstalls = demo.installs; G = demo.ga4;
+      statDocs = demo.stats.filter(s => s.day >= rangeFromKey());
+    } else {
+      const { db, F } = FB;
+      const [iSnap, sSnap] = await Promise.all([
+        F.getDocs(F.query(F.collection(db, "installs"), F.limit(10000))),
+        F.getDocs(F.query(F.collection(db, "stats"), F.where("day", ">=", rangeFromKey()))),
+      ]);
+      allInstalls = iSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      statDocs = sSnap.docs.map(d => { const x = d.data(); return { ...x, app: x.app || d.id.split("_")[0], day: x.day || d.id.slice(-10) }; });
+      if (withGa || !G) {
+        try {
+          const g = await F.getDoc(F.doc(db, "panel", "ga4"));
+          G = g.exists() && g.data().json ? JSON.parse(g.data().json) : null;
+          gaError = G ? "" : "panel/ga4 belgesi yok. Mac'te scripts/lab/bam-sports.mjs çalışınca dolar.";
+        } catch (e) { gaError = "Analytics özeti okunamadı: " + (e.code || e.message); }
+      }
+    }
+  } catch (e) {
+    console.error(e);
+    if (e.code === "permission-denied") { showLogin(deniedText(FB?.auth.currentUser?.email), true); return; }
+    $("loadErr").classList.remove("hidden"); $("loadErr").textContent = "Veri okunamadı: " + (e.code || e.message);
+    $("topMeta").textContent = ""; return;
+  }
+  applyFilter();
+  $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
+  renderAll();
+}
+/* Uygulama filtresi: kurulumları süz, günlük belgeleri güne göre topla. */
+function applyFilter() {
+  installs = allInstalls.filter(i => appF === "all" || i.app === appF);
+  const byDay = {};
+  for (const s of statDocs) {
+    if (appF !== "all" && s.app !== appF) continue;
+    const t = byDay[s.day] ||= { day: s.day, ev: {} };
+    for (const [k, v] of Object.entries(s)) if (typeof v === "number") t[k] = (t[k] || 0) + v;
+    for (const [k, v] of Object.entries(s.ev || {})) t.ev[k] = (t.ev[k] || 0) + (+v || 0);
+  }
+  const from = Date.now() - (days - 1) * 864e5;
+  stats = [];
+  for (let i = 0; i < days; i++) { const k = dayKey(from + i * 864e5); stats.push(byDay[k] || { day: k, ev: {} }); }
+  const ios = installs.filter(i => i.platform === "ios").length;
+  $("ovMeta").textContent = `${fmt(installs.length)} kurulum${appF === "all" ? ", beş uygulama" : " · " + appName(appF)} · ${fmt(ios)} iOS · ${fmt(installs.filter(i => i.tester).length)} test cihazı`;
+}
+function renderAll() {
+  renderChips();
+  if (!stats.length) return;
+  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderSocial, renderGA4, renderJourneys]) {
+    try { f(); } catch (e) { console.error(f.name, e); }
+  }
+}
+
+const rangeFrom = () => Date.now() - days * 864e5;
+const cohort = () => installs.filter(i => ts(i.firstSeen) && ts(i.firstSeen) >= rangeFrom());
+const onlineNow = () => installs.filter(isOnline);
+const labelsOf = () => stats.map(s => s.day.slice(8) + "." + s.day.slice(5, 7));
+const periodWord = () => days === 1 ? "bugün" : `son ${days} gün`;
+
+// ---------- Genel bakış ----------
+function renderOverview() {
+  const now = Date.now();
+  const active = (arr, d) => arr.filter(i => ts(i.lastSeen) && now - ts(i.lastSeen) < d * 864e5).length;
+  const pro = installs.filter(i => i.pro).length;
+  const watch = installs.filter(i => typeof i.watchPaired === "boolean");
+  $("kpis").innerHTML = [
+    kpiH("Şu an online", fmt(onlineNow().length), "son 3 dakikada sinyal"),
+    kpiH("Toplam kurulum", fmt(installs.length), `${fmt(sum(stats, "installs_new"))} yeni (${periodWord()})`),
+    kpiH("Bugün aktif", fmt(active(installs, 1)), "son 24 saat"),
+    kpiH("7 gün aktif", fmt(active(installs, 7))),
+    kpiH("30 gün aktif", fmt(active(installs, 30))),
+    kpiH("Oturum", fmt(sum(stats, "sessions")), periodWord()),
+    kpiH("Tamamlanan maç", fmt(sum(stats, "matches_completed")), periodWord()),
+    kpiH("Pass", fmt(pro), `${fmt(sum(stats, "purchases"))} satın alma (${periodWord()})`),
+    kpiH("Saat eşli", watch.length ? `%${pct(watch.filter(i => i.watchPaired).length, watch.length)}` : "-", `${fmt(watch.filter(i => i.watchPaired).length)} / ${fmt(watch.length)} kurulum`),
+    kpiH("Paywall gösterimi", fmt(sum(stats, "paywall_views")), periodWord()),
+  ].join("");
+  const labels = labelsOf();
+  chart("chActive", "line", labels, [
+    { label: "Oturum", data: stats.map(s => s.sessions || 0), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+    { label: "Yeni kurulum", data: stats.map(s => s.installs_new || 0), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+    { label: "Tamamlanan maç", data: stats.map(s => s.matches_completed || 0), borderColor: C[2], backgroundColor: C[2], tension: .3 },
+  ]);
+  // Uygulama tablosu: filtreden bağımsız, hepsini gösterir.
+  const from = rangeFrom();
+  $("ovApps").innerHTML = APP_KEYS.map(a => {
+    const l = allInstalls.filter(i => i.app === a);
+    const yeni = l.filter(i => ts(i.firstSeen) >= from).length;
+    const mac = statDocs.filter(s => s.app === a).reduce((t, s) => t + (+s.matches_completed || 0), 0);
+    return `<tr${appF === a ? ' style="background:color-mix(in srgb,var(--accent) 8%,transparent)"' : ""}><td>${appTag(a)}</td><td class="n">${fmt(l.length)}</td><td class="n">${fmt(active(l, days))}</td><td class="n">${fmt(yeni)}</td><td class="n">${fmt(mac)}</td><td class="n">${fmt(l.filter(i => i.pro).length)}</td></tr>`;
+  }).join("");
+  const co = cohort();
+  const steps = [
+    ["Kurulum", co.length],
+    ["Maç kurdu", co.filter(i => ev(i, "screen_setup") > 0 || +i.matches_sent > 0).length],
+    ["Saate gönderdi", co.filter(i => +i.matches_sent > 0).length],
+    ["Maç bitirdi", co.filter(i => +i.matches_completed > 0 || +i.n_matches > 0).length],
+    ["Paywall gördü", co.filter(i => ev(i, "pw_view") > 0 || +i.paywall_views > 0).length],
+    ["Pass aldı", co.filter(i => i.pro || +i.purchases > 0).length],
+  ];
+  chart("chFunnel", "bar", steps.map(s => s[0]), [{ label: "Kurulum", data: steps.map(s => s[1]), backgroundColor: C }],
+    { indexAxis: "y", plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${fmt(c.raw)} (%${pct(c.raw, steps[0][1])})` } } } });
+  const back = d => co.filter(i => ts(i.lastSeen) - ts(i.firstSeen) >= d * 864e5).length;
+  chart("chRet", "bar", ["1 gün sonra", "3 gün", "7 gün", "14 gün", "30 gün"],
+    [{ label: `% (${co.length} kurulum)`, data: [1, 3, 7, 14, 30].map(d => pct(back(d), co.length)), backgroundColor: C[0] }],
+    { scales: { y: { max: 100, ticks: { callback: v => v + "%" } } } });
+  bars("ovVer", sorted(countBy(installs, i => `${appName(i.app)} ${i.appVersion || "?"}${i.build ? ` (${i.build})` : ""}`)).slice(0, 10));
+  bars("ovLang", sorted(countBy(installs, i => `${LANG[i.language] || i.language || "?"} · ${i.region || "?"}`)).slice(0, 10));
+}
+
+// ---------- Canlı ----------
+function renderLive() {
+  const on = onlineNow().sort((a, b) => ts(b.lastSeen) - ts(a.lastSeen)), now = Date.now();
+  const within = m => installs.filter(i => ts(i.lastSeen) && now - ts(i.lastSeen) < m * 6e4).length;
+  $("liveKpis").innerHTML = [
+    kpiH("Şu an online", fmt(on.length)), kpiH("Son 15 dakika", fmt(within(15))), kpiH("Son 1 saat", fmt(within(60))), kpiH("Son 24 saat", fmt(within(1440))),
+    kpiH("Paywall'da", fmt(on.filter(i => i.screen === "paywall").length)), kpiH("Pass olan online", fmt(on.filter(i => i.pro).length)),
+  ].join("");
+  bars("liveScreens", sorted(countBy(on, i => `${screenName(i.screen)}${appF === "all" ? " · " + appName(i.app) : ""}`)), "Şu an uygulamayı açık tutan yok.");
+  bars("liveLeft", sorted(countBy(installs.filter(i => i.screen === "closed" && i.lastScreen && now - ts(i.lastSeen) < 864e5), i => screenName(i.lastScreen))));
+  $("liveRows").innerHTML = on.length ? on.map(i => `<tr class="click" data-id="${esc(i.id)}"><td><span class="dot"></span></td>
+    <td><code>${esc(shortId(i.id))}</code></td><td>${appTag(i.app)}</td><td>${esc(screenName(i.screen))}</td>
+    <td>${i.pro ? '<span class="pill pro">Pass</span> ' : ''}${i.watchPaired ? '<span class="pill ok">Saat</span> ' : ''}${i.tester ? '<span class="pill sky">Test</span>' : ''}</td>
+    <td>${esc(i.appVersion || "")}</td><td>${esc(i.language || "")}</td><td>${ago(ts(i.lastSeen))}</td><td class="n">${fmt(i.n_matches)}</td></tr>`).join("")
+    : `<tr><td colspan="9" class="muted">Şu an kimse yok.</td></tr>`;
+  document.querySelectorAll("#liveRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Ekranlar ----------
+function renderScreens() {
+  const per = screenAgg(stats), all = screenAgg(installs);
+  const keys = [...new Set([...Object.keys(per), ...Object.keys(all)])].sort((a, b) => (per[b]?.sec || 0) - (per[a]?.sec || 0) || (all[b]?.sec || 0) - (all[a]?.sec || 0));
+  const total = Object.values(per).reduce((a, v) => a + v.sec, 0), views = Object.values(per).reduce((a, v) => a + v.views, 0);
+  const top = keys[0];
+  $("scKpis").innerHTML = [
+    kpiH("Ekranlarda toplam", mins(total), `${periodWord()}, herkes`),
+    kpiH("Ekran açılışı", fmt(views), periodWord()),
+    kpiH("Açılış başı", views ? mins(total / views) : "-"),
+    kpiH("En çok vakit", top && per[top]?.sec ? esc(screenName(top)) : "-", top && per[top]?.sec ? `%${pct(per[top].sec, total)} süre` : ""),
+  ].join("");
+  $("scRows").innerHTML = keys.length ? keys.map(k => { const p = per[k] || { sec: 0, views: 0 }, a = all[k] || { sec: 0, people: 0 };
+    return `<tr><td>${esc(screenName(k))} <span class="muted">${esc(k)}</span></td><td class="n">${mins(p.sec)}</td><td class="n">${fmt(p.views)}</td><td class="n">${p.views ? mins(p.sec / p.views) : "-"}</td><td class="n">${fmt(a.people)}</td><td class="n">${a.people ? mins(a.sec / a.people) : "-"}</td></tr>`; }).join("")
+    : `<tr><td colspan="6" class="muted">Henüz ekran süresi yok.</td></tr>`;
+  const ck = keys.filter(k => per[k]?.sec).slice(0, 12);
+  chart("chScreens", "bar", ck.map(screenName), [{ label: "Dakika", data: ck.map(k => +(per[k].sec / 60).toFixed(1)), backgroundColor: C[0] }], { indexAxis: "y", plugins: { legend: { display: false } } });
+}
+
+// ---------- Paywall ----------
+function renderRevenue() {
+  const views = evPrefix(stats, "pw_view_"), closes = evPrefix(stats, "pw_close_", ["pw_close_bought"]), bought = evPrefix(stats, "pw_close_bought_"), buys = evPrefix(stats, "pw_buy_");
+  const proBy = countBy(installs.filter(i => i.pro && i.buySource), i => i.buySource);
+  const pv = sum(stats, "paywall_views"), pu = sum(stats, "purchases");
+  const closeN = evSum(stats, "pw_close"), closeSec = evSum(stats, "pw_close_sec");
+  const buyN = evSum(stats, "pw_buy"), buySec = evSum(stats, "pw_buy_sec");
+  const pro = installs.filter(i => i.pro);
+  $("revKpis").innerHTML = [
+    kpiH("Paywall gösterimi", fmt(pv), periodWord()), kpiH("Satın alma", fmt(pu), periodWord()),
+    kpiH("Dönüşüm", yuzde(pu, pv), "satın alma / gösterim"),
+    kpiH("Kapatana kadar", closeN ? mins(closeSec / closeN) : "-", `${fmt(closeN)} kapatma ortalaması`),
+    kpiH("Alana kadar", buyN ? mins(buySec / buyN) : "-", "açılıştan satın almaya"),
+    kpiH("Pass kurulum", fmt(pro.length), `${fmt(pro.filter(i => i.grandfathered).length)} eski kullanıcı hakkı`),
+    kpiH("Paywall gören kişi", fmt(installs.filter(i => ev(i, "pw_view") > 0).length), "tüm zamanlar"),
+  ].join("");
+  const keys = [...new Set([...Object.keys(views), ...Object.keys(buys), ...Object.keys(proBy)])].sort((a, b) => (buys[b] || 0) - (buys[a] || 0) || (views[b] || 0) - (views[a] || 0));
+  const avg = (k, n) => n ? mins(evSum(stats, k) / n) : "-";
+  $("revRows").innerHTML = keys.length ? keys.map(k => `<tr><td>${esc(srcName(k))}</td><td class="n">${fmt(views[k])}</td><td class="n">${fmt(closes[k])}</td><td class="n">${avg(`pw_close_${k}_sec`, closes[k])}</td>
+    <td class="n">${fmt(bought[k])}</td><td class="n"><b>${fmt(buys[k])}</b></td><td class="n">${yuzde(buys[k] || 0, views[k])}</td><td class="n">${fmt(proBy[k])}</td></tr>`).join("")
+    : `<tr><td colspan="8" class="muted">Bu dönemde paywall açılmadı.</td></tr>`;
+  // Pass hangi uygulamadan: plan sonekine göre; kaynak kırılımı buySource.
+  const pa = {};
+  for (const i of pro) {
+    const k = passApp(i.plan) || (i.grandfathered ? "grandfathered" : "noplan");
+    const x = pa[k] ||= { n: 0, src: {}, installedIn: {} };
+    x.n++; x.src[i.buySource || "-"] = (x.src[i.buySource || "-"] || 0) + 1; x.installedIn[i.app] = (x.installedIn[i.app] || 0) + 1;
+  }
+  const paName = k => k === "grandfathered" ? "Eski kullanıcı hakkı (plan yok)" : k === "noplan" ? "Plan yazılmamış" : passAppName(k);
+  $("revPassApp").innerHTML = Object.keys(pa).length ? Object.entries(pa).sort((a, b) => b[1].n - a[1].n).map(([k, x]) =>
+    `<tr><td>${APPS[k] ? appTag(k) : esc(paName(k))}</td><td class="n"><b>${fmt(x.n)}</b></td><td class="muted" style="white-space:normal">${Object.entries(x.src).sort((a, b) => b[1] - a[1]).map(([s, n]) => `${esc(s === "-" ? "kaynak yok" : srcName(s))} ${fmt(n)}`).join(" · ")}${Object.keys(x.installedIn).some(a => a !== k) ? `<br>şu an şurada: ${Object.entries(x.installedIn).map(([a, n]) => `${esc(appName(a))} ${fmt(n)}`).join(" · ")}` : ""}</td></tr>`).join("")
+    : `<tr><td colspan="3" class="muted">Henüz Pass yok.</td></tr>`;
+  chart("chRev", "bar", labelsOf(), [
+    { label: "Gösterim", data: stats.map(s => s.paywall_views || 0), backgroundColor: C[1] },
+    { label: "Satın alma", data: stats.map(s => s.purchases || 0), backgroundColor: C[0] },
+  ]);
+  const planType = p => { p = String(p || "").toLowerCase(); return p === "offer_code" ? "Teklif kodu" : p.includes("year") || p.includes("annual") ? "Yıllık" : p.includes("month") ? "Aylık" : p.includes("life") ? "Ömür boyu" : p.includes("week") ? "Haftalık" : p || "Plan yok"; };
+  bars("revPlans", sorted(countBy(pro, i => planType(i.plan))), "Henüz Pass yok.");
+  const per = keys.filter(k => closes[k]).map(k => ({ label: srcName(k), value: evSum(stats, `pw_close_${k}_sec`) / closes[k], sub: `${mins(evSum(stats, `pw_close_${k}_sec`) / closes[k])} · ${fmt(closes[k])} kez` })).sort((a, b) => b.value - a.value);
+  bars("revDur", per, "Bu dönemde kapatılan paywall yok.");
+  const withDate = pro.filter(i => ts(i.purchasedAt));
+  $("revWho").innerHTML = `<div>Pass kurulum</div><div>${fmt(pro.length)}</div>
+    <div>Bu dönemde alan</div><div>${fmt(withDate.filter(i => ts(i.purchasedAt) >= rangeFrom()).length)}</div>
+    <div>Eski kullanıcı hakkı</div><div>${fmt(pro.filter(i => i.grandfathered).length)}</div>
+    <div>Saat eşli olan</div><div>${fmt(pro.filter(i => i.watchPaired).length)}</div>
+    <div>Ortalama maç</div><div>${pro.length ? (sum(pro, "n_matches") / pro.length).toFixed(1).replace(".", ",") : "-"} (Pass olmayan: ${(() => { const f = installs.filter(i => !i.pro); return f.length ? (sum(f, "n_matches") / f.length).toFixed(1).replace(".", ",") : "-"; })()})</div>`;
+}
+
+async function loadEvents(id, n = 300) {
+  if (evCache[id]) return evCache[id];
+  let list;
+  if (DEMO) list = (demo.events[id] || []).slice(0, n);
+  else {
+    const { db, F } = FB;
+    const snap = await F.getDocs(F.query(F.collection(db, "installs", id, "events"), F.orderBy("t", "desc"), F.limit(n)));
+    list = snap.docs.map(x => x.data());
+  }
+  return evCache[id] = list;
+}
+async function loadJourneys() {
+  if (pwLoaded || pwLoading || !allInstalls.length) return;
+  pwLoading = true; $("pwMeta").textContent = "Zaman çizelgeleri okunuyor…";
+  const who = allInstalls.filter(i => ev(i, "pw_view") > 0).sort((a, b) => ts(b.lastSeen) - ts(a.lastSeen)).slice(0, 30);
+  try { await Promise.all(who.map(i => loadEvents(i.id))); pwLoaded = true; }
+  catch (e) { $("pwMeta").textContent = "Okunamadı: " + (e.code || e.message); pwLoading = false; return; }
+  pwLoading = false; renderJourneys();
+}
+function journeysOf(i) {
+  const evs = (evCache[i.id] || []).slice().sort((a, b) => ts(a.t) - ts(b.t)), out = [];
+  let cur = null;
+  for (const e of evs) {
+    if (e.e === "pw_view") { if (cur) out.push(cur); cur = { i, t: ts(e.t), src: e.p, sec: null, res: "open" }; }
+    else if (cur && e.e === "pw_buy") { cur.res = "bought"; cur.sec = +e.s || cur.sec; }
+    else if (cur && (e.e === "pw_close" || e.e === "pw_close_bought")) { cur.sec = +e.s || 0; if (e.e === "pw_close_bought") cur.res = "bought"; else if (cur.res !== "bought") cur.res = "closed"; out.push(cur); cur = null; }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+function renderJourneys() {
+  if (!pwLoaded) return;
+  const all = installs.filter(i => evCache[i.id]).flatMap(journeysOf).sort((a, b) => b.t - a.t).slice(0, 150);
+  $("pwMeta").textContent = `Paywall gören son ${Object.keys(evCache).length} kurulumun zaman çizelgesinden, ${all.length} açılış.`;
+  const res = j => j.res === "bought" ? '<span class="pill pro">Pass aldı</span>' : j.res === "closed" ? '<span class="pill no">Kapattı</span>'
+    : (isOnline(j.i) && j.i.screen === "paywall" && Date.now() - j.t < 36e5 ? '<span class="pill ok">Şu an açık</span>' : '<span class="pill no">Kapanış yok</span>');
+  $("pwRows").innerHTML = all.length ? all.map(j => `<tr class="click" data-id="${esc(j.i.id)}"><td>${dtS(j.t)}</td><td><code>${esc(shortId(j.i.id))}</code></td><td>${appTag(j.i.app)}</td><td>${esc(srcName(j.src))}</td><td class="n">${j.sec != null ? mins(j.sec) : "-"}</td><td>${res(j)}</td><td>${esc(j.i.language || "")}</td></tr>`).join("")
+    : `<tr><td colspan="7" class="muted">Henüz paywall yolculuğu yok.</td></tr>`;
+  document.querySelectorAll("#pwRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+// ---------- Kullanım ----------
+function renderEngage() {
+  const sess = evSum(stats, "session"), sessSec = evSum(stats, "session_sec");
+  const mDone = evSum(stats, "match_done"), mSec = evSum(stats, "match_done_sec");
+  const watch = installs.filter(i => typeof i.watchPaired === "boolean"), paired = watch.filter(i => i.watchPaired);
+  $("engKpis").innerHTML = [
+    kpiH("Tamamlanan maç", fmt(sum(stats, "matches_completed")), periodWord()),
+    kpiH("Maç süresi", mDone ? mins(mSec / mDone) : "-", "ortalama"),
+    kpiH("Saate gönderilen", fmt(sum(stats, "matches_sent")), periodWord()),
+    kpiH("Paylaşım", fmt(sum(stats, "shares")), periodWord()),
+    kpiH("İzlenen reklam", fmt(sum(stats, "ads_watched")), "ödüllü, " + periodWord()),
+    kpiH("Saat eşli", watch.length ? `%${pct(paired.length, watch.length)}` : "-", `${fmt(paired.length)} / ${fmt(watch.length)} kurulum`),
+    kpiH("Kortlar açılışı", fmt(evSum(stats, "courts")), `${fmt(installs.filter(i => ev(i, "courts") > 0).length)} kişi (hepsi)`),
+    kpiH("Ortalama oturum", sess ? mins(sessSec / sess) : "-", `${fmt(sum(stats, "sessions"))} oturum`),
+  ].join("");
+  // Gün ve uygulama: ham günlük belgelerden, yığılmış çubuk.
+  const shown = appF === "all" ? APP_KEYS : [appF];
+  chart("chMatches", "bar", labelsOf(), shown.map(a => ({
+    label: APPS[a].ad, backgroundColor: APPS[a].renk,
+    data: stats.map(s => statDocs.filter(d => d.app === a && d.day === s.day).reduce((t, d) => t + (+d.matches_completed || 0), 0)),
+  })), { scales: { x: { stacked: true }, y: { stacked: true, ticks: { precision: 0 } } } });
+  bars("engResult", sorted(evPrefix(stats, "match_done_"), RESULT));
+  bars("engShare", sorted(evPrefix(stats, "share_"), SHARE));
+  const appWatch = APP_KEYS.filter(a => appF === "all" || a === appF).map(a => {
+    const l = installs.filter(i => i.app === a && typeof i.watchPaired === "boolean");
+    return `<div>${esc(appName(a))}</div><div>${l.length ? `%${pct(l.filter(i => i.watchPaired).length, l.length)} eşli · ${fmt(l.filter(i => i.watchApp).length)} saat uygulaması kurulu` : "-"}</div>`;
+  }).join("");
+  $("engWatch").innerHTML = `<div>Eşli saat</div><div>${fmt(paired.length)} / ${fmt(watch.length)}</div>
+    <div>Saat uygulaması kurulu</div><div>${fmt(installs.filter(i => i.watchApp).length)}</div>
+    <div>Eşli ama uygulama yok</div><div>${fmt(paired.filter(i => !i.watchApp).length)}</div>${appWatch}`;
+  const buckets = [["0", 0, 1], ["1", 1, 2], ["2-5", 2, 6], ["6-20", 6, 21], ["21-50", 21, 51], ["50 üstü", 51, 1e9]];
+  bars("engCount", buckets.map(([ad, a, b]) => ({ label: `${ad} maç`, value: installs.filter(i => (+i.n_matches || 0) >= a && (+i.n_matches || 0) < b).length })).filter(r => r.value), "Henüz maç sayısı yok.");
+  $("engRows").innerHTML = Object.entries(COUNTERS).map(([k, ad]) => `<tr><td>${ad} <span class="muted">${k}</span></td><td class="n">${fmt(sum(stats, k))}</td><td class="n">${fmt(installs.filter(i => +i[k] > 0).length)}</td></tr>`).join("")
+    + `<tr><td>Maç içe aktarıldı <span class="muted">match_imported</span></td><td class="n">${fmt(evSum(stats, "match_imported"))}</td><td class="n">${fmt(installs.filter(i => ev(i, "match_imported") > 0).length)}</td></tr>`;
+}
+
+// ---------- Kullanıcılar ----------
+const daysSince = i => ts(i.firstSeen) ? Math.floor((Date.now() - ts(i.firstSeen)) / 864e5) : null;
+const verStr = i => `${i.appVersion || "?"}${i.build ? ` (${i.build})` : ""}`;
+const U_COLS = [
+  ["app", "Uygulama", i => appName(i.app), i => appTag(i.app)],
+  ["firstSeen", "İlk görülme", i => ts(i.firstSeen)?.getTime() || 0, i => dateS(i.firstSeen)],
+  ["age", "Gün", i => daysSince(i) ?? -1, i => daysSince(i) ?? "-", true],
+  ["lastSeen", "Son görülme", i => ts(i.lastSeen)?.getTime() || 0, i => ago(ts(i.lastSeen))],
+  ["status", "Durum", i => (isOnline(i) ? 8 : 0) + (i.pro ? 4 : 0) + (i.signedIn ? 2 : 0) + (i.tester ? 1 : 0), i => `${isOnline(i) ? '<span class="dot"></span>' : ''}${i.pro ? '<span class="pill pro">Pass</span> ' : ''}${i.signedIn ? '<span class="pill ok">Hesap</span> ' : ''}${i.tester ? '<span class="pill sky">Test</span>' : ''}`],
+  ["screen", "Ekran", i => whereIs(i), i => esc(whereIs(i))],
+  ["appVersion", "Sürüm", i => verStr(i), i => esc(verStr(i))],
+  ["language", "Dil", i => i.language || "", i => esc(i.language || "")],
+  ["region", "Bölge", i => i.region || "", i => esc(i.region || "")],
+  ["device", "Cihaz", i => i.device || "", i => esc(i.device || "")],
+  ["watch", "Saat", i => (i.watchPaired ? 2 : 0) + (i.watchApp ? 1 : 0), i => i.watchPaired == null ? "-" : i.watchPaired ? (i.watchApp ? "Eşli, kurulu" : "Eşli") : "Yok"],
+  ["sessions", "Oturum", i => +i.sessions || 0, i => fmt(i.sessions), true],
+  ["time", "Toplam süre", i => ev(i, "session_sec"), i => ev(i, "session_sec") ? mins(ev(i, "session_sec")) : "-", true],
+  ["n_matches", "Defterde maç", i => +i.n_matches || 0, i => i.n_matches != null ? fmt(i.n_matches) : "-", true],
+  ["matches_completed", "Biten maç", i => +i.matches_completed || 0, i => fmt(i.matches_completed), true],
+  ["n_opponents", "Rakip", i => +i.n_opponents || 0, i => i.n_opponents != null ? fmt(i.n_opponents) : "-", true],
+  ["pw", "Paywall", i => ev(i, "pw_view"), i => fmt(ev(i, "pw_view")), true],
+];
+let uSort = { k: "lastSeen", dir: -1 };
+$("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+function renderUsers() {
+  const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = rangeFrom();
+  const keep = {
+    all: () => true, online: isOnline, pro: i => i.pro, free: i => !i.pro, watch: i => i.watchPaired, signed: i => i.signedIn,
+    paywall: i => ev(i, "pw_view") > 0, tester: i => i.tester, new: i => ts(i.firstSeen) >= from,
+  }[f] || (() => true);
+  const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[3];
+  const rows = installs.filter(i => keep(i) && (!q || [i.id, i.app, appName(i.app), i.language, i.region, i.appVersion, i.build, i.device, i.tz, i.plan].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
+  $("uCount").textContent = `${fmt(rows.length)} kurulum`;
+  $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
+  document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : -1 }; renderUsers(); });
+  $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}"><td><code>${esc(shortId(i.id))}</code></td>${U_COLS.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
+    : `<tr><td colspan="${U_COLS.length + 1}" class="muted">Kurulum yok.</td></tr>`;
+  document.querySelectorAll("#uRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
+async function openUser(id) {
+  const i = allInstalls.find(x => x.id === id); if (!i) return;
+  const d = $("drawer"); d.classList.remove("hidden"); d.scrollTop = 0;
+  const yes = b => b == null ? "-" : b ? "Evet" : "Hayır";
+  const sm = screenMap(i);
+  const pwSrc = evPrefix([i], "pw_view_");
+  const pa = passApp(i.plan);
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">Kurulum <code>${esc(shortId(id))}</code></h2><button class="ghost" id="dClose">Kapat</button></div>
+    <p class="muted" style="overflow-wrap:anywhere">${esc(id)}</p>
+    <div class="dl">
+      <div>Uygulama</div><div>${appTag(i.app)}</div>
+      <div>Şu an</div><div>${isOnline(i) ? '<span class="dot"></span>' : ''}${esc(whereIs(i))}</div>
+      <div>Son görülme</div><div>${ts(i.lastSeen)?.toLocaleString("tr-TR") || "-"} (${ago(ts(i.lastSeen))})</div>
+      <div>İlk görülme</div><div>${ts(i.firstSeen)?.toLocaleString("tr-TR") || "-"}${daysSince(i) != null ? ` · ${daysSince(i)} gün önce` : ""}</div>
+      <div>Sürüm</div><div>${i.platform === "android" ? "Android" : "iOS"} ${esc(verStr(i))}</div>
+      <div>Cihaz</div><div>${esc(i.device || "-")}${i.os ? ` · ${esc(i.os)}` : ""}</div>
+      <div>Dil / bölge</div><div>${esc(LANG[i.language] || i.language || "-")} / ${esc(i.region || "-")}</div>
+      <div>Saat dilimi</div><div>${esc(i.tz || "-")}</div>
+      <div>Pass</div><div>${i.pro ? `<span class="pill pro">Pass</span> ${esc(i.plan || "")}${pa && pa !== "?" ? ` · ${esc(passAppName(pa))} ürünü` : ""}` : "Hayır"}${i.grandfathered ? ' <span class="pill sky">Eski kullanıcı</span>' : ""}</div>
+      ${i.pro || i.purchasedAt ? `<div>Satın alma</div><div>${dtS(i.purchasedAt)} · ${esc(srcName(i.buySource))}</div>` : ""}
+      <div>Apple Watch</div><div>${i.watchPaired == null ? "-" : i.watchPaired ? `Eşli · uygulama ${i.watchApp ? "kurulu" : "kurulu değil"}` : "Eşli saat yok"}</div>
+      <div>Hesap</div><div>${i.signedIn ? "Giriş yapmış" : i.signedIn === false ? "Giriş yok" : "-"}</div>
+      <div>Test cihazı</div><div>${yes(i.tester)}</div>
+      <div>Oturum</div><div>${fmt(i.sessions)} · toplam ${mins(ev(i, "session_sec"))}${ev(i, "session") ? ` · ortalama ${mins(ev(i, "session_sec") / ev(i, "session"))}` : ""}</div>
+      <div>Maç</div><div>defterde ${i.n_matches != null ? fmt(i.n_matches) : "-"} · ${fmt(i.matches_completed)} bitti · ${fmt(i.matches_sent)} saate gitti · ${i.n_opponents != null ? fmt(i.n_opponents) : "-"} rakip</div>
+      <div>Sonuçlar</div><div>${Object.entries(evPrefix([i], "match_done_")).map(([k, v]) => `${RESULT[k] || k} ${fmt(v)}`).join(" · ") || "-"}</div>
+      <div>Paylaşım / reklam</div><div>${fmt(i.shares)} paylaşım · ${fmt(i.ads_watched)} reklam</div>
+      <div>Paywall</div><div>${fmt(ev(i, "pw_view"))} gösterim · ${fmt(ev(i, "pw_close"))} kapatma · ${fmt(ev(i, "pw_buy"))} satın alma</div>
+    </div>
+    <h2>Ekranlarda geçen süre</h2><div class="bars" id="dScreens"></div>
+    ${Object.keys(pwSrc).length ? `<h2>Paywall kaynakları</h2><div class="bars" id="dPw"></div>` : ""}
+    <details style="margin-top:18px"><summary class="muted" style="cursor:pointer">Bütün sayaçlar</summary>
+      <div class="dl" style="margin-top:10px">${Object.keys(COUNTERS).map(k => `<div>${k}</div><div>${fmt(i[k])}</div>`).join("")}
+      ${Object.keys(i.ev || {}).sort().map(k => `<div>ev.${esc(k)}</div><div>${fmt(i.ev[k])}</div>`).join("")}</div></details>
+    <h2>Zaman çizelgesi</h2><div id="dTimeline" class="muted">Yükleniyor…</div>`;
+  $("dClose").onclick = () => d.classList.add("hidden");
+  bars("dScreens", Object.entries(sm).filter(([, v]) => v.sec > 0).sort((a, b) => b[1].sec - a[1].sec).map(([k, v]) => ({ label: screenName(k), value: v.sec, sub: `${mins(v.sec)} · ${fmt(v.views)} kez` })), "Ekran süresi yok.");
+  if ($("dPw")) bars("dPw", Object.entries(pwSrc).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: srcName(k), value: v, sub: `${fmt(v)} gösterim · ${fmt(ev(i, `pw_buy_${k}`))} alım` })));
+  try {
+    const evs = (await loadEvents(id)).slice().sort((a, b) => ts(b.t) - ts(a.t));
+    if (!$("dTimeline")) return;
+    let lastDay = "";
+    $("dTimeline").innerHTML = evs.length ? `<p class="muted">Son ${evs.length} olay, en yenisi üstte.</p><div class="tl">${evs.map(e => {
+      const t = ts(e.t), dk = t?.toLocaleDateString("tr-TR", { weekday: "short", day: "2-digit", month: "long" }) || "";
+      const head = dk !== lastDay ? `<div class="day">${dk}</div>` : ""; lastDay = dk;
+      return `${head}<div class="${evClass(e)}"><time>${t?.toLocaleTimeString("tr-TR") || ""}</time>${esc(eventText(e))}</div>`;
+    }).join("")}</div>` : "Zaman çizelgesi boş.";
+  } catch (e) { if ($("dTimeline")) $("dTimeline").textContent = "Okunamadı: " + (e.code || e.message); }
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("drawer").classList.add("hidden"); });
+
+// ---------- Sosyal ----------
+/* users, handles, follows, leagues giriş yapmış herkese okunur; sayım
+   (count) içerik indirmez. matches yalnız oyuncularına açık, yönetici
+   listeleyemez: kurallar reddederse satırda öyle yazar. */
+const SOCIAL_COLS = [
+  ["users", "Profil (users)"], ["handles", "Kullanıcı adı (handles)"], ["follows", "Takip (follows)"],
+  ["leagues", "Lig (leagues)"], ["matches", "Paylaşılan maç (matches)"],
+];
+async function loadSocial() {
+  if (social) return;
+  social = { loading: true };
+  renderSocial();
+  if (DEMO) { social = demo.social; renderSocial(); return; }
+  const { db, F } = FB, out = {};
+  await Promise.all(SOCIAL_COLS.map(async ([c]) => {
+    try { out[c] = { n: (await F.getCountFromServer(F.collection(db, c))).data().count }; }
+    catch (e) { out[c] = { err: e.code === "permission-denied" ? "Kurallar yöneticinin listelemesine izin vermiyor (yalnız oyuncular okur)." : (e.code || e.message) }; }
+  }));
+  social = out; renderSocial();
+}
+function renderSocial() {
+  const signed = installs.filter(i => i.signedIn);
+  const signins = evPrefix(stats, "signin_"), acts = evPrefix(stats, "social_");
+  $("soKpis").innerHTML = [
+    kpiH("Giriş yapmış kurulum", fmt(signed.length), installs.length ? `%${pct(signed.length, installs.length)} kurulum` : ""),
+    kpiH("Giriş", fmt(evSum(stats, "signin")), periodWord()),
+    kpiH("Sosyal işlem", fmt(evSum(stats, "social")), periodWord()),
+    kpiH("Profil", social?.users?.n != null ? fmt(social.users.n) : "-", "users belgesi"),
+    kpiH("Takip", social?.follows?.n != null ? fmt(social.follows.n) : "-", "follows belgesi"),
+    kpiH("Lig", social?.leagues?.n != null ? fmt(social.leagues.n) : "-", "leagues belgesi"),
+  ].join("");
+  $("soDocs").innerHTML = !social || social.loading ? `<tr><td colspan="3" class="muted">Sayılıyor…</td></tr>`
+    : SOCIAL_COLS.map(([c, ad]) => `<tr><td>${ad}</td><td class="n">${social[c]?.n != null ? `<b>${fmt(social[c].n)}</b>` : "-"}</td><td class="muted" style="white-space:normal">${esc(social[c]?.err || "")}</td></tr>`).join("");
+  bars("soSignin", sorted(signins, SIGNIN), "Bu dönemde giriş yok.");
+  bars("soActions", sorted(acts, SOCIAL), "Bu dönemde sosyal işlem yok.");
+  bars("soByApp", APP_KEYS.filter(a => appF === "all" || a === appF).map(a => {
+    const l = installs.filter(i => i.app === a), s = l.filter(i => i.signedIn).length;
+    return { label: appName(a), value: s, color: APPS[a].renk, sub: `${fmt(s)} / ${fmt(l.length)} · %${pct(s, l.length)}` };
+  }).filter(r => r.value || appF !== "all"), "Henüz giriş yapan yok.");
+  const per = screenAgg(stats), all = screenAgg(installs);
+  $("soScreens").innerHTML = ["friends", "league"].map(k => `<div>${screenName(k)}</div><div>${fmt(per[k]?.views)} açılış · ${mins(per[k]?.sec)} (${periodWord()}) · ${fmt(all[k]?.people)} kişi (hepsi)</div>`).join("");
+}
+
+// ---------- Analytics ----------
+const gaOk = a => appF === "all" || a === appF;
+function gaFrom() {
+  if (!G?.gunluk?.length) return "0000";
+  const last = G.gunluk.reduce((m, r) => r.t > m ? r.t : m, "");
+  const d = new Date(last + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - days + 1);
+  return d.toISOString().slice(0, 10);
+}
+const GA_OLAY = {
+  first_open: "İlk açılış", logbook_viewed: "Defter açıldı", match_setup_configured: "Maç kuruldu", match_sent_to_watch: "Saate gönderildi",
+  match_saved_from_watch: "Saatten maç kaydı", match_completed: "Maç bitti", match_shared: "Paylaşım", match_deleted: "Maç silindi",
+  match_imported: "Maç içe aktarıldı", paywall_viewed: "Paywall görüldü", paywall_dismissed: "Paywall kapatıldı",
+  purchase_started: "Satın alma başladı", purchase_completed: "Satın aldı", purchase_failed: "Satın alma olmadı",
+  restore_purchases: "Geri yükleme", restore_completed: "Geri yükleme bitti", offer_code_opened: "Teklif kodu açıldı",
+  rewarded_ad_prompt_shown: "Reklam teklifi", rewarded_ad_watched: "Reklam izlendi", ad_reward: "Reklam ödülü", ad_impression: "Reklam gösterimi",
+  profile_name_set: "Ad yazıldı", login: "Giriş", social_action: "Sosyal işlem", courts_opened: "Kortlar açıldı",
+  session_start: "Oturum", user_engagement: "Etkileşim", screen_view: "Ekran görüntüleme", os_update: "iOS güncellemesi",
+  app_update: "Uygulama güncellemesi", app_remove: "Silindi", in_app_purchase: "Mağaza satın alması",
+  app_store_subscription_renew: "Abonelik yenilendi", app_exception: "Çökme / hata",
+};
+const SISTEM = new Set(["session_start", "user_engagement", "screen_view", "os_update", "app_update", "first_open", "(not set)", ""]);
+function renderGA4() {
+  if (!G) { $("gaMeta").textContent = ""; $("gaBody").innerHTML = `<div class="note">${esc(gaError || "Analytics özeti yok.")}</div>`; return; }
+  const bas = gaFrom();
+  $("gaMeta").textContent = `Firebase Analytics özeti · veri ${new Date(G.uretim).toLocaleString("tr-TR")} · ${fmt(G.toplam?.totalUsers)} kullanıcı / ${G.gun} gün. Mac'teki günlük iş yazar; bugünün verisi eksik olabilir. Uygulama filtresi günlük seriler, olaylar, ekranlar ve sürümlere uygulanır.`;
+  const m = new Map();
+  for (const r of G.gunluk || []) if (r.t >= bas && gaOk(r.a)) { const x = m.get(r.t) || { au: 0, nu: 0, os: 0, sure: 0 }; x.au += r.au; x.nu += r.nu; x.os += r.os; x.sure += r.sure; m.set(r.t, x); }
+  const s = [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const top = s.reduce((a, [, r]) => ({ nu: a.nu + r.nu, os: a.os + r.os, sure: a.sure + r.sure }), { nu: 0, os: 0, sure: 0 });
+  const o = {};
+  for (const r of G.olaylar || []) if (r.t >= bas && gaOk(r.a)) { const x = o[r.o] ||= { n: 0, k: 0 }; x.n += r.n; x.k += r.k; }
+  const k = n => G.olayKisi?.[n]?.k || 0;
+  const enCok = Object.entries(o).filter(([n]) => !SISTEM.has(n)).sort((a, b) => b[1].n - a[1].n).slice(0, 12);
+  const adim = [["first_open", "İlk açılış"], ["logbook_viewed", "Defteri açtı"], ["match_sent_to_watch", "Saate maç gönderdi"], ["match_saved_from_watch", "Saatten maç kaydetti"], ["paywall_viewed", "Paywall gördü"], ["purchase_completed", "Satın aldı"]];
+  const ilk = k("first_open") || 1;
+  const ek = {};
+  for (const e of G.ekranlar || []) if (gaOk(e.a)) { const x = ek[e.ad] ||= { g: 0, sure: 0, k: 0 }; x.g += e.g; x.sure += e.sure; x.k += e.k; }
+  const ekSat = Object.entries(ek).sort((a, b) => b[1].sure - a[1].sure).slice(0, 12);
+  const tablo = (baslik, sat, ad, deger) => `<div class="card"><h2>${baslik}</h2><div class="tablewrap"><table>${sat.slice(0, 12).map(r => `<tr><td>${esc(ad(r))}</td><td class="n">${fmt(deger(r))}</td></tr>`).join("") || '<tr><td class="muted">Veri yok.</td></tr>'}</table></div></div>`;
+  const surum = (G.surumler || []).filter(r => gaOk(r.a)).sort((a, b) => b.activeUsers - a.activeUsers);
+  const ua = (G.uygulamalar || []).slice().sort((a, b) => b.totalUsers - a.totalUsers);
+  $("gaBody").innerHTML = `
+    <div class="kpis">
+      ${kpiH("Bugün aktif", fmt(G.aktif?.dau), "son 1 gün, hepsi")}${kpiH("Haftalık aktif", fmt(G.aktif?.wau), "son 7 gün, hepsi")}${kpiH("Aylık aktif", fmt(G.aktif?.mau), "son 28 gün, hepsi")}
+      ${kpiH("Yeni kullanıcı", fmt(top.nu), periodWord())}${kpiH("Oturum başı süre", mins(top.os ? top.sure / top.os : 0), `${fmt(top.os)} oturum`)}
+      ${kpiH("Saatten maç", fmt(o.match_saved_from_watch?.n || 0), periodWord())}${kpiH("Paywall görüldü", fmt(o.paywall_viewed?.n || 0), periodWord())}
+    </div>
+    <div class="card"><h2>Günlük kullanıcı <span class="muted">${periodWord()}</span></h2><div class="cbox"><canvas id="chGaDaily"></canvas></div></div>
+    <div class="card"><h2>Uygulamalar <span class="muted">${G.gun} gün</span></h2><div class="tablewrap"><table><tr><th>Uygulama</th><th class="n">Kullanıcı</th><th class="n">Yeni</th><th class="n">Oturum</th><th class="n">Etkileşimli</th><th class="n">Kişi başı süre</th></tr>
+      ${ua.map(r => `<tr><td>${APPS[r.a] ? appTag(r.a) : esc(r.ad)} <span class="muted">${esc(r.ad)}</span></td><td class="n">${fmt(r.totalUsers)}</td><td class="n">${fmt(r.newUsers)}</td><td class="n">${fmt(r.sessions)}</td><td class="n">${yuzde(r.engagedSessions, r.sessions)}</td><td class="n">${r.totalUsers ? mins(r.userEngagementDuration / r.totalUsers) : "-"}</td></tr>`).join("") || '<tr><td colspan="6" class="muted">Veri yok.</td></tr>'}</table></div></div>
+    <div class="grid2">
+      <div class="card"><h2>En çok yapılan <span class="muted">olay sayısı</span></h2><div class="bars" id="gaTop"></div></div>
+      <div class="card"><h2>Huni <span class="muted">kişi, ${G.gun} gün, hepsi</span></h2><div class="tablewrap"><table>${adim.map(([n, ad]) => { const v = k(n); return `<tr><td>${ad}</td><td class="n">${fmt(v)}</td><td class="n">${yuzde(v, ilk)}</td></tr>`; }).join("")}</table></div></div>
+      <div class="card"><h2>Ekranlar <span class="muted">${G.gun} gün</span></h2><div class="tablewrap"><table><tr><th>Ekran</th><th class="n">Süre</th><th class="n">Görüntüleme</th><th class="n">Kişi</th></tr>${ekSat.map(([ad, v]) => `<tr><td>${ad === "(not set)" ? '<span class="muted">(adsız)</span>' : esc(ad)}</td><td class="n">${mins(v.sure)}</td><td class="n">${fmt(v.g)}</td><td class="n">${fmt(v.k)}</td></tr>`).join("") || '<tr><td class="muted">Veri yok.</td></tr>'}</table></div></div>
+      <div class="card"><h2>Günün saatine göre oturum <span class="muted">hepsi</span></h2><div class="cbox" style="height:220px"><canvas id="chGaHour"></canvas></div></div>
+      ${tablo("Sürüm <span class='muted'>aktif, 28 gün</span>", surum, r => `${appName(r.a)} ${r.appVersion}`, r => r.activeUsers)}
+      ${tablo("Ülke <span class='muted'>hepsi</span>", (G.ulkeler || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), r => r.country, r => r.totalUsers)}
+      ${tablo("Dil <span class='muted'>hepsi</span>", (G.diller || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), r => r.language, r => r.totalUsers)}
+      ${tablo("Cihaz <span class='muted'>hepsi</span>", (G.cihazlar || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), r => r.mobileDeviceModel, r => r.totalUsers)}
+      ${tablo("iOS sürümü <span class='muted'>hepsi</span>", (G.isletim || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), r => r.operatingSystemVersion, r => r.totalUsers)}
+      ${tablo("Nereden geldiler <span class='muted'>ilk kaynak</span>", (G.kaynaklar || []).slice().sort((a, b) => b.totalUsers - a.totalUsers), r => `${r.firstUserSource} / ${r.firstUserMedium}`, r => r.totalUsers)}
+      <div class="card"><h2>Geri gelme <span class="muted">ilk haftaya göre</span></h2>${kohortTablo()}</div>
+    </div>`;
+  chart("chGaDaily", "line", s.map(([t]) => t.slice(8) + "." + t.slice(5, 7)), [
+    { label: "Aktif", data: s.map(([, r]) => r.au), borderColor: C[0], backgroundColor: C[0], tension: .3 },
+    { label: "Yeni", data: s.map(([, r]) => r.nu), borderColor: C[1], backgroundColor: C[1], tension: .3 },
+  ]);
+  bars("gaTop", enCok.map(([n, v]) => ({ label: GA_OLAY[n] || n, value: v.n, sub: `${fmt(v.n)} · ${fmt(v.k)} kişi` })));
+  const saat = (G.saatler || []).slice().sort((a, b) => +a.hour - +b.hour);
+  chart("chGaHour", "bar", saat.map(r => r.hour), [{ label: "Oturum", data: saat.map(r => r.sessions), backgroundColor: C[0] }], { plugins: { legend: { display: false } } });
+}
+function kohortTablo() {
+  const hafta = t => { const d = new Date(t + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
+  const fark = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5 / 7);
+  const m = {};
+  for (const r of G.kohort || []) { const h = hafta(r.ilk), w = fark(h, hafta(r.t)); const x = m[h] ||= {}; x[w] = (x[w] || 0) + r.k; }
+  const haftalar = Object.keys(m).sort().slice(-8);
+  return `<div class="tablewrap"><table><tr><th>Hafta</th><th class="n">Yeni</th>${[1, 2, 3, 4].map(i => `<th class="n">+${i}</th>`).join("")}</tr>
+    ${haftalar.map(h => { const x = m[h], y = x[0] || 0; return `<tr><td>${h.slice(8)}.${h.slice(5, 7)}</td><td class="n">${fmt(y)}</td>${[1, 2, 3, 4].map(i => `<td class="n">${x[i] != null && y ? `%${pct(x[i], y)}` : ""}</td>`).join("")}</tr>`; }).join("")}</table></div>
+    <p class="muted">Hücre: o haftanın yeni kullanıcılarından kaç kişi n hafta sonra açtı (günlük aktiflerin toplamı, kaba).</p>`;
+}
+
+// ---------- Demo verisi (Firestore'a hiç dokunmaz) ----------
+let demo = null;
+function makeDemo() {
+  let seed = 23;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const r = (a, b) => Math.floor(a + rnd() * (b - a));
+  const now = Date.now(), statsMap = {}, events = {}, list = [];
+  const bump = (o, k, n = 1) => { o[k] = (o[k] || 0) + n; };
+  const APPW = ["tennis", "tennis", "tennis", "tennis", "tennis", "pickleball", "pickleball", "tabletennis", "badminton", "volleyball"];
+  const SUFFIX = { tennis: "_tennis", pickleball: "_pickle", volleyball: "_volley", badminton: "_badminton", tabletennis: "_tabletennis" };
+  const SCR = ["logbook", "logbook", "logbook", "setup", "setup", "academy", "courts", "profile", "friends", "league"];
+  const PW = ["quota", "quota", "quota", "banner", "banner", "profile", "setup"];
+  const langs = ["en", "en", "en", "en", "tr", "de", "es", "fr", "it", "nl"];
+  const regionOf = { en: ["US", "GB", "AU", "CA"], tr: ["TR"], de: ["DE", "AT"], es: ["ES", "MX"], fr: ["FR"], it: ["IT"], nl: ["NL"] };
+  const tzOf = { US: "America/New_York", GB: "Europe/London", AU: "Australia/Sydney", CA: "America/Toronto", TR: "Europe/Istanbul", DE: "Europe/Berlin", AT: "Europe/Vienna", ES: "Europe/Madrid", MX: "America/Mexico_City", FR: "Europe/Paris", IT: "Europe/Rome", NL: "Europe/Amsterdam" };
+  for (let n = 0; n < 140; n++) {
+    const app = APPW[n % APPW.length];
+    const id = Array.from({ length: 4 }, () => Math.floor(rnd() * 0xffffffff).toString(16).padStart(8, "0").toUpperCase()).join("-");
+    const lang = pick(langs), region = pick(regionOf[lang]);
+    const first = now - 30 * 6e4 - Math.pow(rnd(), 1.3) * 85 * 864e5;
+    const paired = rnd() < .62;
+    const inst = { id, app, platform: "ios", appVersion: pick(["1.4", "1.4", "1.3.2"]), build: pick(["41", "42", "38"]), language: lang, region, tz: tzOf[region],
+      device: pick(["iPhone16,1", "iPhone15,2", "iPhone17,3", "iPhone14,7", "iPhone16,2"]), os: pick(["26.0", "26.0.1", "18.6.2"]),
+      pro: false, grandfathered: false, watchPaired: paired, watchApp: paired && rnd() < .8, signedIn: rnd() < .22, tester: n < 3, ev: {}, firstSeen: new Date(first) };
+    Object.keys(COUNTERS).forEach(k => inst[k] = 0);
+    const evs = [];
+    const st = t => statsMap[app + "_" + dayKey(t)] ||= { app, day: dayKey(t), ev: {} };
+    const rec = (t, name, p, s) => {
+      for (const o of [inst, st(t)]) { bump(o.ev, name); if (p) bump(o.ev, `${name}_${p}`); if (s > 0) { bump(o.ev, `${name}_sec`, s); if (p) bump(o.ev, `${name}_${p}_sec`, s); } }
+      evs.push({ t: new Date(t), e: name, ...(p ? { p } : {}), ...(s != null ? { s } : {}) });
+    };
+    const cnt = (t, k, v = 1) => { bump(inst, k, v); bump(st(t), k, v); };
+    cnt(first, "installs_new");
+    const online = n >= 3 && n < 9, sessions = online ? r(2, 8) : 1 + Math.floor(rnd() * rnd() * 26);
+    let t = first, lastScreen = "logbook";
+    for (let si = 0; si < sessions && t < now; si++) {
+      const start = t; cnt(t, "sessions");
+      if (si === 0 && inst.signedIn && rnd() < .5) rec(t + 5e3, "signin", pick(["apple", "apple", "google"]));
+      const screensN = r(2, 6);
+      for (let k = 0; k < screensN; k++) {
+        const sc = pick(SCR); lastScreen = sc; rec(t, "screen", sc);
+        const dur = Math.round(4 + Math.pow(rnd(), 2) * 240);
+        if (sc === "setup" && rnd() < .55 && paired) {
+          rec(t + dur * 500, "match_sent", app); cnt(t, "matches_sent");
+          if (rnd() < .8) { const md = r(25, 110) * 60, tt = t + dur * 1000 + md * 1000; cnt(tt, "matches_completed"); rec(tt, "match_done", pick(["win", "win", "loss", "loss", "practice"]), md); }
+        }
+        if (sc === "logbook" && rnd() < .12) { rec(t + dur * 500, "share", pick(["story", "story", "save", "copy", "more", "qr"])); cnt(t, "shares"); }
+        if (sc === "courts") rec(t + 2e3, "courts", String(r(0, 25)));
+        if ((sc === "friends" || sc === "league") && inst.signedIn && rnd() < .5) rec(t + dur * 400, "social", pick(["follow", "follow", "share_result", "league_join", "league_create", "league_result"]));
+        if (rnd() < .05) cnt(t, "ads_watched");
+        t += dur * 1000; bump(inst.ev, `screen_${sc}_sec`, dur); bump(st(t).ev, `screen_${sc}_sec`, dur); rec(t, "screen_time", sc, dur);
+      }
+      if (!inst.pro && (rnd() < .3 || (si > 2 && rnd() < .3))) {
+        const src = pick(PW), dur = Math.round(3 + rnd() * 60);
+        rec(t, "pw_view", src); cnt(t, "paywall_views");
+        t += dur * 1000;
+        if (rnd() < .1) {
+          rec(t, "pw_buy", src, dur); cnt(t, "purchases");
+          const planApp = rnd() < .8 ? app : pick(APP_KEYS);
+          Object.assign(inst, { pro: true, plan: `com.bamtech.sportspass.${pick(["yearly", "yearly", "monthly", "lifetime"])}${SUFFIX[planApp]}`, buySource: src, purchasedAt: new Date(t) });
+          t += 2000; rec(t, "pw_close_bought", src, dur + 2);
+        } else rec(t, "pw_close", src, dur);
+      }
+      const len = Math.round((t - start) / 1000); rec(t, "session", null, len);
+      if (si < sessions - 1) t += online && si === sessions - 2 ? 0 : (0.5 + rnd() * 70) * 36e5;
+    }
+    if (n % 23 === 7 && !inst.pro) Object.assign(inst, { pro: true, grandfathered: true, plan: "" });
+    if (n === 11) Object.assign(inst, { pro: true, plan: "offer_code", buySource: "offer_code", purchasedAt: new Date(now - 4 * 864e5) });
+    if (online) {
+      t = now - rnd() * 100e3; inst.lastSeen = new Date(t); inst.screen = rnd() < .2 ? "paywall" : pick(SCR);
+    } else { inst.lastSeen = new Date(Math.min(t, now - 5 * 6e4)); inst.screen = "closed"; inst.lastScreen = lastScreen; }
+    inst.n_matches = inst.matches_completed + (rnd() < .3 ? r(0, 40) : 0);
+    inst.n_opponents = inst.n_matches ? r(1, Math.min(12, inst.n_matches + 1)) : 0;
+    events[id] = evs.sort((a, b) => b.t - a.t);
+    list.push(inst);
+  }
+  demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick),
+    social: { users: { n: 31 }, handles: { n: 29 }, follows: { n: 74 }, leagues: { n: 6 }, matches: { err: "Kurallar yöneticinin listelemesine izin vermiyor (yalnız oyuncular okur)." } } };
+}
+function fakeGA4(rnd, pick) {
+  const now = Date.now(), gun = 90, g = { uretim: new Date(now - 5 * 36e5).toISOString(), gun, gunluk: [], olaylar: [], kohort: [] };
+  const W = { tennis: 14, pickleball: 4, tabletennis: 2, badminton: 2, volleyball: 1 };
+  const names = Object.keys(GA_OLAY);
+  const kisi = {};
+  for (let d = gun - 1; d >= 0; d--) {
+    const t = dayKey(now - d * 864e5);
+    for (const [a, w] of Object.entries(W)) {
+      const au = Math.round(w * (0.5 + rnd()) * (1 + (gun - d) / gun)), nu = Math.round(au * (.2 + rnd() * .3));
+      g.gunluk.push({ t, a, au, nu, os: Math.round(au * 1.7), sure: au * Math.round(120 + rnd() * 300), ekran: au * 4 });
+      for (const o of names) if (rnd() < .3) {
+        const n = 1 + Math.floor(rnd() * au), k = Math.max(1, Math.round(n / 2));
+        g.olaylar.push({ t, o, a, n, k });
+        (kisi[o] ||= { k: 0, n: 0 }).n += n; kisi[o].k += k;
+      }
+    }
+  }
+  const tu = g.gunluk.reduce((s, r) => s + r.nu, 0);
+  kisi.first_open = { k: tu, n: tu };
+  g.olayKisi = kisi;
+  g.toplam = { totalUsers: tu, newUsers: tu, activeUsers: tu, sessions: tu * 3, userEngagementDuration: tu * 900, engagedSessions: tu * 2 };
+  g.aktif = { dau: 14, wau: 38, mau: 96 };
+  const AD = { tennis: "Tennis Padel Score Keeper", pickleball: "Pickleball Score Keeper", tabletennis: "Rally: Table Tennis", badminton: "Rally: Badminton", volleyball: "Volleyball Score Keeper" };
+  g.uygulamalar = Object.entries(W).map(([a, w]) => { const u = Math.round(tu * w / 23); return { a, ad: AD[a], totalUsers: u, newUsers: Math.round(u * .85), activeUsers: u, sessions: u * 3, engagedSessions: u * 2, userEngagementDuration: u * 700 }; });
+  g.ekranlar = ["LogbookView", "MatchSetupPhoneView", "SettingsView", "GuideView", "PaywallView", "(not set)"].flatMap(ad => Object.keys(W).map(a => ({ ad, a, g: Math.floor(rnd() * 300), sure: Math.floor(rnd() * 20000), k: 1 + Math.floor(rnd() * 40) })));
+  g.surumler = Object.keys(W).flatMap(a => [{ a, appVersion: "1.4", activeUsers: Math.round(W[a] * 3) }, { a, appVersion: "1.3.2", activeUsers: W[a] }]);
+  g.ulkeler = [["United States", 70], ["United Kingdom", 22], ["Germany", 15], ["Türkiye", 12], ["Australia", 10], ["Spain", 8]].map(([country, totalUsers]) => ({ country, totalUsers }));
+  g.diller = [["English", 120], ["German", 15], ["Turkish", 12], ["Spanish", 9]].map(([language, totalUsers]) => ({ language, totalUsers }));
+  g.kaynaklar = [{ firstUserSource: "(direct)", firstUserMedium: "(none)", totalUsers: Math.round(tu * .8) }, { firstUserSource: "apple", firstUserMedium: "search", totalUsers: Math.round(tu * .2) }];
+  g.cihazlar = [["iPhone", 70], ["iPhone 15 Pro", 25], ["iPhone 16", 18], ["iPhone 13", 12]].map(([mobileDeviceModel, totalUsers]) => ({ mobileDeviceModel, totalUsers }));
+  g.isletim = [["26.0", 80], ["26.0.1", 30], ["18.6.2", 20]].map(([operatingSystemVersion, totalUsers]) => ({ operatingSystemVersion, totalUsers }));
+  g.saatler = Array.from({ length: 24 }, (_, h) => ({ hour: String(h).padStart(2, "0"), activeUsers: 5, sessions: Math.round(3 + 25 * Math.max(0, Math.sin((h - 6) / 18 * Math.PI)) * (0.7 + rnd() * .6)) }));
+  for (let w = 8; w >= 0; w--) { const ilk = dayKey(now - w * 7 * 864e5); let k = 15 + Math.floor(rnd() * 15); for (let j = 0; j <= w && j < 5; j++) { g.kohort.push({ ilk, t: dayKey(now - (w - j) * 7 * 864e5), k }); k = Math.round(k * (.3 + rnd() * .3)); } }
+  return g;
+}
+
+if (DEMO) await refreshAll();
+</script>
+</body>
+</html>
