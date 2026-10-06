@@ -108,11 +108,11 @@ APPS = [
        tr="Kırk hafta, tek bir tarihten. Hangi haftadasın, bebek ne kadar büyüdü, doğuma kaç gün kaldı; widget, günlük ve paylaşılabilir kartla.",
        en="Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.",
        tour="/bumpline/", search="bumpline kırk hafta hamilelik gebelik pregnancy"),
-  dict(slug="store-mockup", name="Store Mockup", sub="Studio", icon="/assets/home/icons/store-mockup.svg", status="web",
+  dict(slug="store-mockup", name="Framegrove", sub="Creative Assets", icon="/assets/home/icons/store-mockup.svg", status="web",
        tags="tools web", plat="web", color="#e9ccff",
-       tr="Ham ekran görüntülerini at, App Store ve Play görselini al: cihaz çerçevesi, arka plan, başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır.",
-       en="Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser.",
-       tour="/web/store-mockup/", tour_tr="Aracı aç", tour_en="Open the tool", search="store mockup studio screenshot ekran görüntüsü web"),
+       tr="Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.",
+       en="Your app’s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source.",
+       tour="/web/store-mockup/", tour_tr="Aracı aç", tour_en="Open the tool", web="https://framegrove.bamstudio.dev/", search="framegrove iphone duo creative assets screenshot ekran görüntüsü web"),
   dict(slug="mihenk", name="Mihenk", sub="App Estimator", icon="/assets/home/icons/mihenk.svg", status="web",
        tags="tools web", plat="web", color="#ffd731",
        tr="Herhangi bir uygulamanın kaç kez indirildiğini ve ne kazandığını App Store ve Google Play verisinden tahmin eder. Rakibine bak, pazarı ölç.",
@@ -156,7 +156,7 @@ def row(a, i):
     st = a["status"]
     ios = (AS + a["ios"]) if a.get("ios") else ""
     play = (GP + a["play"]) if a.get("play") else ""
-    web = ("https://bamstudio.dev" + a["tour"]) if a["plat"] == "web" else ""
+    web = a.get("web", "https://bamstudio.dev" + a["tour"]) if a["plat"] == "web" else ""
     attrs = (f'id="app-{a["slug"]}" data-slug="{a["slug"]}" data-tags="{a["tags"]} {a["plat"]}" data-color="{a["color"]}" '
              f'data-icon="{a["icon"] or ""}" data-ios="{e(ios)}" data-play="{e(play)}" data-web="{e(web)}" data-tour="{e(a.get("tour", ""))}" '
              f'data-title="{e(a["name"])}" data-name="{e(a["name"] + " " + a["sub"] + " " + a["search"])}"')

@@ -35,7 +35,7 @@ blog/
 
 web/
   index.html            Web araçları listesi
-  store-mockup/         Ekran görüntüsü çerçeveleme aracı (tarayıcıda çalışır)
+  store-mockup/         Framegrove için eski adres; yeni ürün framegrove.bamstudio.dev
 
 lab/                    noindex — iç araçlar
   index.html            Lab girişi: araçlar + dış panolara kısayol

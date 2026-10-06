@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const KOK = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://bamstudio.dev";
-const HARIC = /^(lab|neden|data|node_modules|scripts|assets|\.git|\.claude)(\/|$)|\/_template\.html$|^web\/store-mockup\/(css|js|legacy|engine|mcp)\/|^google[0-9a-f]+\.html$|\/google[0-9a-f]+\.html$/;
+const HARIC = /^(lab|neden|data|node_modules|scripts|assets|\.git|\.claude)(\/|$)|\/_template\.html$|^web\/store-mockup(\/|$)|^google[0-9a-f]+\.html$|\/google[0-9a-f]+\.html$/;
 
 function gez(dir, out = []) {
   for (const ad of readdirSync(dir)) {

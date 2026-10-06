@@ -23,7 +23,7 @@ Each app has a tour page, a privacy policy and store links. Apps never sell user
 - [Rally: Badminton: Score Keeper](https://bamstudio.dev/rally-badminton/): Rally scoring, service court and side changes handled for you, with 21-point games and the two-point rule built in.
 - [Rally: Table Tennis: Score Keeper](https://bamstudio.dev/rally-table-tennis/): Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud.
 - [Bumpline: Pregnancy Tracker](https://bamstudio.dev/bumpline/): Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.
-- [Store Mockup: Studio](https://bamstudio.dev/web/store-mockup/): Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser.
+- [Framegrove: Creative Assets](https://framegrove.bamstudio.dev/): Your app’s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source.
 - [Mihenk: App Estimator](https://bamstudio.dev/lab/mihenk/): Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market.
 
 ## Pages

@@ -235,16 +235,16 @@
  },
  {
   "slug": "store-mockup",
-  "name": "Store Mockup",
-  "sub": "Studio",
+  "name": "Framegrove",
+  "sub": "Creative Assets",
   "icon": "/assets/home/icons/store-mockup.svg",
   "color": "#e9ccff",
   "ios": null,
   "play": null,
   "tour": "/web/store-mockup/",
   "status": "web",
-  "tr": "Ham ekran görüntülerini at, App Store ve Play görselini al: cihaz çerçevesi, arka plan, başlık, tam mağaza ölçülerinde. Tarayıcıda çalışır.",
-  "en": "Drop in raw screenshots, get App Store and Play artwork: device frames, backgrounds, headlines, at the exact store sizes. Runs in the browser."
+  "tr": "Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.",
+  "en": "Your app’s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source."
  },
  {
   "slug": "mihenk",
