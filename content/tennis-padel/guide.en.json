@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Keep score on your phone",
+      "subtitle": "No watch needed.",
+      "category": "App Guide",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Open Match, choose This phone and tap Start match on phone.\n\n• Tap the side that won the point: the opponent is on top in red, you are at the bottom in green.\n\n• A wrong point goes back with the arrow in the middle.\n\n• Turn the phone on its side for a full screen board, one side each.\n\n• The screen stays on during the match. If the app closes, the match is still there when you open it again."
+    },
+    {
+      "id": "101",
+      "title": "Watch and phone together",
+      "subtitle": "One keeps the score, the other follows.",
+      "category": "App Guide",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start on the watch and the phone shows the same score live.\n\n• Only one device keeps the score at a time, so no point is counted twice.\n\n• To switch, tap Score on phone on the iPhone, or Score here on the watch.\n\n• If the connection drops, nothing is lost: the latest score arrives as soon as the two are back in touch.\n\n• Matches on the watch save a workout to Apple Health with heart rate, calories and distance."
+    },
+    {
+      "id": "104",
+      "title": "Voice umpire",
+      "subtitle": "The score out loud, from the phone.",
+      "category": "App Guide",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Turn on Voice umpire in Match prep and pick the language.\n\n• The phone reads the score after every point, also when the watch is keeping it. Connect a Bluetooth speaker for a big court.\n\n• Server's score first: Fifteen Love, Deuce, Advantage, Game, Set.\n\n• Say score reads the current score whenever you want it."
+    },
+    {
+      "id": "102",
+      "title": "4 Scoring Modes",
+      "subtitle": "Standard, Gold, Silver & Bronze.",
+      "category": "App Guide",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Customize how you handle Deuce (40-40):\n\n1. Standard: Classic Advantage rule. Win by 2 points.\n2. Gold (No-Ad): Sudden Death at Deuce. Receiver chooses side, winner takes the game.\n3. Hyb (1) Silver: Play 1 Advantage. If back to Deuce, play Golden Point.\n4. Hyb (2) Bronze: Play up to 2 Advantages. If still tied, play Golden Point."
+    },
+    {
+      "id": "103",
+      "title": "Who Serves First?",
+      "subtitle": "Use the built-in coin toss.",
+      "category": "App Guide",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "No need for a coin or spinning a racket! \n\nIn the Setup screen on your Watch, tap the 'Dice' icon. The app will randomly select 'YOU' or 'OPP' to serve first. Fair and simple."
+    },
+    {
+      "id": "105",
+      "title": "Friends, community and leagues",
+      "subtitle": "Optional, with Apple or Google sign in.",
+      "category": "App Guide",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Ask a friend to confirm a result: once they accept, the match is in both logbooks, each from their own side.\n\n• Share to community from a match: add a caption and choose who sees it. Notes and health data are never shared.\n\n• Leagues: the organizer (Pro) creates the league, invites players and sets the fixtures. Players join for free, play the match and send the result from the match screen. Both sides confirm, the organizer approves, the table moves.\n\n• Keeping score never needs an account."
+    },
+    {
+      "id": "201",
+      "title": "Tennis Scoring 101",
+      "subtitle": "15, 30, 40 & Deuce logic.",
+      "category": "Rules",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "Tennis scoring has medieval roots. \n\n• Points: 0 (Love) → 15 → 30 → 40 → Game.\n\n• Deuce: If both players reach 40, it's Deuce. You must win 2 consecutive points to win the game (Advantage → Game)."
+    },
+    {
+      "id": "202",
+      "title": "Padel vs Tennis",
+      "subtitle": "Key differences.",
+      "category": "Rules",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Padel is played on a smaller court with glass walls.\n\n• Serve: Must be underarm and below waist height.\n• Walls: The ball can hit the walls *after* bouncing on the ground. You can use the glass to return the ball."
+    },
+    {
+      "id": "203",
+      "title": "Tie-Break Rules",
+      "subtitle": "Ending a set at 6-6.",
+      "category": "Rules",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "When the score is 6-6 in games:\n\n• Points: counted as 1, 2, 3... First to 7 wins (must win by 2).\n• Service: Swap server every 2 points (after the first point).\n• Super Tie-Break: Some matches (choose Bo3 S.TB in app) use a 10-point tie-break instead of a final set."
+    },
+    {
+      "id": "301",
+      "title": "Doubles Strategy",
+      "subtitle": "Communication is key.",
+      "category": "Tactics",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Playing doubles requires teamwork.\n\n• The Wall: When your partner serves, stand closer to the net to intercept weak returns.\n• Middle: When in doubt, hit down the middle to cause confusion."
+    },
+    {
+      "id": "302",
+      "title": "Padel: The Glass",
+      "subtitle": "Use walls to your advantage.",
+      "category": "Tactics",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "In Padel, the glass is your friend.\n\n• Wait: If the ball is fast, let it hit the back glass. It will slow down and give you an easy setup.\n• The Lob: Hit high and deep to force opponents away from the net."
+    }
+  ]
+}
