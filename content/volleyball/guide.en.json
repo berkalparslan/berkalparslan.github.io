@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Keep score on your phone",
+      "subtitle": "No watch needed.",
+      "category": "App Guide",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Open Match, choose This phone and tap Start match on phone.\n\n• Tap the side that won the rally: the opponent team is on top in red, your team is at the bottom in green.\n\n• A wrong point goes back with the arrow in the middle.\n\n• Tap Full screen for a big board, one side each.\n\n• The screen stays on during the match. If the app closes, the match is still there when you open it again."
+    },
+    {
+      "id": "101",
+      "title": "Watch and phone together",
+      "subtitle": "One keeps the score, the other follows.",
+      "category": "App Guide",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start on the watch and the phone shows the same score live.\n\n• Only one device keeps the score at a time, so no point is counted twice.\n\n• To switch, tap Score on phone on the iPhone, or Score here on the watch.\n\n• If the connection drops, nothing is lost: the latest score arrives as soon as the two are back in touch.\n\n• Matches on the watch save a workout to Apple Health with heart rate, calories and distance."
+    },
+    {
+      "id": "104",
+      "title": "Voice umpire",
+      "subtitle": "The score out loud, from the phone.",
+      "category": "App Guide",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Turn on Voice umpire in Match prep and pick the language.\n\n• The phone reads the score after every rally, also when the watch is keeping it. Connect a Bluetooth speaker for a big hall.\n\n• The serving team's score comes first: 14 12, then Set and the team at the end of a set.\n\n• Say score reads the sets and the current score whenever you want it."
+    },
+    {
+      "id": "102",
+      "title": "Match formats",
+      "subtitle": "Best of 3 or best of 5.",
+      "category": "App Guide",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Best of 3: the first team to win 2 sets wins the match.\n\n• Best of 5: the first team to win 3 sets wins the match.\n\n• Sets go to 25 points. The deciding set goes to 15 (FIVB), or to 25 if you choose it in Match prep.\n\n• Every set needs a two point lead, with no cap.\n\n• SET POINT and MATCH POINT show on the board when the next rally can end the set or the match."
+    },
+    {
+      "id": "103",
+      "title": "Who serves first?",
+      "subtitle": "Use the built-in dice.",
+      "category": "App Guide",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• In Match prep, tap the dice next to First serve: the app picks Team A or Team B at random.\n\n• The arrows switch the first server by hand.\n\n• In every new set the team that did not serve first in the last set serves first. The app does it for you."
+    },
+    {
+      "id": "105",
+      "title": "Friends, community and leagues",
+      "subtitle": "Optional, with Apple or Google sign in.",
+      "category": "App Guide",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Ask a friend to confirm a result: once they accept, the match is in both logbooks, each from their own side.\n\n• Share to community from a match: add a caption and choose who sees it. Notes and health data are never shared.\n\n• Leagues: the organizer (Pro) creates the league, invites teams and sets the fixtures. Players join for free, play the match and send the result from the match screen with the points of each set. Both sides confirm, the organizer approves, the table moves.\n\n• Keeping score never needs an account."
+    },
+    {
+      "id": "201",
+      "title": "Volleyball scoring 101",
+      "subtitle": "Rally scoring: every rally counts.",
+      "category": "Rules",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Every rally is a point, whoever served.\n\n• Regular set: first to 25 with a two point lead.\n\n• Deciding set: first to 15 with a two point lead.\n\n• There is no cap: at 24-24 play goes on until one team leads by two."
+    },
+    {
+      "id": "202",
+      "title": "Side out and service",
+      "subtitle": "How the serve moves.",
+      "category": "Rules",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• If the serving team wins the rally, it scores and keeps the serve.\n\n• If the receiving team wins the rally, it scores and takes the serve (side out). It rotates one position clockwise before serving.\n\n• New set: the team that did not serve first in the last set serves first. The deciding set starts with a new toss; the app simply alternates."
+    },
+    {
+      "id": "203",
+      "title": "Set and match",
+      "subtitle": "When does it end?",
+      "category": "Rules",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• A set ends when a team reaches 25 (or 15) and leads by at least two.\n\n• A match ends when a team wins 2 sets (best of 3) or 3 sets (best of 5).\n\n• Stopped early? Use End and save: the half played set is kept and marked."
+    },
+    {
+      "id": "301",
+      "title": "Serve tactics",
+      "subtitle": "Your serve is a weapon.",
+      "category": "Tactics",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Float serve: no spin, the ball moves in the air and is hard to pass.\n\n• Jump serve: power and angle. High risk, high reward.\n\n• Serve at the weakest passer, or into the seam between two passers.\n\n• Serve deep to push the receivers back and slow their attack."
+    },
+    {
+      "id": "302",
+      "title": "Blocking",
+      "subtitle": "Stop the attack at the net.",
+      "category": "Tactics",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Read the setter: watch the shoulders and the ball before the set.\n\n• Commit block: jump with the attacker when you are sure of the direction.\n\n• Soft block: angle your hands to slow the ball for your defenders.\n\n• Double block: two blockers close the net and take away angles."
+    },
+    {
+      "id": "303",
+      "title": "Rotation and positions",
+      "subtitle": "Be in order, then switch.",
+      "category": "Tactics",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• At the serve, players must be in rotation order: front row and back row.\n\n• After the serve, players move to their positions, the setter to the right side.\n\n• Standing out of order at the serve is a fault.\n\n• The ball icon on the board shows who serves: your rotation anchor."
+    }
+  ]
+}

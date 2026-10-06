@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Skoru telefonda tut",
+      "subtitle": "Saat gerekmez.",
+      "category": "Uygulama Rehberi",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Maç'ı aç, Bu telefon'u seç ve Maçı telefonda başlat'a dokun.\n\n• Ralliyi kazanan tarafa dokun: rakip takım üstte kırmızı, senin takımın altta yeşil.\n\n• Yanlış sayı ortadaki okla geri alınır.\n\n• Büyük tabela için Tam ekran'a dokun, her takım bir yanda.\n\n• Maç boyunca ekran açık kalır. Uygulama kapanırsa yeniden açtığında maç yerinde durur."
+    },
+    {
+      "id": "101",
+      "title": "Saat ve telefon birlikte",
+      "subtitle": "Biri skoru tutar, diğeri takip eder.",
+      "category": "Uygulama Rehberi",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Maçı saatte başlat, telefon aynı skoru canlı gösterir.\n\n• Skoru aynı anda yalnızca bir cihaz tutar, böylece hiçbir sayı iki kez sayılmaz.\n\n• Devretmek için iPhone'da Telefonda say'a ya da saatte Burada say'a dokun.\n\n• Bağlantı koparsa hiçbir şey kaybolmaz: ikisi yeniden bağlanınca son skor gelir.\n\n• Saatteki maçlar nabız, kalori ve mesafeyle Apple Sağlık'a antrenman olarak kaydedilir."
+    },
+    {
+      "id": "104",
+      "title": "Sesli hakem",
+      "subtitle": "Skor, telefondan sesli.",
+      "category": "Uygulama Rehberi",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Maç Hazırlığı'nda Sesli hakem'i aç ve dili seç.\n\n• Telefon her ralliden sonra skoru okur, skoru saat tutarken de. Büyük bir salon için Bluetooth hoparlör bağla.\n\n• Önce servis atan takımın skoru: 14 12, set bitince Set ve takımın adı.\n\n• Skoru söyle, setleri ve o anki skoru istediğin zaman okur."
+    },
+    {
+      "id": "102",
+      "title": "Maç formatları",
+      "subtitle": "3 set ya da 5 set.",
+      "category": "Uygulama Rehberi",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• 3 set: 2 seti ilk alan takım maçı kazanır.\n\n• 5 set: 3 seti ilk alan takım maçı kazanır.\n\n• Setler 25 sayıya oynanır. Karar seti 15'e (FIVB) ya da Maç Hazırlığı'nda seçersen 25'e oynanır.\n\n• Her sette iki sayı fark gerekir, üst sınır yoktur.\n\n• Sonraki ralli seti ya da maçı bitirebilecekse tabelada SET SAYISI ve MAÇ SAYISI görünür."
+    },
+    {
+      "id": "103",
+      "title": "İlk servisi kim atar?",
+      "subtitle": "Uygulamadaki zarı kullan.",
+      "category": "Uygulama Rehberi",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Maç Hazırlığı'nda İlk servis'in yanındaki zara dokun: uygulama rastgele A ya da B Takımı'nı seçer.\n\n• Oklarla ilk servisi elle değiştirebilirsin.\n\n• Her yeni sette, önceki sette ilk servisi atmayan takım ilk servisi atar. Uygulama bunu senin için yapar."
+    },
+    {
+      "id": "105",
+      "title": "Arkadaşlar, topluluk ve ligler",
+      "subtitle": "İsteğe bağlı, Apple ya da Google ile giriş.",
+      "category": "Uygulama Rehberi",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Bir sonucu arkadaşına onaylat: kabul edince maç iki günlükte de olur, herkesin kendi tarafından.\n\n• Bir maçı toplulukta paylaş: açıklama ekle ve kimlerin göreceğini seç. Notlar ve sağlık verileri asla paylaşılmaz.\n\n• Ligler: organizatör (Pro) ligi kurar, takımları davet eder ve fikstürü belirler. Oyuncular ücretsiz katılır, maçı oynar ve sonucu her setin sayılarıyla maç ekranından gönderir. İki taraf onaylar, organizatör kabul eder, tablo güncellenir.\n\n• Skor tutmak için hiçbir zaman hesap gerekmez."
+    },
+    {
+      "id": "201",
+      "title": "Voleybolda sayı 101",
+      "subtitle": "Ralli sistemi: her ralli sayılır.",
+      "category": "Kurallar",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Servisi kim atarsa atsın her ralli bir sayıdır.\n\n• Normal set: iki sayı farkla 25'e ilk ulaşan alır.\n\n• Karar seti: iki sayı farkla 15'e ilk ulaşan alır.\n\n• Üst sınır yoktur: 24-24'te bir takım iki sayı öne geçene kadar oyun sürer."
+    },
+    {
+      "id": "202",
+      "title": "Servis değişimi",
+      "subtitle": "Servis nasıl el değiştirir.",
+      "category": "Kurallar",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Servis atan takım ralliyi kazanırsa sayıyı alır ve servise devam eder.\n\n• Karşılayan takım ralliyi kazanırsa sayıyı alır ve servise geçer. Servisten önce saat yönünde bir pozisyon döner.\n\n• Yeni set: önceki sette ilk servisi atmayan takım ilk servisi atar. Karar seti yeni bir kurayla başlar; uygulama sırayla değiştirir."
+    },
+    {
+      "id": "203",
+      "title": "Set ve maç",
+      "subtitle": "Ne zaman biter?",
+      "category": "Kurallar",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Bir takım 25'e (ya da 15'e) ulaşıp en az iki sayı öndeyse set biter.\n\n• Bir takım 2 set (3 setlik maçta) ya da 3 set (5 setlik maçta) alınca maç biter.\n\n• Erken mi bitti? Bitir ve kaydet'i kullan: yarım kalan set işaretlenerek saklanır."
+    },
+    {
+      "id": "301",
+      "title": "Servis taktikleri",
+      "subtitle": "Servisin bir silah.",
+      "category": "Taktikler",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Float servis: falsosuz top havada oynar, karşılaması zordur.\n\n• Smaç servis: güç ve açı. Riskli ama getirisi yüksek.\n\n• En zayıf karşılayıcıya ya da iki oyuncunun arasına servis at.\n\n• Derin servisle karşılayanları geri it, hücumlarını yavaşlat."
+    },
+    {
+      "id": "302",
+      "title": "Blok",
+      "subtitle": "Hücumu filede durdur.",
+      "category": "Taktikler",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Pasörü oku: pastan önce omuzlarına ve topa bak.\n\n• Kesin blok: yönden eminsen smaççıyla birlikte zıpla.\n\n• Yumuşak blok: ellerini açılandır, topu savunmacıların için yavaşlat.\n\n• Çift blok: iki blokçu fileyi kapatır ve açıları daraltır."
+    },
+    {
+      "id": "303",
+      "title": "Rotasyon ve pozisyonlar",
+      "subtitle": "Önce sıraya gir, sonra yer değiştir.",
+      "category": "Taktikler",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Servis anında oyuncular rotasyon sırasında olmalı: ön ve arka sıra.\n\n• Servisten sonra oyuncular kendi pozisyonlarına geçer, pasör sağ tarafa.\n\n• Servis anında yanlış sırada durmak hatadır.\n\n• Tabeladaki top simgesi servisi kimin attığını gösterir: rotasyonun dayanak noktası."
+    }
+  ]
+}

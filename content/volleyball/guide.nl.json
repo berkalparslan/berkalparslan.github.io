@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Score bijhouden op je telefoon",
+      "subtitle": "Geen horloge nodig.",
+      "category": "App-gids",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Open Wedstrijd, kies Deze telefoon en tik op Start wedstrijd op telefoon.\n\n• Tik op de kant die de rally won: de tegenstander staat bovenaan in rood, jouw team onderaan in groen.\n\n• Een fout punt draai je terug met de pijl in het midden.\n\n• Tik op Volledig scherm voor een groot scorebord, elk team aan een kant.\n\n• Het scherm blijft aan tijdens de wedstrijd. Sluit de app, dan staat de wedstrijd er nog als je hem weer opent."
+    },
+    {
+      "id": "101",
+      "title": "Horloge en telefoon samen",
+      "subtitle": "De een houdt de score bij, de ander volgt.",
+      "category": "App-gids",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start op het horloge en de telefoon toont live dezelfde score.\n\n• Er houdt maar één apparaat tegelijk de score bij, dus geen punt telt dubbel.\n\n• Wisselen: tik op Score op telefoon op de iPhone, of Hier scoren op het horloge.\n\n• Valt de verbinding weg, dan gaat er niets verloren: de laatste score komt zodra ze weer verbonden zijn.\n\n• Wedstrijden op het horloge bewaren een training in Apple Gezondheid met hartslag, calorieën en afstand."
+    },
+    {
+      "id": "104",
+      "title": "Stemscheidsrechter",
+      "subtitle": "De score hardop, vanaf de telefoon.",
+      "category": "App-gids",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Zet Stemscheidsrechter aan in de wedstrijdvoorbereiding en kies de taal.\n\n• De telefoon leest de score na elke rally, ook als het horloge de score bijhoudt. Koppel een Bluetooth-speaker voor een grote zaal.\n\n• Eerst de score van het serverende team: 14 12, en aan het eind van een set Set met de teamnaam.\n\n• Score zeggen leest de sets en de stand wanneer je wilt."
+    },
+    {
+      "id": "102",
+      "title": "Wedstrijdvormen",
+      "subtitle": "Best of 3 of best of 5.",
+      "category": "App-gids",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Best of 3: het team dat als eerste 2 sets wint, wint de wedstrijd.\n\n• Best of 5: het team dat als eerste 3 sets wint, wint de wedstrijd.\n\n• Sets gaan tot 25 punten. De beslissende set gaat tot 15 (FIVB), of tot 25 als je dat kiest.\n\n• Elke set vraagt twee punten verschil, zonder limiet.\n\n• SETPUNT en MATCHPUNT staan op het scorebord als de volgende rally de set of de wedstrijd kan beslissen."
+    },
+    {
+      "id": "103",
+      "title": "Wie serveert eerst?",
+      "subtitle": "Gebruik de ingebouwde dobbelsteen.",
+      "category": "App-gids",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Tik in de voorbereiding op de dobbelsteen naast Eerste service: de app kiest willekeurig Team A of Team B.\n\n• Met de pijlen wissel je de eerste server met de hand.\n\n• In elke nieuwe set serveert het team dat in de vorige set niet als eerste serveerde. De app regelt het voor je."
+    },
+    {
+      "id": "105",
+      "title": "Vrienden, community en competities",
+      "subtitle": "Optioneel, met Apple of Google inloggen.",
+      "category": "App-gids",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Laat een vriend een uitslag bevestigen: na akkoord staat de wedstrijd in beide logboeken, elk vanuit de eigen kant.\n\n• Deel een wedstrijd in de community: voeg een tekst toe en kies wie hem ziet. Notities en gezondheidsgegevens worden nooit gedeeld.\n\n• Competities: de organisator (Pro) maakt de competitie, nodigt teams uit en maakt het schema. Spelers doen gratis mee, spelen en sturen de uitslag met de punten per set vanuit het wedstrijdscherm. Beide kanten bevestigen, de organisator keurt goed, de stand verandert.\n\n• Score bijhouden kan altijd zonder account."
+    },
+    {
+      "id": "201",
+      "title": "Volleybal tellen 101",
+      "subtitle": "Rallypunten: elke rally telt.",
+      "category": "Regels",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Elke rally is een punt, wie er ook serveerde.\n\n• Gewone set: als eerste naar 25 met twee punten verschil.\n\n• Beslissende set: als eerste naar 15 met twee punten verschil.\n\n• Er is geen limiet: bij 24-24 gaat het door tot een team twee punten voor staat."
+    },
+    {
+      "id": "202",
+      "title": "Side-out en service",
+      "subtitle": "Hoe de service wisselt.",
+      "category": "Regels",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Wint het serverende team de rally, dan scoort het en houdt het de service.\n\n• Wint het ontvangende team de rally, dan scoort het en krijgt het de service (side-out). Het draait eerst één positie met de klok mee.\n\n• Nieuwe set: het team dat in de vorige set niet als eerste serveerde, begint. De beslissende set start met een nieuwe toss; de app wisselt gewoon af."
+    },
+    {
+      "id": "203",
+      "title": "Set en wedstrijd",
+      "subtitle": "Wanneer is het klaar?",
+      "category": "Regels",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Een set eindigt als een team 25 (of 15) haalt met minstens twee punten voorsprong.\n\n• Een wedstrijd eindigt als een team 2 sets (best of 3) of 3 sets (best of 5) wint.\n\n• Eerder gestopt? Gebruik Beëindigen en bewaren: de half gespeelde set blijft bewaard en gemarkeerd."
+    },
+    {
+      "id": "301",
+      "title": "Servicetactiek",
+      "subtitle": "Je service is een wapen.",
+      "category": "Tactiek",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Floatservice: zonder spin beweegt de bal in de lucht en is moeilijk te passen.\n\n• Sprongservice: kracht en hoek. Veel risico, veel winst.\n\n• Serveer op de zwakste passer of tussen twee passers in.\n\n• Serveer diep om de ontvangers terug te drukken en hun aanval te vertragen."
+    },
+    {
+      "id": "302",
+      "title": "Blokkeren",
+      "subtitle": "Stop de aanval bij het net.",
+      "category": "Tactiek",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Lees de spelverdeler: kijk naar schouders en bal voor de set.\n\n• Commitblok: spring mee met de aanvaller als je zeker bent van de richting.\n\n• Zacht blok: kantel je handen zodat de bal vertraagt voor je verdedigers.\n\n• Dubbelblok: twee blokkers sluiten het net en nemen hoeken weg."
+    },
+    {
+      "id": "303",
+      "title": "Rotatie en posities",
+      "subtitle": "Eerst op volgorde, dan wisselen.",
+      "category": "Tactiek",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Bij de service staan spelers in rotatievolgorde: voorste en achterste rij.\n\n• Na de service gaan spelers naar hun posities, de spelverdeler naar rechts.\n\n• Bij de service buiten volgorde staan is een fout.\n\n• Het balicoon op het scorebord toont wie serveert: je ankerpunt voor de rotatie."
+    }
+  ]
+}

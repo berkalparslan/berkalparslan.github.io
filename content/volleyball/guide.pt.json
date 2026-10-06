@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Marque no celular",
+      "subtitle": "Não precisa de relógio.",
+      "category": "Guia do app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Abra Partida, escolha Este celular e toque em Iniciar partida no celular.\n\n• Toque no lado que venceu o rali: o adversário em cima em vermelho, seu time embaixo em verde.\n\n• Um ponto errado volta com a seta no meio.\n\n• Toque em Tela cheia para um placar grande, um time de cada lado.\n\n• A tela fica acesa durante a partida. Se o app fechar, a partida continua lá quando você abrir de novo."
+    },
+    {
+      "id": "101",
+      "title": "Relógio e celular juntos",
+      "subtitle": "Um marca, o outro acompanha.",
+      "category": "Guia do app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Comece no relógio e o celular mostra o mesmo placar ao vivo.\n\n• Só um aparelho marca por vez, então nenhum ponto conta duas vezes.\n\n• Para trocar, toque em Marcar no celular no iPhone, ou Marcar aqui no relógio.\n\n• Se a conexão cair, nada se perde: o placar mais recente chega assim que os dois se reconectam.\n\n• Partidas no relógio salvam um treino no Saúde com frequência cardíaca, calorias e distância."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "O placar em voz alta, do celular.",
+      "category": "Guia do app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Ative o árbitro por voz na preparação e escolha o idioma.\n\n• O celular fala o placar após cada rali, também quando o relógio está marcando. Conecte uma caixa Bluetooth para um ginásio grande.\n\n• Primeiro o placar do time que saca: 14 12, e no fim do set Set e o nome do time.\n\n• Falar placar lê os sets e o placar quando você quiser."
+    },
+    {
+      "id": "102",
+      "title": "Formatos de partida",
+      "subtitle": "Melhor de 3 ou melhor de 5.",
+      "category": "Guia do app",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Melhor de 3: o primeiro time a vencer 2 sets vence a partida.\n\n• Melhor de 5: o primeiro time a vencer 3 sets vence a partida.\n\n• Os sets vão até 25 pontos. O set decisivo até 15 (FIVB), ou até 25 se você escolher.\n\n• Todo set exige dois pontos de vantagem, sem limite.\n\n• SET POINT e MATCH POINT aparecem quando o próximo rali pode fechar o set ou a partida."
+    },
+    {
+      "id": "103",
+      "title": "Quem saca primeiro?",
+      "subtitle": "Use o dado do app.",
+      "category": "Guia do app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Na preparação, toque no dado ao lado de Primeiro saque: o app escolhe ao acaso o time A ou o B.\n\n• As setas trocam o primeiro sacador manualmente.\n\n• Em cada set novo saca primeiro o time que não sacou primeiro no set anterior. O app faz isso por você."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidade e ligas",
+      "subtitle": "Opcional, com Apple ou Google.",
+      "category": "Guia do app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Peça a um amigo para confirmar um resultado: quando ele aceitar, a partida fica nos dois diários, cada um do seu lado.\n\n• Compartilhe uma partida na comunidade: adicione um texto e escolha quem vê. Notas e dados de saúde nunca são compartilhados.\n\n• Ligas: o organizador (Pro) cria a liga, convida os times e define a tabela de jogos. Os jogadores entram de graça, jogam e enviam o resultado com os pontos de cada set pela tela da partida. Os dois lados confirmam, o organizador aprova e a classificação muda.\n\n• Marcar o placar nunca exige conta."
+    },
+    {
+      "id": "201",
+      "title": "Pontuação do vôlei 101",
+      "subtitle": "Rali: todo lance conta.",
+      "category": "Regras",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Todo rali é um ponto, não importa quem sacou.\n\n• Set normal: primeiro a 25 com dois pontos de vantagem.\n\n• Set decisivo: primeiro a 15 com dois pontos de vantagem.\n\n• Não há limite: no 24-24 o jogo segue até um time abrir dois pontos."
+    },
+    {
+      "id": "202",
+      "title": "Troca de saque",
+      "subtitle": "Como o saque passa.",
+      "category": "Regras",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Se o time que saca vence o rali, marca e continua sacando.\n\n• Se o time que recebe vence o rali, marca e passa a sacar. Antes gira uma posição no sentido horário.\n\n• Set novo: começa sacando o time que não sacou primeiro no set anterior. O set decisivo começa com novo sorteio; o app simplesmente alterna."
+    },
+    {
+      "id": "203",
+      "title": "Set e partida",
+      "subtitle": "Quando termina?",
+      "category": "Regras",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Um set termina quando um time chega a 25 (ou 15) com pelo menos dois pontos de vantagem.\n\n• Uma partida termina quando um time vence 2 sets (melhor de 3) ou 3 sets (melhor de 5).\n\n• Parou antes? Use Encerrar e salvar: o set pela metade fica salvo e marcado."
+    },
+    {
+      "id": "301",
+      "title": "Tática de saque",
+      "subtitle": "Seu saque é uma arma.",
+      "category": "Tática",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Saque flutuante: sem giro, a bola se mexe no ar e é difícil de passar.\n\n• Saque viagem: força e ângulo. Risco alto, retorno alto.\n\n• Saque no passador mais fraco ou entre dois passadores.\n\n• Saque fundo para afastar a recepção e atrasar o ataque."
+    },
+    {
+      "id": "302",
+      "title": "Bloqueio",
+      "subtitle": "Pare o ataque na rede.",
+      "category": "Tática",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Leia o levantador: olhe ombros e bola antes do levantamento.\n\n• Bloqueio comprometido: salte com o atacante quando tiver certeza da direção.\n\n• Bloqueio suave: incline as mãos para amortecer a bola para sua defesa.\n\n• Bloqueio duplo: dois bloqueadores fecham a rede e tiram ângulos."
+    },
+    {
+      "id": "303",
+      "title": "Rodízio e posições",
+      "subtitle": "Primeiro em ordem, depois troque.",
+      "category": "Tática",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• No saque, os jogadores devem estar na ordem do rodízio: rede e fundo.\n\n• Depois do saque, cada um vai para sua posição, o levantador para a direita.\n\n• Estar fora de ordem no saque é falta.\n\n• O ícone da bola no placar mostra quem saca: sua referência de rodízio."
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Zählen auf dem iPhone",
+      "subtitle": "Keine Uhr nötig.",
+      "category": "App-Anleitung",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Öffne Match, wähle Dieses iPhone und tippe auf Match auf dem iPhone starten.\n\n• Tippe auf die Seite, die den Ballwechsel gewonnen hat: der Gegner oben in Rot, dein Team unten in Grün.\n\n• Ein falscher Punkt geht mit dem Pfeil in der Mitte zurück.\n\n• Tippe auf Vollbild für eine große Anzeige, jedes Team auf einer Seite.\n\n• Der Bildschirm bleibt im Match an. Schließt sich die App, ist das Match beim nächsten Öffnen noch da."
+    },
+    {
+      "id": "101",
+      "title": "Uhr und iPhone zusammen",
+      "subtitle": "Eines zählt, das andere folgt.",
+      "category": "App-Anleitung",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Starte auf der Uhr, das iPhone zeigt live denselben Stand.\n\n• Es zählt immer nur ein Gerät, also wird kein Punkt doppelt gezählt.\n\n• Zum Wechseln tippe auf dem iPhone auf Auf dem iPhone zählen oder auf der Uhr auf Hier zählen.\n\n• Bricht die Verbindung ab, geht nichts verloren: der letzte Stand kommt, sobald beide wieder verbunden sind.\n\n• Matches auf der Uhr sichern ein Training in Apple Health mit Herzfrequenz, Kalorien und Strecke."
+    },
+    {
+      "id": "104",
+      "title": "Sprach-Schiedsrichter",
+      "subtitle": "Der Stand laut, vom iPhone.",
+      "category": "App-Anleitung",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Schalte in der Matchvorbereitung den Sprach-Schiedsrichter ein und wähle die Sprache.\n\n• Das iPhone sagt den Stand nach jedem Ballwechsel an, auch wenn die Uhr zählt. Verbinde einen Bluetooth-Lautsprecher für eine große Halle.\n\n• Zuerst der Stand des aufschlagenden Teams: 14 12, am Satzende Satz und der Teamname.\n\n• Stand ansagen liest Sätze und Stand, wann immer du willst."
+    },
+    {
+      "id": "102",
+      "title": "Spielformate",
+      "subtitle": "Best of 3 oder Best of 5.",
+      "category": "App-Anleitung",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Best of 3: Wer zuerst 2 Sätze gewinnt, gewinnt das Spiel.\n\n• Best of 5: Wer zuerst 3 Sätze gewinnt, gewinnt das Spiel.\n\n• Sätze gehen bis 25 Punkte. Der Entscheidungssatz bis 15 (FIVB) oder bis 25, wenn du es wählst.\n\n• Jeder Satz braucht zwei Punkte Vorsprung, ohne Obergrenze.\n\n• SATZBALL und MATCHBALL erscheinen, wenn der nächste Ballwechsel Satz oder Spiel beenden kann."
+    },
+    {
+      "id": "103",
+      "title": "Wer schlägt zuerst auf?",
+      "subtitle": "Nutze den eingebauten Würfel.",
+      "category": "App-Anleitung",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Tippe in der Matchvorbereitung auf den Würfel neben Erster Aufschlag: die App wählt zufällig Team A oder Team B.\n\n• Mit den Pfeilen wechselst du den ersten Aufschläger von Hand.\n\n• In jedem neuen Satz schlägt das Team zuerst auf, das im letzten Satz nicht zuerst aufgeschlagen hat. Die App erledigt das."
+    },
+    {
+      "id": "105",
+      "title": "Freunde, Community und Ligen",
+      "subtitle": "Optional, mit Apple oder Google anmelden.",
+      "category": "App-Anleitung",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Lass einen Freund ein Ergebnis bestätigen: nach Zusage steht das Match in beiden Logbüchern, jeweils von der eigenen Seite.\n\n• Teile ein Match in der Community: füge einen Text hinzu und wähle, wer es sieht. Notizen und Gesundheitsdaten werden nie geteilt.\n\n• Ligen: Der Organisator (Pro) erstellt die Liga, lädt Teams ein und legt den Spielplan fest. Spieler machen kostenlos mit, spielen und senden das Ergebnis mit den Punkten jedes Satzes aus dem Matchbildschirm. Beide Seiten bestätigen, der Organisator gibt frei, die Tabelle bewegt sich.\n\n• Zum Zählen brauchst du nie ein Konto."
+    },
+    {
+      "id": "201",
+      "title": "Volleyball zählen 101",
+      "subtitle": "Rally-Point: jeder Ballwechsel zählt.",
+      "category": "Regeln",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Jeder Ballwechsel ist ein Punkt, egal wer aufgeschlagen hat.\n\n• Normaler Satz: zuerst 25 mit zwei Punkten Vorsprung.\n\n• Entscheidungssatz: zuerst 15 mit zwei Punkten Vorsprung.\n\n• Es gibt keine Obergrenze: bei 24:24 geht es weiter, bis ein Team zwei Punkte vorn liegt."
+    },
+    {
+      "id": "202",
+      "title": "Side-out und Aufschlag",
+      "subtitle": "Wie der Aufschlag wechselt.",
+      "category": "Regeln",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Gewinnt das aufschlagende Team den Ballwechsel, punktet es und behält den Aufschlag.\n\n• Gewinnt das annehmende Team, punktet es und bekommt den Aufschlag (Side-out). Vorher rotiert es eine Position im Uhrzeigersinn.\n\n• Neuer Satz: das Team, das im letzten Satz nicht zuerst aufgeschlagen hat, beginnt. Der Entscheidungssatz beginnt mit neuer Wahl; die App wechselt einfach ab."
+    },
+    {
+      "id": "203",
+      "title": "Satz und Spiel",
+      "subtitle": "Wann ist Schluss?",
+      "category": "Regeln",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Ein Satz endet, wenn ein Team 25 (oder 15) erreicht und mindestens zwei Punkte vorn liegt.\n\n• Ein Spiel endet, wenn ein Team 2 Sätze (Best of 3) oder 3 Sätze (Best of 5) gewinnt.\n\n• Früher aufgehört? Nutze Beenden und sichern: der halbe Satz bleibt markiert erhalten."
+    },
+    {
+      "id": "301",
+      "title": "Aufschlagtaktik",
+      "subtitle": "Dein Aufschlag ist eine Waffe.",
+      "category": "Taktik",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Flatteraufschlag: ohne Drall bewegt sich der Ball in der Luft und ist schwer anzunehmen.\n\n• Sprungaufschlag: Kraft und Winkel. Hohes Risiko, hoher Ertrag.\n\n• Schlag auf den schwächsten Annahmespieler oder in die Lücke zwischen zwei.\n\n• Schlag tief, um die Annahme zurückzudrängen und den Angriff zu bremsen."
+    },
+    {
+      "id": "302",
+      "title": "Blocken",
+      "subtitle": "Stopp den Angriff am Netz.",
+      "category": "Taktik",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Lies den Zuspieler: schau vor dem Zuspiel auf Schultern und Ball.\n\n• Festblock: spring mit dem Angreifer, wenn du dir der Richtung sicher bist.\n\n• Weicher Block: winkle die Hände an und bremse den Ball für deine Abwehr.\n\n• Doppelblock: zwei Blocker schließen das Netz und nehmen Winkel weg."
+    },
+    {
+      "id": "303",
+      "title": "Rotation und Positionen",
+      "subtitle": "Erst in Reihenfolge, dann wechseln.",
+      "category": "Taktik",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Beim Aufschlag stehen die Spieler in Rotationsreihenfolge: vordere und hintere Reihe.\n\n• Nach dem Aufschlag gehen die Spieler auf ihre Positionen, der Zuspieler nach rechts.\n\n• Beim Aufschlag falsch zu stehen ist ein Fehler.\n\n• Das Ballsymbol auf der Anzeige zeigt, wer aufschlägt: dein Anker für die Rotation."
+    }
+  ]
+}

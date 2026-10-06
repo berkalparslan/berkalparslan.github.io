@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Il punteggio sul telefono",
+      "subtitle": "Nessun orologio necessario.",
+      "category": "Guida all'app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Apri Partita, scegli Questo telefono e tocca Inizia partita sul telefono.\n\n• Tocca il lato che ha vinto lo scambio: gli avversari in alto in rosso, la tua squadra in basso in verde.\n\n• Un punto sbagliato si annulla con la freccia al centro.\n\n• Tocca Schermo intero per un tabellone grande, una squadra per lato.\n\n• Lo schermo resta acceso durante la partita. Se l'app si chiude, la partita è ancora lì quando la riapri."
+    },
+    {
+      "id": "101",
+      "title": "Orologio e telefono insieme",
+      "subtitle": "Uno tiene il punteggio, l'altro segue.",
+      "category": "Guida all'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Inizia sull'orologio e il telefono mostra lo stesso punteggio dal vivo.\n\n• Un solo dispositivo tiene il punteggio alla volta, così nessun punto conta due volte.\n\n• Per passare, tocca Segna sul telefono sull'iPhone o Segna qui sull'orologio.\n\n• Se la connessione cade non si perde nulla: l'ultimo punteggio arriva appena si ricollegano.\n\n• Le partite sull'orologio salvano un allenamento in Salute con frequenza cardiaca, calorie e distanza."
+    },
+    {
+      "id": "104",
+      "title": "Arbitro vocale",
+      "subtitle": "Il punteggio ad alta voce, dal telefono.",
+      "category": "Guida all'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Attiva l'arbitro vocale nella preparazione e scegli la lingua.\n\n• Il telefono legge il punteggio dopo ogni scambio, anche quando lo tiene l'orologio. Collega una cassa Bluetooth per un palazzetto grande.\n\n• Prima il punteggio della squadra al servizio: 14 12, e a fine set Set e il nome della squadra.\n\n• Dì il punteggio legge set e punteggio quando vuoi."
+    },
+    {
+      "id": "102",
+      "title": "Formati di partita",
+      "subtitle": "Al meglio dei 3 o dei 5.",
+      "category": "Guida all'app",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Al meglio dei 3: vince la prima squadra che vince 2 set.\n\n• Al meglio dei 5: vince la prima squadra che vince 3 set.\n\n• I set vanno a 25 punti. Il set decisivo a 15 (FIVB), o a 25 se lo scegli.\n\n• Ogni set richiede due punti di scarto, senza limite.\n\n• SET POINT e MATCH POINT compaiono quando il prossimo scambio può chiudere il set o la partita."
+    },
+    {
+      "id": "103",
+      "title": "Chi batte per primo?",
+      "subtitle": "Usa il dado integrato.",
+      "category": "Guida all'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Nella preparazione tocca il dado accanto a Prima battuta: l'app sceglie a caso la squadra A o la B.\n\n• Le frecce cambiano il primo battitore a mano.\n\n• In ogni nuovo set batte per prima la squadra che non ha battuto per prima nel set precedente. Ci pensa l'app."
+    },
+    {
+      "id": "105",
+      "title": "Amici, community e leghe",
+      "subtitle": "Facoltativo, con Apple o Google.",
+      "category": "Guida all'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Fai confermare un risultato a un amico: quando accetta, la partita è in entrambi i diari, ognuno dal proprio lato.\n\n• Condividi una partita nella community: aggiungi un testo e scegli chi la vede. Note e dati di salute non vengono mai condivisi.\n\n• Leghe: l'organizzatore (Pro) crea la lega, invita le squadre e fissa il calendario. I giocatori partecipano gratis, giocano e inviano il risultato con i punti di ogni set dalla schermata della partita. Entrambi confermano, l'organizzatore approva, la classifica si muove.\n\n• Per tenere il punteggio non serve mai un account."
+    },
+    {
+      "id": "201",
+      "title": "Punteggio della pallavolo 101",
+      "subtitle": "Rally point: ogni scambio conta.",
+      "category": "Regole",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Ogni scambio è un punto, chiunque abbia battuto.\n\n• Set normale: il primo a 25 con due punti di scarto.\n\n• Set decisivo: il primo a 15 con due punti di scarto.\n\n• Non c'è limite: sul 24-24 si continua finché una squadra va avanti di due."
+    },
+    {
+      "id": "202",
+      "title": "Cambio palla e battuta",
+      "subtitle": "Come passa la battuta.",
+      "category": "Regole",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Se la squadra al servizio vince lo scambio, segna e continua a battere.\n\n• Se vince la squadra in ricezione, segna e conquista la battuta (cambio palla). Prima ruota di una posizione in senso orario.\n\n• Nuovo set: inizia la squadra che non ha battuto per prima nel set precedente. Il set decisivo inizia con un nuovo sorteggio; l'app alterna semplicemente."
+    },
+    {
+      "id": "203",
+      "title": "Set e partita",
+      "subtitle": "Quando finisce?",
+      "category": "Regole",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Un set finisce quando una squadra arriva a 25 (o 15) con almeno due punti di vantaggio.\n\n• Una partita finisce quando una squadra vince 2 set (al meglio dei 3) o 3 set (al meglio dei 5).\n\n• Interrotta prima? Usa Termina e salva: il set a metà resta salvato e segnato."
+    },
+    {
+      "id": "301",
+      "title": "Tattica in battuta",
+      "subtitle": "La battuta è un'arma.",
+      "category": "Tattica",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Battuta float: senza rotazione, la palla si muove in aria ed è difficile da ricevere.\n\n• Battuta in salto: potenza e angolo. Rischio alto, resa alta.\n\n• Batti sul ricevitore più debole o tra due ricevitori.\n\n• Batti lungo per spingere indietro la ricezione e rallentare l'attacco."
+    },
+    {
+      "id": "302",
+      "title": "Il muro",
+      "subtitle": "Fermare l'attacco a rete.",
+      "category": "Tattica",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Leggi il palleggiatore: guarda spalle e palla prima dell'alzata.\n\n• Muro deciso: salta con l'attaccante se sei sicuro della direzione.\n\n• Muro morbido: inclina le mani per rallentare la palla ai difensori.\n\n• Muro a due: due muratori chiudono la rete e tolgono angoli."
+    },
+    {
+      "id": "303",
+      "title": "Rotazione e ruoli",
+      "subtitle": "Prima in ordine, poi cambia.",
+      "category": "Tattica",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Alla battuta i giocatori devono essere in ordine di rotazione: prima e seconda linea.\n\n• Dopo la battuta ognuno va nel suo ruolo, il palleggiatore a destra.\n\n• Essere fuori posizione alla battuta è fallo.\n\n• L'icona della palla sul tabellone mostra chi batte: il tuo riferimento di rotazione."
+    }
+  ]
+}

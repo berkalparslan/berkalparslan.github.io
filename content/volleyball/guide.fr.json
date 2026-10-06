@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Compter sur le téléphone",
+      "subtitle": "Pas besoin de montre.",
+      "category": "Guide de l'app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Ouvrez Match, choisissez Ce téléphone et touchez Lancer le match sur le téléphone.\n\n• Touchez le côté qui a gagné l'échange : l'adversaire en haut en rouge, votre équipe en bas en vert.\n\n• Un point erroné s'annule avec la flèche au milieu.\n\n• Touchez Plein écran pour un grand tableau, une équipe de chaque côté.\n\n• L'écran reste allumé pendant le match. Si l'app se ferme, le match est toujours là à la réouverture."
+    },
+    {
+      "id": "101",
+      "title": "Montre et téléphone ensemble",
+      "subtitle": "L'un compte, l'autre suit.",
+      "category": "Guide de l'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Lancez sur la montre et le téléphone affiche le même score en direct.\n\n• Un seul appareil compte à la fois, aucun point n'est compté deux fois.\n\n• Pour changer, touchez Compter sur le téléphone sur l'iPhone, ou Compter ici sur la montre.\n\n• Si la connexion coupe, rien n'est perdu : le dernier score arrive dès que les deux se retrouvent.\n\n• Les matchs sur la montre enregistrent un entraînement dans Santé avec fréquence cardiaque, calories et distance."
+    },
+    {
+      "id": "104",
+      "title": "Arbitre vocal",
+      "subtitle": "Le score à voix haute, depuis le téléphone.",
+      "category": "Guide de l'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Activez l'arbitre vocal dans la préparation du match et choisissez la langue.\n\n• Le téléphone annonce le score après chaque échange, même quand la montre compte. Branchez une enceinte Bluetooth pour une grande salle.\n\n• D'abord le score de l'équipe au service : 14 12, puis Set et le nom de l'équipe en fin de set.\n\n• Annoncer le score lit les sets et le score quand vous voulez."
+    },
+    {
+      "id": "102",
+      "title": "Formats de match",
+      "subtitle": "Au meilleur des 3 ou des 5.",
+      "category": "Guide de l'app",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Au meilleur des 3 : la première équipe à 2 sets gagne le match.\n\n• Au meilleur des 5 : la première équipe à 3 sets gagne le match.\n\n• Les sets se jouent en 25 points. Le set décisif en 15 (FIVB), ou en 25 si vous le choisissez.\n\n• Chaque set demande deux points d'écart, sans limite.\n\n• BALLE DE SET et BALLE DE MATCH s'affichent quand le prochain échange peut finir le set ou le match."
+    },
+    {
+      "id": "103",
+      "title": "Qui sert en premier ?",
+      "subtitle": "Utilisez le dé intégré.",
+      "category": "Guide de l'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• Dans la préparation, touchez le dé à côté de Premier service : l'app choisit au hasard l'équipe A ou B.\n\n• Les flèches changent le premier serveur à la main.\n\n• À chaque nouveau set, l'équipe qui n'a pas servi en premier au set précédent sert en premier. L'app s'en charge."
+    },
+    {
+      "id": "105",
+      "title": "Amis, communauté et ligues",
+      "subtitle": "En option, connexion Apple ou Google.",
+      "category": "Guide de l'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Faites confirmer un résultat par un ami : une fois accepté, le match est dans les deux carnets, chacun de son côté.\n\n• Partagez un match dans la communauté : ajoutez un texte et choisissez qui le voit. Notes et données de santé ne sont jamais partagées.\n\n• Ligues : l'organisateur (Pro) crée la ligue, invite les équipes et fixe le calendrier. Les joueurs participent gratuitement, jouent et envoient le résultat avec les points de chaque set depuis l'écran du match. Les deux côtés confirment, l'organisateur valide, le classement bouge.\n\n• Compter les points ne demande jamais de compte."
+    },
+    {
+      "id": "201",
+      "title": "Compter au volley 101",
+      "subtitle": "Rallye : chaque échange compte.",
+      "category": "Règles",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Chaque échange vaut un point, quel que soit le serveur.\n\n• Set normal : premier à 25 avec deux points d'écart.\n\n• Set décisif : premier à 15 avec deux points d'écart.\n\n• Pas de limite : à 24-24 on continue jusqu'à deux points d'écart."
+    },
+    {
+      "id": "202",
+      "title": "Changement de service",
+      "subtitle": "Comment le service tourne.",
+      "category": "Règles",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Si l'équipe au service gagne l'échange, elle marque et garde le service.\n\n• Si l'équipe en réception gagne l'échange, elle marque et prend le service. Elle tourne d'une position dans le sens horaire avant de servir.\n\n• Nouveau set : l'équipe qui n'a pas servi en premier au set précédent commence. Le set décisif commence par un nouveau tirage ; l'app alterne simplement."
+    },
+    {
+      "id": "203",
+      "title": "Set et match",
+      "subtitle": "Quand est-ce fini ?",
+      "category": "Règles",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Un set se termine quand une équipe atteint 25 (ou 15) avec au moins deux points d'avance.\n\n• Un match se termine quand une équipe gagne 2 sets (au meilleur des 3) ou 3 sets (au meilleur des 5).\n\n• Arrêté plus tôt ? Utilisez Terminer et enregistrer : le set entamé est gardé et marqué."
+    },
+    {
+      "id": "301",
+      "title": "Tactique au service",
+      "subtitle": "Votre service est une arme.",
+      "category": "Tactique",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Service flottant : sans effet, le ballon bouge en l'air et se réceptionne mal.\n\n• Service smashé : puissance et angle. Gros risque, gros gain.\n\n• Servez sur le réceptionneur le plus faible, ou entre deux réceptionneurs.\n\n• Servez long pour reculer la réception et ralentir l'attaque."
+    },
+    {
+      "id": "302",
+      "title": "Le contre",
+      "subtitle": "Arrêter l'attaque au filet.",
+      "category": "Tactique",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Lisez le passeur : regardez les épaules et le ballon avant la passe.\n\n• Contre engagé : sautez avec l'attaquant quand vous êtes sûr de la direction.\n\n• Contre souple : inclinez les mains pour ralentir le ballon pour vos défenseurs.\n\n• Double contre : deux contreurs ferment le filet et réduisent les angles."
+    },
+    {
+      "id": "303",
+      "title": "Rotation et postes",
+      "subtitle": "D'abord en ordre, puis on change.",
+      "category": "Tactique",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Au service, les joueurs sont dans l'ordre de rotation : avant et arrière.\n\n• Après le service, chacun rejoint son poste, le passeur à droite.\n\n• Être mal placé au moment du service est une faute.\n\n• L'icône de ballon sur le tableau montre qui sert : votre repère de rotation."
+    }
+  ]
+}

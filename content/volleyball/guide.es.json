@@ -1,0 +1,112 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Lleva el marcador en el teléfono",
+      "subtitle": "No hace falta reloj.",
+      "category": "Guía de la app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Abre Partido, elige Este teléfono y toca Empezar partido en el teléfono.\n\n• Toca el lado que ganó el rally: el rival arriba en rojo, tu equipo abajo en verde.\n\n• Un punto erróneo se deshace con la flecha del centro.\n\n• Toca Pantalla completa para un marcador grande, un equipo a cada lado.\n\n• La pantalla sigue encendida durante el partido. Si la app se cierra, el partido sigue ahí al volver a abrirla."
+    },
+    {
+      "id": "101",
+      "title": "Reloj y teléfono juntos",
+      "subtitle": "Uno lleva el marcador, el otro lo sigue.",
+      "category": "Guía de la app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Empieza en el reloj y el teléfono muestra el mismo marcador en directo.\n\n• Solo un dispositivo lleva el marcador a la vez, así ningún punto cuenta dos veces.\n\n• Para cambiar, toca Marcar en el teléfono en el iPhone, o Marcar aquí en el reloj.\n\n• Si se corta la conexión no se pierde nada: el último marcador llega en cuanto vuelven a conectarse.\n\n• Los partidos en el reloj guardan un entreno en Salud con frecuencia cardiaca, calorías y distancia."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "El marcador en voz alta, desde el teléfono.",
+      "category": "Guía de la app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Activa el árbitro por voz en la preparación y elige el idioma.\n\n• El teléfono canta el marcador tras cada rally, también cuando lo lleva el reloj. Conecta un altavoz Bluetooth para un pabellón grande.\n\n• Primero el marcador del equipo que saca: 14 12, y al final del set Set y el nombre del equipo.\n\n• Decir marcador lee los sets y el marcador cuando quieras."
+    },
+    {
+      "id": "102",
+      "title": "Formatos de partido",
+      "subtitle": "Al mejor de 3 o de 5.",
+      "category": "Guía de la app",
+      "icon": "trophy.fill",
+      "colorHex": "#5856D6",
+      "content": "• Al mejor de 3: el primer equipo en ganar 2 sets gana el partido.\n\n• Al mejor de 5: el primer equipo en ganar 3 sets gana el partido.\n\n• Los sets van a 25 puntos. El set decisivo a 15 (FIVB), o a 25 si lo eliges.\n\n• Cada set exige dos puntos de ventaja, sin límite.\n\n• PUNTO DE SET y PUNTO DE PARTIDO aparecen cuando el siguiente rally puede cerrar el set o el partido."
+    },
+    {
+      "id": "103",
+      "title": "¿Quién saca primero?",
+      "subtitle": "Usa el dado de la app.",
+      "category": "Guía de la app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "• En la preparación, toca el dado junto a Primer saque: la app elige al azar el equipo A o el B.\n\n• Las flechas cambian el primer sacador a mano.\n\n• En cada set nuevo saca primero el equipo que no sacó primero en el set anterior. La app lo hace por ti."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidad y ligas",
+      "subtitle": "Opcional, con Apple o Google.",
+      "category": "Guía de la app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Pide a un amigo que confirme un resultado: al aceptarlo, el partido está en ambos diarios, cada uno desde su lado.\n\n• Comparte un partido en la comunidad: añade un texto y elige quién lo ve. Las notas y los datos de salud nunca se comparten.\n\n• Ligas: el organizador (Pro) crea la liga, invita a los equipos y fija el calendario. Los jugadores se unen gratis, juegan y envían el resultado con los puntos de cada set desde la pantalla del partido. Ambos lados confirman, el organizador aprueba y la tabla se mueve.\n\n• Llevar el marcador nunca necesita cuenta."
+    },
+    {
+      "id": "201",
+      "title": "Puntuación de vóley 101",
+      "subtitle": "Rally: cada jugada cuenta.",
+      "category": "Reglas",
+      "icon": "volleyball.fill",
+      "colorHex": "#34C759",
+      "content": "• Cada rally es un punto, sin importar quién sacó.\n\n• Set normal: primero a 25 con dos puntos de ventaja.\n\n• Set decisivo: primero a 15 con dos puntos de ventaja.\n\n• No hay límite: con 24-24 se sigue hasta que un equipo saque dos puntos."
+    },
+    {
+      "id": "202",
+      "title": "Cambio de saque",
+      "subtitle": "Cómo pasa el saque.",
+      "category": "Reglas",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "• Si el equipo que saca gana el rally, suma y sigue sacando.\n\n• Si gana el equipo receptor, suma y se queda con el saque. Antes rota una posición en sentido horario.\n\n• Set nuevo: empieza sacando el equipo que no sacó primero en el set anterior. El set decisivo empieza con un nuevo sorteo; la app simplemente alterna."
+    },
+    {
+      "id": "203",
+      "title": "Set y partido",
+      "subtitle": "¿Cuándo termina?",
+      "category": "Reglas",
+      "icon": "checkmark.seal.fill",
+      "colorHex": "#FF9500",
+      "content": "• Un set termina cuando un equipo llega a 25 (o 15) con al menos dos puntos de ventaja.\n\n• Un partido termina cuando un equipo gana 2 sets (al mejor de 3) o 3 sets (al mejor de 5).\n\n• ¿Terminó antes? Usa Terminar y guardar: el set a medias se guarda marcado."
+    },
+    {
+      "id": "301",
+      "title": "Táctica de saque",
+      "subtitle": "Tu saque es un arma.",
+      "category": "Táctica",
+      "icon": "arrow.up.right.circle.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Saque flotante: sin efecto, el balón se mueve en el aire y cuesta recibirlo.\n\n• Saque en salto: potencia y ángulo. Mucho riesgo, mucha recompensa.\n\n• Saca al receptor más débil o entre dos receptores.\n\n• Saca profundo para alejar la recepción y frenar el ataque."
+    },
+    {
+      "id": "302",
+      "title": "Bloqueo",
+      "subtitle": "Para el ataque en la red.",
+      "category": "Táctica",
+      "icon": "hand.raised.fill",
+      "colorHex": "#30B0C7",
+      "content": "• Lee al colocador: mira hombros y balón antes del pase.\n\n• Bloqueo comprometido: salta con el atacante si estás seguro de la dirección.\n\n• Bloqueo suave: inclina las manos para frenar el balón a tus defensores.\n\n• Doble bloqueo: dos bloqueadores cierran la red y quitan ángulos."
+    },
+    {
+      "id": "303",
+      "title": "Rotación y posiciones",
+      "subtitle": "Primero en orden, luego cambia.",
+      "category": "Táctica",
+      "icon": "arrow.clockwise",
+      "colorHex": "#FF6B35",
+      "content": "• Al sacar, los jugadores deben estar en orden de rotación: delanteros y zagueros.\n\n• Tras el saque, cada uno va a su posición, el colocador a la derecha.\n\n• Estar fuera de orden en el saque es falta.\n\n• El icono del balón en el marcador muestra quién saca: tu referencia de rotación."
+    }
+  ]
+}
