@@ -163,11 +163,27 @@ $("#send").onclick = async () => {
   }
 };
 
+/* Asil kapi Firestore kurallari: okuma yalnizca bu e-postaya acik, baska
+   hicbir hesap tek bir belge bile okuyamaz. Buradaki kontrol ikinci katman:
+   yetkisiz biri giris yaparsa bos/kirik panel yerine acik bir mesaj gorsun. */
+const YONETICI = "aberkalparslan@gmail.com";
+
 onAuthStateChanged(auth, user => {
-  if (user || demo) {
+  if (demo) {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     yukle();
+    return;
+  }
+  if (user && user.email === YONETICI && user.emailVerified) {
+    $("#login").classList.add("hidden");
+    $("#app").classList.remove("hidden");
+    yukle();
+  } else if (user) {
+    $("#login").classList.remove("hidden");
+    $("#app").classList.add("hidden");
+    $("#loginMsg").textContent = "Bu panel yalnizca yoneticiye acik.";
+    signOut(auth);
   } else {
     $("#login").classList.remove("hidden");
     $("#app").classList.add("hidden");
