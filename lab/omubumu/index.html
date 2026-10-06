@@ -168,6 +168,8 @@
       <a data-sekme="genel" class="secili">Genel bakış</a>
       <a data-sekme="canli">Canlı</a>
       <a data-sekme="platformlar">Platformlar</a>
+      <a data-sekme="ekranlar">Ekranlar</a>
+      <a data-sekme="paywall">Paywall</a>
       <a data-sekme="icerikAnaliz">İçerik performansı</a>
       <a data-sekme="kullanicilar">Kullanıcılar</a>
       <a data-sekme="arkadas">Arkadaş turnuvaları</a>
@@ -334,7 +336,17 @@
         votesA: rastgele(120), votesB: rastgele(120) }));
       V.users = [...Array(140)].map((_, i) => ({ id: "demo" + String(i).padStart(4, "0"), displayName: i % 7 ? null : "Demo Kişi " + i,
         isAnonymous: !!(i % 7), providers: i % 7 ? [] : ["google.com"], platform: platformlarD[i % platformlarD.length],
-        appVersion: i % 5 ? "2.0" : "1.1", lastSeenAt: ts(rastgele(60 * 24 * 20)), createdAt: ts(rastgele(60 * 24 * 60) + 60 * 24) }));
+        appVersion: i % 5 ? "2.0" : "1.1", lastSeenAt: ts(rastgele(60 * 24 * 20)), createdAt: ts(rastgele(60 * 24 * 60) + 60 * 24),
+        sessions: 1 + rastgele(20), totalSeconds: 60 + rastgele(4000),
+        tier: i % 23 === 0 ? "pro" : i % 17 === 0 ? "noads" : "free",
+        buySource: i % 23 === 0 ? "optionCap" : i % 17 === 0 ? "afterAd" : null,
+        ev: { screen_home_sec: rastgele(900), screen_dilemma_sec: rastgele(600), screen_play_sec: rastgele(1200),
+          screen_result_sec: rastgele(200), screen_mine_sec: rastgele(150), screen_settings_sec: rastgele(80),
+          screen_paywall_sec: rastgele(40), screen_home_open: 1 + rastgele(30), screen_dilemma_open: rastgele(20),
+          screen_play_open: rastgele(14), screen_result_open: rastgele(12), screen_paywall_open: rastgele(3),
+          pw_view_general: rastgele(2), pw_view_optionCap: rastgele(2), pw_view_afterAd: rastgele(3),
+          pw_close_general: rastgele(2), pw_close_afterAd: rastgele(2),
+          pw_buy_optionCap: i % 23 === 0 ? 1 : 0, pw_buy_afterAd: i % 17 === 0 ? 1 : 0 } }));
       V.users[0].lastSeenAt = ts(1); V.users[1].lastSeenAt = ts(3); V.users[2].lastSeenAt = ts(12); V.users[3].lastSeenAt = ts(25);
       V.runs = [...Array(320)].map((_, i) => { const b = V.brackets[rastgele(V.brackets.length)]; const u = V.users[rastgele(V.users.length)];
         return { id: "r" + i, uid: u.id, bracketId: b.id, bracketTitle: b.title, size: [4, 8, 16, 32][rastgele(4)],
@@ -394,7 +406,7 @@
     // (yazan ekranlar). Aralık seçimi yalnız analiz sayfalarını etkiler.
     document.querySelectorAll(".yan a[data-sekme]").forEach((a) => (a.onclick = () => goster(a.dataset.sekme)));
     $("#yenile").onclick = async () => { await yukle(); await oyunlariYukle(true); goster(aktif); };
-    const ANALIZ = ["genel", "canli", "platformlar", "icerikAnaliz", "kullanicilar", "arkadas"];
+    const ANALIZ = ["genel", "canli", "platformlar", "ekranlar", "paywall", "icerikAnaliz", "kullanicilar", "arkadas"];
     let ARALIK = 30;
     $("#aralik").onchange = (e) => { ARALIK = +e.target.value; if (ANALIZ.includes(aktif)) goster(aktif); };
     let aktif = "genel";
@@ -402,7 +414,7 @@
       aktif = sekme;
       document.querySelectorAll(".yan a[data-sekme]").forEach((a) => a.classList.toggle("secili", a.dataset.sekme === sekme));
       $("#aralik").style.visibility = ANALIZ.includes(sekme) ? "" : "hidden";
-      $("#icerik").innerHTML = ({ genel, canli, platformlar, icerikAnaliz, arkadas, onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      $("#icerik").innerHTML = ({ genel, canli, platformlar, ekranlar, paywall, icerikAnaliz, arkadas, onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
       bagla();
       if (ANALIZ.includes(sekme) && V.runs === null) oyunlariYukle();
       if (sekme === "canli") canliBasla();
@@ -627,6 +639,67 @@
         return sk.length ? `<div class="tablo"><table><tr><th>Ne zaman</th><th>Platform</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th></tr>
         ${sk.map((r) => `<tr><td>${nekadar(r.playedAt)}</td><td>${esc(pAd(r.platform))}</td><td>${esc(r.bracketTitle || "—")}</td><td>${r.size || "—"}</td><td>${esc(r.championName || "—")}</td></tr>`).join("")}</table></div>`
           : `<p class="ipucu">Saatten gelen oyun kaydı yok. (Saat turnuvaları <code>runs</code> belgesi yazar; ikilem oyları yalnız sayaçlara düşer.)</p>`; })()}`;
+    }
+
+    // ---- ekranlar ------------------------------------------------------
+    // Veri kaynağı uygulamadaki telemetri katmanı: users/{uid}.ev içinde
+    // screen_<ad>_sec (toplam saniye) ve screen_<ad>_open (kaç kez açıldı).
+    // 2.1 öncesi sürümlerde bu alanlar yok, o yüzden boş görünebilir.
+    const EKRAN = { home: "Ana ekran", dilemma: "İkilem", brackets: "Turnuva listesi", size: "Boy seçimi",
+      play: "Turnuva oynanışı", result: "Sonuç", mine: "Kendi turnuvalarım", editor: "Turnuva düzenleyici",
+      friends: "Arkadaş", library: "Kitaplık", settings: "Ayarlar", paywall: "Paywall", account: "Hesap" };
+    const sureYaz = (sn) => sn >= 3600 ? `${(sn / 3600).toFixed(1)} sa` : sn >= 60 ? `${Math.round(sn / 60)} dk` : `${sn} sn`;
+
+    function ekranlar() {
+      const { users } = saat();
+      const sure = {}, acilis = {};
+      for (const u of users) for (const [k, v] of Object.entries(u.ev || {})) {
+        if (typeof v !== "number") continue;
+        let m = k.match(/^screen_(.+)_sec$/); if (m) { sure[m[1]] = (sure[m[1]] || 0) + v; continue; }
+        m = k.match(/^screen_(.+)_open$/); if (m) acilis[m[1]] = (acilis[m[1]] || 0) + v;
+      }
+      const adlar = [...new Set([...Object.keys(sure), ...Object.keys(acilis)])];
+      const toplamSure = Object.values(sure).reduce((a, b) => a + b, 0);
+      const oturum = users.reduce((a, u) => a + (u.sessions || 0), 0);
+      const toplamSaniye = users.reduce((a, u) => a + (u.totalSeconds || 0), 0);
+      if (!adlar.length) return `<div class="uyarı">Ekran verisi henüz yok. Telemetri katmanı 2.1 sürümüyle uygulamaya girdi; mağazadaki sürüm güncellendikçe burası dolmaya başlar.</div>`;
+      return `<p class="ipucu">Uygulamadaki ölçüm katmanından: hangi ekranda ne kadar kalındı, kaç kez açıldı. Bir ekranda tek seferde geçen ortalama süre, o ekranın gerçekten kullanıldığını mı yoksa geçiştirildiğini mi gösterir.</p>
+      ${kpi([["Oturum", oturum], ["Toplam süre", sureYaz(toplamSaniye)], ["Oturum başına", oturum ? sureYaz(Math.round(toplamSaniye / oturum)) : "—"], ["Ölçülen ekran", adlar.length]])}
+      <div class="ikili">
+        <div><h3>Ekranda geçen süre</h3>${barlar(adlar.map((a) => [EKRAN[a] || a, sure[a] || 0]).sort((x, y) => y[1] - x[1]))}</div>
+        <div><h3>Kaç kez açıldı</h3>${barlar(adlar.map((a) => [EKRAN[a] || a, acilis[a] || 0]).sort((x, y) => y[1] - x[1]))}</div>
+      </div>
+      <div class="tablo"><table><tr><th>Ekran</th><th>Toplam süre</th><th>Açılış</th><th>Açılış başına</th><th>Payı</th></tr>
+      ${adlar.sort((a, b) => (sure[b] || 0) - (sure[a] || 0)).map((a) => `<tr><td><b>${esc(EKRAN[a] || a)}</b></td><td>${sureYaz(sure[a] || 0)}</td><td>${acilis[a] || 0}</td><td>${acilis[a] ? sureYaz(Math.round((sure[a] || 0) / acilis[a])) : "—"}</td><td>%${Math.round(100 * (sure[a] || 0) / (toplamSure || 1))}</td></tr>`).join("")}</table></div>`;
+    }
+
+    // ---- paywall -------------------------------------------------------
+    function paywall() {
+      const { users } = saat();
+      const KAYNAK = { general: "Ayarlardan", secondTournament: "İkinci turnuva", optionCap: "Seçenek sınırı", afterAd: "Reklamdan sonra" };
+      const topla = (kalip) => {
+        const o = {};
+        for (const u of users) for (const [k, v] of Object.entries(u.ev || {})) {
+          const m = k.match(kalip); if (m && typeof v === "number") o[m[1]] = (o[m[1]] || 0) + v;
+        }
+        return o;
+      };
+      const gorulme = topla(/^pw_view_(.+)$/), kapanma = topla(/^pw_close_(?!bought_)(.+)$/), alim = topla(/^pw_buy_(.+)$/);
+      const kaynaklar = [...new Set([...Object.keys(gorulme), ...Object.keys(kapanma), ...Object.keys(alim)])];
+      const katman = {}; for (const u of users) katman[u.tier || "bilinmiyor"] = (katman[u.tier || "bilinmiyor"] || 0) + 1;
+      const alanlar = users.filter((u) => u.buySource);
+      const kaynakAlim = {}; for (const u of alanlar) kaynakAlim[u.buySource] = (kaynakAlim[u.buySource] || 0) + 1;
+      const toplamGorulme = Object.values(gorulme).reduce((a, b) => a + b, 0);
+      const toplamAlim = Object.values(alim).reduce((a, b) => a + b, 0);
+      if (!toplamGorulme && !alanlar.length) return `<div class="uyarı">Paywall verisi henüz yok. Ölçüm 2.1 sürümüyle girdi; mağazadaki sürüm güncellendikçe burası dolmaya başlar.</div>`;
+      return `<p class="ipucu">Paywall dört yerden açılıyor. Burada her birinin kaç kez görüldüğü, kaç kez kapatıldığı ve kaçının satın almayla bittiği var.</p>
+      ${kpi([["Paywall gösterimi", toplamGorulme], ["Satın alma", toplamAlim], ["Dönüşüm", toplamGorulme ? "%" + (100 * toplamAlim / toplamGorulme).toFixed(1) : "—"], ["Ödeyen kullanıcı", users.filter((u) => u.tier === "pro" || u.tier === "noads").length]])}
+      <div class="tablo"><table><tr><th>Nereden açıldı</th><th>Gösterim</th><th>Kapatma</th><th>Satın alma</th><th>Dönüşüm</th></tr>
+      ${kaynaklar.sort((a, b) => (gorulme[b] || 0) - (gorulme[a] || 0)).map((k) => `<tr><td><b>${esc(KAYNAK[k] || k)}</b></td><td>${gorulme[k] || 0}</td><td>${kapanma[k] || 0}</td><td>${alim[k] || 0}</td><td>${gorulme[k] ? "%" + (100 * (alim[k] || 0) / gorulme[k]).toFixed(1) : "—"}</td></tr>`).join("")}</table></div>
+      <div class="ikili">
+        <div><h3>Kullanıcı katmanı</h3>${barlar(Object.entries(katman).map(([k, v]) => [{ free: "Ücretsiz", noads: "Reklamsız", pro: "Pro", bilinmiyor: "Bilinmiyor" }[k] || k, v]))}</div>
+        <div><h3>Satın alanlar hangi ekrandan geldi</h3>${barlar(Object.entries(kaynakAlim).map(([k, v]) => [KAYNAK[k] || k, v]), "Henüz satın alma yok.")}</div>
+      </div>`;
     }
 
     // ---- içerik performansı --------------------------------------------
