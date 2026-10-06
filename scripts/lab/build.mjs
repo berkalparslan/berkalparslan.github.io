@@ -69,6 +69,7 @@ const panel = panelOlustur({
   ga4: oku("ga4.json", null),
   telemetri: oku("telemetri.json", null),
   web: oku("web.json", null),
+  framegrove: oku("framegrove.json", null),
   toplamaNotlar: oku("toplama-notlar.json", []),
   kovaTanimli: !!(process.env.GPLAY_BUCKET_ID || existsSync(join(VERI, "gplay.json"))),
   yenile: gizli.actionsToken ? { tur: "actions", repo: "berkalparslan/berkalparslan.github.io", workflow: "panel.yml", token: gizli.actionsToken } : null,

@@ -25,12 +25,13 @@ const WRANGLER = [
 ];
 const D1_ID = "56030b37-b496-4a0b-bfbc-bb8f14ee51bc"; // bamstudio: bülten, anket, indirim kodları
 const HOSTLAR = /(^|\.)bamstudio\.dev$|berkalparslan\.github\.io$/;
+const AYRI = /^framegrove\./; // Framegrove'un kendi kartı var (framegrove.mjs), site sayısına girmez
 
 function tokenOku() {
   const t = readFileSync(TOML, "utf8");
   return { token: t.match(/oauth_token = "([^"]+)"/)?.[1], bitis: Date.parse(t.match(/expiration_time = "([^"]+)"/)?.[1] || 0) };
 }
-function token() {
+export function token() {
   if (!existsSync(TOML)) throw new Error("wrangler oturumu yok");
   let t = tokenOku();
   if (!t.token || t.bitis < Date.now() + 120_000) {
@@ -57,7 +58,7 @@ export async function web(log = () => {}, gun = 90) {
       const r = await fetch("https://api.cloudflare.com/client/v4/graphql", { method: "POST", headers: H, body: JSON.stringify({ query: q }) });
       const j = await r.json();
       if (j.errors?.length) throw new Error(j.errors[0].message.slice(0, 160));
-      return (j.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups || []).filter(x => HOSTLAR.test(x.dimensions.requestHost || ""));
+      return (j.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups || []).filter(x => HOSTLAR.test(x.dimensions.requestHost || "") && !AYRI.test(x.dimensions.requestHost || ""));
     };
     /* Adaptif örnekleme geniş aralıkta kaba sonuç veriyor (30 günlük tek sorgu
        7 günlükten az ülke döndürdü): 7 günlük parçalar, gün boyutuyla. */

@@ -169,6 +169,7 @@
     .k-odak { background: var(--mint); } .k-buyut { background: var(--accent); } .k-bakim { background: var(--c-sari); }
     .k-bekle { background: var(--faint); } .k-kapali { background: var(--rose); } .k-yok { background: transparent; border: 1px solid var(--border-2); }
     .k-site { background: var(--c-turuncu); border-radius: 2px; }
+    .k-fg { background: var(--c-yesil, #12856f); border-radius: 2px; }
     .renkler { display: flex; gap: 8px; padding: 0 4px; }
     .renkler button { width: 20px; height: 20px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--border-2); }
     .renkler button[aria-pressed="true"] { border-color: var(--surface); box-shadow: 0 0 0 2px var(--text); }
@@ -1025,7 +1026,7 @@
       $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
       $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3-5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
       const sa = secApp();
-      $("#mbarAd").textContent = S.app === SITE ? "bamstudio.dev" : sa ? sa.ad : "Tüm uygulamalar";
+      $("#mbarAd").textContent = S.app === SITE ? "bamstudio.dev" : S.app === FG ? "Framegrove" : sa ? sa.ad : "Tüm uygulamalar";
       $("#mbarAlt").textContent = `${ARALIKLAR.find(x => x.v === S.aralik)?.e || ""} · ${PLATFORMLAR.find(x => x.v === S.platform)?.e || ""} · ${$("#cekim").textContent}`;
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
@@ -1038,6 +1039,7 @@
       $("#yigUyg").innerHTML =
         `<button data-app="" aria-pressed="${!S.app}"><span class="katman k-yok"></span><span class="ad">Tümü</span><span class="say">${sayi(hepsi.reduce((t, a) => t + say(a), 0))}</span></button>` +
         (D.web ? `<button data-app="${SITE}" aria-pressed="${S.app === SITE}" title="bamstudio.dev: trafik, bülten, anket, kodlar"><span class="katman k-site"></span><span class="ad">bamstudio.dev (site)</span><span class="say">${sayi(webOzet()?.z7 || 0)}</span></button>` : "") +
+        (D.framegrove ? `<button data-app="${FG}" aria-pressed="${S.app === FG}" title="Framegrove: npm, GitHub, site, MCP Registry"><span class="katman k-fg"></span><span class="ad">Framegrove (açık kaynak)</span><span class="say">${sayi(fgOzet()?.npm7 || 0)}</span></button>` : "") +
         `<div class="ayrac"></div>` +
         sirali.map(({ a, d, n }) => {
           const cevapsiz = yorumSay(a).cevapsiz;
@@ -1159,6 +1161,7 @@
           <div class="card"><div class="k">Net</div><div class="v ${net === null ? "kucuk" : net < 0 ? "down" : "up"}">${net === null ? "kur yok" : `${net < 0 ? "−" : "+"}${tl(Math.abs(net))}`}</div><div class="s">gider ${m.aralikTl !== null ? tl(m.aralikTl) : `${m.aylikUsd.toFixed(2)} $/ay`}</div></div>
           <div class="card"><div class="k">Yorum</div><div class="v ${cevapsiz ? "down" : ""}">${cevapsiz ? `${cevapsiz} cevapsız` : sayi(tumYorumlar().length)}</div><div class="s">${cevapsiz ? "cevap bekliyor" : "hepsi cevaplandı"}</div></div>
           ${w ? `<div class="card"><div class="k">Site ziyareti · 7 gün</div><div class="v">${sayi(w.z7)}</div><div class="s">30 gün ${sayi(w.z30)} · ${sayi(w.abone)} abone</div></div>` : ""}
+          ${fgOzet() ? `<div class="card"><div class="k">Framegrove npm · 7 gün</div><div class="v">${sayi(fgOzet().npm7)}</div><div class="s">★ ${sayi(fgOzet().yildiz)} · <a href="#" data-app="${FG}">Framegrove</a></div></div>` : ""}
         </div>
         ${sinir ? `<div class="bilgi-kutu">${sinir}</div>` : ""}
 
@@ -1261,7 +1264,7 @@
       CANLI.zaman = new Date();
       const imza = JSON.stringify([CANLI.hata, (CANLI.veri?.apps || []).map(a => [a.slug, a.son15, a.son60, (a.liste || []).map(x => x.id + x.ekran)])]);
       const degisti = imza !== CANLI.imza; CANLI.imza = imza;
-      if (S.sekme === "canli" || (degisti && S.sekme === "ozet" && S.app !== SITE)) ciz(); else if (degisti) { canliRozet(); }
+      if (S.sekme === "canli" || (degisti && S.sekme === "ozet" && !ozelApp(S.app))) ciz(); else if (degisti) { canliRozet(); }
     }
     /* Yan menü ve sekme rozetini, ana alanı yeniden çizmeden güncelle. */
     function canliRozet() { const y = $("#yigUyg"); if (y) yanCiz(); const t = document.querySelector('[data-sekme="canli"] .say'); const n = canliSay().toplam; if (t) t.textContent = n || ""; }
@@ -1330,9 +1333,58 @@
     /* ── Site: bamstudio.dev ─────────────────────────────────────
        Uygulama seçicide bir uygulama gibi. Cloudflare Web Analytics +
        site arka ucu (D1: bülten, anket, indirim kodları). */
-    const SITE = "__site";
+    const SITE = "__site", FG = "__framegrove";
+    const ozelApp = a => a === SITE || a === FG;
     const appAdi = s => (D.apps.find(a => a.slug === s) || D.apps.find(a => a.slug.startsWith(s + "-")))?.ad || s;
     function cubukGrafik(etiketler, seriler, H = 200) { return cubukCiz(etiketler, seriler, H); }
+    function fgOzet() {
+      const f = D.framegrove; if (!f) return null;
+      const npmG = Object.keys(f.npm?.gunluk || {}).sort(), sonN = npmG.at(-1);
+      const npm = n => npmG.filter(t => sonN && gunFarki(sonN, t) < n).reduce((s, t) => s + (f.npm.gunluk[t] || 0), 0);
+      const siteG = Object.keys(f.site?.gunluk || {}).sort(), sonS = siteG.at(-1);
+      const site = n => siteG.filter(t => sonS && gunFarki(sonS, t) < n).reduce((s, t) => s + (f.site.gunluk[t].ziyaret || 0), 0);
+      const ghG = Object.entries(f.github?.gunluk || {});
+      const ghTop = (k, n) => ghG.filter(([t]) => gunFarki(gunYaziBugun(), t) < n).reduce((s, [, g]) => s + (g[k] || 0), 0);
+      return { npm1: npm(1), npm7: npm(7), npm30: npm(30), site7: site(7), site30: site(30), yildiz: f.github?.yildiz ?? 0, fork: f.github?.fork ?? 0,
+        issue: f.github?.acikIssue ?? 0, gh14: ghTop("goruntuleme", 14), ghTekil14: ghTop("tekil", 14), klon14: ghTop("klon", 14) };
+    }
+    function gunYaziBugun() { return new Date().toISOString().slice(0, 10); }
+    function fgCiz() {
+      const f = D.framegrove, o = fgOzet();
+      if (!f) return `<div class="panel"><div class="bos">Framegrove verisi bu pakette yok (scripts/lab/framegrove.mjs çekilmedi).</div></div>`;
+      const pen = n => { const l = []; for (let i = n - 1; i >= 0; i--) l.push(new Date(Date.now() - i * 864e5).toISOString().slice(0, 10)); return l; };
+      const g30 = pen(S.aralik && S.aralik < 90 ? S.aralik : 30), g14 = pen(14);
+      const tablo = (satirlar, baslik) => `<div class="panel scroll"><table><thead><tr><th>${baslik}</th><th class="num">Sayı</th></tr></thead><tbody>${satirlar.map(([a, n]) => `<tr><td>${esc(a)}</td><td class="num">${sayi(n)}</td></tr>`).join("") || '<tr><td colspan="2" class="zero">Henüz yok.</td></tr>'}</tbody></table></div>`;
+      const yildizG = Object.entries(f.github?.yildizGecmis || {}).sort();
+      return `
+        <div class="cards">
+          <div class="card"><div class="k">npm indirme · 7 gün</div><div class="v">${sayi(o.npm7)}</div><div class="s">30 gün ${sayi(o.npm30)} · sürüm ${esc(f.npm?.surum || "·")}</div></div>
+          <div class="card"><div class="k">GitHub yıldız</div><div class="v">${sayi(o.yildiz)}</div><div class="s">${sayi(o.fork)} fork · ${sayi(o.issue)} açık issue+PR</div></div>
+          <div class="card"><div class="k">GitHub ziyaret · 14 gün</div><div class="v">${sayi(o.ghTekil14)}</div><div class="s">${sayi(o.gh14)} görüntüleme · ${sayi(o.klon14)} klon</div></div>
+          <div class="card"><div class="k">Site ziyareti · 7 gün</div><div class="v">${sayi(o.site7)}</div><div class="s">30 gün ${sayi(o.site30)} · framegrove.bamstudio.dev</div></div>
+          <div class="card"><div class="k">MCP Registry</div><div class="v ${f.registry?.kayitli ? "up" : "down"}">${f.registry?.kayitli ? "kayıtlı" : "yok"}</div><div class="s">${f.registry?.surum ? "sürüm " + esc(f.registry.surum) : "io.github.tech-bam/framegrove"}</div></div>
+        </div>
+        <section><h3>npm günlük indirme <span class="acik">· npm istatistiği ~1 gün geriden gelir</span></h3>
+          <div class="panel">${cubukGrafik(g30, [{ sinif: "web", ad: "indirme", deger: g30.map(t => f.npm?.gunluk?.[t] || 0) }])}</div></section>
+        <div class="ikili">
+          <section><h3>Site günlük ziyaret</h3>
+            <div class="panel">${cubukGrafik(g30, [{ sinif: "web", ad: "ziyaret", deger: g30.map(t => f.site?.gunluk?.[t]?.ziyaret || 0) }], 160)}</div></section>
+          <section><h3>GitHub günlük görüntüleme <span class="acik">· tekil ziyaretçi, 14 gün (GitHub sınırı, eski günler birikir)</span></h3>
+            <div class="panel">${cubukGrafik(g14, [{ sinif: "web", ad: "tekil", deger: g14.map(t => f.github?.gunluk?.[t]?.tekil || 0) }, { sinif: "pv", ad: "ek görüntüleme", deger: g14.map(t => Math.max(0, (f.github?.gunluk?.[t]?.goruntuleme || 0) - (f.github?.gunluk?.[t]?.tekil || 0))) }], 160)}</div></section>
+        </div>
+        <div class="ikili">
+          <section><h3>Siteye yönlendirenler <span class="acik">· 30 gün</span></h3>${tablo(f.site?.yonlendiren || [], "Kaynak")}
+            <h3 style="margin-top:16px">Site sayfaları <span class="acik">· görüntüleme, 30 gün</span></h3>${tablo(f.site?.sayfa || [], "Yol")}</section>
+          <section><h3>GitHub'a yönlendirenler <span class="acik">· 14 gün</span></h3>${tablo((f.github?.yonlendiren || []).map(([a, n]) => [a, n]), "Kaynak")}
+            <h3 style="margin-top:16px">Yıldız geçmişi</h3>${tablo(yildizG.slice(-10).reverse().map(([t, n]) => [tarihYazi(t), n]), "Gün")}</section>
+        </div>
+        ${f.hatalar?.length ? `<div class="uyari-kutu">Okunamayan: ${f.hatalar.map(esc).join(" · ")}</div>` : ""}
+        <section><div class="panel"><ul class="notes">
+          <li><strong>Kaynak:</strong> <code>scripts/lab/framegrove.mjs</code>, günlük çekimde. npm api.npmjs.org, GitHub <code>gh api</code> (trafik yalnız repo sahibine açık), site Cloudflare Web Analytics (yalnız framegrove.bamstudio.dev; bamstudio.dev site sayısına artık girmiyor), MCP Registry API.</li>
+          <li>Bağlantılar: <a href="https://www.npmjs.com/package/framegrove" target="_blank" rel="noopener">npm</a> · <a href="https://github.com/tech-bam/framegrove" target="_blank" rel="noopener">GitHub</a> · <a href="https://framegrove.bamstudio.dev" target="_blank" rel="noopener">site</a>. Vault notu: konular/framegrove.md.</li>
+          <li>Son çekim: ${f.uretim ? new Date(f.uretim).toLocaleString("tr-TR") : "·"}.</li>
+        </ul></div></section>`;
+    }
     function siteCiz() {
       const w = D.web, o = webOzet();
       if (!w) return `<div class="panel"><div class="bos">Site verisi bu pakette yok (web.mjs çekilmedi ya da Cloudflare hatası; Veri sekmesine bak).</div></div>`;
@@ -2133,7 +2185,15 @@
           ${siteCiz()}`;
         return;
       }
-      if (S.sekme === "site") S.sekme = "ozet";
+      if (S.app === FG) {
+        S.sekme = "framegrove";
+        $("#ana").innerHTML = `
+          <div class="sekmeler"><button data-sekme="framegrove" aria-pressed="true">Framegrove</button><button data-app="">← Tüm uygulamalar</button></div>
+          <div class="baslik"><h2>Framegrove</h2><span class="alt">açık kaynak · npm · GitHub · framegrove.bamstudio.dev · MCP Registry</span></div>
+          ${fgCiz()}`;
+        return;
+      }
+      if (S.sekme === "site" || S.sekme === "framegrove") S.sekme = "ozet";
       const { bas, son } = pencere();
       const secim = secApp();
       const platEt = S.platform === "ios" ? "App Store" : S.platform === "and" ? "Google Play" : "iki mağaza";
@@ -2220,7 +2280,7 @@
         const yeni = d.app || null;
         /* Menüde aynısına basınca seçim kalkar; tablo/kart satırında seçer. */
         S.app = (b.closest("#yigUyg") && S.app === yeni) ? null : yeni;
-        if (S.app && S.app !== SITE && b.closest(".uyg-satir, tr, .adim, .uk") && S.sekme !== "canli") S.sekme = "ozet";
+        if (S.app && !ozelApp(S.app) && b.closest(".uyg-satir, tr, .adim, .uk") && S.sekme !== "canli") S.sekme = "ozet";
         if (S.app) window.scrollTo({ top: 0 });
         if (b.closest("#yan")) menuKapat();
       }
@@ -2374,8 +2434,8 @@
       for (const a of D.apps) for (const g of a.vault?.gorevler || []) if (g.bitti) delete YEREL[`${a.slug}|${kimlik(g.yazi)}`];
       for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
       yaz(GOREV_KEY, YEREL);
-      if (S.app && S.app !== SITE && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "canli", "site", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (S.app && !ozelApp(S.app) && !D.apps.some(a => a.slug === S.app)) S.app = null;
+      if (!["ozet", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz(); faceDugmeleri();
       if (D.canli?.url && !CANLI.zamanlayici) {
         canliCek(true);

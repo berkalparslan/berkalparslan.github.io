@@ -26,6 +26,7 @@ export function panelOlustur(ham) {
   const ga4 = ham.ga4 || null;
   const telemetri = ham.telemetri || null;
   const web = ham.web || null;
+  const fg = ham.framegrove || null;
 
   const androidGun = kova.gunluk || {};
   const androidVar = Object.keys(androidGun).length > 0;
@@ -126,6 +127,9 @@ export function panelOlustur(ham) {
     { ad: "Site trafiği · Cloudflare Web Analytics", arac: "GraphQL rumPageloadEventsAdaptiveGroups",
       durum: web && !web.hata ? "ok" : web?.hata ? "engel" : "yok", son: web?.uretim || null,
       not: web?.hata || (web ? `${Object.keys(web.gunluk || {}).length} gün veri (ölçüm 2 Eki 2026'da başladı)` : "çekilmedi") },
+    { ad: "Framegrove · npm, GitHub, site, MCP Registry", arac: "api.npmjs.org · gh api · Cloudflare RUM · registry.modelcontextprotocol.io",
+      durum: fg && !fg.hatalar?.length ? "ok" : fg ? "engel" : "yok", son: fg?.uretim || null,
+      not: fg ? (fg.hatalar?.join(" · ") || `npm ${fg.npm?.surum || "·"} · ${fg.github?.yildiz ?? "·"} yıldız · registry ${fg.registry?.kayitli ? "kayıtlı" : "yok"}`) : "çekilmedi" },
     { ad: "Site trafiği · Umami", arac: "cloud.umami.is API",
       durum: "yok", son: null, not: "API anahtarı yok: Umami → Settings → API keys, anahtar vault'a (gizli.json umamiKey) konursa eklenir" },
     { ad: "Döviz kurları", arac: "open.er-api.com",
@@ -166,6 +170,7 @@ export function panelOlustur(ham) {
     ga4Donem: ga4?.donem || null,
     telemetri: telemetri ? { uretim: telemetri.uretim, apps: telemetri.apps } : null,
     web: web && !web.hata ? web : null,
+    framegrove: fg,
     androidSon: andSon,
     yenile: ham.yenile || null
   };

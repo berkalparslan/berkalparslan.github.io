@@ -33,6 +33,7 @@ import { ascIstemci } from "./uzak/asc.mjs";
 import { playSatir, playYorumlar, playYorumOzet, playApiCevap } from "./uzak/google.mjs";
 import { telemetri } from "./telemetri.mjs";
 import { web } from "./web.mjs";
+import { framegrove } from "./framegrove.mjs";
 import { tmpdir } from "node:os";
 import { rmSync } from "node:fs";
 
@@ -412,6 +413,9 @@ writeFileSync(join(VERI, "telemetri.json"), JSON.stringify(await telemetri(log),
 
 log("Site trafiği (Cloudflare Web Analytics)");
 writeFileSync(join(VERI, "web.json"), JSON.stringify(await web(log), null, 2));
+
+log("Framegrove (npm, GitHub, site, MCP Registry)");
+writeFileSync(join(VERI, "framegrove.json"), JSON.stringify(await framegrove(log), null, 2));
 
 writeFileSync(join(VERI, "toplama-notlar.json"), JSON.stringify(NOTLAR, null, 2));
 NOTLAR.forEach(n => log(`  ! ${n}`));
