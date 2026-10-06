@@ -179,6 +179,8 @@
       <a data-sekme="sorular">Sorular</a>
       <a data-sekme="gunun">Günün seçimi</a>
       <a data-sekme="kategoriler">Kategoriler</a>
+      <a data-sekme="bildirim">Bildirim gönder</a>
+      <a data-sekme="gonderilenler">Gönderilenler</a>
       <a data-sekme="raporlar">Raporlar</a>
       <a data-sekme="arac">Araçlar</a>
       <div class="bosluk"></div>
@@ -378,7 +380,7 @@
     });
 
     // ---- veri ----------------------------------------------------------
-    const V = { brackets: [], questions: [], categories: [], users: [], reports: [], daily: {}, runs: null, friends: null };
+    const V = { brackets: [], questions: [], categories: [], users: [], reports: [], daily: {}, runs: null, friends: null, pushes: null };
     const okuHepsi = async (ad, ...kisit) => (await getDocs(kisit.length ? query(collection(db, ad), ...kisit) : collection(db, ad))).docs.map((d) => ({ id: d.id, ...d.data() }));
 
     async function yukle() {
@@ -414,9 +416,10 @@
       aktif = sekme;
       document.querySelectorAll(".yan a[data-sekme]").forEach((a) => a.classList.toggle("secili", a.dataset.sekme === sekme));
       $("#aralik").style.visibility = ANALIZ.includes(sekme) ? "" : "hidden";
-      $("#icerik").innerHTML = ({ genel, canli, platformlar, ekranlar, paywall, icerikAnaliz, arkadas, onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      $("#icerik").innerHTML = ({ genel, canli, platformlar, ekranlar, paywall, icerikAnaliz, arkadas, onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, bildirim, gonderilenler, raporlar, arac })[sekme]();
       bagla();
       if (ANALIZ.includes(sekme) && V.runs === null) oyunlariYukle();
+      if (sekme === "gonderilenler" && V.pushes === null) gonderilenleriYukle();
       if (sekme === "canli") canliBasla();
     }
     const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
@@ -510,6 +513,11 @@
           if (aktif === "canli") goster("canli");
         } catch (e) { /* geçici hata canlı sayacı durdurmasın */ }
       }, 30000);
+    }
+
+    async function gonderilenleriYukle() {
+      V.pushes = await okuHepsi("pushes", orderBy("at", "desc"), limit(200)).catch(() => []);
+      if (aktif === "gonderilenler") goster("gonderilenler");
     }
 
     // ---- analiz ortak parçaları ---------------------------------------
@@ -807,6 +815,47 @@
       $("#cKapat").onclick = cekmeceKapat;
     }
 
+    // ---- bildirim ------------------------------------------------------
+    // Gönderim Worker'ın /push ucundan geçer: statik sayfa servis hesabı
+    // anahtarını tutamaz, Worker tutar. Worker önce Firebase kimliğini ve
+    // admins/{uid} belgesini doğruluyor, sonra FCM'e basıyor.
+    function bildirim() {
+      return `<p class="ipucu">Konuya gider, kişiye değil: <code>omb_lang_tr</code> ve <code>omb_lang_en</code>. Önce <b>Test cihazlarına</b> gönder (<code>omb_test</code>; TestFlight sürümleri kendiliğinden girer), sonra herkese. Uzun tire ve "â" kabul edilmiyor.</p>
+      <div class="kart">
+        <label>Dokununca nereye açılsın</label>
+        <select id="bRota">
+          <option value="daily">Günün ikilemi</option>
+          <option value="">Uygulama (varsayılan ekran)</option>
+          ${V.brackets.filter((b) => b.status === "approved" && b.visibility === "public").sort((a, b) => a.title.localeCompare(b.title, "tr")).map((b) => `<option value="tournament:${esc(b.id)}">Turnuva: ${esc(b.title)}</option>`).join("")}
+          ${V.categories.map((c) => `<option value="category:${esc(c.name)}">Kategori: ${esc(c.name)}</option>`).join("")}
+        </select>
+        <div class="ikili" style="margin-top:12px">
+          <div><div class="lang">TÜRKÇE</div>
+            <label>Başlık</label><input id="bTrBaslik" maxlength="50" placeholder="Bugünün ikilemi hazır">
+            <label>Metin</label><textarea id="bTrMetin" maxlength="140" rows="3" placeholder="Deniz mi dağ mı? Oyunu ver, çoğunluk ne demiş gör."></textarea>
+          </div>
+          <div><div class="lang">İNGİLİZCE</div>
+            <label>Başlık</label><input id="bEnBaslik" maxlength="50" placeholder="Today's dilemma is up">
+            <label>Metin</label><textarea id="bEnMetin" maxlength="140" rows="3" placeholder="Sea or mountains? Cast your vote and see what everyone picked."></textarea>
+          </div>
+        </div>
+        <p style="margin:14px 0 0;display:flex;gap:8px;flex-wrap:wrap">
+          <button data-push="dogrula">Doğrula (kimseye gitmez)</button>
+          <button data-push="test">Test cihazlarına gönder</button>
+          <button class="ana" data-push="herkes">Herkese gönder</button>
+        </p>
+        <div id="bSonuc" class="ipucu" style="margin-top:10px"></div>
+      </div>`;
+    }
+
+    function gonderilenler() {
+      const liste = V.pushes || [];
+      if (V.pushes === null) return `<p class="ipucu">Yükleniyor…</p>`;
+      if (!liste.length) return `<p class="ipucu">Henüz duyuru gönderilmedi.</p>`;
+      return `<div class="tablo"><table><tr><th>Zaman</th><th>Dil</th><th>Başlık</th><th>Metin</th><th>Rota</th><th>Hedef</th></tr>
+      ${liste.map((x) => `<tr><td>${tarih(x.at)}</td><td>${esc(x.dil)}</td><td>${esc(x.baslik)}</td><td>${esc(x.metin)}</td><td class="mono">${esc(x.rota || "—")}</td><td>${x.test ? "test" : "herkes"}</td></tr>`).join("")}</table></div>`;
+    }
+
     function raporlar() {
       if (!V.reports.length) return `<p class="ipucu">Rapor yok.</p>`;
       return `<div class="tablo"><table><tr><th>Tarih</th><th>Tür</th><th>Hedef</th><th>Sebep</th><th>Not</th><th>Bildiren</th><th>Durum</th><th></th></tr>
@@ -881,8 +930,44 @@
         await deleteDoc(doc(db, tur, id)); await yukle(); goster(aktif);
       });
       document.querySelectorAll("[data-kapat]").forEach((b) => b.onclick = async () => { await updateDoc(doc(db, "reports", b.dataset.kapat), { status: "closed", closedAt: serverTimestamp() }); await yukle(); goster(aktif); });
+      document.querySelectorAll("[data-push]").forEach((b) => b.onclick = () => bildirimGonder(b.dataset.push));
       document.querySelectorAll("[data-arac]").forEach((b) => b.onclick = () => ({ sayac: sayaclariYenile, disa: disaAktar })[b.dataset.arac]());
       const ice = $("#ice"); ice && (ice.onchange = iceAktar);
+    }
+
+    /** Panelden duyuru: Worker doğrular ve FCM'e basar, sonuç Firestore'a yazılır. */
+    async function bildirimGonder(kip) {
+      const sonuc = $("#bSonuc");
+      const metinler = {};
+      for (const [dil, b, m] of [["tr", "#bTrBaslik", "#bTrMetin"], ["en", "#bEnBaslik", "#bEnMetin"]]) {
+        const baslik = $(b).value.trim(), metin = $(m).value.trim();
+        if (baslik || metin) metinler[dil] = { baslik, metin };
+      }
+      if (!Object.keys(metinler).length) { sonuc.textContent = "Önce başlık ve metin yaz."; return; }
+      if (kip === "herkes" && !confirm("Bütün kullanıcılara gönderilsin mi?")) return;
+      const rota = $("#bRota").value;
+      sonuc.textContent = "gönderiliyor…";
+      try {
+        const token = await auth.currentUser.getIdToken();
+        const y = await fetch(`${YUKLE_UC}/push`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ metinler, rota, test: kip === "test", dogrula: kip === "dogrula" }),
+        });
+        const veri = await y.json().catch(() => ({}));
+        if (!y.ok) { sonuc.textContent = "Hata: " + (veri.error || `HTTP ${y.status}`); return; }
+        sonuc.innerHTML = veri.sonuc.map((x) => `${esc(x.dil)}: ${x.ok ? "✓ " + (veri.dogrula ? "doğrulandı, gönderilmedi" : "gönderildi") : "✗ " + esc(x.hata)}`).join("<br>");
+        if (veri.dogrula) return;
+        // Gönderim kaydı: "Gönderilenler" sayfası buradan okuyor.
+        for (const x of veri.sonuc.filter((r) => r.ok)) {
+          await addDoc(collection(db, "pushes"), {
+            at: serverTimestamp(), dil: x.dil, kosul: x.kosul, rota: rota || null,
+            test: !!veri.test, baslik: metinler[x.dil].baslik, metin: metinler[x.dil].metin,
+            by: auth.currentUser.email || auth.currentUser.uid, id: x.id || null,
+          });
+        }
+        V.pushes = null;
+      } catch (e) { sonuc.textContent = "Hata: " + e.message; }
     }
 
     function acDialog(html) {
