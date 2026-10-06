@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Match result · Score Keeper for Volleyball</title>
+<meta property="og:title" content="Volleyball match result" />
+<meta property="og:description" content="Open it to see the score, then add it to your logbook in Score Keeper for Volleyball." />
+<meta property="og:image" content="https://bamstudio.dev/volleyball/assets/icon.webp" />
+<link rel="icon" href="/volleyball/assets/icon.webp" />
+<style>
+  :root { --acc: #FF9500; --bg: #f2f2f7; --card: #fff; --ink: #111; --mute: #6b6b70; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #000; --card: #1c1c1e; --ink: #f5f5f7; --mute: #9a9aa0; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif;
+         min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+  main { width: 100%; max-width: 420px; }
+  .app { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .app img { width: 44px; height: 44px; border-radius: 11px; }
+  .app b { display: block; font-size: 15px; }
+  .app span { color: var(--mute); font-size: 13px; }
+  .card { background: var(--card); border-radius: 20px; padding: 26px 22px; text-align: center;
+          box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+  .badge { display: inline-block; font-weight: 800; letter-spacing: 3px; font-size: 13px; color: var(--acc);
+           background: color-mix(in srgb, var(--acc) 14%, transparent); padding: 6px 14px; border-radius: 99px; }
+  .score { font: 900 76px/1 ui-rounded, "SF Pro Rounded", system-ui, sans-serif; margin: 14px 0 6px; letter-spacing: -1px; }
+  .detail { color: var(--mute); font-weight: 600; }
+  .who { margin-top: 14px; font-weight: 700; }
+  .meta { display: flex; justify-content: center; gap: 18px; margin-top: 14px; color: var(--mute); font-size: 14px; }
+  .btn { display: block; text-align: center; text-decoration: none; font-weight: 700; padding: 15px; border-radius: 99px; margin-top: 12px; }
+  .primary { background: var(--acc); color: #fff; }
+  .ghost { background: var(--card); color: var(--ink); }
+  .hint { color: var(--mute); font-size: 13px; text-align: center; margin-top: 14px; }
+  .foot { text-align: center; color: var(--mute); font-size: 12px; margin-top: 26px; }
+  .foot a { color: inherit; }
+  .err { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="app">
+    <img src="/volleyball/assets/icon.webp" alt="" />
+    <div><b>Score Keeper for Volleyball</b><span data-t="tag"></span></div>
+  </div>
+  <div class="card" id="card">
+    <span class="badge" id="badge"></span>
+    <div class="score" id="score">-</div>
+    <div class="detail" id="detail"></div>
+    <div class="who" id="who"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+  <p class="card err" id="err" data-t="bad"></p>
+  <a class="btn primary" id="open" data-t="open"></a>
+  <a class="btn ghost" href="https://apps.apple.com/app/id6760615315" data-t="store"></a>
+  <p class="hint" data-t="hint"></p>
+  <p class="foot">Bam Studio · <a href="https://bamstudio.dev/">bamstudio.dev</a></p>
+</main>
+<script>
+(function () {
+  var tr = /^tr\b/i.test(navigator.language || "");
+  var T = tr ? {
+    tag: "Voleybol maç sonucu", open: "Uygulamada aç ve günlüğe ekle", store: "App Store'dan indir",
+    hint: "Uygulama açılınca maç senin tarafından görünür: skor senin için çevrilir.",
+    bad: "Bu bağlantıda maç bilgisi okunamadı. Gönderen kişiden yeniden paylaşmasını iste.",
+    won: "KAZANDI", lost: "KAYBETTİ", practice: "ANTRENMAN", vs: "ile", min: "dk"
+  } : {
+    tag: "Volleyball match result", open: "Open in the app and add to logbook", store: "Get it on the App Store",
+    hint: "When the app opens, the match is shown from your side: the score is flipped for you.",
+    bad: "This link has no readable match. Ask the sender to share it again.",
+    won: "WON", lost: "LOST", practice: "PRACTICE", vs: "vs", min: "min"
+  };
+  document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = T[el.getAttribute("data-t")]; });
+  document.documentElement.lang = tr ? "tr" : "en";
+
+  var d = new URLSearchParams(location.search).get("d") || "";
+  var m = null;
+  try {
+    var b64 = d.replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    var bytes = Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); });
+    m = JSON.parse(new TextDecoder().decode(bytes));
+  } catch (e) { m = null; }
+
+  var open = document.getElementById("open");
+  if (!m || !m.s) {
+    document.getElementById("card").style.display = "none";
+    document.getElementById("err").style.display = "block";
+    open.style.display = "none";
+    return;
+  }
+  var practice = m.s === "Practice";
+  var parts = String(m.s).match(/^(\d+)-(\d+)/);
+  var won = parts ? (+parts[1] > +parts[2]) : /^(YOU|ME|US)$/i.test(m.w || "");
+  var sender = m.p1n || (tr ? "Oyuncu" : "Player");
+  document.getElementById("badge").textContent = practice ? T.practice : (sender.toUpperCase() + " " + (won ? T.won : T.lost));
+  document.getElementById("score").textContent = practice ? "-" : m.s.split(" ")[0];
+  document.getElementById("detail").textContent = m.d || "";
+  document.getElementById("who").textContent = m.mt || (m.on ? sender + " " + T.vs + " " + m.on : sender);
+  var meta = [];
+  if (m.dt) meta.push(new Date(m.dt * 1000).toLocaleDateString(tr ? "tr-TR" : undefined, { day: "numeric", month: "short", year: "numeric" }));
+  if (m.dur) meta.push(Math.round(m.dur / 60) + " " + T.min);
+  if (m.loc) meta.push(m.loc);
+  document.getElementById("meta").textContent = meta.join(" · ");
+  open.href = "volleyballkeeper://match/" + d;
+})();
+</script>
+</body>
+</html>
