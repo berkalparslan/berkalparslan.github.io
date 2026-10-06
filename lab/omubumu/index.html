@@ -98,15 +98,49 @@
       dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; border: 0; }
       .secenekler { grid-template-columns: 1fr 1fr; }
     }
+    /* --- panel düzeni: solda menü, üstte aralık çubuğu --- */
+    .duzen { display: flex; min-height: 100vh; margin-inline: -16px; }
+    .yan { width: 212px; flex: none; background: var(--surface); border-right: 1px solid var(--border); padding: 16px 12px; position: sticky; top: 0; height: 100vh; overflow: auto; display: flex; flex-direction: column; gap: 2px; }
+    .yan .marka { font-weight: 700; font-size: 15px; margin: 2px 10px 14px; }
+    .yan a { display: block; padding: 8px 11px; border-radius: var(--r-sm); color: var(--text); text-decoration: none; font-weight: 500; cursor: pointer; }
+    .yan a:hover { background: var(--surface-2); }
+    .yan a.secili { background: var(--accent); color: #fff; }
+    .yan .grupAd { font-size: 10.5px; font-weight: 700; letter-spacing: .07em; color: var(--faint); margin: 14px 11px 4px; }
+    .yan .bosluk { flex: 1; }
+    .govde { flex: 1; min-width: 0; padding: 0 16px 60px; }
+    .ustbar { position: sticky; top: 0; z-index: 3; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 11px 0; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+    .ustbar .solda { margin-right: auto; }
+    .ustbar select { width: auto; }
+    @media (max-width: 760px) {
+      .duzen { flex-direction: column; }
+      .yan { width: auto; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding: 8px; }
+      .yan .marka, .yan .grupAd { width: 100%; margin: 4px 8px; }
+      .yan .bosluk { display: none; }
+      .govde { padding: 0 16px 60px; }
+    }
+    /* --- oransal çubuklar --- */
+    .barlar { display: flex; flex-direction: column; gap: 7px; }
+    .bar { display: grid; grid-template-columns: minmax(96px, 170px) 1fr auto; gap: 10px; align-items: center; }
+    .bar .yol { height: 11px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+    .bar .dolu { height: 100%; border-radius: 999px; background: var(--accent); }
+    .bar small { color: var(--subtle); white-space: nowrap; }
+    /* --- kullanıcı çekmecesi --- */
+    .cekmece { position: fixed; inset: 0 0 0 auto; width: min(540px, 100%); background: var(--surface); border-left: 1px solid var(--border); padding: 20px; overflow: auto; box-shadow: -18px 0 40px rgba(20, 20, 40, .18); z-index: 20; }
+    .cekmece .kapat { position: absolute; top: 14px; right: 16px; }
+    .alanlar { display: grid; grid-template-columns: 136px 1fr; gap: 5px 10px; font-size: 13px; }
+    .alanlar div:nth-child(odd) { color: var(--subtle); }
+    .zaman { border-left: 2px solid var(--border); margin-left: 5px; padding-left: 12px; font-size: 13px; }
+    .zaman div { padding: 3px 0; }
+    .zaman time { color: var(--faint); font-size: 11px; margin-right: 8px; font-variant-numeric: tabular-nums; }
+    tr.tiklanir:hover { background: var(--accent-soft); cursor: pointer; }
   </style>
 </head>
 
 <body>
-  <header>
+  <header id="girisUst">
     <div><h1>O mu Bu mu? <small>yönetim · Firestore</small></h1><div id="durum">bağlanıyor…</div></div>
     <div class="sag">
       <label class="ipucu" style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" id="emu" style="width:auto"> emülatör</label>
-      <button id="cikis" class="kapali">Çıkış</button>
       <a class="btn" href="/lab/">← lab</a>
     </div>
   </header>
@@ -127,21 +161,42 @@
     <p id="girisHata" class="hata"></p>
   </section>
 
-  <main id="uygulama" class="kapali">
-    <div class="sayac" id="sayaclar"></div>
-    <nav class="sekmeler" role="tablist">
-      <button role="tab" data-sekme="onay" aria-selected="true">Onay kuyruğu</button>
-      <button role="tab" data-sekme="turnuvalar">Turnuvalar</button>
-      <button role="tab" data-sekme="sorular">Sorular</button>
-      <button role="tab" data-sekme="gunun">Günün seçimi</button>
-      <button role="tab" data-sekme="istatistik">İstatistik</button>
-      <button role="tab" data-sekme="kategoriler">Kategoriler</button>
-      <button role="tab" data-sekme="kullanicilar">Kullanıcılar</button>
-      <button role="tab" data-sekme="raporlar">Raporlar</button>
-      <button role="tab" data-sekme="arac">Araçlar</button>
+  <div class="duzen kapali" id="uygulama">
+    <nav class="yan">
+      <div class="marka">O mu Bu mu?</div>
+      <div class="grupAd">ANALİZ</div>
+      <a data-sekme="genel" class="secili">Genel bakış</a>
+      <a data-sekme="canli">Canlı</a>
+      <a data-sekme="platformlar">Platformlar</a>
+      <a data-sekme="icerikAnaliz">İçerik performansı</a>
+      <a data-sekme="kullanicilar">Kullanıcılar</a>
+      <a data-sekme="arkadas">Arkadaş turnuvaları</a>
+      <div class="grupAd">YÖNET</div>
+      <a data-sekme="onay">Onay kuyruğu</a>
+      <a data-sekme="turnuvalar">Turnuvalar</a>
+      <a data-sekme="sorular">Sorular</a>
+      <a data-sekme="gunun">Günün seçimi</a>
+      <a data-sekme="kategoriler">Kategoriler</a>
+      <a data-sekme="raporlar">Raporlar</a>
+      <a data-sekme="arac">Araçlar</a>
+      <div class="bosluk"></div>
+      <a id="yenile">Yenile</a>
+      <a id="cikis">Çıkış</a>
+      <a href="/lab/">← lab</a>
     </nav>
-    <section id="icerik" class="kart"></section>
-  </main>
+    <main class="govde">
+      <div class="ustbar">
+        <span class="ipucu solda" id="ustDurum"></span>
+        <select id="aralik" title="Analiz sayfalarının zaman aralığı">
+          <option value="1">Bugün</option><option value="7">Son 7 gün</option>
+          <option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option>
+        </select>
+      </div>
+      <div class="sayac" id="sayaclar"></div>
+      <section id="icerik"></section>
+    </main>
+  </div>
+  <div id="cekmece"></div>
 
   <dialog id="dlg"></dialog>
 
@@ -231,7 +286,7 @@
     }
 
     const $ = (s) => document.querySelector(s);
-    const durum = (t) => ($("#durum").textContent = t);
+    const durum = (t) => { $("#durum").textContent = t; const u = $("#ustDurum"); if (u) u.textContent = t; };
     const uyar = (t) => { const u = $("#uyari"); u.textContent = t; u.classList.toggle("kapali", !t); };
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const tarih = (ts) => ts?.toDate ? ts.toDate().toLocaleString("tr-TR") : "—";
@@ -263,10 +318,38 @@
     };
     $("#cikis").onclick = () => signOut(auth);
 
+    // ?demo: panelin bütün ekranları uydurma veriyle açılır, Firestore'a
+    // hiç dokunulmaz. Tasarımı ve hesapları giriş yapmadan denemek için.
+    const DEMO = new URLSearchParams(location.search).has("demo");
+    function demoVeri() {
+      const ts = (dkOnce) => { const d = new Date(Date.now() - dkOnce * 60000); return { toDate: () => d }; };
+      const rastgele = (n) => Math.floor(Math.random() * n);
+      const platformlarD = ["ios", "ios", "ios", "android", "android", "watchos", "wearos", "wearos"];
+      const turnuvaAd = [["🍽️", "Yemekler"], ["🌆", "Şehirler"], ["🍰", "Tatlılar"], ["🏅", "Spor"], ["🎨", "Renkler"], ["🥤", "İçecekler"], ["🏖️", "Tatil Yerleri"]];
+      V.categories = ["Yemek", "Gezi", "Eğlence", "Spor"].map((n, i) => ({ id: "k" + i, name: n, nameEn: n, symbol: "star", order: i }));
+      V.brackets = turnuvaAd.map(([e, t], i) => ({ id: "b" + i, emoji: e, title: t, titleEn: t, status: "approved", visibility: "public",
+        optionCount: 32 + rastgele(90), totalPlays: rastgele(140), totalVotes: rastgele(900), cover: [], options: [], stats: {} }));
+      V.questions = [...Array(26)].map((_, i) => ({ id: "q" + i, text: `Demo ikilem ${i + 1}: bu mu şu mu?`, textEn: "Demo", status: "approved",
+        visibility: "public", categories: [V.categories[i % 4].name], a: { name: "A seçeneği" }, b: { name: "B seçeneği" },
+        votesA: rastgele(120), votesB: rastgele(120) }));
+      V.users = [...Array(140)].map((_, i) => ({ id: "demo" + String(i).padStart(4, "0"), displayName: i % 7 ? null : "Demo Kişi " + i,
+        isAnonymous: !!(i % 7), providers: i % 7 ? [] : ["google.com"], platform: platformlarD[i % platformlarD.length],
+        appVersion: i % 5 ? "2.0" : "1.1", lastSeenAt: ts(rastgele(60 * 24 * 20)), createdAt: ts(rastgele(60 * 24 * 60) + 60 * 24) }));
+      V.users[0].lastSeenAt = ts(1); V.users[1].lastSeenAt = ts(3); V.users[2].lastSeenAt = ts(12); V.users[3].lastSeenAt = ts(25);
+      V.runs = [...Array(320)].map((_, i) => { const b = V.brackets[rastgele(V.brackets.length)]; const u = V.users[rastgele(V.users.length)];
+        return { id: "r" + i, uid: u.id, bracketId: b.id, bracketTitle: b.title, size: [4, 8, 16, 32][rastgele(4)],
+          championName: "Demo şampiyon", platform: u.platform, playedAt: ts(rastgele(60 * 24 * 25)) }; });
+      V.friends = [...Array(9)].map((_, i) => ({ id: "KOD" + i, bracketTitle: V.brackets[i % V.brackets.length].title, size: 8,
+        ownerId: V.users[i].id, createdAt: ts(rastgele(60 * 24 * 30)), results: Object.fromEntries([...Array(rastgele(6))].map((_, j) => [j, { championName: "Demo " + j }])) }));
+      V.reports = [];
+      V.daily = {};
+      $("#sayaclar").innerHTML = "";
+    }
+
     let benAdmin = false;
-    onAuthStateChanged(auth, async (user) => {
+    if (!DEMO) onAuthStateChanged(auth, async (user) => {
       $("#girisKart").classList.toggle("kapali", !!user);
-      $("#cikis").classList.toggle("kapali", !user);
+      $("#girisUst").classList.toggle("kapali", !!user);
       if (!user) { $("#uygulama").classList.add("kapali"); uyar(""); durum("giriş yapılmadı"); return; }
       const a = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
       benAdmin = !!a?.exists();
@@ -279,7 +362,7 @@
       uyar("");
       $("#uygulama").classList.remove("kapali");
       await yukle();
-      goster("onay");
+      goster("genel");
     });
 
     // ---- veri ----------------------------------------------------------
@@ -306,15 +389,23 @@
       durum(`${auth.currentUser.email || auth.currentUser.uid} · yönetici${emu ? " · emülatör" : ""} · ${new Date().toLocaleTimeString("tr-TR")}`);
     }
 
-    // ---- sekmeler ------------------------------------------------------
-    document.querySelectorAll("nav.sekmeler button").forEach((b) => (b.onclick = () => goster(b.dataset.sekme)));
-    let aktif = "onay";
+    // ---- sayfalar ------------------------------------------------------
+    // Sol menü iki gruba ayrılır: ANALİZ (okunur, aralığa bağlı) ve YÖNET
+    // (yazan ekranlar). Aralık seçimi yalnız analiz sayfalarını etkiler.
+    document.querySelectorAll(".yan a[data-sekme]").forEach((a) => (a.onclick = () => goster(a.dataset.sekme)));
+    $("#yenile").onclick = async () => { await yukle(); await oyunlariYukle(true); goster(aktif); };
+    const ANALIZ = ["genel", "canli", "platformlar", "icerikAnaliz", "kullanicilar", "arkadas"];
+    let ARALIK = 30;
+    $("#aralik").onchange = (e) => { ARALIK = +e.target.value; if (ANALIZ.includes(aktif)) goster(aktif); };
+    let aktif = "genel";
     function goster(sekme) {
       aktif = sekme;
-      document.querySelectorAll("nav.sekmeler button").forEach((b) => b.setAttribute("aria-selected", b.dataset.sekme === sekme));
-      $("#icerik").innerHTML = ({ onay, turnuvalar, sorular, gunun, istatistik, kategoriler, kullanicilar, raporlar, arac })[sekme]();
+      document.querySelectorAll(".yan a[data-sekme]").forEach((a) => a.classList.toggle("secili", a.dataset.sekme === sekme));
+      $("#aralik").style.visibility = ANALIZ.includes(sekme) ? "" : "hidden";
+      $("#icerik").innerHTML = ({ genel, canli, platformlar, icerikAnaliz, arkadas, onay, turnuvalar, sorular, gunun, kategoriler, kullanicilar, raporlar, arac })[sekme]();
       bagla();
-      if (sekme === "istatistik") { if (!V.runs) istatistikYukle(); canliBasla(); }
+      if (ANALIZ.includes(sekme) && V.runs === null) oyunlariYukle();
+      if (sekme === "canli") canliBasla();
     }
     const rozet = (v) => `<span class="rozet ${esc(v)}">${esc(v)}</span>`;
     const durumSec = (tur, id, alan, deger) => `<select data-degistir="${tur}|${id}|${alan}">${(alan === "status" ? ["approved", "pending", "rejected"] : ["public", "unlisted", "private"]).map((v) => `<option ${v === deger ? "selected" : ""}>${v}</option>`).join("")}</select>`;
@@ -367,11 +458,12 @@
       <p class="ipucu" style="margin-top:14px">Yeni yazdığın ikilem <b>approved + public</b> olarak kaydedilir; hem o günün ikilemi olur hem de havuza girer. Geçmiş günler belgede kalır; temizlemek için <button class="kucuk" data-gun-temizle>eski günleri sil</button>.</p>`;
     }
 
-    // ---- istatistik ----------------------------------------------------
-    // Firestore'dan türetilen oyun verisi: turnuva/soru popülerliği katalog
-    // sayaçlarından, günlük oyun ve oyuncu sayıları users/*/runs'tan (son 2000).
-    // Oturum/tutunma gibi davranış verisi Firebase Analytics'te (GA4).
-    async function istatistikYukle() {
+    // ---- analiz verisi -------------------------------------------------
+    // Turnuva/soru popülerliği katalog sayaçlarından, günlük oyun ve oyuncu
+    // sayıları users/*/runs'tan (son 2000). Ekran süresi, oturum ve tutunma
+    // gibi davranış verisi burada yok; o Firebase Analytics'te (GA4).
+    async function oyunlariYukle(zorla = false) {
+      if (DEMO || (V.runs !== null && !zorla)) return;
       try {
         const [runs, friends] = await Promise.all([
           getDocs(query(collectionGroup(db, "runs"), orderBy("playedAt", "desc"), limit(2000))),
@@ -380,7 +472,7 @@
         V.runs = runs.docs.map((d) => ({ id: d.id, uid: d.ref.parent.parent.id, ...d.data() }));
         V.friends = friends.docs.map((d) => ({ id: d.id, ...d.data() }));
       } catch (e) { V.runs = []; V.friends = []; uyar("Oyun kayıtları okunamadı (dizin hazır olmayabilir): " + e.message); }
-      if (aktif === "istatistik") goster("istatistik");
+      if (ANALIZ.includes(aktif)) goster(aktif);
     }
 
     // Canlı sayılar lastSeenAt'ten geliyor; uygulama her açılışta bu alanı
@@ -389,8 +481,9 @@
     let canliSayac = null;
     function canliBasla() {
       clearInterval(canliSayac);
+      if (DEMO) return;
       canliSayac = setInterval(async () => {
-        if (aktif !== "istatistik" || document.hidden) return;
+        if (aktif !== "canli" || document.hidden) return;
         try {
           const [u, r] = await Promise.all([
             getDocs(query(collection(db, "users"), orderBy("lastSeenAt", "desc"), limit(300))),
@@ -402,80 +495,182 @@
           const yeni = r.docs.map((d) => ({ id: d.id, uid: d.ref.parent.parent.id, ...d.data() }))
             .filter((x) => !(V.runs || []).some((y) => y.id === x.id && y.uid === x.uid));
           if (yeni.length) V.runs = [...yeni, ...(V.runs || [])];
-          if (aktif === "istatistik") goster("istatistik");
+          if (aktif === "canli") goster("canli");
         } catch (e) { /* geçici hata canlı sayacı durdurmasın */ }
       }, 30000);
     }
 
-    function istatistik() {
-      const gun = (ts) => ts?.toDate ? ts.toDate().toISOString().slice(0, 10) : null;
-      const bugun = new Date(); const gunler = [...Array(14)].map((_, i) => { const d = new Date(bugun); d.setDate(d.getDate() - (13 - i)); return d.toISOString().slice(0, 10); });
-      const cubuk = (dizi, anahtar, etiket) => {
-        const say = Object.fromEntries(gunler.map((g) => [g, 0]));
-        for (const x of dizi) { const g = gun(x[anahtar]); if (g in say) say[g]++; }
-        const en = Math.max(1, ...Object.values(say));
-        return `<div class="cubuklar" title="${etiket}">${gunler.map((g) => `<div class="cubuk" style="height:${Math.round(100 * say[g] / en)}%" title="${g}: ${say[g]}"><span>${say[g] || ""}</span></div>`).join("")}</div><div class="ipucu">${etiket} · son 14 gün · toplam ${Object.values(say).reduce((a, b) => a + b, 0)}</div>`;
-      };
+    // ---- analiz ortak parçaları ---------------------------------------
+    const gunAd = (ts) => ts?.toDate ? ts.toDate().toISOString().slice(0, 10) : null;
+    // Aralığın başlangıcı: "Bugün" yerel gece yarısı, diğerleri N gün geri.
+    const araliktan = (gun = ARALIK) => { if (gun === 1) { const d = new Date(); d.setHours(0, 0, 0, 0); return d; } return new Date(Date.now() - gun * 864e5); };
+    const sonra = (ts, t) => !!ts?.toDate && ts.toDate() >= t;
+    const kpi = (satirlar) => `<div class="sayac">${satirlar.map(([ad, deger, alt]) => `<div class="kart"><b>${deger}</b><span>${esc(ad)}</span>${alt ? `<div class="ipucu">${esc(alt)}</div>` : ""}</div>`).join("")}</div>`;
+    const barlar = (satirlar, bos = "Veri yok.") => {
+      if (!satirlar.length) return `<p class="ipucu">${esc(bos)}</p>`;
+      const en = Math.max(1, ...satirlar.map((x) => x[1]));
+      const top = satirlar.reduce((a, x) => a + x[1], 0) || 1;
+      return `<div class="barlar">${satirlar.map(([ad, n]) => `<div class="bar"><span>${esc(ad)}</span><div class="yol"><div class="dolu" style="width:${Math.round(100 * n / en)}%"></div></div><small>${n} · %${Math.round(100 * n / top)}</small></div>`).join("")}</div>`;
+    };
+    const gunlukCubuk = (dizi, anahtar, etiket, gun = Math.min(ARALIK, 30)) => {
+      const gunler = [...Array(gun)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (gun - 1 - i)); return d.toISOString().slice(0, 10); });
+      const say = Object.fromEntries(gunler.map((g) => [g, 0]));
+      for (const x of dizi) { const g = gunAd(x[anahtar]); if (g in say) say[g]++; }
+      const en = Math.max(1, ...Object.values(say));
+      return `<div class="cubuklar" title="${esc(etiket)}">${gunler.map((g) => `<div class="cubuk" style="height:${Math.round(100 * say[g] / en)}%" title="${g}: ${say[g]}"><span>${say[g] || ""}</span></div>`).join("")}</div><div class="ipucu">${esc(etiket)} · son ${gun} gün · toplam ${Object.values(say).reduce((a, b) => a + b, 0)}</div>`;
+    };
+    const nekadar = (ts) => {
+      if (!ts?.toDate) return "—";
+      const dk = Math.round((Date.now() - ts.toDate()) / 60000);
+      if (dk < 1) return "az önce";
+      if (dk < 60) return `${dk} dk önce`;
+      const sa = Math.round(dk / 60);
+      return sa < 24 ? `${sa} saat önce` : `${Math.round(sa / 24)} gün önce`;
+    };
+    // Platform adları uygulamadan geldiği gibi yazılır (ios, android, watchos,
+    // wearos); burada yalnız gösterim etiketi değişir.
+    const PLATFORM = { ios: "iPhone", android: "Android", watchos: "Apple Watch", wearos: "Wear OS", "?": "bilinmiyor" };
+    const pAd = (p) => PLATFORM[p] || p;
+    const saat = () => ({ runs: V.runs || [], users: V.users || [], t: araliktan() });
+
+    // ---- genel bakış ---------------------------------------------------
+    function genel() {
+      const { runs, users, t } = saat();
       const pub = V.brackets.filter((b) => b.status === "approved" && b.visibility === "public");
-      const topB = [...pub].sort((a, b) => (b.totalPlays || 0) - (a.totalPlays || 0)).slice(0, 12);
-      const topQ = [...V.questions].sort((a, b) => ((b.votesA || 0) + (b.votesB || 0)) - ((a.votesA || 0) + (a.votesB || 0))).slice(0, 12);
-      const tartismali = V.questions.filter((q) => (q.votesA || 0) + (q.votesB || 0) >= 20).map((q) => ({ q, fark: Math.abs((q.votesA || 0) - (q.votesB || 0)) / ((q.votesA || 0) + (q.votesB || 0)) })).sort((a, b) => a.fark - b.fark).slice(0, 8);
-      const runs = V.runs || [];
-      const sonHafta = runs.filter((r) => r.playedAt?.toDate && (bugun - r.playedAt.toDate()) < 7 * 864e5);
-      const oyuncu7 = new Set(sonHafta.map((r) => r.uid)).size;
-      const boyut = {}; for (const r of runs) boyut[r.size] = (boyut[r.size] || 0) + 1;
-      const koşuPerBracket = {}; for (const r of runs) koşuPerBracket[r.bracketTitle || r.bracketId] = (koşuPerBracket[r.bracketTitle || r.bracketId] || 0) + 1;
-      const topRun = Object.entries(koşuPerBracket).sort((a, b) => b[1] - a[1]).slice(0, 10);
-      const yeniKullanici = V.users.filter((u) => u.createdAt?.toDate);
-      const aktif7 = V.users.filter((u) => u.lastSeenAt?.toDate && (bugun - u.lastSeenAt.toDate()) < 7 * 864e5).length;
-      // Uygulama her açılışta lastSeenAt yazıyor, yani bu "son N dakikada
-      // uygulamayı açan" demek. Oturum boyu ölçülmediği için "şu an içeride"
-      // sayısının en iyi yaklaşımı budur.
-      const sonN = (dk) => V.users.filter((u) => u.lastSeenAt?.toDate && (bugun - u.lastSeenAt.toDate()) < dk * 60000).length;
-      const gunBasi = new Date(bugun); gunBasi.setHours(0, 0, 0, 0);
-      const dunBasi = new Date(gunBasi); dunBasi.setDate(dunBasi.getDate() - 1);
-      const bugunKosu = runs.filter((r) => r.playedAt?.toDate && r.playedAt.toDate() >= gunBasi).length;
-      const dunKosu = runs.filter((r) => r.playedAt?.toDate && r.playedAt.toDate() >= dunBasi && r.playedAt.toDate() < gunBasi).length;
-      const platform = {}; for (const u of V.users) platform[u.platform || "?"] = (platform[u.platform || "?"] || 0) + 1;
-      const sonHareket = [...runs].filter((r) => r.playedAt?.toDate).slice(0, 14);
-      const nekadar = (ts) => {
-        const dk = Math.round((bugun - ts.toDate()) / 60000);
-        if (dk < 1) return "az önce";
-        if (dk < 60) return `${dk} dk önce`;
-        const sa = Math.round(dk / 60);
-        return sa < 24 ? `${sa} saat önce` : `${Math.round(sa / 24)} gün önce`;
-      };
-      const f = V.friends || [];
-      const fOynanan = f.reduce((a, t) => a + Object.keys(t.results || {}).length, 0);
-      return `<h3>Canlı</h3>
-      <p class="ipucu">Yarım dakikada bir kendiliğinden tazelenir. "Şu an" = son beş dakikada uygulamayı açan kişi; oturum boyu ölçülmediği için elimizdeki en yakın ölçü bu. Saat uygulamaları bu listeye yazmıyor, oyları yine sayaçlara düşüyor.</p>
-      <div class="sayac">
-        ${[["Şu an (5 dk)", sonN(5)], ["Son 30 dk", sonN(30)], ["Son 24 saat", sonN(1440)], ["Bugün biten turnuva", bugunKosu], ["Dün", dunKosu], ["Platform", Object.entries(platform).map(([k, v]) => `${k}: ${v}`).join(" · ") || "—"]].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("")}
-      </div>
-      ${sonHareket.length ? `<div class="tablo"><table><tr><th>Ne zaman</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th><th>Oyuncu</th></tr>
-      ${sonHareket.map((r) => `<tr><td>${nekadar(r.playedAt)}</td><td>${esc(r.bracketTitle || r.bracketId || "—")}</td><td>${r.size || "—"}</td><td>${esc(r.championName || r.championId || "—")}</td><td class="mono">${esc((r.uid || "").slice(0, 8))}</td></tr>`).join("")}</table></div>` : ""}
-      <h3>Toplam</h3>
-      <p class="ipucu">Buradaki her şey Firestore'dan türetilir: içerik sayaçları anlık, oyun kayıtları son 2000 turnuva. Oturum süresi, tutunma, ekran akışı gibi davranış verisi için Firebase Analytics (GA4) gerekir; <a href="https://console.firebase.google.com/project/thisone-ba533/analytics" target="_blank" rel="noopener">konsol</a>.</p>
-      <div class="sayac" id="sayaclar2">
-        ${[["Turnuva (son 7 gün)", sonHafta.length], ["Oyuncu (son 7 gün)", oyuncu7], ["Aktif kullanıcı (7 gün)", aktif7], ["Toplam turnuva oyunu", pub.reduce((a, b) => a + (b.totalPlays || 0), 0)], ["Toplam ikilem oyu", V.questions.reduce((a, q) => a + (q.votesA || 0) + (q.votesB || 0), 0)], ["Arkadaş turnuvası", `${f.length} · ${fOynanan} oynanış`]].map(([a, b]) => `<div class="kart"><b>${b}</b><span>${a}</span></div>`).join("")}
-      </div>
+      const aralikKosu = runs.filter((r) => sonra(r.playedAt, t));
+      const oyuncu = new Set(aralikKosu.map((r) => r.uid)).size;
+      const aktif = users.filter((u) => sonra(u.lastSeenAt, t)).length;
+      const yeni = users.filter((u) => sonra(u.createdAt, t)).length;
+      const toplamOy = V.questions.reduce((a, q) => a + (q.votesA || 0) + (q.votesB || 0), 0);
+      const platform = {}; for (const u of users) platform[u.platform || "?"] = (platform[u.platform || "?"] || 0) + 1;
+      const surum = {}; for (const u of users) surum[u.appVersion || "?"] = (surum[u.appVersion || "?"] || 0) + 1;
+      const bekleyen = V.brackets.filter((b) => b.status === "pending").length + V.questions.filter((q) => q.status === "pending").length;
+      const acikRapor = V.reports.filter((r) => r.status === "open").length;
+      return `${kpi([
+        ["Kullanıcı (toplam)", users.length, "son görülene göre ilk 500"],
+        ["Aralıkta aktif", aktif],
+        ["Yeni kullanıcı", yeni],
+        ["Biten turnuva", aralikKosu.length],
+        ["Turnuvayı oynayan", oyuncu],
+        ["Toplam ikilem oyu", toplamOy],
+      ])}
+      ${bekleyen || acikRapor ? `<p class="ipucu">Bekleyen iş: <b>${bekleyen}</b> onay, <b>${acikRapor}</b> açık rapor.</p>` : ""}
       ${V.runs === null ? `<p class="ipucu">Oyun kayıtları yükleniyor…</p>` : ""}
       <div class="ikili">
-        <div>${cubuk(runs, "playedAt", "Bitirilen turnuva / gün")}</div>
-        <div>${cubuk(yeniKullanici, "createdAt", "Yeni kullanıcı / gün")}</div>
+        <div>${gunlukCubuk(runs, "playedAt", "Biten turnuva / gün")}</div>
+        <div>${gunlukCubuk(users.filter((u) => u.createdAt), "createdAt", "Yeni kullanıcı / gün")}</div>
       </div>
+      <div class="ikili">
+        <div><h3>Platform</h3>${barlar(Object.entries(platform).sort((a, b) => b[1] - a[1]).map(([k, v]) => [pAd(k), v]))}</div>
+        <div><h3>Uygulama sürümü</h3>${barlar(Object.entries(surum).sort((a, b) => b[1] - a[1]).slice(0, 8))}</div>
+      </div>
+      <h3>Katalog</h3>
+      ${kpi([
+        ["Vitrindeki turnuva", pub.length],
+        ["Vitrindeki ikilem", V.questions.filter((q) => q.status === "approved" && q.visibility === "public").length],
+        ["Toplam oynanış", pub.reduce((a, b) => a + (b.totalPlays || 0), 0)],
+        ["Toplam düello", pub.reduce((a, b) => a + (b.totalVotes || 0), 0)],
+        ["Kategori", V.categories.length],
+        ["Arkadaş turnuvası", (V.friends || []).length],
+      ])}`;
+    }
+
+    // ---- canlı ---------------------------------------------------------
+    function canli() {
+      const { runs, users } = saat();
+      const sonN = (dk) => users.filter((u) => u.lastSeenAt?.toDate && (Date.now() - u.lastSeenAt.toDate()) < dk * 60000).length;
+      const gunBasi = new Date(); gunBasi.setHours(0, 0, 0, 0);
+      const dunBasi = new Date(gunBasi); dunBasi.setDate(dunBasi.getDate() - 1);
+      const bugunKosu = runs.filter((r) => sonra(r.playedAt, gunBasi)).length;
+      const dunKosu = runs.filter((r) => sonra(r.playedAt, dunBasi) && !sonra(r.playedAt, gunBasi)).length;
+      const icerdekiler = users.filter((u) => u.lastSeenAt?.toDate && (Date.now() - u.lastSeenAt.toDate()) < 30 * 60000)
+        .sort((a, b) => b.lastSeenAt.toDate() - a.lastSeenAt.toDate());
+      const sonHareket = runs.filter((r) => r.playedAt?.toDate).sort((a, b) => b.playedAt.toDate() - a.playedAt.toDate()).slice(0, 25);
+      return `<p class="ipucu">Yarım dakikada bir kendiliğinden tazelenir. <b>Şu an</b> = son beş dakikada uygulamayı açan kişi; uygulama her açılışta <code>lastSeenAt</code> yazıyor, oturum boyu ölçülmüyor, dolayısıyla eşzamanlı kullanıcıya en yakın ölçü budur.</p>
+      ${kpi([["Şu an (5 dk)", sonN(5)], ["Son 30 dk", sonN(30)], ["Son 3 saat", sonN(180)], ["Son 24 saat", sonN(1440)], ["Bugün biten turnuva", bugunKosu], ["Dün", dunKosu]])}
+      <div class="ikili">
+        <div><h3>Son yarım saatte görülenler</h3>${icerdekiler.length ? `<div class="tablo"><table><tr><th>Kimlik</th><th>Platform</th><th>Sürüm</th><th>Görülme</th></tr>
+        ${icerdekiler.slice(0, 20).map((u) => `<tr class="tiklanir" data-kullanici="${esc(u.id)}"><td class="mono">${esc(u.id.slice(0, 8))}</td><td>${esc(pAd(u.platform || "?"))}</td><td>${esc(u.appVersion || "—")}</td><td>${nekadar(u.lastSeenAt)}</td></tr>`).join("")}</table></div>` : `<p class="ipucu">Son yarım saatte kimse görünmedi.</p>`}</div>
+        <div><h3>Son biten turnuvalar</h3>${sonHareket.length ? `<div class="tablo"><table><tr><th>Ne zaman</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th><th>Oyuncu</th></tr>
+        ${sonHareket.map((r) => `<tr class="tiklanir" data-kullanici="${esc(r.uid || "")}"><td>${nekadar(r.playedAt)}</td><td>${esc(r.bracketTitle || r.bracketId || "—")}</td><td>${r.size || "—"}</td><td>${esc(r.championName || r.championId || "—")}</td><td class="mono">${esc((r.uid || "").slice(0, 8))}</td></tr>`).join("")}</table></div>` : `<p class="ipucu">Oyun kaydı yok.</p>`}</div>
+      </div>`;
+    }
+
+    // ---- platformlar ---------------------------------------------------
+    // Saat uygulamaları da kendi profil belgesini yazıyor (platform watchos /
+    // wearos), yani telefon ve saat aynı tablodan okunur.
+    function platformlar() {
+      const { runs, users, t } = saat();
+      const tumu = [...new Set([...users.map((u) => u.platform || "?"), ...runs.map((r) => r.platform).filter(Boolean)])];
+      const satir = (p) => {
+        const k = users.filter((u) => (u.platform || "?") === p);
+        const ko = runs.filter((r) => (r.platform || (k.some((u) => u.id === r.uid) ? p : null)) === p);
+        const aralikKo = ko.filter((r) => sonra(r.playedAt, t));
+        const ilk = k.map((u) => u.createdAt?.toDate?.()).filter(Boolean).sort((a, b) => a - b)[0];
+        const surum = {}; for (const u of k) surum[u.appVersion || "?"] = (surum[u.appVersion || "?"] || 0) + 1;
+        return { p, kullanici: k.length, aktif: k.filter((u) => sonra(u.lastSeenAt, t)).length, kosu: ko.length, aralikKo: aralikKo.length,
+          ilk, surum: Object.entries(surum).sort((a, b) => b[1] - a[1]).map(([a, b]) => `${a} (${b})`).join(", ") };
+      };
+      const satirlar = tumu.map(satir).sort((a, b) => b.kullanici - a.kullanici);
+      const saatler = satirlar.filter((x) => x.p === "watchos" || x.p === "wearos");
+      const saatToplam = saatler.reduce((a, x) => a + x.kullanici, 0);
+      return `<p class="ipucu">Her uygulama açılışta <code>users/{uid}</code> belgesine platformunu yazıyor; saat uygulamaları da (Firebase SDK'sı olmadan, REST ile) aynı belgeyi yazar. Oyun kayıtlarında da <code>platform</code> alanı var, yani saatte bitirilen turnuva ayrı görülebiliyor.</p>
+      ${kpi([...satirlar.map((x) => [pAd(x.p), x.kullanici, `${x.aktif} aktif · ${x.aralikKo} oyun`]), ["Saat toplamı", saatToplam, "Apple Watch + Wear OS"]])}
+      <div class="tablo"><table><tr><th>Platform</th><th>Kullanıcı</th><th>Aralıkta aktif</th><th>Aralıkta oyun</th><th>Toplam oyun</th><th>İlk kullanıcı</th><th>Sürümler</th></tr>
+      ${satirlar.map((x) => `<tr><td><b>${esc(pAd(x.p))}</b></td><td>${x.kullanici}</td><td>${x.aktif}</td><td>${x.aralikKo}</td><td>${x.kosu}</td><td>${x.ilk ? x.ilk.toLocaleDateString("tr-TR") : "—"}</td><td class="ipucu">${esc(x.surum || "—")}</td></tr>`).join("")}</table></div>
+      <div class="ikili">
+        <div><h3>Kullanıcı payı</h3>${barlar(satirlar.map((x) => [pAd(x.p), x.kullanici]))}</div>
+        <div><h3>Oyun payı</h3>${barlar(satirlar.map((x) => [pAd(x.p), x.kosu]).filter((x) => x[1]))}</div>
+      </div>
+      <h3>Saatte bitirilen turnuvalar</h3>
+      ${(() => { const sk = runs.filter((r) => (r.platform === "watchos" || r.platform === "wearos") && r.playedAt?.toDate).sort((a, b) => b.playedAt.toDate() - a.playedAt.toDate()).slice(0, 20);
+        return sk.length ? `<div class="tablo"><table><tr><th>Ne zaman</th><th>Platform</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th></tr>
+        ${sk.map((r) => `<tr><td>${nekadar(r.playedAt)}</td><td>${esc(pAd(r.platform))}</td><td>${esc(r.bracketTitle || "—")}</td><td>${r.size || "—"}</td><td>${esc(r.championName || "—")}</td></tr>`).join("")}</table></div>`
+          : `<p class="ipucu">Saatten gelen oyun kaydı yok. (Saat turnuvaları <code>runs</code> belgesi yazar; ikilem oyları yalnız sayaçlara düşer.)</p>`; })()}`;
+    }
+
+    // ---- içerik performansı --------------------------------------------
+    function icerikAnaliz() {
+      const { runs } = saat();
+      const pub = V.brackets.filter((b) => b.status === "approved" && b.visibility === "public");
+      const topB = [...pub].sort((a, b) => (b.totalPlays || 0) - (a.totalPlays || 0)).slice(0, 15);
+      const topQ = [...V.questions].sort((a, b) => ((b.votesA || 0) + (b.votesB || 0)) - ((a.votesA || 0) + (a.votesB || 0))).slice(0, 15);
+      const tartismali = V.questions.filter((q) => (q.votesA || 0) + (q.votesB || 0) >= 20)
+        .map((q) => ({ q, fark: Math.abs((q.votesA || 0) - (q.votesB || 0)) / ((q.votesA || 0) + (q.votesB || 0)) }))
+        .sort((a, b) => a.fark - b.fark).slice(0, 10);
+      const boyut = {}; for (const r of runs) boyut[r.size] = (boyut[r.size] || 0) + 1;
+      const kosuTur = {}; for (const r of runs) kosuTur[r.bracketTitle || r.bracketId] = (kosuTur[r.bracketTitle || r.bracketId] || 0) + 1;
+      const kategori = V.categories.map((c) => [c.name, V.questions.filter((q) => (q.categories || []).includes(c.name)).length]).sort((a, b) => b[1] - a[1]);
+      const hic = pub.filter((b) => !(b.totalPlays > 0));
+      return `<p class="ipucu">Katalog sayaçları anlık; oyun dağılımı son ${runs.length} turnuva kaydından.</p>
       <div class="ikili">
         <div><h3>En çok oynanan turnuvalar</h3><div class="tablo"><table><tr><th></th><th>Turnuva</th><th>Oyun</th><th>Düello</th><th>Şampiyon</th></tr>
         ${topB.map((b) => { const s = Object.entries(b.stats || {}).sort((x, y) => (y[1].wins || 0) - (x[1].wins || 0))[0]; const ad = (b.options || []).find((o) => o.id === s?.[0])?.name || s?.[0] || "—"; return `<tr><td>${kapak(b)}</td><td>${esc(b.emoji)} ${esc(b.title)}</td><td>${b.totalPlays || 0}</td><td>${b.totalVotes || 0}</td><td>${esc(ad)} <span class="ipucu">×${s?.[1]?.wins || 0}</span></td></tr>`; }).join("")}</table></div></div>
-        <div><h3>Son 2000 oyunda</h3><div class="tablo"><table><tr><th>Turnuva</th><th>Oyun</th></tr>${topRun.map(([t, n]) => `<tr><td>${esc(t)}</td><td>${n}</td></tr>`).join("")}</table></div>
-        <h3>Boyut dağılımı</h3><p class="ipucu">${Object.entries(boyut).sort((a, b) => a[0] - b[0]).map(([s, n]) => `Son ${s}: <b>${n}</b>`).join(" · ") || "—"}</p></div>
+        <div><h3>Son ${runs.length} oyunda</h3>${barlar(Object.entries(kosuTur).sort((a, b) => b[1] - a[1]).slice(0, 12), "Oyun kaydı yok.")}
+        <h3>Turnuva boyu</h3>${barlar(Object.entries(boyut).sort((a, b) => a[0] - b[0]).map(([k, v]) => [`Son ${k}`, v]), "Oyun kaydı yok.")}</div>
       </div>
       <div class="ikili">
         <div><h3>En çok oylanan ikilemler</h3><div class="tablo"><table><tr><th>Soru</th><th>A</th><th>B</th><th>Oy</th></tr>
         ${topQ.map((q) => { const t = (q.votesA || 0) + (q.votesB || 0); return `<tr><td>${esc(q.text)}</td><td>${esc(q.a?.name)} <span class="ipucu">%${Math.round(100 * (q.votesA || 0) / (t || 1))}</span></td><td>${esc(q.b?.name)} <span class="ipucu">%${Math.round(100 * (q.votesB || 0) / (t || 1))}</span></td><td>${t}</td></tr>`; }).join("")}</table></div></div>
         <div><h3>En çekişmeli ikilemler</h3><p class="ipucu">20+ oyla, iki taraf birbirine en yakın.</p><div class="tablo"><table><tr><th>Soru</th><th>A / B</th><th>Oy</th></tr>
-        ${tartismali.map(({ q }) => `<tr><td>${esc(q.text)}</td><td>${q.votesA || 0} / ${q.votesB || 0}</td><td>${(q.votesA || 0) + (q.votesB || 0)}</td></tr>`).join("")}</table></div></div>
-      </div>`;
+        ${tartismali.map(({ q }) => `<tr><td>${esc(q.text)}</td><td>${q.votesA || 0} / ${q.votesB || 0}</td><td>${(q.votesA || 0) + (q.votesB || 0)}</td></tr>`).join("")}</table></div>
+        <h3>Kategoriye göre ikilem</h3>${barlar(kategori)}</div>
+      </div>
+      ${hic.length ? `<h3>Hiç oynanmamış turnuvalar (${hic.length})</h3><p class="ipucu">${hic.map((b) => esc(`${b.emoji || ""} ${b.title}`)).join(" · ")}</p>` : ""}`;
+    }
+
+    // ---- arkadaş turnuvaları -------------------------------------------
+    function arkadas() {
+      const f = V.friends || [];
+      if (V.friends === null) return `<p class="ipucu">Yükleniyor…</p>`;
+      if (!f.length) return `<p class="ipucu">Henüz arkadaş turnuvası kurulmamış.</p>`;
+      const oynanis = f.reduce((a, t) => a + Object.keys(t.results || {}).length, 0);
+      const sirali = [...f].sort((a, b) => Object.keys(b.results || {}).length - Object.keys(a.results || {}).length);
+      return `${kpi([["Kurulan turnuva", f.length], ["Toplam oynanış", oynanis], ["Oynanış / turnuva", (oynanis / f.length).toFixed(1)], ["Hiç oynanmamış", f.filter((t) => !Object.keys(t.results || {}).length).length]])}
+      <p class="ipucu">Paylaşım bağlantısı: <code>bamstudio.dev/o-mu-bu-mu/t/?c=KOD</code>. Aynı kod aynı kurayı açar; "oynanış" o kodu bitiren kişi sayısıdır.</p>
+      <div class="tablo"><table><tr><th>Kod</th><th>Turnuva</th><th>Boy</th><th>Kuran</th><th>Oynanış</th><th>Şampiyonlar</th><th>Tarih</th></tr>
+      ${sirali.slice(0, 100).map((t) => { const r = Object.values(t.results || {}); const say = {}; for (const x of r) { const ad = x.championName || x.championId || "?"; say[ad] = (say[ad] || 0) + 1; }
+        return `<tr><td class="mono">${esc(t.id)}</td><td>${esc(t.bracketTitle || t.bracketId || "—")}</td><td>${t.size || "—"}</td><td class="mono">${esc((t.ownerId || "").slice(0, 8))}</td><td>${r.length}</td><td class="ipucu">${esc(Object.entries(say).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([a, b]) => `${a} ×${b}`).join(", ") || "—")}</td><td>${tarih(t.createdAt)}</td></tr>`; }).join("")}</table></div>`;
     }
 
     function kategoriler() {
@@ -484,11 +679,59 @@
       ${V.categories.map((c) => `<tr><td>${c.order ?? 0}</td><td>${esc(c.name)}</td><td class="ipucu">${esc(c.nameEn || "—")}</td><td class="mono">${esc(c.symbol)}</td><td>${V.questions.filter((q) => (q.categories || []).includes(c.name)).length}</td><td><button class="kucuk" data-duzenle="categories|${c.id}">Düzenle</button> <button class="kucuk tehlike" data-sil="categories|${c.id}">Sil</button></td></tr>`).join("")}</table></div>`;
     }
 
+    // Satıra tıklayınca sağdan çekmece açılır: profil, oyun geçmişi ve oylar.
     function kullanicilar() {
-      const anon = V.users.filter((u) => u.isAnonymous).length;
-      return `<p class="ipucu">Firebase Auth'taki tam liste konsolda; burası uygulamanın <code>users/</code> profil belgeleri (son görülme sırasıyla, en çok 500). Anonim: ${anon} · Girişli: ${V.users.length - anon}</p>
-      <div class="tablo"><table><tr><th>Kimlik</th><th>Ad</th><th>Sağlayıcı</th><th>Platform</th><th>Sürüm</th><th>Son görülme</th><th>Kayıt</th><th></th></tr>
-      ${V.users.map((u) => `<tr><td class="mono">${esc(u.id.slice(0, 10))}</td><td>${esc(u.displayName || (u.isAnonymous ? "anonim" : "—"))}</td><td>${esc((u.providers || []).join(", ") || "anon")}</td><td>${esc(u.platform || "—")}</td><td>${esc(u.appVersion || "—")}</td><td>${tarih(u.lastSeenAt)}</td><td>${tarih(u.createdAt)}</td><td><button class="kucuk" data-kosular="${u.id}">Oyunlar</button></td></tr>`).join("")}</table></div>`;
+      const { runs, users, t } = saat();
+      const anon = users.filter((u) => u.isAnonymous).length;
+      const kosuSay = {}; for (const r of runs) kosuSay[r.uid] = (kosuSay[r.uid] || 0) + 1;
+      const platformlarListe = [...new Set(users.map((u) => u.platform || "?"))];
+      return `<p class="ipucu">Uygulamanın <code>users/</code> profil belgeleri, son görülene göre ilk 500. Anonim: <b>${anon}</b> · Girişli: <b>${users.length - anon}</b> · Aralıkta aktif: <b>${users.filter((u) => sonra(u.lastSeenAt, t)).length}</b>. Firebase Auth'taki tam liste <a href="https://console.firebase.google.com/project/thisone-ba533/authentication/users" target="_blank" rel="noopener">konsolda</a>.</p>
+      <div class="arac">
+        <input type="search" id="ara" placeholder="Kimlik ya da ad ara…">
+        <select id="kplatform"><option value="">Tüm platformlar</option>${platformlarListe.map((p) => `<option value="${esc(p)}">${esc(pAd(p))}</option>`).join("")}</select>
+        <select id="ktur"><option value="">Hepsi</option><option value="anon">Yalnız anonim</option><option value="girisli">Yalnız girişli</option><option value="oynayan">Yalnız oynayanlar</option></select>
+      </div>
+      <div class="tablo"><table id="liste"><tr><th>Kimlik</th><th>Ad</th><th>Platform</th><th>Sürüm</th><th>Oyun</th><th>Son görülme</th><th>Kayıt</th></tr>
+      ${users.map((u) => `<tr class="tiklanir" data-kullanici="${esc(u.id)}" data-ara="${esc((u.id + " " + (u.displayName || "")).toLowerCase())}" data-kat="${esc(u.platform || "?")}" data-tur="${u.isAnonymous ? "anon" : "girisli"}${kosuSay[u.id] ? " oynayan" : ""}"><td class="mono">${esc(u.id.slice(0, 10))}</td><td>${esc(u.displayName || (u.isAnonymous ? "anonim" : "—"))}</td><td>${esc(pAd(u.platform || "?"))}</td><td>${esc(u.appVersion || "—")}</td><td>${kosuSay[u.id] || 0}</td><td>${nekadar(u.lastSeenAt)}</td><td>${tarih(u.createdAt)}</td></tr>`).join("")}</table></div>`;
+    }
+
+    // ---- kullanıcı çekmecesi -------------------------------------------
+    const cekmeceKapat = () => ($("#cekmece").innerHTML = "");
+    async function kullaniciAc(id) {
+      if (!id) return;
+      const u = V.users.find((x) => x.id === id) || { id };
+      const c = $("#cekmece");
+      c.innerHTML = `<div class="cekmece"><button class="kucuk kapat" id="cKapat">Kapat</button><h2 style="margin-top:0">${esc(u.displayName || (u.isAnonymous ? "anonim" : id.slice(0, 10)))}</h2><p class="ipucu mono">${esc(id)}</p><p class="ipucu">Yükleniyor…</p></div>`;
+      $("#cKapat").onclick = cekmeceKapat;
+      const [kosular, oylar] = DEMO
+        ? [(V.runs || []).filter((r) => r.uid === id), []]
+        : await Promise.all([
+          okuHepsi(`users/${id}/runs`, orderBy("playedAt", "desc"), limit(60)).catch(() => []),
+          okuHepsi(`users/${id}/votes`, orderBy("at", "desc"), limit(60)).catch(() => []),
+        ]);
+      const soru = (qid) => V.questions.find((q) => q.id === qid);
+      const zamanCizelgesi = [
+        ...kosular.map((r) => ({ t: r.playedAt, m: `🏆 <b>${esc(r.bracketTitle || r.bracketId || "turnuva")}</b> · Son ${r.size || "?"} · ${esc(r.championName || "—")}${r.platform ? ` <span class="ipucu">${esc(pAd(r.platform))}</span>` : ""}` })),
+        ...oylar.map((v) => { const q = soru(v.id); return { t: v.at, m: `🗳️ ${esc(q?.text || v.id)} → <b>${esc(v.side === "a" ? q?.a?.name || "A" : q?.b?.name || "B")}</b>` }; }),
+      ].filter((x) => x.t?.toDate).sort((a, b) => b.t.toDate() - a.t.toDate()).slice(0, 60);
+      const turnuvaSay = {}; for (const r of kosular) turnuvaSay[r.bracketTitle || r.bracketId] = (turnuvaSay[r.bracketTitle || r.bracketId] || 0) + 1;
+      c.innerHTML = `<div class="cekmece"><button class="kucuk kapat" id="cKapat">Kapat</button>
+        <h2 style="margin-top:0">${esc(u.displayName || (u.isAnonymous ? "anonim" : id.slice(0, 10)))}</h2>
+        <p class="ipucu mono">${esc(id)}</p>
+        <div class="alanlar">
+          <div>Platform</div><div>${esc(pAd(u.platform || "?"))}</div>
+          <div>Sürüm</div><div>${esc(u.appVersion || "—")}</div>
+          <div>Sağlayıcı</div><div>${esc((u.providers || []).join(", ") || "anonim")}</div>
+          <div>Kayıt</div><div>${tarih(u.createdAt)}</div>
+          <div>Son görülme</div><div>${tarih(u.lastSeenAt)} <span class="ipucu">${nekadar(u.lastSeenAt)}</span></div>
+          <div>Biten turnuva</div><div>${kosular.length}${kosular.length === 60 ? "+" : ""}</div>
+          <div>İkilem oyu</div><div>${oylar.length}${oylar.length === 60 ? "+" : ""}</div>
+          <div>En çok oynadığı</div><div>${esc(Object.entries(turnuvaSay).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([a, b]) => `${a} ×${b}`).join(", ") || "—")}</div>
+        </div>
+        <h3>Zaman çizelgesi</h3>
+        ${zamanCizelgesi.length ? `<div class="zaman">${zamanCizelgesi.map((x) => `<div><time>${x.t.toDate().toLocaleString("tr-TR")}</time>${x.m}</div>`).join("")}</div>` : `<p class="ipucu">Bu kullanıcıdan kayıt yok.</p>`}
+      </div>`;
+      $("#cKapat").onclick = cekmeceKapat;
     }
 
     function raporlar() {
@@ -512,6 +755,20 @@
         document.querySelectorAll("#liste tr[data-ara]").forEach((tr) => tr.style.display = (tr.dataset.ara.includes(t) && (!k || tr.dataset.kat.split("|").includes(k))) ? "" : "none");
       };
       ara && (ara.oninput = suz); kat && (kat.onchange = suz);
+
+      // Kullanıcılar sayfasının kendi süzgeçleri (platform ve tür).
+      const kp = $("#kplatform"), kt = $("#ktur");
+      if (kp || kt) {
+        const suzK = () => {
+          const t = (ara?.value || "").toLowerCase(), p = kp?.value || "", tur = kt?.value || "";
+          document.querySelectorAll("#liste tr[data-kullanici]").forEach((tr) => {
+            const ok = tr.dataset.ara.includes(t) && (!p || tr.dataset.kat === p) && (!tur || tr.dataset.tur.split(" ").includes(tur));
+            tr.style.display = ok ? "" : "none";
+          });
+        };
+        ara && (ara.oninput = suzK); kp && (kp.onchange = suzK); kt && (kt.onchange = suzK);
+      }
+      document.querySelectorAll("[data-kullanici]").forEach((tr) => (tr.onclick = () => kullaniciAc(tr.dataset.kullanici)));
 
       document.querySelectorAll("[data-gun]").forEach((s) => s.onchange = async () => {
         const [gun, alan] = s.dataset.gun.split("|");
@@ -551,10 +808,6 @@
         await deleteDoc(doc(db, tur, id)); await yukle(); goster(aktif);
       });
       document.querySelectorAll("[data-kapat]").forEach((b) => b.onclick = async () => { await updateDoc(doc(db, "reports", b.dataset.kapat), { status: "closed", closedAt: serverTimestamp() }); await yukle(); goster(aktif); });
-      document.querySelectorAll("[data-kosular]").forEach((b) => b.onclick = async () => {
-        const kosular = await okuHepsi(`users/${b.dataset.kosular}/runs`, orderBy("playedAt", "desc"), limit(50)).catch(() => []);
-        acDialog(`<h3>Oyunlar · ${esc(b.dataset.kosular.slice(0, 10))}</h3>${kosular.length ? `<table><tr><th>Tarih</th><th>Turnuva</th><th>Boy</th><th>Şampiyon</th></tr>${kosular.map((k) => `<tr><td>${tarih(k.playedAt)}</td><td>${esc(k.bracketTitle)}</td><td>${k.size}</td><td>${esc(k.championName)}</td></tr>`).join("")}</table>` : `<p class="ipucu">Kayıt yok.</p>`}<p><button data-kapa>Kapat</button></p>`);
-      });
       document.querySelectorAll("[data-arac]").forEach((b) => b.onclick = () => ({ sayac: sayaclariYenile, disa: disaAktar })[b.dataset.arac]());
       const ice = $("#ice"); ice && (ice.onchange = iceAktar);
     }
@@ -738,6 +991,15 @@
         if (++n % 400 === 0) { await batch.commit(); batch = writeBatch(db); }
       }
       await batch.commit(); $("#iceSonuc").textContent = `${n} kayıt yazıldı`; await yukle();
+    }
+    // Demo, V ve sayfa işlevleri tanımlandıktan sonra kurulur.
+    if (DEMO) {
+      demoVeri();
+      $("#girisKart").classList.add("kapali");
+      $("#girisUst").classList.add("kapali");
+      $("#uygulama").classList.remove("kapali");
+      durum("demo verisi · Firestore'a dokunulmuyor");
+      goster("genel");
     }
   </script>
 </body>
