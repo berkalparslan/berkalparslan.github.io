@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Score bijhouden op je telefoon",
+      "subtitle": "Geen horloge nodig.",
+      "category": "App-gids",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Open Wedstrijd, kies Deze telefoon en tik op Start wedstrijd op telefoon.\n\n• Tik op de kant die de rally won: je tegenstander staat bovenaan in rood, jij onderaan in groen.\n\n• Een verkeerde rally zet je terug met de pijl in het midden.\n\n• Tik op Volledig scherm voor een groot scorebord met de telefoon op zijn kant, één helft per kant. Met Sluiten ga je terug terwijl de wedstrijd doorloopt.\n\n• Het scherm blijft aan tijdens de wedstrijd. Sluit de app, dan staat de wedstrijd er nog als je hem weer opent."
+    },
+    {
+      "id": "101",
+      "title": "Horloge en telefoon samen",
+      "subtitle": "De een houdt de score bij, de ander volgt.",
+      "category": "App-gids",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start op het horloge en de telefoon toont live dezelfde score.\n\n• Er houdt maar één apparaat tegelijk de score bij, zo wordt geen rally dubbel geteld.\n\n• Wisselen? Tik op de iPhone op Score op telefoon, of op het horloge op Score hier.\n\n• Valt de verbinding weg, dan gaat er niets verloren: de laatste score komt binnen zodra ze weer contact hebben.\n\n• Wedstrijden op het horloge slaan een training op in Apple Gezondheid met hartslag, calorieën en afstand."
+    },
+    {
+      "id": "102",
+      "title": "Stemscheidsrechter",
+      "subtitle": "De score hardop, vanaf de telefoon.",
+      "category": "App-gids",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Zet Stemscheidsrechter aan in Wedstrijdvoorbereiding en kies de taal.\n\n• De telefoon roept na elke rally de score om, ook als het horloge de score bijhoudt. Verbind een Bluetooth-speaker voor een grote hal.\n\n• Eerst de score van de serveerder: 15 12, 20 gelijk, Game en Wedstrijd.\n\n• Score zeggen leest de huidige score voor wanneer je maar wilt."
+    },
+    {
+      "id": "103",
+      "title": "Wie serveert, en vanaf waar",
+      "subtitle": "De app volgt het servicevak.",
+      "category": "App-gids",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Kies de eerste serveerder in Wedstrijdvoorbereiding, of tik op de dobbelsteen voor een eerlijke loting.\n\n• Tijdens de wedstrijd toont het scorebord wie serveert en vanuit welk vak: rechts bij een even score, links bij een oneven score.\n\n• Bij het dubbelspel houdt de app de rotatie bij en toont de naam van de serveerder, zodat niemand hoeft te onthouden wie waar staat."
+    },
+    {
+      "id": "104",
+      "title": "Vrienden, community en competities",
+      "subtitle": "Optioneel, met inloggen via Apple of Google.",
+      "category": "App-gids",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Vriend laten bevestigen: zodra je vriend accepteert, staat de wedstrijd in beide logboeken, elk vanuit de eigen kant.\n\n• Delen met community vanuit een wedstrijd: voeg een bijschrift toe en kies wie het ziet. Notities en gezondheidsgegevens worden nooit gedeeld.\n\n• Competities: de organisator (Pro) maakt de competitie aan, nodigt spelers uit en stelt het programma op. Spelers doen gratis mee, spelen de wedstrijd en sturen de uitslag vanuit het wedstrijdscherm, met de punten van elke game. Beide kanten bevestigen, de organisator keurt goed, de stand schuift door.\n\n• Voor score bijhouden heb je nooit een account nodig."
+    },
+    {
+      "id": "201",
+      "title": "Zo werkt de telling",
+      "subtitle": "Rallypunten tot 21.",
+      "category": "Regels",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Rallypunttelling (BWF): elke rally levert een punt op, wie er ook serveerde. Wie als eerste 21 haalt wint de game, maar moet 2 punten voor staan.\n\n• Bij 20-20 gaat het spel door tot iemand 2 punten voor staat.\n• Bij 29-29 wint het volgende punt (30-29). Verder wordt niet verlengd.\n• Een wedstrijd gaat over maximaal 3 games (of 5). Wie als eerste 2 games wint, wint.\n\nSnel formaat: games tot 11, met 2 punten verschil, en bij 14-14 wint het volgende punt."
+    },
+    {
+      "id": "202",
+      "title": "Serviceregels",
+      "subtitle": "Wanneer de service wisselt.",
+      "category": "Regels",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• De shuttle wordt onder de taille van de serveerder geraakt.\n\n• Wint de serveerder de rally, dan scoort hij en serveert opnieuw. Wint de ontvanger, dan scoort die en krijgt de service.\n\n• De serveerder serveert vanuit het rechtervak bij een even score en vanuit het linkervak bij een oneven score.\n\n• De winnaar van een game serveert als eerste in de volgende game.\n\n• In de beslissende game wisselen de spelers van kant als de koploper 11 bereikt."
+    },
+    {
+      "id": "203",
+      "title": "Enkel en dubbel",
+      "subtitle": "Andere vakken, andere rotatie.",
+      "category": "Regels",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Enkel: het servicevak is lang en smal; de rally wordt gespeeld op het lange, smalle enkelveld.\n\n• Dubbel: het servicevak is kort en breed, en de rally gebruikt het hele veld.\n\n• Service in het dubbel: elke kant heeft één servicebeurt. De serveerder blijft serveren zolang zijn kant rally's wint en wisselt na elk gewonnen punt van vak met zijn partner. Winnen de ontvangers een rally, dan krijgen zij de service en verplaatst niemand aan die kant zich."
+    },
+    {
+      "id": "204",
+      "title": "Let en fout",
+      "subtitle": "Overspelen of punt kwijt.",
+      "category": "Regels",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Bij een let wordt de rally overgespeeld en scoort niemand, bijvoorbeeld na een onvoorziene verstoring.\n\nEen fout beëindigt de rally en geeft het punt aan de andere kant. Veelvoorkomende fouten:\n• De shuttle landt buiten de lijnen\n• Hij gaat door of onder het net\n• Hij raakt een speler of diens kleding\n• Hij wordt twee keer geraakt\n• De serveerder mist de shuttle\n• De voeten van de serveerder bewegen tijdens de service"
+    },
+    {
+      "id": "301",
+      "title": "Basis van voetenwerk",
+      "subtitle": "Eerst bewegen, dan slaan.",
+      "category": "Techniek",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Goed voetenwerk is de basis van badminton. Ga na elke slag terug naar het midden van het veld.\n\n• Split step: een klein sprongetje als je tegenstander slaat, zodat je alle kanten op kunt.\n• Chassé: een zijwaartse pas om wijde shuttles te halen zonder je voeten te kruisen.\n• Uitvalspas: een diepe stap naar de voorhoeken. Houd je knie boven je voet.\n\nOefen schaduwvoetenwerk naar alle zes hoeken, zonder shuttle."
+    },
+    {
+      "id": "302",
+      "title": "De clear",
+      "subtitle": "Hoog en diep.",
+      "category": "Techniek",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "De clear stuurt de shuttle hoog en diep naar de achterkant van het veld.\n\n• Aanvallende clear: vlakker en sneller, zet je tegenstander onder druk.\n• Verdedigende clear: een hoge boog die je tijd geeft om te herstellen.\n\nRaak de shuttle met een gestrekte arm, boven en iets voor je, en zwaai goed door."
+    },
+    {
+      "id": "303",
+      "title": "De drop",
+      "subtitle": "Zacht en dicht bij het net.",
+      "category": "Techniek",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Een drop valt steil vlak over het net en dwingt je tegenstander om te liften.\n\n• Langzame drop: landt dicht bij het net, vraagt veel gevoel.\n• Snelle drop: vlakker, lastiger te halen, landt iets dieper.\n\nMisleiding is alles: gebruik tot het laatste moment dezelfde zwaai als bij je clear."
+    },
+    {
+      "id": "304",
+      "title": "De smash",
+      "subtitle": "De afmaker.",
+      "category": "Techniek",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "De smash wordt vanaf het hoogste raakpunt steil naar beneden geslagen.\n\n• Draai je lichaam, reik omhoog, klap je pols door bij het raken en zwaai naar beneden uit.\n• De sprongsmash geeft extra hoogte en een steilere hoek.\n\nSmashen vanuit achteren is vermoeiend: wissel af met drops en clears."
+    },
+    {
+      "id": "305",
+      "title": "Netspel",
+      "subtitle": "Win de voorkant van het veld.",
+      "category": "Techniek",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Goede netslagen dwingen een lift af en geven jou de smash.\n\n• Netkill: staat de shuttle boven de netband, duw hem dan omlaag voor een winnende slag.\n• Lift: ben je te laat, stuur hem hoog naar achteren om de rally opnieuw op te bouwen.\n• Spinnende netdrop: een zachte aanraking die over de netband tuimelt en lastig terug te spelen is.\n\nBlijf licht op je voeten en klaar om naar achteren te gaan."
+    },
+    {
+      "id": "401",
+      "title": "Wedstrijdstrategie",
+      "subtitle": "Speel met de hoogte van de shuttle.",
+      "category": "Tactiek",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Laat je tegenstander liften: elke lift is een kans om aan te vallen. Houd je eigen slagen laag.\n\n• Zoek de backhand: de meeste spelers zijn achterin zwakker aan de backhandkant.\n\n• Wissel van tempo: mix snelle aanvallen met traag netspel om hun ritme te breken.\n\n• Spaar energie: lange rally's zijn normaal. Wie zijn vermoeidheid beter verdeelt, wint de spannende games."
+    },
+    {
+      "id": "402",
+      "title": "Dubbeltactiek",
+      "subtitle": "Voor en achter om aan te vallen, naast elkaar om te verdedigen.",
+      "category": "Tactiek",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Val aan in voor en achter: één aan het net, één die van achteren smasht.\n\n• Verdedig naast elkaar: ieder dekt de helft van het veld als de tegenstanders aanvallen.\n\n• Praat met elkaar: roep korte shuttles af en wie het midden neemt. Twijfel je, sla dan door het midden, tussen die twee in."
+    }
+  ]
+}

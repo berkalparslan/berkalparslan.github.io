@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Marque o placar no celular",
+      "subtitle": "Sem precisar de relógio.",
+      "category": "Guia do app",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Abra Partida, escolha Este celular e toque em Iniciar partida no celular.\n\n• Toque no lado que venceu o rali: o adversário fica em cima, em vermelho, e você embaixo, em verde.\n\n• Um rali marcado errado volta com a seta do meio.\n\n• Toque em Tela cheia para um placar grande com o celular deitado, uma metade para cada lado. Sair leva você de volta enquanto a partida continua.\n\n• A tela fica ligada durante a partida. Se o app fechar, a partida continua lá quando você abrir de novo."
+    },
+    {
+      "id": "101",
+      "title": "Relógio e celular juntos",
+      "subtitle": "Um marca, o outro acompanha.",
+      "category": "Guia do app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Comece no relógio e o celular mostra o mesmo placar ao vivo.\n\n• Só um aparelho marca o placar por vez, assim nenhum rali é contado duas vezes.\n\n• Para trocar, toque em Placar no celular no iPhone, ou em Placar aqui no relógio.\n\n• Se a conexão cair, nada se perde: o placar mais recente chega assim que os dois se reconectam.\n\n• Partidas no relógio salvam um treino no app Saúde com frequência cardíaca, calorias e distância."
+    },
+    {
+      "id": "102",
+      "title": "Árbitro por voz",
+      "subtitle": "O placar em voz alta, pelo celular.",
+      "category": "Guia do app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Ative Árbitro por voz na Preparação da partida e escolha o idioma.\n\n• O celular anuncia o placar depois de cada rali, mesmo quando o relógio está marcando. Conecte uma caixa de som Bluetooth para um ginásio grande.\n\n• Primeiro os pontos de quem saca: 15 12, 20 iguais, Set e Partida.\n\n• Falar placar lê o placar atual quando você quiser."
+    },
+    {
+      "id": "103",
+      "title": "Quem saca, e de onde",
+      "subtitle": "O app acompanha a quadra de saque.",
+      "category": "Guia do app",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Escolha quem saca primeiro na Preparação da partida, ou toque no dado para um sorteio justo.\n\n• Durante a partida, o placar mostra quem saca e de qual lado: da direita com pontuação par, da esquerda com ímpar.\n\n• Nas duplas, o app acompanha o rodízio e mostra o nome de quem saca, então ninguém precisa lembrar quem fica onde."
+    },
+    {
+      "id": "104",
+      "title": "Amigos, comunidade e ligas",
+      "subtitle": "Opcional, com login da Apple ou do Google.",
+      "category": "Guia do app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Pedir confirmação a um amigo: quando ele aceitar, a partida entra no histórico dos dois, cada um do seu lado.\n\n• Compartilhar na comunidade a partir de uma partida: adicione uma legenda e escolha quem pode ver. Notas e dados de saúde nunca são compartilhados.\n\n• Ligas: o organizador (Pro) cria a liga, convida os jogadores e define a tabela de jogos. Os jogadores entram de graça, jogam a partida e enviam o resultado pela tela da partida, com os pontos de cada set. Os dois lados confirmam, o organizador aprova e a classificação anda.\n\n• Marcar o placar nunca exige conta."
+    },
+    {
+      "id": "201",
+      "title": "Como funciona a pontuação",
+      "subtitle": "Todo rali vale ponto, até 21.",
+      "category": "Regras",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Pontuação por rali (BWF): todo rali vale ponto, não importa quem sacou. Quem chega primeiro a 21 vence o set, mas precisa de 2 pontos de vantagem.\n\n• Em 20-20 o jogo segue até alguém abrir 2 pontos.\n• Em 29-29 o próximo ponto vence (30-29). Não há mais prorrogação.\n• Uma partida é melhor de 3 sets (ou de 5). Vence quem ganhar 2 sets primeiro.\n\nFormato rápido: sets até 11, com 2 de vantagem, e em 14-14 o próximo ponto vence."
+    },
+    {
+      "id": "202",
+      "title": "Regras do saque",
+      "subtitle": "Quando o saque muda.",
+      "category": "Regras",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• A peteca é golpeada abaixo da cintura de quem saca.\n\n• Se quem saca vence o rali, marca o ponto e saca de novo. Se quem recebe vence, marca o ponto e passa a sacar.\n\n• Quem saca faz isso da quadra direita quando sua pontuação é par e da esquerda quando é ímpar.\n\n• Quem vence um set saca primeiro no set seguinte.\n\n• No set decisivo, os jogadores trocam de lado quando quem está na frente chega a 11."
+    },
+    {
+      "id": "203",
+      "title": "Simples e duplas",
+      "subtitle": "Áreas diferentes, rodízio diferente.",
+      "category": "Regras",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Simples: a área de saque é longa e estreita; o rali acontece na quadra de simples, longa e estreita.\n\n• Duplas: a área de saque é curta e larga, e o rali usa a quadra inteira.\n\n• Saque nas duplas: cada lado tem uma vez de sacar. Quem saca continua sacando enquanto seu lado vence os ralis, trocando de quadra com o parceiro depois de cada ponto ganho. Quando quem recebe vence um rali, passa a sacar e ninguém daquele lado troca de lugar."
+    },
+    {
+      "id": "204",
+      "title": "Let e falta",
+      "subtitle": "Repete ou perde o ponto.",
+      "category": "Regras",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Um let repete o rali e ninguém pontua, por exemplo depois de uma interferência inesperada.\n\nUma falta encerra o rali e dá o ponto ao outro lado. Faltas comuns:\n• A peteca cai fora das linhas\n• Passa por dentro ou por baixo da rede\n• Toca um jogador ou a roupa dele\n• É golpeada duas vezes\n• Quem saca erra a peteca\n• Os pés de quem saca se mexem durante o saque"
+    },
+    {
+      "id": "301",
+      "title": "Básico da movimentação",
+      "subtitle": "Primeiro se mova, depois bata.",
+      "category": "Técnica",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Uma boa movimentação é a base do badminton. Volte para o centro da quadra depois de cada golpe.\n\n• Split step: um pulinho na hora em que o adversário bate, para sair para qualquer lado.\n• Chassé: um deslocamento lateral para alcançar petecas abertas sem cruzar os pés.\n• Afundo: um passo longo até os cantos da frente. Mantenha o joelho sobre o pé.\n\nTreine movimentação de sombra para os seis cantos, sem peteca."
+    },
+    {
+      "id": "302",
+      "title": "O clear",
+      "subtitle": "Alto e fundo.",
+      "category": "Técnica",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "O clear manda a peteca alta e funda, para o fundo da quadra.\n\n• Clear de ataque: mais reto e rápido, pressiona o adversário.\n• Clear defensivo: um arco alto que dá tempo para você se recompor.\n\nBata com o braço bem esticado, acima e um pouco à frente do corpo, e complete o movimento."
+    },
+    {
+      "id": "303",
+      "title": "O drop",
+      "subtitle": "Suave e perto da rede.",
+      "category": "Técnica",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Um drop cai bem inclinado logo depois da rede e obriga o adversário a levantar.\n\n• Drop lento: cai perto da rede, exige toque fino.\n• Drop rápido: mais reto, mais difícil de alcançar, cai um pouco mais fundo.\n\nDisfarçar é tudo: use o mesmo movimento do clear até o último instante."
+    },
+    {
+      "id": "304",
+      "title": "O smash",
+      "subtitle": "O golpe de definição.",
+      "category": "Técnica",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "O smash é batido para baixo, bem inclinado, do ponto de contato mais alto.\n\n• Gire o corpo, estique o braço para cima, solte o punho no contato e finalize para baixo.\n• O smash com salto dá mais altura e um ângulo mais fechado.\n\nSmash do fundo cansa: misture com drops e clears."
+    },
+    {
+      "id": "305",
+      "title": "Jogo de rede",
+      "subtitle": "Domine a frente da quadra.",
+      "category": "Técnica",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Bons golpes de rede forçam o levantamento e deixam o smash para você.\n\n• Kill na rede: quando a peteca está acima da fita, empurre para baixo e feche o ponto.\n• Lift: quando chegar atrasado, mande alto para o fundo e recomece o rali.\n• Spin na rede: um toque suave que gira por cima da fita e é difícil de devolver.\n\nFique leve nos pés e pronto para voltar."
+    },
+    {
+      "id": "401",
+      "title": "Estratégia de jogo",
+      "subtitle": "Jogue com a altura da peteca.",
+      "category": "Tática",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Faça o adversário levantar: cada levantada é uma chance de atacar. Mantenha seus golpes baixos.\n\n• Procure o backhand: a maioria dos jogadores é mais fraca no backhand do fundo.\n\n• Mude o ritmo: misture ataques rápidos com jogo lento de rede para quebrar o ritmo do outro.\n\n• Poupe energia: ralis longos são normais. Quem administra melhor o cansaço vence os sets apertados."
+    },
+    {
+      "id": "402",
+      "title": "Tática de duplas",
+      "subtitle": "Frente e fundo para atacar, lado a lado para defender.",
+      "category": "Tática",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Ataquem em frente e fundo: um na rede, outro dando smash do fundo.\n\n• Defendam lado a lado: cada um cobre metade da quadra quando os adversários atacam.\n\n• Conversem: avisem as petecas curtas e quem fica com o meio. Na dúvida, joguem pelo meio, entre os dois."
+    }
+  ]
+}

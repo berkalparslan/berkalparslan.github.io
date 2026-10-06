@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Keep score on your phone",
+      "subtitle": "No watch needed.",
+      "category": "App Guide",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Open Match, choose This phone and tap Start match on phone.\n\n• Tap the side that won the rally: the opponent is on top in red, you are at the bottom in green.\n\n• A wrong rally goes back with the arrow in the middle.\n\n• Tap Full screen for a big board with the phone on its side, one side each. Exit brings you back while the match goes on.\n\n• The screen stays on during the match. If the app closes, the match is still there when you open it again."
+    },
+    {
+      "id": "101",
+      "title": "Watch and phone together",
+      "subtitle": "One keeps the score, the other follows.",
+      "category": "App Guide",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start on the watch and the phone shows the same score live.\n\n• Only one device keeps the score at a time, so no rally is counted twice.\n\n• To switch, tap Score on phone on the iPhone, or Score here on the watch.\n\n• If the connection drops, nothing is lost: the latest score arrives as soon as the two are back in touch.\n\n• Matches on the watch save a workout to Apple Health with heart rate, calories and distance."
+    },
+    {
+      "id": "102",
+      "title": "Voice umpire",
+      "subtitle": "The score out loud, from the phone.",
+      "category": "App Guide",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Turn on Voice umpire in Match prep and pick the language.\n\n• The phone calls the score after every rally, also when the watch is keeping it. Connect a Bluetooth speaker for a big hall.\n\n• Server's score first: 15 12, 20 All, Game, and Match.\n\n• Say score reads the current score whenever you want it."
+    },
+    {
+      "id": "103",
+      "title": "Who serves, and from where",
+      "subtitle": "The app follows the service court.",
+      "category": "App Guide",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Pick the first server in Match prep, or tap the dice for a fair random choice.\n\n• During the match the board shows who serves and from which court: right on an even score, left on an odd one.\n\n• In doubles the app tracks the rotation and shows the name of the server, so nobody has to remember who stands where."
+    },
+    {
+      "id": "104",
+      "title": "Friends, community and leagues",
+      "subtitle": "Optional, with Apple or Google sign in.",
+      "category": "App Guide",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Ask a friend to confirm a result: once they accept, the match is in both logbooks, each from their own side.\n\n• Share to community from a match: add a caption and choose who sees it. Notes and health data are never shared.\n\n• Leagues: the organizer (Pro) creates the league, invites players and sets the fixtures. Players join for free, play the match and send the result from the match screen, with the points of each game. Both sides confirm, the organizer approves, the table moves.\n\n• Keeping score never needs an account."
+    },
+    {
+      "id": "201",
+      "title": "How scoring works",
+      "subtitle": "Rally scoring to 21.",
+      "category": "Rules",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Rally scoring (BWF): every rally scores a point, whoever served. The first to 21 wins the game, but must lead by 2.\n\n• At 20-20 play goes on until someone leads by 2.\n• At 29-29 the next point wins (30-29). There is no further extension.\n• A match is best of 3 games (or best of 5). The first to win 2 games wins.\n\nFast format: games to 11, win by 2, and at 14-14 the next point wins."
+    },
+    {
+      "id": "202",
+      "title": "Service rules",
+      "subtitle": "When the serve changes.",
+      "category": "Rules",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• The shuttle is hit from below the server's waist.\n\n• If the server wins the rally, they score and serve again. If the receiver wins, they score and take the serve.\n\n• The server serves from the right court when their score is even and from the left when it is odd.\n\n• The winner of a game serves first in the next game.\n\n• In the deciding game, players change ends when the leader reaches 11."
+    },
+    {
+      "id": "203",
+      "title": "Singles vs doubles",
+      "subtitle": "Different boxes, different rotation.",
+      "category": "Rules",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Singles: the service box is long and narrow; the rally uses the long, narrow singles court.\n\n• Doubles: the service box is short and wide, and the rally uses the full court.\n\n• Doubles service: each side has one serve turn. The server keeps serving while their side wins rallies, swapping courts with their partner after each point won. When the receivers win a rally, they take the serve and nobody on that side moves."
+    },
+    {
+      "id": "204",
+      "title": "Let and fault",
+      "subtitle": "Replay or point lost.",
+      "category": "Rules",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "A let replays the rally and nobody scores, for example after an unforeseen disturbance.\n\nA fault ends the rally and gives the point to the other side. Common faults:\n• The shuttle lands outside the lines\n• It passes through or under the net\n• It touches a player or their clothing\n• It is hit twice\n• The server misses the shuttle\n• The server's feet move during the serve"
+    },
+    {
+      "id": "301",
+      "title": "Footwork basics",
+      "subtitle": "Move first, then hit.",
+      "category": "Technique",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Good footwork is the base of badminton. Go back to the centre of the court after every shot.\n\n• Split step: a small hop as your opponent hits, so you can move any way.\n• Chassé: a side shuffle to reach wide shots without crossing your feet.\n• Lunge: a deep step to the front corners. Keep the knee over the foot.\n\nPractise shadow footwork to all six corners without a shuttle."
+    },
+    {
+      "id": "302",
+      "title": "The clear",
+      "subtitle": "High and deep.",
+      "category": "Technique",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "The clear sends the shuttle high and deep to the back of the court.\n\n• Attacking clear: flatter and faster, it puts pressure on your opponent.\n• Defensive clear: a high arc that gives you time to recover.\n\nHit at full reach, above and slightly in front of you, and follow through."
+    },
+    {
+      "id": "303",
+      "title": "The drop shot",
+      "subtitle": "Soft and close to the net.",
+      "category": "Technique",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "A drop falls steeply just over the net and forces your opponent to lift.\n\n• Slow drop: lands close to the net, needs fine touch.\n• Fast drop: flatter, harder to reach, lands a little deeper.\n\nDisguise is everything: use the same swing as your clear until the last moment."
+    },
+    {
+      "id": "304",
+      "title": "The smash",
+      "subtitle": "The finishing shot.",
+      "category": "Technique",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "The smash is hit steeply down from the highest contact point.\n\n• Turn your body, reach up, snap the wrist at contact and follow through down.\n• The jump smash adds height and a steeper angle.\n\nSmashing from the back is tiring: mix it with drops and clears."
+    },
+    {
+      "id": "305",
+      "title": "Net play",
+      "subtitle": "Win the front of the court.",
+      "category": "Technique",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Good net shots force a lift and give you the smash.\n\n• Net kill: when the shuttle is above the tape, push it down for a winner.\n• Lift: when you are late, send it high to the back to reset the rally.\n• Spinning net shot: a soft touch that tumbles over the tape and is hard to return.\n\nStay light on your feet and ready to move back."
+    },
+    {
+      "id": "401",
+      "title": "Match strategy",
+      "subtitle": "Play the height of the shuttle.",
+      "category": "Tactics",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Make your opponent lift: every lift is a chance to attack. Keep your own shots low.\n\n• Find the backhand: most players are weaker on the backhand side at the back.\n\n• Change the pace: mix fast attacks with slow net play to break their rhythm.\n\n• Save energy: long rallies are normal. The player who manages fatigue better wins close games."
+    },
+    {
+      "id": "402",
+      "title": "Doubles tactics",
+      "subtitle": "Front and back to attack, side by side to defend.",
+      "category": "Tactics",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Attack in front and back: one at the net, one smashing from the back.\n\n• Defend side by side: each covers half of the court when the opponents attack.\n\n• Talk: call short shuttles and who takes the middle. When in doubt, hit down the middle between the two."
+    }
+  ]
+}

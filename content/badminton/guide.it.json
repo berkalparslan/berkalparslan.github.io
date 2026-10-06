@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Segna i punti sul telefono",
+      "subtitle": "Non serve l'orologio.",
+      "category": "Guida all'app",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Apri Partita, scegli Questo telefono e tocca Avvia partita sul telefono.\n\n• Tocca il lato che ha vinto lo scambio: l'avversario è in alto in rosso, tu in basso in verde.\n\n• Uno scambio segnato per errore si annulla con la freccia al centro.\n\n• Tocca Schermo intero per un grande tabellone con il telefono in orizzontale, metà per lato. Esci ti riporta indietro mentre la partita continua.\n\n• Lo schermo resta acceso durante la partita. Se l'app si chiude, la partita è ancora lì quando la riapri."
+    },
+    {
+      "id": "101",
+      "title": "Orologio e telefono insieme",
+      "subtitle": "Uno segna, l'altro segue.",
+      "category": "Guida all'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Avvia sull'orologio e il telefono mostra lo stesso punteggio in tempo reale.\n\n• Il punteggio lo tiene un solo dispositivo alla volta, così nessuno scambio viene contato due volte.\n\n• Per passare, tocca Punteggio sul telefono sull'iPhone, oppure Punteggio qui sull'orologio.\n\n• Se la connessione cade, non si perde nulla: l'ultimo punteggio arriva appena i due si ricollegano.\n\n• Le partite sull'orologio salvano un allenamento in Apple Salute con frequenza cardiaca, calorie e distanza."
+    },
+    {
+      "id": "102",
+      "title": "Arbitro vocale",
+      "subtitle": "Il punteggio ad alta voce, dal telefono.",
+      "category": "Guida all'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Attiva Arbitro vocale in Preparazione partita e scegli la lingua.\n\n• Il telefono annuncia il punteggio dopo ogni scambio, anche quando lo tiene l'orologio. Collega una cassa Bluetooth per un palazzetto grande.\n\n• Prima il punteggio di chi serve: 15 12, 20 pari, Set e Partita.\n\n• Annuncia punteggio legge il punteggio attuale quando vuoi."
+    },
+    {
+      "id": "103",
+      "title": "Chi serve, e da dove",
+      "subtitle": "L'app segue il campo di servizio.",
+      "category": "Guida all'app",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Scegli chi serve per primo in Preparazione partita, oppure tocca il dado per un sorteggio equo.\n\n• Durante la partita il tabellone mostra chi serve e da quale lato: a destra con punteggio pari, a sinistra con punteggio dispari.\n\n• Nel doppio l'app segue la rotazione e mostra il nome di chi serve, così nessuno deve ricordare chi sta dove."
+    },
+    {
+      "id": "104",
+      "title": "Amici, community e leghe",
+      "subtitle": "Facoltativo, con accesso Apple o Google.",
+      "category": "Guida all'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Chiedi conferma a un amico per un risultato: quando accetta, la partita finisce in entrambi i diari, ognuno dal proprio lato.\n\n• Condividi nella community da una partita: aggiungi una didascalia e scegli chi la vede. Note e dati sulla salute non vengono mai condivisi.\n\n• Leghe: l'organizzatore (Pro) crea la lega, invita i giocatori e stabilisce il calendario. I giocatori si iscrivono gratis, giocano la partita e inviano il risultato dalla schermata della partita, con i punti di ogni set. Entrambe le parti confermano, l'organizzatore approva, la classifica si muove.\n\n• Per segnare i punti non serve mai un account."
+    },
+    {
+      "id": "201",
+      "title": "Come funziona il punteggio",
+      "subtitle": "Rally point fino a 21.",
+      "category": "Regole",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Punteggio rally point (BWF): ogni scambio vale un punto, chiunque abbia servito. Il primo a 21 vince il set, ma con 2 punti di vantaggio.\n\n• Sul 20-20 si va avanti finché qualcuno non è avanti di 2.\n• Sul 29-29 vince il punto successivo (30-29). Non si va oltre.\n• Una partita si gioca al meglio dei 3 set (o dei 5). Vince chi conquista per primo 2 set.\n\nFormato veloce: set a 11, con 2 punti di scarto, e sul 14-14 vince il punto successivo."
+    },
+    {
+      "id": "202",
+      "title": "Regole del servizio",
+      "subtitle": "Quando cambia il servizio.",
+      "category": "Regole",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• Il volano si colpisce sotto la vita di chi serve.\n\n• Se chi serve vince lo scambio, fa punto e serve di nuovo. Se vince chi riceve, fa punto e passa al servizio.\n\n• Chi serve lo fa dal campo destro quando il suo punteggio è pari e dal sinistro quando è dispari.\n\n• Chi vince un set serve per primo nel set successivo.\n\n• Nel set decisivo i giocatori cambiano campo quando chi è in vantaggio arriva a 11."
+    },
+    {
+      "id": "203",
+      "title": "Singolo e doppio",
+      "subtitle": "Aree diverse, rotazione diversa.",
+      "category": "Regole",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Singolo: l'area di servizio è lunga e stretta; lo scambio si gioca sul campo da singolo, lungo e stretto.\n\n• Doppio: l'area di servizio è corta e larga, e lo scambio usa tutto il campo.\n\n• Servizio nel doppio: ogni coppia ha un solo turno di servizio. Chi serve continua finché la sua coppia vince gli scambi, scambiandosi di posto con il compagno dopo ogni punto vinto. Quando chi riceve vince uno scambio, passa al servizio e nessuno di quella coppia si sposta."
+    },
+    {
+      "id": "204",
+      "title": "Let e fallo",
+      "subtitle": "Si ripete o si perde il punto.",
+      "category": "Regole",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Un let fa ripetere lo scambio e nessuno fa punto, per esempio dopo un disturbo imprevisto.\n\nUn fallo chiude lo scambio e dà il punto all'altra parte. Falli comuni:\n• Il volano cade fuori dalle linee\n• Passa attraverso o sotto la rete\n• Tocca un giocatore o i suoi vestiti\n• Viene colpito due volte\n• Chi serve manca il volano\n• I piedi di chi serve si muovono durante il servizio"
+    },
+    {
+      "id": "301",
+      "title": "Basi del gioco di gambe",
+      "subtitle": "Prima ti muovi, poi colpisci.",
+      "category": "Tecnica",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Un buon gioco di gambe è la base del badminton. Torna al centro del campo dopo ogni colpo.\n\n• Split step: un piccolo saltello mentre l'avversario colpisce, per partire in ogni direzione.\n• Passo accostato (chassé): uno spostamento laterale per arrivare ai volani larghi senza incrociare i piedi.\n• Affondo: un passo profondo verso gli angoli anteriori. Tieni il ginocchio sopra il piede.\n\nAllenati con lo shadow verso tutti e sei gli angoli, senza volano."
+    },
+    {
+      "id": "302",
+      "title": "Il clear",
+      "subtitle": "Alto e profondo.",
+      "category": "Tecnica",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "Il clear manda il volano alto e profondo, verso il fondo del campo.\n\n• Clear d'attacco: più teso e veloce, mette pressione all'avversario.\n• Clear difensivo: una parabola alta che ti dà il tempo di recuperare.\n\nColpisci con il braccio ben disteso, sopra di te e un po' in avanti, e accompagna il colpo."
+    },
+    {
+      "id": "303",
+      "title": "Il drop",
+      "subtitle": "Morbido e vicino alla rete.",
+      "category": "Tecnica",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Un drop cade ripido appena oltre la rete e costringe l'avversario ad alzare.\n\n• Drop lento: cade vicino alla rete, richiede un tocco fine.\n• Drop veloce: più teso, più difficile da raggiungere, cade un po' più lontano.\n\nL'inganno è tutto: usa lo stesso movimento del clear fino all'ultimo momento."
+    },
+    {
+      "id": "304",
+      "title": "Lo smash",
+      "subtitle": "Il colpo che chiude.",
+      "category": "Tecnica",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "Lo smash si colpisce verso il basso, ripido, dal punto di impatto più alto.\n\n• Ruota il corpo, allungati verso l'alto, frusta il polso all'impatto e accompagna verso il basso.\n• Lo smash in salto aggiunge altezza e un angolo più ripido.\n\nSmashare dal fondo stanca: alternalo con drop e clear."
+    },
+    {
+      "id": "305",
+      "title": "Il gioco a rete",
+      "subtitle": "Conquista la parte anteriore del campo.",
+      "category": "Tecnica",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Buoni colpi a rete costringono ad alzare e ti regalano lo smash.\n\n• Kill a rete: quando il volano è sopra il nastro, spingilo giù per chiudere il punto.\n• Lift: quando sei in ritardo, mandalo alto sul fondo per riaprire lo scambio.\n• Net spin: un tocco morbido che rotola sopra il nastro ed è difficile da ribattere.\n\nResta leggero sui piedi e pronto a tornare indietro."
+    },
+    {
+      "id": "401",
+      "title": "Strategia di gioco",
+      "subtitle": "Gioca sull'altezza del volano.",
+      "category": "Tattica",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Fai alzare l'avversario: ogni alzata è un'occasione per attaccare. Tieni bassi i tuoi colpi.\n\n• Cerca il rovescio: quasi tutti sono più deboli sul rovescio in fondo al campo.\n\n• Cambia ritmo: alterna attacchi veloci e gioco lento a rete per spezzare il suo ritmo.\n\n• Risparmia energie: gli scambi lunghi sono normali. Chi gestisce meglio la fatica vince i set tirati."
+    },
+    {
+      "id": "402",
+      "title": "Tattica nel doppio",
+      "subtitle": "Avanti e dietro per attaccare, affiancati per difendere.",
+      "category": "Tattica",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Attaccate in formazione avanti e dietro: uno a rete, l'altro che schiaccia dal fondo.\n\n• Difendete affiancati: ognuno copre metà campo quando attaccano gli avversari.\n\n• Parlatevi: chiamate i volani corti e chi prende il centro. Nel dubbio, giocate al centro, in mezzo ai due."
+    }
+  ]
+}

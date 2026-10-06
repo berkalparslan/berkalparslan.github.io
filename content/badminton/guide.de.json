@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Punkte am Telefon zählen",
+      "subtitle": "Keine Uhr nötig.",
+      "category": "App-Anleitung",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Öffne Spiel, wähle Dieses Telefon und tippe auf Spiel auf Telefon starten.\n\n• Tippe auf die Seite, die den Ballwechsel gewonnen hat: oben in Rot der Gegner, unten in Grün du.\n\n• Einen falschen Ballwechsel nimmst du mit dem Pfeil in der Mitte zurück.\n\n• Tippe auf Vollbild für eine große Anzeige mit dem Telefon quer, eine Hälfte pro Seite. Mit Schließen kommst du zurück, das Spiel läuft weiter.\n\n• Der Bildschirm bleibt während des Spiels an. Schließt sich die App, ist das Spiel beim nächsten Öffnen noch da."
+    },
+    {
+      "id": "101",
+      "title": "Uhr und Telefon zusammen",
+      "subtitle": "Eins zählt, das andere schaut zu.",
+      "category": "App-Anleitung",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Starte auf der Uhr, und das Telefon zeigt live denselben Spielstand.\n\n• Es zählt immer nur ein Gerät, so wird kein Ballwechsel doppelt gezählt.\n\n• Zum Wechseln tippe auf dem iPhone auf Auf Telefon zählen oder auf der Uhr auf Hier zählen.\n\n• Bricht die Verbindung ab, geht nichts verloren: Der aktuelle Stand kommt an, sobald beide wieder verbunden sind.\n\n• Spiele auf der Uhr speichern ein Training in Apple Health mit Herzfrequenz, Kalorien und Strecke."
+    },
+    {
+      "id": "102",
+      "title": "Sprach-Schiedsrichter",
+      "subtitle": "Der Spielstand laut, vom Telefon.",
+      "category": "App-Anleitung",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Schalte in der Spielvorbereitung den Sprach-Schiedsrichter ein und wähle die Sprache.\n\n• Das Telefon sagt nach jedem Ballwechsel den Stand an, auch wenn die Uhr zählt. Für eine große Halle verbinde einen Bluetooth-Lautsprecher.\n\n• Zuerst der Stand des Aufschlägers: 15 12, 20 beide, Satz und Spiel.\n\n• Stand ansagen liest den aktuellen Stand vor, wann immer du willst."
+    },
+    {
+      "id": "103",
+      "title": "Wer schlägt auf, und von wo",
+      "subtitle": "Die App verfolgt das Aufschlagfeld.",
+      "category": "App-Anleitung",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Wähle den ersten Aufschläger in der Spielvorbereitung oder tippe auf den Würfel für eine faire Zufallswahl.\n\n• Während des Spiels zeigt die Anzeige, wer aufschlägt und aus welchem Feld: rechts bei gerader Punktzahl, links bei ungerader.\n\n• Im Doppel verfolgt die App die Rotation und zeigt den Namen des Aufschlägers, so muss sich niemand merken, wer wo steht."
+    },
+    {
+      "id": "104",
+      "title": "Freunde, Community und Ligen",
+      "subtitle": "Optional, mit Anmeldung über Apple oder Google.",
+      "category": "App-Anleitung",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Mit Freund bestätigen lassen bestätigt ein Freund dein Ergebnis: Sobald er annimmt, steht das Spiel in beiden Logbüchern, jeweils aus der eigenen Sicht.\n\n• Mit In Community teilen postest du ein Spiel: Füge eine Bildunterschrift hinzu und wähle, wer es sieht. Notizen und Gesundheitsdaten werden nie geteilt.\n\n• Ligen: Der Organisator (Pro) erstellt die Liga, lädt Spieler ein und legt die Spielpaarungen fest. Spieler treten kostenlos bei, spielen und senden das Ergebnis über den Spielbildschirm, mit den Punkten jedes Satzes. Beide Seiten bestätigen, der Organisator gibt frei, die Tabelle bewegt sich.\n\n• Zum Zählen brauchst du nie ein Konto."
+    },
+    {
+      "id": "201",
+      "title": "So funktioniert die Zählweise",
+      "subtitle": "Rallypoint bis 21.",
+      "category": "Regeln",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Rallypoint-Zählweise (BWF): Jeder Ballwechsel bringt einen Punkt, egal wer aufgeschlagen hat. Wer zuerst 21 erreicht, gewinnt den Satz, braucht aber 2 Punkte Vorsprung.\n\n• Bei 20-20 wird weitergespielt, bis jemand 2 Punkte vorn liegt.\n• Bei 29-29 entscheidet der nächste Punkt (30-29). Weiter wird nicht verlängert.\n• Ein Spiel geht über maximal 3 Sätze (oder 5). Wer zuerst 2 Sätze gewinnt, gewinnt das Spiel.\n\nSchnelles Format: Sätze bis 11, mit 2 Punkten Vorsprung, bei 14-14 entscheidet der nächste Punkt."
+    },
+    {
+      "id": "202",
+      "title": "Aufschlagregeln",
+      "subtitle": "Wann der Aufschlag wechselt.",
+      "category": "Regeln",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• Der Federball wird unterhalb der Taille des Aufschlägers getroffen.\n\n• Gewinnt der Aufschläger den Ballwechsel, punktet er und schlägt erneut auf. Gewinnt der Rückschläger, punktet er und bekommt den Aufschlag.\n\n• Der Aufschläger schlägt bei gerader Punktzahl aus dem rechten Feld auf, bei ungerader aus dem linken.\n\n• Der Gewinner eines Satzes schlägt im nächsten Satz zuerst auf.\n\n• Im Entscheidungssatz werden die Seiten gewechselt, wenn der Führende 11 erreicht."
+    },
+    {
+      "id": "203",
+      "title": "Einzel und Doppel",
+      "subtitle": "Andere Felder, andere Rotation.",
+      "category": "Regeln",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Einzel: Das Aufschlagfeld ist lang und schmal; der Ballwechsel läuft auf dem langen, schmalen Einzelfeld.\n\n• Doppel: Das Aufschlagfeld ist kurz und breit, der Ballwechsel nutzt das ganze Feld.\n\n• Aufschlag im Doppel: Jede Seite hat ein Aufschlagrecht. Der Aufschläger schlägt weiter auf, solange seine Seite Ballwechsel gewinnt, und tauscht nach jedem gewonnenen Punkt das Feld mit dem Partner. Gewinnen die Rückschläger einen Ballwechsel, bekommen sie den Aufschlag, und auf ihrer Seite bewegt sich niemand."
+    },
+    {
+      "id": "204",
+      "title": "Let und Fehler",
+      "subtitle": "Wiederholung oder Punktverlust.",
+      "category": "Regeln",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Ein Let wiederholt den Ballwechsel und niemand punktet, zum Beispiel nach einer unvorhergesehenen Störung.\n\nEin Fehler beendet den Ballwechsel und gibt den Punkt der anderen Seite. Häufige Fehler:\n• Der Ball landet außerhalb der Linien\n• Er geht durch das Netz oder darunter durch\n• Er berührt einen Spieler oder dessen Kleidung\n• Er wird zweimal getroffen\n• Der Aufschläger verfehlt den Ball\n• Die Füße des Aufschlägers bewegen sich beim Aufschlag"
+    },
+    {
+      "id": "301",
+      "title": "Grundlagen der Beinarbeit",
+      "subtitle": "Erst bewegen, dann schlagen.",
+      "category": "Technik",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Gute Beinarbeit ist die Basis im Badminton. Geh nach jedem Schlag zurück in die Mitte des Felds.\n\n• Split Step: ein kleiner Hüpfer, wenn der Gegner schlägt, damit du in jede Richtung starten kannst.\n• Chassé: ein Seitstellschritt, um weite Bälle zu erreichen, ohne die Füße zu kreuzen.\n• Ausfallschritt: ein tiefer Schritt in die vorderen Ecken. Halte das Knie über dem Fuß.\n\nÜbe Schattenlaufen in alle sechs Ecken, ohne Ball."
+    },
+    {
+      "id": "302",
+      "title": "Der Clear",
+      "subtitle": "Hoch und lang.",
+      "category": "Technik",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "Der Clear schickt den Ball hoch und lang bis ans hintere Feldende.\n\n• Angriffsclear: flacher und schneller, setzt den Gegner unter Druck.\n• Defensiver Clear: ein hoher Bogen, der dir Zeit zum Zurücklaufen gibt.\n\nTriff mit voll gestrecktem Arm, über dir und leicht vor dem Körper, und schwing durch."
+    },
+    {
+      "id": "303",
+      "title": "Der Drop",
+      "subtitle": "Weich und nah am Netz.",
+      "category": "Technik",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Ein Drop fällt steil knapp hinter das Netz und zwingt den Gegner, hoch zu spielen.\n\n• Langsamer Drop: landet nah am Netz, braucht viel Gefühl.\n• Schneller Drop: flacher, schwerer zu erreichen, landet etwas tiefer im Feld.\n\nTäuschung ist alles: Nutze bis zum letzten Moment dieselbe Bewegung wie beim Clear."
+    },
+    {
+      "id": "304",
+      "title": "Der Smash",
+      "subtitle": "Der Punktschlag.",
+      "category": "Technik",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "Der Smash wird vom höchsten Treffpunkt steil nach unten geschlagen.\n\n• Dreh den Körper, streck dich nach oben, lass beim Treffen das Handgelenk schnappen und schwing nach unten durch.\n• Der Sprungsmash bringt mehr Höhe und einen steileren Winkel.\n\nSmashen von hinten kostet Kraft: Mische ihn mit Drops und Clears."
+    },
+    {
+      "id": "305",
+      "title": "Netzspiel",
+      "subtitle": "Gewinne den vorderen Bereich.",
+      "category": "Technik",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Gute Netzbälle zwingen den Gegner zum Heben und bringen dir den Smash.\n\n• Netzkill: Ist der Ball über der Netzkante, drück ihn für den Punkt nach unten.\n• Lift: Bist du zu spät, spiel ihn hoch nach hinten und bau den Ballwechsel neu auf.\n• Gedrehter Netzball (Spin): eine weiche Berührung, die über die Netzkante trudelt und schwer zurückzuspielen ist.\n\nBleib leichtfüßig und bereit, nach hinten zu gehen."
+    },
+    {
+      "id": "401",
+      "title": "Spielstrategie",
+      "subtitle": "Spiel mit der Höhe des Balls.",
+      "category": "Taktik",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Bring den Gegner zum Heben: Jeder hohe Ball ist eine Angriffschance. Halte deine eigenen Schläge flach.\n\n• Such die Rückhand: Die meisten Spieler sind hinten auf der Rückhandseite schwächer.\n\n• Wechsle das Tempo: Mische schnelle Angriffe mit langsamem Netzspiel, um den Rhythmus zu brechen.\n\n• Spar Kraft: Lange Ballwechsel sind normal. Wer besser mit der Müdigkeit umgeht, gewinnt enge Sätze."
+    },
+    {
+      "id": "402",
+      "title": "Doppeltaktik",
+      "subtitle": "Vorne und hinten im Angriff, nebeneinander in der Abwehr.",
+      "category": "Taktik",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Greift vorne und hinten an: einer am Netz, einer smasht von hinten.\n\n• Verteidigt nebeneinander: Beim gegnerischen Angriff deckt jeder eine Feldhälfte ab.\n\n• Redet miteinander: Ruft kurze Bälle an und wer die Mitte nimmt. Im Zweifel spielt durch die Mitte, genau zwischen die beiden."
+    }
+  ]
+}

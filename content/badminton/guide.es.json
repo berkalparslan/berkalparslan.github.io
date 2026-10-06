@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Lleva el marcador en el teléfono",
+      "subtitle": "No hace falta reloj.",
+      "category": "Guía de la app",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Abre Partido, elige Este teléfono y toca Iniciar partido en el teléfono.\n\n• Toca el lado que ganó el punto: el rival está arriba en rojo, tú abajo en verde.\n\n• Un punto mal marcado se deshace con la flecha del centro.\n\n• Toca Pantalla completa para ver un marcador grande con el teléfono en horizontal, una mitad para cada lado. Salir te devuelve atrás mientras el partido sigue.\n\n• La pantalla se queda encendida durante el partido. Si la app se cierra, el partido sigue ahí al volver a abrirla."
+    },
+    {
+      "id": "101",
+      "title": "Reloj y teléfono juntos",
+      "subtitle": "Uno lleva el marcador, el otro lo sigue.",
+      "category": "Guía de la app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Empieza en el reloj y el teléfono muestra el mismo marcador en directo.\n\n• Solo un dispositivo lleva el marcador a la vez, así ningún punto se cuenta dos veces.\n\n• Para cambiar, toca Marcar en el teléfono en el iPhone, o Marcar aquí en el reloj.\n\n• Si se corta la conexión, no se pierde nada: el último marcador llega en cuanto los dos vuelven a conectarse.\n\n• Los partidos en el reloj guardan un entrenamiento en Apple Salud con frecuencia cardiaca, calorías y distancia."
+    },
+    {
+      "id": "102",
+      "title": "Árbitro por voz",
+      "subtitle": "El marcador en voz alta, desde el teléfono.",
+      "category": "Guía de la app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Activa Árbitro por voz en Preparación del partido y elige el idioma.\n\n• El teléfono canta el marcador después de cada punto, también cuando lo lleva el reloj. Conecta un altavoz Bluetooth para un pabellón grande.\n\n• Primero los puntos de quien saca: 15 12, 20 iguales, Juego y Partido.\n\n• Decir marcador lee el marcador actual cuando quieras."
+    },
+    {
+      "id": "103",
+      "title": "Quién saca y desde dónde",
+      "subtitle": "La app sigue el lado de saque.",
+      "category": "Guía de la app",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Elige quién saca primero en Preparación del partido, o toca el dado para un sorteo justo.\n\n• Durante el partido, el marcador muestra quién saca y desde qué lado: a la derecha con puntuación par, a la izquierda con impar.\n\n• En dobles, la app sigue la rotación y muestra el nombre de quien saca, así nadie tiene que recordar quién se pone dónde."
+    },
+    {
+      "id": "104",
+      "title": "Amigos, comunidad y ligas",
+      "subtitle": "Opcional, iniciando sesión con Apple o Google.",
+      "category": "Guía de la app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Pedir confirmación a un amigo: cuando acepte, el partido queda en los dos historiales, cada uno desde su lado.\n\n• Compartir en la comunidad desde un partido: añade un texto y elige quién lo ve. Las notas y los datos de salud nunca se comparten.\n\n• Ligas: el organizador (Pro) crea la liga, invita a los jugadores y fija el calendario. Los jugadores se unen gratis, juegan el partido y envían el resultado desde la pantalla del partido, con los puntos de cada juego. Ambos lados confirman, el organizador lo aprueba y la clasificación se mueve.\n\n• Para llevar el marcador nunca necesitas cuenta."
+    },
+    {
+      "id": "201",
+      "title": "Cómo se puntúa",
+      "subtitle": "Punto directo hasta 21.",
+      "category": "Reglas",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Sistema de punto directo (BWF): cada peloteo da un punto, saque quien saque. El primero en llegar a 21 gana el juego, pero con 2 puntos de ventaja.\n\n• Con 20-20 se sigue jugando hasta que alguien tenga 2 puntos de ventaja.\n• Con 29-29 gana el siguiente punto (30-29). No hay más prórroga.\n• Un partido es al mejor de 3 juegos (o de 5). Gana quien se lleve primero 2 juegos.\n\nFormato rápido: juegos a 11, con 2 de ventaja, y con 14-14 gana el siguiente punto."
+    },
+    {
+      "id": "202",
+      "title": "Reglas del saque",
+      "subtitle": "Cuándo cambia el saque.",
+      "category": "Reglas",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• El volante se golpea por debajo de la cintura de quien saca.\n\n• Si quien saca gana el peloteo, suma el punto y vuelve a sacar. Si gana quien resta, suma el punto y pasa a sacar.\n\n• Quien saca lo hace desde el lado derecho con puntuación par y desde el izquierdo con impar.\n\n• Quien gana un juego saca primero en el siguiente.\n\n• En el juego decisivo, los jugadores cambian de campo cuando quien va por delante llega a 11."
+    },
+    {
+      "id": "203",
+      "title": "Individual y dobles",
+      "subtitle": "Otras zonas, otra rotación.",
+      "category": "Reglas",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Individual: la zona de saque es larga y estrecha; el peloteo se juega en la pista de individual, larga y estrecha.\n\n• Dobles: la zona de saque es corta y ancha, y el peloteo usa toda la pista.\n\n• Saque en dobles: cada pareja tiene un solo turno de saque. Quien saca sigue sacando mientras su pareja gane peloteos, y cambia de lado con su compañero tras cada punto ganado. Cuando los que restan ganan un peloteo, pasan a sacar y nadie de ese lado se mueve."
+    },
+    {
+      "id": "204",
+      "title": "Let y falta",
+      "subtitle": "Se repite o se pierde el punto.",
+      "category": "Reglas",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Un let repite el peloteo y nadie suma, por ejemplo tras una interrupción imprevista.\n\nUna falta termina el peloteo y da el punto al otro lado. Faltas habituales:\n• El volante cae fuera de las líneas\n• Pasa a través o por debajo de la red\n• Toca a un jugador o su ropa\n• Se golpea dos veces\n• Quien saca falla el volante\n• Quien saca mueve los pies durante el saque"
+    },
+    {
+      "id": "301",
+      "title": "Juego de pies básico",
+      "subtitle": "Primero muévete, luego golpea.",
+      "category": "Técnica",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Un buen juego de pies es la base del bádminton. Vuelve al centro de la pista después de cada golpe.\n\n• Split step: un pequeño salto cuando el rival golpea, para poder salir hacia cualquier lado.\n• Chassé: un desplazamiento lateral para llegar a volantes abiertos sin cruzar los pies.\n• Zancada: un paso largo hacia las esquinas delanteras. Mantén la rodilla sobre el pie.\n\nPractica juego de pies en sombra hacia las seis esquinas, sin volante."
+    },
+    {
+      "id": "302",
+      "title": "El clear",
+      "subtitle": "Alto y profundo.",
+      "category": "Técnica",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "El clear manda el volante alto y profundo al fondo de la pista.\n\n• Clear de ataque: más plano y rápido, mete presión al rival.\n• Clear defensivo: una parábola alta que te da tiempo para recolocarte.\n\nGolpea con el brazo bien estirado, por encima y un poco por delante de ti, y acompaña el golpe."
+    },
+    {
+      "id": "303",
+      "title": "La dejada",
+      "subtitle": "Suave y pegada a la red.",
+      "category": "Técnica",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Una dejada cae en picado justo detrás de la red y obliga al rival a levantar.\n\n• Dejada lenta: cae pegada a la red, pide mucho tacto.\n• Dejada rápida: más plana, más difícil de alcanzar, cae un poco más lejos.\n\nEl engaño lo es todo: usa el mismo gesto que en el clear hasta el último momento."
+    },
+    {
+      "id": "304",
+      "title": "El remate",
+      "subtitle": "El golpe definitivo.",
+      "category": "Técnica",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "El remate se golpea hacia abajo, con mucho ángulo, desde el punto de contacto más alto.\n\n• Gira el cuerpo, estírate hacia arriba, suelta la muñeca al impactar y acompaña hacia abajo.\n• El remate en salto añade altura y un ángulo más cerrado.\n\nRematar desde el fondo cansa: combínalo con dejadas y clears."
+    },
+    {
+      "id": "305",
+      "title": "El juego de red",
+      "subtitle": "Domina la parte delantera.",
+      "category": "Técnica",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "Los buenos golpes de red obligan a levantar y te dejan el remate.\n\n• Kill en la red: cuando el volante está por encima de la cinta, empújalo hacia abajo para ganar el punto.\n• Lift: si llegas tarde, mándalo alto al fondo para reiniciar el peloteo.\n• Red con efecto: un toque suave que da vueltas sobre la cinta y cuesta devolver.\n\nMantente ligero de pies y listo para ir atrás."
+    },
+    {
+      "id": "401",
+      "title": "Estrategia de partido",
+      "subtitle": "Juega con la altura del volante.",
+      "category": "Táctica",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Haz que el rival levante: cada volante levantado es una ocasión de atacar. Mantén tus golpes bajos.\n\n• Busca el revés: la mayoría de jugadores son más débiles en el revés del fondo.\n\n• Cambia el ritmo: mezcla ataques rápidos con juego lento en la red para romper su ritmo.\n\n• Ahorra energía: los peloteos largos son normales. Quien gestiona mejor el cansancio gana los juegos ajustados."
+    },
+    {
+      "id": "402",
+      "title": "Táctica de dobles",
+      "subtitle": "Delante y detrás para atacar, en paralelo para defender.",
+      "category": "Táctica",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Ataca en formación delante y detrás: uno en la red, otro rematando desde el fondo.\n\n• Defiende en paralelo: cada uno cubre media pista cuando atacan los rivales.\n\n• Comunícate con tu compañero: avisa los volantes cortos y quién toma el centro. Si dudas, juega por el centro, entre los dos."
+    }
+  ]
+}

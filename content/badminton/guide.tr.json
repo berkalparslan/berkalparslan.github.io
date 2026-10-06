@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Telefonla skor tut",
+      "subtitle": "Saat gerekmez.",
+      "category": "Uygulama Rehberi",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Maç sekmesini aç, Bu telefon seçeneğini seç ve Maçı telefonda başlat düğmesine dokun.\n\n• Rallinin kazananı olan tarafa dokun: rakip üstte kırmızı, sen altta yeşilsin.\n\n• Yanlış girilen ralli ortadaki okla geri alınır.\n\n• Tam ekran düğmesine dokun: telefonu yan çevir, büyük tablonun bir yarısı sana, bir yarısı rakibe. Çık düğmesi seni geri getirir, maç devam eder.\n\n• Maç boyunca ekran açık kalır. Uygulama kapanırsa, yeniden açtığında maç seni bekler."
+    },
+    {
+      "id": "101",
+      "title": "Saat ve telefon birlikte",
+      "subtitle": "Biri skoru tutar, diğeri izler.",
+      "category": "Uygulama Rehberi",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Maçı saatte başlat, telefon aynı skoru canlı gösterir.\n\n• Skoru aynı anda tek cihaz tutar, böylece hiçbir ralli iki kez sayılmaz.\n\n• Değiştirmek için iPhone'da Skoru telefonda tut düğmesine, saatte Skoru burada tut düğmesine dokun.\n\n• Bağlantı koparsa hiçbir şey kaybolmaz: ikisi yeniden bağlanınca son skor hemen gelir.\n\n• Saatte oynanan maçlar Apple Sağlık'a nabız, kalori ve mesafeyle birlikte antrenman olarak kaydedilir."
+    },
+    {
+      "id": "102",
+      "title": "Sesli hakem",
+      "subtitle": "Skor yüksek sesle, telefondan.",
+      "category": "Uygulama Rehberi",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Maç hazırlığı ekranında Sesli hakem seçeneğini aç ve dili seç.\n\n• Telefon her ralliden sonra skoru okur, skoru saat tutarken de. Büyük bir salon için Bluetooth hoparlör bağla.\n\n• Önce servis atanın skoru: 15 12, 20 beraber, Oyun ve Maç.\n\n• Skoru söyle düğmesi, istediğin an güncel skoru okur."
+    },
+    {
+      "id": "103",
+      "title": "Servisi kim atar, nereden",
+      "subtitle": "Uygulama servis alanını takip eder.",
+      "category": "Uygulama Rehberi",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• İlk servisi atacak oyuncuyu Maç hazırlığı ekranında seç ya da adil bir kura için zara dokun.\n\n• Maç boyunca tablo servisi kimin, hangi alandan atacağını gösterir: skor çiftse sağdan, tekse soldan.\n\n• Çiftlerde uygulama dönüşü takip eder ve servisi atacak oyuncunun adını gösterir, kimsenin kimin nerede durduğunu hatırlaması gerekmez."
+    },
+    {
+      "id": "104",
+      "title": "Arkadaşlar, topluluk ve ligler",
+      "subtitle": "İsteğe bağlı, Apple ya da Google ile giriş.",
+      "category": "Uygulama Rehberi",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Arkadaşına onaylat ile bir sonucu onaylat: arkadaşın kabul edince maç ikinizin de defterine, herkesin kendi tarafından girer.\n\n• Bir maçta Toplulukta paylaş düğmesine dokun: bir açıklama ekle ve kimlerin göreceğini seç. Notlar ve sağlık verileri asla paylaşılmaz.\n\n• Ligler: organizatör (Pro) ligi kurar, oyuncuları davet eder ve fikstürü belirler. Oyuncular ücretsiz katılır, maçı oynar ve sonucu her oyunun sayılarıyla maç ekranından gönderir. İki taraf onaylar, organizatör kabul eder, puan tablosu güncellenir.\n\n• Skor tutmak için hiçbir zaman hesap gerekmez."
+    },
+    {
+      "id": "201",
+      "title": "Sayı sistemi nasıl işler",
+      "subtitle": "21'e kadar her ralli sayı.",
+      "category": "Kurallar",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Ralli sayı sistemi (BWF): servisi kim atmış olursa olsun her ralli bir sayı getirir. 21'e ilk ulaşan oyunu alır, ama 2 sayı fark şart.\n\n• 20-20'de biri 2 sayı öne geçene kadar oyun sürer.\n• 29-29'da sonraki sayıyı alan kazanır (30-29). Daha fazla uzama yok.\n• Maç 3 oyun üzerinden oynanır (ya da 5). 2 oyunu ilk alan kazanır.\n\nHızlı format: oyunlar 11'e kadar, 2 sayı fark şart, 14-14'te sonraki sayı kazanır."
+    },
+    {
+      "id": "202",
+      "title": "Servis kuralları",
+      "subtitle": "Servis ne zaman el değiştirir.",
+      "category": "Kurallar",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• Top, servis atanın belinin altından vurulur.\n\n• Servis atan ralliyi kazanırsa sayıyı alır ve yeniden servis atar. Karşılayan kazanırsa sayıyı alır ve servise geçer.\n\n• Servis atan, skoru çiftken sağ alandan, tekken sol alandan atar.\n\n• Bir oyunu kazanan, sonraki oyunda ilk servisi atar.\n\n• Belirleyici oyunda önde olan 11'e ulaşınca oyuncular taraf değiştirir."
+    },
+    {
+      "id": "203",
+      "title": "Tekler ve çiftler",
+      "subtitle": "Farklı servis alanı, farklı dönüş.",
+      "category": "Kurallar",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Tekler: servis alanı uzun ve dar; ralli uzun ve dar tekler sahasında oynanır.\n\n• Çiftler: servis alanı kısa ve geniş, ralli tüm sahada oynanır.\n\n• Çiftlerde servis: her tarafın tek bir servis sırası vardır. Servis atan, tarafı ralli kazandıkça servise devam eder ve kazanılan her sayıdan sonra partneriyle yer değiştirir. Karşılayanlar ralliyi kazanınca servise geçer ve o taraftan kimse yer değiştirmez."
+    },
+    {
+      "id": "204",
+      "title": "Let ve hata",
+      "subtitle": "Tekrar ya da kaybedilen sayı.",
+      "category": "Kurallar",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Let ralliyi tekrarlatır ve kimse sayı almaz, örneğin beklenmedik bir aksaklıktan sonra.\n\nHata ralliyi bitirir ve sayıyı karşı tarafa verir. Sık görülen hatalar:\n• Top çizgilerin dışına düşer\n• Filenin içinden ya da altından geçer\n• Bir oyuncuya ya da kıyafetine değer\n• İki kez vurulur\n• Servis atan topu ıskalar\n• Servis sırasında servis atanın ayakları oynar"
+    },
+    {
+      "id": "301",
+      "title": "Ayak hareketlerinin temeli",
+      "subtitle": "Önce hareket et, sonra vur.",
+      "category": "Teknik",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "İyi ayak hareketi badmintonun temelidir. Her vuruştan sonra sahanın ortasına dön.\n\n• Split step: rakip vururken küçük bir sıçrama, böylece her yöne çıkabilirsin.\n• Şase: ayaklarını çaprazlamadan geniş toplara ulaşmak için yana kayma adımı.\n• Hamle (lunge): ön köşelere derin bir adım. Dizini ayağının üstünde tut.\n\nTopsuz, altı köşeye gölge ayak çalışması yap."
+    },
+    {
+      "id": "302",
+      "title": "Clear",
+      "subtitle": "Yüksek ve derin.",
+      "category": "Teknik",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "Clear, topu yüksekten sahanın en arkasına gönderir.\n\n• Hücum clear: daha düz ve hızlı, rakibini baskı altına alır.\n• Savunma clear: toparlanmana zaman kazandıran yüksek bir kavis.\n\nKolun tam uzanmışken, başının üstünde ve biraz önünde vur, vuruşu tamamla."
+    },
+    {
+      "id": "303",
+      "title": "Dropshot",
+      "subtitle": "Yumuşak ve fileye yakın.",
+      "category": "Teknik",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Dropshot filenin hemen üstünden dik düşer ve rakibini topu kaldırmaya zorlar.\n\n• Yavaş drop: fileye yakın düşer, ince dokunuş ister.\n• Hızlı drop: daha düz, ulaşması daha zor, biraz daha geriye düşer.\n\nAsıl mesele gizlemek: son ana kadar clear ile aynı vuruş hareketini kullan."
+    },
+    {
+      "id": "304",
+      "title": "Smaç",
+      "subtitle": "Bitirici vuruş.",
+      "category": "Teknik",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "Smaç, en yüksek temas noktasından dik bir açıyla aşağı vurulur.\n\n• Gövdeni çevir, yukarı uzan, temas anında bileğini kırbaçla ve vuruşu aşağı doğru tamamla.\n• Sıçrayarak smaç daha fazla yükseklik ve daha dik bir açı katar.\n\nArkadan smaç atmak yorar: drop ve clear ile karıştır."
+    },
+    {
+      "id": "305",
+      "title": "File oyunu",
+      "subtitle": "Sahanın önünü kazan.",
+      "category": "Teknik",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "İyi file vuruşları rakibi topu kaldırmaya zorlar ve sana smaç fırsatı verir.\n\n• File kill: top file bandının üstündeyken aşağı bastır ve sayıyı al.\n• Lift: geç kaldığında topu yüksek ve arkaya gönder, ralliyi sıfırla.\n• Spinli file vuruşu: bandın üstünden yuvarlanarak geçen, karşılaması zor yumuşak bir dokunuş.\n\nAyaklarının üstünde hafif dur ve geriye çıkmaya hazır ol."
+    },
+    {
+      "id": "401",
+      "title": "Maç stratejisi",
+      "subtitle": "Topun yüksekliğiyle oyna.",
+      "category": "Taktik",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Rakibine top kaldırt: kaldırılan her top bir hücum fırsatıdır. Kendi vuruşlarını alçak tut.\n\n• Ters eli bul: çoğu oyuncu arkada ters el (backhand) tarafında daha zayıftır.\n\n• Tempoyu değiştir: ritmini bozmak için hızlı hücumları yavaş file oyunuyla karıştır.\n\n• Enerjini koru: uzun ralliler normaldir. Yorgunluğu daha iyi yöneten, çekişmeli oyunları kazanır."
+    },
+    {
+      "id": "402",
+      "title": "Çiftler taktiği",
+      "subtitle": "Hücumda önlü arkalı, savunmada yan yana.",
+      "category": "Taktik",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Önlü arkalı hücum et: biri filede, diğeri arkadan smaç atar.\n\n• Yan yana savun: rakipler hücum edince her biriniz sahanın yarısını karşılar.\n\n• Konuşun: kısa topları ve ortayı kimin alacağını söyleyin. Emin değilsen ikisinin arasına, ortaya vur."
+    }
+  ]
+}

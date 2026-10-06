@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Compter les points sur le téléphone",
+      "subtitle": "Pas besoin de montre.",
+      "category": "Guide de l'app",
+      "icon": "iphone",
+      "colorHex": "#FF3B30",
+      "content": "• Ouvrez Match, choisissez Ce téléphone et touchez Lancer le match sur le téléphone.\n\n• Touchez le côté qui a gagné l'échange : l'adversaire est en haut en rouge, vous êtes en bas en vert.\n\n• Un échange compté par erreur s'annule avec la flèche au milieu.\n\n• Touchez Plein écran pour un grand tableau avec le téléphone à l'horizontale, une moitié par côté. Quitter vous ramène en arrière pendant que le match continue.\n\n• L'écran reste allumé pendant le match. Si l'app se ferme, le match est toujours là quand vous la rouvrez."
+    },
+    {
+      "id": "101",
+      "title": "Montre et téléphone ensemble",
+      "subtitle": "L'un compte, l'autre suit.",
+      "category": "Guide de l'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Lancez le match sur la montre et le téléphone affiche le même score en direct.\n\n• Un seul appareil compte à la fois, donc aucun échange n'est compté deux fois.\n\n• Pour changer, touchez Score sur le téléphone sur l'iPhone, ou Score ici sur la montre.\n\n• Si la connexion coupe, rien n'est perdu : le dernier score arrive dès que les deux sont à nouveau reliés.\n\n• Les matchs sur la montre enregistrent un entraînement dans Apple Santé avec la fréquence cardiaque, les calories et la distance."
+    },
+    {
+      "id": "102",
+      "title": "Arbitre vocal",
+      "subtitle": "Le score à voix haute, depuis le téléphone.",
+      "category": "Guide de l'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Activez Arbitre vocal dans Préparation du match et choisissez la langue.\n\n• Le téléphone annonce le score après chaque échange, même quand c'est la montre qui compte. Connectez une enceinte Bluetooth pour une grande salle.\n\n• Le score du serveur d'abord : 15 12, 20 partout, Set et Match.\n\n• Annoncer le score lit le score actuel quand vous le voulez."
+    },
+    {
+      "id": "103",
+      "title": "Qui sert, et d'où",
+      "subtitle": "L'app suit la zone de service.",
+      "category": "Guide de l'app",
+      "icon": "arrow.up.right",
+      "colorHex": "#FFCC00",
+      "content": "• Choisissez le premier serveur dans Préparation du match, ou touchez le dé pour un tirage au sort équitable.\n\n• Pendant le match, le tableau indique qui sert et depuis quelle zone : à droite sur un score pair, à gauche sur un score impair.\n\n• En double, l'app suit la rotation et affiche le nom du serveur, pour que personne n'ait à se souvenir de qui se place où."
+    },
+    {
+      "id": "104",
+      "title": "Amis, communauté et ligues",
+      "subtitle": "Facultatif, avec connexion Apple ou Google.",
+      "category": "Guide de l'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Faire confirmer par un ami : dès qu'il accepte, le match apparaît dans vos deux carnets, chacun de son côté.\n\n• Partager avec la communauté depuis un match : ajoutez une légende et choisissez qui le voit. Les notes et les données de santé ne sont jamais partagées.\n\n• Ligues : l'organisateur (Pro) crée la ligue, invite les joueurs et fixe le calendrier. Les joueurs s'inscrivent gratuitement, jouent le match et envoient le résultat depuis l'écran du match, avec les points de chaque set. Les deux camps confirment, l'organisateur valide, le classement bouge.\n\n• Compter les points ne demande jamais de compte."
+    },
+    {
+      "id": "201",
+      "title": "Comment marche le comptage",
+      "subtitle": "Un point par échange, jusqu'à 21.",
+      "category": "Règles",
+      "icon": "figure.badminton",
+      "colorHex": "#34C759",
+      "content": "Comptage en points directs (BWF) : chaque échange rapporte un point, peu importe qui a servi. Le premier à 21 gagne le set, mais avec 2 points d'écart.\n\n• À 20-20, on continue jusqu'à ce qu'un joueur mène de 2 points.\n• À 29-29, le point suivant gagne (30-29). Pas de prolongation au-delà.\n• Un match se joue en 3 sets maximum (ou 5). Le premier à gagner 2 sets l'emporte.\n\nFormat rapide : sets en 11 points, 2 points d'écart, et à 14-14 le point suivant gagne."
+    },
+    {
+      "id": "202",
+      "title": "Règles du service",
+      "subtitle": "Quand le service change.",
+      "category": "Règles",
+      "icon": "bolt.fill",
+      "colorHex": "#FF9500",
+      "content": "• Le volant est frappé sous la taille du serveur.\n\n• Si le serveur gagne l'échange, il marque et sert à nouveau. Si le receveur gagne, il marque et prend le service.\n\n• Le serveur sert depuis la zone de droite quand son score est pair, et depuis la gauche quand il est impair.\n\n• Le gagnant d'un set sert en premier au set suivant.\n\n• Dans le set décisif, les joueurs changent de côté quand le premier atteint 11."
+    },
+    {
+      "id": "203",
+      "title": "Simple ou double",
+      "subtitle": "Zones différentes, rotation différente.",
+      "category": "Règles",
+      "icon": "person.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Simple : la zone de service est longue et étroite ; l'échange se joue sur le terrain de simple, long et étroit.\n\n• Double : la zone de service est courte et large, et l'échange utilise tout le terrain.\n\n• Service en double : chaque camp a un seul tour de service. Le serveur continue tant que son camp gagne les échanges, en changeant de zone avec son partenaire après chaque point gagné. Quand les receveurs gagnent un échange, ils prennent le service et personne ne bouge dans leur camp."
+    },
+    {
+      "id": "204",
+      "title": "Let et faute",
+      "subtitle": "Échange rejoué ou point perdu.",
+      "category": "Règles",
+      "icon": "exclamationmark.triangle.fill",
+      "colorHex": "#FF3B30",
+      "content": "Un let fait rejouer l'échange et personne ne marque, par exemple après une perturbation imprévue.\n\nUne faute termine l'échange et donne le point à l'autre camp. Fautes fréquentes :\n• Le volant tombe hors des lignes\n• Il passe à travers ou sous le filet\n• Il touche un joueur ou ses vêtements\n• Il est frappé deux fois\n• Le serveur rate le volant\n• Les pieds du serveur bougent pendant le service"
+    },
+    {
+      "id": "301",
+      "title": "Les bases du jeu de jambes",
+      "subtitle": "Bouger d'abord, frapper ensuite.",
+      "category": "Technique",
+      "icon": "figure.run",
+      "colorHex": "#30B0C7",
+      "content": "Un bon jeu de jambes est la base du badminton. Revenez au centre du terrain après chaque frappe.\n\n• Pas d'appel (split step) : un petit saut quand l'adversaire frappe, pour partir dans n'importe quelle direction.\n• Pas chassé : un déplacement latéral pour atteindre les volants écartés sans croiser les pieds.\n• Fente : un grand pas vers les coins avant. Gardez le genou au-dessus du pied.\n\nEntraînez-vous au shadow vers les six coins, sans volant."
+    },
+    {
+      "id": "302",
+      "title": "Le dégagement",
+      "subtitle": "Haut et long.",
+      "category": "Technique",
+      "icon": "arrow.up.forward",
+      "colorHex": "#007AFF",
+      "content": "Le dégagement envoie le volant haut et long, au fond du terrain.\n\n• Dégagement offensif : plus tendu et plus rapide, il met l'adversaire sous pression.\n• Dégagement défensif : une trajectoire haute qui vous laisse le temps de vous replacer.\n\nFrappez bras tendu, au-dessus et un peu devant vous, et accompagnez le geste."
+    },
+    {
+      "id": "303",
+      "title": "L'amorti",
+      "subtitle": "Doux et près du filet.",
+      "category": "Technique",
+      "icon": "arrow.down.forward",
+      "colorHex": "#AF52DE",
+      "content": "Un amorti plonge juste derrière le filet et oblige l'adversaire à relever.\n\n• Amorti lent : tombe près du filet, demande beaucoup de toucher.\n• Amorti rapide : plus tendu, plus dur à atteindre, tombe un peu plus loin.\n\nTout est dans la feinte : gardez le même geste que pour le dégagement jusqu'au dernier moment."
+    },
+    {
+      "id": "304",
+      "title": "Le smash",
+      "subtitle": "Le coup qui conclut.",
+      "category": "Technique",
+      "icon": "bolt.circle.fill",
+      "colorHex": "#FF2D55",
+      "content": "Le smash se frappe vers le bas, en piqué, depuis le point d'impact le plus haut.\n\n• Tournez le buste, allez chercher haut, cassez le poignet à l'impact et accompagnez vers le bas.\n• Le smash sauté ajoute de la hauteur et un angle plus plongeant.\n\nSmasher du fond fatigue : alternez avec des amortis et des dégagements."
+    },
+    {
+      "id": "305",
+      "title": "Le jeu au filet",
+      "subtitle": "Gagnez l'avant du terrain.",
+      "category": "Technique",
+      "icon": "circle.grid.cross.fill",
+      "colorHex": "#34C759",
+      "content": "De bons coups au filet forcent l'adversaire à relever et vous offrent le smash.\n\n• Kill au filet : quand le volant est au-dessus de la bande, poussez-le vers le bas pour gagner le point.\n• Lob : quand vous êtes en retard, envoyez-le haut au fond pour relancer l'échange.\n• Contre-amorti brossé : une touche douce qui roule par-dessus la bande et se renvoie difficilement.\n\nRestez léger sur vos appuis et prêt à reculer."
+    },
+    {
+      "id": "401",
+      "title": "Stratégie de match",
+      "subtitle": "Jouez sur la hauteur du volant.",
+      "category": "Tactique",
+      "icon": "brain.head.profile",
+      "colorHex": "#FF9500",
+      "content": "• Faites relever l'adversaire : chaque volant relevé est une occasion d'attaquer. Gardez vos propres frappes basses.\n\n• Cherchez le revers : la plupart des joueurs sont plus faibles côté revers, au fond du terrain.\n\n• Variez la vitesse : mélangez attaques rapides et jeu lent au filet pour casser son rythme.\n\n• Économisez-vous : les longs échanges sont normaux. Celui qui gère le mieux la fatigue gagne les sets serrés."
+    },
+    {
+      "id": "402",
+      "title": "Tactique en double",
+      "subtitle": "En avant-arrière pour attaquer, côte à côte pour défendre.",
+      "category": "Tactique",
+      "icon": "person.3.fill",
+      "colorHex": "#5856D6",
+      "content": "• Attaquez en avant-arrière : un joueur au filet, l'autre qui smashe du fond.\n\n• Défendez côte à côte : chacun couvre la moitié du terrain quand les adversaires attaquent.\n\n• Parlez-vous : annoncez les volants courts et qui prend le milieu. En cas de doute, jouez au milieu, entre les deux."
+    }
+  ]
+}
