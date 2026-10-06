@@ -26,7 +26,7 @@ h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:26px 0 10px}
 .muted{color:var(--soft);font-size:13px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;min-width:0}
 .card h2:first-child{margin-top:0}
-input,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
 select option{background:var(--card);color:var(--ink)}
 button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
 button:disabled{opacity:.5;cursor:default}
@@ -111,6 +111,20 @@ tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06e
 .demo{background:var(--warn);color:#1b1300;text-align:center;font-size:12px;font-weight:700;padding:5px}
 .links a{display:block;padding:6px 0}
 code{font:12px ui-monospace,Menlo,monospace}
+textarea{resize:vertical;min-height:72px;line-height:1.4}
+.field{margin:0 0 10px}.field label{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;color:var(--soft);margin:0 0 4px}
+.field label small{font-weight:600;font-variant-numeric:tabular-nums}.field label small.over{color:var(--rose)}
+.field.bad input,.field.bad textarea{border-color:var(--rose)}
+.lang{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--soft);margin:0 0 8px}
+.langs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}.langs>*{min-width:0}
+details.more{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}details.more summary{cursor:pointer;font-weight:700;font-size:14px}
+.langpick{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button.second{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.danger{background:var(--rose);color:#fff}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8;display:flex;align-items:center;justify-content:center;padding:16px}
+.overlay .card{max-width:460px;width:100%;margin:0;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.lbl{display:block;font-size:12px;font-weight:700;color:var(--soft);margin:0 0 6px}
 </style>
 </head>
 <body>
@@ -143,7 +157,8 @@ code{font:12px ui-monospace,Menlo,monospace}
     <a data-page="social">Sosyal</a>
     <a data-page="ga4">Analytics</a>
     <div class="navlabel">YÖNET</div>
-    <a class="off" title="Cloud Functions gerekiyor, o da Blaze planı istiyor">Bildirim gönder<small>Blaze planı gerekiyor</small></a>
+    <a data-page="push">Bildirim gönder</a>
+    <a data-page="sent">Gönderilenler</a>
     <a data-page="settings">Ayarlar</a>
     <div class="spacer"></div>
     <a id="themeBtn">Tema</a>
@@ -252,6 +267,53 @@ code{font:12px ui-monospace,Menlo,monospace}
       <div id="gaBody"></div>
     </section>
 
+    <section data-view="push" class="hidden">
+      <h1>Bildirim gönder</h1>
+      <p class="muted">Konuya gider, kişiye değil. Her uygulama ve dil için ayrı bir mesaj çıkar: dilin kendi metni o dildekilere, İngilizce metin kendi metni olmayan herkese. Önce <b>Doğrula</b>, sonra <b>Test cihazlarına</b>, en son <b>Herkese</b>. Uzun tire ve Türkçede "&#226;" kabul edilmiyor.</p>
+      <div id="pushState"></div>
+      <div class="grid2">
+        <div class="card"><h2>Bildirime izin veren</h2><p class="muted" style="margin-top:-6px">Telemetrideki <code>notif</code> alanı: izin verilmiş kurulum / bu alanı yazmış kurulum. Tüm zamanlar, uygulama filtresinden bağımsız.</p><div class="bars" id="pushNotif"></div></div>
+        <div class="card"><h2>Hedef</h2>
+          <span class="lbl">Uygulama</span>
+          <div class="chips" id="pushApps" style="margin-bottom:12px"></div>
+          <span class="lbl">Dokununca açılacak sekme</span>
+          <select id="pushTab">
+            <option value="">Uygulama (son kaldığı yer)</option>
+            <option value="logbook">Maç defteri</option>
+            <option value="setup">Maç kurulumu</option>
+            <option value="courts">Kortlar</option>
+            <option value="profile">Profil</option>
+            <option value="friends">Arkadaşlar</option>
+          </select>
+          <p class="muted" id="pushReach" style="margin-bottom:0"></p>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Metin</h2>
+        <div class="langs" id="pushMain"></div>
+        <details class="more" id="pushMore">
+          <summary>Başka diller <span class="muted" id="pushMoreN"></span></summary>
+          <p class="muted">Yalnız eklediğin diller ayrı mesaj alır; geri kalan her dil İngilizceyi görür. İngilizce dışında en fazla 4 dil: FCM koşulu beş konu alıyor, fazlası hem kendi dilini hem İngilizceyi alırdı.</p>
+          <div class="langpick" id="pushPick"></div>
+          <div class="langs" id="pushExtra"></div>
+        </details>
+        <div id="pushCheck"></div>
+        <div class="actions">
+          <button class="second" data-push="validate">Doğrula (kimseye gitmez)</button>
+          <button class="second" data-push="test">Test cihazlarına gönder</button>
+          <button data-push="all">Herkese gönder</button>
+        </div>
+        <p class="muted" style="margin-bottom:0">Test: yalnız <code>bs_test</code> konusuna tek mesaj (Türkçe metin varsa o, yoksa İngilizce); uygulama seçimi dikkate alınmaz.</p>
+      </div>
+      <div class="card hidden" id="pushResultCard"><h2>Sonuç</h2><div id="pushResult"></div></div>
+    </section>
+
+    <section data-view="sent" class="hidden">
+      <h1>Gönderilenler</h1>
+      <p class="muted">Panelden gönderilen bildirimler (doğrulamalar hariç), Firestore <code>pushes</code> koleksiyonundan. Satıra dokununca tüm metinler ve iş sonuçları açılır.</p>
+      <div class="tablewrap"><table><thead><tr><th>Zaman</th><th>Tür</th><th>Uygulama</th><th>Başlık</th><th>Diller</th><th>Sekme</th><th class="n">Başarılı</th></tr></thead><tbody id="sentRows"></tbody></table></div>
+    </section>
+
     <section data-view="settings" class="hidden">
       <h1>Ayarlar ve hakkında</h1>
       <div class="card">
@@ -261,7 +323,7 @@ code{font:12px ui-monospace,Menlo,monospace}
       </div>
       <div class="card">
         <h2>Bildirim gönder</h2>
-        <div class="note">Panelden bildirim için Cloud Functions (sendPush) gerekiyor, o da Blaze planı istiyor. Proje şu an ücretsiz planda; bu yüzden bu sayfa kapalı. Plan açılınca konular (<code>bs_all</code>, <code>bs_lang_xx</code>, <code>bs_test</code>) ve fonksiyon kurulur.</div>
+        <p class="muted">Gönderim Cloudflare Worker'dan geçer (<code>bam-sports-push</code>, kaynak <code>All Sport Apps/push-worker</code>): servis hesabı anahtarı orada durur, panel yalnız giriş kimliğini yollar. FCM HTTP v1 ücretsiz planda çalışır, Blaze gerekmez. Konular: <code>bs_all</code>, <code>bs_&lt;uygulama&gt;</code>, <code>bs_lang_xx</code>, <code>bs_test</code>.</p>
       </div>
       <div class="card links">
         <h2>Bağlantılar</h2>
@@ -287,6 +349,7 @@ code{font:12px ui-monospace,Menlo,monospace}
 </div>
 
 <div class="drawer hidden" id="drawer"></div>
+<div class="overlay hidden" id="confirmBox"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script type="module">
@@ -542,6 +605,10 @@ function go(page) {
   history.replaceState(null, "", location.pathname + location.search + "#" + page);
   if (page === "revenue") loadJourneys();
   if (page === "social") loadSocial();
+  // Bildirim kodu dosyanın sonunda tanımlı; ilk açılışta (adres #push ise) hazır olsun diye ertele.
+  if (page === "push") setTimeout(() => loadPushHealth(), 0);
+  if (page === "sent") setTimeout(() => loadPushes(), 0);
+  $("chips").classList.toggle("hidden", page === "push" || page === "sent");
   const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
   requestAnimationFrame(fit); setTimeout(fit, 120);
   window.scrollTo(0, 0);
@@ -572,10 +639,12 @@ function renderChips() {
 // ---------- Veri ----------
 async function refreshAll() {
   $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
-  evCache = {}; pwLoaded = false; social = null;
+  evCache = {}; pwLoaded = false; social = null; pushes = null;
   try { await loadData(true); } finally { $("refreshTop").disabled = false; }
   if (currentPage === "revenue") loadJourneys();
   if (currentPage === "social") loadSocial();
+  if (currentPage === "sent") loadPushes();
+  if (currentPage === "push") loadPushHealth(true);
 }
 const rangeFromKey = () => dayKey(Date.now() - (days - 1) * 864e5);
 async function loadData(withGa) {
@@ -630,7 +699,7 @@ function applyFilter() {
 function renderAll() {
   renderChips();
   if (!stats.length) return;
-  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderSocial, renderGA4, renderJourneys]) {
+  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderSocial, renderGA4, renderJourneys, renderPushStats, renderSent]) {
     try { f(); } catch (e) { console.error(f.name, e); }
   }
 }
@@ -1071,6 +1140,255 @@ function kohortTablo() {
     <p class="muted">Hücre: o haftanın yeni kullanıcılarından kaç kişi n hafta sonra açtı (günlük aktiflerin toplamı, kaba).</p>`;
 }
 
+// ---------- Bildirim ----------
+/* Gönderim Cloudflare Worker'dan geçer (All Sport Apps/push-worker): statik
+   sayfa servis hesabı anahtarını tutamaz, Worker tutar. Worker Firebase
+   kimliğini (doğrulanmış yönetici e-postası) kontrol edip FCM HTTP v1'e
+   basar; Blaze gerekmez. Her uygulama ve dil için ayrı koşullu mesaj. */
+const PUSH_URL = "https://bam-sports-push.kittapcom.workers.dev";
+const PUSH_TABS = { logbook: "Maç defteri", setup: "Maç kurulumu", courts: "Kortlar", profile: "Profil", friends: "Arkadaşlar" };
+const PUSH_LANGS = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", it: "İtalyanca", pt: "Portekizce", nl: "Felemenkçe",
+  ru: "Rusça", ja: "Japonca", ko: "Korece", zh: "Çince", ar: "Arapça", pl: "Lehçe", sv: "İsveççe", id: "Endonezce" };
+const EXTRA_LANGS = Object.keys(PUSH_LANGS).filter(l => l !== "tr" && l !== "en");
+const MAX_OTHER = 4, MAX_T = 50, MAX_B = 160;
+const PH = { tr: ["Yeni sezon başladı", "Maçını kaydet, istatistiğin defterde birikip dursun."], en: ["New season is on", "Log your next match and watch your stats grow in the logbook."] };
+let pushApps = [], pushExtra = [], pushHealth = null, pushBusy = false, pushes = null;
+
+function langBox(l, removable) {
+  const ph = PH[l] || ["", ""];
+  return `<div data-lang="${l}"><div class="lang">${esc(PUSH_LANGS[l].toLocaleUpperCase("tr-TR"))}${l === "en" ? " (ŞART)" : l === "tr" ? "" : ` <a style="cursor:pointer;font-weight:600;letter-spacing:0" data-rm="${l}">kaldır</a>`}</div>
+    <div class="field"><label for="pt_${l}">Başlık <small id="ptc_${l}">0/${MAX_T}</small></label><input id="pt_${l}" data-l="${l}" data-k="title" placeholder="${esc(ph[0])}"></div>
+    <div class="field"><label for="pb_${l}">Metin <small id="pbc_${l}">0/${MAX_B}</small></label><textarea id="pb_${l}" data-l="${l}" data-k="body" rows="3" placeholder="${esc(ph[1])}"></textarea></div></div>`;
+}
+function bindLangInputs(root) {
+  root.querySelectorAll("[data-l]").forEach(x => x.oninput = pushCheck);
+  root.querySelectorAll("[data-rm]").forEach(a => a.onclick = () => { pushExtra = pushExtra.filter(l => l !== a.dataset.rm); renderExtra(); });
+}
+function renderExtra() {
+  // Yazılmış metinleri koru: yeniden çizmeden önce oku, sonra geri koy.
+  const keep = {};
+  $("pushExtra").querySelectorAll("[data-l]").forEach(x => keep[x.id] = x.value);
+  $("pushPick").innerHTML = EXTRA_LANGS.map(l => `<button class="ghost${pushExtra.includes(l) ? " on" : ""}" data-pick="${l}">${esc(PUSH_LANGS[l])} <code>${l}</code></button>`).join("");
+  $("pushPick").querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
+    const l = b.dataset.pick;
+    pushExtra = pushExtra.includes(l) ? pushExtra.filter(x => x !== l) : [...pushExtra, l];
+    renderExtra();
+  });
+  $("pushExtra").innerHTML = pushExtra.map(l => langBox(l, true)).join("");
+  for (const [id, v] of Object.entries(keep)) if ($(id)) $(id).value = v;
+  $("pushMoreN").textContent = pushExtra.length ? `(${pushExtra.length} dil)` : "";
+  bindLangInputs($("pushExtra"));
+  pushCheck();
+}
+function renderPushApps() {
+  $("pushApps").innerHTML = [["all", "Tümü", "var(--ink)"], ...APP_KEYS.map(a => [a, APPS[a].ad, APPS[a].renk])]
+    .map(([k, ad, renk]) => `<button class="chip${(k === "all" ? !pushApps.length : pushApps.includes(k)) ? " on" : ""}" data-papp="${k}"><i style="background:${renk}"></i>${ad}</button>`).join("");
+  $("pushApps").querySelectorAll("[data-papp]").forEach(b => b.onclick = () => {
+    const k = b.dataset.papp;
+    if (k === "all") pushApps = [];
+    else pushApps = pushApps.includes(k) ? pushApps.filter(x => x !== k) : [...pushApps, k];
+    if (pushApps.length === APP_KEYS.length) pushApps = [];
+    renderPushApps(); pushCheck();
+  });
+}
+function initPushForm() {
+  $("pushMain").innerHTML = langBox("tr") + langBox("en");
+  bindLangInputs($("pushMain"));
+  $("pushTab").onchange = pushCheck;
+  renderPushApps(); renderExtra();
+  document.querySelectorAll("[data-push]").forEach(b => b.onclick = () => pushAsk(b.dataset.push));
+}
+const pushLangs = () => ["tr", "en", ...pushExtra];
+function readTexts() {
+  const texts = {};
+  for (const l of pushLangs()) {
+    const title = ($("pt_" + l)?.value || "").trim(), body = ($("pb_" + l)?.value || "").trim();
+    if (title || body) texts[l] = { title, body };
+  }
+  return texts;
+}
+/* Worker'ın kurallarının aynısı; yazarken gösterir, hatalıysa düğmeler kapalı. */
+function pushProblems() {
+  const out = [], texts = readTexts();
+  for (const l of pushLangs()) {
+    const t = $("pt_" + l), b = $("pb_" + l); if (!t) continue;
+    const tv = t.value.trim(), bv = b.value.trim();
+    $("ptc_" + l).textContent = `${tv.length}/${MAX_T}`; $("ptc_" + l).classList.toggle("over", tv.length > MAX_T);
+    $("pbc_" + l).textContent = `${bv.length}/${MAX_B}`; $("pbc_" + l).classList.toggle("over", bv.length > MAX_B);
+    const name = PUSH_LANGS[l];
+    const dash = s => /[\u2014\u2013]/.test(s), hat = s => l === "tr" && /\u00e2/i.test(s);
+    let badT = false, badB = false;
+    if (dash(tv) || dash(bv)) { out.push(`${name}: uzun tire var, kısa tire ya da virgül kullan.`); badT ||= dash(tv); badB ||= dash(bv); }
+    if (hat(tv) || hat(bv)) { out.push(`${name}: "\u00e2" var, "a" yaz.`); badT ||= hat(tv); badB ||= hat(bv); }
+    if (tv.length > MAX_T) { out.push(`${name}: başlık ${MAX_T} karakteri geçiyor.`); badT = true; }
+    if (bv.length > MAX_B) { out.push(`${name}: metin ${MAX_B} karakteri geçiyor.`); badB = true; }
+    if ((tv || bv) && !(tv && bv)) { out.push(`${name}: başlık ve metin birlikte yazılmalı.`); badT ||= !tv; badB ||= !bv; }
+    t.parentElement.classList.toggle("bad", badT); b.parentElement.classList.toggle("bad", badB);
+  }
+  if (!texts.en) out.push("İngilizce metin şart: kendi metni olmayan her dil onu görür.");
+  const other = Object.keys(texts).filter(l => l !== "en");
+  if (other.length > MAX_OTHER) out.push(`İngilizce dışında en fazla ${MAX_OTHER} dil yazılabilir (şu an ${other.length}).`);
+  return out;
+}
+function pushCheck() {
+  if (!$("pushCheck")) return;
+  const probs = pushProblems(), empty = !Object.keys(readTexts()).length;
+  const blocked = DEMO || pushBusy || probs.length > 0 || (pushHealth && !pushHealth.ready);
+  $("pushCheck").innerHTML = probs.length && !empty ? `<div class="note err">${probs.map(esc).join("<br>")}</div>` : "";
+  document.querySelectorAll("[data-push]").forEach(b => b.disabled = blocked);
+  renderReach();
+}
+function reachCount() {
+  const pool = allInstalls.filter(i => !pushApps.length || pushApps.includes(i.app));
+  return { on: pool.filter(i => i.notif === true).length, known: pool.filter(i => typeof i.notif === "boolean").length };
+}
+function targetText() {
+  return pushApps.length ? pushApps.map(appName).join(", ") : "beş uygulamanın hepsi";
+}
+function renderReach() {
+  if (!$("pushReach")) return;
+  const r = reachCount(), tab = $("pushTab").value;
+  $("pushReach").innerHTML = `Hedef: <b>${esc(targetText())}</b>. Bildirime izin veren yaklaşık <b>${fmt(r.on)}</b> kurulum${r.known ? ` (${fmt(r.known)} kurulumun izni biliniyor)` : ""}. Dokununca: ${esc(tab ? PUSH_TABS[tab] : "uygulama açılır")}.`;
+}
+function renderPushStats() {
+  if (!$("pushNotif")) return;
+  const rows = APP_KEYS.map(a => {
+    const l = allInstalls.filter(i => i.app === a), known = l.filter(i => typeof i.notif === "boolean").length, on = l.filter(i => i.notif === true).length;
+    return { label: appName(a), value: on, color: APPS[a].renk, sub: known ? `${fmt(on)} / ${fmt(known)} (%${pct(on, known)})` : "veri yok" };
+  });
+  const on = rows.reduce((t, r) => t + r.value, 0);
+  bars("pushNotif", rows);
+  $("pushNotif").insertAdjacentHTML("beforeend", `<p class="muted" style="margin:6px 0 0">Toplam <b>${fmt(on)}</b> kurulum bildirime izin vermiş. Alanı yazmayan eski sürümler sayılmaz.</p>`);
+  renderReach();
+}
+const SETUP_NOTE = `<div class="note"><b>Worker hazır ama FCM anahtarı kurulmamış.</b> Bir kez şunlar yapılınca gönderim açılır:
+  <ol style="margin:8px 0 0;padding-left:20px">
+    <li>Firebase Console (<code>bam-tech-sports</code>) &rarr; Proje ayarları &rarr; Hizmet hesapları &rarr; <b>Yeni özel anahtar oluştur</b> &rarr; JSON'u kaydet.</li>
+    <li>Terminalde: <code>cd ~/dev/"All Sport Apps"/push-worker &amp;&amp; npx wrangler secret put FCM_SA &lt; indirilen.json</code> (sonra JSON'u sil).</li>
+    <li>iOS için APNs anahtarı: Firebase Console &rarr; Proje ayarları &rarr; Cloud Messaging &rarr; beş iOS uygulamasının her birine <code>~/dev/p8/AuthKey_2972UYSCQ2.p8</code> yükle (Key ID <code>2972UYSCQ2</code>, Team ID <code>949JRVJB94</code>).</li>
+  </ol>
+  <p style="margin:8px 0 0"><a href="https://console.firebase.google.com/project/bam-tech-sports/settings/serviceaccounts/adminsdk" target="_blank" rel="noopener">Hizmet hesapları</a> · <a href="https://console.firebase.google.com/project/bam-tech-sports/settings/cloudmessaging" target="_blank" rel="noopener">Cloud Messaging</a> · kurduktan sonra <a style="cursor:pointer" id="healthAgain">yeniden kontrol et</a></p></div>`;
+async function loadPushHealth(force = false) {
+  if (DEMO) {
+    $("pushState").innerHTML = `<div class="note">Demo modunda gönderim kapalı: düğmeler çalışmaz, Worker'a ve Firestore'a hiçbir şey gitmez. Formu ve kontrolleri deneyebilirsin.</div>`;
+    pushCheck(); return;
+  }
+  if (pushHealth && !force && pushHealth.ready) return;
+  $("pushState").innerHTML = `<p class="muted">Worker kontrol ediliyor…</p>`;
+  try {
+    const r = await fetch(PUSH_URL + "/health", { cache: "no-store" });
+    pushHealth = await r.json();
+    $("pushState").innerHTML = pushHealth.ready ? `<div class="note okn">Worker hazır, FCM anahtarı kurulu.</div>` : SETUP_NOTE;
+  } catch (e) {
+    pushHealth = null;
+    $("pushState").innerHTML = `<div class="note err">Worker'a ulaşılamadı (${esc(e.message)}). <a style="cursor:pointer" id="healthAgain">Yeniden dene</a></div>`;
+  }
+  if ($("healthAgain")) $("healthAgain").onclick = () => loadPushHealth(true);
+  pushCheck();
+}
+function pushAsk(mode) {
+  if (DEMO || pushBusy || pushProblems().length) return;
+  if (mode !== "all") { pushSend(mode); return; }
+  const texts = readTexts(), langs = Object.keys(texts), tab = $("pushTab").value, r = reachCount();
+  const jobs = (pushApps.length || 1) * langs.length;
+  $("confirmBox").innerHTML = `<div class="card" role="dialog" aria-modal="true" aria-labelledby="cfT">
+    <h2 id="cfT">Herkese gönderilsin mi?</h2>
+    <div class="dl" style="margin-bottom:12px">
+      <div>Uygulama</div><div><b>${esc(targetText())}</b></div>
+      <div>Diller</div><div>${langs.map(l => esc(PUSH_LANGS[l])).join(", ")} (İngilizce geri kalan herkese)</div>
+      <div>Sekme</div><div>${esc(tab ? PUSH_TABS[tab] : "Uygulama açılır")}</div>
+      <div>Mesaj</div><div>${fmt(jobs)} ayrı FCM işi</div>
+      <div>Ulaşacak</div><div>yaklaşık ${fmt(r.on)} kurulum (izin veren)</div>
+      <div>Başlık</div><div>${esc((texts.tr || texts.en).title)}</div>
+    </div>
+    <p class="muted">Geri alınamaz; telefonlara hemen düşer.</p>
+    <div class="actions"><button class="second" id="cfNo">Vazgeç</button><button class="danger" id="cfYes">Evet, herkese gönder</button></div></div>`;
+  $("confirmBox").classList.remove("hidden");
+  const close = () => $("confirmBox").classList.add("hidden");
+  $("cfNo").onclick = close;
+  $("confirmBox").onclick = e => { if (e.target === $("confirmBox")) close(); };
+  $("cfYes").onclick = () => { close(); pushSend("all"); };
+  $("cfNo").focus();
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("confirmBox").classList.add("hidden"); });
+async function pushSend(mode) {
+  if (DEMO || !FB?.auth.currentUser) return;
+  const texts = readTexts(), tab = $("pushTab").value || null, apps = pushApps.slice();
+  const payload = { apps, texts, tab, test: mode === "test", validate: mode === "validate" };
+  const label = { validate: "Doğrulama", test: "Test gönderimi", all: "Herkese gönderim" }[mode];
+  pushBusy = true; pushCheck();
+  $("pushResultCard").classList.remove("hidden");
+  $("pushResult").innerHTML = `<p class="muted">${label} yapılıyor…</p>`;
+  try {
+    const token = await FB.auth.currentUser.getIdToken();
+    const r = await fetch(PUSH_URL + "/push", { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const out = await r.json().catch(() => ({}));
+    if (!r.ok || out.error) throw new Error(out.error === "forbidden" ? "Worker yetki vermedi (yönetici e-postası doğrulanmış olmalı)" : out.error || `HTTP ${r.status}`);
+    const results = out.results || [], fail = results.filter(x => !x.ok).length;
+    let saved = "";
+    if (!out.validate) {
+      try {
+        const { db, F } = FB;
+        await F.addDoc(F.collection(db, "pushes"), { at: F.serverTimestamp(), apps, texts, tab, test: !!out.test, pid: out.pid || null, sent: out.sent || 0,
+          results: results.map(x => ({ app: x.app, lang: x.lang, condition: x.condition || "", ok: !!x.ok, id: x.id || null, error: x.error || null })), by: FB.auth.currentUser.email });
+        pushes = null; saved = " Gönderilenler listesine yazıldı.";
+      } catch (e) { saved = ` Kayıt yazılamadı: ${esc(e.code || e.message)}.`; }
+    }
+    const head = out.validate ? `${fmt(results.length - fail)} / ${fmt(results.length)} iş FCM'den geçti, kimseye gönderilmedi.` : `${fmt(out.sent)} / ${fmt(results.length)} iş gönderildi (kimlik <code>${esc(out.pid)}</code>).`;
+    $("pushResult").innerHTML = `<div class="note ${fail ? "err" : "okn"}"><b>${label}:</b> ${head}${saved}</div>${resultTable(results, out.validate)}`;
+  } catch (e) {
+    $("pushResult").innerHTML = `<div class="note err"><b>${label} olmadı:</b> ${esc(e.message)}</div>`;
+  } finally { pushBusy = false; pushCheck(); }
+}
+function resultTable(results, validate) {
+  if (!results?.length) return "";
+  const who = a => APPS[a] ? appTag(a) : a === "all" ? "Hepsi (bs_all)" : a === "test" ? "Test (bs_test)" : esc(a);
+  return `<div class="tablewrap"><table><thead><tr><th>Uygulama</th><th>Dil</th><th>Sonuç</th><th>Ayrıntı</th></tr></thead><tbody>${results.map(x => `<tr>
+    <td>${who(x.app)}</td><td>${esc(PUSH_LANGS[x.lang] || x.lang)}</td>
+    <td>${x.ok ? `<span class="pill ok">${validate ? "geçerli" : "gönderildi"}</span>` : `<span class="pill no" style="color:var(--rose)">hata</span>`}</td>
+    <td style="white-space:normal" class="muted">${x.ok ? `<code>${esc(String(x.id || "").split("/").pop())}</code>` : esc(x.error)}<br><code style="font-size:11px">${esc(x.condition)}</code></td></tr>`).join("")}</tbody></table></div>`;
+}
+
+// ---------- Gönderilenler ----------
+async function loadPushes() {
+  if (pushes) return;
+  pushes = { loading: true }; renderSent();
+  if (DEMO) { pushes = { list: demo.pushes }; renderSent(); return; }
+  try {
+    const { db, F } = FB;
+    const snap = await F.getDocs(F.query(F.collection(db, "pushes"), F.orderBy("at", "desc"), F.limit(200)));
+    pushes = { list: snap.docs.map(d => ({ id: d.id, ...d.data() })) };
+  } catch (e) { pushes = { err: e.code || e.message }; }
+  renderSent();
+}
+function renderSent() {
+  if (!$("sentRows") || !pushes) return;
+  if (pushes.loading) { $("sentRows").innerHTML = `<tr><td colspan="7" class="muted">Yükleniyor…</td></tr>`; return; }
+  if (pushes.err) { $("sentRows").innerHTML = `<tr><td colspan="7" class="muted">Okunamadı: ${esc(pushes.err)}</td></tr>`; return; }
+  const list = pushes.list || [];
+  $("sentRows").innerHTML = list.length ? list.map((p, n) => {
+    const t = p.texts?.tr || p.texts?.en || {}, total = (p.results || []).length;
+    return `<tr class="click" data-sent="${n}"><td>${dtS(p.at)}</td><td>${p.test ? '<span class="pill sky">Test</span>' : '<span class="pill pro">Herkes</span>'}</td>
+      <td>${p.test ? '<span class="muted">bs_test</span>' : (p.apps?.length ? p.apps.map(appTag).join(" ") : "Hepsi")}</td>
+      <td style="white-space:normal;min-width:180px">${esc(t.title)}</td><td>${Object.keys(p.texts || {}).join(", ")}</td><td>${esc(p.tab ? PUSH_TABS[p.tab] || p.tab : "-")}</td>
+      <td class="n">${fmt(p.sent)} / ${fmt(total)}</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="muted">Henüz panelden bildirim gönderilmedi.</td></tr>`;
+  document.querySelectorAll("#sentRows tr[data-sent]").forEach(tr => tr.onclick = () => openSent(list[+tr.dataset.sent]));
+}
+function openSent(p) {
+  const d = $("drawer");
+  d.innerHTML = `<p style="margin:0 0 10px"><button class="ghost" id="dClose">Kapat</button></p>
+    <h2 style="margin-top:0">${esc((p.texts?.tr || p.texts?.en || {}).title || "Bildirim")}</h2>
+    <div class="dl"><div>Zaman</div><div>${dtS(p.at)}</div><div>Tür</div><div>${p.test ? "Test cihazları" : "Herkes"}</div>
+      <div>Uygulama</div><div>${p.apps?.length ? p.apps.map(appTag).join(" ") : "Hepsi"}</div><div>Sekme</div><div>${esc(p.tab ? PUSH_TABS[p.tab] || p.tab : "-")}</div>
+      <div>Kimlik</div><div><code>${esc(p.pid || "-")}</code></div><div>Gönderen</div><div>${esc(p.by || "-")}</div></div>
+    <h2>Metinler</h2>${Object.entries(p.texts || {}).map(([l, t]) => `<div class="card" style="margin:6px 0"><div class="lang">${esc((PUSH_LANGS[l] || l).toLocaleUpperCase("tr-TR"))}</div><b>${esc(t.title)}</b><div>${esc(t.body)}</div></div>`).join("")}
+    <h2>İşler</h2>${resultTable(p.results, false)}`;
+  d.classList.remove("hidden");
+  $("dClose").onclick = () => d.classList.add("hidden");
+}
+initPushForm();
+
 // ---------- Demo verisi (Firestore'a hiç dokunmaz) ----------
 let demo = null;
 function makeDemo() {
@@ -1143,12 +1461,26 @@ function makeDemo() {
     if (online) {
       t = now - rnd() * 100e3; inst.lastSeen = new Date(t); inst.screen = rnd() < .2 ? "paywall" : pick(SCR);
     } else { inst.lastSeen = new Date(Math.min(t, now - 5 * 6e4)); inst.screen = "closed"; inst.lastScreen = lastScreen; }
+    inst.notif = n % 9 === 4 ? undefined : (n * 7 + Math.floor(n / 10)) % 10 < 6;
+    if (inst.notif === undefined) delete inst.notif;
     inst.n_matches = inst.matches_completed + (rnd() < .3 ? r(0, 40) : 0);
     inst.n_opponents = inst.n_matches ? r(1, Math.min(12, inst.n_matches + 1)) : 0;
     events[id] = evs.sort((a, b) => b.t - a.t);
     list.push(inst);
   }
-  demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick),
+  const okRes = (app, lang) => ({ app, lang, condition: `'bs_${app}' in topics`, ok: true, id: "projects/bam-tech-sports/messages/" + Math.floor(rnd() * 1e15), error: null });
+  const demoPushes = [
+    { at: new Date(now - 2 * 864e5), apps: [], tab: "logbook", test: false, pid: "a1b2c3d4", sent: 2, by: ADMIN,
+      texts: { tr: { title: "Hafta sonu maç var mı?", body: "Maçını saatten tut, skor ve süre deftere kendiliğinden yazılsın." }, en: { title: "Playing this weekend?", body: "Keep score on your watch and the logbook fills itself." } },
+      results: [{ ...okRes("all", "tr"), condition: "'bs_all' in topics && 'bs_lang_tr' in topics" }, okRes("all", "en")] },
+    { at: new Date(now - 2 * 864e5 - 30 * 6e4), apps: [], tab: "logbook", test: true, pid: "9f8e7d6c", sent: 1, by: ADMIN,
+      texts: { tr: { title: "Hafta sonu maç var mı?", body: "Maçını saatten tut, skor ve süre deftere kendiliğinden yazılsın." }, en: { title: "Playing this weekend?", body: "Keep score on your watch and the logbook fills itself." } },
+      results: [{ ...okRes("test", "tr"), condition: "'bs_test' in topics" }] },
+    { at: new Date(now - 9 * 864e5), apps: ["pickleball"], tab: "courts", test: false, pid: "5e4d3c2b", sent: 1, by: ADMIN,
+      texts: { en: { title: "Find a court near you", body: "The courts map now shows pickleball courts around you." } },
+      results: [okRes("pickleball", "en")] },
+  ];
+  demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick), pushes: demoPushes,
     social: { users: { n: 31 }, handles: { n: 29 }, follows: { n: 74 }, leagues: { n: 6 }, matches: { err: "Kurallar yöneticinin listelemesine izin vermiyor (yalnız oyuncular okur)." } } };
 }
 function fakeGA4(rnd, pick) {
