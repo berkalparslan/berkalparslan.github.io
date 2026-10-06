@@ -125,6 +125,83 @@ button.danger{background:var(--rose);color:#fff}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:8;display:flex;align-items:center;justify-content:center;padding:16px}
 .overlay .card{max-width:460px;width:100%;margin:0;box-shadow:0 20px 50px rgba(0,0,0,.3)}
 .lbl{display:block;font-size:12px;font-weight:700;color:var(--soft);margin:0 0 6px}
+.pill.err{background:color-mix(in srgb,var(--rose) 16%,transparent);color:var(--rose)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+/* Bildirim sayfası */
+.pushgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"who side" "text side" "send side" "res side" "stats side";gap:0 16px;align-items:start}
+.pushgrid>*{min-width:0}.pg-who{grid-area:who}.pg-text{grid-area:text}.pg-send{grid-area:send}.pg-res{grid-area:res}.pg-stats{grid-area:stats}
+.pg-side{grid-area:side;position:sticky;top:64px;align-self:start;max-height:calc(100vh - 76px);overflow:auto;scrollbar-width:thin}
+@media(max-width:1060px){.pushgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"who" "text" "side" "send" "res" "stats"}.pg-side{position:static;max-height:none;overflow:visible}}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.mode{text-align:left;background:transparent;color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600}
+.mode b{display:block;font-size:15px}.mode span{display:block;color:var(--soft);font-size:12px;font-weight:500;margin-top:2px;line-height:1.35}
+.mode.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);box-shadow:inset 0 0 0 1px var(--accent)}
+@media(max-width:420px){.modes{grid-template-columns:1fr}}
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:12px;background:color-mix(in srgb,var(--soft) 13%,transparent)}
+.seg button{background:transparent;color:var(--soft);padding:6px 12px;border-radius:9px;font-size:13px;font-weight:600}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.frow{display:flex;flex-wrap:wrap;gap:14px 22px;margin:0 0 14px}.frow>div{min-width:0}
+.inline-n{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--soft);margin-left:6px}
+.inline-n input{width:64px;padding:5px 8px;text-align:center}
+.audbox{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.audbox .big{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.audbox .big small{font-size:14px;font-weight:600;color:var(--soft);margin-left:4px}
+.audbox .row{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--soft);margin-top:6px}
+.audbox.warnbox{background:color-mix(in srgb,var(--warn) 10%,transparent);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.picker{position:relative}
+.picklist{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.2);z-index:5;max-height:300px;overflow:auto}
+.picklist button{display:flex;width:100%;gap:8px;align-items:center;justify-content:space-between;background:transparent;color:var(--ink);border-radius:0;padding:9px 12px;font-weight:500;font-size:13px;text-align:left;border-bottom:1px solid var(--line)}
+.picklist button:hover,.picklist button:focus{background:color-mix(in srgb,var(--accent) 10%,transparent);outline:0}
+.picklist .muted{font-size:12px}
+.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 10px;font-size:13px;margin:6px 6px 0 0;background:var(--card)}
+.tag button{background:transparent;color:var(--soft);padding:0 6px;font-size:15px;line-height:1}
+.emojis{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 10px}
+.emojis button{background:transparent;border:1px solid var(--line);padding:3px 7px;font-size:16px;border-radius:9px;line-height:1.2}
+.emojis button:hover{border-color:var(--accent)}
+/* iPhone kilit ekranı önizlemesi */
+.phone{position:relative;width:100%;max-width:300px;aspect-ratio:300/560;margin:0 auto;border-radius:44px;padding:10px;background:#111;box-shadow:0 0 0 2px #2a2a2a,0 18px 40px rgba(0,0,0,.35)}
+.screen{position:relative;height:100%;border-radius:35px;overflow:hidden;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+.screen .wall{position:absolute;inset:0}
+.screen .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;border-radius:20px;background:#000;z-index:2}
+.screen .lock{position:relative;z-index:1;text-align:center;padding-top:44px;text-shadow:0 1px 8px rgba(0,0,0,.18)}
+.screen .lock .d{font-size:14px;font-weight:600;opacity:.92}
+.screen .lock .t{font-size:70px;font-weight:700;line-height:1;letter-spacing:-1px;margin-top:2px;font-variant-numeric:tabular-nums}
+.noti{position:absolute;z-index:1;left:9px;right:9px;bottom:84px;display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:20px;background:rgba(245,245,245,.72);-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%);color:#111;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+.noti img{width:36px;height:36px;border-radius:8px;flex:none;background:#ddd}
+.noti .tx{min-width:0;flex:1;font-size:13.5px;line-height:1.28}
+.noti .hd{display:flex;gap:6px;align-items:baseline;font-size:12px;color:rgba(0,0,0,.5);margin-bottom:1px}
+.noti .hd span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.noti .ti{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.noti .bd{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.noti .ph{color:rgba(0,0,0,.35)}
+.screen .bottom{position:absolute;z-index:1;bottom:22px;left:28px;right:28px;display:flex;justify-content:space-between}
+.screen .bottom i{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.screen .bar{position:absolute;z-index:1;bottom:8px;left:50%;transform:translateX(-50%);width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.9)}
+.prevtools{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px}
+.appicons{display:flex;gap:5px}
+.appicons button{padding:0;background:transparent;border-radius:9px;border:2px solid transparent;line-height:0}
+.appicons button.on{border-color:var(--accent)}
+.appicons img{width:26px;height:26px;border-radius:7px}
+.tpl{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.tpl:last-child{border-bottom:0}
+.tpl div{flex:1;min-width:0}.tpl b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tpl small{display:block;color:var(--soft);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.progress{height:10px;border-radius:999px;background:color-mix(in srgb,var(--soft) 16%,transparent);overflow:hidden;margin:8px 0}
+.progress div{height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:calc(100% - 32px)}
+.who b{font-weight:700}.who small{display:block;color:var(--soft);font-size:11px;font-weight:500}
+.who{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.who i{width:9px;height:9px;border-radius:50%;flex:none}
+.badges{display:inline-flex;gap:4px;flex-wrap:nowrap;align-items:center}
+.minitabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.linkchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px;cursor:pointer;background:transparent;color:var(--ink);font-weight:600}
+.linkchip:hover{border-color:var(--accent)}
+.linkchip i{width:7px;height:7px;border-radius:50%}
+td.wrap{white-space:normal;min-width:140px;max-width:280px}
+.tbtn{padding:5px 10px;font-size:12px}
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sec-h h2{margin-bottom:10px}
+@media(max-width:480px){.overlay .dl{grid-template-columns:1fr!important;gap:2px}.overlay .dl>div:nth-child(odd){margin-top:8px;font-size:12px}.overlay{align-items:flex-end;padding:8px}.overlay .card{max-height:calc(100vh - 16px)!important}}
 </style>
 </head>
 <body>
@@ -148,21 +225,21 @@ button.danger{background:var(--rose);color:#fff}
   <aside>
     <div class="brand"><img src="/assets/lab-icons/bam-sports-180.png" alt="" onerror="this.remove()">Bam Sports</div>
     <div class="navlabel">ANALİZ</div>
-    <a data-page="overview" class="on">Genel bakış</a>
-    <a data-page="live">Canlı</a>
-    <a data-page="screens">Ekranlar</a>
-    <a data-page="revenue">Paywall ve satın alma</a>
-    <a data-page="engage">Kullanım</a>
-    <a data-page="users">Kullanıcılar</a>
-    <a data-page="social">Sosyal</a>
-    <a data-page="ga4">Analytics</a>
+    <a href="#overview" data-page="overview" class="on">Genel bakış</a>
+    <a href="#live" data-page="live">Canlı</a>
+    <a href="#screens" data-page="screens">Ekranlar</a>
+    <a href="#revenue" data-page="revenue">Paywall ve satın alma</a>
+    <a href="#engage" data-page="engage">Kullanım</a>
+    <a href="#users" data-page="users">Kullanıcılar</a>
+    <a href="#social" data-page="social">Sosyal</a>
+    <a href="#ga4" data-page="ga4">Analytics</a>
     <div class="navlabel">YÖNET</div>
-    <a data-page="push">Bildirim gönder</a>
-    <a data-page="sent">Gönderilenler</a>
-    <a data-page="settings">Ayarlar</a>
+    <a href="#push" data-page="push">Bildirim gönder</a>
+    <a href="#sent" data-page="sent">Gönderilenler</a>
+    <a href="#settings" data-page="settings">Ayarlar</a>
     <div class="spacer"></div>
-    <a id="themeBtn">Tema</a>
-    <a id="signout">Çıkış</a>
+    <a href="#" id="themeBtn" role="button">Tema</a>
+    <a href="#" id="signout" role="button">Çıkış</a>
   </aside>
   <main>
     <div class="topbar">
@@ -240,24 +317,33 @@ button.danger{background:var(--rose);color:#fff}
 
     <section data-view="users" class="hidden">
       <h1>Kullanıcılar</h1>
-      <p class="muted">Her satır bir uygulamanın bir kurulumu. Kimlik anonim. Sütun başlığına dokununca sıralanır, satıra dokununca ayrıntı ve zaman çizelgesi açılır.</p>
+      <p class="muted">Her satır bir uygulamanın bir kurulumu. Giriş yapanların kullanıcı adı ve adı sosyal profilden (<code>users</code>) gelir; girişsiz kurulum anonimdir. Sütun başlığına dokununca sıralanır, satıra dokununca ayrıntı, sosyal profil ve zaman çizelgesi açılır.</p>
       <div class="toolbar">
-        <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz">
-        <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="pro">Pass</option><option value="free">Pass olmayan</option><option value="watch">Saat eşli</option><option value="signed">Giriş yapmış</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="new">Dönemde kurulan</option></select>
+        <input id="uSearch" type="search" placeholder="Ara: @kullanıcı adı, ad, kurulum kimliği, cihaz, bölge">
+        <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="pro">Pass</option><option value="free">Pass olmayan</option><option value="signed">Giriş yapmış</option><option value="handle">Kullanıcı adı olan</option><option value="notif">Bildirim açık</option><option value="reach">Bildirim adresi olan</option><option value="watch">Saat eşli</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="new">Dönemde kurulan</option></select>
+        <select id="uSortSel" aria-label="Sırala"><option value="lastSeen">Son görülme</option><option value="firstSeen">İlk görülme</option><option value="who">Kullanıcı adı</option><option value="sessions">Oturum</option><option value="time">Toplam süre</option><option value="matches_completed">Biten maç</option><option value="n_matches">Defterde maç</option></select>
         <span class="muted" id="uCount"></span>
       </div>
+      <div id="uSocialNote"></div>
       <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
     </section>
 
     <section data-view="social" class="hidden">
       <h1>Sosyal</h1>
-      <p class="muted">Apple ya da Google ile giriş, arkadaşlık, paylaşılan maç sonuçları ve ligler. Belge sayıları Firestore'dan anlık sayılır (içerik okunmaz); olaylar telemetriden.</p>
+      <p class="muted">Apple ya da Google ile giriş, takip, paylaşılan maç sonuçları ve ligler. Listeler Firestore'dan (<code>users</code>, <code>follows</code>, <code>leagues</code>, <code>matches</code>) okunur; olay sayıları telemetriden. Kurulum çipine dokununca o kurulumun ayrıntısı açılır.</p>
       <div class="kpis" id="soKpis"></div>
+      <div id="soErr"></div>
+      <div class="card">
+        <div class="sec-h"><h2 id="soListTitle">Kullanıcılar</h2>
+          <div class="seg" id="soTabs"><button data-so="users" class="on">Kullanıcılar</button><button data-so="leagues">Ligler</button><button data-so="matches">Paylaşılan maçlar</button></div></div>
+        <div class="toolbar" style="margin-top:0"><input id="soSearch" type="search" placeholder="Ara: @kullanıcı adı, ad, lig adı, davet kodu"><span class="muted" id="soCount"></span></div>
+        <div class="tablewrap"><table><thead id="soHead"></thead><tbody id="soRows"></tbody></table></div>
+      </div>
       <div class="grid2">
-        <div class="card"><h2>Firestore belgeleri</h2><div class="tablewrap"><table><thead><tr><th>Koleksiyon</th><th class="n">Belge</th><th>Not</th></tr></thead><tbody id="soDocs"></tbody></table></div></div>
         <div class="card"><h2>Giriş yöntemi (dönem)</h2><div class="bars" id="soSignin"></div><h2>Sosyal işlemler (dönem)</h2><div class="bars" id="soActions"></div></div>
         <div class="card"><h2>Giriş yapmış kurulum, uygulamaya göre</h2><div class="bars" id="soByApp"></div></div>
         <div class="card"><h2>Arkadaşlar ve lig ekranı</h2><div class="dl" id="soScreens"></div></div>
+        <div class="card"><h2>Firestore belgeleri</h2><div class="tablewrap"><table><thead><tr><th>Koleksiyon</th><th class="n">Belge</th><th>Not</th></tr></thead><tbody id="soDocs"></tbody></table></div></div>
       </div>
     </section>
 
@@ -269,49 +355,107 @@ button.danger{background:var(--rose);color:#fff}
 
     <section data-view="push" class="hidden">
       <h1>Bildirim gönder</h1>
-      <p class="muted">Konuya gider, kişiye değil. Her uygulama ve dil için ayrı bir mesaj çıkar: dilin kendi metni o dildekilere, İngilizce metin kendi metni olmayan herkese. Önce <b>Doğrula</b>, sonra <b>Test cihazlarına</b>, en son <b>Herkese</b>. Uzun tire ve Türkçede "&#226;" kabul edilmiyor.</p>
+      <p class="muted">İki yol var. <b>Konular</b>: seçtiğin uygulamaların bildirime izin veren herkesine, tek hamlede. <b>Kitle</b>: filtreye uyan cihazlara tek tek, her cihaza kendi dilinde (yoksa İngilizce). Sıra hep aynı: önce <b>Doğrula</b>, sonra <b>Test cihazlarına</b>, en son <b>Gönder</b> ya da <b>Zamanla</b>.</p>
       <div id="pushState"></div>
-      <div class="grid2">
-        <div class="card"><h2>Bildirime izin veren</h2><p class="muted" style="margin-top:-6px">Telemetrideki <code>notif</code> alanı: izin verilmiş kurulum / bu alanı yazmış kurulum. Tüm zamanlar, uygulama filtresinden bağımsız.</p><div class="bars" id="pushNotif"></div></div>
-        <div class="card"><h2>Hedef</h2>
-          <span class="lbl">Uygulama</span>
-          <div class="chips" id="pushApps" style="margin-bottom:12px"></div>
-          <span class="lbl">Dokununca açılacak sekme</span>
-          <select id="pushTab">
-            <option value="">Uygulama (son kaldığı yer)</option>
-            <option value="logbook">Maç defteri</option>
-            <option value="setup">Maç kurulumu</option>
-            <option value="courts">Kortlar</option>
-            <option value="profile">Profil</option>
-            <option value="friends">Arkadaşlar</option>
-          </select>
-          <p class="muted" id="pushReach" style="margin-bottom:0"></p>
+      <div class="pushgrid">
+        <div class="card pg-who">
+          <h2>Kime</h2>
+          <div class="modes" id="pushModes">
+            <button class="mode on" data-mode="topics"><b>Konular</b><span>Hızlı. Seçilen uygulamalardaki herkes; dil konusuna göre kendi metni.</span></button>
+            <button class="mode" data-mode="devices"><b>Kitle</b><span>Filtreli. Son görülme, Pass, giriş, dil ya da tek kişi; cihaz cihaz gider.</span></button>
+          </div>
+          <div id="whoTopics">
+            <span class="lbl">Uygulama</span>
+            <div class="chips" id="pushApps" style="margin-bottom:12px"></div>
+          </div>
+          <div id="whoAud" class="hidden">
+            <div id="audFilters">
+              <span class="lbl">Uygulama</span>
+              <div class="chips" id="audApps" style="margin-bottom:10px"></div>
+              <span class="lbl">Cihaz dili</span>
+              <div class="chips" id="audLangs" style="margin-bottom:12px"></div>
+              <div class="frow">
+                <div><span class="lbl">Pass</span><div class="seg" data-seg="pro"><button data-v="any">Hepsi</button><button data-v="pro">Pro</button><button data-v="free">Ücretsiz</button></div></div>
+                <div><span class="lbl">Hesap</span><div class="seg" data-seg="signed"><button data-v="any">Hepsi</button><button data-v="yes">Girişli</button><button data-v="no">Girişsiz</button></div></div>
+              </div>
+              <div class="frow">
+                <div><span class="lbl">Son görülme</span><div class="seg" data-seg="act"><button data-v="any">Hepsi</button><button data-v="active">Son N günde açan</button><button data-v="inactive">N gündür açmayan</button></div>
+                  <label class="inline-n hidden" id="actDaysWrap"><input id="actDays" type="number" min="1" max="365" inputmode="numeric"> gün</label></div>
+              </div>
+            </div>
+            <span class="lbl">Tek kişi <span style="font-weight:500">(seçince diğer filtreler devre dışı kalır)</span></span>
+            <div class="picker">
+              <input id="audSearch" type="search" autocomplete="off" placeholder="@kullanıcı adı, ad ya da kurulum kimliği yaz">
+              <div class="picklist hidden" id="audPick"></div>
+            </div>
+            <div id="audIds" style="margin:0 0 12px"></div>
+          </div>
+          <div id="pushAud"></div>
         </div>
-      </div>
-      <div class="card">
-        <h2>Metin</h2>
-        <div class="langs" id="pushMain"></div>
-        <details class="more" id="pushMore">
-          <summary>Başka diller <span class="muted" id="pushMoreN"></span></summary>
-          <p class="muted">Yalnız eklediğin diller ayrı mesaj alır; geri kalan her dil İngilizceyi görür. İngilizce dışında en fazla 4 dil: FCM koşulu beş konu alıyor, fazlası hem kendi dilini hem İngilizceyi alırdı.</p>
-          <div class="langpick" id="pushPick"></div>
-          <div class="langs" id="pushExtra"></div>
-        </details>
-        <div id="pushCheck"></div>
-        <div class="actions">
-          <button class="second" data-push="validate">Doğrula (kimseye gitmez)</button>
-          <button class="second" data-push="test">Test cihazlarına gönder</button>
-          <button data-push="all">Herkese gönder</button>
+
+        <div class="card pg-text">
+          <h2>Metin</h2>
+          <div class="emojis" id="emojiBar" aria-label="Emoji ekle"></div>
+          <div class="langs" id="pushMain"></div>
+          <details class="more" id="pushMore">
+            <summary>Başka diller <span class="muted" id="pushMoreN"></span></summary>
+            <p class="muted">Yalnız eklediğin diller ayrı metin alır; geri kalan herkes İngilizceyi görür. İngilizce dışında en fazla 4 dil (Konular modunda FCM koşulu beş konu alıyor).</p>
+            <div class="langpick" id="pushPick"></div>
+            <div class="langs" id="pushExtra"></div>
+          </details>
+          <div class="field" style="margin-top:14px"><label for="pushTab">Dokununca açılacak sekme</label>
+            <select id="pushTab">
+              <option value="">Uygulama (son kaldığı yer)</option>
+              <option value="logbook">Maç defteri</option>
+              <option value="setup">Maç kurulumu</option>
+              <option value="courts">Kortlar</option>
+              <option value="profile">Profil</option>
+              <option value="friends">Arkadaşlar</option>
+            </select></div>
+          <div id="pushCheck"></div>
         </div>
-        <p class="muted" style="margin-bottom:0">Test: yalnız <code>bs_test</code> konusuna tek mesaj (Türkçe metin varsa o, yoksa İngilizce); uygulama seçimi dikkate alınmaz.</p>
+
+        <div class="pg-side">
+          <div class="card">
+            <div class="prevtools"><h2 style="margin:0">Önizleme</h2><div class="seg" id="prevLangs"></div></div>
+            <div class="phone"><div class="screen" id="prevScreen"></div></div>
+            <div class="prevtools" style="margin:12px 0 0"><span class="muted" id="prevAppName"></span><div class="appicons" id="prevApps"></div></div>
+            <p class="muted" style="margin:8px 0 0;font-size:12px">Kilit ekranında başlık tek satır, metin dört satıra kadar görünür; fazlası "..." ile kesilir.</p>
+          </div>
+          <div class="card">
+            <h2>Şablonlar</h2>
+            <div style="display:flex;gap:8px"><input id="tplName" placeholder="Şablon adı" maxlength="60"><button class="second" id="tplSave" style="flex:none">Kaydet</button></div>
+            <div id="tplList" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="card pg-send">
+          <h2>Ne zaman</h2>
+          <div class="seg" id="whenSeg"><button data-when="now" class="on">Hemen</button><button data-when="later">Zamanla</button></div>
+          <div id="whenLater" class="hidden" style="margin-top:12px">
+            <div class="field" style="max-width:320px"><label for="sendAt">Tarih ve saat (Türkiye saati)</label><input id="sendAt" type="datetime-local" step="300"></div>
+            <p class="muted" id="sendAtInfo" style="margin:0"></p>
+          </div>
+          <div class="actions">
+            <button class="second" data-push="validate">Doğrula (kimseye gitmez)</button>
+            <button class="second" data-push="test">Test cihazlarına gönder</button>
+            <button data-push="send" id="sendBtn">Gönder</button>
+          </div>
+          <p class="muted" style="margin-bottom:0" id="pushHint"></p>
+        </div>
+
+        <div class="card pg-res hidden" id="pushResultCard"><h2>Sonuç</h2><div id="pushResult"></div></div>
+
+        <div class="card pg-stats"><h2>Bildirime izin veren</h2><p class="muted" style="margin-top:-6px">Telemetrideki <code>notif</code> alanı: izin verilmiş kurulum / bu alanı yazmış kurulum; parantezde cihaz adresi (<code>fcm</code>) olan. Tüm zamanlar.</p><div class="bars" id="pushNotif"></div></div>
       </div>
-      <div class="card hidden" id="pushResultCard"><h2>Sonuç</h2><div id="pushResult"></div></div>
     </section>
 
     <section data-view="sent" class="hidden">
       <h1>Gönderilenler</h1>
-      <p class="muted">Panelden gönderilen bildirimler (doğrulamalar hariç), Firestore <code>pushes</code> koleksiyonundan. Satıra dokununca tüm metinler ve iş sonuçları açılır.</p>
-      <div class="tablewrap"><table><thead><tr><th>Zaman</th><th>Tür</th><th>Uygulama</th><th>Başlık</th><th>Diller</th><th>Sekme</th><th class="n">Başarılı</th></tr></thead><tbody id="sentRows"></tbody></table></div>
+      <p class="muted">Panelden giden ve zamanlanan bildirimler (doğrulamalar hariç), Firestore <code>pushes</code> koleksiyonundan; kaydı Worker yazar. Açılma: bildirime dokunanlar, günlük kayıtlardaki <code>push_open_&lt;kimlik&gt;</code> sayacından. Satıra dokununca metinler, hedef ve iş sonuçları açılır.</p>
+      <div class="kpis" id="sentKpis"></div>
+      <div class="toolbar"><div class="seg" id="sentFilter"></div><span class="muted" id="sentCount"></span><button class="ghost" id="sentReload">Yenile</button></div>
+      <div class="tablewrap"><table><thead><tr><th>Zaman</th><th>Durum</th><th>Hedef</th><th>Başlık</th><th class="n">Giden</th><th class="n">Açılma</th><th></th></tr></thead><tbody id="sentRows"></tbody></table></div>
     </section>
 
     <section data-view="settings" class="hidden">
@@ -324,6 +468,7 @@ button.danger{background:var(--rose);color:#fff}
       <div class="card">
         <h2>Bildirim gönder</h2>
         <p class="muted">Gönderim Cloudflare Worker'dan geçer (<code>bam-sports-push</code>, kaynak <code>All Sport Apps/push-worker</code>): servis hesabı anahtarı orada durur, panel yalnız giriş kimliğini yollar. FCM HTTP v1 ücretsiz planda çalışır, Blaze gerekmez. Konular: <code>bs_all</code>, <code>bs_&lt;uygulama&gt;</code>, <code>bs_lang_xx</code>, <code>bs_test</code>.</p>
+        <p class="muted"><b>Kitle</b> modunda Worker kurulumları servis hesabıyla okur (uygulama, dil, Pass, son görülme, giriş, <code>fcm</code>, <code>notif</code>) ve her cihaza ayrı mesaj atar; tek seferde en fazla 2.000 cihaz. Ücretsiz planda bir çağrı en fazla 50 dış istek yapabildiği için 40'arlı dilimlerle gider: panel dilimleri sırayla ister, panel kapanırsa Worker'ın beş dakikalık zamanlayıcısı kalanı sürdürür. Ölü adresler (UNREGISTERED) kurulumdan silinir. <b>Zamanla</b> ile gönderim <code>pushes</code> koleksiyonuna "zamanlandı" olarak yazılır, aynı zamanlayıcı vakti gelince yollar. Kaydı (<code>pushes/{kimlik}</code>) her zaman Worker yazar; şablonlar <code>pushTemplates</code> koleksiyonunda.</p>
       </div>
       <div class="card links">
         <h2>Bağlantılar</h2>
@@ -512,14 +657,17 @@ function setTheme(t) {
   themeCharts(); renderAll();
 }
 const toggleTheme = () => setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
-$("themeBtn").onclick = toggleTheme; $("themeBtn2").onclick = toggleTheme;
+$("themeBtn").onclick = e => { e.preventDefault(); toggleTheme(); }; $("themeBtn2").onclick = toggleTheme;
 themeCharts();
 
 // ---------- Durum ----------
 let allInstalls = [], statDocs = [], G = null, gaError = "", social = null;
 let installs = [], stats = [];          // uygulama filtresi uygulanmış
 let evCache = {}, pwLoaded = false, pwLoading = false;
-let FB = null;
+let FB = null, dataReady = false;
+const PAGE_RENDER = { overview: [renderOverview], live: [renderLive], screens: [renderScreens], revenue: [renderRevenue, renderJourneys], engage: [renderEngage],
+  users: [renderUsers], social: [renderSocial], ga4: [renderGA4], push: [renderPushStats, pushRefresh], sent: [renderSent], settings: [] };
+let dirtyPages = new Set();
 let currentPage = "overview";
 let days = +(store.get("bs-panel-aralik") || 7);
 if (![1, 7, 30, 90].includes(days)) days = 7;
@@ -566,7 +714,7 @@ if (!DEMO) {
     try { await A.signInWithPopup(auth, new A.GoogleAuthProvider()); }
     catch (e) { fail(e); }
   };
-  const out = () => A.signOut(auth);
+  const out = e => { e?.preventDefault(); A.signOut(auth); };
   $("signout").onclick = out; $("signoutLogin").onclick = out;
 
   if (A.isSignInWithEmailLink(auth, location.href)) {
@@ -588,13 +736,19 @@ if (!DEMO) {
   });
 } else {
   $("demoBar").classList.remove("hidden");
-  $("signout").onclick = () => { location.href = location.pathname; };
+  $("signout").onclick = e => { e.preventDefault(); location.href = location.pathname; };
   $("app").classList.remove("hidden");
   $("whoami").textContent = "Demo modu: giriş yok, veri sahte.";
 }
 
 // ---------- Gezinme ----------
-document.querySelectorAll("aside a[data-page]").forEach(a => a.onclick = () => go(a.dataset.page));
+/* Menü bağlantıları gerçek #adres taşır: kod geç yüklense de tıklama adrese
+   yazılır, hashchange ya da açılıştaki okuma sayfayı açar. Tek tıkla geçiş
+   için tıklama burada da yakalanır. */
+document.querySelector("aside").addEventListener("click", e => {
+  const a = e.target.closest("a[data-page]"); if (!a) return;
+  e.preventDefault(); go(a.dataset.page);
+});
 function go(page) {
   if (!document.querySelector(`section[data-view="${page}"]`)) page = "overview";
   document.querySelectorAll("aside a[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
@@ -603,15 +757,23 @@ function go(page) {
   document.querySelectorAll("main section[data-view]").forEach(s => s.classList.toggle("hidden", s.dataset.view !== page));
   currentPage = page;
   history.replaceState(null, "", location.pathname + location.search + "#" + page);
-  if (page === "revenue") loadJourneys();
-  if (page === "social") loadSocial();
-  // Bildirim kodu dosyanın sonunda tanımlı; ilk açılışta (adres #push ise) hazır olsun diye ertele.
-  if (page === "push") setTimeout(() => loadPushHealth(), 0);
-  if (page === "sent") setTimeout(() => loadPushes(), 0);
-  $("chips").classList.toggle("hidden", page === "push" || page === "sent");
+  renderPage(page);
+  $("drawer").classList.add("hidden");
+  // Sayfa kodu dosyanın sonunda tanımlı; ilk açılışta (adres #push ise) hazır olsun diye ertele.
+  setTimeout(() => pageLoad(page), 0);
+  $("chips").classList.toggle("hidden", page === "push" || page === "sent" || page === "settings");
   const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
   requestAnimationFrame(fit); setTimeout(fit, 120);
   window.scrollTo(0, 0);
+}
+/* Sayfanın kendi verisi: ilk veri gelmeden çağrılmaz (giriş öncesi okuma
+   kuralda reddedilip önbelleğe hata olarak düşmesin). */
+function pageLoad(page) {
+  if (!dataReady || page !== currentPage) return;
+  if (page === "revenue") loadJourneys();
+  if (page === "social" || page === "users") loadSocial();
+  if (page === "push") { loadPushHealth(); loadTemplates(); pushRefresh(); }
+  if (page === "sent") loadPushes();
 }
 if (location.hash) go(location.hash.slice(1));
 window.addEventListener("hashchange", () => { if (location.hash.slice(1) !== currentPage) go(location.hash.slice(1)); });
@@ -639,12 +801,10 @@ function renderChips() {
 // ---------- Veri ----------
 async function refreshAll() {
   $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
-  evCache = {}; pwLoaded = false; social = null; pushes = null;
+  evCache = {}; pwLoaded = false; social = null; socialPromise = null; pushes = null;
+  pushHealth = null; templates = null; openStats = null;
   try { await loadData(true); } finally { $("refreshTop").disabled = false; }
-  if (currentPage === "revenue") loadJourneys();
-  if (currentPage === "social") loadSocial();
-  if (currentPage === "sent") loadPushes();
-  if (currentPage === "push") loadPushHealth(true);
+  pageLoad(currentPage);
 }
 const rangeFromKey = () => dayKey(Date.now() - (days - 1) * 864e5);
 async function loadData(withGa) {
@@ -676,6 +836,7 @@ async function loadData(withGa) {
     $("loadErr").classList.remove("hidden"); $("loadErr").textContent = "Veri okunamadı: " + (e.code || e.message);
     $("topMeta").textContent = ""; return;
   }
+  dataReady = true;
   applyFilter();
   $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
   renderAll();
@@ -696,10 +857,19 @@ function applyFilter() {
   const ios = installs.filter(i => i.platform === "ios").length;
   $("ovMeta").textContent = `${fmt(installs.length)} kurulum${appF === "all" ? ", beş uygulama" : " · " + appName(appF)} · ${fmt(ios)} iOS · ${fmt(installs.filter(i => i.tester).length)} test cihazı`;
 }
+/* Yalnız açık sayfa çizilir; diğerleri "kirli" işaretlenir, açılınca çizilir.
+   Önceden her yenilemede bütün sayfalar (bin satırlık tablo, bütün
+   grafikler) çiziliyordu; o sırada menü tıklaması geç işleniyordu. */
 function renderAll() {
   renderChips();
   if (!stats.length) return;
-  for (const f of [renderOverview, renderLive, renderScreens, renderRevenue, renderEngage, renderUsers, renderSocial, renderGA4, renderJourneys, renderPushStats, renderSent]) {
+  dirtyPages = new Set(Object.keys(PAGE_RENDER));
+  renderPage(currentPage);
+}
+function renderPage(page) {
+  if (!stats.length || !dirtyPages.has(page)) return;
+  dirtyPages.delete(page);
+  for (const f of PAGE_RENDER[page] || []) {
     try { f(); } catch (e) { console.error(f.name, e); }
   }
 }
@@ -926,16 +1096,35 @@ function renderEngage() {
 // ---------- Kullanıcılar ----------
 const daysSince = i => ts(i.firstSeen) ? Math.floor((Date.now() - ts(i.firstSeen)) / 864e5) : null;
 const verStr = i => `${i.appVersion || "?"}${i.build ? ` (${i.build})` : ""}`;
+/* Bölge kodu → bayrak (iki bölge göstergesi harfi). */
+const flag = r => /^[A-Z]{2}$/.test(r || "") ? String.fromCodePoint(...[...r].map(c => 0x1F1A5 + c.charCodeAt(0))) : "";
+const lang2 = l => String(l || "").slice(0, 2).toLowerCase();
+/* Bildirim adresi: uygulama FCM jetonunu yazmış ve izin kapalı değil. */
+const hasToken = i => typeof i.fcm === "string" && i.fcm.length > 20;
+const reachOf = i => hasToken(i) && i.notif !== false;
+const profileOf = i => (i?.uid && social?.map?.get(i.uid)) || null;
+const handleOf = i => profileOf(i)?.handle || i?.handle || "";
+const nameOf = i => profileOf(i)?.displayName || "";
+function whoCell(i) {
+  const h = handleOf(i), n = nameOf(i);
+  const top = h ? `<b>@${esc(h)}</b>` : n ? `<b>${esc(n)}</b>` : `<code>${esc(shortId(i.id))}</code>`;
+  const sub = h ? (n ? esc(n) : `<code>${esc(shortId(i.id))}</code>`) : n ? `<code>${esc(shortId(i.id))}</code>` : "anonim";
+  return `<span class="who"><i style="background:${APPS[i.app]?.renk || "var(--soft)"}" title="${esc(appName(i.app))}"></i><span>${top}<small>${sub}</small></span></span>`;
+}
+function badgesOf(i) {
+  return `<span class="badges">${isOnline(i) ? '<span class="dot" title="Şu an online"></span>' : ""}${i.pro ? '<span class="pill pro">Pro</span>' : ""}${i.signedIn ? '<span class="pill ok">Girişli</span>' : ""}${i.notif === true
+    ? `<span class="pill sky" title="${reachOf(i) ? "İzin var, cihaz adresi var: Kitle modunda tek tek ulaşılır" : "İzin var ama cihaz adresi henüz yazılmamış: yalnız Konular modunda ulaşılır"}">Bildirim${reachOf(i) ? "" : " (konu)"}</span>` : ""}${i.tester ? '<span class="pill warn">Test</span>' : ""}</span>`;
+}
 const U_COLS = [
-  ["app", "Uygulama", i => appName(i.app), i => appTag(i.app)],
+  ["status", "Durum", i => (isOnline(i) ? 16 : 0) + (i.pro ? 8 : 0) + (i.signedIn ? 4 : 0) + (i.notif ? 2 : 0) + (i.tester ? 1 : 0), badgesOf],
+  ["lastSeen", "Son görülme", i => ts(i.lastSeen)?.getTime() || 0, i => `<span title="${esc(ts(i.lastSeen)?.toLocaleString("tr-TR") || "")}">${ago(ts(i.lastSeen))}</span>`],
+  ["app", "Uygulama", i => appName(i.app), i => esc(appName(i.app))],
+  ["region", "Ülke", i => i.region || "", i => i.region ? `${flag(i.region)} ${esc(i.region)}` : "-"],
+  ["language", "Dil", i => i.language || "", i => esc(i.language || "-")],
   ["firstSeen", "İlk görülme", i => ts(i.firstSeen)?.getTime() || 0, i => dateS(i.firstSeen)],
   ["age", "Gün", i => daysSince(i) ?? -1, i => daysSince(i) ?? "-", true],
-  ["lastSeen", "Son görülme", i => ts(i.lastSeen)?.getTime() || 0, i => ago(ts(i.lastSeen))],
-  ["status", "Durum", i => (isOnline(i) ? 8 : 0) + (i.pro ? 4 : 0) + (i.signedIn ? 2 : 0) + (i.tester ? 1 : 0), i => `${isOnline(i) ? '<span class="dot"></span>' : ''}${i.pro ? '<span class="pill pro">Pass</span> ' : ''}${i.signedIn ? '<span class="pill ok">Hesap</span> ' : ''}${i.tester ? '<span class="pill sky">Test</span>' : ''}`],
   ["screen", "Ekran", i => whereIs(i), i => esc(whereIs(i))],
   ["appVersion", "Sürüm", i => verStr(i), i => esc(verStr(i))],
-  ["language", "Dil", i => i.language || "", i => esc(i.language || "")],
-  ["region", "Bölge", i => i.region || "", i => esc(i.region || "")],
   ["device", "Cihaz", i => i.device || "", i => esc(i.device || "")],
   ["watch", "Saat", i => (i.watchPaired ? 2 : 0) + (i.watchApp ? 1 : 0), i => i.watchPaired == null ? "-" : i.watchPaired ? (i.watchApp ? "Eşli, kurulu" : "Eşli") : "Yok"],
   ["sessions", "Oturum", i => +i.sessions || 0, i => fmt(i.sessions), true],
@@ -945,23 +1134,32 @@ const U_COLS = [
   ["n_opponents", "Rakip", i => +i.n_opponents || 0, i => i.n_opponents != null ? fmt(i.n_opponents) : "-", true],
   ["pw", "Paywall", i => ev(i, "pw_view"), i => fmt(ev(i, "pw_view")), true],
 ];
+/* "who": kullanıcı adı olanlar alfabetik önde, olmayanlar sonda. */
+const WHO_COL = ["who", "Kişi", i => handleOf(i) ? "0" + handleOf(i).toLowerCase() : nameOf(i) ? "1" + nameOf(i).toLowerCase() : "2" + i.id, whoCell];
 let uSort = { k: "lastSeen", dir: -1 };
 $("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+$("uSortSel").onchange = () => { const k = $("uSortSel").value; uSort = { k, dir: k === "who" ? 1 : -1 }; renderUsers(); };
 function renderUsers() {
-  const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = rangeFrom();
+  const q = $("uSearch").value.trim().toLowerCase().replace(/^@/, ""), f = $("uFilter").value, from = rangeFrom();
   const keep = {
     all: () => true, online: isOnline, pro: i => i.pro, free: i => !i.pro, watch: i => i.watchPaired, signed: i => i.signedIn,
+    handle: i => !!handleOf(i), notif: i => i.notif === true, reach: reachOf,
     paywall: i => ev(i, "pw_view") > 0, tester: i => i.tester, new: i => ts(i.firstSeen) >= from,
   }[f] || (() => true);
-  const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[3];
-  const rows = installs.filter(i => keep(i) && (!q || [i.id, i.app, appName(i.app), i.language, i.region, i.appVersion, i.build, i.device, i.tz, i.plan].join(" ").toLowerCase().includes(q)))
-    .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
+  const cols = [WHO_COL, ...U_COLS];
+  const col = cols.find(c => c[0] === uSort.k) || U_COLS[1];
+  const hay = i => [i.id, handleOf(i), "@" + handleOf(i), nameOf(i), i.uid, i.app, appName(i.app), i.language, i.region, i.appVersion, i.build, i.device, i.tz, i.plan].join(" ").toLowerCase();
+  const rows = installs.filter(i => keep(i) && (!q || hay(i).includes(q)))
+    .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y, "tr") : x - y) * uSort.dir; });
   $("uCount").textContent = `${fmt(rows.length)} kurulum`;
-  $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
-  document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : -1 }; renderUsers(); });
-  $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}"><td><code>${esc(shortId(i.id))}</code></td>${U_COLS.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
-    : `<tr><td colspan="${U_COLS.length + 1}" class="muted">Kurulum yok.</td></tr>`;
+  if ([...$("uSortSel").options].some(o => o.value === uSort.k)) $("uSortSel").value = uSort.k;
+  $("uHead").innerHTML = `<tr>${cols.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
+  document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : (th.dataset.k === "who" ? 1 : -1) }; renderUsers(); });
+  $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}">${cols.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
+    : `<tr><td colspan="${cols.length}" class="muted">${q || f !== "all" ? "Bu aramaya uyan kurulum yok." : "Kurulum yok."}</td></tr>`;
   document.querySelectorAll("#uRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+  $("uSocialNote").innerHTML = !social || social.loading ? `<p class="muted" style="margin:-4px 0 10px">Kullanıcı adları yükleniyor…</p>`
+    : social.err?.users ? `<div class="note err">Sosyal profiller okunamadı (${esc(social.err.users)}); kullanıcı adı yalnız telemetriden gelir.</div>` : "";
 }
 
 async function openUser(id) {
@@ -971,8 +1169,12 @@ async function openUser(id) {
   const sm = screenMap(i);
   const pwSrc = evPrefix([i], "pw_view_");
   const pa = passApp(i.plan);
-  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">Kurulum <code>${esc(shortId(id))}</code></h2><button class="ghost" id="dClose">Kapat</button></div>
-    <p class="muted" style="overflow-wrap:anywhere">${esc(id)}</p>
+  const h = handleOf(i);
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">${h ? `@${esc(h)}` : `Kurulum <code>${esc(shortId(id))}</code>`}</h2><button class="ghost" id="dClose">Kapat</button></div>
+    <p class="muted" style="overflow-wrap:anywhere;margin:4px 0 10px">${nameOf(i) ? `${esc(nameOf(i))} · ` : ""}<code>${esc(id)}</code></p>
+    <div style="margin:0 0 12px">${badgesOf(i)}</div>
+    <div class="actions" style="margin:0 0 14px"><button id="dPush"${reachOf(i) ? "" : " disabled"}>Bu kişiye bildirim gönder</button></div>
+    ${reachOf(i) ? "" : `<p class="muted" style="margin:-8px 0 12px">${i.notif === false ? "Bildirimi kapatmış." : i.notif === true ? "İzin var ama cihaz adresi (fcm) henüz yazılmamış: uygulamanın yeni sürümü açılınca gelir." : "Bildirim izni vermemiş ya da eski sürüm."}</p>`}
     <div class="dl">
       <div>Uygulama</div><div>${appTag(i.app)}</div>
       <div>Şu an</div><div>${isOnline(i) ? '<span class="dot"></span>' : ''}${esc(whereIs(i))}</div>
@@ -980,19 +1182,21 @@ async function openUser(id) {
       <div>İlk görülme</div><div>${ts(i.firstSeen)?.toLocaleString("tr-TR") || "-"}${daysSince(i) != null ? ` · ${daysSince(i)} gün önce` : ""}</div>
       <div>Sürüm</div><div>${i.platform === "android" ? "Android" : "iOS"} ${esc(verStr(i))}</div>
       <div>Cihaz</div><div>${esc(i.device || "-")}${i.os ? ` · ${esc(i.os)}` : ""}</div>
-      <div>Dil / bölge</div><div>${esc(LANG[i.language] || i.language || "-")} / ${esc(i.region || "-")}</div>
+      <div>Dil / ülke</div><div>${esc(LANG[i.language] || i.language || "-")} / ${i.region ? `${flag(i.region)} ${esc(i.region)}` : "-"}</div>
       <div>Saat dilimi</div><div>${esc(i.tz || "-")}</div>
+      <div>Bildirim</div><div>${i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor"} · ${hasToken(i) ? "cihaz adresi var" : "cihaz adresi yok"}</div>
       <div>Pass</div><div>${i.pro ? `<span class="pill pro">Pass</span> ${esc(i.plan || "")}${pa && pa !== "?" ? ` · ${esc(passAppName(pa))} ürünü` : ""}` : "Hayır"}${i.grandfathered ? ' <span class="pill sky">Eski kullanıcı</span>' : ""}</div>
       ${i.pro || i.purchasedAt ? `<div>Satın alma</div><div>${dtS(i.purchasedAt)} · ${esc(srcName(i.buySource))}</div>` : ""}
       <div>Apple Watch</div><div>${i.watchPaired == null ? "-" : i.watchPaired ? `Eşli · uygulama ${i.watchApp ? "kurulu" : "kurulu değil"}` : "Eşli saat yok"}</div>
-      <div>Hesap</div><div>${i.signedIn ? "Giriş yapmış" : i.signedIn === false ? "Giriş yok" : "-"}</div>
       <div>Test cihazı</div><div>${yes(i.tester)}</div>
       <div>Oturum</div><div>${fmt(i.sessions)} · toplam ${mins(ev(i, "session_sec"))}${ev(i, "session") ? ` · ortalama ${mins(ev(i, "session_sec") / ev(i, "session"))}` : ""}</div>
       <div>Maç</div><div>defterde ${i.n_matches != null ? fmt(i.n_matches) : "-"} · ${fmt(i.matches_completed)} bitti · ${fmt(i.matches_sent)} saate gitti · ${i.n_opponents != null ? fmt(i.n_opponents) : "-"} rakip</div>
       <div>Sonuçlar</div><div>${Object.entries(evPrefix([i], "match_done_")).map(([k, v]) => `${RESULT[k] || k} ${fmt(v)}`).join(" · ") || "-"}</div>
       <div>Paylaşım / reklam</div><div>${fmt(i.shares)} paylaşım · ${fmt(i.ads_watched)} reklam</div>
       <div>Paywall</div><div>${fmt(ev(i, "pw_view"))} gösterim · ${fmt(ev(i, "pw_close"))} kapatma · ${fmt(ev(i, "pw_buy"))} satın alma</div>
+      <div>Bildirim açtı</div><div>${fmt(ev(i, "push_open"))} kez</div>
     </div>
+    <h2>Sosyal profil</h2><div id="dSocial" class="muted">${i.uid || i.signedIn ? "Yükleniyor…" : "Giriş yapmamış; sosyal profili yok."}</div>
     <h2>Ekranlarda geçen süre</h2><div class="bars" id="dScreens"></div>
     ${Object.keys(pwSrc).length ? `<h2>Paywall kaynakları</h2><div class="bars" id="dPw"></div>` : ""}
     <details style="margin-top:18px"><summary class="muted" style="cursor:pointer">Bütün sayaçlar</summary>
@@ -1000,11 +1204,14 @@ async function openUser(id) {
       ${Object.keys(i.ev || {}).sort().map(k => `<div>ev.${esc(k)}</div><div>${fmt(i.ev[k])}</div>`).join("")}</div></details>
     <h2>Zaman çizelgesi</h2><div id="dTimeline" class="muted">Yükleniyor…</div>`;
   $("dClose").onclick = () => d.classList.add("hidden");
+  $("dPush").onclick = () => pushToInstall(id);
   bars("dScreens", Object.entries(sm).filter(([, v]) => v.sec > 0).sort((a, b) => b[1].sec - a[1].sec).map(([k, v]) => ({ label: screenName(k), value: v.sec, sub: `${mins(v.sec)} · ${fmt(v.views)} kez` })), "Ekran süresi yok.");
   if ($("dPw")) bars("dPw", Object.entries(pwSrc).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: srcName(k), value: v, sub: `${fmt(v)} gösterim · ${fmt(ev(i, `pw_buy_${k}`))} alım` })));
+  if (i.uid || i.signedIn) loadSocial().then(() => { if ($("dSocial") && d.dataset.open === id) $("dSocial").outerHTML = socialBlock(i); bindInstallChips(d); });
+  d.dataset.open = id;
   try {
     const evs = (await loadEvents(id)).slice().sort((a, b) => ts(b.t) - ts(a.t));
-    if (!$("dTimeline")) return;
+    if (!$("dTimeline") || d.dataset.open !== id) return;
     let lastDay = "";
     $("dTimeline").innerHTML = evs.length ? `<p class="muted">Son ${evs.length} olay, en yenisi üstte.</p><div class="tl">${evs.map(e => {
       const t = ts(e.t), dk = t?.toLocaleDateString("tr-TR", { weekday: "short", day: "2-digit", month: "long" }) || "";
@@ -1013,41 +1220,85 @@ async function openUser(id) {
     }).join("")}</div>` : "Zaman çizelgesi boş.";
   } catch (e) { if ($("dTimeline")) $("dTimeline").textContent = "Okunamadı: " + (e.code || e.message); }
 }
-document.addEventListener("keydown", e => { if (e.key === "Escape") $("drawer").classList.add("hidden"); });
+/* Çekmecedeki sosyal profil: kullanıcı adı, ad, takip, ligler, aynı hesabın diğer kurulumları. */
+function socialBlock(i) {
+  if (social?.err?.users) return `<div class="note err" id="dSocial">Sosyal profiller okunamadı: ${esc(social.err.users)}</div>`;
+  const u = profileOf(i);
+  if (!u) return `<p class="muted" id="dSocial">${i.uid ? `Hesap <code>${esc(i.uid.slice(0, 10))}</code> için profil belgesi yok (silinmiş ya da henüz yazılmamış).` : "Giriş yapmış ama hesap kimliği (uid) telemetriye yazılmamış; uygulamanın yeni sürümü yazar."}</p>`;
+  const leagues = social.leagues.filter(l => (l.members || []).includes(u.id));
+  const others = installsOf(u.id).filter(x => x.id !== i.id);
+  return `<div id="dSocial"><div class="dl">
+    <div>Kullanıcı adı</div><div><b>@${esc(u.handle || "-")}</b></div>
+    <div>Ad</div><div>${esc(u.displayName || "-")}</div>
+    <div>Sporlar</div><div>${(u.sports || []).map(appTag).join(" ") || "-"}</div>
+    ${u.level ? `<div>Seviye</div><div>${esc(u.level)}</div>` : ""}
+    <div>Hesap açıldı</div><div>${dtS(u.createdAt)}</div>
+    <div>Takipçi / takip</div><div>${fmt(social.followers.get(u.id) || 0)} takipçi · ${fmt(social.following.get(u.id) || 0)} takip</div>
+    <div>Paylaşılan maç</div><div>${fmt(social.matches.filter(m => (m.players || []).includes(u.id)).length)}</div>
+    <div>Ligler</div><div>${leagues.length ? leagues.map(l => `${esc(l.name || "?")} <span class="muted">(${esc(appName(l.sport))}, ${fmt((l.members || []).length)} üye)</span>`).join("<br>") : "-"}</div>
+    <div>Diğer kurulumları</div><div>${others.length ? others.map(installChip).join(" ") : "-"}</div>
+  </div></div>`;
+}
+const installsOf = uid => allInstalls.filter(x => x.uid === uid);
+const installChip = x => `<button class="linkchip" data-inst="${esc(x.id)}" title="${esc(appName(x.app))} · ${esc(x.id)}"><i style="background:${APPS[x.app]?.renk || "var(--soft)"}"></i>${esc(appName(x.app))} <code>${esc(shortId(x.id))}</code></button>`;
+function bindInstallChips(root) { root.querySelectorAll("[data-inst]").forEach(b => b.onclick = e => { e.stopPropagation(); openUser(b.dataset.inst); }); }
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("confirmBox").classList.contains("hidden")) $("drawer").classList.add("hidden"); });
 
 // ---------- Sosyal ----------
-/* users, handles, follows, leagues giriş yapmış herkese okunur; sayım
-   (count) içerik indirmez. matches yalnız oyuncularına açık, yönetici
-   listeleyemez: kurallar reddederse satırda öyle yazar. */
-const SOCIAL_COLS = [
-  ["users", "Profil (users)"], ["handles", "Kullanıcı adı (handles)"], ["follows", "Takip (follows)"],
-  ["leagues", "Lig (leagues)"], ["matches", "Paylaşılan maç (matches)"],
-];
-async function loadSocial() {
-  if (social) return;
+/* users, follows, leagues giriş yapmış herkese, matches ve lig sonuçları
+   yöneticiye açık (kurallar). Hepsi bir kez okunur, sayfalar arasında
+   paylaşılır; Yenile ile tazelenir. */
+let socialPromise = null, soTab = "users";
+function loadSocial() {
+  if (socialPromise) return socialPromise;
   social = { loading: true };
-  renderSocial();
-  if (DEMO) { social = demo.social; renderSocial(); return; }
-  const { db, F } = FB, out = {};
-  await Promise.all(SOCIAL_COLS.map(async ([c]) => {
-    try { out[c] = { n: (await F.getCountFromServer(F.collection(db, c))).data().count }; }
-    catch (e) { out[c] = { err: e.code === "permission-denied" ? "Kurallar yöneticinin listelemesine izin vermiyor (yalnız oyuncular okur)." : (e.code || e.message) }; }
-  }));
-  social = out; renderSocial();
+  renderSocial(); if (currentPage === "users") renderUsers();
+  socialPromise = (async () => {
+    let raw;
+    if (DEMO) raw = demo.socialData;
+    else {
+      const { db, F } = FB; raw = { err: {} };
+      const get = async (c, lim) => {
+        try { raw[c] = (await F.getDocs(F.query(F.collection(db, c), F.limit(lim)))).docs.map(d => ({ id: d.id, ...d.data() })); }
+        catch (e) { raw[c] = []; raw.err[c] = e.code === "permission-denied" ? "kurallar okumaya izin vermiyor" : (e.code || e.message); }
+      };
+      await Promise.all([get("users", 3000), get("follows", 10000), get("leagues", 1000), get("matches", 3000),
+        (async () => { try { raw.handlesN = (await F.getCountFromServer(F.collection(db, "handles"))).data().count; } catch (e) { raw.err.handles = e.code || e.message; } })()]);
+    }
+    const followers = new Map(), following = new Map();
+    for (const f of raw.follows) { following.set(f.follower, (following.get(f.follower) || 0) + 1); followers.set(f.followee, (followers.get(f.followee) || 0) + 1); }
+    social = { users: raw.users, map: new Map(raw.users.map(u => [u.id, u])), follows: raw.follows, leagues: raw.leagues, matches: raw.matches,
+      handlesN: raw.handlesN, err: raw.err || {}, followers, following };
+    renderSocial(); renderUsers();
+  })();
+  return socialPromise;
 }
+const soReady = () => social && !social.loading;
+const handleBy = uid => social?.map?.get(uid)?.handle;
+const atH = uid => handleBy(uid) ? `@${esc(handleBy(uid))}` : `<code>${esc(String(uid || "?").slice(0, 8))}</code>`;
+$("soSearch").oninput = renderSoList;
+document.querySelectorAll("#soTabs button").forEach(b => b.onclick = () => {
+  soTab = b.dataset.so; document.querySelectorAll("#soTabs button").forEach(x => x.classList.toggle("on", x === b)); renderSoList();
+});
 function renderSocial() {
   const signed = installs.filter(i => i.signedIn);
   const signins = evPrefix(stats, "signin_"), acts = evPrefix(stats, "social_");
+  const ok = soReady(), m = ok ? social.matches : [];
+  const n = c => ok ? fmt(social[c].length) : "…";
   $("soKpis").innerHTML = [
+    kpiH("Profil", n("users"), ok && social.handlesN != null ? `${fmt(social.handlesN)} kullanıcı adı` : "users"),
+    kpiH("Takip", n("follows"), "follows"),
+    kpiH("Lig", n("leagues"), ok ? `${fmt(social.leagues.reduce((t, l) => t + (l.members || []).length, 0))} üyelik` : ""),
+    kpiH("Paylaşılan maç", n("matches"), ok ? `${fmt(m.filter(x => x.status === "confirmed").length)} onaylı · ${fmt(m.filter(x => x.status === "pending").length)} bekliyor` : ""),
     kpiH("Giriş yapmış kurulum", fmt(signed.length), installs.length ? `%${pct(signed.length, installs.length)} kurulum` : ""),
-    kpiH("Giriş", fmt(evSum(stats, "signin")), periodWord()),
-    kpiH("Sosyal işlem", fmt(evSum(stats, "social")), periodWord()),
-    kpiH("Profil", social?.users?.n != null ? fmt(social.users.n) : "-", "users belgesi"),
-    kpiH("Takip", social?.follows?.n != null ? fmt(social.follows.n) : "-", "follows belgesi"),
-    kpiH("Lig", social?.leagues?.n != null ? fmt(social.leagues.n) : "-", "leagues belgesi"),
+    kpiH("Sosyal işlem", fmt(evSum(stats, "social")), `${fmt(evSum(stats, "signin"))} giriş, ${periodWord()}`),
   ].join("");
-  $("soDocs").innerHTML = !social || social.loading ? `<tr><td colspan="3" class="muted">Sayılıyor…</td></tr>`
-    : SOCIAL_COLS.map(([c, ad]) => `<tr><td>${ad}</td><td class="n">${social[c]?.n != null ? `<b>${fmt(social[c].n)}</b>` : "-"}</td><td class="muted" style="white-space:normal">${esc(social[c]?.err || "")}</td></tr>`).join("");
+  const errs = ok ? Object.entries(social.err || {}) : [];
+  $("soErr").innerHTML = errs.length ? `<div class="note err">Okunamayan: ${errs.map(([c, e]) => `<code>${esc(c)}</code> (${esc(e)})`).join(", ")}</div>` : "";
+  $("soDocs").innerHTML = !ok ? `<tr><td colspan="3" class="muted">Okunuyor…</td></tr>`
+    : [["users", "Profil (users)", social.users.length], ["handles", "Kullanıcı adı (handles)", social.handlesN], ["follows", "Takip (follows)", social.follows.length],
+      ["leagues", "Lig (leagues)", social.leagues.length], ["matches", "Paylaşılan maç (matches)", social.matches.length]]
+      .map(([c, ad, v]) => `<tr><td>${ad}</td><td class="n">${v != null ? `<b>${fmt(v)}</b>` : "-"}</td><td class="muted" style="white-space:normal">${esc(social.err?.[c] || "")}</td></tr>`).join("");
   bars("soSignin", sorted(signins, SIGNIN), "Bu dönemde giriş yok.");
   bars("soActions", sorted(acts, SOCIAL), "Bu dönemde sosyal işlem yok.");
   bars("soByApp", APP_KEYS.filter(a => appF === "all" || a === appF).map(a => {
@@ -1056,6 +1307,44 @@ function renderSocial() {
   }).filter(r => r.value || appF !== "all"), "Henüz giriş yapan yok.");
   const per = screenAgg(stats), all = screenAgg(installs);
   $("soScreens").innerHTML = ["friends", "league"].map(k => `<div>${screenName(k)}</div><div>${fmt(per[k]?.views)} açılış · ${mins(per[k]?.sec)} (${periodWord()}) · ${fmt(all[k]?.people)} kişi (hepsi)</div>`).join("");
+  renderSoList();
+}
+const M_STATUS = { pending: ["Bekliyor", "warn"], confirmed: ["Onaylı", "ok"], disputed: ["İtiraz", "err"] };
+function renderSoList() {
+  const titles = { users: "Kullanıcılar", leagues: "Ligler", matches: "Paylaşılan maçlar" };
+  $("soListTitle").textContent = titles[soTab];
+  if (!soReady()) { $("soHead").innerHTML = ""; $("soRows").innerHTML = `<tr><td class="muted">Okunuyor…</td></tr>`; $("soCount").textContent = ""; return; }
+  const q = $("soSearch").value.trim().toLowerCase().replace(/^@/, "");
+  const byTime = k => (a, b) => (ts(b[k])?.getTime() || 0) - (ts(a[k])?.getTime() || 0);
+  let head, rows, n;
+  if (soTab === "users") {
+    const list = social.users.filter(u => !q || [u.handle, u.displayName, u.id].join(" ").toLowerCase().includes(q)).sort(byTime("createdAt"));
+    n = list.length;
+    head = `<tr><th>Kişi</th><th>Sporlar</th><th class="n">Takipçi</th><th class="n">Takip</th><th class="n">Lig</th><th class="n">Maç</th><th>Kurulumlar</th><th>Katıldı</th></tr>`;
+    rows = list.map(u => {
+      const inst = installsOf(u.id);
+      return `<tr><td><span class="who"><span><b>@${esc(u.handle || "?")}</b><small>${esc(u.displayName || "")}${u.level ? ` · ${esc(u.level)}` : ""}</small></span></span></td>
+        <td>${(u.sports || []).map(appTag).join(" ") || "-"}</td><td class="n">${fmt(social.followers.get(u.id) || 0)}</td><td class="n">${fmt(social.following.get(u.id) || 0)}</td>
+        <td class="n">${fmt(social.leagues.filter(l => (l.members || []).includes(u.id)).length)}</td><td class="n">${fmt(social.matches.filter(m => (m.players || []).includes(u.id)).length)}</td>
+        <td>${inst.length ? inst.map(installChip).join(" ") : '<span class="muted">telemetride yok</span>'}</td><td>${dateS(u.createdAt)}</td></tr>`;
+    });
+  } else if (soTab === "leagues") {
+    const list = social.leagues.filter(l => !q || [l.name, l.inviteCode, handleBy(l.ownerUid), appName(l.sport)].join(" ").toLowerCase().includes(q)).sort(byTime("createdAt"));
+    n = list.length;
+    head = `<tr><th>Lig</th><th>Spor</th><th class="n">Üye</th><th>Kurucu</th><th>Davet kodu</th><th>Kuruldu</th></tr>`;
+    rows = list.map(l => `<tr><td><b>${esc(l.name || "?")}</b></td><td>${appTag(l.sport)}</td><td class="n">${fmt((l.members || []).length)}</td><td>${atH(l.ownerUid)}</td><td><code>${esc(l.inviteCode || "-")}</code></td><td>${dateS(l.createdAt)}</td></tr>`);
+  } else {
+    const list = social.matches.filter(m => !q || [appName(m.sport), m.status, ...(m.players || []).map(handleBy)].join(" ").toLowerCase().includes(q))
+      .sort((a, b) => (ts(b.playedAt || b.createdAt)?.getTime() || 0) - (ts(a.playedAt || a.createdAt)?.getTime() || 0));
+    n = list.length;
+    head = `<tr><th>Spor</th><th>Durum</th><th>Oyuncular</th><th>Kaydeden</th><th>Oynandı</th><th>Kayıt</th></tr>`;
+    rows = list.map(m => { const st = M_STATUS[m.status] || [m.status || "?", "no"];
+      return `<tr><td>${appTag(m.sport)}</td><td><span class="pill ${st[1]}">${esc(st[0])}</span></td><td>${(m.players || []).map(atH).join(", ")}</td><td>${atH(m.createdBy)}</td><td>${dtS(m.playedAt)}</td><td>${dtS(m.createdAt)}</td></tr>`; });
+  }
+  $("soHead").innerHTML = head;
+  $("soCount").textContent = `${fmt(n)} kayıt`;
+  $("soRows").innerHTML = rows.length ? rows.join("") : `<tr><td colspan="8" class="muted">${q ? "Bu aramaya uyan kayıt yok." : "Henüz kayıt yok."}</td></tr>`;
+  bindInstallChips($("soRows"));
 }
 
 // ---------- Analytics ----------
@@ -1143,61 +1432,242 @@ function kohortTablo() {
 // ---------- Bildirim ----------
 /* Gönderim Cloudflare Worker'dan geçer (All Sport Apps/push-worker): statik
    sayfa servis hesabı anahtarını tutamaz, Worker tutar. Worker Firebase
-   kimliğini (doğrulanmış yönetici e-postası) kontrol edip FCM HTTP v1'e
-   basar; Blaze gerekmez. Her uygulama ve dil için ayrı koşullu mesaj. */
+   kimliğini (doğrulanmış yönetici e-postası) kontrol eder, FCM HTTP v1'e
+   basar, kaydı (pushes/{kimlik}) kendisi yazar. Blaze gerekmez.
+   Konular: uygulama ve dil başına koşullu mesaj. Kitle: kurulumları okur,
+   filtreye uyan her cihaza ayrı mesaj; ücretsiz planın istek sınırı yüzünden
+   40'arlı dilimlerle gider, panel /continue ile dilimleri sürer. */
 const PUSH_URL = "https://bam-sports-push.kittapcom.workers.dev";
 const PUSH_TABS = { logbook: "Maç defteri", setup: "Maç kurulumu", courts: "Kortlar", profile: "Profil", friends: "Arkadaşlar" };
 const PUSH_LANGS = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", it: "İtalyanca", pt: "Portekizce", nl: "Felemenkçe",
   ru: "Rusça", ja: "Japonca", ko: "Korece", zh: "Çince", ar: "Arapça", pl: "Lehçe", sv: "İsveççe", id: "Endonezce" };
 const EXTRA_LANGS = Object.keys(PUSH_LANGS).filter(l => l !== "tr" && l !== "en");
-const MAX_OTHER = 4, MAX_T = 50, MAX_B = 160;
+const MAX_OTHER = 4, MAX_T = 50, MAX_B = 160, MAX_DEVICES = 2000;
 const PH = { tr: ["Yeni sezon başladı", "Maçını kaydet, istatistiğin defterde birikip dursun."], en: ["New season is on", "Log your next match and watch your stats grow in the logbook."] };
-let pushApps = [], pushExtra = [], pushHealth = null, pushBusy = false, pushes = null;
+const APP_ICON = { tennis: "/tennis-padel/assets/icon.webp", pickleball: "/pickleball/assets/icon.webp", volleyball: "/volleyball/assets/icon.webp", badminton: "/rally-badminton/assets/icon.webp", tabletennis: "/rally-table-tennis/assets/icon.webp" };
+/* Telefonda görünen ad (CFBundleDisplayName). */
+const APP_IOS = { tennis: "Tennis Padel Score Keeper", pickleball: "Score Keeper for Pickleball", volleyball: "Volleyball Score Keeper", badminton: "Rally: Badminton", tabletennis: "Rally: Table Tennis" };
+const NOW_WORD = { tr: "şimdi", en: "now", de: "jetzt", es: "ahora", fr: "maintenant", it: "ora", pt: "agora", nl: "nu", ru: "сейчас", ja: "今", ko: "지금", zh: "现在", ar: "الآن", pl: "teraz", sv: "nu", id: "sekarang" };
+const LOCALE = { tr: "tr-TR", en: "en-US", de: "de-DE", es: "es-ES", fr: "fr-FR", it: "it-IT", pt: "pt-BR", nl: "nl-NL", ru: "ru-RU", ja: "ja-JP", ko: "ko-KR", zh: "zh-CN", ar: "ar", pl: "pl-PL", sv: "sv-SE", id: "id-ID" };
+const EMOJI = ["🎾", "🏓", "🏸", "🏐", "🏆", "🔥", "⏱️", "📈", "📅", "⌚", "🎉", "💪", "👋", "✅", "⭐", "🙌"];
+const DRAFT_KEY = "bs-push-draft";
+const IST = 3 * 36e5;   // Türkiye: UTC+3, yaz saati yok
+/* Karakter, insanın saydığı gibi: ten rengi ya da aile emojisi tek karakter. Worker da aynı sayar. */
+const segm = typeof Intl.Segmenter === "function" ? new Intl.Segmenter("tr", { granularity: "grapheme" }) : null;
+const glen = s => segm ? [...segm.segment(s)].length : [...s].length;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-function langBox(l, removable) {
+let pushMode = "topics", pushApps = [], pushExtra = [], pushHealth = null, pushBusy = false, pushes = null, templates = null, openStats = null;
+const aud = { apps: [], langs: [], pro: "any", signed: "any", act: "any", actDays: 7, inactDays: 14, ids: [] };
+let when = "now", prevLang = "tr", prevApp = null, audRemote = null, audTimer = null, audSeq = 0, lastField = null, confirmResolve = null, sentF = "all";
+
+function toast(msg) {
+  const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+}
+
+// Kendi onay kartımız (window.confirm değil). rows: [etiket, HTML]
+function confirmCard({ title, rows = [], note = "", yes = "Evet", danger = false }) {
+  return new Promise(res => {
+    const box = $("confirmBox");
+    box.innerHTML = `<div class="card" role="dialog" aria-modal="true" aria-labelledby="cfT" style="max-width:540px;max-height:calc(100vh - 32px);overflow:auto">
+      <h2 id="cfT">${esc(title)}</h2>
+      ${rows.length ? `<div class="dl" style="margin-bottom:12px;grid-template-columns:120px 1fr">${rows.map(([k, v]) => `<div>${esc(k)}</div><div>${v}</div>`).join("")}</div>` : ""}
+      ${note ? `<p class="muted">${note}</p>` : ""}
+      <div class="actions"><button class="second" id="cfNo">Vazgeç</button><button class="${danger ? "danger" : ""}" id="cfYes">${esc(yes)}</button></div></div>`;
+    box.classList.remove("hidden");
+    const done = v => { box.classList.add("hidden"); box.onclick = null; confirmResolve = null; res(v); };
+    confirmResolve = done;
+    $("cfNo").onclick = () => done(false);
+    $("cfYes").onclick = () => done(true);
+    box.onclick = e => { if (e.target === box) done(false); };
+    $("cfNo").focus();
+  });
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape" && confirmResolve) confirmResolve(false); });
+
+// ---- Form ----
+function langBox(l) {
   const ph = PH[l] || ["", ""];
   return `<div data-lang="${l}"><div class="lang">${esc(PUSH_LANGS[l].toLocaleUpperCase("tr-TR"))}${l === "en" ? " (ŞART)" : l === "tr" ? "" : ` <a style="cursor:pointer;font-weight:600;letter-spacing:0" data-rm="${l}">kaldır</a>`}</div>
-    <div class="field"><label for="pt_${l}">Başlık <small id="ptc_${l}">0/${MAX_T}</small></label><input id="pt_${l}" data-l="${l}" data-k="title" placeholder="${esc(ph[0])}"></div>
+    <div class="field"><label for="pt_${l}">Başlık <small id="ptc_${l}">0/${MAX_T}</small></label><input id="pt_${l}" data-l="${l}" data-k="title" placeholder="${esc(ph[0])}" autocomplete="off"></div>
     <div class="field"><label for="pb_${l}">Metin <small id="pbc_${l}">0/${MAX_B}</small></label><textarea id="pb_${l}" data-l="${l}" data-k="body" rows="3" placeholder="${esc(ph[1])}"></textarea></div></div>`;
 }
 function bindLangInputs(root) {
-  root.querySelectorAll("[data-l]").forEach(x => x.oninput = pushCheck);
+  root.querySelectorAll("[data-l]").forEach(x => { x.oninput = () => { prevLang = x.dataset.l; pushChanged(); }; x.onfocus = () => { lastField = x; if (prevLang !== x.dataset.l) { prevLang = x.dataset.l; renderPreview(); } }; });
   root.querySelectorAll("[data-rm]").forEach(a => a.onclick = () => { pushExtra = pushExtra.filter(l => l !== a.dataset.rm); renderExtra(); });
 }
-function renderExtra() {
+function renderExtra(values = {}) {
   // Yazılmış metinleri koru: yeniden çizmeden önce oku, sonra geri koy.
   const keep = {};
   $("pushExtra").querySelectorAll("[data-l]").forEach(x => keep[x.id] = x.value);
+  Object.assign(keep, values);
   $("pushPick").innerHTML = EXTRA_LANGS.map(l => `<button class="ghost${pushExtra.includes(l) ? " on" : ""}" data-pick="${l}">${esc(PUSH_LANGS[l])} <code>${l}</code></button>`).join("");
   $("pushPick").querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
     const l = b.dataset.pick;
     pushExtra = pushExtra.includes(l) ? pushExtra.filter(x => x !== l) : [...pushExtra, l];
     renderExtra();
   });
-  $("pushExtra").innerHTML = pushExtra.map(l => langBox(l, true)).join("");
+  $("pushExtra").innerHTML = pushExtra.map(langBox).join("");
   for (const [id, v] of Object.entries(keep)) if ($(id)) $(id).value = v;
   $("pushMoreN").textContent = pushExtra.length ? `(${pushExtra.length} dil)` : "";
+  if (pushExtra.length) $("pushMore").open = true;
   bindLangInputs($("pushExtra"));
-  pushCheck();
+  pushChanged();
 }
+const appChip = (k, ad, renk, on, attr, n) => `<button class="chip${on ? " on" : ""}" ${attr}="${k}"><i style="background:${renk}"></i>${ad}${n != null ? `<small>${fmt(n)}</small>` : ""}</button>`;
 function renderPushApps() {
+  const n = a => allInstalls.filter(i => (a === "all" || i.app === a) && i.notif === true).length;
   $("pushApps").innerHTML = [["all", "Tümü", "var(--ink)"], ...APP_KEYS.map(a => [a, APPS[a].ad, APPS[a].renk])]
-    .map(([k, ad, renk]) => `<button class="chip${(k === "all" ? !pushApps.length : pushApps.includes(k)) ? " on" : ""}" data-papp="${k}"><i style="background:${renk}"></i>${ad}</button>`).join("");
+    .map(([k, ad, renk]) => appChip(k, ad, renk, k === "all" ? !pushApps.length : pushApps.includes(k), "data-papp", dataReady ? n(k) : null)).join("");
   $("pushApps").querySelectorAll("[data-papp]").forEach(b => b.onclick = () => {
     const k = b.dataset.papp;
     if (k === "all") pushApps = [];
     else pushApps = pushApps.includes(k) ? pushApps.filter(x => x !== k) : [...pushApps, k];
     if (pushApps.length === APP_KEYS.length) pushApps = [];
-    renderPushApps(); pushCheck();
+    renderPushApps(); pushChanged();
   });
+}
+/* Kitle filtreleri: uygulama, dil, Pass, hesap, son görülme, tek kişi. */
+function renderAudFilters() {
+  const pool = allInstalls.filter(reachOf);
+  $("audApps").innerHTML = [["all", "Tümü", "var(--ink)"], ...APP_KEYS.map(a => [a, APPS[a].ad, APPS[a].renk])]
+    .map(([k, ad, renk]) => appChip(k, ad, renk, k === "all" ? !aud.apps.length : aud.apps.includes(k), "data-aapp", dataReady ? pool.filter(i => k === "all" || i.app === k).length : null)).join("");
+  $("audApps").querySelectorAll("[data-aapp]").forEach(b => b.onclick = () => {
+    const k = b.dataset.aapp;
+    aud.apps = k === "all" ? [] : aud.apps.includes(k) ? aud.apps.filter(x => x !== k) : [...aud.apps, k];
+    if (aud.apps.length === APP_KEYS.length) aud.apps = [];
+    renderAudFilters(); pushChanged(true);
+  });
+  const langCount = countBy(allInstalls.filter(i => i.language), i => lang2(i.language));
+  const langs = [...new Set([...Object.keys(langCount).sort((a, b) => langCount[b] - langCount[a]).slice(0, 12), ...aud.langs])];
+  $("audLangs").innerHTML = `<button class="chip${!aud.langs.length ? " on" : ""}" data-alang="all">Hepsi</button>` + langs.map(l => {
+    const n = pool.filter(i => lang2(i.language) === l).length;
+    return `<button class="chip${aud.langs.includes(l) ? " on" : ""}" data-alang="${esc(l)}">${esc(PUSH_LANGS[l] || LANG[l] || l)} <code>${esc(l)}</code><small>${fmt(n)}</small></button>`;
+  }).join("");
+  $("audLangs").querySelectorAll("[data-alang]").forEach(b => b.onclick = () => {
+    const l = b.dataset.alang;
+    aud.langs = l === "all" ? [] : aud.langs.includes(l) ? aud.langs.filter(x => x !== l) : [...aud.langs, l];
+    renderAudFilters(); pushChanged(true);
+  });
+  document.querySelectorAll("#whoAud [data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.classList.toggle("on", aud[s.dataset.seg] === b.dataset.v)));
+  $("actDaysWrap").classList.toggle("hidden", aud.act === "any");
+  if (document.activeElement !== $("actDays")) $("actDays").value = aud.act === "inactive" ? aud.inactDays : aud.actDays;
+  const off = aud.ids.length > 0;
+  $("audFilters").style.opacity = off ? ".42" : "";
+  $("audFilters").style.pointerEvents = off ? "none" : "";
+  $("audFilters").setAttribute("aria-disabled", off ? "true" : "false");
+  $("audIds").innerHTML = aud.ids.map(id => {
+    const i = allInstalls.find(x => x.id === id);
+    const lbl = i ? (handleOf(i) ? "@" + handleOf(i) : nameOf(i) || shortId(id)) : shortId(id);
+    return `<span class="tag">${i ? `<i style="width:8px;height:8px;border-radius:50%;background:${APPS[i.app]?.renk}"></i>` : ""}<b>${esc(lbl)}</b> <span class="muted">${esc(i ? appName(i.app) : "bilinmeyen kurulum")}${i && !reachOf(i) ? " · adres yok" : ""}</span><button data-unid="${esc(id)}" aria-label="Kaldır">×</button></span>`;
+  }).join("") + (aud.ids.length > 1 ? `<button class="ghost" id="audClear" style="margin-top:6px">Hepsini kaldır</button>` : "");
+  $("audIds").querySelectorAll("[data-unid]").forEach(b => b.onclick = () => { aud.ids = aud.ids.filter(x => x !== b.dataset.unid); renderAudFilters(); pushChanged(true); });
+  if ($("audClear")) $("audClear").onclick = () => { aud.ids = []; renderAudFilters(); pushChanged(true); };
+}
+function bindAudControls() {
+  document.querySelectorAll("#whoAud [data-seg]").forEach(s => s.querySelectorAll("button").forEach(b => b.onclick = () => {
+    aud[s.dataset.seg] = b.dataset.v; renderAudFilters(); pushChanged(true);
+    if (s.dataset.seg === "act" && b.dataset.v !== "any") $("actDays").focus();
+  }));
+  $("actDays").oninput = () => {
+    const n = Math.max(1, Math.min(365, Math.round(+$("actDays").value) || 0));
+    if (!+$("actDays").value) return;
+    if (aud.act === "inactive") aud.inactDays = n; else aud.actDays = n;
+    pushChanged(true);
+  };
+  $("actDays").onblur = () => renderAudFilters();
+  // Tek kişi: kullanıcı adı, ad ya da kurulum kimliğiyle ara.
+  const pick = $("audPick"), input = $("audSearch");
+  const close = () => pick.classList.add("hidden");
+  input.oninput = () => {
+    const raw = input.value.trim().toLowerCase(), at = raw.startsWith("@"), q = raw.replace(/^@/, "");
+    if (q.length < (at ? 1 : 2)) { close(); return; }
+    // @ ile yalnız kullanıcı adı; yoksa kullanıcı adı, ad ya da kimliğin başı.
+    const score = i => handleOf(i).toLowerCase().startsWith(q) ? 3 : handleOf(i).toLowerCase().includes(q) ? 2
+      : at ? 0 : nameOf(i).toLowerCase().includes(q) ? 2 : i.id.toLowerCase().startsWith(q) ? 1 : 0;
+    const hit = allInstalls.map(i => [i, score(i)]).filter(x => x[1] > 0)
+      .sort((a, b) => (b[1] - a[1]) || (reachOf(b[0]) - reachOf(a[0])) || (ts(b[0].lastSeen) - ts(a[0].lastSeen))).slice(0, 8).map(x => x[0]);
+    pick.innerHTML = hit.length ? hit.map(i => `<button data-addid="${esc(i.id)}">${whoCell(i)}<span class="muted">${esc(appName(i.app))} · ${ago(ts(i.lastSeen))}${reachOf(i) ? "" : " · adres yok"}</span></button>`).join("")
+      : `<p class="muted" style="padding:10px 12px;margin:0">Bulunamadı.</p>`;
+    pick.classList.remove("hidden");
+    pick.querySelectorAll("[data-addid]").forEach(b => b.onclick = () => {
+      if (!aud.ids.includes(b.dataset.addid)) aud.ids.push(b.dataset.addid);
+      input.value = ""; close(); renderAudFilters(); pushChanged(true);
+    });
+  };
+  input.onkeydown = e => { if (e.key === "Escape") close(); if (e.key === "ArrowDown") { e.preventDefault(); pick.querySelector("button")?.focus(); } };
+  pick.onkeydown = e => {
+    const items = [...pick.querySelectorAll("button")], k = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown") { e.preventDefault(); items[Math.min(items.length - 1, k + 1)]?.focus(); }
+    if (e.key === "ArrowUp") { e.preventDefault(); (k <= 0 ? input : items[k - 1]).focus(); }
+    if (e.key === "Escape") { close(); input.focus(); }
+  };
+  document.addEventListener("click", e => { if (!e.target.closest(".picker")) close(); });
+}
+function setMode(m) {
+  pushMode = m;
+  document.querySelectorAll("#pushModes .mode").forEach(b => b.classList.toggle("on", b.dataset.mode === m));
+  $("whoTopics").classList.toggle("hidden", m !== "topics");
+  $("whoAud").classList.toggle("hidden", m !== "devices");
+  $("pushHint").innerHTML = m === "topics"
+    ? `Test: yalnız <code>bs_test</code> konusuna tek mesaj (Türkçe metin varsa o, yoksa İngilizce); uygulama seçimi dikkate alınmaz.`
+    : `Test: filtre ne olursa olsun yalnız test cihazlarına (TestFlight ya da Profil'de sürüm satırına yedi dokunuş), her biri kendi dilinde.`;
+  if (m === "devices") renderAudFilters();
+  pushChanged(true);
 }
 function initPushForm() {
   $("pushMain").innerHTML = langBox("tr") + langBox("en");
   bindLangInputs($("pushMain"));
-  $("pushTab").onchange = pushCheck;
-  renderPushApps(); renderExtra();
+  $("emojiBar").innerHTML = EMOJI.map(e => `<button type="button" data-emo="${e}" title="Ekle">${e}</button>`).join("");
+  $("emojiBar").querySelectorAll("[data-emo]").forEach(b => {
+    b.onmousedown = e => e.preventDefault();   // odak alanda kalsın
+    b.onclick = () => {
+      const f = lastField && document.body.contains(lastField) ? lastField : $("pt_tr");
+      const s = f.selectionStart ?? f.value.length, e2 = f.selectionEnd ?? s;
+      f.value = f.value.slice(0, s) + b.dataset.emo + f.value.slice(e2);
+      f.focus(); f.selectionStart = f.selectionEnd = s + b.dataset.emo.length;
+      prevLang = f.dataset.l; pushChanged();
+    };
+  });
+  $("pushTab").onchange = () => pushChanged();
+  document.querySelectorAll("#pushModes .mode").forEach(b => b.onclick = () => setMode(b.dataset.mode));
+  document.querySelectorAll("#whenSeg button").forEach(b => b.onclick = () => setWhen(b.dataset.when));
+  $("sendAt").oninput = () => pushChanged();
   document.querySelectorAll("[data-push]").forEach(b => b.onclick = () => pushAsk(b.dataset.push));
+  $("tplSave").onclick = saveTemplate;
+  $("tplName").onkeydown = e => { if (e.key === "Enter") saveTemplate(); };
+  bindAudControls();
+  renderPushApps(); renderExtra();
+  restoreDraft();
+  setMode(pushMode);
 }
+
+// ---- Zaman (Türkiye saati) ----
+const istInput = ms => new Date(ms + IST).toISOString().slice(0, 16);           // datetime-local değeri
+const istParse = v => v ? Date.parse(v + ":00+03:00") : NaN;
+const istText = ms => new Date(ms).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul", weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
+function untilText(ms) {
+  const m = Math.round((ms - Date.now()) / 6e4);
+  if (m < 60) return `${m} dakika sonra`;
+  const h = Math.floor(m / 60), r = m % 60;
+  if (h < 48) return `${h} saat${r ? ` ${r} dakika` : ""} sonra`;
+  return `${Math.round(h / 24)} gün sonra`;
+}
+function setWhen(w) {
+  when = w;
+  document.querySelectorAll("#whenSeg button").forEach(b => b.classList.toggle("on", b.dataset.when === w));
+  $("whenLater").classList.toggle("hidden", w !== "later");
+  if (w === "later") {
+    const min = Math.ceil((Date.now() + 10 * 6e4) / 3e5) * 3e5;
+    $("sendAt").min = istInput(min); $("sendAt").max = istInput(Date.now() + 60 * 864e5);
+    if (!$("sendAt").value || istParse($("sendAt").value) < Date.now()) $("sendAt").value = istInput(Math.ceil((Date.now() + 36e5) / 36e5) * 36e5);
+  }
+  pushChanged();
+}
+function sendAtMs() { return when === "later" ? istParse($("sendAt").value) : null; }
+
+// ---- Metin ve kontroller ----
 const pushLangs = () => ["tr", "en", ...pushExtra];
 function readTexts() {
   const texts = {};
@@ -1212,16 +1682,16 @@ function pushProblems() {
   const out = [], texts = readTexts();
   for (const l of pushLangs()) {
     const t = $("pt_" + l), b = $("pb_" + l); if (!t) continue;
-    const tv = t.value.trim(), bv = b.value.trim();
-    $("ptc_" + l).textContent = `${tv.length}/${MAX_T}`; $("ptc_" + l).classList.toggle("over", tv.length > MAX_T);
-    $("pbc_" + l).textContent = `${bv.length}/${MAX_B}`; $("pbc_" + l).classList.toggle("over", bv.length > MAX_B);
+    const tv = t.value.trim(), bv = b.value.trim(), tl = glen(tv), bl = glen(bv);
+    $("ptc_" + l).textContent = `${tl}/${MAX_T}`; $("ptc_" + l).classList.toggle("over", tl > MAX_T);
+    $("pbc_" + l).textContent = `${bl}/${MAX_B}`; $("pbc_" + l).classList.toggle("over", bl > MAX_B);
     const name = PUSH_LANGS[l];
     const dash = s => /[\u2014\u2013]/.test(s), hat = s => l === "tr" && /\u00e2/i.test(s);
     let badT = false, badB = false;
     if (dash(tv) || dash(bv)) { out.push(`${name}: uzun tire var, kısa tire ya da virgül kullan.`); badT ||= dash(tv); badB ||= dash(bv); }
     if (hat(tv) || hat(bv)) { out.push(`${name}: "\u00e2" var, "a" yaz.`); badT ||= hat(tv); badB ||= hat(bv); }
-    if (tv.length > MAX_T) { out.push(`${name}: başlık ${MAX_T} karakteri geçiyor.`); badT = true; }
-    if (bv.length > MAX_B) { out.push(`${name}: metin ${MAX_B} karakteri geçiyor.`); badB = true; }
+    if (tl > MAX_T) { out.push(`${name}: başlık ${MAX_T} karakteri geçiyor.`); badT = true; }
+    if (bl > MAX_B) { out.push(`${name}: metin ${MAX_B} karakteri geçiyor.`); badB = true; }
     if ((tv || bv) && !(tv && bv)) { out.push(`${name}: başlık ve metin birlikte yazılmalı.`); badT ||= !tv; badB ||= !bv; }
     t.parentElement.classList.toggle("bad", badT); b.parentElement.classList.toggle("bad", badB);
   }
@@ -1230,38 +1700,307 @@ function pushProblems() {
   if (other.length > MAX_OTHER) out.push(`İngilizce dışında en fazla ${MAX_OTHER} dil yazılabilir (şu an ${other.length}).`);
   return out;
 }
+function whenProblem() {
+  if (when !== "later") return "";
+  const t = sendAtMs();
+  if (!Number.isFinite(t)) return "Gönderim zamanını seç.";
+  if (t < Date.now() + 2 * 6e4) return "Zaman geçmişte ya da çok yakın: en az birkaç dakika sonrası olmalı.";
+  if (t > Date.now() + 60 * 864e5) return "En fazla 60 gün sonrasına zamanlanabilir.";
+  return "";
+}
+function pushChanged(audChanged = false) {
+  pushCheck();
+  renderPreview();
+  if (audChanged) scheduleAudience();
+  renderAudience();
+  saveDraft();
+}
 function pushCheck() {
   if (!$("pushCheck")) return;
-  const probs = pushProblems(), empty = !Object.keys(readTexts()).length;
-  const blocked = DEMO || pushBusy || probs.length > 0 || (pushHealth && !pushHealth.ready);
+  const probs = pushProblems(), empty = !Object.keys(readTexts()).length, wp = whenProblem();
+  const a = currentAudience();
+  const noOne = pushMode === "devices" && a && a.withToken === 0;
+  const tooMany = pushMode === "devices" && a && a.withToken > MAX_DEVICES;
+  const healthBad = !DEMO && pushHealth && !pushHealth.ready;
+  const blocked = pushBusy || probs.length > 0 || healthBad;
   $("pushCheck").innerHTML = probs.length && !empty ? `<div class="note err">${probs.map(esc).join("<br>")}</div>` : "";
   document.querySelectorAll("[data-push]").forEach(b => b.disabled = blocked);
-  renderReach();
+  $("sendBtn").disabled = blocked || !!wp || noOne || tooMany;
+  $("sendBtn").textContent = when === "later" ? "Zamanla" : pushMode === "devices" ? (a && a.withToken ? `${fmt(a.withToken)} cihaza gönder` : "Gönder") : "Herkese gönder";
+  if (when === "later") {
+    const t = sendAtMs();
+    $("sendAtInfo").innerHTML = wp ? `<span style="color:var(--rose)">${esc(wp)}</span>`
+      : `Türkiye saatiyle <b>${esc(istText(t))}</b> · ${esc(untilText(t))}. Worker beş dakikada bir bakar; zamanı gelince ilk turda gider.`;
+  }
 }
-function reachCount() {
-  const pool = allInstalls.filter(i => !pushApps.length || pushApps.includes(i.app));
-  return { on: pool.filter(i => i.notif === true).length, known: pool.filter(i => typeof i.notif === "boolean").length };
+
+// ---- Kitle sayımı ----
+function audFilter() {
+  if (aud.ids.length) return { installIds: aud.ids.slice() };
+  const f = { apps: aud.apps.slice(), langs: aud.langs.slice(), pro: aud.pro };
+  if (aud.act === "active") f.activeWithinDays = aud.actDays;
+  if (aud.act === "inactive") f.inactiveForDays = aud.inactDays;
+  if (aud.signed !== "any") f.signedIn = aud.signed === "yes";
+  return f;
 }
-function targetText() {
-  return pushApps.length ? pushApps.map(appName).join(", ") : "beş uygulamanın hepsi";
+/* Worker'daki süzgecin aynısı (panelin elindeki veriyle anında tahmin, demo için de). */
+function matchLocal(i, f, now = Date.now()) {
+  if (f.installIds?.length && !f.installIds.includes(i.id)) return false;
+  if (f.apps?.length && !f.apps.includes(i.app)) return false;
+  if (f.langs?.length && !f.langs.includes(lang2(i.language))) return false;
+  if (f.pro === "pro" && i.pro !== true) return false;
+  if (f.pro === "free" && i.pro === true) return false;
+  const seen = ts(i.lastSeen)?.getTime() ?? NaN;
+  if (f.activeWithinDays && !(seen >= now - f.activeWithinDays * 864e5)) return false;
+  if (f.inactiveForDays && !(seen < now - f.inactiveForDays * 864e5)) return false;
+  if (typeof f.signedIn === "boolean" && (i.signedIn === true) !== f.signedIn) return false;
+  return true;
 }
-function renderReach() {
-  if (!$("pushReach")) return;
-  const r = reachCount(), tab = $("pushTab").value;
-  $("pushReach").innerHTML = `Hedef: <b>${esc(targetText())}</b>. Bildirime izin veren yaklaşık <b>${fmt(r.on)}</b> kurulum${r.known ? ` (${fmt(r.known)} kurulumun izni biliniyor)` : ""}. Dokununca: ${esc(tab ? PUSH_TABS[tab] : "uygulama açılır")}.`;
+function audienceLocal(f) {
+  const match = allInstalls.filter(i => matchLocal(i, f)), reach = match.filter(reachOf);
+  return { total: match.length, withToken: reach.length, noToken: match.filter(i => !hasToken(i)).length, notifOff: match.filter(i => hasToken(i) && i.notif === false).length,
+    byApp: countBy(reach, i => i.app || "?"), byLang: countBy(reach, i => lang2(i.language) || "?"), local: true };
 }
+const audKey = () => JSON.stringify(audFilter());
+function currentAudience() {
+  if (pushMode !== "devices") return null;
+  if (audRemote && audRemote.key === audKey()) return audRemote.data;
+  return dataReady ? audienceLocal(audFilter()) : null;
+}
+function scheduleAudience() {
+  if (pushMode !== "devices") return;
+  clearTimeout(audTimer);
+  if (DEMO || !FB?.auth.currentUser) return;
+  const key = audKey(), seq = ++audSeq;
+  audTimer = setTimeout(async () => {
+    try {
+      const data = await api("/audience", { filter: audFilter() });
+      if (seq !== audSeq) return;
+      audRemote = { key, data, at: new Date() };
+    } catch (e) { if (seq === audSeq) audRemote = { key, err: e.message, at: new Date() }; }
+    renderAudience(); pushCheck();
+  }, 650);
+}
+/* Konular: kim hangi metni görür. Dili metni olanlar kendi dilini, gerisi İngilizceyi. */
+function textSplit(pool, texts) {
+  const m = {};
+  for (const i of pool) { const l = texts[lang2(i.language)] ? lang2(i.language) : "en"; m[l] = (m[l] || 0) + 1; }
+  return m;
+}
+const splitText = m => Object.entries(m).sort((a, b) => b[1] - a[1]).map(([l, n]) => `${esc(PUSH_LANGS[l] || l)} metni <b>${fmt(n)}</b>`).join(" · ");
+function topicPool() { return allInstalls.filter(i => (!pushApps.length || pushApps.includes(i.app)) && i.notif === true); }
+function renderAudience() {
+  const box = $("pushAud"); if (!box) return;
+  if (!dataReady) { box.innerHTML = `<div class="audbox"><span class="muted">Veri yükleniyor…</span></div>`; return; }
+  const texts = readTexts(), hasTexts = Object.keys(texts).length > 0;
+  if (pushMode === "topics") {
+    const pool = topicPool(), known = allInstalls.filter(i => (!pushApps.length || pushApps.includes(i.app)) && typeof i.notif === "boolean").length;
+    box.innerHTML = `<div class="audbox"><div class="big">~${fmt(pool.length)}<small>kurulum</small></div>
+      <div class="row"><span>Bildirime izin veren, ${esc(targetText())}. Konuya abone olan herkes alır; telemetrisi eski olanlar sayıda yok.</span></div>
+      ${hasTexts ? `<div class="row"><span>${splitText(textSplit(pool, texts))}</span></div>` : ""}
+      <div class="row"><span>${fmt(known)} kurulumun izin durumu biliniyor.</span></div></div>`;
+    return;
+  }
+  const a = currentAudience(), remote = audRemote && audRemote.key === audKey();
+  const src = DEMO ? "Demo: panel verisinden sayıldı, Worker'a sorulmadı."
+    : remote ? (audRemote.err ? `Worker sayamadı (${esc(audRemote.err)}); panel verisi gösteriliyor.` : `Worker sayımı · ${audRemote.at.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}`)
+    : "Panel verisinden anlık tahmin; Worker sayıyor…";
+  const data = remote && audRemote.err ? audienceLocal(audFilter()) : a;
+  const warn = data.withToken === 0 || data.withToken > MAX_DEVICES;
+  const split = {};
+  if (hasTexts) for (const [l, n] of Object.entries(data.byLang || {})) { const k = texts[l] ? l : "en"; split[k] = (split[k] || 0) + n; }
+  box.innerHTML = `<div class="audbox${warn ? " warnbox" : ""}"><div class="big">${fmt(data.withToken)}<small>cihaz</small></div>
+    <div class="row"><span>${esc(audSummary())}</span></div>
+    <div class="row">${Object.entries(data.byApp || {}).sort((x, y) => y[1] - x[1]).map(([k, n]) => `<span class="app"><i style="background:${APPS[k]?.renk || "var(--soft)"}"></i>${esc(appName(k))} ${fmt(n)}</span>`).join("")}</div>
+    ${hasTexts && data.withToken ? `<div class="row"><span>${splitText(split)}</span></div>` : ""}
+    <div class="row"><span>Filtreye uyan ${fmt(data.total)} kurulum${data.noToken ? ` · ${fmt(data.noToken)} tanesinin cihaz adresi yok` : ""}${data.notifOff ? ` · ${fmt(data.notifOff)} tanesi bildirimi kapatmış` : ""}.</span></div>
+    ${data.withToken === 0 ? `<div class="row"><b style="color:var(--warn)">Bu filtreye uyan, bildirim adresi olan cihaz yok.</b></div>` : ""}
+    ${data.withToken > MAX_DEVICES ? `<div class="row"><b style="color:var(--warn)">Tek gönderimde en fazla ${fmt(MAX_DEVICES)} cihaz: filtreyi daralt ya da Konular modunu kullan.</b></div>` : ""}
+    <div class="row"><span>${src}</span></div></div>`;
+}
+function targetText() { return pushApps.length ? pushApps.map(appName).join(", ") : "beş uygulamanın hepsi"; }
+function audSummary() {
+  const f = audFilter(), parts = [];
+  if (f.installIds) {
+    const who = f.installIds.map(id => { const i = allInstalls.find(x => x.id === id); return i ? (handleOf(i) ? "@" + handleOf(i) : shortId(id)) + ` (${appName(i.app)})` : shortId(id); });
+    return (f.installIds.length === 1 ? "Tek kişi: " : `${f.installIds.length} seçili kişi: `) + who.join(", ");
+  }
+  parts.push(f.apps.length ? f.apps.map(appName).join(", ") : "Tüm uygulamalar");
+  if (f.langs.length) parts.push("dil " + f.langs.join(", "));
+  if (f.pro !== "any") parts.push(f.pro === "pro" ? "Pro" : "ücretsiz");
+  if (f.activeWithinDays) parts.push(`son ${f.activeWithinDays} günde açan`);
+  if (f.inactiveForDays) parts.push(`${f.inactiveForDays} gündür açmayan`);
+  if (typeof f.signedIn === "boolean") parts.push(f.signedIn ? "girişli" : "girişsiz");
+  return parts.join(" · ");
+}
+const summaryText = () => pushMode === "topics" ? targetText().replace(/^b/, "B") : audSummary();
+
+// ---- iPhone kilit ekranı önizlemesi ----
+function previewApps() {
+  if (pushMode === "topics") return pushApps.length ? pushApps : APP_KEYS;
+  if (aud.ids.length) { const a = [...new Set(aud.ids.map(id => allInstalls.find(x => x.id === id)?.app).filter(Boolean))]; return a.length ? a : APP_KEYS; }
+  return aud.apps.length ? aud.apps : APP_KEYS;
+}
+function renderPreview() {
+  if (!$("prevScreen")) return;
+  const texts = readTexts(), langs = pushLangs();
+  if (!langs.includes(prevLang)) prevLang = "tr";
+  const apps = previewApps();
+  if (!apps.includes(prevApp)) prevApp = apps[0];
+  $("prevLangs").innerHTML = langs.map(l => `<button data-pl="${l}" class="${l === prevLang ? "on" : ""}" title="${esc(PUSH_LANGS[l])}">${l.toUpperCase()}</button>`).join("");
+  $("prevLangs").querySelectorAll("[data-pl]").forEach(b => b.onclick = () => { prevLang = b.dataset.pl; renderPreview(); });
+  $("prevApps").innerHTML = apps.length > 1 ? apps.map(a => `<button data-pa="${a}" class="${a === prevApp ? "on" : ""}" title="${esc(appName(a))}"><img src="${APP_ICON[a]}" alt="${esc(appName(a))}"></button>`).join("") : "";
+  $("prevApps").querySelectorAll("[data-pa]").forEach(b => b.onclick = () => { prevApp = b.dataset.pa; renderPreview(); });
+  // Dilin kendi metni yoksa o dildeki telefon İngilizceyi görür.
+  const own = texts[prevLang], shown = own || texts.en, shownLang = own ? prevLang : "en";
+  const ph = !shown, t = shown || { title: (PH[prevLang] || PH.en)[0], body: (PH[prevLang] || PH.en)[1] };
+  const at = when === "later" && Number.isFinite(sendAtMs()) ? new Date(sendAtMs()) : new Date();
+  const loc = LOCALE[prevLang] || "en-US";
+  const opt = { timeZone: when === "later" ? "Europe/Istanbul" : undefined };
+  const date = at.toLocaleDateString(loc, { weekday: "long", day: "numeric", month: "long", ...opt });
+  const time = at.toLocaleTimeString(loc, { hour: prevLang === "en" ? "numeric" : "2-digit", minute: "2-digit", hour12: prevLang === "en" ? true : undefined, ...opt }).replace(/\s?[AP]M$/i, "");
+  const c = APPS[prevApp]?.renk || "#2CD758";
+  $("prevScreen").innerHTML = `<div class="wall" style="background:radial-gradient(120% 70% at 20% 0%, ${c} 0%, transparent 60%),radial-gradient(90% 60% at 100% 100%, ${c}88 0%, transparent 70%),linear-gradient(170deg,#1d2b3a,#0b1118)"></div>
+    <div class="island"></div>
+    <div class="lock"><div class="d">${esc(date)}</div><div class="t">${esc(time)}</div></div>
+    <div class="noti" role="img" aria-label="Bildirim önizlemesi">
+      <img src="${APP_ICON[prevApp]}" alt="">
+      <div class="tx"><div class="hd"><span>${esc(APP_IOS[prevApp] || appName(prevApp))}</span><span>${esc(NOW_WORD[prevLang] || "now")}</span></div>
+        <div class="ti${ph ? " ph" : ""}" dir="auto">${esc(t.title)}</div><div class="bd${ph ? " ph" : ""}" dir="auto">${esc(t.body)}</div></div>
+    </div>
+    <div class="bottom"><i></i><i></i></div><div class="bar"></div>`;
+  $("prevAppName").textContent = ph ? "Metin yazınca burada görünür." : !own && prevLang !== "en" ? `${PUSH_LANGS[prevLang]} metni yok: bu telefon İngilizceyi görür.` : `${appName(prevApp)} · ${PUSH_LANGS[shownLang]}${$("pushTab").value ? ` · dokununca ${PUSH_TABS[$("pushTab").value]}` : ""}`;
+}
+
+// ---- Taslak (bu tarayıcıda) ----
+function draftData() {
+  const vals = {};
+  for (const l of pushLangs()) { vals[l] = { title: $("pt_" + l)?.value || "", body: $("pb_" + l)?.value || "" }; }
+  return { mode: pushMode, apps: pushApps, aud: { ...aud, ids: aud.ids.slice(0, 20) }, texts: vals, extra: pushExtra, tab: $("pushTab").value };
+}
+let draftReady = false;
+function saveDraft() { if (draftReady) store.set(DRAFT_KEY, JSON.stringify(draftData())); }
+function restoreDraft() {
+  try { const d = JSON.parse(store.get(DRAFT_KEY) || "null"); if (d) loadDraft(d, true); } catch { }
+  draftReady = true;
+}
+/* Şablon, eski gönderim ya da taslak forma. */
+function loadDraft(d, quiet = false) {
+  pushMode = d.mode === "devices" ? "devices" : "topics";
+  pushApps = (d.apps || []).filter(a => APPS[a]);
+  if (d.aud) Object.assign(aud, { apps: [], langs: [], pro: "any", signed: "any", act: "any", ids: [] }, d.aud);
+  else if (d.filter) {
+    const f = d.filter;
+    Object.assign(aud, { apps: f.apps || [], langs: f.langs || [], pro: f.pro || "any", ids: f.installIds || [],
+      signed: typeof f.signedIn === "boolean" ? (f.signedIn ? "yes" : "no") : "any",
+      act: f.activeWithinDays ? "active" : f.inactiveForDays ? "inactive" : "any" });
+    if (f.activeWithinDays) aud.actDays = f.activeWithinDays;
+    if (f.inactiveForDays) aud.inactDays = f.inactiveForDays;
+  } else Object.assign(aud, { apps: [], langs: [], pro: "any", signed: "any", act: "any", ids: [] });
+  const texts = d.texts || {};
+  pushExtra = (d.extra || Object.keys(texts).filter(l => l !== "tr" && l !== "en")).filter(l => EXTRA_LANGS.includes(l)).slice(0, 6);
+  for (const l of ["tr", "en"]) { $("pt_" + l).value = texts[l]?.title || ""; $("pb_" + l).value = texts[l]?.body || ""; }
+  const extraVals = {};
+  for (const l of pushExtra) { extraVals["pt_" + l] = texts[l]?.title || ""; extraVals["pb_" + l] = texts[l]?.body || ""; }
+  $("pushExtra").innerHTML = "";
+  $("pushTab").value = PUSH_TABS[d.tab] ? d.tab : "";
+  renderPushApps();
+  renderExtra(extraVals);
+  setMode(pushMode);
+  if (!quiet) prevLang = texts.tr ? "tr" : "en";
+}
+function pushToInstall(id) {
+  aud.ids = [id];
+  $("drawer").classList.add("hidden");
+  go("push");
+  setMode("devices");
+  renderAudFilters();
+  toast("Kitle: tek kişi seçildi. Metni yaz, Doğrula, Gönder.");
+  setTimeout(() => $("pt_tr")?.focus(), 50);
+}
+
+// ---- Şablonlar (pushTemplates) ----
+async function loadTemplates(force = false) {
+  if (templates && !templates.err && !force) { renderTemplates(); return; }
+  templates = { loading: true }; renderTemplates();
+  if (DEMO) templates = { list: demo.templates };
+  else {
+    try {
+      const { db, F } = FB;
+      const snap = await F.getDocs(F.query(F.collection(db, "pushTemplates"), F.orderBy("updatedAt", "desc"), F.limit(100)));
+      templates = { list: snap.docs.map(d => ({ id: d.id, ...d.data() })) };
+    } catch (e) { templates = { err: e.code || e.message }; }
+  }
+  renderTemplates();
+}
+function renderTemplates() {
+  const el = $("tplList"); if (!el) return;
+  if (!templates || templates.loading) { el.innerHTML = `<p class="muted">Yükleniyor…</p>`; return; }
+  if (templates.err) { el.innerHTML = `<p class="muted">Okunamadı: ${esc(templates.err)}</p>`; return; }
+  el.innerHTML = templates.list.length ? templates.list.map((t, n) => {
+    const tt = t.texts?.tr || t.texts?.en || {};
+    return `<div class="tpl"><div><b title="${esc(t.name)}">${esc(t.name)}</b><small title="${esc(tt.title || "")}">${t.mode === "devices" ? "Kitle" : "Konular"} · ${esc(Object.keys(t.texts || {}).join(", ").toUpperCase())} · ${esc(tt.title || "")}</small></div>
+      <button class="ghost" data-tload="${n}">Yükle</button><button class="ghost" data-tdel="${n}" aria-label="Sil" title="Sil">Sil</button></div>`;
+  }).join("") : `<p class="muted">Henüz şablon yok. Metni yaz, ad ver, Kaydet.</p>`;
+  el.querySelectorAll("[data-tload]").forEach(b => b.onclick = () => { const t = templates.list[+b.dataset.tload]; loadDraft(t); $("tplName").value = t.name; toast(`"${t.name}" yüklendi`); });
+  el.querySelectorAll("[data-tdel]").forEach(b => b.onclick = async () => {
+    const t = templates.list[+b.dataset.tdel];
+    if (!await confirmCard({ title: "Şablon silinsin mi?", rows: [["Ad", `<b>${esc(t.name)}</b>`]], yes: "Sil", danger: true })) return;
+    try {
+      if (DEMO) demo.templates.splice(demo.templates.indexOf(t), 1);
+      else { const { db, F } = FB; await F.deleteDoc(F.doc(db, "pushTemplates", t.id)); templates.list = templates.list.filter(x => x !== t); }
+      renderTemplates(); toast("Şablon silindi");
+    } catch (e) { toast("Silinemedi: " + (e.code || e.message)); }
+  });
+}
+async function saveTemplate() {
+  const name = $("tplName").value.trim();
+  if (!name) { $("tplName").focus(); toast("Şablona bir ad ver"); return; }
+  const texts = readTexts();
+  if (!Object.keys(texts).length) { toast("Önce metni yaz"); return; }
+  const d = draftData();
+  const data = { name: name.slice(0, 60), mode: d.mode, apps: d.apps, aud: { ...d.aud, ids: [] }, texts, extra: d.extra, tab: d.tab || null };
+  if (!templates?.list) await loadTemplates();
+  const same = templates?.list?.find(t => t.name.toLocaleLowerCase("tr") === data.name.toLocaleLowerCase("tr"));
+  if (same && !await confirmCard({ title: "Aynı adlı şablon var", rows: [["Ad", `<b>${esc(same.name)}</b>`]], note: "Üzerine yazılsın mı?", yes: "Üzerine yaz" })) return;
+  $("tplSave").disabled = true;
+  try {
+    if (DEMO) {
+      if (same) Object.assign(same, data, { updatedAt: new Date() });
+      else demo.templates.unshift({ id: "t" + Date.now(), ...data, createdAt: new Date(), updatedAt: new Date() });
+    } else {
+      const { db, F } = FB;
+      if (same) await F.setDoc(F.doc(db, "pushTemplates", same.id), { ...data, updatedAt: F.serverTimestamp() }, { merge: true });
+      else await F.addDoc(F.collection(db, "pushTemplates"), { ...data, createdAt: F.serverTimestamp(), updatedAt: F.serverTimestamp(), by: FB.auth.currentUser?.email || "" });
+    }
+    toast(same ? "Şablon güncellendi" : "Şablon kaydedildi");
+    await loadTemplates(true);
+  } catch (e) { toast("Kaydedilemedi: " + (e.code || e.message)); }
+  finally { $("tplSave").disabled = false; }
+}
+
+// ---- Bildirime izin verenler ----
 function renderPushStats() {
   if (!$("pushNotif")) return;
   const rows = APP_KEYS.map(a => {
-    const l = allInstalls.filter(i => i.app === a), known = l.filter(i => typeof i.notif === "boolean").length, on = l.filter(i => i.notif === true).length;
-    return { label: appName(a), value: on, color: APPS[a].renk, sub: known ? `${fmt(on)} / ${fmt(known)} (%${pct(on, known)})` : "veri yok" };
+    const l = allInstalls.filter(i => i.app === a), known = l.filter(i => typeof i.notif === "boolean").length, on = l.filter(i => i.notif === true).length, tok = l.filter(reachOf).length;
+    return { label: appName(a), value: on, color: APPS[a].renk, sub: known ? `${fmt(on)} / ${fmt(known)} (%${pct(on, known)}) · ${fmt(tok)} adres` : "veri yok" };
   });
   const on = rows.reduce((t, r) => t + r.value, 0);
   bars("pushNotif", rows);
-  $("pushNotif").insertAdjacentHTML("beforeend", `<p class="muted" style="margin:6px 0 0">Toplam <b>${fmt(on)}</b> kurulum bildirime izin vermiş. Alanı yazmayan eski sürümler sayılmaz.</p>`);
-  renderReach();
+  $("pushNotif").insertAdjacentHTML("beforeend", `<p class="muted" style="margin:6px 0 0">Toplam <b>${fmt(on)}</b> kurulum bildirime izin vermiş, <b>${fmt(allInstalls.filter(reachOf).length)}</b> tanesinin cihaz adresi var (Kitle modu bunlara ulaşır). Alanı yazmayan eski sürümler sayılmaz.</p>`);
 }
-const SETUP_NOTE = `<div class="note"><b>Worker hazır ama FCM anahtarı kurulmamış.</b> Bir kez şunlar yapılınca gönderim açılır:
+/* Veri yenilenince bildirim sayfasındaki sayılar. */
+function pushRefresh() {
+  if (!$("pushApps")) return;
+  renderPushApps();
+  if (pushMode === "devices") renderAudFilters();
+  pushCheck(); renderAudience(); renderPreview();
+  if (currentPage === "push") scheduleAudience();
+}
+
+// ---- Worker ----
+const SETUP_NOTE = `<div class="note"><b>Worker çalışıyor ama FCM anahtarı (FCM_SA) kurulu değil.</b> Bir kez şunlar yapılınca gönderim açılır:
   <ol style="margin:8px 0 0;padding-left:20px">
     <li>Firebase Console (<code>bam-tech-sports</code>) &rarr; Proje ayarları &rarr; Hizmet hesapları &rarr; <b>Yeni özel anahtar oluştur</b> &rarr; JSON'u kaydet.</li>
     <li>Terminalde: <code>cd ~/dev/"All Sport Apps"/push-worker &amp;&amp; npx wrangler secret put FCM_SA &lt; indirilen.json</code> (sonra JSON'u sil).</li>
@@ -1270,15 +2009,18 @@ const SETUP_NOTE = `<div class="note"><b>Worker hazır ama FCM anahtarı kurulma
   <p style="margin:8px 0 0"><a href="https://console.firebase.google.com/project/bam-tech-sports/settings/serviceaccounts/adminsdk" target="_blank" rel="noopener">Hizmet hesapları</a> · <a href="https://console.firebase.google.com/project/bam-tech-sports/settings/cloudmessaging" target="_blank" rel="noopener">Cloud Messaging</a> · kurduktan sonra <a style="cursor:pointer" id="healthAgain">yeniden kontrol et</a></p></div>`;
 async function loadPushHealth(force = false) {
   if (DEMO) {
-    $("pushState").innerHTML = `<div class="note">Demo modunda gönderim kapalı: düğmeler çalışmaz, Worker'a ve Firestore'a hiçbir şey gitmez. Formu ve kontrolleri deneyebilirsin.</div>`;
+    $("pushState").innerHTML = `<div class="note">Demo: her şey çalışır ama hiçbir şey gitmez. Worker'a ve Firestore'a dokunulmaz; gönderim, zamanlama, şablon ve iptal yalnız bu sekmede, sahte veriyle canlandırılır.</div>`;
     pushCheck(); return;
   }
   if (pushHealth && !force && pushHealth.ready) return;
   $("pushState").innerHTML = `<p class="muted">Worker kontrol ediliyor…</p>`;
   try {
-    const r = await fetch(PUSH_URL + "/health", { cache: "no-store" });
+    const r = await fetch(PUSH_URL + "/health?deep=1", { cache: "no-store" });
     pushHealth = await r.json();
-    $("pushState").innerHTML = pushHealth.ready ? `<div class="note okn">Worker hazır, FCM anahtarı kurulu.</div>` : SETUP_NOTE;
+    $("pushState").innerHTML = !pushHealth.ready ? SETUP_NOTE
+      : pushHealth.firestore && pushHealth.firestore !== "ok" ? `<div class="note err"><b>Worker Firestore'a ulaşamıyor:</b> ${esc(pushHealth.firestore)}. Konular modunda gönderim çalışır; Kitle, zamanlama ve kayıt çalışmaz.</div>`
+      : (pushHealth.version || 1) < 2 ? `<div class="note">Worker eski sürüm: Kitle modu ve zamanlama için <code>push-worker</code> klasöründen <code>npx wrangler deploy</code>.</div>`
+      : `<div class="note okn">Worker hazır: FCM anahtarı kurulu, Firestore erişimi var.</div>`;
   } catch (e) {
     pushHealth = null;
     $("pushState").innerHTML = `<div class="note err">Worker'a ulaşılamadı (${esc(e.message)}). <a style="cursor:pointer" id="healthAgain">Yeniden dene</a></div>`;
@@ -1286,107 +2028,352 @@ async function loadPushHealth(force = false) {
   if ($("healthAgain")) $("healthAgain").onclick = () => loadPushHealth(true);
   pushCheck();
 }
-function pushAsk(mode) {
-  if (DEMO || pushBusy || pushProblems().length) return;
-  if (mode !== "all") { pushSend(mode); return; }
-  const texts = readTexts(), langs = Object.keys(texts), tab = $("pushTab").value, r = reachCount();
-  const jobs = (pushApps.length || 1) * langs.length;
-  $("confirmBox").innerHTML = `<div class="card" role="dialog" aria-modal="true" aria-labelledby="cfT">
-    <h2 id="cfT">Herkese gönderilsin mi?</h2>
-    <div class="dl" style="margin-bottom:12px">
-      <div>Uygulama</div><div><b>${esc(targetText())}</b></div>
-      <div>Diller</div><div>${langs.map(l => esc(PUSH_LANGS[l])).join(", ")} (İngilizce geri kalan herkese)</div>
-      <div>Sekme</div><div>${esc(tab ? PUSH_TABS[tab] : "Uygulama açılır")}</div>
-      <div>Mesaj</div><div>${fmt(jobs)} ayrı FCM işi</div>
-      <div>Ulaşacak</div><div>yaklaşık ${fmt(r.on)} kurulum (izin veren)</div>
-      <div>Başlık</div><div>${esc((texts.tr || texts.en).title)}</div>
-    </div>
-    <p class="muted">Geri alınamaz; telefonlara hemen düşer.</p>
-    <div class="actions"><button class="second" id="cfNo">Vazgeç</button><button class="danger" id="cfYes">Evet, herkese gönder</button></div></div>`;
-  $("confirmBox").classList.remove("hidden");
-  const close = () => $("confirmBox").classList.add("hidden");
-  $("cfNo").onclick = close;
-  $("confirmBox").onclick = e => { if (e.target === $("confirmBox")) close(); };
-  $("cfYes").onclick = () => { close(); pushSend("all"); };
-  $("cfNo").focus();
+async function api(path, body) {
+  if (DEMO) return demoApi(path, body);
+  const token = await FB.auth.currentUser.getIdToken();
+  const r = await fetch(PUSH_URL + path, { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const out = await r.json().catch(() => ({}));
+  if (!r.ok || out.error) throw new Error(out.error === "forbidden" ? "Worker yetki vermedi (yönetici e-postası doğrulanmış olmalı)" : out.error || `HTTP ${r.status}`);
+  return out;
 }
-document.addEventListener("keydown", e => { if (e.key === "Escape") $("confirmBox").classList.add("hidden"); });
-async function pushSend(mode) {
-  if (DEMO || !FB?.auth.currentUser) return;
-  const texts = readTexts(), tab = $("pushTab").value || null, apps = pushApps.slice();
-  const payload = { apps, texts, tab, test: mode === "test", validate: mode === "validate" };
-  const label = { validate: "Doğrulama", test: "Test gönderimi", all: "Herkese gönderim" }[mode];
+function topicJobsLocal(apps, texts, test) {
+  const langs = Object.keys(texts);
+  if (test) return [{ app: "test", lang: langs.includes("tr") ? "tr" : "en", condition: "'bs_test' in topics" }];
+  const others = langs.filter(l => l !== "en"), jobs = [];
+  for (const s of apps.length ? apps.map(a => ({ app: a, topic: `bs_${a}` })) : [{ app: "all", topic: "bs_all" }]) {
+    for (const l of others) jobs.push({ app: s.app, lang: l, condition: `'${s.topic}' in topics && 'bs_lang_${l}' in topics` });
+    jobs.push({ app: s.app, lang: "en", condition: `'${s.topic}' in topics` + others.slice(0, 4).map(l => ` && !('bs_lang_${l}' in topics)`).join("") });
+  }
+  return jobs;
+}
+function buildPayload(kind) {
+  const p = { mode: pushMode, texts: readTexts(), tab: $("pushTab").value || null, summary: summaryText() };
+  if (pushMode === "topics") { p.apps = pushApps.slice(); p.estimate = topicPool().length; }
+  else p.filter = audFilter();
+  if (kind === "validate") p.validate = true;
+  if (kind === "test") { p.test = true; p.summary = pushMode === "topics" ? "Test cihazları (bs_test)" : "Test cihazları (cihaz adresiyle)"; }
+  if (kind === "schedule") p.sendAt = new Date(sendAtMs()).toISOString();
+  return p;
+}
+async function pushAsk(kind) {
+  if (pushBusy || pushProblems().length) return;
+  if (kind === "send" && when === "later") kind = "schedule";
+  if (kind === "validate" || kind === "test") return pushRun(kind);
+  if (whenProblem()) return;
+  const texts = readTexts(), tab = $("pushTab").value, a = currentAudience();
+  const langsRow = Object.entries(texts).map(([l, t]) => `<b>${esc(l.toUpperCase())}</b> ${esc(t.title)}<br><span class="muted">${esc(t.body)}</span>`).join("<br>");
+  const rows = [
+    ["Yol", pushMode === "topics" ? "Konular (konuya abone olan herkes)" : "Kitle (cihaz cihaz, kendi dilinde)"],
+    ["Kime", `<b>${esc(summaryText())}</b>`],
+    ["Ulaşacak", pushMode === "topics" ? `yaklaşık <b>${fmt(topicPool().length)}</b> kurulum (izin veren)` : `<b>${fmt(a?.withToken || 0)}</b> cihaz${audRemote && audRemote.key === audKey() && !audRemote.err ? " (Worker sayımı)" : " (panel tahmini; Worker gönderirken yeniden sayar)"}`],
+    ["Metin dağılımı", pushMode === "topics" ? splitText(textSplit(topicPool(), texts)) || "-" : (() => { const s = {}; for (const [l, n] of Object.entries(a?.byLang || {})) { const k = texts[l] ? l : "en"; s[k] = (s[k] || 0) + n; } return splitText(s) || "-"; })()],
+    ["Metinler", langsRow],
+    ["Sekme", esc(tab ? PUSH_TABS[tab] : "Uygulama açılır")],
+    ["Zaman", kind === "schedule" ? `<b>${esc(istText(sendAtMs()))}</b> (Türkiye) · ${esc(untilText(sendAtMs()))}` : "Hemen"],
+  ];
+  if (pushMode === "topics") rows.push(["FCM işi", `${fmt(topicJobsLocal(pushApps, texts, false).length)} koşullu mesaj`]);
+  const n = pushMode === "devices" ? a?.withToken || 0 : 0;
+  const ok = await confirmCard({
+    title: kind === "schedule" ? "Zamanlansın mı?" : pushMode === "topics" ? "Herkese gönderilsin mi?" : `${fmt(n)} cihaza gönderilsin mi?`,
+    rows,
+    note: kind === "schedule" ? "Zamanı gelene kadar Gönderilenler'den iptal edebilirsin." : "Geri alınamaz; telefonlara hemen düşer.",
+    yes: kind === "schedule" ? "Evet, zamanla" : pushMode === "topics" ? "Evet, herkese gönder" : `Evet, ${fmt(n)} cihaza gönder`,
+    danger: kind !== "schedule",
+  });
+  if (ok) pushRun(kind);
+}
+async function pushRun(kind) {
+  if (pushBusy) return;
+  if (!DEMO && !FB?.auth.currentUser) return;
+  const payload = buildPayload(kind);
+  const label = { validate: "Doğrulama", test: "Test gönderimi", send: "Gönderim", schedule: "Zamanlama" }[kind];
   pushBusy = true; pushCheck();
   $("pushResultCard").classList.remove("hidden");
   $("pushResult").innerHTML = `<p class="muted">${label} yapılıyor…</p>`;
+  $("pushResultCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  let out = null;
   try {
-    const token = await FB.auth.currentUser.getIdToken();
-    const r = await fetch(PUSH_URL + "/push", { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    const out = await r.json().catch(() => ({}));
-    if (!r.ok || out.error) throw new Error(out.error === "forbidden" ? "Worker yetki vermedi (yönetici e-postası doğrulanmış olmalı)" : out.error || `HTTP ${r.status}`);
-    const results = out.results || [], fail = results.filter(x => !x.ok).length;
-    let saved = "";
-    if (!out.validate) {
-      try {
-        const { db, F } = FB;
-        await F.addDoc(F.collection(db, "pushes"), { at: F.serverTimestamp(), apps, texts, tab, test: !!out.test, pid: out.pid || null, sent: out.sent || 0,
-          results: results.map(x => ({ app: x.app, lang: x.lang, condition: x.condition || "", ok: !!x.ok, id: x.id || null, error: x.error || null })), by: FB.auth.currentUser.email });
-        pushes = null; saved = " Gönderilenler listesine yazıldı.";
-      } catch (e) { saved = ` Kayıt yazılamadı: ${esc(e.code || e.message)}.`; }
+    out = await api("/push", payload);
+    if (out.status === "sending") {
+      progress(out);
+      let guard = 0;
+      while (out.status === "sending" && guard++ < 300) {
+        await sleep(out.busy ? 3000 : 200);
+        out = await api("/continue", { pid: out.pid });
+        progress(out);
+      }
     }
-    const head = out.validate ? `${fmt(results.length - fail)} / ${fmt(results.length)} iş FCM'den geçti, kimseye gönderilmedi.` : `${fmt(out.sent)} / ${fmt(results.length)} iş gönderildi (kimlik <code>${esc(out.pid)}</code>).`;
-    $("pushResult").innerHTML = `<div class="note ${fail ? "err" : "okn"}"><b>${label}:</b> ${head}${saved}</div>${resultTable(results, out.validate)}`;
+    pushes = null;
+    $("pushResult").innerHTML = resultHtml(out, kind, label);
+    bindResult();
   } catch (e) {
-    $("pushResult").innerHTML = `<div class="note err"><b>${label} olmadı:</b> ${esc(e.message)}</div>`;
+    $("pushResult").innerHTML = `<div class="note err"><b>${label} olmadı:</b> ${esc(e.message)}${out?.pid && out.status === "sending" ? `<br>Gönderim yarıda kaldı (kimlik <code>${esc(out.pid)}</code>). Worker beş dakika içinde kaldığı yerden sürdürür; Gönderilenler'den de devam ettirebilirsin.` : ""}</div>`;
   } finally { pushBusy = false; pushCheck(); }
+}
+function progress(o) {
+  const c = o.counts || {}, done = (c.sent || 0) + (c.failed || 0), all = c.targeted || 1;
+  $("pushResult").innerHTML = `<p style="margin:0"><b>${fmt(done)} / ${fmt(all)}</b> cihaz${o.busy ? " · başka bir istek bu dilimi gönderiyor, bekleniyor" : ""}</p>
+    <div class="progress"><div style="width:${Math.round(done / all * 100)}%"></div></div>
+    <p class="muted" style="margin:0">${fmt(c.sent)} gitti · ${fmt(c.failed)} hata${c.removedTokens ? ` · ${fmt(c.removedTokens)} ölü adres silindi` : ""}. Ücretsiz planda 40'arlı dilimlerle gider; sayfayı kapatırsan Worker kalanını beş dakikada bir dilim sürdürür.</p>`;
+}
+function resultHtml(out, kind, label) {
+  const results = out.results || [], fail = results.filter(x => !x.ok).length;
+  const openBtn = out.pid && kind !== "validate" ? ` <a style="cursor:pointer" data-opensent="${esc(out.pid)}">Gönderilenler'de aç</a>` : "";
+  if (kind === "schedule") return `<div class="note okn"><b>Zamanlandı:</b> ${esc(istText(Date.parse(out.sendAt)))} (Türkiye), ${esc(untilText(Date.parse(out.sendAt)))}. Kimlik <code>${esc(out.pid)}</code>. Gönderilenler'den iptal edebilirsin.${openBtn}</div>`;
+  if (out.mode === "devices" && out.validate) {
+    return `<div class="note ${fail ? "err" : "okn"}"><b>${label}:</b> filtreye uyan <b>${fmt(out.counts?.targeted)}</b> cihaz; kullanılan her dil için bir örnek cihazla FCM denendi, ${fmt(results.length - fail)} / ${fmt(results.length)} geçti. Kimseye gönderilmedi.${out.tooMany ? ` <b>Dikkat:</b> ${fmt(MAX_DEVICES)} sınırını aşıyor.` : ""}</div>
+      <p class="muted">Metin dağılımı: ${splitText(out.byLang || {}) || "-"}</p>${sampleTable(results)}`;
+  }
+  if (out.mode === "devices") {
+    const c = out.counts || {};
+    return `<div class="note ${c.failed ? (c.sent ? "" : "err") : "okn"}"><b>${label}:</b> <b>${fmt(c.sent)}</b> cihaza gitti${c.failed ? `, ${fmt(c.failed)} hata` : ""}${c.removedTokens ? `, ${fmt(c.removedTokens)} ölü adres silindi` : ""}. Kimlik <code>${esc(out.pid)}</code>.${openBtn}</div>${deviceDetail(out)}`;
+  }
+  const head = out.validate ? `${fmt(results.length - fail)} / ${fmt(results.length)} iş FCM'den geçti, kimseye gönderilmedi.` : `${fmt(out.sent)} / ${fmt(results.length)} iş gönderildi (kimlik <code>${esc(out.pid)}</code>).`;
+  return `<div class="note ${fail ? "err" : "okn"}"><b>${label}:</b> ${head}${openBtn}</div>${resultTable(results, out.validate)}`;
+}
+function bindResult() {
+  document.querySelectorAll("[data-opensent]").forEach(a => a.onclick = async () => {
+    go("sent"); await loadPushes(); const p = (pushes?.list || []).find(x => pPid(x) === a.dataset.opensent); if (p) openSent(p);
+  });
+}
+function sampleTable(results) {
+  if (!results?.length) return "";
+  return `<div class="tablewrap"><table><thead><tr><th>Dil</th><th>Örnek cihaz</th><th>Sonuç</th><th>Ayrıntı</th></tr></thead><tbody>${results.map(x => `<tr>
+    <td>${esc(PUSH_LANGS[x.lang] || x.lang)}</td><td>${appTag(x.app)} <code>${esc(shortId(x.install))}</code></td>
+    <td>${x.ok ? '<span class="pill ok">geçerli</span>' : '<span class="pill err">hata</span>'}</td>
+    <td class="muted wrap">${x.ok ? "" : esc(`${x.code || ""} ${x.error || ""}`)}${x.deadTried ? `${x.ok ? "" : "<br>"}${fmt(x.deadTried)} ölü adres atlandı` : ""}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function deviceDetail(p) {
+  const byLang = Object.entries(p.byLang || {}), byApp = Object.entries(p.byApp || {}), errs = Object.entries(p.errors || {});
+  const tbl = (head, rows) => `<div class="tablewrap" style="margin-top:8px"><table><thead><tr><th>${head}</th><th class="n">Giden</th><th class="n">Hata</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `${byLang.length ? tbl("Metin", byLang.map(([l, x]) => `<tr><td>${esc(PUSH_LANGS[l] || l)}</td><td class="n">${fmt(x.sent)}</td><td class="n">${fmt(x.failed)}</td></tr>`).join("")) : ""}
+    ${byApp.length > 1 ? tbl("Uygulama", byApp.map(([a, x]) => `<tr><td>${appTag(a)}</td><td class="n">${fmt(x.sent)}</td><td class="n">${fmt(x.failed)}</td></tr>`).join("")) : ""}
+    ${errs.length ? `<h3 style="font-size:14px;margin:14px 0 6px">Hatalar</h3><p class="muted" style="margin:0 0 6px">${errs.map(([k, n]) => `<code>${esc(k)}</code> ${fmt(n)}`).join(" · ")}. UNREGISTERED: uygulama silinmiş ya da adres eskimiş; adres kurulumdan silinir.</p>
+      <div class="tablewrap"><table><tbody>${(p.failures || []).map(f => `<tr><td>${allInstalls.some(i => i.id === f.i) ? installChip(allInstalls.find(i => i.id === f.i)) : `<code>${esc(shortId(f.i))}</code>`}</td><td>${esc(f.l)}</td><td class="muted wrap">${esc(f.e)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
 }
 function resultTable(results, validate) {
   if (!results?.length) return "";
   const who = a => APPS[a] ? appTag(a) : a === "all" ? "Hepsi (bs_all)" : a === "test" ? "Test (bs_test)" : esc(a);
   return `<div class="tablewrap"><table><thead><tr><th>Uygulama</th><th>Dil</th><th>Sonuç</th><th>Ayrıntı</th></tr></thead><tbody>${results.map(x => `<tr>
     <td>${who(x.app)}</td><td>${esc(PUSH_LANGS[x.lang] || x.lang)}</td>
-    <td>${x.ok ? `<span class="pill ok">${validate ? "geçerli" : "gönderildi"}</span>` : `<span class="pill no" style="color:var(--rose)">hata</span>`}</td>
+    <td>${x.ok ? `<span class="pill ok">${validate ? "geçerli" : "gönderildi"}</span>` : `<span class="pill err">hata</span>`}</td>
     <td style="white-space:normal" class="muted">${x.ok ? `<code>${esc(String(x.id || "").split("/").pop())}</code>` : esc(x.error)}<br><code style="font-size:11px">${esc(x.condition)}</code></td></tr>`).join("")}</tbody></table></div>`;
 }
 
 // ---------- Gönderilenler ----------
+const STATUS = { scheduled: ["Zamanlandı", "sky"], sending: ["Gönderiliyor", "warn"], sent: ["Gönderildi", "ok"], cancelled: ["İptal", "no"], failed: ["Hata", "err"] };
+const pStatus = p => STATUS[p.status] ? p.status : "sent";      // eski kayıtlarda durum yok: gönderilmiş
+const pPid = p => p.pid || p.id;
+const pMode = p => p.test ? "test" : p.mode === "devices" ? "devices" : "topics";
+const pCounts = p => p.counts || { targeted: (p.results || []).length, sent: +p.sent || 0, failed: (p.results || []).filter(x => !x.ok).length, removedTokens: 0 };
+const pWhen = p => ts(p.sendAt && ["scheduled", "cancelled"].includes(pStatus(p)) ? p.sendAt : p.sentAt || p.startedAt || p.at);
+const pTarget = p => p.summary || (p.test ? "Test cihazları (bs_test)" : p.apps?.length ? p.apps.map(appName).join(", ") : "Beş uygulamanın hepsi");
+const statusPill = p => { const s = STATUS[pStatus(p)]; return `<span class="pill ${s[1]}">${s[0]}</span>`; };
+const modePill = p => ({ test: '<span class="pill warn">Test</span>', devices: '<span class="pill sky">Kitle</span>', topics: '<span class="pill no">Konular</span>' })[pMode(p)];
+$("sentReload").onclick = () => { pushes = null; openStats = null; loadPushes(); };
 async function loadPushes() {
-  if (pushes) return;
+  if (pushes && !pushes.err) { renderSent(); return; }
   pushes = { loading: true }; renderSent();
-  if (DEMO) { pushes = { list: demo.pushes }; renderSent(); return; }
-  try {
-    const { db, F } = FB;
-    const snap = await F.getDocs(F.query(F.collection(db, "pushes"), F.orderBy("at", "desc"), F.limit(200)));
-    pushes = { list: snap.docs.map(d => ({ id: d.id, ...d.data() })) };
-  } catch (e) { pushes = { err: e.code || e.message }; }
+  if (DEMO) pushes = { list: demo.pushes };
+  else {
+    try {
+      const { db, F } = FB;
+      const snap = await F.getDocs(F.query(F.collection(db, "pushes"), F.orderBy("at", "desc"), F.limit(200)));
+      pushes = { list: snap.docs.map(d => ({ id: d.id, ...d.data() })) };
+    } catch (e) { pushes = { err: e.code || e.message }; }
+  }
   renderSent();
+  await loadOpenStats();
+  renderSent();
+}
+/* Açılmalar günlük kayıtlardan: stats/{uygulama}_{gün}.ev.push_open_<kimlik>. En eski gönderimden bu yana (en fazla 120 gün). */
+async function loadOpenStats() {
+  const sent = (pushes?.list || []).filter(p => ["sent", "sending"].includes(pStatus(p)) && !p.test);
+  if (!sent.length) { openStats = { from: "9999", docs: [] }; return; }
+  const oldest = Math.min(...sent.map(p => (ts(p.sentAt || p.at) || new Date()).getTime()));
+  const from = dayKey(Math.max(oldest, Date.now() - 120 * 864e5));
+  if (openStats && openStats.from <= from) return;
+  openStats = { loading: true, from, docs: openStats?.docs || [] };
+  if (DEMO) openStats = { from, docs: demo.stats.filter(s => s.day >= from) };
+  else {
+    try {
+      const { db, F } = FB;
+      const snap = await F.getDocs(F.query(F.collection(db, "stats"), F.where("day", ">=", from)));
+      openStats = { from, docs: snap.docs.map(d => { const x = d.data(); return { ...x, app: x.app || d.id.split("_")[0], day: x.day || d.id.slice(-10) }; }) };
+    } catch (e) { openStats = { from: "9999", docs: [], err: e.code || e.message }; }
+  }
+}
+function opensOf(p) {
+  const k = `push_open_${pPid(p)}`, from = dayKey(ts(p.sentAt || p.startedAt || p.at) || Date.now());
+  const byDay = {}, byApp = {};
+  let n = 0;
+  for (const s of openStats?.docs || []) if (s.day >= from) { const v = +(s.ev?.[k] || 0); if (v) { n += v; byDay[s.day] = (byDay[s.day] || 0) + v; byApp[s.app] = (byApp[s.app] || 0) + v; } }
+  return { n, people: allInstalls.filter(i => ev(i, k) > 0).length, byDay, byApp, ready: !!openStats && !openStats.loading };
+}
+/* Açılma oranı: Kitle'de açılma / giden cihaz, Konular'da açılma / tahmini kitle (yaklaşık). */
+function openRate(p, o) {
+  if (pMode(p) === "devices") { const s = pCounts(p).sent; return s ? { txt: yuzde(o.n, s), approx: false } : null; }
+  return p.estimate ? { txt: "~" + yuzde(o.n, p.estimate), approx: true } : null;
 }
 function renderSent() {
   if (!$("sentRows") || !pushes) return;
   if (pushes.loading) { $("sentRows").innerHTML = `<tr><td colspan="7" class="muted">Yükleniyor…</td></tr>`; return; }
   if (pushes.err) { $("sentRows").innerHTML = `<tr><td colspan="7" class="muted">Okunamadı: ${esc(pushes.err)}</td></tr>`; return; }
-  const list = pushes.list || [];
-  $("sentRows").innerHTML = list.length ? list.map((p, n) => {
-    const t = p.texts?.tr || p.texts?.en || {}, total = (p.results || []).length;
-    return `<tr class="click" data-sent="${n}"><td>${dtS(p.at)}</td><td>${p.test ? '<span class="pill sky">Test</span>' : '<span class="pill pro">Herkes</span>'}</td>
-      <td>${p.test ? '<span class="muted">bs_test</span>' : (p.apps?.length ? p.apps.map(appTag).join(" ") : "Hepsi")}</td>
-      <td style="white-space:normal;min-width:180px">${esc(t.title)}</td><td>${Object.keys(p.texts || {}).join(", ")}</td><td>${esc(p.tab ? PUSH_TABS[p.tab] || p.tab : "-")}</td>
-      <td class="n">${fmt(p.sent)} / ${fmt(total)}</td></tr>`;
-  }).join("") : `<tr><td colspan="7" class="muted">Henüz panelden bildirim gönderilmedi.</td></tr>`;
-  document.querySelectorAll("#sentRows tr[data-sent]").forEach(tr => tr.onclick = () => openSent(list[+tr.dataset.sent]));
+  const all = pushes.list || [];
+  const cnt = s => all.filter(p => pStatus(p) === s).length;
+  const tabs = [["all", "Hepsi", all.length], ["scheduled", "Zamanlandı", cnt("scheduled")], ["sending", "Gönderiliyor", cnt("sending")], ["sent", "Gönderildi", cnt("sent")], ["cancelled", "İptal", cnt("cancelled")], ["failed", "Hata", cnt("failed")]]
+    .filter(([k, , n]) => k === "all" || k === "sent" || n > 0 || sentF === k);
+  $("sentFilter").innerHTML = tabs.map(([k, ad, n]) => `<button data-sf="${k}" class="${sentF === k ? "on" : ""}">${ad} <small>${fmt(n)}</small></button>`).join("");
+  $("sentFilter").querySelectorAll("[data-sf]").forEach(b => b.onclick = () => { sentF = b.dataset.sf; renderSent(); });
+  const list = all.filter(p => sentF === "all" || pStatus(p) === sentF)
+    .sort((a, b) => (pStatus(b) === "scheduled") - (pStatus(a) === "scheduled") || (pStatus(a) === "scheduled" ? pWhen(a) - pWhen(b) : pWhen(b) - pWhen(a)));
+  $("sentCount").textContent = `${fmt(list.length)} kayıt`;
+  // Son 30 gün özeti (testler hariç).
+  const since = Date.now() - 30 * 864e5;
+  const real = all.filter(p => pStatus(p) === "sent" && pMode(p) !== "test" && (pWhen(p) || 0) >= since);
+  const opens = real.reduce((t, p) => t + opensOf(p).n, 0);
+  const dev = real.filter(p => pMode(p) === "devices"), devSent = dev.reduce((t, p) => t + pCounts(p).sent, 0), devOpen = dev.reduce((t, p) => t + opensOf(p).n, 0);
+  $("sentKpis").innerHTML = [
+    kpiH("Gönderim", fmt(real.length), "son 30 gün, test hariç"),
+    kpiH("Açılma", openStats && !openStats.loading ? fmt(opens) : "…", "bildirime dokunan, 30 gün"),
+    kpiH("Kitle açılma oranı", devSent ? yuzde(devOpen, devSent) : "-", `${fmt(devOpen)} / ${fmt(devSent)} cihaz`),
+    kpiH("Zamanlanmış", fmt(cnt("scheduled")), cnt("scheduled") ? `ilki ${dtS(all.filter(p => pStatus(p) === "scheduled").map(pWhen).sort((a, b) => a - b)[0])}` : "bekleyen yok"),
+  ].join("");
+  $("sentRows").innerHTML = list.length ? list.map(p => {
+    const t = p.texts?.tr || p.texts?.en || {}, c = pCounts(p), st = pStatus(p), o = opensOf(p), r = openRate(p, o);
+    const giden = st === "scheduled" || st === "cancelled" ? '<span class="muted">-</span>'
+      : pMode(p) === "topics" && !p.counts ? `${fmt(c.sent)} / ${fmt(c.targeted)} iş`
+      : pMode(p) === "topics" ? `${fmt(c.sent)} / ${fmt(c.targeted)} iş${p.estimate ? `<br><small class="muted">~${fmt(p.estimate)} kurulum</small>` : ""}`
+      : `<b>${fmt(c.sent)}</b> / ${fmt(c.targeted)}${c.failed ? `<br><small style="color:var(--rose)">${fmt(c.failed)} hata</small>` : ""}`;
+    const acil = st === "sent" || st === "sending" ? (o.ready ? `<b>${fmt(o.n)}</b>${r ? `<br><small class="muted">${r.txt}</small>` : ""}` : "…") : '<span class="muted">-</span>';
+    const act = st === "scheduled" ? `<button class="ghost tbtn" data-cancel="${esc(pPid(p))}">İptal et</button>` : st === "sending" ? `<button class="ghost tbtn" data-cont="${esc(pPid(p))}">Devam ettir</button>` : "";
+    return `<tr class="click" data-sent="${esc(pPid(p))}"><td>${dtS(pWhen(p))}${st === "scheduled" ? `<br><small class="muted">${esc(untilText(pWhen(p)))}</small>` : ""}</td><td><span class="badges" style="flex-direction:column;align-items:flex-start;gap:4px">${statusPill(p)}${modePill(p)}</span></td>
+      <td class="wrap">${esc(pTarget(p))}</td><td class="wrap">${esc(t.title || "")}</td>
+      <td class="n">${giden}</td><td class="n">${acil}</td><td>${act}</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="muted">${all.length ? "Bu durumda kayıt yok." : "Henüz panelden bildirim gönderilmedi."}</td></tr>`;
+  const find = pid => all.find(p => pPid(p) === pid);
+  document.querySelectorAll("#sentRows tr[data-sent]").forEach(tr => tr.onclick = () => openSent(find(tr.dataset.sent)));
+  document.querySelectorAll("#sentRows [data-cancel]").forEach(b => b.onclick = e => { e.stopPropagation(); cancelPush(find(b.dataset.cancel)); });
+  document.querySelectorAll("#sentRows [data-cont]").forEach(b => b.onclick = e => { e.stopPropagation(); continuePush(find(b.dataset.cont)); });
+}
+async function cancelPush(p) {
+  if (!p) return;
+  const t = p.texts?.tr || p.texts?.en || {};
+  if (!await confirmCard({ title: "Zamanlanmış bildirim iptal edilsin mi?", rows: [["Zaman", esc(istText(pWhen(p).getTime()))], ["Kime", esc(pTarget(p))], ["Başlık", esc(t.title || "")]], yes: "İptal et", danger: true })) return;
+  try {
+    const out = await api("/cancel", { pid: pPid(p) });
+    if (out.cancelled) { p.status = "cancelled"; p.cancelledAt = new Date(); toast("İptal edildi"); }
+    else { toast(`İptal olmadı: durum artık "${STATUS[out.status]?.[0] || out.status}"`); pushes = null; await loadPushes(); }
+    renderSent(); if (!$("drawer").classList.contains("hidden") && $("drawer").dataset.sent === pPid(p)) openSent(p);
+  } catch (e) { toast("İptal olmadı: " + e.message); }
+}
+async function continuePush(p) {
+  if (!p) return;
+  try {
+    let out = await api("/continue", { pid: pPid(p) }), guard = 0;
+    toast("Devam ediyor…");
+    while (out.status === "sending" && guard++ < 300) { await sleep(out.busy ? 3000 : 200); out = await api("/continue", { pid: pPid(p) }); }
+    toast(out.status === "sent" ? "Gönderim tamamlandı" : `Durum: ${STATUS[out.status]?.[0] || out.status}`);
+  } catch (e) { toast("Olmadı: " + e.message); }
+  pushes = null; loadPushes();
 }
 function openSent(p) {
-  const d = $("drawer");
-  d.innerHTML = `<p style="margin:0 0 10px"><button class="ghost" id="dClose">Kapat</button></p>
-    <h2 style="margin-top:0">${esc((p.texts?.tr || p.texts?.en || {}).title || "Bildirim")}</h2>
-    <div class="dl"><div>Zaman</div><div>${dtS(p.at)}</div><div>Tür</div><div>${p.test ? "Test cihazları" : "Herkes"}</div>
-      <div>Uygulama</div><div>${p.apps?.length ? p.apps.map(appTag).join(" ") : "Hepsi"}</div><div>Sekme</div><div>${esc(p.tab ? PUSH_TABS[p.tab] || p.tab : "-")}</div>
-      <div>Kimlik</div><div><code>${esc(p.pid || "-")}</code></div><div>Gönderen</div><div>${esc(p.by || "-")}</div></div>
+  if (!p) return;
+  const d = $("drawer"), c = pCounts(p), st = pStatus(p), o = opensOf(p), r = openRate(p, o), f = p.filter;
+  const t0 = p.texts?.tr || p.texts?.en || {};
+  const filterTxt = f ? [f.installIds?.length ? `kurulum: ${f.installIds.map(shortId).join(", ")}` : "", f.apps?.length ? `uygulama: ${f.apps.map(appName).join(", ")}` : "",
+    f.langs?.length ? `dil: ${f.langs.join(", ")}` : "", f.pro && f.pro !== "any" ? (f.pro === "pro" ? "Pro" : "ücretsiz") : "", f.activeWithinDays ? `son ${f.activeWithinDays} günde açan` : "",
+    f.inactiveForDays ? `${f.inactiveForDays} gündür açmayan` : "", typeof f.signedIn === "boolean" ? (f.signedIn ? "girişli" : "girişsiz") : ""].filter(Boolean).join(" · ") || "filtre yok (hepsi)" : "";
+  d.dataset.sent = pPid(p); d.dataset.open = "";
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div>${statusPill(p)} ${modePill(p)}</div><button class="ghost" id="dClose">Kapat</button></div>
+    <h2 style="margin:12px 0 4px">${esc(t0.title || "Bildirim")}</h2><p class="muted" style="margin:0 0 12px">${esc(t0.body || "")}</p>
+    <div class="actions" style="margin:0 0 14px"><button class="second" id="dDup">Yeni taslak olarak kopyala</button>${st === "scheduled" ? '<button class="danger" id="dCancel">İptal et</button>' : ""}${st === "sending" ? '<button class="second" id="dCont">Devam ettir</button>' : ""}</div>
+    <div class="dl">
+      <div>Kimlik</div><div><code>${esc(pPid(p))}</code></div>
+      <div>Oluşturuldu</div><div>${dtS(p.at)}${p.by ? ` · ${esc(p.by)}` : ""}</div>
+      ${p.sendAt ? `<div>Zamanlanan</div><div>${esc(istText(ts(p.sendAt).getTime()))} (Türkiye)${st === "scheduled" ? ` · ${esc(untilText(ts(p.sendAt).getTime()))}` : ""}</div>` : ""}
+      ${p.sentAt ? `<div>Gönderildi</div><div>${dtS(p.sentAt)}</div>` : ""}
+      ${p.cancelledAt ? `<div>İptal</div><div>${dtS(p.cancelledAt)}${p.cancelledBy ? ` · ${esc(p.cancelledBy)}` : ""}</div>` : ""}
+      <div>Yol</div><div>${pMode(p) === "test" ? "Test cihazları" : pMode(p) === "devices" ? "Kitle (cihaz cihaz)" : "Konular"}</div>
+      <div>Kime</div><div>${esc(pTarget(p))}</div>
+      ${f ? `<div>Filtre</div><div>${esc(filterTxt)}</div>` : ""}
+      <div>Sekme</div><div>${esc(p.tab ? PUSH_TABS[p.tab] || p.tab : "Uygulama açılır")}</div>
+      ${p.estimate ? `<div>Tahmini kitle</div><div>~${fmt(p.estimate)} kurulum (gönderim anında izin veren)</div>` : ""}
+      ${st !== "scheduled" && st !== "cancelled" ? `<div>Giden</div><div>${pMode(p) === "topics" ? `${fmt(c.sent)} / ${fmt(c.targeted)} FCM işi` : `${fmt(c.sent)} / ${fmt(c.targeted)} cihaz${c.failed ? ` · ${fmt(c.failed)} hata` : ""}${c.removedTokens ? ` · ${fmt(c.removedTokens)} ölü adres silindi` : ""}`}</div>
+      <div>Açılma</div><div><b>${fmt(o.n)}</b>${r ? ` · oran ${r.txt}${r.approx ? " (tahmini kitleye göre)" : ""}` : ""} · ${fmt(o.people)} kişi</div>` : ""}
+      ${p.error ? `<div>Hata</div><div style="color:var(--rose)">${esc(p.error)}</div>` : ""}
+    </div>
+    ${Object.keys(o.byDay).length ? `<h2>Açılma, güne göre <span class="muted">(UTC gün)</span></h2><div class="bars" id="dOpenDay"></div>` : ""}
     <h2>Metinler</h2>${Object.entries(p.texts || {}).map(([l, t]) => `<div class="card" style="margin:6px 0"><div class="lang">${esc((PUSH_LANGS[l] || l).toLocaleUpperCase("tr-TR"))}</div><b>${esc(t.title)}</b><div>${esc(t.body)}</div></div>`).join("")}
-    <h2>İşler</h2>${resultTable(p.results, false)}`;
-  d.classList.remove("hidden");
+    ${st === "scheduled" || st === "cancelled" ? "" : `<h2>Sonuçlar</h2>${pMode(p) === "topics" || p.results?.length ? resultTable(p.results, false) : deviceDetail(p)}`}`;
+  d.classList.remove("hidden"); d.scrollTop = 0;
+  if ($("dOpenDay")) bars("dOpenDay", Object.entries(o.byDay).sort((a, b) => a[0].localeCompare(b[0])).map(([k, v]) => ({ label: `${k.slice(8)}.${k.slice(5, 7)}`, value: v })));
   $("dClose").onclick = () => d.classList.add("hidden");
+  $("dDup").onclick = () => {
+    loadDraft({ mode: pMode(p) === "devices" ? "devices" : p.mode === "devices" ? "devices" : "topics", apps: p.apps || [], filter: p.filter, texts: p.texts, tab: p.tab });
+    setWhen("now"); d.classList.add("hidden"); go("push"); toast("Taslak yüklendi: kontrol et, Doğrula, Gönder.");
+  };
+  if ($("dCancel")) $("dCancel").onclick = () => cancelPush(p);
+  if ($("dCont")) $("dCont").onclick = () => continuePush(p);
+  bindInstallChips(d);
 }
+
+// ---------- Demo Worker (hiçbir yere istek atmaz) ----------
+const demoJobs = {};
+async function demoApi(path, body) {
+  await sleep(path === "/continue" ? 260 : 420);
+  const hex = () => Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, "0");
+  const find = pid => demo.pushes.find(p => pPid(p) === pid);
+  if (path === "/audience") return { ...audienceLocal(body.filter || {}), local: false };
+  if (path === "/cancel") {
+    const p = find(body.pid); if (!p) throw new Error("Böyle bir gönderim yok");
+    if (p.status !== "scheduled") return { pid: body.pid, status: p.status, cancelled: false };
+    Object.assign(p, { status: "cancelled", cancelledAt: new Date(), cancelledBy: ADMIN });
+    return { pid: body.pid, status: "cancelled", cancelled: true };
+  }
+  if (path === "/continue") return demoChunk(body.pid);
+  // /push
+  const texts = body.texts, pid = hex(), base = { pid, at: new Date(), by: ADMIN, mode: body.mode, apps: body.apps || [], filter: body.filter || null, texts, tab: body.tab, test: !!body.test, estimate: body.estimate ?? null, summary: body.summary };
+  if (body.mode !== "devices") {
+    const jobs = topicJobsLocal(body.apps || [], texts, body.test);
+    const results = jobs.map(j => ({ ...j, ok: true, id: `projects/bam-tech-sports/messages/${Math.floor(Math.random() * 1e15)}`, error: null }));
+    const out = { pid, mode: "topics", sent: jobs.length, test: !!body.test, validate: !!body.validate, results, counts: { targeted: jobs.length, sent: jobs.length, failed: 0, removedTokens: 0 } };
+    if (body.validate) return out;
+    if (body.sendAt) { demo.pushes.unshift({ ...base, status: "scheduled", sendAt: new Date(body.sendAt) }); return { pid, status: "scheduled", sendAt: body.sendAt }; }
+    demo.pushes.unshift({ ...base, status: "sent", sentAt: new Date(), sent: jobs.length, results, counts: out.counts });
+    return { ...out, status: "sent" };
+  }
+  const targets = allInstalls.filter(i => reachOf(i) && (body.test ? i.tester : matchLocal(i, body.filter || {})));
+  const tl = l => texts[lang2(l)] ? lang2(l) : "en";
+  if (body.validate) {
+    const byLang = countBy(targets, i => tl(i.language));
+    const results = Object.keys(byLang).map(l => { const i = targets.find(x => tl(x.language) === l && !x.fcm.startsWith("dead")) || targets.find(x => tl(x.language) === l); return { app: i.app, lang: l, install: i.id, ok: true, deadTried: 0 }; });
+    return { mode: "devices", validate: true, results, counts: { targeted: targets.length, sent: 0, failed: 0, removedTokens: 0 }, byLang, tooMany: targets.length > MAX_DEVICES };
+  }
+  if (!targets.length) throw new Error("Bu filtreye uyan, bildirim adresi olan cihaz yok");
+  if (targets.length > MAX_DEVICES) throw new Error(`${targets.length} cihaz: tek gönderimde en fazla ${MAX_DEVICES}`);
+  if (body.sendAt) { demo.pushes.unshift({ ...base, status: "scheduled", sendAt: new Date(body.sendAt) }); return { pid, status: "scheduled", sendAt: body.sendAt }; }
+  const doc = { ...base, status: "sending", startedAt: new Date(), counts: { targeted: targets.length, sent: 0, failed: 0, removedTokens: 0 }, byLang: {}, byApp: {}, errors: {}, failures: [] };
+  demo.pushes.unshift(doc);
+  demoJobs[pid] = { items: targets.map(i => ({ i, l: tl(i.language) })), next: 0 };
+  return demoChunk(pid);
+}
+function demoChunk(pid) {
+  const p = demo.pushes.find(x => pPid(x) === pid), q = demoJobs[pid];
+  if (!p || !q || p.status !== "sending") return { pid, mode: p?.mode, status: p?.status || "failed", counts: p?.counts };
+  for (const it of q.items.slice(q.next, q.next + 40)) {
+    const bl = p.byLang[it.l] ||= { sent: 0, failed: 0 }, ba = p.byApp[it.i.app] ||= { sent: 0, failed: 0 };
+    if (it.i.fcm?.startsWith("dead")) {
+      p.counts.failed++; bl.failed++; ba.failed++; p.errors.UNREGISTERED = (p.errors.UNREGISTERED || 0) + 1;
+      p.failures.push({ i: it.i.id, l: it.l, a: it.i.app, e: "UNREGISTERED: Requested entity was not found." });
+      delete it.i.fcm; p.counts.removedTokens++;
+    } else { p.counts.sent++; bl.sent++; ba.sent++; }
+  }
+  q.next += 40;
+  if (q.next >= q.items.length) { p.status = p.counts.sent ? "sent" : "failed"; p.sentAt = new Date(); p.sent = p.counts.sent; delete demoJobs[pid]; }
+  return { pid, mode: "devices", status: p.status, counts: { ...p.counts }, byLang: p.byLang, byApp: p.byApp, errors: p.errors, failures: p.failures, remaining: Math.max(0, q.items.length - q.next), sent: p.counts.sent };
+}
+
 initPushForm();
 
 // ---------- Demo verisi (Firestore'a hiç dokunmaz) ----------
@@ -1468,20 +2455,76 @@ function makeDemo() {
     events[id] = evs.sort((a, b) => b.t - a.t);
     list.push(inst);
   }
-  const okRes = (app, lang) => ({ app, lang, condition: `'bs_${app}' in topics`, ok: true, id: "projects/bam-tech-sports/messages/" + Math.floor(rnd() * 1e15), error: null });
+  // Bildirim adresi: izin verenlerin çoğunda; birkaçı ölü (Kitle gönderiminde UNREGISTERED döner, silinir).
+  list.forEach((inst, n) => {
+    if (n < 3) inst.notif = true;
+    if ((inst.notif === true && (n < 3 || rnd() < .86)) || (inst.notif === false && rnd() < .25))
+      inst.fcm = (n % 23 === 13 ? "dead_" : "demo_") + "fcm".repeat(10) + inst.id.slice(0, 8);
+  });
+  // Sosyal katman: giriş yapanlara hesap, bazısı iki uygulamada aynı hesap.
+  const HANDLES = ["deniz.k", "matchpoint", "ace_ali", "lena_spin", "volley.ece", "baseline_bob", "smash.sam", "drop_shot", "tiebreak.tom", "rally_rita", "kort.kral", "net.ninja",
+    "spin.doctor", "padel_pia", "love_all", "mert.serve", "dinks.only", "kitchen_kim", "shuttle.sun", "pingpong.pao", "berk.test", "elif.ace", "sena.set", "can.lob", "jo_volley", "max.power", "nora_net", "omer.ok"];
+  const NAMES = ["Deniz Kaya", "Lucas M.", "Ali Yıldız", "Lena", "Ece", "Bob Turner", "Sam", "Mia Rossi", "Tom", "Rita", "Kerem", "Yuki", "Dr. Spin", "Pia", "Chloé", "Mert", "Dana", "Kim", "Sunny", "Pao", "Berk (test)", "Elif", "Sena", "Can", "Jo", "Max", "Nora", "Ömer"];
+  const signedL = list.filter(i => i.signedIn), users = [];
+  signedL.forEach((inst, k) => {
+    if (k % 6 === 5 && users.length) { const u = users[users.length - 1]; inst.uid = u.id; if (!u.sports.includes(inst.app)) u.sports.push(inst.app); }
+    else {
+      const u = { id: "uid" + (1000 + k) + "x" + inst.id.slice(0, 6), handle: HANDLES[users.length % HANDLES.length] + (users.length >= HANDLES.length ? users.length : ""), displayName: NAMES[users.length % NAMES.length],
+        sports: [inst.app], level: pick(["", "", "Başlangıç", "Orta", "İleri"]), createdAt: new Date(ts(inst.firstSeen).getTime() + r(1, 5) * 36e5) };
+      users.push(u); inst.uid = u.id;
+    }
+    inst.handle = users.find(u => u.id === inst.uid).handle;
+  });
+  const follows = [];
+  for (const u of users) for (let k = 0; k < r(0, 6); k++) { const o = pick(users); if (o !== u && !follows.some(f => f.follower === u.id && f.followee === o.id)) follows.push({ id: `${u.id}_${o.id}`, follower: u.id, followee: o.id, createdAt: new Date(now - r(1, 40) * 864e5) }); }
+  const LNAMES = ["Salı Akşamı Ligi", "Moda Kort Kulübü", "Office Smash", "Sunday Doubles", "Kadıköy Pickle", "Ping Pong Masters"];
+  const LSPORT = ["tennis", "tennis", "volleyball", "tennis", "pickleball", "tabletennis"];
+  const leagues = LNAMES.map((name, k) => { const owner = users[(k * 5) % users.length]; const sport = LSPORT[k];
+    const members = [owner.id, ...users.filter(u => u !== owner && rnd() < .3).map(u => u.id)].slice(0, 9);
+    return { id: "lg" + k, name, sport, ownerUid: owner.id, members, inviteCode: Array.from({ length: 6 }, () => "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[r(0, 31)]).join(""), createdAt: new Date(now - r(2, 60) * 864e5) }; });
+  const matches = Array.from({ length: 26 }, (_, k) => { const a = pick(users), b = pick(users.filter(u => u !== a)) || a; const played = now - r(0, 45) * 864e5 - r(0, 20) * 36e5;
+    return { id: "m" + k, sport: a.sports[0], createdBy: a.id, players: [a.id, b.id], status: k % 5 === 0 ? "pending" : k % 13 === 7 ? "disputed" : "confirmed", winner: pick([a.id, b.id]), playedAt: new Date(played), createdAt: new Date(played + 36e5) }; });
+  // Gönderilenler: her durumdan biri; açılmalar günlük kayıtlara ve kurulumlara işlenir.
+  const okRes = (app, lang, cond) => ({ app, lang, condition: cond || `'bs_${app}' in topics`, ok: true, id: "projects/bam-tech-sports/messages/" + Math.floor(rnd() * 1e15), error: null });
+  const T1 = { tr: { title: "Hafta sonu maç var mı? 🎾", body: "Maçını saatten tut, skor ve süre deftere kendiliğinden yazılsın." }, en: { title: "Playing this weekend? 🎾", body: "Keep score on your watch and the logbook fills itself." } };
+  const T2 = { tr: { title: "Seni özledik 👋", body: "Son maçından beri bir süre geçti. Bu hafta bir maç kaydet, serin bozulmasın." }, en: { title: "We miss you 👋", body: "It has been a while since your last match. Log one this week and keep your streak going." } };
+  const T3 = { en: { title: "Find a court near you", body: "The courts map now shows pickleball courts around you." } };
+  const T4 = { tr: { title: "Lig tablosu güncellendi 🏆", body: "Salı Akşamı Ligi'nde sıralama değişti. Kimin önde olduğuna bak." }, en: { title: "League table updated 🏆", body: "Standings moved in your league. See who is on top." } };
   const demoPushes = [
-    { at: new Date(now - 2 * 864e5), apps: [], tab: "logbook", test: false, pid: "a1b2c3d4", sent: 2, by: ADMIN,
-      texts: { tr: { title: "Hafta sonu maç var mı?", body: "Maçını saatten tut, skor ve süre deftere kendiliğinden yazılsın." }, en: { title: "Playing this weekend?", body: "Keep score on your watch and the logbook fills itself." } },
-      results: [{ ...okRes("all", "tr"), condition: "'bs_all' in topics && 'bs_lang_tr' in topics" }, okRes("all", "en")] },
-    { at: new Date(now - 2 * 864e5 - 30 * 6e4), apps: [], tab: "logbook", test: true, pid: "9f8e7d6c", sent: 1, by: ADMIN,
-      texts: { tr: { title: "Hafta sonu maç var mı?", body: "Maçını saatten tut, skor ve süre deftere kendiliğinden yazılsın." }, en: { title: "Playing this weekend?", body: "Keep score on your watch and the logbook fills itself." } },
-      results: [{ ...okRes("test", "tr"), condition: "'bs_test' in topics" }] },
-    { at: new Date(now - 9 * 864e5), apps: ["pickleball"], tab: "courts", test: false, pid: "5e4d3c2b", sent: 1, by: ADMIN,
-      texts: { en: { title: "Find a court near you", body: "The courts map now shows pickleball courts around you." } },
-      results: [okRes("pickleball", "en")] },
+    { pid: "c0ffee01", at: new Date(now - 3 * 36e5), sendAt: new Date(Math.ceil((now + 20 * 36e5) / 36e5) * 36e5), status: "scheduled", mode: "topics", apps: [], tab: "logbook", by: ADMIN, texts: T1, summary: "Beş uygulamanın hepsi", estimate: 61 },
+    { pid: "a1b2c3d4", at: new Date(now - 2 * 864e5), sentAt: new Date(now - 2 * 864e5), status: "sent", mode: "topics", apps: [], tab: "logbook", test: false, sent: 2, by: ADMIN, estimate: 58, summary: "Beş uygulamanın hepsi",
+      texts: T1, results: [okRes("all", "tr", "'bs_all' in topics && 'bs_lang_tr' in topics"), okRes("all", "en", "'bs_all' in topics && !('bs_lang_tr' in topics)")], counts: { targeted: 2, sent: 2, failed: 0, removedTokens: 0 } },
+    { pid: "9f8e7d6c", at: new Date(now - 2 * 864e5 - 30 * 6e4), sentAt: new Date(now - 2 * 864e5 - 30 * 6e4), status: "sent", mode: "topics", apps: [], tab: "logbook", test: true, sent: 1, by: ADMIN, summary: "Test cihazları (bs_test)",
+      texts: T1, results: [okRes("test", "tr", "'bs_test' in topics")], counts: { targeted: 1, sent: 1, failed: 0, removedTokens: 0 } },
+    { pid: "b7e1d2aa", at: new Date(now - 5 * 864e5), sentAt: new Date(now - 5 * 864e5), status: "sent", mode: "devices", test: false, by: ADMIN, tab: "setup", texts: T2,
+      filter: { apps: [], langs: [], pro: "free", inactiveForDays: 14 }, summary: "Tüm uygulamalar · ücretsiz · 14 gündür açmayan",
+      counts: { targeted: 23, sent: 22, failed: 1, removedTokens: 1 }, byLang: { en: { sent: 15, failed: 1 }, tr: { sent: 7, failed: 0 } }, byApp: { tennis: { sent: 12, failed: 1 }, pickleball: { sent: 6, failed: 0 }, tabletennis: { sent: 4, failed: 0 } },
+      errors: { UNREGISTERED: 1 }, failures: [{ i: list[13].id, l: "en", a: list[13].app, e: "UNREGISTERED: Requested entity was not found." }] },
+    { pid: "5e4d3c2b", at: new Date(now - 9 * 864e5), sentAt: new Date(now - 9 * 864e5), status: "sent", mode: "topics", apps: ["pickleball"], tab: "courts", test: false, sent: 1, by: ADMIN, estimate: 14, summary: "Pickleball",
+      texts: T3, results: [okRes("pickleball", "en")], counts: { targeted: 1, sent: 1, failed: 0, removedTokens: 0 } },
+    { pid: "d00dfeed", at: new Date(now - 11 * 864e5), sendAt: new Date(now - 10 * 864e5), status: "cancelled", cancelledAt: new Date(now - 10.5 * 864e5), cancelledBy: ADMIN, mode: "devices", by: ADMIN, tab: "friends", texts: T4,
+      filter: { apps: ["tennis"], langs: ["tr"], pro: "any", signedIn: true }, summary: "Tenis · dil tr · girişli" },
+    { pid: "fa11ed00", at: new Date(now - 13 * 864e5), sentAt: new Date(now - 13 * 864e5), status: "failed", mode: "devices", by: ADMIN, texts: T3, tab: null, error: "UNREGISTERED",
+      filter: { installIds: [list[13].id] }, summary: `Tek kişi: ${shortId(list[13].id)}`, counts: { targeted: 1, sent: 0, failed: 1, removedTokens: 1 }, byLang: { en: { sent: 0, failed: 1 } }, errors: { UNREGISTERED: 1 }, failures: [{ i: list[13].id, l: "en", a: list[13].app, e: "UNREGISTERED: Requested entity was not found." }] },
   ];
-  demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick), pushes: demoPushes,
-    social: { users: { n: 31 }, handles: { n: 29 }, follows: { n: 74 }, leagues: { n: 6 }, matches: { err: "Kurallar yöneticinin listelemesine izin vermiyor (yalnız oyuncular okur)." } } };
+  // Açılmalar: dokunan kurulumun ve günün sayaçlarına push_open_<kimlik>.
+  for (const p of demoPushes.filter(p => p.status === "sent" && !p.test)) {
+    const base = ts(p.sentAt).getTime(), rate = p.mode === "devices" ? .32 : .18;
+    let cap = p.mode === "devices" ? Math.round(p.counts.sent * rate) : 1e9;
+    for (const inst of list) {
+      if (inst.notif !== true || (p.apps?.length && !p.apps.includes(inst.app)) || rnd() > rate || cap-- <= 0) continue;
+      const t = Math.min(now - 6e4, base + Math.pow(rnd(), 3) * 3 * 864e5), k = `push_open_${p.pid}`;
+      bump(inst.ev, "push_open"); bump(inst.ev, k);
+      const s = statsMap[inst.app + "_" + dayKey(t)] ||= { app: inst.app, day: dayKey(t), ev: {} };
+      bump(s.ev, "push_open"); bump(s.ev, k);
+    }
+  }
+  const templates = [
+    { id: "t1", name: "Hafta sonu hatırlatma", mode: "topics", apps: [], texts: T1, tab: "logbook", updatedAt: new Date(now - 864e5) },
+    { id: "t2", name: "Geri dön (14 gün)", mode: "devices", apps: [], aud: { apps: [], langs: [], pro: "free", signed: "any", act: "inactive", actDays: 7, inactDays: 14, ids: [] }, texts: T2, tab: "setup", updatedAt: new Date(now - 6 * 864e5) },
+  ];
+  demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick), pushes: demoPushes, templates,
+    socialData: { users, follows, leagues, matches, handlesN: users.length, err: {} } };
 }
 function fakeGA4(rnd, pick) {
   const now = Date.now(), gun = 90, g = { uretim: new Date(now - 5 * 36e5).toISOString(), gun, gunluk: [], olaylar: [], kohort: [] };
