@@ -1,0 +1,7 @@
+{
+  "rota": "daily",
+  "metinler": {
+    "tr": { "baslik": "Bugünün ikilemi hazır", "metin": "Deniz mi dağ mı? Oyunu ver, çoğunluk ne demiş gör." },
+    "en": { "baslik": "Today's dilemma is up", "metin": "Sea or mountains? Cast your vote and see what everyone picked." }
+  }
+}
