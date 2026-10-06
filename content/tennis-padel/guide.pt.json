@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Marque o placar no celular",
+      "subtitle": "Sem relógio.",
+      "category": "Guia do app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Abra Partida, escolha Este celular e toque em Começar partida no celular.\n\n• Toque no lado que ganhou o ponto: o adversário fica em cima em vermelho, você embaixo em verde.\n\n• Um ponto errado volta com a seta no meio.\n\n• Toque em Tela cheia para um placar grande, uma metade para cada lado.\n\n• A tela fica ligada durante a partida. Se o app fechar, a partida continua lá quando você abrir de novo."
+    },
+    {
+      "id": "101",
+      "title": "Relógio e celular juntos",
+      "subtitle": "Um marca, o outro acompanha.",
+      "category": "Guia do app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Comece no relógio e o celular mostra o mesmo placar ao vivo.\n\n• Só um dispositivo marca por vez, então nenhum ponto é contado duas vezes.\n\n• Para trocar, toque em Marcar no celular no iPhone, ou em Marcar aqui no relógio.\n\n• Se a conexão cair, nada se perde: o último placar chega assim que os dois se reconectam.\n\n• Partidas no relógio salvam um treino no Apple Saúde com frequência cardíaca, calorias e distância."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "O placar em voz alta, pelo celular.",
+      "category": "Guia do app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Ative Árbitro por voz em Preparar partida e escolha o idioma.\n\n• O celular fala o placar depois de cada ponto, também quando o relógio está marcando. Conecte uma caixa Bluetooth para uma quadra grande.\n\n• Primeiro o placar de quem saca: quinze zero, deuce, vantagem, game, set.\n\n• Falar placar lê o placar atual quando você quiser."
+    },
+    {
+      "id": "102",
+      "title": "4 modos de pontuação",
+      "subtitle": "Padrão, Ouro, Prata e Bronze.",
+      "category": "Guia do app",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Escolha como jogar o deuce (40-40):\n\n1. Padrão: regra clássica da vantagem. Vence quem abrir dois pontos.\n2. Ouro (sem vantagem): ponto decisivo no deuce. Quem recebe escolhe o lado e quem vence leva o game.\n3. Prata: joga-se uma vantagem. Voltou ao deuce? Ponto de ouro.\n4. Bronze: até duas vantagens. Ainda empatado? Ponto de ouro."
+    },
+    {
+      "id": "103",
+      "title": "Quem saca primeiro?",
+      "subtitle": "Use o sorteio integrado.",
+      "category": "Guia do app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Sem moeda nem girar a raquete!\n\nNa tela de ajustes do relógio, toque no ícone do dado. O app escolhe ao acaso VOCÊ ou ADVERS. para sacar primeiro. Justo e simples."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidade e ligas",
+      "subtitle": "Opcional, com login da Apple ou do Google.",
+      "category": "Guia do app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Peça a um amigo para confirmar um resultado: quando ele aceitar, a partida fica nos dois diários, cada um do seu lado.\n\n• Compartilhe uma partida na comunidade: adicione uma legenda e escolha quem vê. Notas e dados de saúde nunca são compartilhados.\n\n• Ligas: o organizador (Pro) cria a liga, convida os jogadores e define o calendário. Os jogadores entram de graça, jogam a partida e enviam o resultado pela tela da partida. Os dois lados confirmam, o organizador aprova e a tabela se mexe.\n\n• Marcar o placar nunca exige conta."
+    },
+    {
+      "id": "201",
+      "title": "Pontuação do tênis",
+      "subtitle": "15, 30, 40 e deuce.",
+      "category": "Regras",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "A pontuação do tênis tem raízes medievais.\n\n• Pontos: 0 → 15 → 30 → 40 → game.\n\n• Deuce: se os dois chegam a 40, é deuce. É preciso ganhar dois pontos seguidos para levar o game (vantagem → game)."
+    },
+    {
+      "id": "202",
+      "title": "Padel e tênis",
+      "subtitle": "As principais diferenças.",
+      "category": "Regras",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "O padel é jogado em uma quadra menor com paredes de vidro.\n\n• Saque: por baixo e abaixo da cintura.\n• Paredes: a bola pode bater nas paredes *depois* de quicar no chão. Você pode usar o vidro para devolver a bola."
+    },
+    {
+      "id": "203",
+      "title": "Regras do tie-break",
+      "subtitle": "Fechar um set no 6-6.",
+      "category": "Regras",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Quando o placar está 6-6 em games:\n\n• Pontos: contados 1, 2, 3... Vence quem chegar a 7 primeiro (com dois de diferença).\n• Saque: troca-se quem saca a cada dois pontos (depois do primeiro ponto).\n• Super tie-break: algumas partidas (escolha 2 sets + super tie-break no app) jogam um tie-break de 10 pontos no lugar do último set."
+    },
+    {
+      "id": "301",
+      "title": "Estratégia nas duplas",
+      "subtitle": "Comunicação é tudo.",
+      "category": "Tática",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Jogar duplas exige trabalho em equipe.\n\n• O muro: quando seu parceiro saca, fique perto da rede para interceptar devoluções fracas.\n• O meio: na dúvida, jogue pelo meio para confundir."
+    },
+    {
+      "id": "302",
+      "title": "Padel: o vidro",
+      "subtitle": "Use as paredes a seu favor.",
+      "category": "Tática",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "No padel, o vidro é seu amigo.\n\n• Espere: se a bola vier rápida, deixe bater no vidro do fundo. Ela perde força e te dá uma bola fácil.\n• O lob: jogue alto e fundo para afastar os adversários da rede."
+    }
+  ]
+}

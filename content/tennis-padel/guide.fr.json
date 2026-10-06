@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Compter les points sur ton téléphone",
+      "subtitle": "Pas besoin de montre.",
+      "category": "Guide de l'app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Ouvre Match, choisis Ce téléphone et touche Lancer le match sur le téléphone.\n\n• Touche le côté qui a gagné le point : l'adversaire est en haut en rouge, toi en bas en vert.\n\n• Un point erroné s'annule avec la flèche au milieu.\n\n• Touche Plein écran pour un grand tableau, une moitié par camp.\n\n• L'écran reste allumé pendant le match. Si l'app se ferme, le match est toujours là quand tu la rouvres."
+    },
+    {
+      "id": "101",
+      "title": "Montre et téléphone ensemble",
+      "subtitle": "L'un compte, l'autre suit.",
+      "category": "Guide de l'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Lance le match sur la montre et le téléphone affiche le même score en direct.\n\n• Un seul appareil compte à la fois, aucun point n'est compté deux fois.\n\n• Pour changer, touche Compter sur le téléphone sur l'iPhone, ou Compter ici sur la montre.\n\n• Si la connexion coupe, rien n'est perdu : le dernier score arrive dès que les deux se retrouvent.\n\n• Les matchs sur la montre enregistrent une séance dans Apple Santé avec fréquence cardiaque, calories et distance."
+    },
+    {
+      "id": "104",
+      "title": "Arbitre vocal",
+      "subtitle": "Le score à voix haute, depuis le téléphone.",
+      "category": "Guide de l'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Active Arbitre vocal dans Préparation du match et choisis la langue.\n\n• Le téléphone annonce le score après chaque point, même quand la montre compte. Branche une enceinte Bluetooth pour un grand court.\n\n• Le score du serveur d'abord : quinze zéro, égalité, avantage, jeu, set.\n\n• Annoncer le score lit le score actuel quand tu veux."
+    },
+    {
+      "id": "102",
+      "title": "4 modes de score",
+      "subtitle": "Standard, Or, Argent et Bronze.",
+      "category": "Guide de l'app",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Choisis comment jouer l'égalité (40-40) :\n\n1. Standard : règle de l'avantage classique. Il faut deux points d'écart.\n2. Or (sans avantage) : point décisif à égalité. Le relanceur choisit son côté, le gagnant prend le jeu.\n3. Argent : un avantage se joue. Retour à égalité ? Point en or.\n4. Bronze : jusqu'à deux avantages. Toujours égalité ? Point en or."
+    },
+    {
+      "id": "103",
+      "title": "Qui sert en premier ?",
+      "subtitle": "Utilise le tirage au sort intégré.",
+      "category": "Guide de l'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Pas besoin de pièce ni de faire tourner une raquette !\n\nDans l'écran Réglages de ta montre, touche l'icône du dé. L'app choisit au hasard TOI ou ADVERS. pour servir en premier. Juste et simple."
+    },
+    {
+      "id": "105",
+      "title": "Amis, communauté et ligues",
+      "subtitle": "Facultatif, connexion avec Apple ou Google.",
+      "category": "Guide de l'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Demande à un ami de confirmer un résultat : une fois accepté, le match est dans vos deux carnets, chacun de son côté.\n\n• Partage un match avec la communauté : ajoute une légende et choisis qui le voit. Les notes et données de santé ne sont jamais partagées.\n\n• Ligues : l'organisateur (Pro) crée la ligue, invite les joueurs et fixe le calendrier. Les joueurs rejoignent gratuitement, jouent le match et envoient le résultat depuis l'écran du match. Les deux camps confirment, l'organisateur approuve, le classement bouge.\n\n• Compter les points ne demande jamais de compte."
+    },
+    {
+      "id": "201",
+      "title": "Le score au tennis",
+      "subtitle": "15, 30, 40 et égalité.",
+      "category": "Règles",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "Le score au tennis a des racines médiévales.\n\n• Points : 0 → 15 → 30 → 40 → jeu.\n\n• Égalité : si les deux joueurs arrivent à 40, c'est égalité. Il faut gagner deux points de suite pour remporter le jeu (avantage → jeu)."
+    },
+    {
+      "id": "202",
+      "title": "Padel et tennis",
+      "subtitle": "Les grandes différences.",
+      "category": "Règles",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Le padel se joue sur un court plus petit entouré de vitres.\n\n• Service : à la cuillère, sous la hauteur de la taille.\n• Murs : la balle peut toucher les murs *après* avoir rebondi au sol. Tu peux utiliser la vitre pour renvoyer la balle."
+    },
+    {
+      "id": "203",
+      "title": "Règles du tie-break",
+      "subtitle": "Finir un set à 6-6.",
+      "category": "Règles",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Quand le score est de 6-6 en jeux :\n\n• Points : comptés 1, 2, 3... Le premier à 7 gagne (avec deux points d'écart).\n• Service : on change de serveur tous les deux points (après le premier point).\n• Super tie-break : certains matchs (choisis 2 sets + super tie-break dans l'app) jouent un tie-break en 10 points au lieu d'un dernier set."
+    },
+    {
+      "id": "301",
+      "title": "Stratégie en double",
+      "subtitle": "Tout est dans la communication.",
+      "category": "Tactique",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Le double demande un vrai travail d'équipe.\n\n• Le mur : quand ton partenaire sert, place-toi près du filet pour intercepter les retours faibles.\n• Le milieu : dans le doute, joue au milieu pour semer la confusion."
+    },
+    {
+      "id": "302",
+      "title": "Padel : la vitre",
+      "subtitle": "Utilise les murs à ton avantage.",
+      "category": "Tactique",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "Au padel, la vitre est ton amie.\n\n• Attendre : si la balle est rapide, laisse-la toucher la vitre du fond. Elle ralentit et te donne une balle facile.\n• Le lob : joue haut et profond pour éloigner les adversaires du filet."
+    }
+  ]
+}

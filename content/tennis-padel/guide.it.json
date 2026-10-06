@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Tieni il punteggio sul telefono",
+      "subtitle": "Non serve l'orologio.",
+      "category": "Guida all'app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Apri Partita, scegli Questo telefono e tocca Inizia partita sul telefono.\n\n• Tocca il lato che ha vinto il punto: l'avversario è in alto in rosso, tu in basso in verde.\n\n• Un punto sbagliato si annulla con la freccia al centro.\n\n• Tocca Schermo intero per un tabellone grande, metà per lato.\n\n• Lo schermo resta acceso durante la partita. Se l'app si chiude, la partita è ancora lì quando la riapri."
+    },
+    {
+      "id": "101",
+      "title": "Orologio e telefono insieme",
+      "subtitle": "Uno tiene il punteggio, l'altro segue.",
+      "category": "Guida all'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Inizia sull'orologio e il telefono mostra lo stesso punteggio in diretta.\n\n• Un solo dispositivo tiene il punteggio alla volta, così nessun punto conta due volte.\n\n• Per passare, tocca Conta sul telefono sull'iPhone o Conta qui sull'orologio.\n\n• Se la connessione cade non si perde nulla: l'ultimo punteggio arriva appena i due si ricollegano.\n\n• Le partite sull'orologio salvano un allenamento in Apple Salute con frequenza cardiaca, calorie e distanza."
+    },
+    {
+      "id": "104",
+      "title": "Arbitro vocale",
+      "subtitle": "Il punteggio ad alta voce, dal telefono.",
+      "category": "Guida all'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Attiva Arbitro vocale in Preparazione partita e scegli la lingua.\n\n• Il telefono legge il punteggio dopo ogni punto, anche quando lo tiene l'orologio. Collega una cassa Bluetooth per un campo grande.\n\n• Prima il punteggio di chi serve: quindici zero, parità, vantaggio, game, set.\n\n• Annuncia punteggio legge il punteggio attuale quando vuoi."
+    },
+    {
+      "id": "102",
+      "title": "4 modalità di punteggio",
+      "subtitle": "Standard, Oro, Argento e Bronzo.",
+      "category": "Guida all'app",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Scegli come giocare la parità (40-40):\n\n1. Standard: regola del vantaggio classica. Si vince con due punti di scarto.\n2. Oro (senza vantaggi): punto decisivo sulla parità. Chi risponde sceglie il lato, chi vince prende il game.\n3. Argento: si gioca un vantaggio. Se si torna in parità, punto d'oro.\n4. Bronzo: fino a due vantaggi. Se ancora pari, punto d'oro."
+    },
+    {
+      "id": "103",
+      "title": "Chi serve per primo?",
+      "subtitle": "Usa il sorteggio integrato.",
+      "category": "Guida all'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Niente moneta né racchetta da far girare!\n\nNella schermata Imposta dell'orologio, tocca l'icona del dado. L'app sceglie a caso TU o AVVERS. per servire per primo. Giusto e semplice."
+    },
+    {
+      "id": "105",
+      "title": "Amici, community e leghe",
+      "subtitle": "Facoltativo, accesso con Apple o Google.",
+      "category": "Guida all'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Chiedi a un amico di confermare un risultato: quando accetta, la partita è in entrambi i diari, ognuno dal suo lato.\n\n• Condividi una partita nella community: aggiungi una didascalia e scegli chi la vede. Note e dati di salute non vengono mai condivisi.\n\n• Leghe: l'organizzatore (Pro) crea la lega, invita i giocatori e fissa il calendario. I giocatori entrano gratis, giocano la partita e inviano il risultato dalla schermata della partita. Entrambe le parti confermano, l'organizzatore approva, la classifica si muove.\n\n• Per tenere il punteggio non serve mai un account."
+    },
+    {
+      "id": "201",
+      "title": "Il punteggio del tennis",
+      "subtitle": "15, 30, 40 e parità.",
+      "category": "Regole",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "Il punteggio del tennis ha radici medievali.\n\n• Punti: 0 → 15 → 30 → 40 → game.\n\n• Parità: se entrambi arrivano a 40 è parità. Devi vincere due punti di fila per prendere il game (vantaggio → game)."
+    },
+    {
+      "id": "202",
+      "title": "Padel e tennis",
+      "subtitle": "Le differenze principali.",
+      "category": "Regole",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Il padel si gioca su un campo più piccolo con pareti di vetro.\n\n• Servizio: dal basso e sotto l'altezza della vita.\n• Pareti: la palla può toccare le pareti *dopo* il rimbalzo a terra. Puoi usare il vetro per rimandare la palla."
+    },
+    {
+      "id": "203",
+      "title": "Regole del tie-break",
+      "subtitle": "Chiudere un set sul 6-6.",
+      "category": "Regole",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Quando i game sono sul 6-6:\n\n• Punti: si contano 1, 2, 3... Vince chi arriva prima a 7 (con due punti di scarto).\n• Servizio: si cambia chi serve ogni due punti (dopo il primo punto).\n• Super tie-break: alcune partite (scegli 2 set + super tie-break nell'app) giocano un tie-break a 10 punti al posto dell'ultimo set."
+    },
+    {
+      "id": "301",
+      "title": "Strategia nel doppio",
+      "subtitle": "Comunicare è tutto.",
+      "category": "Tattica",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Il doppio richiede gioco di squadra.\n\n• Il muro: quando serve il tuo compagno, stai vicino alla rete per intercettare le risposte deboli.\n• Il centro: nel dubbio, gioca al centro per creare confusione."
+    },
+    {
+      "id": "302",
+      "title": "Padel: il vetro",
+      "subtitle": "Usa le pareti a tuo vantaggio.",
+      "category": "Tattica",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "Nel padel il vetro è tuo amico.\n\n• Aspetta: se la palla è veloce, lasciala sbattere sul vetro di fondo. Rallenta e ti dà una palla facile.\n• Il pallonetto: gioca alto e profondo per allontanare gli avversari dalla rete."
+    }
+  ]
+}

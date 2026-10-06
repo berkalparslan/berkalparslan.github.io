@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Lleva el marcador en el móvil",
+      "subtitle": "Sin reloj.",
+      "category": "Guía de la app",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Abre Partido, elige Este móvil y toca Empezar partido en el móvil.\n\n• Toca el lado que ganó el punto: el rival está arriba en rojo y tú abajo en verde.\n\n• Un punto equivocado se deshace con la flecha del centro.\n\n• Toca Pantalla completa para un marcador grande, una mitad para cada lado.\n\n• La pantalla se queda encendida durante el partido. Si la app se cierra, el partido sigue ahí al volver a abrirla."
+    },
+    {
+      "id": "101",
+      "title": "Reloj y móvil a la vez",
+      "subtitle": "Uno lleva el marcador, el otro lo sigue.",
+      "category": "Guía de la app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Empieza en el reloj y el móvil muestra el mismo marcador en vivo.\n\n• Solo un dispositivo lleva el marcador a la vez, así ningún punto cuenta dos veces.\n\n• Para cambiar, toca Contar en el móvil en el iPhone, o Contar aquí en el reloj.\n\n• Si se corta la conexión, no se pierde nada: el último marcador llega en cuanto vuelven a conectarse.\n\n• Los partidos en el reloj guardan un entreno en Apple Salud con frecuencia cardiaca, calorías y distancia."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "El marcador en voz alta, desde el móvil.",
+      "category": "Guía de la app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Activa Árbitro por voz en Preparar partido y elige el idioma.\n\n• El móvil dice el marcador tras cada punto, también cuando lo lleva el reloj. Conecta un altavoz Bluetooth para una pista grande.\n\n• Primero el marcador de quien saca: quince nada, iguales, ventaja, juego, set.\n\n• Decir marcador lee el marcador actual cuando quieras."
+    },
+    {
+      "id": "102",
+      "title": "4 modos de puntuación",
+      "subtitle": "Estándar, Oro, Plata y Bronce.",
+      "category": "Guía de la app",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Elige cómo se juegan los iguales (40-40):\n\n1. Estándar: regla de ventaja clásica. Se gana por dos puntos.\n2. Oro (sin ventaja): punto decisivo en iguales. Quien resta elige el lado y el ganador se lleva el juego.\n3. Plata: se juega una ventaja. Si vuelve a iguales, punto de oro.\n4. Bronce: hasta dos ventajas. Si siguen iguales, punto de oro."
+    },
+    {
+      "id": "103",
+      "title": "¿Quién saca primero?",
+      "subtitle": "Usa el sorteo integrado.",
+      "category": "Guía de la app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "¡Sin moneda ni girar la raqueta!\n\nEn la pantalla de ajustes del reloj, toca el icono del dado. La app elige al azar TÚ o RIVAL para sacar primero. Justo y sencillo."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidad y ligas",
+      "subtitle": "Opcional, con inicio de sesión de Apple o Google.",
+      "category": "Guía de la app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Pide a un amigo que confirme un resultado: cuando lo acepte, el partido estará en los dos diarios, cada uno desde su lado.\n\n• Comparte un partido en la comunidad: añade un texto y elige quién lo ve. Las notas y los datos de salud nunca se comparten.\n\n• Ligas: el organizador (Pro) crea la liga, invita a los jugadores y fija el calendario. Los jugadores se unen gratis, juegan el partido y envían el resultado desde la pantalla del partido. Ambos lados confirman, el organizador aprueba y la clasificación se mueve.\n\n• Para llevar el marcador nunca necesitas cuenta."
+    },
+    {
+      "id": "201",
+      "title": "Puntuación del tenis",
+      "subtitle": "15, 30, 40 e iguales.",
+      "category": "Reglas",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "La puntuación del tenis tiene raíces medievales.\n\n• Puntos: 0 → 15 → 30 → 40 → juego.\n\n• Iguales: si los dos jugadores llegan a 40, hay iguales. Debes ganar dos puntos seguidos para llevarte el juego (ventaja → juego)."
+    },
+    {
+      "id": "202",
+      "title": "Pádel y tenis",
+      "subtitle": "Las diferencias clave.",
+      "category": "Reglas",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "El pádel se juega en una pista más pequeña con paredes de cristal.\n\n• Saque: por abajo y por debajo de la cintura.\n• Paredes: la bola puede tocar las paredes *después* de botar en el suelo. Puedes usar el cristal para devolver la bola."
+    },
+    {
+      "id": "203",
+      "title": "Reglas del tie-break",
+      "subtitle": "Cerrar un set con 6-6.",
+      "category": "Reglas",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Cuando el marcador está 6-6 en juegos:\n\n• Puntos: se cuentan 1, 2, 3... Gana quien llega antes a 7 (con dos de diferencia).\n• Saque: se cambia de sacador cada dos puntos (tras el primer punto).\n• Súper tie-break: algunos partidos (elige 2 sets + súper tie-break en la app) juegan un tie-break a 10 puntos en lugar de un último set."
+    },
+    {
+      "id": "301",
+      "title": "Estrategia en dobles",
+      "subtitle": "La comunicación lo es todo.",
+      "category": "Táctica",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Jugar dobles exige trabajo en equipo.\n\n• El muro: cuando saca tu pareja, colócate cerca de la red para cortar restos flojos.\n• El centro: si dudas, juega por el medio para crear confusión."
+    },
+    {
+      "id": "302",
+      "title": "Pádel: el cristal",
+      "subtitle": "Usa las paredes a tu favor.",
+      "category": "Táctica",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "En el pádel, el cristal es tu amigo.\n\n• Espera: si la bola viene rápida, deja que toque el cristal del fondo. Se frena y te deja una bola fácil.\n• El globo: juega alto y profundo para alejar a los rivales de la red."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Skoru telefonda tut",
+      "subtitle": "Saat gerekmez.",
+      "category": "Uygulama Rehberi",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Maç sekmesini aç, Bu telefon'u seç ve Maçı telefonda başlat'a dokun.\n\n• Sayıyı kazanan tarafa dokun: rakip üstte kırmızı, sen altta yeşilsin.\n\n• Yanlış bir sayıyı ortadaki okla geri al.\n\n• Tam ekran skor için Tam ekran'a dokun: her tarafa bir yarı.\n\n• Maç boyunca ekran açık kalır. Uygulama kapansa bile yeniden açtığında maç yerinde durur."
+    },
+    {
+      "id": "101",
+      "title": "Saat ve telefon birlikte",
+      "subtitle": "Biri skoru tutar, diğeri takip eder.",
+      "category": "Uygulama Rehberi",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Maçı saatte başlat, telefon aynı skoru canlı gösterir.\n\n• Skoru aynı anda yalnızca bir cihaz tutar, böylece hiçbir sayı iki kez sayılmaz.\n\n• Devretmek için iPhone'da Telefonda say'a ya da saatte Burada say'a dokun.\n\n• Bağlantı koparsa hiçbir şey kaybolmaz: ikisi yeniden bağlanınca son skor gelir.\n\n• Saatteki maçlar nabız, kalori ve mesafeyle Apple Sağlık'a antrenman olarak kaydedilir."
+    },
+    {
+      "id": "104",
+      "title": "Sesli hakem",
+      "subtitle": "Skor, telefondan sesli.",
+      "category": "Uygulama Rehberi",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Maç Hazırlığı'nda Sesli hakem'i aç ve dili seç.\n\n• Telefon her sayıdan sonra skoru okur, skoru saat tutarken de. Büyük bir kort için Bluetooth hoparlör bağla.\n\n• Önce servis atanın skoru: on beş sıfır, deuce, avantaj, oyun, set.\n\n• Skoru söyle, o anki skoru istediğin zaman okur."
+    },
+    {
+      "id": "102",
+      "title": "4 skor modu",
+      "subtitle": "Standart, Altın, Gümüş ve Bronz.",
+      "category": "Uygulama Rehberi",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Deuce'u (40-40) nasıl oynayacağını seç:\n\n1. Standart: Klasik avantaj kuralı. İki sayı farkla kazanılır.\n2. Altın (avantajsız): Deuce'ta tek sayı. Karşılayan tarafı seçer, sayıyı alan oyunu alır.\n3. Gümüş: Bir avantaj oynanır. Yeniden deuce olursa altın sayı.\n4. Bronz: En fazla iki avantaj oynanır. Hala eşitse altın sayı."
+    },
+    {
+      "id": "103",
+      "title": "İlk servisi kim atar?",
+      "subtitle": "Yerleşik yazı turayı kullan.",
+      "category": "Uygulama Rehberi",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Ne bozuk para ne raket çevirmek gerekir!\n\nSaatindeki hazırlık ekranında zar simgesine dokun. Uygulama ilk servisi atacak tarafı, SEN ya da RAKİP, rastgele seçer. Adil ve basit."
+    },
+    {
+      "id": "105",
+      "title": "Arkadaşlar, topluluk ve ligler",
+      "subtitle": "İsteğe bağlı, Apple ya da Google ile giriş.",
+      "category": "Uygulama Rehberi",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Bir sonucu arkadaşına onaylat: kabul edince maç iki günlükte de olur, herkesin kendi tarafından.\n\n• Bir maçı toplulukta paylaş: açıklama ekle ve kimlerin göreceğini seç. Notlar ve sağlık verileri asla paylaşılmaz.\n\n• Ligler: organizatör (Pro) ligi kurar, oyuncuları davet eder ve fikstürü belirler. Oyuncular ücretsiz katılır, maçı oynar ve sonucu maç ekranından gönderir. İki taraf onaylar, organizatör kabul eder, tablo güncellenir.\n\n• Skor tutmak için hiçbir zaman hesap gerekmez."
+    },
+    {
+      "id": "201",
+      "title": "Tenis skoruna giriş",
+      "subtitle": "15, 30, 40 ve deuce mantığı.",
+      "category": "Kurallar",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "Tenis skorunun kökleri Orta Çağ'a uzanır.\n\n• Sayılar: 0 → 15 → 30 → 40 → Oyun.\n\n• Deuce: İki oyuncu da 40'a ulaşırsa deuce olur. Oyunu almak için üst üste iki sayı kazanmalısın (Avantaj → Oyun)."
+    },
+    {
+      "id": "202",
+      "title": "Padel ve tenis",
+      "subtitle": "Temel farklar.",
+      "category": "Kurallar",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Padel camla çevrili daha küçük bir kortta oynanır.\n\n• Servis: Alttan ve bel hizasının altından atılmalı.\n• Duvarlar: Top yerde sektikten *sonra* duvarlara çarpabilir. Topu geri göndermek için camı kullanabilirsin."
+    },
+    {
+      "id": "203",
+      "title": "Tiebreak kuralları",
+      "subtitle": "6-6'da seti bitirmek.",
+      "category": "Kurallar",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Oyunlarda skor 6-6 olunca:\n\n• Sayılar: 1, 2, 3 diye sayılır. 7'ye ilk ulaşan kazanır (iki sayı fark gerekir).\n• Servis: İlk sayıdan sonra her iki sayıda bir servis değişir.\n• Süper tiebreak: Bazı maçlarda (uygulamada 2 set + süper tiebreak seç) son set yerine 10 sayılık tiebreak oynanır."
+    },
+    {
+      "id": "301",
+      "title": "Çiftler stratejisi",
+      "subtitle": "İletişim her şey.",
+      "category": "Taktikler",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Çiftler takım oyunu ister.\n\n• Duvar: Eşin servis atarken zayıf dönüşleri kesmek için fileye yakın dur.\n• Orta: Emin değilsen ortaya vur, rakipler karışsın."
+    },
+    {
+      "id": "302",
+      "title": "Padel: Cam",
+      "subtitle": "Duvarları lehine kullan.",
+      "category": "Taktikler",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "Padelde cam senin dostun.\n\n• Bekle: Top hızlıysa arka cama çarpmasına izin ver. Yavaşlar ve sana rahat bir vuruş verir.\n• Lob: Rakipleri fileden uzaklaştırmak için yüksek ve derin vur."
+    }
+  ]
+}

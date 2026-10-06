@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Score bijhouden op je telefoon",
+      "subtitle": "Geen horloge nodig.",
+      "category": "App-gids",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Open Wedstrijd, kies Deze telefoon en tik op Wedstrijd starten op telefoon.\n\n• Tik op de kant die het punt won: de tegenstander staat bovenaan in rood, jij onderaan in groen.\n\n• Een fout punt draai je terug met de pijl in het midden.\n\n• Tik op Volledig scherm voor een groot scorebord, één helft per kant.\n\n• Het scherm blijft aan tijdens de wedstrijd. Sluit de app, dan staat de wedstrijd er nog als je hem weer opent."
+    },
+    {
+      "id": "101",
+      "title": "Horloge en telefoon samen",
+      "subtitle": "Eén houdt de score bij, de ander volgt.",
+      "category": "App-gids",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start op het horloge en de telefoon toont dezelfde score live.\n\n• Er houdt steeds één apparaat de score bij, dus geen punt telt dubbel.\n\n• Wisselen doe je met Op telefoon tellen op de iPhone, of Hier tellen op het horloge.\n\n• Valt de verbinding weg, dan gaat er niets verloren: de laatste score komt binnen zodra ze weer contact hebben.\n\n• Wedstrijden op het horloge bewaren een workout in Apple Gezondheid met hartslag, calorieën en afstand."
+    },
+    {
+      "id": "104",
+      "title": "Stemscheidsrechter",
+      "subtitle": "De score hardop, vanaf de telefoon.",
+      "category": "App-gids",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Zet Stemscheidsrechter aan bij Wedstrijd voorbereiden en kies de taal.\n\n• De telefoon leest de score na elk punt voor, ook als het horloge hem bijhoudt. Koppel een bluetoothspeaker voor een grote baan.\n\n• De score van de serveerder eerst: vijftien nul, deuce, voordeel, game, set.\n\n• Score uitspreken leest de huidige score wanneer je maar wilt."
+    },
+    {
+      "id": "102",
+      "title": "4 scoremodi",
+      "subtitle": "Standaard, Goud, Zilver en Brons.",
+      "category": "App-gids",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Kies hoe je deuce (40-40) speelt:\n\n1. Standaard: klassieke voordeelregel. Winnen met 2 punten verschil.\n2. Goud (zonder voordeel): beslissend punt bij deuce. De ontvanger kiest de kant, de winnaar pakt de game.\n3. Zilver: speel 1 voordeel. Weer deuce? Dan een gouden punt.\n4. Brons: speel tot 2 voordelen. Nog steeds gelijk? Dan een gouden punt."
+    },
+    {
+      "id": "103",
+      "title": "Wie serveert eerst?",
+      "subtitle": "Gebruik de ingebouwde loting.",
+      "category": "App-gids",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Geen munt of draaiend racket nodig!\n\nTik in het instelscherm op je horloge op het dobbelsteenicoon. De app kiest willekeurig JIJ of TEGENST. om te beginnen met serveren. Eerlijk en simpel."
+    },
+    {
+      "id": "105",
+      "title": "Vrienden, community en competities",
+      "subtitle": "Optioneel, inloggen met Apple of Google.",
+      "category": "App-gids",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Laat een vriend een uitslag bevestigen: na accepteren staat de wedstrijd in beide logboeken, ieder vanaf de eigen kant.\n\n• Deel een wedstrijd met de community: voeg een bijschrift toe en kies wie het ziet. Notities en gezondheidsgegevens worden nooit gedeeld.\n\n• Competities: de organisator (Pro) maakt de competitie, nodigt spelers uit en maakt het speelschema. Spelers doen gratis mee, spelen de wedstrijd en sturen de uitslag vanuit het wedstrijdscherm. Beide kanten bevestigen, de organisator keurt goed, de stand verandert.\n\n• Voor het bijhouden van de score heb je nooit een account nodig."
+    },
+    {
+      "id": "201",
+      "title": "Tennistelling voor beginners",
+      "subtitle": "15, 30, 40 en deuce.",
+      "category": "Regels",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "De tennistelling gaat terug tot de middeleeuwen.\n\n• Punten: 0 → 15 → 30 → 40 → game.\n\n• Deuce: als beide spelers op 40 staan, is het deuce. Je moet 2 punten op rij winnen om de game te pakken (voordeel → game)."
+    },
+    {
+      "id": "202",
+      "title": "Padel en tennis",
+      "subtitle": "De belangrijkste verschillen.",
+      "category": "Regels",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Padel speel je op een kleinere baan met glazen wanden.\n\n• Service: onderhands en onder heuphoogte.\n• Wanden: de bal mag de wanden raken *nadat* hij op de grond stuitte. Je mag het glas gebruiken om de bal terug te spelen."
+    },
+    {
+      "id": "203",
+      "title": "Tiebreakregels",
+      "subtitle": "Een set beslissen bij 6-6.",
+      "category": "Regels",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Als het 6-6 staat in games:\n\n• Punten: geteld als 1, 2, 3... Wie eerst 7 heeft wint (met 2 punten verschil).\n• Service: na het eerste punt wissel je elke 2 punten van serveerder.\n• Supertiebreak: sommige wedstrijden (kies 2 sets + supertiebreak in de app) spelen een tiebreak tot 10 in plaats van een laatste set."
+    },
+    {
+      "id": "301",
+      "title": "Dubbelstrategie",
+      "subtitle": "Communicatie is alles.",
+      "category": "Tactiek",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Dubbelen vraagt om teamwork.\n\n• De muur: als je partner serveert, sta je dichter bij het net om zwakke returns te onderscheppen.\n• Midden: twijfel je, speel dan door het midden voor verwarring."
+    },
+    {
+      "id": "302",
+      "title": "Padel: het glas",
+      "subtitle": "Gebruik de wanden in je voordeel.",
+      "category": "Tactiek",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "Bij padel is het glas je vriend.\n\n• Wachten: is de bal snel, laat hem dan tegen het achterglas komen. Hij vertraagt en geeft je een makkelijke bal.\n• De lob: sla hoog en diep om je tegenstanders van het net weg te drijven."
+    }
+  ]
+}

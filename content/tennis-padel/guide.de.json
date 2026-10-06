@@ -1,0 +1,103 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Auf dem iPhone zählen",
+      "subtitle": "Keine Uhr nötig.",
+      "category": "App-Anleitung",
+      "icon": "iphone",
+      "colorHex": "#34C759",
+      "content": "• Öffne Match, wähle Dieses iPhone und tippe auf Match auf dem iPhone starten.\n\n• Tippe auf die Seite, die den Punkt gewonnen hat: Der Gegner ist oben in Rot, du unten in Grün.\n\n• Einen falschen Punkt nimmst du mit dem Pfeil in der Mitte zurück.\n\n• Tippe auf Vollbild für eine große Anzeigetafel, eine Hälfte pro Seite.\n\n• Der Bildschirm bleibt während des Matches an. Schließt sich die App, ist das Match beim nächsten Öffnen noch da."
+    },
+    {
+      "id": "101",
+      "title": "Uhr und iPhone zusammen",
+      "subtitle": "Eins zählt, das andere läuft mit.",
+      "category": "App-Anleitung",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Starte auf der Uhr, und das iPhone zeigt denselben Spielstand live.\n\n• Es zählt immer nur ein Gerät, also wird kein Punkt doppelt gezählt.\n\n• Zum Wechseln tippe auf dem iPhone auf Auf dem iPhone zählen oder auf der Uhr auf Hier zählen.\n\n• Bricht die Verbindung ab, geht nichts verloren: Der letzte Stand kommt an, sobald beide wieder verbunden sind.\n\n• Matches auf der Uhr speichern ein Training in Apple Health mit Herzfrequenz, Kalorien und Strecke."
+    },
+    {
+      "id": "104",
+      "title": "Sprach-Schiedsrichter",
+      "subtitle": "Der Spielstand laut, vom iPhone.",
+      "category": "App-Anleitung",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#007AFF",
+      "content": "• Schalte in der Matchvorbereitung den Sprach-Schiedsrichter ein und wähle die Sprache.\n\n• Das iPhone sagt nach jedem Punkt den Stand an, auch wenn die Uhr zählt. Für einen großen Platz verbinde einen Bluetooth-Lautsprecher.\n\n• Der Stand des Aufschlägers zuerst: fünfzehn null, Einstand, Vorteil, Spiel, Satz.\n\n• Spielstand ansagen liest den aktuellen Stand, wann immer du willst."
+    },
+    {
+      "id": "102",
+      "title": "4 Zählweisen",
+      "subtitle": "Standard, Gold, Silber und Bronze.",
+      "category": "App-Anleitung",
+      "icon": "4.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Leg fest, wie Einstand (40:40) gespielt wird:\n\n1. Standard: Klassische Vorteilregel. Gewonnen mit 2 Punkten Vorsprung.\n2. Gold (ohne Vorteil): Entscheidungspunkt bei Einstand. Der Rückschläger wählt die Seite, der Gewinner holt das Spiel.\n3. Silber: 1 Vorteil wird gespielt. Wieder Einstand? Dann goldener Punkt.\n4. Bronze: Bis zu 2 Vorteile. Immer noch gleich? Dann goldener Punkt."
+    },
+    {
+      "id": "103",
+      "title": "Wer schlägt zuerst auf?",
+      "subtitle": "Nutze die eingebaute Auslosung.",
+      "category": "App-Anleitung",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Keine Münze, kein Schlägerdrehen nötig!\n\nTippe im Einrichten-Bildschirm auf deiner Uhr auf das Würfelsymbol. Die App lost aus, ob DU oder GEGNER zuerst aufschlägt. Fair und einfach."
+    },
+    {
+      "id": "105",
+      "title": "Freunde, Community und Ligen",
+      "subtitle": "Optional, Anmeldung mit Apple oder Google.",
+      "category": "App-Anleitung",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Lass einen Freund ein Ergebnis bestätigen: Sobald er annimmt, steht das Match in beiden Logbüchern, jeweils aus eigener Sicht.\n\n• Teile ein Match in der Community: Füge eine Bildunterschrift hinzu und wähle, wer es sieht. Notizen und Gesundheitsdaten werden nie geteilt.\n\n• Ligen: Der Organisator (Pro) erstellt die Liga, lädt Spieler ein und legt den Spielplan fest. Spieler machen kostenlos mit, spielen das Match und senden das Ergebnis aus dem Matchbildschirm. Beide Seiten bestätigen, der Organisator gibt frei, die Tabelle bewegt sich.\n\n• Zum Punktezählen brauchst du nie ein Konto."
+    },
+    {
+      "id": "201",
+      "title": "Tennis zählen leicht gemacht",
+      "subtitle": "15, 30, 40 und Einstand.",
+      "category": "Regeln",
+      "icon": "figure.tennis",
+      "colorHex": "#34C759",
+      "content": "Die Tenniszählweise stammt aus dem Mittelalter.\n\n• Punkte: 0 → 15 → 30 → 40 → Spiel.\n\n• Einstand: Haben beide 40, steht es Einstand. Du musst 2 Punkte in Folge gewinnen, um das Spiel zu holen (Vorteil → Spiel)."
+    },
+    {
+      "id": "202",
+      "title": "Padel und Tennis",
+      "subtitle": "Die wichtigsten Unterschiede.",
+      "category": "Regeln",
+      "icon": "figure.pickleball",
+      "colorHex": "#007AFF",
+      "content": "Padel wird auf einem kleineren Platz mit Glaswänden gespielt.\n\n• Aufschlag: von unten und unterhalb der Hüfte.\n• Wände: Der Ball darf die Wände *nach* dem Aufsprung am Boden berühren. Du darfst das Glas nutzen, um den Ball zurückzuspielen."
+    },
+    {
+      "id": "203",
+      "title": "Tiebreak-Regeln",
+      "subtitle": "Einen Satz bei 6:6 entscheiden.",
+      "category": "Regeln",
+      "icon": "stopwatch.fill",
+      "colorHex": "#FF9500",
+      "content": "Steht es 6:6 nach Spielen:\n\n• Punkte: gezählt als 1, 2, 3... Wer zuerst 7 hat, gewinnt (mit 2 Punkten Vorsprung).\n• Aufschlag: Nach dem ersten Punkt wechselt der Aufschläger alle 2 Punkte.\n• Match-Tiebreak: Manche Matches (in der App 2 Sätze + Match-Tiebreak wählen) spielen statt eines dritten Satzes einen Tiebreak bis 10."
+    },
+    {
+      "id": "301",
+      "title": "Doppel-Strategie",
+      "subtitle": "Kommunikation ist alles.",
+      "category": "Taktik",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "Doppel braucht Teamwork.\n\n• Die Wand: Schlägt dein Partner auf, steh näher am Netz, um schwache Returns abzufangen.\n• Mitte: Im Zweifel durch die Mitte spielen, das sorgt für Verwirrung."
+    },
+    {
+      "id": "302",
+      "title": "Padel: das Glas",
+      "subtitle": "Nutze die Wände zu deinem Vorteil.",
+      "category": "Taktik",
+      "icon": "square.dashed.inset.filled",
+      "colorHex": "#30B0C7",
+      "content": "Beim Padel ist das Glas dein Freund.\n\n• Warten: Ist der Ball schnell, lass ihn an die hintere Scheibe prallen. Er wird langsamer und du bekommst einen leichten Ball.\n• Der Lob: Spiel hoch und tief, um die Gegner vom Netz wegzudrängen."
+    }
+  ]
+}
