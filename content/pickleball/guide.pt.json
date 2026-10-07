@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Marque o placar no celular",
+   "subtitle": "Sem precisar de relógio.",
+   "category": "Guia do app",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Abra Partida, escolha Este celular e toque em Começar partida no celular.\n\n• Toque no lado que ganhou o rali: o adversário fica em cima, em vermelho, e você embaixo, em verde.\n\n• No meio fica o placar cantado, primeiro quem saca: 5-3-2 em duplas Side-Out. Embaixo de cada lado você vê quem saca e de qual lado da quadra.\n\n• Um toque errado volta com a seta do meio.\n\n• Tela cheia vira o celular de lado, um lado para cada um. Sair volta ao normal.\n\n• A tela fica ligada durante a partida. Se o app fechar, a partida continua lá quando você abrir de novo."
+  },
+  {
+   "id": "101",
+   "title": "Relógio e celular juntos",
+   "subtitle": "Um marca o placar, o outro acompanha.",
+   "category": "Guia do app",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Comece no relógio e o celular mostra o mesmo placar ao vivo.\n\n• Só um dispositivo marca o placar por vez, então nenhum rali é contado duas vezes.\n\n• Para trocar, toque em Marcar no celular no iPhone, ou em Marcar aqui no relógio.\n\n• Se a conexão cair, nada se perde: o placar mais recente chega assim que os dois voltarem a se conectar.\n\n• Partidas no relógio salvam um treino no Apple Saúde com frequência cardíaca, calorias e distância."
+  },
+  {
+   "id": "104",
+   "title": "Árbitro por voz",
+   "subtitle": "O placar em voz alta.",
+   "category": "Guia do app",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Ative Árbitro por voz em Preparar partida e escolha o idioma.\n\n• O celular canta o placar depois de cada rali, mesmo quando o relógio está marcando. Conecte uma caixa de som Bluetooth para uma quadra grande.\n\n• Duplas Side-Out: placar de quem saca, placar de quem recebe, número do sacador e depois o nome de quem saca (5 3 2, Deniz). Duplas Rally: dois números e o nome. Simples: dois números.\n\n• No fim de um game ele diz Game e o placar de games; no final, Partida.\n\n• Falar placar lê o placar atual quando você quiser."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out ou Rally",
+   "subtitle": "Duas formas de pontuar.",
+   "category": "Guia do app",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (tradicional): só quem saca pontua. Quando quem saca perde o rali, o saque passa para o outro lado e ninguém pontua.\n\n2. Rally: todo rali vale ponto, não importa quem sacou. Se você perde o rali no seu saque, o saque passa direto para o outro lado. Os games ficam mais rápidos.\n\nEscolha o modo, os pontos do game (11, 15 ou 21) e o formato (1 game, melhor de 3, melhor de 5 ou ilimitado) em Preparar partida."
+  },
+  {
+   "id": "103",
+   "title": "Saque nas duplas",
+   "subtitle": "Sacador 1, sacador 2 e o início 0-0-2.",
+   "category": "Guia do app",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• Nas duplas Side-Out cada lado tem dois sacadores: primeiro o sacador 1, depois o 2. Quando os dois perdem um rali no saque, acontece a troca de saque.\n\n• Exceção: todo game começa em 0-0-2, então o primeiro lado a sacar tem só um sacador.\n\n• Ganhou um rali no seu saque? Você e seu parceiro trocam de lado. Quem recebe nunca se mexe.\n\n• Depois de uma troca de saque, quem está na quadra da direita saca primeiro.\n\nO app controla tudo: quem saca, sacador 1 ou 2, e quadra direita ou esquerda."
+  },
+  {
+   "id": "106",
+   "title": "Quem saca primeiro?",
+   "subtitle": "Use o sorteio do app.",
+   "category": "Guia do app",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Não precisa de moeda. Toque no dado em Preparar partida, ou no relógio, e o app escolhe quem saca primeiro de forma aleatória.\n\nNos games seguintes, o lado que perdeu o game anterior saca primeiro; o app faz isso sozinho."
+  },
+  {
+   "id": "105",
+   "title": "Amigos, comunidade e ligas",
+   "subtitle": "Opcional, com login da Apple ou do Google.",
+   "category": "Guia do app",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Peça a um amigo para confirmar um resultado: quando ele aceitar, a partida entra nos dois diários, cada um do seu lado.\n\n• Compartilhar na comunidade a partir de uma partida: adicione uma legenda e escolha quem vê. Anotações e dados de saúde nunca são compartilhados.\n\n• Ligas: o organizador (Pro) cria a liga, convida os jogadores e define os jogos. Os jogadores entram de graça, jogam a partida e enviam o resultado pela tela da partida, com os pontos de cada game. Os dois lados confirmam, o organizador aprova e a tabela se atualiza.\n\n• Marcar o placar nunca precisa de conta."
+  },
+  {
+   "id": "201",
+   "title": "Pontuação do pickleball 101",
+   "subtitle": "Pontos, games e vencer por 2.",
+   "category": "Regras",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Pontos: 0, 1, 2, 3 e assim por diante até o objetivo, normalmente 11 (15 ou 21 em alguns torneios).\n\n• Vencer por 2: com 10-10 em um game até 11, o jogo continua até um lado abrir 2 pontos.\n\n• O placar é cantado primeiro quem saca. Nas duplas, um terceiro número indica qual sacador está sacando: 5-3-2.\n\n• Uma partida costuma ser melhor de 3 games. O lado que perdeu um game saca primeiro no seguinte."
+  },
+  {
+   "id": "202",
+   "title": "A cozinha",
+   "subtitle": "A zona de não voleio.",
+   "category": "Regras",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "A zona de não voleio, a cozinha, é a área de 7 pés (2,13 m) de cada lado da rede.\n\n• Você não pode voleiar (bater na bola no ar) enquanto pisa na cozinha ou na linha dela.\n\n• Você pode entrar a qualquer momento para jogar uma bola que já quicou.\n\n• O impulso depois de um voleio não pode te levar para a cozinha, nem com a bola já morta.\n\n• O saque precisa passar da cozinha: um saque que cai na linha da cozinha é falta."
+  },
+  {
+   "id": "203",
+   "title": "A regra do quique duplo",
+   "subtitle": "Deixe quicar primeiro, duas vezes.",
+   "category": "Regras",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• O saque precisa quicar antes de quem recebe devolver.\n\n• A devolução precisa quicar antes de quem sacou jogá-la.\n\n• Depois desses dois quiques, os dois lados podem voleiar ou jogar após o quique.\n\nPor isso o lado que saca costuma ficar no fundo para a terceira bola."
+  },
+  {
+   "id": "204",
+   "title": "Regras do saque",
+   "subtitle": "Por baixo, na diagonal, uma tentativa.",
+   "category": "Regras",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Saque por baixo, com a raquete abaixo da cintura no contato, ou use um saque com quique.\n\n• Saque na diagonal, para a área de saque oposta, passando da cozinha.\n\n• Só uma tentativa de saque por sacador. Um saque que toca a rede e cai dentro é jogado.\n\n• Saque da direita quando o placar de quem saca é par e da esquerda quando é ímpar (simples). Nas duplas, a dupla que saca troca de lado a cada ponto que ganha."
+  },
+  {
+   "id": "301",
+   "title": "O terceiro golpe suave",
+   "subtitle": "O golpe mais importante do pickleball.",
+   "category": "Táticas",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Depois do seu saque, quem recebe está na rede e você está no fundo.\n\n• Terceiro golpe suave: uma bola macia que faz arco e cai na cozinha deles, então eles precisam bater para cima. Isso dá tempo para você avançar.\n\n• Treine arcos macios e altos que caiam na cozinha para tirar a vantagem da rede."
+  },
+  {
+   "id": "302",
+   "title": "Dink",
+   "subtitle": "Vencendo na linha da cozinha.",
+   "category": "Táticas",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Um dink é uma bola macia da linha da cozinha que cai na outra cozinha.\n\n• Mire nas laterais para tirar os adversários da posição.\n\n• Ataque um dink que sobe acima da rede: essa é a bola para acelerar ou finalizar.\n\n• A paciência vence as trocas de dink. Espere o erro."
+  }
+ ]
+}

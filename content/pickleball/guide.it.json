@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Segna il punteggio sul telefono",
+   "subtitle": "Non serve l'orologio.",
+   "category": "Guida all'app",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Apri Partita, scegli Questo telefono e tocca Inizia partita sul telefono.\n\n• Tocca il lato che ha vinto lo scambio: l'avversario è in alto in rosso, tu in basso in verde.\n\n• Al centro vedi il punteggio annunciato, prima chi serve: 5-3-2 nel doppio Side-Out. Sotto ogni lato vedi chi serve e da quale metà campo.\n\n• Un tocco sbagliato si annulla con la freccia al centro.\n\n• Schermo intero gira il telefono di lato, un lato ciascuno. Esci lo riporta come prima.\n\n• Lo schermo resta acceso durante la partita. Se l'app si chiude, la partita è ancora lì quando la riapri."
+  },
+  {
+   "id": "101",
+   "title": "Orologio e telefono insieme",
+   "subtitle": "Uno tiene il punteggio, l'altro segue.",
+   "category": "Guida all'app",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Inizia dall'orologio e il telefono mostra lo stesso punteggio in tempo reale.\n\n• Un solo dispositivo alla volta tiene il punteggio, così nessuno scambio viene contato due volte.\n\n• Per cambiare, tocca Conta sul telefono sull'iPhone, oppure Conta qui sull'orologio.\n\n• Se la connessione cade, non si perde nulla: l'ultimo punteggio arriva appena i due tornano in contatto.\n\n• Le partite sull'orologio salvano un allenamento in Apple Salute con battito, calorie e distanza."
+  },
+  {
+   "id": "104",
+   "title": "Arbitro vocale",
+   "subtitle": "Il punteggio ad alta voce.",
+   "category": "Guida all'app",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Attiva Arbitro vocale in Preparazione partita e scegli la lingua.\n\n• Il telefono annuncia il punteggio dopo ogni scambio, anche quando lo tiene l'orologio. Collega una cassa Bluetooth per un campo grande.\n\n• Doppio Side-Out: punteggio di chi serve, punteggio di chi riceve, numero del battitore e poi il nome di chi serve (5 3 2, Deniz). Doppio Rally: due numeri e il nome. Singolare: due numeri.\n\n• A fine game dice Game e il punteggio dei game; alla fine, Partita.\n\n• Annuncia punteggio legge il punteggio attuale quando vuoi."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out o Rally",
+   "subtitle": "Due modi di segnare.",
+   "category": "Guida all'app",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (tradizionale): segna solo chi serve. Quando chi serve perde lo scambio, il servizio passa all'altro lato e nessun punto viene assegnato.\n\n2. Rally: ogni scambio vale un punto, chiunque abbia servito. Se perdi lo scambio al servizio, il servizio passa subito all'altro lato. I game sono più veloci.\n\nScegli la modalità, il punteggio del game (11, 15 o 21) e il formato (1 game, al meglio dei 3, al meglio dei 5 o illimitato) in Preparazione partita."
+  },
+  {
+   "id": "103",
+   "title": "Servizio nel doppio",
+   "subtitle": "Battitore 1, battitore 2 e l'inizio 0-0-2.",
+   "category": "Guida all'app",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• Nel doppio Side-Out ogni lato ha due battitori: prima il battitore 1, poi il 2. Quando entrambi perdono uno scambio al servizio, c'è il cambio di servizio.\n\n• Eccezione: ogni game inizia sullo 0-0-2, quindi il primo lato che serve ha un solo battitore.\n\n• Se vinci uno scambio al tuo servizio, tu e il tuo compagno cambiate posto. Chi riceve non si muove mai.\n\n• Dopo un cambio di servizio, serve per primo il giocatore sulla destra.\n\nL'app tiene traccia di tutto: chi serve, battitore 1 o 2, e campo destro o sinistro."
+  },
+  {
+   "id": "106",
+   "title": "Chi serve per primo?",
+   "subtitle": "Usa il sorteggio integrato.",
+   "category": "Guida all'app",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Non serve la moneta. Tocca il dado in Preparazione partita, o sull'orologio, e l'app sceglie a caso il primo al servizio.\n\nNei game successivi serve per primo il lato che ha perso il game precedente; l'app lo fa da sola."
+  },
+  {
+   "id": "105",
+   "title": "Amici, community e leghe",
+   "subtitle": "Facoltativo, con accesso Apple o Google.",
+   "category": "Guida all'app",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Chiedi conferma a un amico per un risultato: quando accetta, la partita finisce in entrambi i diari, ognuno dal proprio lato.\n\n• Condividi nella community da una partita: aggiungi una didascalia e scegli chi la vede. Note e dati di salute non vengono mai condivisi.\n\n• Leghe: l'organizzatore (Pro) crea la lega, invita i giocatori e imposta il calendario. I giocatori si uniscono gratis, giocano la partita e inviano il risultato dalla schermata della partita, con i punti di ogni game. Entrambi i lati confermano, l'organizzatore approva e la classifica si aggiorna.\n\n• Segnare il punteggio non richiede mai un account."
+  },
+  {
+   "id": "201",
+   "title": "Il punteggio nel pickleball 101",
+   "subtitle": "Punti, game e vittoria con 2 di scarto.",
+   "category": "Regole",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Punti: 0, 1, 2, 3 e così via fino al limite, di solito 11 (15 o 21 in alcuni tornei).\n\n• Vincere con 2 di scarto: sul 10-10 in un game a 11, si continua finché un lato è avanti di 2.\n\n• Il punteggio si annuncia con chi serve per primo. Nel doppio un terzo numero indica quale battitore sta servendo: 5-3-2.\n\n• Una partita è spesso al meglio dei 3 game. Il lato che ha perso un game serve per primo nel successivo."
+  },
+  {
+   "id": "202",
+   "title": "La kitchen",
+   "subtitle": "La zona di non volée.",
+   "category": "Regole",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "La zona di non volée, la kitchen, è l'area di 7 piedi (2,13 m) su ogni lato della rete.\n\n• Non puoi fare volée (colpire la palla al volo) mentre tocchi la kitchen o la sua linea.\n\n• Puoi entrare in qualsiasi momento per giocare una palla che ha rimbalzato.\n\n• Lo slancio dopo una volée non deve portarti nella kitchen, nemmeno a palla ormai morta.\n\n• Il servizio deve superare la kitchen: un servizio sulla linea della kitchen è fallo."
+  },
+  {
+   "id": "203",
+   "title": "La regola del doppio rimbalzo",
+   "subtitle": "Prima lascia rimbalzare, due volte.",
+   "category": "Regole",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Il servizio deve rimbalzare prima che chi riceve lo restituisca.\n\n• La risposta deve rimbalzare prima che il lato che serve la giochi.\n\n• Dopo questi due rimbalzi, entrambi i lati possono giocare di volée o dopo il rimbalzo.\n\nPer questo il lato che serve spesso resta indietro per il terzo colpo."
+  },
+  {
+   "id": "204",
+   "title": "Regole del servizio",
+   "subtitle": "Dal basso, in diagonale, un solo tentativo.",
+   "category": "Regole",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Servi dal basso, con la racchetta sotto la vita al contatto, oppure usa un servizio con rimbalzo.\n\n• Servi in diagonale, nel quadrato di servizio opposto, oltre la kitchen.\n\n• Un solo tentativo di servizio per battitore. Un servizio che tocca il nastro e cade dentro si gioca.\n\n• Servi dal campo destro quando il punteggio di chi serve è pari e dal sinistro quando è dispari (singolare). Nel doppio, la coppia che serve cambia lato dopo ogni punto che vince."
+  },
+  {
+   "id": "301",
+   "title": "Il drop del terzo colpo",
+   "subtitle": "Il colpo più importante del pickleball.",
+   "category": "Tattica",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Dopo il tuo servizio, chi risponde è a rete e tu sei in fondo al campo.\n\n• Drop del terzo colpo: un colpo morbido che cade ad arco nella loro kitchen, così devono colpire verso l'alto. Ti dà il tempo di avanzare.\n\n• Allenati su archi morbidi e alti che cadono nella kitchen per togliere loro il vantaggio della rete."
+  },
+  {
+   "id": "302",
+   "title": "Dink",
+   "subtitle": "Vincere sulla linea della kitchen.",
+   "category": "Tattica",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Un dink è un colpo morbido dalla linea della kitchen che cade nell'altra kitchen.\n\n• Mira alle linee laterali per spostare gli avversari fuori posizione.\n\n• Attacca un dink che sale sopra la rete: è la palla da spingere o chiudere.\n\n• La pazienza vince gli scambi di dink. Aspetta l'errore."
+  }
+ ]
+}

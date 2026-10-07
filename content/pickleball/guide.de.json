@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Zähle auf deinem Handy",
+   "subtitle": "Keine Uhr nötig.",
+   "category": "App-Anleitung",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Öffne Match, wähle Dieses iPhone und tippe auf Match auf dem iPhone starten.\n\n• Tippe auf die Seite, die den Ballwechsel gewonnen hat: der Gegner ist oben in Rot, du bist unten in Grün.\n\n• In der Mitte steht die Spielstandansage, zuerst der Aufschläger: 5-3-2 im Doppel Side-Out. Unter jeder Seite siehst du, wer aufschlägt und von welcher Seite.\n\n• Ein falscher Tipp wird mit dem Pfeil in der Mitte rückgängig gemacht.\n\n• Vollbild dreht das Handy auf die Seite, jeder hat eine Seite. Beenden bringt es zurück.\n\n• Der Bildschirm bleibt während des Matches an. Wird die App geschlossen, ist das Match beim erneuten Öffnen noch da."
+  },
+  {
+   "id": "101",
+   "title": "Uhr und Handy zusammen",
+   "subtitle": "Eins zählt, das andere schaut zu.",
+   "category": "App-Anleitung",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Starte auf der Uhr und das Handy zeigt live denselben Spielstand.\n\n• Immer nur ein Gerät zählt, damit kein Ballwechsel doppelt gezählt wird.\n\n• Zum Wechseln tippst du auf dem iPhone auf Auf dem iPhone zählen oder auf der Uhr auf Hier zählen.\n\n• Bricht die Verbindung ab, geht nichts verloren: Der neueste Spielstand kommt an, sobald die beiden wieder Kontakt haben.\n\n• Matches auf der Uhr werden als Workout in Apple Health gespeichert, mit Herzfrequenz, Kalorien und Strecke."
+  },
+  {
+   "id": "104",
+   "title": "Sprach-Schiedsrichter",
+   "subtitle": "Der Spielstand laut ausgesprochen.",
+   "category": "App-Anleitung",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Schalte Sprach-Schiedsrichter in Matchvorbereitung ein und wähle die Sprache.\n\n• Das Handy sagt nach jedem Ballwechsel den Spielstand an, auch wenn die Uhr zählt. Verbinde einen Bluetooth-Lautsprecher für einen großen Platz.\n\n• Doppel Side-Out: Stand des Aufschlägers, Stand des Rückschlägers, Aufschlägernummer, dann der Name des Aufschlägers (5 3 2, Deniz). Doppel Rally: zwei Zahlen und der Name. Einzel: zwei Zahlen.\n\n• Nach einem Satz sagt es Game und den Satzstand, am Ende Match.\n\n• Spielstand ansagen liest dir den aktuellen Stand vor, wann du willst."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out oder Rally",
+   "subtitle": "Zwei Arten zu zählen.",
+   "category": "App-Anleitung",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (traditionell): Nur die aufschlagende Seite punktet. Verliert der Aufschläger den Ballwechsel, geht der Aufschlag weiter und es gibt keinen Punkt.\n\n2. Rally: Jeder Ballwechsel zählt, egal wer aufgeschlagen hat. Verlierst du den Ballwechsel beim eigenen Aufschlag, geht der Aufschlag sofort an die andere Seite. Die Spiele sind schneller.\n\nWähle den Modus, das Spielziel (11, 15 oder 21) und das Format (1 Satz, Best of 3, Best of 5 oder unbegrenzt) in Matchvorbereitung."
+  },
+  {
+   "id": "103",
+   "title": "Aufschlag im Doppel",
+   "subtitle": "Aufschläger 1, Aufschläger 2 und der Start bei 0-0-2.",
+   "category": "App-Anleitung",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• Im Doppel Side-Out hat jede Seite zwei Aufschläger: erst Aufschläger 1, dann Aufschläger 2. Verlieren beide einen Ballwechsel beim Aufschlag, ist es ein Side-Out.\n\n• Ausnahme: Jeder Satz beginnt bei 0-0-2, deshalb hat die erste aufschlagende Seite nur einen Aufschläger.\n\n• Gewinnst du einen Ballwechsel bei eigenem Aufschlag, wechseln du und dein Partner die Seiten. Die Rückschläger bewegen sich nie.\n\n• Nach einem Side-Out schlägt der Spieler im rechten Feld zuerst auf.\n\nDie App behält alles im Blick: wer aufschlägt, Aufschläger 1 oder 2, und rechtes oder linkes Feld."
+  },
+  {
+   "id": "106",
+   "title": "Wer schlägt zuerst auf?",
+   "subtitle": "Nutze den eingebauten Münzwurf.",
+   "category": "App-Anleitung",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Keine Münze nötig. Tippe in Matchvorbereitung oder auf der Uhr auf den Würfel und die App wählt den ersten Aufschläger zufällig aus.\n\nIn den nächsten Sätzen schlägt die Seite zuerst auf, die den vorigen Satz verloren hat. Das macht die App von selbst."
+  },
+  {
+   "id": "105",
+   "title": "Freunde, Community und Ligen",
+   "subtitle": "Optional, mit Anmeldung über Apple oder Google.",
+   "category": "App-Anleitung",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Einen Freund bestätigen lassen: Sobald er annimmt, steht das Match in beiden Logbüchern, jeweils aus der eigenen Sicht.\n\n• In der Community teilen aus einem Match: Füge eine Beschreibung hinzu und wähle, wer es sieht. Notizen und Gesundheitsdaten werden nie geteilt.\n\n• Ligen: Der Organisator (Pro) erstellt die Liga, lädt Spieler ein und legt die Spielpaarungen fest. Spieler machen kostenlos mit, spielen das Match und senden das Ergebnis vom Matchbildschirm, mit den Punkten jedes Satzes. Beide Seiten bestätigen, der Organisator genehmigt, die Tabelle rückt vor.\n\n• Zum Zählen brauchst du nie ein Konto."
+  },
+  {
+   "id": "201",
+   "title": "Pickleball-Zählweise 101",
+   "subtitle": "Punkte, Sätze und 2 Punkte Vorsprung.",
+   "category": "Regeln",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Punkte: 0, 1, 2, 3 und weiter bis zum Ziel, meist 11 (bei manchen Turnieren 15 oder 21).\n\n• 2 Punkte Vorsprung: Bei 10-10 in einem Satz bis 11 wird weitergespielt, bis eine Seite 2 Punkte vorne liegt.\n\n• Der Spielstand wird mit dem Aufschläger zuerst angesagt. Im Doppel sagt eine dritte Zahl, welcher Aufschläger aufschlägt: 5-3-2.\n\n• Ein Match geht oft über maximal 3 Sätze. Die Seite, die einen Satz verloren hat, schlägt im nächsten zuerst auf."
+  },
+  {
+   "id": "202",
+   "title": "Die Kitchen",
+   "subtitle": "Die Nicht-Volley-Zone.",
+   "category": "Regeln",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "Die Nicht-Volley-Zone, die Kitchen, ist der 7 Fuß (2,13 m) breite Bereich auf jeder Seite des Netzes.\n\n• Du darfst nicht volley spielen (den Ball aus der Luft schlagen), während du die Kitchen oder ihre Linie berührst.\n\n• Du darfst jederzeit hineintreten, um einen aufgesprungenen Ball zu spielen.\n\n• Dein Schwung nach einem Volley darf dich nicht in die Kitchen tragen, auch nicht, wenn der Ball schon tot ist.\n\n• Der Aufschlag muss über die Kitchen kommen: Ein Aufschlag auf die Kitchen-Linie ist ein Fehler."
+  },
+  {
+   "id": "203",
+   "title": "Die Zwei-Aufprall-Regel",
+   "subtitle": "Erst aufspringen lassen, zweimal.",
+   "category": "Regeln",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Der Aufschlag muss aufspringen, bevor der Rückschläger ihn zurückspielt.\n\n• Der Return muss aufspringen, bevor die aufschlagende Seite ihn spielt.\n\n• Nach diesen zwei Aufprällen dürfen beide Seiten volley oder nach dem Aufprall spielen.\n\nDeshalb bleibt die aufschlagende Seite für den dritten Schlag oft hinten."
+  },
+  {
+   "id": "204",
+   "title": "Aufschlagregeln",
+   "subtitle": "Von unten, diagonal, ein Versuch.",
+   "category": "Regeln",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Schlage von unten auf, mit dem Schläger beim Treffen unter der Hüfte, oder nutze einen Drop-Aufschlag.\n\n• Schlage diagonal in das gegenüberliegende Aufschlagfeld auf, hinter der Kitchen.\n\n• Ein Aufschlagversuch pro Aufschläger. Ein Let, der im Feld landet, wird weitergespielt.\n\n• Schlage von rechts auf, wenn der Stand des Aufschlägers gerade ist, und von links, wenn er ungerade ist (Einzel). Im Doppel wechselt das aufschlagende Paar nach jedem gewonnenen Punkt die Seiten."
+  },
+  {
+   "id": "301",
+   "title": "Der Third Shot Drop",
+   "subtitle": "Der wichtigste Schlag im Pickleball.",
+   "category": "Taktik",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Nach deinem Aufschlag stehen die Rückschläger am Netz und du an der Grundlinie.\n\n• Third Shot Drop: ein weicher Schlag, der im Bogen in ihre Kitchen fällt, sodass sie nach oben spielen müssen. So gewinnst du Zeit, nach vorne zu gehen.\n\n• Übe weiche, hohe Bögen, die in der Kitchen landen, um ihnen den Vorteil am Netz zu nehmen."
+  },
+  {
+   "id": "302",
+   "title": "Dinken",
+   "subtitle": "Gewinnen an der Kitchen-Linie.",
+   "category": "Taktik",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Ein Dink ist ein weicher Schlag von der Kitchen-Linie, der in der anderen Kitchen landet.\n\n• Ziele auf die Seitenlinien, um die Gegner aus der Position zu ziehen.\n\n• Greife einen Dink an, der über das Netz hochspringt: Das ist der Ball zum Draufhauen oder Abschließen.\n\n• Geduld gewinnt Dink-Ballwechsel. Warte auf den Fehler."
+  }
+ ]
+}

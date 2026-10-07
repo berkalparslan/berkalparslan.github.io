@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Compte les points sur ton téléphone",
+   "subtitle": "Pas besoin de montre.",
+   "category": "Guide de l'app",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Ouvre Match, choisis Ce téléphone et touche Lancer le match sur le téléphone.\n\n• Touche le côté qui a gagné l'échange : l'adversaire est en haut en rouge, toi en bas en vert.\n\n• Au milieu s'affiche l'annonce du score, le serveur en premier : 5-3-2 en double Side-Out. Sous chaque côté, tu vois qui sert et de quel côté du terrain.\n\n• Une touche par erreur s'annule avec la flèche du milieu.\n\n• Plein écran met le téléphone sur la tranche, un côté chacun. Quitter le remet normalement.\n\n• L'écran reste allumé pendant le match. Si l'app se ferme, le match est toujours là quand tu la rouvres."
+  },
+  {
+   "id": "101",
+   "title": "Montre et téléphone ensemble",
+   "subtitle": "L'un compte, l'autre suit.",
+   "category": "Guide de l'app",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Lance sur la montre et le téléphone affiche le même score en direct.\n\n• Un seul appareil compte à la fois, donc aucun échange n'est compté deux fois.\n\n• Pour changer, touche Compter sur le téléphone sur l'iPhone, ou Compter ici sur la montre.\n\n• Si la connexion coupe, rien n'est perdu : le dernier score arrive dès que les deux sont de nouveau en contact.\n\n• Les matchs sur la montre sont enregistrés comme séance dans Santé d'Apple, avec fréquence cardiaque, calories et distance."
+  },
+  {
+   "id": "104",
+   "title": "Arbitre vocal",
+   "subtitle": "Le score à voix haute.",
+   "category": "Guide de l'app",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Active Arbitre vocal dans Préparation du match et choisis la langue.\n\n• Le téléphone annonce le score après chaque échange, même quand la montre compte. Branche une enceinte Bluetooth pour un grand terrain.\n\n• Double Side-Out : score du serveur, score du relanceur, numéro du serveur, puis le nom du serveur (5 3 2, Deniz). Double Rally : deux nombres et le nom. Simple : deux nombres.\n\n• Après une manche, il dit Game et le score des manches ; à la fin, Match.\n\n• Annoncer le score lit le score actuel quand tu veux."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out ou Rally",
+   "subtitle": "Deux façons de compter.",
+   "category": "Guide de l'app",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (traditionnel) : seul le côté qui sert marque. Quand le serveur perd l'échange, le service passe et aucun point n'est marqué.\n\n2. Rally : chaque échange rapporte un point, peu importe qui servait. Si tu perds l'échange à ton service, le service passe directement à l'autre côté. Les manches sont plus rapides.\n\nChoisis le mode, l'objectif de la manche (11, 15 ou 21) et le format (1 manche, meilleur des 3, meilleur des 5 ou illimité) dans Préparation du match."
+  },
+  {
+   "id": "103",
+   "title": "Le service en double",
+   "subtitle": "Serveur 1, serveur 2 et le départ à 0-0-2.",
+   "category": "Guide de l'app",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• En double Side-Out, chaque côté a deux serveurs : d'abord le serveur 1, puis le serveur 2. Quand les deux perdent un échange à leur service, c'est un side-out.\n\n• Exception : chaque manche commence à 0-0-2, donc le premier côté au service n'a qu'un seul serveur.\n\n• Si tu gagnes un échange à ton service, ton partenaire et toi changez de côté. Les relanceurs ne bougent jamais.\n\n• Après un side-out, le joueur du côté droit sert en premier.\n\nL'app suit tout : qui sert, serveur 1 ou 2, et côté droit ou gauche."
+  },
+  {
+   "id": "106",
+   "title": "Qui sert en premier ?",
+   "subtitle": "Utilise le tirage intégré.",
+   "category": "Guide de l'app",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Pas besoin de pièce. Touche le dé dans Préparation du match, ou sur la montre, et l'app choisit le premier serveur au hasard.\n\nDans les manches suivantes, le côté qui a perdu la manche précédente sert en premier ; l'app le fait toute seule."
+  },
+  {
+   "id": "105",
+   "title": "Amis, communauté et ligues",
+   "subtitle": "Facultatif, avec connexion Apple ou Google.",
+   "category": "Guide de l'app",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Demander à un ami de confirmer un résultat : dès qu'il accepte, le match est dans les deux carnets, chacun de son côté.\n\n• Partager avec la communauté depuis un match : ajoute une légende et choisis qui le voit. Les notes et les données de santé ne sont jamais partagées.\n\n• Ligues : l'organisateur (Pro) crée la ligue, invite les joueurs et fixe les rencontres. Les joueurs participent gratuitement, jouent le match et envoient le résultat depuis l'écran du match, avec les points de chaque manche. Les deux côtés confirment, l'organisateur valide, le classement avance.\n\n• Compter les points ne demande jamais de compte."
+  },
+  {
+   "id": "201",
+   "title": "Le comptage au pickleball 101",
+   "subtitle": "Points, manches et 2 points d'écart.",
+   "category": "Règles",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Points : 0, 1, 2, 3 et ainsi de suite jusqu'à l'objectif, en général 11 (15 ou 21 dans certains tournois).\n\n• 2 points d'écart : à 10-10 dans une manche à 11, on continue jusqu'à ce qu'un côté mène de 2.\n\n• Le score s'annonce avec le serveur en premier. En double, un troisième nombre indique quel serveur sert : 5-3-2.\n\n• Un match se joue souvent au meilleur des 3 manches. Le côté qui a perdu une manche sert en premier dans la suivante."
+  },
+  {
+   "id": "202",
+   "title": "La cuisine",
+   "subtitle": "La zone sans volée.",
+   "category": "Règles",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "La zone sans volée, la cuisine, est la zone de 7 pieds (2,13 m) de chaque côté du filet.\n\n• Tu ne peux pas jouer de volée (frapper la balle en l'air) en touchant la cuisine ou sa ligne.\n\n• Tu peux y entrer à tout moment pour jouer une balle qui a rebondi.\n\n• Ton élan après une volée ne doit pas t'emporter dans la cuisine, même quand la balle est morte.\n\n• Le service doit passer la cuisine : un service qui tombe sur la ligne de la cuisine est une faute."
+  },
+  {
+   "id": "203",
+   "title": "La règle des deux rebonds",
+   "subtitle": "Laisse d'abord rebondir, deux fois.",
+   "category": "Règles",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Le service doit rebondir avant que le relanceur le renvoie.\n\n• Le retour doit rebondir avant que le côté qui sert le joue.\n\n• Après ces deux rebonds, les deux côtés peuvent jouer de volée ou après le rebond.\n\nC'est pourquoi le côté qui sert reste souvent en arrière pour le troisième coup."
+  },
+  {
+   "id": "204",
+   "title": "Règles du service",
+   "subtitle": "Par en dessous, en diagonale, un seul essai.",
+   "category": "Règles",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Sers par en dessous, la raquette sous la taille au contact, ou utilise un service drop.\n\n• Sers en diagonale, dans le carré de service opposé, au-delà de la cuisine.\n\n• Un seul essai de service par serveur. Un let qui tombe dans le terrain se joue.\n\n• Sers depuis le côté droit quand le score du serveur est pair et depuis le gauche quand il est impair (simple). En double, la paire qui sert change de côté après chaque point gagné."
+  },
+  {
+   "id": "301",
+   "title": "Le drop du troisième coup",
+   "subtitle": "Le coup le plus important du pickleball.",
+   "category": "Tactiques",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Après ton service, les relanceurs sont au filet et toi à la ligne de fond.\n\n• Drop du troisième coup : un coup doux qui retombe en cloche dans leur cuisine, pour qu'ils doivent jouer vers le haut. Tu gagnes le temps de monter.\n\n• Entraîne-toi à faire des cloches douces et hautes qui tombent dans la cuisine pour leur retirer l'avantage au filet."
+  },
+  {
+   "id": "302",
+   "title": "Le dink",
+   "subtitle": "Gagner sur la ligne de la cuisine.",
+   "category": "Tactiques",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Un dink est un coup doux depuis la ligne de la cuisine qui retombe dans l'autre cuisine.\n\n• Vise les lignes de côté pour sortir les adversaires de leur position.\n\n• Attaque un dink qui monte au-dessus du filet : c'est la balle à envoyer fort ou à conclure.\n\n• La patience gagne les échanges de dinks. Attends l'erreur."
+  }
+ ]
+}

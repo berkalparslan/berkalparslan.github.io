@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Skoru telefonda tut",
+   "subtitle": "Saat gerekmez.",
+   "category": "Uygulama Rehberi",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Maç sekmesini aç, Bu telefon'u seç ve Maçı telefonda başlat'a dokun.\n\n• Ralliyi kazanan tarafa dokun: rakip üstte kırmızı, sen altta yeşilsin.\n\n• Ortada skor okuması yer alır, önce servis atan: çiftlerde Side-Out'ta 5-3-2. Her tarafın altında kimin hangi sahadan servis attığını görürsün.\n\n• Yanlış dokunuşu ortadaki okla geri alırsın.\n\n• Tam ekran telefonu yatırır, her oyuncuya bir taraf düşer. Çık ile geri dönersin.\n\n• Maç boyunca ekran açık kalır. Uygulama kapanırsa, tekrar açtığında maç yerinde durur."
+  },
+  {
+   "id": "101",
+   "title": "Saat ve telefon birlikte",
+   "subtitle": "Biri skoru tutar, diğeri izler.",
+   "category": "Uygulama Rehberi",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Saatte başla, telefon aynı skoru canlı gösterir.\n\n• Aynı anda yalnızca bir cihaz skoru tutar, böylece hiçbir rally iki kez sayılmaz.\n\n• Değiştirmek için iPhone'da Telefonda say'a, saatte Burada say'a dokun.\n\n• Bağlantı kopsa bile hiçbir şey kaybolmaz: iki cihaz yeniden bağlanır bağlanmaz son skor gelir.\n\n• Saatteki maçlar, kalp atışı, kalori ve mesafeyle Apple Sağlık'a antrenman olarak kaydedilir."
+  },
+  {
+   "id": "104",
+   "title": "Sesli hakem",
+   "subtitle": "Skor yüksek sesle okunur.",
+   "category": "Uygulama Rehberi",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Maç Hazırlığı'nda Sesli hakem'i aç ve dili seç.\n\n• Telefon her rally'den sonra skoru okur, skoru saat tutarken bile. Büyük bir sahada Bluetooth hoparlör bağla.\n\n• Çiftlerde Side-Out: servis atanın skoru, karşı tarafın skoru, servis numarası, sonra servis atanın adı (5 3 2, Deniz). Çiftlerde Rally: iki sayı ve isim. Tekler: iki sayı.\n\n• Bir oyundan sonra Oyun ve oyun skorunu söyler, sonunda Maç der.\n\n• Skoru söyle istediğin an güncel skoru okur."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out mu Rally mi",
+   "subtitle": "Skor tutmanın iki yolu.",
+   "category": "Uygulama Rehberi",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (geleneksel): yalnızca servis atan taraf sayı alır. Servis atan rally'yi kaybedince servis geçer ve sayı yazılmaz.\n\n2. Rally: servisi kim atarsa atsın her rally sayı getirir. Servisteyken rally'yi kaybedersen servis doğrudan karşı tarafa geçer. Oyunlar daha hızlı biter.\n\nModu, oyun hedefini (11, 15 veya 21) ve formatı (1 oyun, 3 oyunun en iyisi, 5 oyunun en iyisi veya sınırsız) Maç Hazırlığı'nda seçersin."
+  },
+  {
+   "id": "103",
+   "title": "Çiftlerde servis",
+   "subtitle": "1. servis, 2. servis ve 0-0-2 başlangıcı.",
+   "category": "Uygulama Rehberi",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• Çiftlerde Side-Out'ta her tarafın iki servis atanı var: önce 1. servis, sonra 2. servis. İkisi de servisteyken rally'yi kaybedince servis karşıya geçer.\n\n• İstisna: her oyun 0-0-2 ile başlar, yani ilk servis atan taraf yalnızca tek servis atar.\n\n• Servisinde bir rally kazanırsan sen ve partnerin yer değiştirirsiniz. Karşılayanlar asla yer değiştirmez.\n\n• Servis geçtikten sonra sağ sahadaki oyuncu ilk servisi atar.\n\nUygulama hepsini takip eder: kim servis atıyor, 1. mi 2. mi servis, sağ mı sol saha."
+  },
+  {
+   "id": "106",
+   "title": "İlk servisi kim atar?",
+   "subtitle": "Dahili yazı turayı kullan.",
+   "category": "Uygulama Rehberi",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Bozuk paraya gerek yok. Maç Hazırlığı'nda ya da saatte zara dokun, uygulama ilk servis atanı rastgele seçer.\n\nSonraki oyunlarda önceki oyunu kaybeden taraf ilk servisi atar. Uygulama bunu kendisi yapar."
+  },
+  {
+   "id": "105",
+   "title": "Arkadaşlar, topluluk ve ligler",
+   "subtitle": "İsteğe bağlı, Apple veya Google ile giriş.",
+   "category": "Uygulama Rehberi",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Bir sonucu onaylatmak için Bir arkadaşından onay iste: kabul ettiği anda maç ikinizin de günlüğünde olur, herkes kendi tarafından.\n\n• Maçtan Toplulukta paylaş: bir açıklama ekle ve kimin göreceğini seç. Notlar ve sağlık verileri asla paylaşılmaz.\n\n• Ligler: organizatör (Pro) ligi kurar, oyuncuları davet eder ve fikstürü belirler. Oyuncular ücretsiz katılır, maçı oynar ve sonucu maç ekranından, her oyunun sayılarıyla birlikte gönderir. İki taraf onaylar, organizatör kabul eder, tablo güncellenir.\n\n• Skor tutmak için hiçbir zaman hesap gerekmez."
+  },
+  {
+   "id": "201",
+   "title": "Pickleball skor 101",
+   "subtitle": "Sayılar, oyunlar ve 2 fark.",
+   "category": "Kurallar",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Sayılar: 0, 1, 2, 3 ve hedefe kadar, genelde 11 (bazı turnuvalarda 15 veya 21).\n\n• 2 farkla kazanma: 11'e oynanan oyunda 10-10 olursa, bir taraf 2 sayı öne geçene kadar oyun sürer.\n\n• Skor önce servis atan taraf olacak şekilde okunur. Çiftlerde üçüncü bir sayı hangi servis atanın servisteki olduğunu söyler: 5-3-2.\n\n• Bir maç çoğunlukla 3 oyunun en iyisidir. Bir oyunu kaybeden taraf sonrakinde ilk servisi atar."
+  },
+  {
+   "id": "202",
+   "title": "Mutfak",
+   "subtitle": "Voleye yasak bölge.",
+   "category": "Kurallar",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "Voleye yasak bölge, yani mutfak, filin her iki yanındaki 7 fitlik (2,13 m) alandır.\n\n• Mutfağa ya da çizgisine basarken vole yapamazsın (topu havadayken vuramazsın).\n\n• Sekmiş bir topu oynamak için istediğin zaman mutfağa girebilirsin.\n\n• Voleden sonra ivmen seni mutfağa taşımamalı, top ölse bile.\n\n• Servis mutfağı aşmalı: mutfak çizgisine düşen servis hatadır."
+  },
+  {
+   "id": "203",
+   "title": "İki sekme kuralı",
+   "subtitle": "Önce sekmesine izin ver, iki kez.",
+   "category": "Kurallar",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Servis, karşılayan oyuncu oynamadan önce sekmeli.\n\n• Karşılama, servis atan taraf oynamadan önce sekmeli.\n\n• Bu iki sekmeden sonra iki taraf da vole yapabilir ya da sekmeden oynayabilir.\n\nServis atan tarafın üçüncü vuruş için çoğunlukla geride durmasının nedeni bu."
+  },
+  {
+   "id": "204",
+   "title": "Servis kuralları",
+   "subtitle": "Alttan, çapraz, tek hak.",
+   "category": "Kurallar",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Alttan servis at, temas anında raket belin altında olsun, ya da drop servis kullan.\n\n• Çapraz servis at, karşı servis alanına ve mutfağın ötesine.\n\n• Servis atan başına tek servis hakkı var. İçeri düşen let servis oynanır.\n\n• Servis atanın skoru çiftse sağ sahadan, tekse sol sahadan servis at (tekler). Çiftlerde servis atan ikili kazandıkları her sayıdan sonra yer değiştirir."
+  },
+  {
+   "id": "301",
+   "title": "Üçüncü vuruş drop",
+   "subtitle": "Pickleball'ın en önemli vuruşu.",
+   "category": "Taktikler",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Servisinden sonra karşılayanlar fileye yakın, sen ise arka çizgidesin.\n\n• Üçüncü vuruş drop: onların mutfağına kavisle düşen yumuşak vuruş, böylece yukarı vurmak zorunda kalırlar. Sana ileri çıkmak için zaman kazandırır.\n\n• Onların fileye hakimiyetini almak için mutfağa düşen yumuşak, yüksek kavisleri çalış."
+  },
+  {
+   "id": "302",
+   "title": "Dink",
+   "subtitle": "Mutfak çizgisinde kazanmak.",
+   "category": "Taktikler",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Dink, mutfak çizgisinden yapılan ve karşı mutfağa düşen yumuşak vuruştur.\n\n• Rakipleri pozisyondan çıkarmak için yan çizgilere hedef al.\n\n• File üstünden yükselen dinke saldır: sert vurulacak ya da bitirilecek top odur.\n\n• Dink ralilerini sabır kazandırır. Hatayı bekle."
+  }
+ ]
+}

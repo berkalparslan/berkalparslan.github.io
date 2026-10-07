@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Lleva el marcador en tu móvil",
+   "subtitle": "Sin necesidad de reloj.",
+   "category": "Guía de la app",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Abre Partido, elige Este móvil y toca Empezar partido en el móvil.\n\n• Toca el lado que ganó el punto: el rival está arriba en rojo y tú abajo en verde.\n\n• En el centro ves el marcador cantado, primero el que saca: 5-3-2 en dobles Side-Out. Debajo de cada lado ves quién saca y desde qué lado de la pista.\n\n• Si tocas por error, vuelves atrás con la flecha del centro.\n\n• Pantalla completa gira el móvil de lado, un lado para cada equipo. Salir lo devuelve a la normalidad.\n\n• La pantalla se queda encendida durante el partido. Si la app se cierra, el partido sigue ahí cuando la abras de nuevo."
+  },
+  {
+   "id": "101",
+   "title": "Reloj y móvil juntos",
+   "subtitle": "Uno lleva el marcador, el otro lo sigue.",
+   "category": "Guía de la app",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Empieza en el reloj y el móvil muestra el mismo marcador en directo.\n\n• Solo un dispositivo lleva el marcador a la vez, así ningún punto se cuenta dos veces.\n\n• Para cambiar, toca Contar en el móvil en el iPhone, o Contar aquí en el reloj.\n\n• Si se corta la conexión, no se pierde nada: el último marcador llega en cuanto los dos vuelven a conectarse.\n\n• Los partidos en el reloj guardan un entreno en Apple Salud con frecuencia cardíaca, calorías y distancia."
+  },
+  {
+   "id": "104",
+   "title": "Árbitro por voz",
+   "subtitle": "El marcador en voz alta.",
+   "category": "Guía de la app",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Activa Árbitro por voz en Preparación del partido y elige el idioma.\n\n• El móvil canta el marcador después de cada punto, también cuando lo lleva el reloj. Conecta un altavoz Bluetooth para una pista grande.\n\n• Dobles Side-Out: marcador del que saca, marcador del que recibe, número de sacador y luego el nombre del que saca (5 3 2, Deniz). Dobles Rally: dos números y el nombre. Individual: dos números.\n\n• Al terminar un juego dice Juego y el marcador de juegos; al final, Partido.\n\n• Decir marcador lee el marcador actual cuando tú quieras."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out o Rally",
+   "subtitle": "Dos formas de puntuar.",
+   "category": "Guía de la app",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (tradicional): solo puntúa el equipo que saca. Cuando quien saca pierde el punto, el saque pasa al otro y no se anota nada.\n\n2. Rally: cada punto cuenta, sin importar quién sacó. Si pierdes el punto con tu saque, el saque pasa directo al otro equipo. Los juegos son más rápidos.\n\nElige el modo, los puntos del juego (11, 15 o 21) y el formato (1 juego, al mejor de 3, al mejor de 5 o ilimitado) en Preparación del partido."
+  },
+  {
+   "id": "103",
+   "title": "Saque en dobles",
+   "subtitle": "Sacador 1, sacador 2 y el inicio 0-0-2.",
+   "category": "Guía de la app",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• En dobles Side-Out cada equipo tiene dos sacadores: primero el sacador 1 y luego el 2. Cuando los dos pierden un punto con su saque, hay cambio de saque.\n\n• Excepción: cada juego empieza en 0-0-2, así que el primer equipo que saca solo tiene un sacador.\n\n• Si ganas un punto con tu saque, tú y tu pareja cambiáis de lado. Los que reciben nunca se mueven.\n\n• Tras un cambio de saque, saca primero el jugador de la derecha.\n\nLa app lo controla todo: quién saca, sacador 1 o 2, y lado derecho o izquierdo."
+  },
+  {
+   "id": "106",
+   "title": "¿Quién saca primero?",
+   "subtitle": "Usa el sorteo integrado.",
+   "category": "Guía de la app",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "No hace falta moneda. Toca el dado en Preparación del partido, o en el reloj, y la app elige al azar quién saca primero.\n\nEn los siguientes juegos saca primero el lado que perdió el juego anterior; la app lo hace sola."
+  },
+  {
+   "id": "105",
+   "title": "Amigos, comunidad y ligas",
+   "subtitle": "Opcional, con inicio de sesión de Apple o Google.",
+   "category": "Guía de la app",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Pide a un amigo que confirme un resultado: cuando lo acepte, el partido queda en los dos diarios, cada uno desde su lado.\n\n• Compartir en la comunidad desde un partido: añade un texto y elige quién lo ve. Las notas y los datos de salud nunca se comparten.\n\n• Ligas: el organizador (Pro) crea la liga, invita a los jugadores y fija los partidos. Los jugadores se unen gratis, juegan el partido y envían el resultado desde la pantalla del partido, con los puntos de cada juego. Ambos lados confirman, el organizador aprueba y la tabla se actualiza.\n\n• Llevar el marcador nunca necesita una cuenta."
+  },
+  {
+   "id": "201",
+   "title": "Puntuación del pickleball 101",
+   "subtitle": "Puntos, juegos y ganar por 2.",
+   "category": "Reglas",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Puntos: 0, 1, 2, 3 y así hasta el objetivo, normalmente 11 (15 o 21 en algunos torneos).\n\n• Ganar por 2: con 10-10 en un juego a 11, se sigue jugando hasta que un lado gane por 2.\n\n• El marcador se canta primero el que saca. En dobles, un tercer número indica qué sacador está sacando: 5-3-2.\n\n• Un partido suele ser al mejor de 3 juegos. El lado que perdió un juego saca primero en el siguiente."
+  },
+  {
+   "id": "202",
+   "title": "La cocina",
+   "subtitle": "La zona de no volea.",
+   "category": "Reglas",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "La zona de no volea, la cocina, es el área de 7 pies (2,13 m) a cada lado de la red.\n\n• No puedes volear (golpear la pelota en el aire) mientras pisas la cocina o su línea.\n\n• Puedes entrar en cualquier momento para jugar una pelota que ya botó.\n\n• Tu impulso tras una volea no debe llevarte a la cocina, ni siquiera cuando la pelota ya está muerta.\n\n• El saque debe pasar la cocina: un saque que cae en la línea de la cocina es falta."
+  },
+  {
+   "id": "203",
+   "title": "La regla del doble bote",
+   "subtitle": "Primero que bote, dos veces.",
+   "category": "Reglas",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• El saque debe botar antes de que el que recibe lo devuelva.\n\n• La devolución debe botar antes de que el lado que saca la juegue.\n\n• Después de estos dos botes, los dos lados pueden volear o jugar la pelota tras el bote.\n\nPor eso el equipo que saca suele quedarse atrás para el tercer golpe."
+  },
+  {
+   "id": "204",
+   "title": "Reglas del saque",
+   "subtitle": "Por debajo, en diagonal, un intento.",
+   "category": "Reglas",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Saca por debajo, con la pala por debajo de la cintura al contacto, o usa un saque con bote.\n\n• Saca en diagonal, al cuadro de saque contrario, pasando la cocina.\n\n• Un solo intento de saque por sacador. Un saque que toca la red y cae dentro se juega.\n\n• Saca desde la derecha cuando el marcador del que saca es par y desde la izquierda cuando es impar (individual). En dobles, la pareja que saca cambia de lado después de cada punto que gana."
+  },
+  {
+   "id": "301",
+   "title": "El tercer golpe suave",
+   "subtitle": "El golpe más importante del pickleball.",
+   "category": "Tácticas",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Después de tu saque, los que reciben están en la red y tú estás en el fondo.\n\n• Tercer golpe suave: un golpe suave que cae en arco en su cocina, para que tengan que golpear hacia arriba. Te da tiempo para avanzar.\n\n• Practica arcos suaves y altos que caigan en la cocina para quitarles la ventaja de la red."
+  },
+  {
+   "id": "302",
+   "title": "Dinks",
+   "subtitle": "Ganar en la línea de la cocina.",
+   "category": "Tácticas",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Un dink es un golpe suave desde la línea de la cocina que cae en la otra cocina.\n\n• Apunta a las líneas laterales para sacar a los rivales de su posición.\n\n• Ataca un dink que sube por encima de la red: esa es la pelota para golpear fuerte o cerrar el punto.\n\n• La paciencia gana los intercambios de dinks. Espera el error."
+  }
+ ]
+}

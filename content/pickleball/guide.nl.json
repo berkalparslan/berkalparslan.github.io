@@ -1,0 +1,121 @@
+{
+ "articles": [
+  {
+   "id": "100",
+   "title": "Houd de score bij op je telefoon",
+   "subtitle": "Geen horloge nodig.",
+   "category": "App-gids",
+   "icon": "iphone",
+   "colorHex": "#34C759",
+   "content": "• Open Wedstrijd, kies Deze telefoon en tik op Wedstrijd starten op telefoon.\n\n• Tik op de kant die de rally won: de tegenstander staat boven in rood, jij onderaan in groen.\n\n• In het midden staat de scoreaankondiging, eerst de server: 5-3-2 bij dubbelspel Side-Out. Onder elke kant zie je wie serveert en vanaf welke kant van het veld.\n\n• Een verkeerde tik maak je ongedaan met de pijl in het midden.\n\n• Volledig scherm draait de telefoon op zijn kant, ieder een kant. Sluiten brengt hem terug.\n\n• Het scherm blijft aan tijdens de wedstrijd. Sluit de app af, dan staat de wedstrijd er nog als je hem weer opent."
+  },
+  {
+   "id": "101",
+   "title": "Horloge en telefoon samen",
+   "subtitle": "De een telt, de ander volgt.",
+   "category": "App-gids",
+   "icon": "applewatch",
+   "colorHex": "#FF2D55",
+   "content": "• Start op het horloge en de telefoon toont live dezelfde score.\n\n• Maar één apparaat tegelijk houdt de score bij, dus geen enkele rally wordt dubbel geteld.\n\n• Om te wisselen tik je op de iPhone op Op telefoon tellen, of op het horloge op Hier tellen.\n\n• Valt de verbinding weg, dan gaat er niets verloren: de nieuwste score komt binnen zodra de twee weer contact hebben.\n\n• Wedstrijden op het horloge worden als workout opgeslagen in Apple Gezondheid, met hartslag, calorieën en afstand."
+  },
+  {
+   "id": "104",
+   "title": "Stemscheidsrechter",
+   "subtitle": "De score hardop.",
+   "category": "App-gids",
+   "icon": "speaker.wave.2.fill",
+   "colorHex": "#007AFF",
+   "content": "• Zet Stemscheidsrechter aan bij Wedstrijd voorbereiden en kies de taal.\n\n• De telefoon roept de score na elke rally, ook als het horloge telt. Koppel een bluetooth-speaker voor een groot veld.\n\n• Dubbelspel Side-Out: score van de server, score van de ontvanger, servernummer, daarna de naam van de server (5 3 2, Deniz). Dubbelspel Rally: twee getallen en de naam. Enkelspel: twee getallen.\n\n• Na een game zegt hij Game en de gamestand, aan het einde Match.\n\n• Score uitspreken leest de huidige score voor wanneer je maar wilt."
+  },
+  {
+   "id": "102",
+   "title": "Side-Out of Rally",
+   "subtitle": "Twee manieren om te tellen.",
+   "category": "App-gids",
+   "icon": "bolt.circle.fill",
+   "colorHex": "#5856D6",
+   "content": "1. Side-Out (traditioneel): alleen de serverende kant scoort. Verliest de server de rally, dan gaat de service over en wordt er geen punt gescoord.\n\n2. Rally: elke rally levert een punt op, wie er ook serveerde. Verlies je de rally op eigen service, dan gaat de service meteen naar de andere kant. Games gaan sneller.\n\nKies de modus, het gamedoel (11, 15 of 21) en het formaat (1 game, best of 3, best of 5 of onbeperkt) bij Wedstrijd voorbereiden."
+  },
+  {
+   "id": "103",
+   "title": "Serveren bij dubbelspel",
+   "subtitle": "Server 1, server 2 en de start op 0-0-2.",
+   "category": "App-gids",
+   "icon": "person.2.fill",
+   "colorHex": "#FFCC00",
+   "content": "• Bij dubbelspel Side-Out heeft elke kant twee servers: eerst server 1, dan server 2. Verliezen beiden een rally op eigen service, dan is het een side-out.\n\n• Uitzondering: elke game begint op 0-0-2, dus de eerste serverende kant krijgt maar één server.\n\n• Win je een rally op je service, dan wisselen jij en je partner van kant. De ontvangers bewegen nooit.\n\n• Na een side-out serveert de speler op de rechterhelft het eerst.\n\nDe app houdt alles bij: wie serveert, server 1 of 2, en rechter- of linkerhelft."
+  },
+  {
+   "id": "106",
+   "title": "Wie serveert eerst?",
+   "subtitle": "Gebruik de ingebouwde loting.",
+   "category": "App-gids",
+   "icon": "dice.fill",
+   "colorHex": "#34C759",
+   "content": "Geen munt nodig. Tik op de dobbelsteen bij Wedstrijd voorbereiden, of op het horloge, en de app kiest willekeurig de eerste server.\n\nIn de volgende games serveert de kant die de vorige game verloor als eerste. De app doet dit zelf."
+  },
+  {
+   "id": "105",
+   "title": "Vrienden, community en competities",
+   "subtitle": "Optioneel, met inloggen via Apple of Google.",
+   "category": "App-gids",
+   "icon": "person.2.wave.2.fill",
+   "colorHex": "#AF52DE",
+   "content": "• Vraag een vriend om te bevestigen: zodra hij accepteert, staat de wedstrijd in beide logboeken, ieder vanuit de eigen kant.\n\n• Delen met community vanuit een wedstrijd: voeg een bijschrift toe en kies wie het ziet. Notities en gezondheidsgegevens worden nooit gedeeld.\n\n• Competities: de organisator (Pro) maakt de competitie, nodigt spelers uit en stelt het speelschema op. Spelers doen gratis mee, spelen de wedstrijd en sturen de uitslag vanuit het wedstrijdscherm, met de punten van elke game. Beide kanten bevestigen, de organisator keurt goed, de ranglijst verschuift.\n\n• Score bijhouden vraagt nooit om een account."
+  },
+  {
+   "id": "201",
+   "title": "Pickleball scoren 101",
+   "subtitle": "Punten, games en 2 punten verschil.",
+   "category": "Regels",
+   "icon": "figure.pickleball",
+   "colorHex": "#007AFF",
+   "content": "• Punten: 0, 1, 2, 3 en verder tot het doel, meestal 11 (15 of 21 bij sommige toernooien).\n\n• 2 punten verschil: bij 10-10 in een game tot 11 gaat het spel door tot een kant 2 punten voor staat.\n\n• De score wordt genoemd met de server eerst. Bij dubbelspel vertelt een derde getal welke server aan het serveren is: 5-3-2.\n\n• Een wedstrijd is vaak best of 3 games. De kant die een game verloor, serveert als eerste in de volgende."
+  },
+  {
+   "id": "202",
+   "title": "De kitchen",
+   "subtitle": "De non-volley zone.",
+   "category": "Regels",
+   "icon": "rectangle.dashed",
+   "colorHex": "#FF9500",
+   "content": "De non-volley zone, de kitchen, is het gebied van 7 voet (2,13 m) aan elke kant van het net.\n\n• Je mag niet volleyen (de bal uit de lucht slaan) terwijl je de kitchen of de lijn raakt.\n\n• Je mag er altijd in stappen om een bal te spelen die gestuiterd is.\n\n• Je momentum na een volley mag je niet de kitchen in dragen, ook niet als de bal al dood is.\n\n• De service moet voorbij de kitchen komen: een service op de kitchenlijn is een fout."
+  },
+  {
+   "id": "203",
+   "title": "De twee-stuiterregel",
+   "subtitle": "Eerst laten stuiteren, twee keer.",
+   "category": "Regels",
+   "icon": "arrow.down.circle.fill",
+   "colorHex": "#AF52DE",
+   "content": "• De service moet stuiteren voordat de ontvanger hem terugspeelt.\n\n• De return moet stuiteren voordat de serverende kant hem speelt.\n\n• Na deze twee stuiters mogen beide kanten volleyen of de bal na de stuiter spelen.\n\nDaarom blijft de serverende kant vaak achter voor de derde slag."
+  },
+  {
+   "id": "204",
+   "title": "Serveerregels",
+   "subtitle": "Onderhands, diagonaal, één poging.",
+   "category": "Regels",
+   "icon": "figure.pickleball",
+   "colorHex": "#30B0C7",
+   "content": "• Serveer onderhands, met het racket onder de taille bij het raken, of gebruik een drop serve.\n\n• Serveer diagonaal, in het tegenoverliggende serveervak, voorbij de kitchen.\n\n• Eén servepoging per server. Een let die goed landt, wordt doorgespeeld.\n\n• Serveer vanaf de rechterhelft als de score van de server even is en vanaf links als die oneven is (enkelspel). Bij dubbelspel wisselt het serverende duo van kant na elk punt dat ze winnen."
+  },
+  {
+   "id": "301",
+   "title": "De third shot drop",
+   "subtitle": "De belangrijkste slag in pickleball.",
+   "category": "Tactiek",
+   "icon": "hand.draw.fill",
+   "colorHex": "#30B0C7",
+   "content": "Na je service staan de returners aan het net en sta jij op de achterlijn.\n\n• Third shot drop: een zachte slag die in een boog in hun kitchen valt, zodat ze omhoog moeten slaan. Zo krijg jij tijd om naar voren te lopen.\n\n• Oefen zachte, hoge bogen die in de kitchen landen om hun voordeel aan het net weg te nemen."
+  },
+  {
+   "id": "302",
+   "title": "Dinken",
+   "subtitle": "Winnen op de kitchenlijn.",
+   "category": "Tactiek",
+   "icon": "waveform.path",
+   "colorHex": "#FF2D55",
+   "content": "Een dink is een zachte slag vanaf de kitchenlijn die in de andere kitchen valt.\n\n• Mik op de zijlijnen om de tegenstanders uit positie te trekken.\n\n• Val een dink aan die boven het net omhoog floept: dat is de bal om hard te slaan of af te maken.\n\n• Geduld wint dinkrally's. Wacht op de fout."
+  }
+ ]
+}
