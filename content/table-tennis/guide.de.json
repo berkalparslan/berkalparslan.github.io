@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Zählen auf dem iPhone",
+      "subtitle": "Keine Uhr nötig.",
+      "category": "App-Anleitung",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Öffne Match, wähle Dieses iPhone und tippe auf Match auf dem iPhone starten.\n\n• Tippe auf die Seite, die den Ballwechsel gewonnen hat: Dein Gegner ist oben in Orange, du unten in Blau.\n\n• Der Aufschläger ist mit einem Punkt markiert, unter dem Spielstand steht 1 von 2 oder 2 von 2. Ab 10:10 steht dort abwechselnd.\n\n• Einen falschen Punkt nimmst du mit dem Pfeil in der Mitte zurück.\n\n• Tippe auf Vollbild für eine große Anzeige mit quer gehaltenem iPhone, eine Hälfte pro Spieler. Mit Beenden geht es zurück.\n\n• Der Bildschirm bleibt während des Matches an. Wird die App geschlossen, ist das Match beim nächsten Öffnen noch da."
+    },
+    {
+      "id": "101",
+      "title": "Uhr und iPhone zusammen",
+      "subtitle": "Eins zählt, das andere schaut mit.",
+      "category": "App-Anleitung",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Starte auf der Uhr, und das iPhone zeigt denselben Spielstand live.\n\n• Es zählt immer nur ein Gerät, so wird kein Punkt doppelt gezählt.\n\n• Zum Wechseln tippe auf dem iPhone auf Auf dem iPhone zählen oder auf der Uhr auf Hier zählen.\n\n• Bricht die Verbindung ab, geht nichts verloren: Der neueste Spielstand kommt an, sobald beide wieder verbunden sind.\n\n• Matches auf der Uhr speichern ein Training in Apple Health, mit Herzfrequenz, Kalorien und Strecke."
+    },
+    {
+      "id": "104",
+      "title": "Sprach-Schiedsrichter",
+      "subtitle": "Der Spielstand laut, vom iPhone.",
+      "category": "App-Anleitung",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Schalte in der Matchvorbereitung den Sprach-Schiedsrichter ein und wähle die Sprache.\n\n• Nach jedem Ballwechsel sagt das iPhone den Spielstand an, den des Aufschlägers zuerst: 7, 5. Das klappt auch, wenn die Uhr zählt.\n\n• Verbinde einen Bluetooth-Lautsprecher, wenn es in der Halle laut ist.\n\n• Spielstand ansagen nennt dir Sätze und Punkte, wann immer du willst."
+    },
+    {
+      "id": "103",
+      "title": "Wer schlägt zuerst auf?",
+      "subtitle": "Nutze den eingebauten Würfel.",
+      "category": "App-Anleitung",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Keine Münze nötig.\n\nTippe in der Matchvorbereitung auf den Würfel neben Erster Aufschlag: Die App wählt zufällig dich oder deinen Gegner. Mit den Pfeilen daneben wechselst du den Aufschläger von Hand.\n\nDanach behält die App den Aufschlag für dich im Blick: je zwei Aufschläge, ab 10:10 abwechselnd, und im nächsten Satz beginnt der andere Spieler."
+    },
+    {
+      "id": "105",
+      "title": "Freunde, Community und Ligen",
+      "subtitle": "Optional, mit Anmeldung über Apple oder Google.",
+      "category": "App-Anleitung",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Einen Freund bestätigen lassen: Sobald er annimmt, steht das Match in beiden Logbüchern, jeweils aus eigener Sicht.\n\n• In der Community teilen, direkt aus einem Match: Füge eine Bildunterschrift hinzu und wähle, wer es sieht. Notizen und Gesundheitsdaten werden nie geteilt.\n\n• Ligen: Der Organisator (Pro) erstellt die Liga, lädt Spieler ein und legt den Spielplan fest. Spieler machen kostenlos mit, spielen das Match und senden das Ergebnis Satz für Satz aus dem Match-Bildschirm. Beide Seiten bestätigen, der Organisator gibt frei, die Tabelle aktualisiert sich.\n\n• Zum Zählen brauchst du nie ein Konto."
+    },
+    {
+      "id": "201",
+      "title": "So wird gezählt",
+      "subtitle": "Sätze bis 11, mit zwei Punkten Vorsprung.",
+      "category": "Regeln",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Im Tischtennis zählt jeder Ballwechsel: Der Gewinner bekommt den Punkt, egal wer aufgeschlagen hat.\n\nEinen Satz gewinnt, wer zuerst 11 Punkte mit mindestens 2 Punkten Vorsprung erreicht. Bei 10:10 (Verlängerung) geht es weiter, bis ein Spieler 2 Punkte vorn liegt.\n\nEin Match geht über Best of 3, 5 oder 7 Sätze. Wer zuerst die nötige Zahl an Sätzen gewinnt, gewinnt das Match.\n\nFrüher wurden Sätze bis 21 gespielt; die App bietet beides."
+    },
+    {
+      "id": "202",
+      "title": "Aufschlagregeln",
+      "subtitle": "Je zwei, ab 10:10 abwechselnd.",
+      "category": "Regeln",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "Der Aufschlag wechselt alle 2 Punkte. In der Verlängerung (ab 10:10) wechselt er nach jedem Punkt.\n\nReihenfolge: Spieler A schlägt zweimal auf, Spieler B zweimal, dann wieder Spieler A zweimal und so weiter.\n\nDer Hochwurf: Der Ball liegt auf der offenen Handfläche und wird mindestens 16 cm hochgeworfen, fast senkrecht und ohne Drall. Rückschläger und Schiedsrichter müssen ihn immer sehen können.\n\nDer Aufschlag muss einmal auf deiner Seite aufspringen, über das Netz gehen und einmal auf der anderen Seite aufspringen."
+    },
+    {
+      "id": "203",
+      "title": "Auslosung und Seitenwechsel",
+      "subtitle": "Wer aufschlägt und wann gewechselt wird.",
+      "category": "Regeln",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "Das Recht, zuerst aufzuschlagen, wird ausgelost. Der Gewinner wählt Aufschlag, Rückschlag oder die Seite, auf der er beginnt.\n\nNach jedem Satz wechselt der Aufschlag: Wer in einem Satz zuerst zurückgeschlagen hat, schlägt im nächsten Satz zuerst auf. Das erledigt die App für dich.\n\nNach jedem Satz wechseln die Spieler die Seiten. Im Entscheidungssatz (dem 5. bei Best of 5, dem 7. bei Best of 7) wechseln sie auch, sobald ein Spieler 5 Punkte erreicht."
+    },
+    {
+      "id": "204",
+      "title": "Let und Kantenball",
+      "subtitle": "Wann ein Ballwechsel wiederholt wird.",
+      "category": "Regeln",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Ein Let wird gegeben, wenn der Aufschlag das Netz berührt und trotzdem korrekt aufkommt. Der Aufschlag wird wiederholt, es gibt keinen Punkt.\n\nEin Kantenball zählt: Berührt der Ball die obere Tischkante, bleibt er im Spiel.\n\nDen Ballwechsel verlierst du, wenn du den Ball triffst, bevor er auf deiner Seite aufspringt, den Tisch mit der freien Hand berührst, den Tisch verschiebst oder den Ball zweimal triffst."
+    },
+    {
+      "id": "301",
+      "title": "Der Aufschlag",
+      "subtitle": "Deine erste Waffe.",
+      "category": "Technik",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Ein starker Aufschlag kann direkt Punkte bringen oder einen leichten Angriff vorbereiten.\n\nUnterschnitt: Streife unter den Ball. Dein Gegner muss ihn anheben, und das bereitet deinen Angriff vor.\n\nSeitenschnitt: Streife die Seite des Balls. Er fliegt eine Kurve und springt beim Aufkommen seitlich weg.\n\nKurzer Aufschlag: Lass den Ball auf der anderen Seite nah am Netz aufkommen, damit dein Gegner ihn nicht hart angreifen kann.\n\nLeerer Aufschlag: Mach dieselbe Bewegung wie bei einem Schnittaufschlag, berühre den Ball aber kaum. Dein Gegner erwartet Schnitt und liest ihn falsch."
+    },
+    {
+      "id": "302",
+      "title": "Der Vorhand-Topspin",
+      "subtitle": "Topspin, der Punkte gewinnt.",
+      "category": "Technik",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Der Vorhand-Topspin ist der stärkste Angriffsschlag im Tischtennis. Viel Überschnitt lässt den Ball absinken und nach dem Aufspringen nach vorn schießen.\n\nTechnik: Starte tief, dreh die Hüfte zurück und streife den Ball dann mit schnellem Unterarm und Handgelenk nach oben und vorn. Beende die Bewegung quer vor dem Körper.\n\nGegen Unterschnitt: Öffne den Schläger, streife mehr nach oben und beschleunige durch den Treffpunkt.\n\nGegen Topspin: Schließe den Schläger etwas und schlag durch den Ball."
+    },
+    {
+      "id": "303",
+      "title": "Rückhandschläge",
+      "subtitle": "Topspin, Schupf und Flip.",
+      "category": "Technik",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Die Rückhand deckt die Mitte und die linke Tischseite ab (bei Rechtshändern).\n\nRückhand-Topspin: Nutze den Ellbogen als Drehpunkt und lass das Handgelenk im Treffpunkt nach vorn und oben schnellen. Ein kompakter Schlag, stabil in schnellen Ballwechseln.\n\nSchupf: Öffne gegen Unterschnitt den Schläger und schiebe mit einer kurzen Vorwärtsbewegung unter dem Ball durch. So bleibt der Ball flach.\n\nFlip: Greif einen kurzen Ball über dem Tisch mit schnellem Handgelenk an, eine gute Antwort auf einen kurzen Aufschlag."
+    },
+    {
+      "id": "304",
+      "title": "Beinarbeit",
+      "subtitle": "Sei vor dem Ball da.",
+      "category": "Technik",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Ballwechsel dauern nur Sekundenbruchteile, deshalb muss die Beinarbeit automatisch laufen.\n\nZweierschritt: Bei mittleren Wegen gehst du zuerst mit dem Fuß, der näher am Ball ist, dann ziehst du den anderen Fuß in eine stabile Stellung nach.\n\nEinerschritt: Bei kleinen Korrekturen schiebst du einen Fuß Richtung Ball.\n\nKreuzschritt: Bei großen Wegen, vor allem in die weite Vorhand, überkreuzt du den hinteren Fuß vorne.\n\nKehre nach jedem Schlag in die Grundstellung zurück, etwas zur Rückhandseite der Mitte. Gute Beinarbeit ist wichtiger als ein harter Schlag."
+    },
+    {
+      "id": "401",
+      "title": "Beläge und Schläger",
+      "subtitle": "Was die Seiten bewirken.",
+      "category": "Ausrüstung",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Noppen-innen-Belag (glatte Seite außen): der häufigste. Viel Schnitt und Tempo; die Wahl der meisten Vereinsspieler.\n\nKurze Noppen: weniger schnittempfindlich, gut für schnelles, flaches Schlagen nah am Tisch.\n\nLange Noppen: kehren den Schnitt um, Topspin kommt als Unterschnitt zurück. Schwer zu lesen; beliebt bei Abwehrspielern.\n\nAnti-Spin: sehr wenig Griff, nimmt den Schnitt raus und verwirrt den Gegner.\n\nBelag und Schwamm zusammen dürfen höchstens 4 mm dick sein. Eine Schlägerseite muss rot, die andere schwarz sein."
+    },
+    {
+      "id": "501",
+      "title": "Matchtaktik",
+      "subtitle": "Aufschlagen, platzieren, geduldig bleiben.",
+      "category": "Taktik",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Nutze den Aufschlag, um deinen Angriff vorzubereiten: Wähle Aufschläge, die einen Ball zurückbringen, den du mit deinem besten Schlag spielen kannst.\n\nFinde die schwache Seite: Hat dein Gegner Probleme mit starkem Unterschnitt, schlag ihn immer wieder kurz auf. Ist die Rückhand schwächer, greif dort an.\n\nVariiere die Platzierung: weite Vorhand, weite Rückhand und direkt auf den Körper. Der Körper ist die am schwersten zu returnierende Stelle.\n\nBestimme das Tempo: In langen Ballwechseln gewinnt oft, wer stabil bleibt und auf den kurzen Ball wartet.\n\nBleib ruhig: Punkte sind schnell vorbei. Vergiss einen schlechten Punkt sofort und denk nur an den nächsten Aufschlag."
+    },
+    {
+      "id": "502",
+      "title": "Lies dein Logbuch",
+      "subtitle": "Lerne aus deinen eigenen Matches.",
+      "category": "Taktik",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Die Matchdetails zeigen jeden Satz, gewonnene und verlorene Punkte und die Momentum-Leiste: ein Strich pro Ballwechsel, so siehst du, wo ein Satz gekippt ist.\n\n• Schreib nach dem Match eine kurze Notiz und ein nächstes Ziel. Dein nächstes Ziel erscheint auch im Tab Start.\n\n• Eure Rivalität (Pro) fasst alle Matches gegen einen Gegner zusammen: Siege, Sätze, Punkte und die aktuelle Serie.\n\n• Filtere das Logbuch nach Gegner oder Ergebnis, um zu sehen, wie du gegen jeden Spieler abschneidest."
+    }
+  ]
+}

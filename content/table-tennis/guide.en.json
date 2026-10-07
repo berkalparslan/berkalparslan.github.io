@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Keep score on your phone",
+      "subtitle": "No watch needed.",
+      "category": "App Guide",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Open Match, choose This phone and tap Start match on phone.\n\n• Tap the side that won the rally: the opponent is on top in orange, you are at the bottom in blue.\n\n• The server is marked with a dot, with 1 of 2 or 2 of 2 under the score. From 10-10 it says one each.\n\n• A wrong point goes back with the arrow in the middle.\n\n• Tap Full screen for a big board with the phone on its side, one player each. Exit brings it back.\n\n• The screen stays on during the match. If the app closes, the match is still there when you open it again."
+    },
+    {
+      "id": "101",
+      "title": "Watch and phone together",
+      "subtitle": "One keeps the score, the other follows.",
+      "category": "App Guide",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start on the watch and the phone shows the same score live.\n\n• Only one device keeps the score at a time, so no point is counted twice.\n\n• To switch, tap Score on phone on the iPhone, or Score here on the watch.\n\n• If the connection drops, nothing is lost: the latest score arrives as soon as the two are back in touch.\n\n• Matches on the watch save a workout to Apple Health with heart rate, calories and distance."
+    },
+    {
+      "id": "104",
+      "title": "Voice umpire",
+      "subtitle": "The score out loud, from the phone.",
+      "category": "App Guide",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Turn on Voice umpire in Match prep and pick the language.\n\n• After every rally the phone reads the score, server's score first: 7, 5. It also does this when the watch is keeping the score.\n\n• Connect a Bluetooth speaker if the hall is loud.\n\n• Say score reads the games and the points whenever you want them."
+    },
+    {
+      "id": "103",
+      "title": "Who serves first?",
+      "subtitle": "Use the built-in dice.",
+      "category": "App Guide",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "No coin needed.\n\nIn Match prep, tap the dice next to First serve: the app picks you or your opponent at random. The arrows next to it switch the server by hand.\n\nAfter that the app tracks the serve for you: two serves each, one each from 10-10, and the other player starts the next game."
+    },
+    {
+      "id": "105",
+      "title": "Friends, community and leagues",
+      "subtitle": "Optional, with Apple or Google sign in.",
+      "category": "App Guide",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Ask a friend to confirm a result: once they accept, the match is in both logbooks, each from their own side.\n\n• Share to community from a match: add a caption and choose who sees it. Notes and health data are never shared.\n\n• Leagues: the organizer (Pro) creates the league, invites players and sets the fixtures. Players join for free, play the match and send the result from the match screen, game by game. Both sides confirm, the organizer approves, the table moves.\n\n• Keeping score never needs an account."
+    },
+    {
+      "id": "201",
+      "title": "How scoring works",
+      "subtitle": "Games to 11, win by two.",
+      "category": "Rules",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Table tennis uses rally scoring: every rally scores a point for the winner, whoever served.\n\nA game is won by the first player to reach 11 points with a lead of at least 2. At 10-10 (deuce) play goes on until one player leads by 2.\n\nA match is best of 3, 5 or 7 games. The player who wins the required number of games first wins the match.\n\nOlder rules played games to 21; the app offers both."
+    },
+    {
+      "id": "202",
+      "title": "Service rules",
+      "subtitle": "Two each, then one each from 10-10.",
+      "category": "Rules",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "Service changes every 2 points. At deuce (10-10), it changes after every point.\n\nSequence: player A serves 2, player B serves 2, player A serves 2, and so on.\n\nThe toss: the ball rests on an open palm and is thrown up at least 16 cm, nearly vertical and without spin. It must stay visible to the receiver and the umpire.\n\nThe serve must bounce once on your side, clear the net and bounce once on the other side."
+    },
+    {
+      "id": "203",
+      "title": "The toss and changing ends",
+      "subtitle": "Who serves, and when to switch sides.",
+      "category": "Rules",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "The right to serve first is decided by lot. The winner chooses to serve, to receive, or which end to start at.\n\nAfter each game, service alternates: the player who received first in one game serves first in the next. The app does this for you.\n\nPlayers change ends after every game. In the deciding game (the 5th in a best of 5, the 7th in a best of 7) they also change ends when one player reaches 5 points."
+    },
+    {
+      "id": "204",
+      "title": "Let and edge ball",
+      "subtitle": "When a rally is replayed.",
+      "category": "Rules",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "A let is called when the serve touches the net and still lands correctly. The serve is replayed and no point is scored.\n\nAn edge ball is good: if the ball touches the top edge of the table, it is in play.\n\nA rally is lost by hitting the ball before it bounces on your side, touching the table with your free hand, moving the table, or hitting the ball twice."
+    },
+    {
+      "id": "301",
+      "title": "The serve",
+      "subtitle": "Your first weapon.",
+      "category": "Technique",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "A strong serve can win points directly or set up an easy attack.\n\nBackspin: brush under the ball. The opponent has to lift it, which sets up your attack.\n\nSidespin: brush the side of the ball. It curves and kicks sideways on the bounce.\n\nShort serve: land the ball close to the net on the other side, so the opponent cannot attack it hard.\n\nNo-spin serve: use the same motion as a spin serve but barely touch the ball. The opponent expects spin and misreads it."
+    },
+    {
+      "id": "302",
+      "title": "The forehand loop",
+      "subtitle": "Topspin that wins points.",
+      "category": "Technique",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "The forehand loop is the most powerful attacking shot in table tennis. Heavy topspin makes the ball dip and jump forward after the bounce.\n\nTechnique: start low, turn your hips back, then brush up and forward with a fast forearm and wrist at contact. Finish across your body.\n\nAgainst backspin: open the bat and brush more upward, accelerating through contact.\n\nAgainst topspin: close the bat a little and drive through the ball."
+    },
+    {
+      "id": "303",
+      "title": "Backhand strokes",
+      "subtitle": "Topspin, push and flick.",
+      "category": "Technique",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "The backhand covers the middle and the left side of the table (for right handers).\n\nBackhand topspin: use the elbow as a pivot and snap the wrist forward and up at contact. A compact stroke, steady in fast rallies.\n\nPush: against backspin, open the bat and push through the bottom of the ball with a short forward motion. It keeps the ball low.\n\nFlick: attack a short ball over the table with a quick wrist action, a good answer to a short serve."
+    },
+    {
+      "id": "304",
+      "title": "Footwork",
+      "subtitle": "Be there before the ball.",
+      "category": "Technique",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Points last fractions of a second, so footwork has to be automatic.\n\nTwo step: for medium movements, step with the foot nearer the ball first, then bring the other foot to a balanced stance.\n\nOne step: for small corrections, slide one foot towards the ball.\n\nCross step: for big movements, mainly to a wide forehand, cross the back foot in front.\n\nAfter every shot return to your ready position, a little to the backhand side of the centre. Good footwork matters more than a powerful stroke."
+    },
+    {
+      "id": "401",
+      "title": "Rubbers and the bat",
+      "subtitle": "What the sides do.",
+      "category": "Equipment",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Inverted rubber (smooth side out): the most common. Lots of spin and speed; used by most club players.\n\nShort pimples: less affected by spin, good for fast flat hitting close to the table.\n\nLong pimples: reverse the spin, so topspin comes back as backspin. Hard to read; used by defenders.\n\nAnti-spin: very little grip, it kills the spin and confuses the opponent.\n\nRubber and sponge together may be at most 4 mm thick. One side of the bat must be red, the other black."
+    },
+    {
+      "id": "501",
+      "title": "Match tactics",
+      "subtitle": "Serve, place, stay patient.",
+      "category": "Tactics",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Serve to set up your attack: choose serves that bring back a ball you can hit with your best shot.\n\nFind the weak side: if they struggle with heavy backspin, serve it short again and again. If the backhand is weaker, attack there.\n\nVary the placement: wide forehand, wide backhand and straight at the body. The body is the hardest spot to return.\n\nControl the tempo: in long rallies, the player who stays steady and waits for the short ball often wins.\n\nStay calm: points are over fast. Forget a bad point at once and think only about the next serve."
+    },
+    {
+      "id": "502",
+      "title": "Read your logbook",
+      "subtitle": "Learn from your own matches.",
+      "category": "Tactics",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Match detail shows every game, the points won and lost, and the momentum strip: one mark per rally, so you can see where a game turned.\n\n• Write a short note after the match and one next goal. Your next goal also shows on Home.\n\n• Your rivalry (Pro) puts every match against one opponent together: wins, games, points and the current streak.\n\n• Filter the logbook by opponent or result to see how you do against each player."
+    }
+  ]
+}

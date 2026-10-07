@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Marque o placar no celular",
+      "subtitle": "Não precisa de relógio.",
+      "category": "Guia do app",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Abra Partida, escolha Este celular e toque em Começar partida no celular.\n\n• Toque no lado que venceu o ponto: o adversário fica em cima, em laranja, e você embaixo, em azul.\n\n• Quem saca é marcado com uma bolinha, com 1 de 2 ou 2 de 2 abaixo do placar. A partir de 10-10 aparece um para cada.\n\n• Um ponto errado volta com a seta no meio.\n\n• Toque em Tela cheia para ver um placar grande com o celular deitado, um jogador de cada lado. Sair volta ao normal.\n\n• A tela fica ligada durante a partida. Se o app fechar, a partida continua lá quando você abrir de novo."
+    },
+    {
+      "id": "101",
+      "title": "Relógio e celular juntos",
+      "subtitle": "Um marca o placar, o outro acompanha.",
+      "category": "Guia do app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Comece no relógio e o celular mostra o mesmo placar ao vivo.\n\n• Só um aparelho marca o placar por vez, então nenhum ponto é contado duas vezes.\n\n• Para trocar, toque em Marcar no celular no iPhone, ou em Marcar aqui no relógio.\n\n• Se a conexão cair, nada se perde: o placar mais recente chega assim que os dois se reconectam.\n\n• Partidas no relógio salvam um treino no Apple Saúde com frequência cardíaca, calorias e distância."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "O placar em voz alta, pelo celular.",
+      "category": "Guia do app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Ative Árbitro por voz em Preparar partida e escolha o idioma.\n\n• Depois de cada ponto, o celular fala o placar, primeiro o de quem saca: 7, 5. Isso também acontece quando é o relógio que está marcando o placar.\n\n• Conecte uma caixa de som Bluetooth se o ginásio estiver barulhento.\n\n• Falar placar lê os sets e os pontos quando você quiser."
+    },
+    {
+      "id": "103",
+      "title": "Quem saca primeiro?",
+      "subtitle": "Use o dado do app.",
+      "category": "Guia do app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Não precisa de moeda.\n\nEm Preparar partida, toque no dado ao lado de Primeiro saque: o app sorteia você ou seu adversário. As setas ao lado trocam quem saca manualmente.\n\nDepois disso o app controla o saque para você: dois saques para cada um, um para cada a partir de 10-10, e o outro jogador começa o set seguinte."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidade e ligas",
+      "subtitle": "Opcional, com login da Apple ou do Google.",
+      "category": "Guia do app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Peça a um amigo para confirmar um resultado: quando ele aceita, a partida fica no diário dos dois, cada um do seu lado.\n\n• Compartilhar na comunidade a partir de uma partida: adicione uma legenda e escolha quem pode ver. Notas e dados de saúde nunca são compartilhados.\n\n• Ligas: o organizador (Pro) cria a liga, convida os jogadores e define a tabela de jogos. Os jogadores entram de graça, jogam a partida e enviam o resultado set a set pela tela da partida, em Enviar resultado da liga. Os dois lados confirmam, o organizador aprova e a classificação se atualiza.\n\n• Marcar o placar nunca exige conta."
+    },
+    {
+      "id": "201",
+      "title": "Como funciona a pontuação",
+      "subtitle": "Sets de 11, com dois de vantagem.",
+      "category": "Regras",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "No tênis de mesa, cada ponto disputado vale um ponto para quem vence, não importa quem sacou.\n\nVence o set quem chegar primeiro a 11 pontos com pelo menos 2 de vantagem. Em 10-10 o jogo continua até um jogador abrir 2 pontos.\n\nUma partida é disputada em melhor de 3, 5 ou 7 sets. Quem vencer primeiro o número de sets necessário vence a partida.\n\nAs regras antigas tinham sets de 21; o app oferece os dois."
+    },
+    {
+      "id": "202",
+      "title": "Regras do saque",
+      "subtitle": "Dois para cada, depois um para cada a partir de 10-10.",
+      "category": "Regras",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "O saque muda a cada 2 pontos. Em 10-10, muda a cada ponto.\n\nSequência: o jogador A saca 2, o jogador B saca 2, o jogador A saca 2, e assim por diante.\n\nO lançamento: a bola fica na palma da mão aberta e é lançada para cima pelo menos 16 cm, quase na vertical e sem efeito. Ela deve ficar visível para quem recebe e para o árbitro.\n\nO saque deve quicar uma vez no seu lado, passar pela rede e quicar uma vez no outro lado."
+    },
+    {
+      "id": "203",
+      "title": "Sorteio e troca de lado",
+      "subtitle": "Quem saca e quando trocar de lado.",
+      "category": "Regras",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "O direito de sacar primeiro é decidido por sorteio. Quem vence escolhe sacar, receber ou de que lado começar.\n\nApós cada set, o saque alterna: quem recebeu primeiro em um set saca primeiro no seguinte. O app faz isso por você.\n\nOs jogadores trocam de lado após cada set. No set decisivo (o 5º em melhor de 5, o 7º em melhor de 7) também trocam quando um jogador chega a 5 pontos."
+    },
+    {
+      "id": "204",
+      "title": "Let e bola na quina",
+      "subtitle": "Quando um ponto é repetido.",
+      "category": "Regras",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Marca-se let quando o saque toca a rede e mesmo assim cai corretamente. O saque é repetido e ninguém pontua.\n\nBola na quina é válida: se a bola toca a borda superior da mesa, está em jogo.\n\nPerde-se o ponto ao bater na bola antes que ela quique no seu lado, tocar a mesa com a mão livre, mover a mesa ou bater na bola duas vezes."
+    },
+    {
+      "id": "301",
+      "title": "O saque",
+      "subtitle": "Sua primeira arma.",
+      "category": "Técnica",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Um saque forte pode ganhar pontos diretos ou preparar um ataque fácil.\n\nBackspin: raspe por baixo da bola. O adversário precisa levantá-la, o que prepara seu ataque.\n\nEfeito lateral: raspe a lateral da bola. Ela faz curva e espirra para o lado no quique.\n\nSaque curto: faça a bola cair perto da rede do outro lado, para que o adversário não consiga atacar forte.\n\nSaque sem efeito: use o mesmo movimento de um saque com efeito, mas mal toque na bola. O adversário espera efeito e lê errado."
+    },
+    {
+      "id": "302",
+      "title": "O topspin de forehand",
+      "subtitle": "O efeito que decide pontos.",
+      "category": "Técnica",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "O topspin de forehand é o golpe de ataque mais potente do tênis de mesa. Muito topspin faz a bola cair e saltar para frente depois do quique.\n\nTécnica: comece baixo, gire o quadril para trás e depois raspe para cima e para frente, com antebraço e punho rápidos no contato. Termine cruzando o corpo.\n\nContra backspin: abra a raquete e raspe mais para cima, acelerando no contato.\n\nContra topspin: feche um pouco a raquete e empurre através da bola."
+    },
+    {
+      "id": "303",
+      "title": "Golpes de backhand",
+      "subtitle": "Topspin, corte e flick.",
+      "category": "Técnica",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "O backhand cobre o meio e o lado esquerdo da mesa (para destros).\n\nTopspin de backhand: use o cotovelo como eixo e solte o punho para frente e para cima no contato. Um golpe compacto, firme em trocas rápidas.\n\nCorte: contra backspin, abra a raquete e empurre por baixo da bola com um movimento curto para frente. Mantém a bola baixa.\n\nFlick: ataque uma bola curta sobre a mesa com um movimento rápido de punho, uma boa resposta a um saque curto."
+    },
+    {
+      "id": "304",
+      "title": "Movimentação de pernas",
+      "subtitle": "Chegue antes da bola.",
+      "category": "Técnica",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Os pontos duram frações de segundo, então a movimentação precisa ser automática.\n\nDois passos: para deslocamentos médios, mova primeiro o pé mais próximo da bola e depois traga o outro para uma base equilibrada.\n\nUm passo: para pequenos ajustes, deslize um pé em direção à bola.\n\nPasso cruzado: para deslocamentos grandes, principalmente para um forehand aberto, cruze o pé de trás pela frente.\n\nDepois de cada golpe, volte à posição de espera, um pouco para o lado do backhand em relação ao centro. Uma boa movimentação vale mais que um golpe potente."
+    },
+    {
+      "id": "401",
+      "title": "Borrachas e raquete",
+      "subtitle": "O que cada lado faz.",
+      "category": "Equipamento",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Borracha lisa (invertida): a mais comum. Muito efeito e velocidade; usada pela maioria dos jogadores de clube.\n\nPino curto: sofre menos com o efeito, boa para batidas rápidas e retas perto da mesa.\n\nPino longo: inverte o efeito, então um topspin volta como backspin. Difícil de ler; usada por defensores.\n\nAntitopspin: quase sem aderência, anula o efeito e confunde o adversário.\n\nBorracha e esponja juntas podem ter no máximo 4 mm de espessura. Um lado da raquete deve ser vermelho e o outro preto."
+    },
+    {
+      "id": "501",
+      "title": "Tática de partida",
+      "subtitle": "Saque, coloque, tenha paciência.",
+      "category": "Tática",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Saque para preparar o ataque: escolha saques que voltem como uma bola que você possa atacar com seu melhor golpe.\n\nAche o lado fraco: se o adversário sofre com backspin pesado, saque curto de novo e de novo. Se o backhand for mais fraco, ataque ali.\n\nVarie a colocação: forehand aberto, backhand aberto e direto no corpo. O corpo é o ponto mais difícil de devolver.\n\nControle o ritmo: em trocas longas, quem se mantém firme e espera a bola curta costuma vencer.\n\nMantenha a calma: os pontos acabam rápido. Esqueça logo um ponto ruim e pense só no próximo saque."
+    },
+    {
+      "id": "502",
+      "title": "Leia seu diário",
+      "subtitle": "Aprenda com suas próprias partidas.",
+      "category": "Tática",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• O detalhe da partida mostra cada set, os pontos ganhos e perdidos e a faixa de Momento: uma marca por ponto disputado, para você ver onde um set virou.\n\n• Escreva uma nota curta depois da partida e uma próxima meta. Sua próxima meta também aparece em Início.\n\n• Sua rivalidade (Pro) reúne todas as partidas contra um mesmo adversário: vitórias, sets, pontos e a sequência atual.\n\n• Filtre o Diário por adversário ou resultado para ver como você se sai contra cada jogador."
+    }
+  ]
+}

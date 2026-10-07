@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Score bijhouden op je telefoon",
+      "subtitle": "Geen horloge nodig.",
+      "category": "App-gids",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Open Wedstrijd, kies Deze telefoon en tik op Wedstrijd starten op telefoon.\n\n• Tik op de kant die de rally won: je tegenstander staat boven in oranje, jij onder in blauw.\n\n• De speler met de opslag krijgt een stip, met 1 van 2 of 2 van 2 onder de score. Vanaf 10-10 staat er om en om.\n\n• Een verkeerd punt draai je terug met de pijl in het midden.\n\n• Tik op Volledig scherm voor een groot scorebord met de telefoon op zijn kant, één helft per speler. Met Sluiten ga je terug.\n\n• Het scherm blijft aan tijdens de wedstrijd. Wordt de app afgesloten, dan staat de wedstrijd er nog als je hem weer opent."
+    },
+    {
+      "id": "101",
+      "title": "Horloge en telefoon samen",
+      "subtitle": "De een telt, de ander volgt.",
+      "category": "App-gids",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Start op het horloge en de telefoon toont live dezelfde score.\n\n• Er telt steeds maar één apparaat, dus geen punt wordt dubbel geteld.\n\n• Wisselen? Tik op de iPhone op Op telefoon tellen, of op het horloge op Hier tellen.\n\n• Valt de verbinding weg, dan gaat er niets verloren: de laatste stand komt binnen zodra de twee weer contact hebben.\n\n• Wedstrijden op het horloge worden als training in Apple Gezondheid bewaard, met hartslag, calorieën en afstand."
+    },
+    {
+      "id": "104",
+      "title": "Stemscheidsrechter",
+      "subtitle": "De score hardop, via je telefoon.",
+      "category": "App-gids",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Zet Stemscheidsrechter aan in Wedstrijd voorbereiden en kies de taal.\n\n• Na elke rally leest de telefoon de score voor, die van de speler met de opslag eerst: 7, 5. Ook als het horloge de score bijhoudt.\n\n• Sluit een Bluetooth-speaker aan als het lawaaiig is in de zaal.\n\n• Met Score uitspreken hoor je de games en punten wanneer je maar wilt."
+    },
+    {
+      "id": "103",
+      "title": "Wie heeft de eerste opslag?",
+      "subtitle": "Gebruik de ingebouwde dobbelsteen.",
+      "category": "App-gids",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Geen muntje nodig.\n\nTik in Wedstrijd voorbereiden op de dobbelsteen naast Eerste service: de app kiest willekeurig jou of je tegenstander. Met de pijlen ernaast wissel je de opslag met de hand.\n\nDaarna houdt de app de opslag voor je bij: twee keer per speler, vanaf 10-10 om en om, en de andere speler begint de volgende game."
+    },
+    {
+      "id": "105",
+      "title": "Vrienden, community en competities",
+      "subtitle": "Optioneel, inloggen met Apple of Google.",
+      "category": "App-gids",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Vraag een vriend om te bevestigen: zodra die accepteert, staat de wedstrijd in jullie beide logboeken, elk vanaf de eigen kant.\n\n• Kies bij een wedstrijd Delen met community: voeg een tekst toe en kies wie hem ziet. Notities en gezondheidsgegevens worden nooit gedeeld.\n\n• Competities: de organisator (Pro) maakt de competitie aan, nodigt spelers uit en stelt het speelschema op. Spelers doen gratis mee, spelen de wedstrijd en sturen de uitslag game voor game vanuit het wedstrijdscherm. Beide kanten bevestigen, de organisator keurt goed en de stand wordt bijgewerkt.\n\n• Voor het bijhouden van de score heb je nooit een account nodig."
+    },
+    {
+      "id": "201",
+      "title": "Zo werkt de telling",
+      "subtitle": "Games tot 11, met twee punten verschil.",
+      "category": "Regels",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Tafeltennis kent rallytelling: elke rally levert de winnaar een punt op, wie er ook opsloeg.\n\nEen game wint wie als eerste 11 punten haalt met minstens 2 punten voorsprong. Bij 10-10 (deuce) gaat het door tot een speler 2 punten voorstaat.\n\nEen wedstrijd gaat over best of 3, 5 of 7 games. Wie als eerste het benodigde aantal games wint, wint de wedstrijd.\n\nVroeger gingen games tot 21; de app biedt beide."
+    },
+    {
+      "id": "202",
+      "title": "Opslagregels",
+      "subtitle": "Twee keer per speler, vanaf 10-10 om en om.",
+      "category": "Regels",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "De opslag wisselt elke 2 punten. Bij deuce (10-10) wisselt hij na elk punt.\n\nVolgorde: speler A slaat 2 keer op, speler B 2 keer, dan weer speler A 2 keer, enzovoort.\n\nDe opgooi: de bal ligt op een open handpalm en wordt minstens 16 cm opgegooid, bijna verticaal en zonder effect. De ontvanger en de scheidsrechter moeten hem steeds kunnen zien.\n\nDe opslag moet eerst één keer op jouw helft stuiten, over het net gaan en één keer op de andere helft stuiten."
+    },
+    {
+      "id": "203",
+      "title": "Loting en van kant wisselen",
+      "subtitle": "Wie opslaat, en wanneer je wisselt.",
+      "category": "Regels",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "Wie als eerste opslaat, wordt door loting bepaald. De winnaar kiest: opslaan, ontvangen of de kant waar hij begint.\n\nNa elke game wisselt de opslag: wie in de ene game eerst ontving, slaat in de volgende game eerst op. De app regelt dat voor je.\n\nSpelers wisselen na elke game van kant. In de beslissende game (de 5e bij best of 5, de 7e bij best of 7) wisselen ze ook zodra een speler 5 punten heeft."
+    },
+    {
+      "id": "204",
+      "title": "Let en randbal",
+      "subtitle": "Wanneer een rally opnieuw wordt gespeeld.",
+      "category": "Regels",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Een let wordt gegeven als de opslag het net raakt en toch goed landt. De opslag wordt overgedaan en er wordt geen punt gescoord.\n\nEen randbal is goed: raakt de bal de bovenrand van de tafel, dan is hij in het spel.\n\nJe verliest een rally als je de bal raakt voordat hij op jouw helft stuit, de tafel aanraakt met je vrije hand, de tafel verschuift of de bal twee keer raakt."
+    },
+    {
+      "id": "301",
+      "title": "De opslag",
+      "subtitle": "Je eerste wapen.",
+      "category": "Techniek",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Een sterke opslag kan direct punten opleveren of een makkelijke aanval voorbereiden.\n\nOnderspin: strijk onder langs de bal. Je tegenstander moet hem optillen en dat geeft jou de aanval.\n\nZijeffect: strijk langs de zijkant van de bal. Hij maakt een boog en springt opzij bij het stuiten.\n\nKorte opslag: laat de bal aan de andere kant dicht bij het net landen, zodat je tegenstander hem niet hard kan aanvallen.\n\nOpslag zonder effect: maak dezelfde beweging als bij een effectopslag, maar raak de bal nauwelijks. Je tegenstander verwacht effect en leest hem verkeerd."
+    },
+    {
+      "id": "302",
+      "title": "De forehand topspin",
+      "subtitle": "Topspin die punten wint.",
+      "category": "Techniek",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "De forehand topspin is de krachtigste aanvalsslag in het tafeltennis. Veel topspin laat de bal duiken en na het stuiten naar voren springen.\n\nTechniek: begin laag, draai je heupen naar achteren en strijk de bal dan met een snelle onderarm en pols omhoog en naar voren. Eindig schuin voor je lichaam.\n\nTegen onderspin: open het blad en strijk meer omhoog, en versnel door het raakpunt heen.\n\nTegen topspin: sluit het blad iets en sla door de bal heen."
+    },
+    {
+      "id": "303",
+      "title": "Backhandslagen",
+      "subtitle": "Topspin, push en flip.",
+      "category": "Techniek",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "De backhand dekt het midden en de linkerkant van de tafel (voor rechtshandigen).\n\nBackhand topspin: gebruik de elleboog als draaipunt en klap de pols bij het raken naar voren en omhoog. Een compacte slag, stabiel in snelle rally's.\n\nPush: open tegen onderspin het blad en duw met een korte voorwaartse beweging onder door de bal. Zo blijft de bal laag.\n\nFlip: val een korte bal boven de tafel aan met een snelle polsbeweging, een goed antwoord op een korte opslag."
+    },
+    {
+      "id": "304",
+      "title": "Voetenwerk",
+      "subtitle": "Wees er eerder dan de bal.",
+      "category": "Techniek",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Punten duren fracties van een seconde, dus voetenwerk moet automatisch gaan.\n\nTweepas: bij middelgrote verplaatsingen stap je eerst met de voet die het dichtst bij de bal is, daarna zet je de andere voet bij in een stabiele houding.\n\nEenpas: bij kleine correcties schuif je één voet naar de bal.\n\nKruispas: bij grote verplaatsingen, vooral naar een wijde forehand, kruis je de achterste voet voorlangs.\n\nKeer na elke slag terug naar je basishouding, iets aan de backhandkant van het midden. Goed voetenwerk is belangrijker dan een krachtige slag."
+    },
+    {
+      "id": "401",
+      "title": "Rubbers en het batje",
+      "subtitle": "Wat de kanten doen.",
+      "category": "Materiaal",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Gladde rubber (noppen naar binnen): het meest gebruikt. Veel effect en snelheid; de keuze van de meeste clubspelers.\n\nKorte noppen: minder gevoelig voor effect, goed voor snel en vlak slaan dicht bij de tafel.\n\nLange noppen: draaien het effect om, zodat topspin terugkomt als onderspin. Lastig te lezen; geliefd bij verdedigers.\n\nAnti-spin: heel weinig grip, haalt het effect weg en brengt je tegenstander in verwarring.\n\nRubber en spons samen mogen maximaal 4 mm dik zijn. Eén kant van het batje moet rood zijn, de andere zwart."
+    },
+    {
+      "id": "501",
+      "title": "Wedstrijdtactiek",
+      "subtitle": "Opslaan, plaatsen, geduld houden.",
+      "category": "Tactiek",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Gebruik je opslag om je aanval voor te bereiden: kies opslagen die een bal terugbrengen die je met je beste slag kunt spelen.\n\nZoek de zwakke kant: heeft je tegenstander moeite met zware onderspin, sla die dan steeds weer kort op. Is de backhand zwakker, val daar aan.\n\nWissel de plaatsing af: wijde forehand, wijde backhand en recht op het lichaam. Het lichaam is de lastigste plek om terug te slaan.\n\nBepaal het tempo: in lange rally's wint vaak de speler die rustig blijft en op de korte bal wacht.\n\nBlijf kalm: punten zijn snel voorbij. Vergeet een slecht punt meteen en denk alleen aan de volgende opslag."
+    },
+    {
+      "id": "502",
+      "title": "Lees je logboek",
+      "subtitle": "Leer van je eigen wedstrijden.",
+      "category": "Tactiek",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Het wedstrijddetail toont elke game, de gewonnen en verloren punten en de Momentum-strook: één streepje per rally, zodat je ziet waar een game kantelde.\n\n• Schrijf na de wedstrijd een korte notitie en één volgend doel. Je volgende doel staat ook op Home.\n\n• Jullie rivaliteit (Pro) zet alle wedstrijden tegen één tegenstander bij elkaar: zeges, games, punten en de huidige reeks.\n\n• Filter het Logboek op tegenstander of uitslag om te zien hoe je het doet tegen elke speler."
+    }
+  ]
+}

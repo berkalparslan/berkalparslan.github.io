@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Lleva el marcador en el móvil",
+      "subtitle": "Sin necesidad de reloj.",
+      "category": "Guía de la app",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Abre Partido, elige Este móvil y toca Empezar partido en el móvil.\n\n• Toca el lado que ganó el punto: el rival está arriba en naranja y tú abajo en azul.\n\n• Quien saca está marcado con un puntito, con 1 de 2 o 2 de 2 bajo el marcador. Desde 10-10 indica uno cada uno.\n\n• Un punto mal anotado se deshace con la flecha del centro.\n\n• Toca Pantalla completa para ver un marcador grande con el móvil en horizontal, un jugador a cada lado. Salir vuelve a la vista normal.\n\n• La pantalla se mantiene encendida durante el partido. Si la app se cierra, el partido sigue ahí al volver a abrirla."
+    },
+    {
+      "id": "101",
+      "title": "Reloj y móvil a la vez",
+      "subtitle": "Uno lleva el marcador, el otro lo sigue.",
+      "category": "Guía de la app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Empieza en el reloj y el móvil muestra el mismo marcador en directo.\n\n• Solo un dispositivo lleva el marcador a la vez, así ningún punto se cuenta dos veces.\n\n• Para cambiar, toca Contar en el móvil en el iPhone, o Contar aquí en el reloj.\n\n• Si se corta la conexión, no se pierde nada: el último marcador llega en cuanto los dos vuelven a conectarse.\n\n• Los partidos en el reloj guardan un entrenamiento en Apple Salud con frecuencia cardiaca, calorías y distancia."
+    },
+    {
+      "id": "104",
+      "title": "Árbitro por voz",
+      "subtitle": "El marcador en voz alta, desde el móvil.",
+      "category": "Guía de la app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Activa Árbitro por voz en Preparar partido y elige el idioma.\n\n• Después de cada punto, el móvil canta el marcador, primero el de quien saca: 7, 5. También lo hace cuando es el reloj el que lleva el marcador.\n\n• Conecta un altavoz Bluetooth si hay mucho ruido en la sala.\n\n• Decir marcador lee los juegos y los puntos cuando quieras."
+    },
+    {
+      "id": "103",
+      "title": "¿Quién saca primero?",
+      "subtitle": "Usa el dado integrado.",
+      "category": "Guía de la app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "No hace falta moneda.\n\nEn Preparar partido, toca el dado junto a Primer saque: la app elige al azar entre tú y tu rival. Las flechas de al lado cambian el saque a mano.\n\nDespués, la app lleva el saque por ti: dos saques cada uno, uno cada uno desde 10-10, y el otro jugador empieza el siguiente juego."
+    },
+    {
+      "id": "105",
+      "title": "Amigos, comunidad y ligas",
+      "subtitle": "Opcional, iniciando sesión con Apple o Google.",
+      "category": "Guía de la app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Pide a un amigo que lo confirme: cuando acepta el resultado, el partido aparece en los dos diarios, cada uno desde su lado.\n\n• Compartir en la comunidad desde un partido: añade un texto y elige quién lo ve. Las notas y los datos de salud nunca se comparten.\n\n• Ligas: el organizador (Pro) crea la liga, invita a los jugadores y fija el calendario. Los jugadores se unen gratis, juegan el partido y envían el resultado juego a juego desde la pantalla del partido con Enviar resultado de liga. Los dos lados confirman, el organizador aprueba y la clasificación se actualiza.\n\n• Para llevar el marcador nunca necesitas una cuenta."
+    },
+    {
+      "id": "201",
+      "title": "Cómo se puntúa",
+      "subtitle": "Juegos a 11, ganando por dos.",
+      "category": "Reglas",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "El tenis de mesa usa puntuación continua: cada punto jugado suma para quien lo gana, saque quien saque.\n\nGana el juego el primer jugador que llega a 11 puntos con al menos 2 de ventaja. Con 10-10 se sigue jugando hasta que uno consiga 2 puntos de ventaja.\n\nUn partido se juega al mejor de 3, 5 o 7 juegos. Gana el partido quien antes consiga los juegos necesarios.\n\nCon las reglas antiguas los juegos eran a 21; la app permite ambos."
+    },
+    {
+      "id": "202",
+      "title": "Reglas del saque",
+      "subtitle": "Dos cada uno, y uno cada uno desde 10-10.",
+      "category": "Reglas",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "El saque cambia cada 2 puntos. Con 10-10, cambia después de cada punto.\n\nSecuencia: el jugador A saca 2, el jugador B saca 2, el jugador A saca 2, y así sucesivamente.\n\nEl lanzamiento: la pelota descansa en la palma abierta y se lanza hacia arriba al menos 16 cm, casi en vertical y sin efecto. Debe quedar visible para el receptor y el árbitro.\n\nEl saque debe botar una vez en tu campo, pasar la red y botar una vez en el campo contrario."
+    },
+    {
+      "id": "203",
+      "title": "El sorteo y el cambio de lado",
+      "subtitle": "Quién saca y cuándo cambiar de lado.",
+      "category": "Reglas",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "El derecho a sacar primero se decide por sorteo. El ganador elige sacar, restar o el lado en el que empezar.\n\nTras cada juego, el saque se alterna: quien restó primero en un juego saca primero en el siguiente. La app lo hace por ti.\n\nLos jugadores cambian de lado después de cada juego. En el juego decisivo (el 5.º al mejor de 5, el 7.º al mejor de 7) también cambian cuando un jugador llega a 5 puntos."
+    },
+    {
+      "id": "204",
+      "title": "Let y pelota en el borde",
+      "subtitle": "Cuándo se repite un punto.",
+      "category": "Reglas",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Se canta let cuando el saque toca la red y aun así cae bien. El saque se repite y no se anota ningún punto.\n\nLa pelota que toca el borde es buena: si toca el canto superior de la mesa, sigue en juego.\n\nSe pierde el punto al golpear la pelota antes de que bote en tu campo, tocar la mesa con la mano libre, mover la mesa o golpear la pelota dos veces."
+    },
+    {
+      "id": "301",
+      "title": "El saque",
+      "subtitle": "Tu primera arma.",
+      "category": "Técnica",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Un buen saque puede ganar puntos directos o preparar un ataque fácil.\n\nEfecto cortado: roza la pelota por debajo. El rival tiene que levantarla, y eso te deja atacar.\n\nEfecto lateral: roza la pelota por el lado. Hace curva y sale hacia un lado al botar.\n\nSaque corto: haz que la pelota caiga cerca de la red en el otro campo, para que el rival no pueda atacarla fuerte.\n\nSaque sin efecto: usa el mismo gesto que en un saque con efecto, pero apenas toca la pelota. El rival espera efecto y lo lee mal."
+    },
+    {
+      "id": "302",
+      "title": "El topspin de derecha",
+      "subtitle": "El efecto liftado que gana puntos.",
+      "category": "Técnica",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "El topspin de derecha es el golpe de ataque más potente del tenis de mesa. Mucho efecto liftado hace que la pelota caiga y salga disparada hacia delante tras el bote.\n\nTécnica: empieza abajo, gira la cadera hacia atrás y luego roza hacia arriba y hacia delante, con el antebrazo y la muñeca rápidos en el contacto. Termina cruzando el cuerpo.\n\nContra cortado: abre la pala y roza más hacia arriba, acelerando en el contacto.\n\nContra liftado: cierra un poco la pala y empuja a través de la pelota."
+    },
+    {
+      "id": "303",
+      "title": "Golpes de revés",
+      "subtitle": "Topspin, corte y flip.",
+      "category": "Técnica",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "El revés cubre el centro y el lado izquierdo de la mesa (para diestros).\n\nTopspin de revés: usa el codo como eje y suelta la muñeca hacia delante y arriba en el contacto. Un golpe compacto, estable en peloteos rápidos.\n\nCorte: contra cortado, abre la pala y empuja por debajo de la pelota con un movimiento corto hacia delante. Mantiene la pelota baja.\n\nFlip: ataca una pelota corta sobre la mesa con un golpe rápido de muñeca, una buena respuesta a un saque corto."
+    },
+    {
+      "id": "304",
+      "title": "Juego de pies",
+      "subtitle": "Llega antes que la pelota.",
+      "category": "Técnica",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Los puntos duran fracciones de segundo, así que el juego de pies tiene que ser automático.\n\nDos pasos: para desplazamientos medios, mueve primero el pie más cercano a la pelota y luego lleva el otro hasta una posición equilibrada.\n\nUn paso: para pequeños ajustes, desliza un pie hacia la pelota.\n\nPaso cruzado: para desplazamientos largos, sobre todo hacia una derecha abierta, cruza el pie de atrás por delante.\n\nTras cada golpe, vuelve a tu posición de espera, un poco hacia el lado del revés respecto al centro. Un buen juego de pies importa más que un golpe potente."
+    },
+    {
+      "id": "401",
+      "title": "Gomas y pala",
+      "subtitle": "Qué hace cada cara.",
+      "category": "Material",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Goma lisa (invertida): la más común. Mucho efecto y velocidad; la usa la mayoría de jugadores de club.\n\nPicos cortos: les afecta menos el efecto, buenos para golpes rápidos y planos cerca de la mesa.\n\nPicos largos: invierten el efecto, así que un liftado vuelve como cortado. Difíciles de leer; los usan los defensores.\n\nAntitopspin: casi no agarra, anula el efecto y confunde al rival.\n\nLa goma y la esponja juntas pueden medir como máximo 4 mm. Una cara de la pala debe ser roja y la otra negra."
+    },
+    {
+      "id": "501",
+      "title": "Táctica de partido",
+      "subtitle": "Saca, coloca y ten paciencia.",
+      "category": "Táctica",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Saca para preparar tu ataque: elige saques que te devuelvan una pelota que puedas atacar con tu mejor golpe.\n\nBusca el lado débil: si al rival le cuesta el cortado fuerte, sácale corto una y otra vez. Si su revés es más flojo, ataca ahí.\n\nVaría la colocación: derecha abierta, revés abierto y directo al cuerpo. El cuerpo es la zona más difícil de devolver.\n\nControla el ritmo: en peloteos largos, suele ganar quien se mantiene estable y espera la pelota corta.\n\nMantén la calma: los puntos acaban rápido. Olvida enseguida un mal punto y piensa solo en el siguiente saque."
+    },
+    {
+      "id": "502",
+      "title": "Lee tu diario",
+      "subtitle": "Aprende de tus propios partidos.",
+      "category": "Táctica",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• El detalle del partido muestra cada juego, los puntos ganados y perdidos, y la franja de Dinámica: una marca por punto, para ver dónde cambió un juego.\n\n• Escribe una nota breve después del partido y un próximo objetivo. Tu próximo objetivo también aparece en Inicio.\n\n• Tu rivalidad (Pro) reúne todos los partidos contra un mismo rival: victorias, juegos, puntos y la racha actual.\n\n• Filtra el Diario por rival o resultado para ver cómo te va contra cada jugador."
+    }
+  ]
+}

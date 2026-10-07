@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Skoru telefonda tut",
+      "subtitle": "Saat gerekmez.",
+      "category": "Uygulama Rehberi",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Maç sekmesini aç, Bu telefon'u seç ve Maçı telefonda başlat'a dokun.\n\n• Rallinin kazananı olan tarafa dokun: rakip üstte turuncu, sen altta mavisin.\n\n• Servis atan oyuncu bir noktayla işaretlenir, skorun altında 1/2 ya da 2/2 yazar. 10-10'dan itibaren birer servis yazar.\n\n• Yanlış girilen sayıyı ortadaki okla geri al.\n\n• Telefonu yan çevirip her oyuncuya bir yarı ayıran büyük skor tabelası için Tam ekran'a dokun. Çık ile geri dönersin.\n\n• Maç boyunca ekran açık kalır. Uygulama kapanırsa, tekrar açtığında maç kaldığı yerde seni bekler."
+    },
+    {
+      "id": "101",
+      "title": "Saat ve telefon birlikte",
+      "subtitle": "Biri skoru tutar, diğeri takip eder.",
+      "category": "Uygulama Rehberi",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Maçı saatte başlat, telefon aynı skoru canlı gösterir.\n\n• Skoru aynı anda yalnızca bir cihaz tutar, böylece hiçbir sayı iki kez sayılmaz.\n\n• Değiştirmek için iPhone'da Telefonda say'a ya da saatte Burada say'a dokun.\n\n• Bağlantı koparsa hiçbir şey kaybolmaz: iki cihaz yeniden bağlanır bağlanmaz son skor gelir.\n\n• Saatte oynanan maçlar nabız, kalori ve mesafeyle birlikte Apple Sağlık'a antrenman olarak kaydedilir."
+    },
+    {
+      "id": "104",
+      "title": "Sesli hakem",
+      "subtitle": "Skor, telefondan yüksek sesle.",
+      "category": "Uygulama Rehberi",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Maç Hazırlığı'nda Sesli hakem'i aç ve dili seç.\n\n• Her ralliden sonra telefon skoru okur, önce servis atanın skoru: 7, 5. Skoru saat tutarken de bunu yapar.\n\n• Salon gürültülüyse bir Bluetooth hoparlör bağla.\n\n• Skoru söyle, oyunları ve sayıları istediğin an okur."
+    },
+    {
+      "id": "103",
+      "title": "İlk servisi kim atar?",
+      "subtitle": "Yerleşik zarı kullan.",
+      "category": "Uygulama Rehberi",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Yazı tura atmana gerek yok.\n\nMaç Hazırlığı'nda İlk servis'in yanındaki zara dokun: uygulama seni ya da rakibini rastgele seçer. Yanındaki oklarla servis atanı elle değiştirebilirsin.\n\nSonrasında servisi uygulama takip eder: herkese ikişer servis, 10-10'dan itibaren birer servis ve sonraki oyuna diğer oyuncu başlar."
+    },
+    {
+      "id": "105",
+      "title": "Arkadaşlar, topluluk ve ligler",
+      "subtitle": "İsteğe bağlı, Apple ya da Google ile giriş.",
+      "category": "Uygulama Rehberi",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Bir arkadaşından onay iste: kabul ettiğinde maç ikinizin günlüğüne de, her biri kendi tarafından görünecek şekilde girer.\n\n• Bir maçtan Toplulukta paylaş: bir açıklama ekle ve kimlerin göreceğini seç. Notlar ve sağlık verileri asla paylaşılmaz.\n\n• Ligler: organizatör (Pro) ligi kurar, oyuncuları davet eder ve fikstürü belirler. Oyuncular ücretsiz katılır, maçı oynar ve sonucu maç ekranından oyun oyun gönderir. İki taraf onaylar, organizatör kabul eder, puan tablosu güncellenir.\n\n• Skor tutmak için asla hesap gerekmez."
+    },
+    {
+      "id": "201",
+      "title": "Sayı sistemi nasıl işler?",
+      "subtitle": "11 sayılık oyunlar, iki sayı farkla.",
+      "category": "Kurallar",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Masa tenisinde her ralli sayıdır: servisi kim atmış olursa olsun, rallinin kazananı sayıyı alır.\n\nBir oyunu, en az 2 sayı farkla 11'e ilk ulaşan oyuncu kazanır. 10-10 eşitlikte (düce) oyunculardan biri 2 sayı öne geçene kadar oyun sürer.\n\nBir maç 3, 5 ya da 7 oyun üzerinden oynanır. Gereken sayıda oyunu ilk alan oyuncu maçı kazanır.\n\nEski kurallarda oyunlar 21'e oynanırdı; uygulama ikisini de sunar."
+    },
+    {
+      "id": "202",
+      "title": "Servis kuralları",
+      "subtitle": "İkişer servis, 10-10'dan sonra birer.",
+      "category": "Kurallar",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "Servis her 2 sayıda bir değişir. Düce durumunda (10-10) her sayıdan sonra değişir.\n\nSıra: A oyuncusu 2 servis atar, B oyuncusu 2 servis atar, sonra yine A 2 servis atar ve böyle devam eder.\n\nTop atma: top açık avuç içinde durur ve en az 16 cm, neredeyse dikey ve döndürülmeden yukarı atılır. Karşılayan oyuncu ve hakem topu her an görebilmelidir.\n\nServis önce kendi tarafında bir kez sekmeli, fileyi geçmeli ve karşı tarafta bir kez sekmelidir."
+    },
+    {
+      "id": "203",
+      "title": "Kura ve taraf değiştirme",
+      "subtitle": "Kim servis atar, ne zaman taraf değişir.",
+      "category": "Kurallar",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "İlk servis hakkı kurayla belirlenir. Kurayı kazanan servis atmayı, servis karşılamayı ya da başlayacağı tarafı seçer.\n\nHer oyundan sonra servis sırası değişir: bir oyunda ilk servisi karşılayan oyuncu, sonraki oyunda ilk servisi atar. Bunu uygulama senin yerine yapar.\n\nOyuncular her oyundan sonra taraf değiştirir. Belirleyici oyunda (5 oyunluk maçta 5., 7 oyunluk maçta 7. oyun) oyunculardan biri 5 sayıya ulaştığında da taraf değiştirilir."
+    },
+    {
+      "id": "204",
+      "title": "Let ve kenar topu",
+      "subtitle": "Ralli ne zaman tekrarlanır?",
+      "category": "Kurallar",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Servis fileye değip yine de doğru yere düşerse let verilir. Servis tekrarlanır ve sayı verilmez.\n\nKenar topu geçerlidir: top masanın üst kenarına değerse oyun devam eder.\n\nTopa kendi tarafında sekmeden vurmak, serbest elinle masaya dokunmak, masayı oynatmak ya da topa iki kez vurmak ralliyi kaybettirir."
+    },
+    {
+      "id": "301",
+      "title": "Servis",
+      "subtitle": "İlk silahın.",
+      "category": "Teknik",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Güçlü bir servis doğrudan sayı kazandırabilir ya da kolay bir atağın önünü açar.\n\nKesme: topun altını sıyır. Rakip topu kaldırmak zorunda kalır, bu da sana atak fırsatı verir.\n\nYan falso: topun yanını sıyır. Top kavis çizer ve sekince yana kaçar.\n\nKısa servis: topu karşı tarafta fileye yakın düşür, böylece rakip sert atak yapamaz.\n\nFalsosuz servis: falsolu servisle aynı hareketi yap ama topa zar zor değ. Rakip falso bekler ve topu yanlış okur."
+    },
+    {
+      "id": "302",
+      "title": "Forehand topspin",
+      "subtitle": "Sayı kazandıran topspin.",
+      "category": "Teknik",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Forehand topspin, masa tenisinin en güçlü atak vuruşudur. Yoğun topspin topun alçalmasını ve sektikten sonra öne fırlamasını sağlar.\n\nTeknik: alçaktan başla, kalçanı geriye döndür, sonra temas anında hızlı bir ön kol ve bilek hareketiyle topu yukarı ve öne doğru sıyır. Hareketi vücudunun önünden çaprazda bitir.\n\nKesmeye karşı: raketi aç, daha çok yukarı doğru sıyır ve temas boyunca hızlan.\n\nTopspine karşı: raketi biraz kapat ve topun içinden geçerek vur."
+    },
+    {
+      "id": "303",
+      "title": "Backhand vuruşları",
+      "subtitle": "Topspin, kesme ve flick.",
+      "category": "Teknik",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Backhand, masanın ortasını ve sol tarafını kapsar (sağ elini kullananlar için).\n\nBackhand topspin: dirseği eksen olarak kullan ve temas anında bileği öne ve yukarı doğru çırp. Kompakt bir vuruştur, hızlı rallilerde istikrarlıdır.\n\nKesme: kesmeli topa karşı raketi aç ve kısa bir ileri hareketle topun altından it. Topu alçak tutar.\n\nFlick: masanın üzerindeki kısa topa hızlı bir bilek hareketiyle atak yap; kısa servise iyi bir cevaptır."
+    },
+    {
+      "id": "304",
+      "title": "Ayak hareketleri",
+      "subtitle": "Toptan önce orada ol.",
+      "category": "Teknik",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Sayılar saniyenin kesirleri içinde biter, bu yüzden ayak hareketlerin otomatik olmalı.\n\nİki adım: orta mesafelerde önce topa yakın olan ayağınla adım at, sonra diğer ayağını getirip dengeli bir duruşa geç.\n\nTek adım: küçük düzeltmelerde bir ayağını topa doğru kaydır.\n\nÇapraz adım: büyük hareketlerde, özellikle geniş forehand'a giderken, arka ayağını öne doğru çaprazla.\n\nHer vuruştan sonra hazır duruşuna dön, ortanın biraz backhand tarafında. İyi ayak hareketi, güçlü bir vuruştan daha önemlidir."
+    },
+    {
+      "id": "401",
+      "title": "Lastikler ve raket",
+      "subtitle": "Yüzeyler ne işe yarar?",
+      "category": "Ekipman",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Düz lastik (pürüzsüz yüzü dışta): en yaygın olanı. Bol falso ve hız verir; kulüp oyuncularının çoğu bunu kullanır.\n\nKısa pin: falsodan daha az etkilenir, masaya yakın hızlı ve düz vuruşlar için iyidir.\n\nUzun pin: falsoyu tersine çevirir, topspin kesme olarak geri döner. Okunması zordur; savunma oyuncuları kullanır.\n\nAnti-spin: çok az tutuş sağlar, falsoyu öldürür ve rakibin kafasını karıştırır.\n\nLastik ve sünger birlikte en fazla 4 mm kalınlıkta olabilir. Raketin bir yüzü kırmızı, diğeri siyah olmalıdır."
+    },
+    {
+      "id": "501",
+      "title": "Maç taktikleri",
+      "subtitle": "Servis at, yerleştir, sabırlı ol.",
+      "category": "Taktik",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Atağını hazırlamak için servis at: en iyi vuruşunla karşılayabileceğin bir top getirecek servisleri seç.\n\nZayıf tarafı bul: rakip yoğun kesmede zorlanıyorsa tekrar tekrar kısa kesme servis at. Backhand'i daha zayıfsa oraya atak yap.\n\nYerleşimi değiştir: geniş forehand, geniş backhand ve doğrudan vücuda. Vücut, karşılanması en zor noktadır.\n\nTempoyu kontrol et: uzun rallilerde istikrarlı kalıp kısa topu bekleyen oyuncu çoğu zaman kazanır.\n\nSakin kal: sayılar çabuk biter. Kötü bir sayıyı hemen unut ve yalnızca sonraki servisi düşün."
+    },
+    {
+      "id": "502",
+      "title": "Günlüğünü oku",
+      "subtitle": "Kendi maçlarından öğren.",
+      "category": "Taktik",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Maç ayrıntısı her oyunu, kazanılan ve kaybedilen sayıları ve Gidişat şeridini gösterir: her ralli için bir işaret, böylece oyunun nerede döndüğünü görürsün.\n\n• Maçtan sonra kısa bir not ve bir sonraki hedefini yaz. Sonraki hedefin Ana Sayfa'da da görünür.\n\n• Rekabetin (Pro), bir rakiple oynadığın tüm maçları bir araya getirir: galibiyetler, oyunlar, sayılar ve güncel seri.\n\n• Her oyuncuya karşı nasıl gittiğini görmek için Günlük'ü rakibe ya da sonuca göre filtrele."
+    }
+  ]
+}

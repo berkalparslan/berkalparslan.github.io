@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Segna il punteggio sul telefono",
+      "subtitle": "Non serve l'orologio.",
+      "category": "Guida all'app",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Apri Partita, scegli Questo telefono e tocca Inizia partita sul telefono.\n\n• Tocca il lato che ha vinto lo scambio: l'avversario è in alto in arancione, tu sei in basso in blu.\n\n• Chi serve è indicato da un pallino, con 1 di 2 o 2 di 2 sotto il punteggio. Dal 10-10 indica uno a testa.\n\n• Un punto sbagliato si annulla con la freccia al centro.\n\n• Tocca Schermo intero per un tabellone grande con il telefono in orizzontale, un giocatore per lato. Esci torna alla vista normale.\n\n• Lo schermo resta acceso durante la partita. Se l'app si chiude, la partita è ancora lì quando la riapri."
+    },
+    {
+      "id": "101",
+      "title": "Orologio e telefono insieme",
+      "subtitle": "Uno tiene il punteggio, l'altro lo segue.",
+      "category": "Guida all'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Inizia sull'orologio e il telefono mostra lo stesso punteggio in tempo reale.\n\n• Solo un dispositivo alla volta tiene il punteggio, così nessun punto viene contato due volte.\n\n• Per passare dall'uno all'altro, tocca Conta sul telefono sull'iPhone, oppure Conta qui sull'orologio.\n\n• Se la connessione cade, non si perde nulla: l'ultimo punteggio arriva appena i due dispositivi si ricollegano.\n\n• Le partite sull'orologio salvano un allenamento in Apple Salute con frequenza cardiaca, calorie e distanza."
+    },
+    {
+      "id": "104",
+      "title": "Arbitro vocale",
+      "subtitle": "Il punteggio ad alta voce, dal telefono.",
+      "category": "Guida all'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Attiva Arbitro vocale in Preparazione partita e scegli la lingua.\n\n• Dopo ogni scambio il telefono annuncia il punteggio, prima quello di chi serve: 7, 5. Lo fa anche quando è l'orologio a tenere il punteggio.\n\n• Collega uno speaker Bluetooth se la palestra è rumorosa.\n\n• Annuncia punteggio legge set e punti quando vuoi."
+    },
+    {
+      "id": "103",
+      "title": "Chi serve per primo?",
+      "subtitle": "Usa il dado integrato.",
+      "category": "Guida all'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Non serve una moneta.\n\nIn Preparazione partita, tocca il dado accanto a Primo servizio: l'app sceglie a caso te o il tuo avversario. Le frecce accanto cambiano a mano chi serve.\n\nPoi l'app tiene il conto del servizio al posto tuo: due servizi a testa, uno a testa dal 10-10, e l'altro giocatore inizia il set successivo."
+    },
+    {
+      "id": "105",
+      "title": "Amici, community e leghe",
+      "subtitle": "Facoltativo, con accesso tramite Apple o Google.",
+      "category": "Guida all'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Chiedi conferma a un amico per un risultato: quando accetta, la partita compare nei diari di entrambi, ciascuno dal proprio lato.\n\n• Condividi nella community da una partita: aggiungi una didascalia e scegli chi può vederla. Note e dati sulla salute non vengono mai condivisi.\n\n• Leghe: l'organizzatore (Pro) crea la lega, invita i giocatori e stabilisce il calendario. I giocatori si iscrivono gratis, giocano la partita e inviano il risultato set per set dalla schermata della partita con Invia risultato di lega. Entrambi confermano, l'organizzatore approva e la classifica si aggiorna.\n\n• Per tenere il punteggio non serve mai un account."
+    },
+    {
+      "id": "201",
+      "title": "Come funziona il punteggio",
+      "subtitle": "Set agli 11, con due punti di scarto.",
+      "category": "Regole",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Nel tennistavolo ogni scambio assegna un punto a chi lo vince, indipendentemente da chi ha servito.\n\nVince il set il primo giocatore che arriva a 11 punti con almeno 2 punti di vantaggio. Sul 10-10 si continua finché un giocatore non va avanti di 2.\n\nUna partita si gioca al meglio dei 3, 5 o 7 set. Vince la partita chi conquista per primo il numero di set necessario.\n\nCon le vecchie regole i set erano ai 21; l'app offre entrambe le opzioni."
+    },
+    {
+      "id": "202",
+      "title": "Regole del servizio",
+      "subtitle": "Due a testa, poi uno a testa dal 10-10.",
+      "category": "Regole",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "Il servizio cambia ogni 2 punti. Sul 10-10 cambia dopo ogni punto.\n\nSequenza: il giocatore A serve 2 volte, il giocatore B serve 2 volte, il giocatore A serve 2 volte, e così via.\n\nIl lancio: la pallina poggia sul palmo aperto e viene lanciata in alto per almeno 16 cm, quasi in verticale e senza effetto. Deve restare visibile a chi riceve e all'arbitro.\n\nIl servizio deve rimbalzare una volta nel tuo campo, superare la rete e rimbalzare una volta nel campo avversario."
+    },
+    {
+      "id": "203",
+      "title": "Sorteggio e cambio campo",
+      "subtitle": "Chi serve e quando cambiare lato.",
+      "category": "Regole",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "Il diritto di servire per primo si decide per sorteggio. Chi vince sceglie se servire, ricevere o da quale lato iniziare.\n\nDopo ogni set il servizio si alterna: chi ha ricevuto per primo in un set serve per primo in quello successivo. L'app lo fa per te.\n\nI giocatori cambiano campo dopo ogni set. Nel set decisivo (il 5° al meglio dei 5, il 7° al meglio dei 7) cambiano campo anche quando un giocatore arriva a 5 punti."
+    },
+    {
+      "id": "204",
+      "title": "Let e palla sul bordo",
+      "subtitle": "Quando uno scambio si ripete.",
+      "category": "Regole",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Si chiama let quando il servizio tocca la rete e cade comunque correttamente. Il servizio si ripete e non si assegna alcun punto.\n\nLa palla sul bordo è buona: se la pallina tocca il bordo superiore del tavolo, è in gioco.\n\nSi perde lo scambio colpendo la pallina prima che rimbalzi nel tuo campo, toccando il tavolo con la mano libera, muovendo il tavolo o colpendo la pallina due volte."
+    },
+    {
+      "id": "301",
+      "title": "Il servizio",
+      "subtitle": "La tua prima arma.",
+      "category": "Tecnica",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Un buon servizio può far vincere punti diretti o preparare un attacco facile.\n\nTaglio sotto: spazzola la pallina da sotto. L'avversario deve sollevarla, e questo prepara il tuo attacco.\n\nEffetto laterale: spazzola il lato della pallina. Curva e schizza di lato al rimbalzo.\n\nServizio corto: fai cadere la pallina vicino alla rete nell'altro campo, così l'avversario non può attaccarla forte.\n\nServizio senza effetto: usa lo stesso movimento di un servizio con effetto, ma tocca appena la pallina. L'avversario si aspetta l'effetto e lo legge male."
+    },
+    {
+      "id": "302",
+      "title": "Il topspin di dritto",
+      "subtitle": "L'effetto che fa punto.",
+      "category": "Tecnica",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Il topspin di dritto è il colpo d'attacco più potente del tennistavolo. Un forte effetto in avanti fa scendere la pallina e la fa scattare in avanti dopo il rimbalzo.\n\nTecnica: parti basso, ruota i fianchi indietro, poi spazzola verso l'alto e in avanti con avambraccio e polso veloci al contatto. Chiudi il movimento davanti al corpo.\n\nContro il taglio sotto: apri la racchetta e spazzola di più verso l'alto, accelerando nel contatto.\n\nContro il topspin: chiudi un po' la racchetta e spingi attraverso la pallina."
+    },
+    {
+      "id": "303",
+      "title": "I colpi di rovescio",
+      "subtitle": "Topspin, push e flip.",
+      "category": "Tecnica",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Il rovescio copre il centro e il lato sinistro del tavolo (per i destrimani).\n\nTopspin di rovescio: usa il gomito come perno e fai scattare il polso in avanti e verso l'alto al contatto. Un colpo compatto, stabile negli scambi veloci.\n\nPush: contro il taglio sotto, apri la racchetta e spingi sotto la pallina con un breve movimento in avanti. Tiene la pallina bassa.\n\nFlip: attacca una pallina corta sopra il tavolo con un rapido movimento di polso, una buona risposta a un servizio corto."
+    },
+    {
+      "id": "304",
+      "title": "Il gioco di gambe",
+      "subtitle": "Arriva prima della pallina.",
+      "category": "Tecnica",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "I punti durano frazioni di secondo, quindi il gioco di gambe deve essere automatico.\n\nDue passi: per spostamenti medi, muovi prima il piede più vicino alla pallina, poi porta l'altro in una posizione equilibrata.\n\nUn passo: per piccole correzioni, fai scivolare un piede verso la pallina.\n\nPasso incrociato: per spostamenti ampi, soprattutto verso un dritto molto angolato, incrocia il piede dietro portandolo davanti.\n\nDopo ogni colpo torna in posizione di attesa, un po' spostato verso il lato del rovescio rispetto al centro. Un buon gioco di gambe conta più di un colpo potente."
+    },
+    {
+      "id": "401",
+      "title": "Gomme e racchetta",
+      "subtitle": "Cosa fanno i due lati.",
+      "category": "Attrezzatura",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Gomma liscia (puntinata interna): la più comune. Tanto effetto e velocità; la usa la maggior parte dei giocatori di club.\n\nPuntinata corta: risente meno dell'effetto, adatta a colpi veloci e piatti vicino al tavolo.\n\nPuntinata lunga: inverte l'effetto, quindi il topspin torna come taglio sotto. Difficile da leggere; la usano i difensori.\n\nAntitop: pochissima presa, annulla l'effetto e confonde l'avversario.\n\nGomma e spugna insieme possono avere uno spessore massimo di 4 mm. Un lato della racchetta deve essere rosso, l'altro nero."
+    },
+    {
+      "id": "501",
+      "title": "Tattica di partita",
+      "subtitle": "Servi, piazza, sii paziente.",
+      "category": "Tattica",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Servi per preparare l'attacco: scegli servizi che ti tornino indietro come una pallina da colpire con il tuo colpo migliore.\n\nTrova il lato debole: se l'avversario fatica con il taglio sotto pesante, servigli corto ancora e ancora. Se il rovescio è più debole, attacca lì.\n\nVaria il piazzamento: dritto angolato, rovescio angolato e direttamente sul corpo. Il corpo è il punto più difficile da rimandare.\n\nControlla il ritmo: negli scambi lunghi spesso vince chi resta costante e aspetta la pallina corta.\n\nResta calmo: i punti finiscono in fretta. Dimentica subito un punto perso e pensa solo al prossimo servizio."
+    },
+    {
+      "id": "502",
+      "title": "Leggi il tuo diario",
+      "subtitle": "Impara dalle tue partite.",
+      "category": "Tattica",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Il dettaglio della partita mostra ogni set, i punti vinti e persi e la barra del Momentum: un segno per ogni scambio, così vedi dove è girato un set.\n\n• Scrivi una breve nota dopo la partita e un prossimo obiettivo. Il prossimo obiettivo compare anche in Home.\n\n• La tua rivalità (Pro) riunisce tutte le partite contro lo stesso avversario: vittorie, set, punti e la serie in corso.\n\n• Filtra il Diario per avversario o risultato per vedere come vai contro ogni giocatore."
+    }
+  ]
+}

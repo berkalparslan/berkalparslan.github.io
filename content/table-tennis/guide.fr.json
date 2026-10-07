@@ -1,0 +1,148 @@
+{
+  "articles": [
+    {
+      "id": "100",
+      "title": "Compter les points sur ton téléphone",
+      "subtitle": "Pas besoin de montre.",
+      "category": "Guide de l'app",
+      "icon": "iphone",
+      "colorHex": "#007AFF",
+      "content": "• Ouvre Match, choisis Ce téléphone et touche Lancer le match sur le téléphone.\n\n• Touche le côté qui a gagné l'échange : ton adversaire est en haut en orange, toi en bas en bleu.\n\n• Le serveur est signalé par un point, avec 1 sur 2 ou 2 sur 2 sous le score. À partir de 10-10, il affiche un service chacun.\n\n• Un point erroné s'annule avec la flèche au milieu.\n\n• Touche Plein écran pour un grand tableau, téléphone à l'horizontale, une moitié par joueur. Quitter te ramène en arrière.\n\n• L'écran reste allumé pendant le match. Si l'app se ferme, le match t'attend à la prochaine ouverture."
+    },
+    {
+      "id": "101",
+      "title": "Montre et téléphone ensemble",
+      "subtitle": "L'un compte, l'autre suit.",
+      "category": "Guide de l'app",
+      "icon": "applewatch",
+      "colorHex": "#FF2D55",
+      "content": "• Lance le match sur la montre et le téléphone affiche le même score en direct.\n\n• Un seul appareil compte à la fois, donc aucun point n'est compté deux fois.\n\n• Pour changer, touche Compter sur le téléphone sur l'iPhone, ou Compter ici sur la montre.\n\n• Si la connexion coupe, rien n'est perdu : le dernier score arrive dès que les deux appareils se retrouvent.\n\n• Les matchs joués sur la montre enregistrent un entraînement dans Apple Santé avec fréquence cardiaque, calories et distance."
+    },
+    {
+      "id": "104",
+      "title": "Arbitre vocal",
+      "subtitle": "Le score à voix haute, depuis le téléphone.",
+      "category": "Guide de l'app",
+      "icon": "speaker.wave.2.fill",
+      "colorHex": "#5856D6",
+      "content": "• Active Arbitre vocal dans Préparation du match et choisis la langue.\n\n• Après chaque échange, le téléphone annonce le score, celui du serveur en premier : 7, 5. Il le fait aussi quand c'est la montre qui compte.\n\n• Connecte une enceinte Bluetooth si la salle est bruyante.\n\n• Annoncer le score te donne les manches et les points quand tu veux."
+    },
+    {
+      "id": "103",
+      "title": "Qui sert en premier ?",
+      "subtitle": "Utilise le dé intégré.",
+      "category": "Guide de l'app",
+      "icon": "dice.fill",
+      "colorHex": "#FFCC00",
+      "content": "Pas besoin de pièce.\n\nDans Préparation du match, touche le dé à côté de Premier service : l'app choisit au hasard toi ou ton adversaire. Les flèches à côté changent le serveur à la main.\n\nEnsuite, l'app suit le service pour toi : deux services chacun, un chacun à partir de 10-10, et l'autre joueur commence la manche suivante."
+    },
+    {
+      "id": "105",
+      "title": "Amis, communauté et ligues",
+      "subtitle": "Facultatif, connexion avec Apple ou Google.",
+      "category": "Guide de l'app",
+      "icon": "person.2.fill",
+      "colorHex": "#AF52DE",
+      "content": "• Demander à un ami de confirmer un résultat : dès qu'il accepte, le match figure dans vos deux carnets, chacun de son point de vue.\n\n• Partager avec la communauté depuis un match : ajoute une légende et choisis qui le voit. Les notes et les données de santé ne sont jamais partagées.\n\n• Ligues : l'organisateur (Pro) crée la ligue, invite les joueurs et fixe le calendrier. Les joueurs participent gratuitement, jouent le match et envoient le résultat manche par manche depuis l'écran du match. Les deux camps confirment, l'organisateur valide, le classement se met à jour.\n\n• Compter les points ne demande jamais de compte."
+    },
+    {
+      "id": "201",
+      "title": "Comment se compte le score",
+      "subtitle": "Manches en 11 points, deux points d'écart.",
+      "category": "Règles",
+      "icon": "11.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Au tennis de table, chaque échange rapporte un point à celui qui le gagne, peu importe qui a servi.\n\nUne manche est gagnée par le premier joueur à 11 points avec au moins 2 points d'avance. À 10-10 (égalité), le jeu continue jusqu'à ce qu'un joueur mène de 2 points.\n\nUn match se joue au meilleur des 3, 5 ou 7 manches. Le premier joueur qui remporte le nombre de manches requis gagne le match.\n\nAutrefois, les manches se jouaient en 21 points ; l'app propose les deux."
+    },
+    {
+      "id": "202",
+      "title": "Règles du service",
+      "subtitle": "Deux chacun, puis un chacun à 10-10.",
+      "category": "Règles",
+      "icon": "arrow.triangle.2.circlepath",
+      "colorHex": "#007AFF",
+      "content": "Le service change tous les 2 points. À égalité (10-10), il change après chaque point.\n\nOrdre : le joueur A sert 2 fois, le joueur B sert 2 fois, puis de nouveau A 2 fois, et ainsi de suite.\n\nLe lancer : la balle repose sur la paume ouverte et est lancée à au moins 16 cm, presque verticalement et sans effet. Elle doit rester visible pour le relanceur et l'arbitre.\n\nLe service doit rebondir une fois de ton côté, passer le filet et rebondir une fois de l'autre côté."
+    },
+    {
+      "id": "203",
+      "title": "Tirage au sort et changement de côté",
+      "subtitle": "Qui sert, et quand changer de côté.",
+      "category": "Règles",
+      "icon": "arrow.left.arrow.right",
+      "colorHex": "#FF9500",
+      "content": "Le droit de servir en premier est tiré au sort. Le gagnant choisit de servir, de recevoir ou le côté où il commence.\n\nAprès chaque manche, le service alterne : le joueur qui a reçu en premier dans une manche sert en premier dans la suivante. L'app s'en charge pour toi.\n\nLes joueurs changent de côté après chaque manche. Dans la manche décisive (la 5e au meilleur des 5, la 7e au meilleur des 7), ils changent aussi de côté quand un joueur atteint 5 points."
+    },
+    {
+      "id": "204",
+      "title": "Let et balle de bord",
+      "subtitle": "Quand un échange est rejoué.",
+      "category": "Règles",
+      "icon": "flag.fill",
+      "colorHex": "#30B0C7",
+      "content": "Il y a let quand le service touche le filet et retombe quand même correctement. Le service est rejoué et aucun point n'est marqué.\n\nUne balle de bord est bonne : si la balle touche l'arête supérieure de la table, elle est en jeu.\n\nTu perds l'échange si tu frappes la balle avant qu'elle rebondisse de ton côté, si tu touches la table avec ta main libre, si tu déplaces la table ou si tu frappes la balle deux fois."
+    },
+    {
+      "id": "301",
+      "title": "Le service",
+      "subtitle": "Ta première arme.",
+      "category": "Technique",
+      "icon": "bolt.fill",
+      "colorHex": "#FF2D55",
+      "content": "Un bon service peut gagner des points directement ou préparer une attaque facile.\n\nCoupé : brosse sous la balle. Ton adversaire doit la remonter, ce qui prépare ton attaque.\n\nLatéral : brosse le côté de la balle. Elle décrit une courbe et dévie sur le côté au rebond.\n\nService court : fais rebondir la balle près du filet de l'autre côté, pour que ton adversaire ne puisse pas l'attaquer fort.\n\nService sans effet : fais le même geste qu'un service avec effet, mais touche à peine la balle. Ton adversaire attend de l'effet et se trompe."
+    },
+    {
+      "id": "302",
+      "title": "Le top spin en coup droit",
+      "subtitle": "L'effet lifté qui gagne des points.",
+      "category": "Technique",
+      "icon": "arrow.up.forward.circle.fill",
+      "colorHex": "#34C759",
+      "content": "Le top spin en coup droit est le coup d'attaque le plus puissant du tennis de table. Un fort effet lifté fait plonger la balle, puis la projette vers l'avant après le rebond.\n\nTechnique : pars bas, tourne les hanches vers l'arrière, puis brosse la balle vers le haut et l'avant avec un avant-bras et un poignet rapides au contact. Termine le geste en travers du corps.\n\nContre le coupé : ouvre la raquette et brosse davantage vers le haut en accélérant au contact.\n\nContre le top spin : ferme un peu la raquette et frappe à travers la balle."
+    },
+    {
+      "id": "303",
+      "title": "Les coups de revers",
+      "subtitle": "Top spin, poussette et flip.",
+      "category": "Technique",
+      "icon": "arrow.uturn.backward.circle.fill",
+      "colorHex": "#5856D6",
+      "content": "Le revers couvre le milieu et le côté gauche de la table (pour les droitiers).\n\nTop spin en revers : utilise le coude comme pivot et fouette le poignet vers l'avant et le haut au contact. Un geste compact, régulier dans les échanges rapides.\n\nPoussette : contre le coupé, ouvre la raquette et pousse sous la balle avec un court mouvement vers l'avant. La balle reste basse.\n\nFlip : attaque une balle courte au-dessus de la table d'un geste rapide du poignet, une bonne réponse à un service court."
+    },
+    {
+      "id": "304",
+      "title": "Le jeu de jambes",
+      "subtitle": "Sois là avant la balle.",
+      "category": "Technique",
+      "icon": "figure.walk",
+      "colorHex": "#FF9500",
+      "content": "Les points durent une fraction de seconde, alors le jeu de jambes doit être automatique.\n\nDeux pas : pour les déplacements moyens, avance d'abord le pied le plus proche de la balle, puis ramène l'autre pour retrouver une position équilibrée.\n\nUn pas : pour les petites corrections, glisse un pied vers la balle.\n\nPas croisé : pour les grands déplacements, surtout vers le coup droit excentré, croise le pied arrière devant.\n\nAprès chaque coup, reviens en position d'attente, un peu côté revers par rapport au centre. Un bon jeu de jambes compte plus qu'un coup puissant."
+    },
+    {
+      "id": "401",
+      "title": "Revêtements et raquette",
+      "subtitle": "Ce que font les faces.",
+      "category": "Matériel",
+      "icon": "circle.lefthalf.filled",
+      "colorHex": "#FF3B30",
+      "content": "Revêtement lisse (picots à l'intérieur) : le plus courant. Beaucoup d'effet et de vitesse ; utilisé par la plupart des joueurs de club.\n\nPicots courts : moins sensibles à l'effet, bons pour frapper vite et à plat près de la table.\n\nPicots longs : inversent l'effet, le top spin revient en coupé. Difficiles à lire ; utilisés par les défenseurs.\n\nAnti-top : très peu d'adhérence, il tue l'effet et déroute l'adversaire.\n\nLe revêtement et la mousse réunis ne doivent pas dépasser 4 mm d'épaisseur. Une face de la raquette doit être rouge, l'autre noire."
+    },
+    {
+      "id": "501",
+      "title": "Tactique de match",
+      "subtitle": "Servir, placer, rester patient.",
+      "category": "Tactique",
+      "icon": "brain.head.profile",
+      "colorHex": "#AF52DE",
+      "content": "Sers pour préparer ton attaque : choisis des services qui te renvoient une balle que tu peux jouer avec ton meilleur coup.\n\nTrouve le point faible : si ton adversaire a du mal avec le coupé appuyé, sers-le court encore et encore. Si son revers est plus faible, attaque de ce côté.\n\nVarie le placement : coup droit excentré, revers excentré et droit sur le corps. Le corps est l'endroit le plus difficile à remettre.\n\nMaîtrise le tempo : dans les longs échanges, celui qui reste régulier et attend la balle courte gagne souvent.\n\nReste calme : les points vont vite. Oublie tout de suite un mauvais point et pense seulement au service suivant."
+    },
+    {
+      "id": "502",
+      "title": "Lis ton carnet",
+      "subtitle": "Apprends de tes propres matchs.",
+      "category": "Tactique",
+      "icon": "chart.bar.fill",
+      "colorHex": "#34C759",
+      "content": "• Le détail du match montre chaque manche, les points gagnés et perdus, et la bande Dynamique : une marque par échange, pour voir où une manche a basculé.\n\n• Écris une courte note après le match et un prochain objectif. Ton prochain objectif s'affiche aussi dans Accueil.\n\n• Ta rivalité (Pro) regroupe tous les matchs contre un même adversaire : victoires, manches, points et la série en cours.\n\n• Filtre le Carnet par adversaire ou par résultat pour voir comment tu t'en sors contre chaque joueur."
+    }
+  ]
+}
