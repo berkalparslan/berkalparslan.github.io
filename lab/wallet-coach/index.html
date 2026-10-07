@@ -243,6 +243,10 @@ code{font:12px ui-monospace,Menlo,monospace}
       <div class="toolbar">
         <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz">
         <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="pro">Pro</option><option value="free">Pro olmayan</option><option value="ios">iOS</option><option value="android">Android</option><option value="notonb">Tanıtım yarım</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="new">Dönemde kurulan</option></select>
+        <select id="uPlat"></select><select id="uVer"></select><select id="uReg"></select><select id="uLang"></select>
+        <select id="uPro"><option value="">Pro: hepsi</option><option value="1">Pro</option><option value="0">Pro olmayan</option></select>
+        <select id="uNotif"><option value="">Bildirim izni: hepsi</option><option value="1">İzin açık</option><option value="0">İzin kapalı</option><option value="?">Bilinmiyor</option></select>
+        <select id="uSeen"><option value="">Son görülme: hepsi</option><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30">Son 30 gün</option><option value="-30">30+ gün sessiz</option></select>
         <span class="muted" id="uCount"></span>
       </div>
       <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
@@ -994,14 +998,36 @@ const U_COLS = [
 ];
 let uSort = { k: "lastSeen", dir: -1 };
 $("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+["uPlat", "uVer", "uReg", "uLang", "uPro", "uNotif", "uSeen"].forEach(id => $(id).onchange = renderUsers);
+function fillSel(id, label, vals, name = v => v) {
+  const el = $(id), cur = el.value, cnt = {};
+  vals.forEach(v => { if (v) cnt[v] = (cnt[v] || 0) + 1; });
+  el.innerHTML = `<option value="">${label}: hepsi</option>` + Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([v, n]) => `<option value="${esc(v)}">${esc(name(v))} (${fmt(n)})</option>`).join("");
+  el.value = cnt[cur] ? cur : "";
+}
+function seenOk(i, v) {
+  if (!v) return true;
+  const t = +ts(i.lastSeen) || 0, d = +v;
+  if (d < 0) return t < Date.now() - 30 * 864e5;
+  if (d === 1) { const g = new Date(); g.setHours(0, 0, 0, 0); return t >= +g; }
+  return t >= Date.now() - d * 864e5;
+}
+function extraOk(i) {
+  const v = id => $(id).value, n = v("uNotif");
+  return (!v("uPlat") || i.platform === v("uPlat")) && (!v("uVer") || i.appVersion === v("uVer")) && (!v("uReg") || i.region === v("uReg"))
+    && (!v("uLang") || i.language === v("uLang")) && (!v("uPro") || !!i.pro === (v("uPro") === "1"))
+    && (!n || (n === "?" ? typeof i.notif !== "boolean" : i.notif === (n === "1"))) && seenOk(i, v("uSeen"));
+}
 function renderUsers() {
+  fillSel("uPlat", "Platform", installs.map(i => i.platform), platName); fillSel("uVer", "Sürüm", installs.map(i => i.appVersion));
+  fillSel("uReg", "Bölge", installs.map(i => i.region)); fillSel("uLang", "Dil", installs.map(i => i.language));
   const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = rangeFrom();
   const keep = {
     all: () => true, online: isOnline, pro: i => i.pro, free: i => !i.pro, ios: i => i.platform === "ios", android: i => i.platform === "android",
     notonb: i => !i.onboarded, paywall: i => ev(i, "pw_view") > 0, tester: i => i.tester, new: i => ts(i.firstSeen) >= from,
   }[f] || (() => true);
   const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[2];
-  const rows = installs.filter(i => keep(i) && (!q || [i.id, i.language, i.region, i.appVersion, i.build, i.device, i.currency, i.tz, i.platform].join(" ").toLowerCase().includes(q)))
+  const rows = installs.filter(i => keep(i) && extraOk(i) && (!q || [i.id, i.language, i.region, i.appVersion, i.build, i.device, i.currency, i.tz, i.platform].join(" ").toLowerCase().includes(q)))
     .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
   $("uCount").textContent = `${fmt(rows.length)} kurulum`;
   $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;

@@ -179,6 +179,8 @@
     .paneller img { width: 22px; height: 22px; border-radius: 6px; flex: none; }
     .paneller a span { flex: 1; }
     .paneller a small { color: var(--faint); font-size: 13px; }
+    .panel-git { display: inline-block; margin-left: 6px; padding: 1px 7px; border: 1px solid var(--border); border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--subtle); white-space: nowrap; vertical-align: middle; }
+    .panel-git:hover { color: var(--text); text-decoration: none; background: var(--surface-2); }
     .yan-alt { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; }
     .yan-alt button, .yan-alt a { font-size: 13px; padding: 5px 11px; border-radius: 9px; border: 1px solid var(--border); color: var(--subtle); background: var(--surface); }
     .yan-alt a:hover, .yan-alt button:hover { color: var(--text); text-decoration: none; border-color: var(--border-2); }
@@ -594,6 +596,10 @@
         <a href="/lab/omubumu/" target="_blank" rel="noopener"><img src="/assets/lab-icons/omubumu-180.png" alt="" /><span>O mu Bu mu?</span><small>↗</small></a>
         <a href="/lab/matchday/" target="_blank" rel="noopener"><img src="/assets/lab-icons/matchday-180.png" alt="" /><span>Matchday</span><small>↗</small></a>
         <a href="/lab/oncopace/" target="_blank" rel="noopener"><img src="/assets/lab-icons/oncopace-180.png" alt="" /><span>Oncopace</span><small>↗</small></a>
+        <a href="/lab/bam-sports/" target="_blank" rel="noopener"><img src="/assets/lab-icons/bam-sports-180.png" alt="" /><span>Bam Sports</span><small>↗</small></a>
+        <a href="/lab/leafbook/" target="_blank" rel="noopener"><img src="/assets/lab-icons/leafbook-180.png" alt="" /><span>Leafbook</span><small>↗</small></a>
+        <a href="/lab/tasbih-tally/" target="_blank" rel="noopener"><img src="/assets/lab-icons/tasbih-tally-180.png" alt="" /><span>Tasbih Tally</span><small>↗</small></a>
+        <a href="/lab/nika/" target="_blank" rel="noopener"><img src="/assets/lab-icons/nika-180.png" alt="" /><span>Nika</span><small>↗</small></a>
       </nav></div>
       <div class="yan-alt">
         <button id="yenile" title="Çekim komutunu kopyalar; terminale yapıştır">yenile</button>
@@ -973,6 +979,10 @@
     const puanYazi = a => ((S.platform !== "and" ? puanSatir(a.yorum, "iOS") : "") + (S.platform !== "ios" ? puanSatir(a.androidYorum, "Play") : "")) || '<span class="zero">·</span>';
     const katmanEtiket = k => `<span class="etiket ${KATMAN[k].s}">${KATMAN[k].e}</span>`;
     const platYazi = a => `<span class="plat">${a.ios ? '<span class="ios">iOS</span>' : ""}${a.android ? '<span class="and">AND</span>' : ""}</span>`;
+    /* Uygulamanın kendi lab paneli: tek tıkla açılır (yeni sekme). */
+    const PANEL_YOL = { "walletcoach": "wallet-coach", "tasbih-tally": "tasbih-tally", "tennis-padel": "bam-sports", "rally-badminton": "bam-sports", "rally-table-tennis": "bam-sports", "pickleball": "bam-sports", "volleyball": "bam-sports",
+      "o-mu-bu-mu": "omubumu", "leafbook": "leafbook", "matchday": "matchday", "daily-whisper": "daily-whisper", "oncopace": "oncopace", "nika": "nika" };
+    const panelBtn = a => { const y = a && PANEL_YOL[a.slug]; return y ? `<a class="panel-git" href="/lab/${y}/" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="${esc(a.ad)} panelini aç">Panel ↗</a>` : ""; };
     const storeLink = a => {
       const id = a.vault?.store; const l = [];
       if (a.ios && /^id\d+/.test(id || "")) l.push(`<a href="https://apps.apple.com/app/${id}" target="_blank" rel="noopener">App Store ↗</a>`);
@@ -1177,7 +1187,7 @@
           <div class="panel scroll">
             <table><thead><tr><th>Uygulama</th><th>Durum</th><th class="num">İndirme</th><th class="num">Aktif 7g</th><th class="num">Aktif 30g</th><th class="num">Gelir</th><th class="num">Satın alma</th><th>Puan</th><th class="num">Çökme</th><th class="num">Canlı</th><th>Sonraki adım</th></tr></thead>
             <tbody>${satirlar.map(({ a, d, ak, cr, pa }) => { const o = d.o; return `<tr data-app="${esc(a.slug)}" class="${S.app === a.slug ? "secili" : ""}">
-              <td><span class="ad-hucre">${ikonKucuk(a)}<span>${esc(a.ad)}${platYazi(a)}</span></span></td>
+              <td><span class="ad-hucre">${ikonKucuk(a)}<span>${esc(a.ad)}${platYazi(a)}${panelBtn(a)}</span></span></td>
               <td>${katmanEtiket(d.katman)}${surumSorunlu(a) ? ` ${surumEtiket(a)}` : ""}</td>
               <td class="num ${o.indirme ? "" : "zero"}">${sayi(o.indirme)}${o.fark !== null ? `<span class="alt ${o.fark > 0 ? "up" : o.fark < 0 ? "down" : ""}">${o.fark > 0 ? "▲" : o.fark < 0 ? "▼" : "="}${Math.abs(o.fark)}%</span>` : ""}</td>
               <td class="num ${ak.g7 ? "" : "zero"}">${ak.g7 ? sayi(ak.g7) : "·"}</td>
@@ -1297,7 +1307,7 @@
           <h3>Uygulama bazında</h3>
           <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th class="num">Şu an</th><th class="num">Son 15 dk</th><th class="num">Son 1 saat</th><th class="num">Son 24 saat</th><th>Ölçüm</th><th>Panel</th></tr></thead>
             <tbody>${uyg.map(a => { const ap = D.apps.find(x => x.slug === a.slug); const n = (a.liste || []).filter(x => x.canli).length; return `<tr data-app="${esc(a.slug)}">
-              <td><span class="ad-hucre">${ap ? ikonKucuk(ap) : ""}<span>${esc(a.ad)}</span></span></td>
+              <td><span class="ad-hucre">${ap ? ikonKucuk(ap) : ""}<span>${esc(a.ad)}${panelBtn(ap)}</span></span></td>
               <td class="num ${n ? "up" : "zero"}">${n ? `<span class="nokta-canli"></span>${n}` : "0"}</td>
               <td class="num">${a.son15 ?? "·"}</td><td class="num">${a.son60 ?? "·"}</td><td class="num">${a.son24 ?? "·"}</td>
               <td>${a.hata ? `<span class="down">${esc(a.hata)}</span>` : a.tur === "acilis" ? '<span class="zero">yalnız açılış (kalp atışı yok, son 10 dk açanlar listede)</span>' : '<span class="zero">kalp atışı, 60 sn</span>'}</td>
@@ -1663,7 +1673,7 @@
           <div class="panel scroll">
             <table><thead><tr><th>Uygulama</th><th>Katman</th><th>Durum</th><th>Model</th><th class="num">İndirme</th><th class="num">Satın alma</th><th class="num">Gelir</th><th class="num">₺/indirme</th><th>Puan</th><th>iOS sürüm</th><th>Servisler</th><th>Dil</th></tr></thead>
             <tbody>${l.map(({ a, d }) => { const p = a.profil || {}; return `<tr data-app="${esc(a.slug)}">
-              <td>${esc(a.ad)}${platYazi(a)}<span class="alt">${esc(p.kategori || "·")}</span></td>
+              <td>${esc(a.ad)}${platYazi(a)}${panelBtn(a)}<span class="alt">${esc(p.kategori || "·")}</span></td>
               <td>${katmanEtiket(d.katman)}</td>
               <td>${esc(a.vault?.durum || "·")}</td>
               <td><span class="etiket e-model">${MODEL[p.model] || "?"}</span>${p.reklam ? ' <span class="etiket e-gri" title="AdMob">reklam</span>' : ""}</td>
@@ -1699,7 +1709,7 @@
       const p = a.profil || {}, o = d.o, f = o.fark, cn = canliSay().app[a.slug] || 0;
       return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
         <div class="ust">${ikonHtml(a)}
-          <div class="adlar"><b>${esc(a.ad)}</b><small>${esc(p.kategori || "·")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
+          <div class="adlar"><b>${esc(a.ad)}</b>${panelBtn(a)}<small>${esc(p.kategori || "·")} · ${MODEL[p.model] || "?"}${a.ios ? " · iOS" : ""}${a.android ? " · Play" : ""}</small></div>
           ${cn ? `<span class="etiket e-canli" title="şu an uygulamada"><span class="nokta-canli"></span>${cn}</span>` : ""}</div>
         <div class="buyuk"><span class="n ${o.indirme ? "" : "zero"}">${sayi(o.indirme)}</span><span class="e">indirme</span>
           ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
@@ -1763,7 +1773,7 @@
       /* Kimlik kartı */
       kareler.push(`<div class="kare genis t-lila serbest">
         <div class="kahraman">${ikonHtml(a)}<div style="min-width:0;flex:1">
-          <h3>${esc(a.ad)}</h3>
+          <h3>${esc(a.ad)}${panelBtn(a)}</h3>
           <div class="etiketler">${katmanEtiket(d.katman)}<span class="etiket e-model">${MODEL[p.model] || "model ?"}${p.fiyat ? `, ${esc(p.fiyat)}` : ""}</span>${a.ios ? '<span class="etiket e-gri">iOS</span>' : ""}${a.android ? '<span class="etiket e-gri">Play</span>' : ""}${surumEtiket(a)}${p.reklam ? '<span class="etiket e-gri">AdMob</span>' : ""}</div>
         </div></div>
         <div class="alt-satir">${esc(d.neden.join(" · "))}</div>
@@ -1977,7 +1987,7 @@
           <div class="katman-kart">
             <header><b>${katmanEtiket(g.k)} <span style="margin-left:6px">${g.l.length} uygulama</span></b><small>${KATMAN[g.k].a}</small></header>
             ${g.l.map(({ a, d }) => `<div class="uyg-satir" data-app="${esc(a.slug)}">
-              <div class="ust"><b>${esc(a.ad)}</b><span class="rakam">${sayi(d.o.indirme)} indirme · ${d.o.gelirTl ? tl(d.o.gelirTl) : "0 ₺"}${d.o.puan !== null ? ` · ★${d.o.puan}` : ""}</span></div>
+              <div class="ust"><b>${esc(a.ad)}${panelBtn(a)}</b><span class="rakam">${sayi(d.o.indirme)} indirme · ${d.o.gelirTl ? tl(d.o.gelirTl) : "0 ₺"}${d.o.puan !== null ? ` · ★${d.o.puan}` : ""}</span></div>
               <div class="neden">${esc(a.profil?.not || d.neden.join(" · "))}</div>
               ${d.adimlar[0] ? `<div class="sonraki" style="justify-content:space-between"><span>${d.adimlar[0].ne}</span>${kopyaDugme(komut(a, [d.adimlar[0]]))}</div>` : ""}
               ${g.k === "odak" || g.k === "buyut" ? `<div class="kanal">Kanal: ${esc(d.kanal)}</div>` : ""}
@@ -2061,7 +2071,7 @@
           <h3>Kim nerede <span class="acik">· mavi: bağlı · sarı: reklam geliri</span></h3>
           <div class="panel scroll">
             <table class="matris"><thead><tr><th>Uygulama</th>${matrisKol.map(k => `<th style="text-align:center">${esc(D.servisler[k].ad.replace("Google Play Console", "Play").replace("App Store Connect", "ASC").replace("Firebase Analytics", "Firebase").replace("iCloud / CloudKit", "iCloud").replace("MongoDB Atlas", "Atlas"))}</th>`).join("")}</tr></thead>
-            <tbody>${apps.map(a => `<tr data-app="${esc(a.slug)}"><td>${esc(a.ad)}${platYazi(a)}</td>${matrisKol.map(k => {
+            <tbody>${apps.map(a => `<tr data-app="${esc(a.slug)}"><td>${esc(a.ad)}${platYazi(a)}${panelBtn(a)}</td>${matrisKol.map(k => {
               const var_ = (a.profil.servisler || []).includes(k) || (k === "asc" && a.ios) || (k === "play" && a.android);
               const rek = k === "admob" && a.profil.reklam;
               return `<td class="nokta"><span class="${rek ? "reklam" : var_ ? "" : "bos"}"></span></td>`; }).join("")}</tr>`).join("")}</tbody></table>

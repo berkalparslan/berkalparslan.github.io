@@ -766,14 +766,22 @@
       const anon = users.filter((u) => u.isAnonymous).length;
       const kosuSay = {}; for (const r of runs) kosuSay[r.uid] = (kosuSay[r.uid] || 0) + 1;
       const platformlarListe = [...new Set(users.map((u) => u.platform || "?"))];
+      const sayac = (f) => { const m = {}; for (const u of users) { const k = f(u); m[k] = (m[k] || 0) + 1; } return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+      const TIER = { pro: "Pro", noads: "Reklamsız", free: "Ücretsiz", "?": "bilinmiyor" };
+      const gunOnce = (u) => { const d = u.lastSeenAt?.toDate?.(); return d ? (Date.now() - d.getTime()) / 864e5 : 9999; };
+      const sonGrup = (u) => { const d = u.lastSeenAt?.toDate?.(); if (!d) return "s30"; const g = new Date(); g.setHours(0, 0, 0, 0); return [d >= g ? "s1" : "", gunOnce(u) <= 7 ? "s7" : "", gunOnce(u) <= 30 ? "s30i" : "s30"].filter(Boolean).join(" "); };
       return `<p class="ipucu">Uygulamanın <code>users/</code> profil belgeleri, son görülene göre ilk 500. Anonim: <b>${anon}</b> · Girişli: <b>${users.length - anon}</b> · Aralıkta aktif: <b>${users.filter((u) => sonra(u.lastSeenAt, t)).length}</b>. Firebase Auth'taki tam liste <a href="https://console.firebase.google.com/project/thisone-ba533/authentication/users" target="_blank" rel="noopener">konsolda</a>.</p>
       <div class="arac">
         <input type="search" id="ara" placeholder="Kimlik ya da ad ara…">
         <select id="kplatform"><option value="">Tüm platformlar</option>${platformlarListe.map((p) => `<option value="${esc(p)}">${esc(pAd(p))}</option>`).join("")}</select>
+        <select id="ksurum"><option value="">Sürüm: hepsi</option>${sayac((u) => u.appVersion || "?").map(([v, n]) => `<option value="${esc(v)}">${esc(v)} (${n})</option>`).join("")}</select>
+        <select id="kkatman"><option value="">Pro: hepsi</option>${sayac((u) => u.tier || "?").map(([v, n]) => `<option value="${esc(v)}">${esc(TIER[v] || v)} (${n})</option>`).join("")}</select>
+        <select id="kson"><option value="">Son görülme: hepsi</option><option value="s1">Bugün</option><option value="s7">Son 7 gün</option><option value="s30i">Son 30 gün</option><option value="s30">30+ gün sessiz</option></select>
+        <span class="ipucu" id="ksay">${users.length} kullanıcı</span>
         <select id="ktur"><option value="">Hepsi</option><option value="anon">Yalnız anonim</option><option value="girisli">Yalnız girişli</option><option value="oynayan">Yalnız oynayanlar</option></select>
       </div>
       <div class="tablo"><table id="liste"><tr><th>Kimlik</th><th>Ad</th><th>Platform</th><th>Sürüm</th><th>Oyun</th><th>Son görülme</th><th>Kayıt</th></tr>
-      ${users.map((u) => `<tr class="tiklanir" data-kullanici="${esc(u.id)}" data-ara="${esc((u.id + " " + (u.displayName || "")).toLowerCase())}" data-kat="${esc(u.platform || "?")}" data-tur="${u.isAnonymous ? "anon" : "girisli"}${kosuSay[u.id] ? " oynayan" : ""}"><td class="mono">${esc(u.id.slice(0, 10))}</td><td>${esc(u.displayName || (u.isAnonymous ? "anonim" : "—"))}</td><td>${esc(pAd(u.platform || "?"))}</td><td>${esc(u.appVersion || "—")}</td><td>${kosuSay[u.id] || 0}</td><td>${nekadar(u.lastSeenAt)}</td><td>${tarih(u.createdAt)}</td></tr>`).join("")}</table></div>`;
+      ${users.map((u) => `<tr class="tiklanir" data-kullanici="${esc(u.id)}" data-ara="${esc((u.id + " " + (u.displayName || "")).toLowerCase())}" data-kat="${esc(u.platform || "?")}" data-surum="${esc(u.appVersion || "?")}" data-katman="${esc(u.tier || "?")}" data-son="${sonGrup(u)}" data-tur="${u.isAnonymous ? "anon" : "girisli"}${kosuSay[u.id] ? " oynayan" : ""}"><td class="mono">${esc(u.id.slice(0, 10))}</td><td>${esc(u.displayName || (u.isAnonymous ? "anonim" : "—"))}</td><td>${esc(pAd(u.platform || "?"))}</td><td>${esc(u.appVersion || "—")}</td><td>${kosuSay[u.id] || 0}</td><td>${nekadar(u.lastSeenAt)}</td><td>${tarih(u.createdAt)}</td></tr>`).join("")}</table></div>`;
     }
 
     // ---- kullanıcı çekmecesi -------------------------------------------
@@ -879,16 +887,21 @@
       ara && (ara.oninput = suz); kat && (kat.onchange = suz);
 
       // Kullanıcılar sayfasının kendi süzgeçleri (platform ve tür).
-      const kp = $("#kplatform"), kt = $("#ktur");
+      const kp = $("#kplatform"), kt = $("#ktur"), ks = $("#ksurum"), kk = $("#kkatman"), kn = $("#kson");
       if (kp || kt) {
         const suzK = () => {
-          const t = (ara?.value || "").toLowerCase(), p = kp?.value || "", tur = kt?.value || "";
+          const t = (ara?.value || "").toLowerCase(), p = kp?.value || "", tur = kt?.value || "", sv = ks?.value || "", kv = kk?.value || "", nv = kn?.value || "";
+          let say = 0;
           document.querySelectorAll("#liste tr[data-kullanici]").forEach((tr) => {
-            const ok = tr.dataset.ara.includes(t) && (!p || tr.dataset.kat === p) && (!tur || tr.dataset.tur.split(" ").includes(tur));
+            const ok = tr.dataset.ara.includes(t) && (!p || tr.dataset.kat === p) && (!tur || tr.dataset.tur.split(" ").includes(tur))
+              && (!sv || tr.dataset.surum === sv) && (!kv || tr.dataset.katman === kv) && (!nv || tr.dataset.son.split(" ").includes(nv));
             tr.style.display = ok ? "" : "none";
+            if (ok) say++;
           });
+          if ($("#ksay")) $("#ksay").textContent = `${say} kullanıcı`;
         };
         ara && (ara.oninput = suzK); kp && (kp.onchange = suzK); kt && (kt.onchange = suzK);
+        ks && (ks.onchange = suzK); kk && (kk.onchange = suzK); kn && (kn.onchange = suzK);
       }
       document.querySelectorAll("[data-kullanici]").forEach((tr) => (tr.onclick = () => kullaniciAc(tr.dataset.kullanici)));
 

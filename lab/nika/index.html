@@ -249,6 +249,10 @@ table.strings .pl{font-size:11px;color:var(--soft);font-weight:700}
       <div class="toolbar">
         <input id="uSearch" placeholder="Ara: kurulum, dil, bölge, sürüm, cihaz, hesap, alan">
         <select id="uFilter"><option value="all">Hepsi</option><option value="online">Online</option><option value="premium">Premium</option><option value="free">Premium olmayan</option><option value="cloud">Bulutta (hesaplı)</option><option value="local">Yalnız cihazda</option><option value="helper">Yardımcı</option><option value="paywall">Paywall görmüş</option><option value="tester">Test cihazı</option><option value="store">Mağaza</option><option value="new">Dönemde kurulan</option></select>
+        <select id="uPlat"></select><select id="uVer"></select><select id="uReg"></select><select id="uLang"></select>
+        <select id="uPrem"><option value="">Premium: hepsi</option><option value="1">Premium</option><option value="0">Premium olmayan</option></select>
+        <select id="uAcc"><option value="">Hesap: hepsi</option><option value="1">Hesaplı (bulutta)</option><option value="0">Hesapsız</option></select>
+        <select id="uSeen"><option value="">Son görülme: hepsi</option><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30">Son 30 gün</option><option value="-30">30+ gün sessiz</option></select>
         <span class="muted" id="uCount"></span>
       </div>
       <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
@@ -867,15 +871,37 @@ const U_COLS = [
 ];
 let uSort = { k: "last_seen", dir: -1 };
 $("uSearch").oninput = () => render("users"); $("uFilter").onchange = () => render("users");
+["uPlat", "uVer", "uReg", "uLang", "uPrem", "uAcc", "uSeen"].forEach(id => $(id).onchange = () => render("users"));
+function fillSel(id, label, vals, name = v => v) {
+  const el = $(id), cur = el.value, cnt = {};
+  vals.forEach(v => { if (v) cnt[v] = (cnt[v] || 0) + 1; });
+  el.innerHTML = `<option value="">${label}: hepsi</option>` + Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([v, n]) => `<option value="${esc(v)}">${esc(name(v))} (${fmt(n)})</option>`).join("");
+  el.value = cnt[cur] ? cur : "";
+}
+function seenOk(i, v) {
+  if (!v) return true;
+  const t = +ts(i.last_seen) || 0, d = +v;
+  if (d < 0) return t < Date.now() - 30 * 864e5;
+  if (d === 1) { const g = new Date(); g.setHours(0, 0, 0, 0); return t >= +g; }
+  return t >= Date.now() - d * 864e5;
+}
+function extraOk(i) {
+  const v = id => $(id).value;
+  return (!v("uPlat") || i.platform === v("uPlat")) && (!v("uVer") || i.app_version === v("uVer")) && (!v("uReg") || i.region === v("uReg"))
+    && (!v("uLang") || i.language === v("uLang")) && (!v("uPrem") || !!i.premium === (v("uPrem") === "1"))
+    && (!v("uAcc") || !!i.cloud === (v("uAcc") === "1")) && seenOk(i, v("uSeen"));
+}
 function renderUsers(d) {
   const list = d.users || [];
+  fillSel("uPlat", "Platform", list.map(i => i.platform), platName); fillSel("uVer", "Sürüm", list.map(i => i.app_version));
+  fillSel("uReg", "Bölge", list.map(i => i.region)); fillSel("uLang", "Dil", list.map(i => i.language));
   const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value, from = Date.now() - days() * 864e5;
   const keep = {
     all: () => true, online: isOnline, premium: i => i.premium, free: i => !i.premium, cloud: i => i.cloud, local: i => !i.cloud, helper: i => i.role === "helper",
     paywall: i => +i.pw_views > 0, tester: i => i.tester, store: i => !i.tester, new: i => ts(i.first_seen) >= from,
   }[f] || (() => true);
   const col = U_COLS.find(c => c[0] === uSort.k) || U_COLS[2];
-  const rows = list.filter(i => keep(i) && (!q || [i.id, i.language, i.region, i.app_version, i.build, i.device, i.tz, i.platform, i.user_id, i.space_id].join(" ").toLowerCase().includes(q)))
+  const rows = list.filter(i => keep(i) && extraOk(i) && (!q || [i.id, i.language, i.region, i.app_version, i.build, i.device, i.tz, i.platform, i.user_id, i.space_id].join(" ").toLowerCase().includes(q)))
     .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * uSort.dir; });
   $("uCount").textContent = `${fmt(rows.length)} / ${fmt(d.total)} kurulum`;
   $("uHead").innerHTML = `<tr><th>Kurulum</th>${U_COLS.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
@@ -1026,7 +1052,20 @@ const ROUTE_AD = { guests: "Davetliler", memories: "Anılar", music: "Müzik", s
 const DASH_RE = /[\u2013\u2014]/;
 const audienceOf = () => ({ ...($("pAud").value === "testers" ? { testers: true } : {}), ...($("pLang").value ? { lang: $("pLang").value } : {}), ...($("pPlat").value ? { platform: $("pPlat").value } : {}) });
 const audText = a => [a?.testers ? "Test cihazları" : "Herkes", a?.lang ? (LANG[a.lang] || a.lang) : null, a?.platform ? platName(a.platform) : null].filter(Boolean).join(" · ");
-let previewTimer = null;
+let previewTimer = null, pushDv = {};
+// Platform split: from the preview if it gives one, otherwise the chosen platform,
+// otherwise scaled from the device totals (an estimate).
+function pushSplit(r) {
+  const n = +r.devices || 0, pl = $("pPlat").value;
+  let ios, and;
+  if (pl === "ios") { ios = n; and = 0; }
+  else if (pl === "android") { ios = 0; and = n; }
+  else {
+    const bp = pushDv.byPlatform || {}, a = +bp.android || 0, t = (+bp.ios || 0) + a;
+    and = t ? Math.round(n * a / t) : 0; ios = n - and;
+  }
+  return `Yaklaşık ${fmt(n)} kişi: ${fmt(ios)} iOS, ${fmt(and)} Android`;
+}
 function pushPreview() {
   $("pvTitle").textContent = $("pTitle").value.trim() || "Nika";
   $("pvBody").textContent = $("pBody").value.trim() || "Metin";
@@ -1035,7 +1074,7 @@ function pushPreview() {
   $("pSend").disabled = bad || !$("pBody").value.trim();
   clearTimeout(previewTimer);
   previewTimer = setTimeout(async () => {
-    try { const r = await api("/v1/admin/push/preview", { method: "POST", body: { audience: audienceOf() } }); $("pCount").textContent = `${fmt(r.devices)} cihaza gidecek`; $("pSend").dataset.n = r.devices; }
+    try { const r = await api("/v1/admin/push/preview", { method: "POST", body: { audience: audienceOf() } }); $("pCount").textContent = `${fmt(r.devices)} cihaza gidecek. ${pushSplit(r)}`; $("pSend").dataset.n = r.devices; }
     catch (e) { $("pCount").textContent = "Sayı alınamadı"; }
   }, 250);
 }
@@ -1059,7 +1098,7 @@ $("pSend").onclick = async () => {
   finally { $("pSend").disabled = false; }
 };
 function renderPush(d) {
-  const dv = d.devices || {};
+  const dv = d.devices || {}; pushDv = dv;
   $("pushState").innerHTML = d.apns?.configured
     ? `<div class="note okn">APNs hazır (anahtar <code>${esc(d.apns.keyId || "")}</code>, konu <code>${esc(d.apns.topic)}</code>). Android (FCM) gönderimi henüz yok; Android cihazlar sayılır ama atlanır.</div>`
     : `<div class="note err">APNs anahtarı sunucuda yok (<code>APNS_KEY</code>).</div>`;
@@ -1189,7 +1228,7 @@ function makeDemo() {
     const online = n < 7, lastSeen = online ? now - rnd() * 90e3 : last;
     const cloud = rnd() < .45, premium = rnd() < .14, tester = n % 9 === 0;
     const i = {
-      id, first_seen: iso(first), last_seen: iso(lastSeen), platform: rnd() < .9 ? "ios" : "ipados", app_version: "0.4.0", build: pick(["5", "6", "7", "7"]),
+      id, first_seen: iso(first), last_seen: iso(lastSeen), platform: n % 4 === 3 ? "android" : rnd() < .9 ? "ios" : "ipados", app_version: "0.4.0", build: pick(["5", "6", "7", "7"]),
       language: pick(["tr", "tr", "tr", "en", "de", "fr", "es", "it"]), region: pick(["TR", "TR", "TR", "DE", "GB", "US", "NL", "FR"]), tz: "Europe/Istanbul",
       device: pick(["iPhone15,2", "iPhone16,1", "iPhone17,3", "iPad13,4"]), os: pick(["18.6", "26.0", "26.1"]), tester: tester ? 1 : 0,
       screen: online ? pick([...screens.slice(0, 6), "paywall"]) : rnd() < .7 ? "closed" : pick(screens), last_screen: pick(screens),

@@ -93,6 +93,9 @@ tr.group td{color:var(--soft);font-size:11px;font-weight:800;letter-spacing:.06e
 @media(max-width:420px){.dl{grid-template-columns:110px 1fr}.drawer{padding:16px}}
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
 .toolbar input,.toolbar select{width:auto;min-width:180px;flex:1 1 180px;max-width:320px}
+.toolbar.fl select{min-width:120px;flex:0 1 160px}
+.ofacc{display:flex;gap:10px;align-items:center}.ofacc img{width:34px;height:34px;border-radius:9px;object-fit:cover;flex:none}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}.chk input{width:auto}
 .bars{display:flex;flex-direction:column;gap:7px}
 .brow{display:grid;grid-template-columns:minmax(100px,200px) 1fr auto;gap:10px;align-items:center;font-size:13px}
 .brow>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -235,6 +238,8 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
     <a href="#leagues" data-page="leagues">Ligler</a>
     <a href="#ga4" data-page="ga4">Analytics</a>
     <div class="navlabel">YÖNET</div>
+    <a href="#official" data-page="official">Resmi hesaplar</a>
+    <a href="#posts" data-page="posts">Gönderiler</a>
     <a href="#push" data-page="push">Bildirim gönder</a>
     <a href="#sent" data-page="sent">Gönderilenler</a>
     <a href="#settings" data-page="settings">Ayarlar</a>
@@ -249,6 +254,7 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
       <button class="ghost range on" data-d="7">7 gün</button>
       <button class="ghost range" data-d="30">30 gün</button>
       <button class="ghost range" data-d="90">90 gün</button>
+      <button class="ghost range" data-d="365">1 yıl</button>
       <button id="refreshTop" style="padding:6px 14px;font-size:13px">Yenile</button>
     </div>
     <div class="chips" id="chips"></div>
@@ -298,6 +304,11 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
         <div class="card"><h2>Plan</h2><div class="bars" id="revPlans"></div><h2>Kapatana kadar geçen süre</h2><div class="bars" id="revDur"></div></div>
         <div class="card"><h2>Pass sahipleri</h2><div class="dl" id="revWho"></div></div>
       </div>
+      <div class="card"><h2>Tüm zamanlar</h2><p class="muted" style="margin-top:-6px">Dönem seçiminden bağımsız: kurulumların kendi sayaçları (<code>purchases</code>, <code>paywall_views</code>, <code>purchasedAt</code>, <code>plan</code>, <code>buySource</code>), telemetriden önceki alımlar dahil, ve bütün günlük kayıtlar.</p>
+        <div class="kpis" id="revAll"></div>
+        <h2>Satın alanlar ve Pass sahipleri</h2>
+        <div class="toolbar fl" style="margin-top:0"><input id="rbSearch" type="search" placeholder="Ara: @kullanıcı, plan, kurulum"><select id="rbKind" aria-label="Tür"><option value="all">Hepsi</option><option value="bought">Satın alan</option><option value="pro">Şu an Pass</option><option value="grand">Eski kullanıcı hakkı</option><option value="lapsed">Almış, şu an Pass değil</option></select><span class="muted" id="rbCount"></span></div>
+        <div class="tablewrap"><table><thead><tr><th>Kişi</th><th>Uygulama</th><th>Durum</th><th>Plan</th><th>Ürünün uygulaması</th><th>Kaynak</th><th>Satın alma</th><th class="n">Alım</th><th>Son görülme</th></tr></thead><tbody id="rbRows"></tbody></table></div></div>
       <div class="card"><h2>Son paywall yolculukları</h2><p class="muted" style="margin-top:-6px" id="pwMeta">Paywall gören en son kurulumların zaman çizelgesinden.</p>
         <div class="tablewrap"><table><thead><tr><th>Ne zaman</th><th>Kurulum</th><th>Uygulama</th><th>Nereden</th><th class="n">Açık kaldı</th><th>Sonuç</th><th>Dil</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>
     </section>
@@ -325,6 +336,20 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
         <select id="uSortSel" aria-label="Sırala"><option value="lastSeen">Son görülme</option><option value="firstSeen">İlk görülme</option><option value="who">Kullanıcı adı</option><option value="sessions">Oturum</option><option value="time">Toplam süre</option><option value="matches_completed">Biten maç</option><option value="n_matches">Defterde maç</option></select>
         <span class="muted" id="uCount"></span>
       </div>
+      <div class="toolbar fl" id="uFilters">
+        <select id="ufPlat" aria-label="Platform"></select>
+        <select id="ufApp" aria-label="Uygulama"></select>
+        <select id="ufVer" aria-label="Sürüm"></select>
+        <select id="ufCountry" aria-label="Ülke"></select>
+        <select id="ufLang" aria-label="Dil"></select>
+        <select id="ufPro" aria-label="Pass"><option value="any">Pass: hepsi</option><option value="yes">Pass var</option><option value="no">Pass yok</option></select>
+        <select id="ufSigned" aria-label="Hesap"><option value="any">Hesap: hepsi</option><option value="yes">Girişli</option><option value="no">Girişsiz</option></select>
+        <select id="ufSeen" aria-label="Son görülme"><option value="any">Son görülme: hepsi</option><option value="1">Son 24 saat</option><option value="7">Son 7 gün</option><option value="30">Son 30 gün</option><option value="-30">30 gündür yok</option></select>
+        <select id="ufWatch" aria-label="Saat"><option value="any">Saat: hepsi</option><option value="paired">Saat eşli</option><option value="app">Saat uygulaması kurulu</option><option value="none">Saat yok</option></select>
+        <select id="ufNotif" aria-label="Bildirim"><option value="any">Bildirim: hepsi</option><option value="on">İzin var</option><option value="reach">Adresi var</option><option value="off">Kapalı</option></select>
+        <button class="ghost" id="ufReset">Filtreleri sıfırla</button>
+      </div>
+      <div id="uPlatNote"></div>
       <div id="uSocialNote"></div>
       <div class="tablewrap"><table><thead id="uHead"></thead><tbody id="uRows"></tbody></table></div>
     </section>
@@ -369,6 +394,40 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
       <h1>Analytics</h1>
       <p class="muted" id="gaMeta"></p>
       <div id="gaBody"></div>
+    </section>
+
+    <section data-view="official" class="hidden">
+      <h1>Resmi hesaplar</h1>
+      <p class="muted">Her uygulamanın resmi hesabı (<code>users/official_&lt;uygulama&gt;</code>, kullanıcı adı <code>handles</code>'ta). Buradan o hesap adına herkese açık gönderi yazılır ve resmi lig kurulur; uygulamada Topluluk akışında, profilde ve Ligler'de görünür. Yazma kuralı yalnız yöneticiye açık.</p>
+      <div id="ofErr"></div>
+      <div class="tablewrap"><table><thead><tr><th>Hesap</th><th>Uygulama</th><th class="n">Gönderi</th><th class="n">Takipçi</th><th>Ligleri</th></tr></thead><tbody id="ofRows"></tbody></table></div>
+      <div class="grid2">
+        <div class="card"><h2>Gönderi yaz</h2>
+          <div class="field"><label for="ofAcc">Hesap</label><select id="ofAcc"></select></div>
+          <div class="field"><label for="ofCap">Metin <small id="ofCapN">0/500</small></label><textarea id="ofCap" rows="5" maxlength="500" placeholder="Season 2026 is on. Join the World Ladder from the Leagues tab."></textarea></div>
+          <div class="field"><label for="ofPlace">Yer (isteğe bağlı) <small>60</small></label><input id="ofPlace" maxlength="60" autocomplete="off"></div>
+          <p class="muted">Herkese açık gider (<code>audience: public</code>), uygulamanın yazdığı şemayla. Topluluk akışı bütün uygulamalarda ortaktır; gönderinin sporu seçilen hesabın uygulamasıdır. Metin uygulamada çevrilmez: herkes aynısını görür.</p>
+          <div class="actions"><button id="ofPost">Gönderiyi paylaş</button></div><div id="ofMsg"></div>
+        </div>
+        <div class="card"><h2>Lig kur</h2>
+          <div class="field"><label for="nlName">Lig adı <small id="nlNameN">0/40</small></label><input id="nlName" maxlength="40" placeholder="Tennis World Ladder" autocomplete="off"></div>
+          <div class="frow">
+            <div class="field"><label for="nlApp">Spor (uygulama)</label><select id="nlApp"></select></div>
+            <div class="field"><label for="nlSeason">Sezon</label><input id="nlSeason" maxlength="30" value="Season 2026"></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="nlOpen" checked> Herkes istek göndermeden katılabilir (<code>open</code>)</label>
+          <p class="muted">Herkese açık (<code>visibility: public</code>), ülke yok (dünya geneli), sahibi seçilen sporun resmi hesabı, üyesiz başlar, rastgele davet kodu alır, <code>official: true</code>. Uygulama, sporun açık resmi ligini Ligler'in üstünde gösterir.</p>
+          <div class="actions"><button id="nlCreate">Ligi kur</button></div><div id="nlMsg"></div>
+        </div>
+      </div>
+    </section>
+
+    <section data-view="posts" class="hidden">
+      <h1>Gönderiler</h1>
+      <p class="muted">Topluluktaki bütün gönderiler (<code>posts</code>), beş uygulama. Silmek gönderiyi, beğeni ve yorumlarını (<code>posts/*/likes</code>, <code>posts/*/comments</code>) ve fotoğrafını (<code>postPhotos</code>) kaldırır; geri alınamaz.</p>
+      <div id="poErr"></div>
+      <div class="toolbar fl"><input id="poSearch" type="search" placeholder="Ara: @yazar, ad, metin, yer"><select id="poApp" aria-label="Uygulama"></select><select id="poAuthor" aria-label="Yazar"></select><select id="poAud" aria-label="Görünürlük"><option value="all">Görünürlük: hepsi</option><option value="public">Herkese açık</option><option value="followers">Takipçilere</option></select><select id="poKind" aria-label="Tür"><option value="all">Tür: hepsi</option><option value="match">Maçlı</option><option value="photo">Fotoğraflı</option><option value="official">Resmi hesap</option></select><span class="muted" id="poCount"></span></div>
+      <div class="tablewrap"><table><thead><tr><th>Zaman</th><th>Uygulama</th><th>Yazar</th><th>Gönderi</th><th>Görünürlük</th><th class="n">Beğeni</th><th class="n">Yorum</th><th></th></tr></thead><tbody id="poRows"></tbody></table></div>
     </section>
 
     <section data-view="push" class="hidden">
@@ -683,12 +742,12 @@ let allInstalls = [], statDocs = [], G = null, gaError = "", social = null;
 let installs = [], stats = [];          // uygulama filtresi uygulanmış
 let evCache = {}, pwLoaded = false, pwLoading = false;
 let FB = null, dataReady = false;
-const PAGE_RENDER = { overview: [renderOverview], live: [renderLive], screens: [renderScreens], revenue: [renderRevenue, renderJourneys], engage: [renderEngage],
-  users: [renderUsers], social: [renderSocial], leagues: [renderLeagues], ga4: [renderGA4], push: [renderPushStats, pushRefresh], sent: [renderSent], settings: [] };
+const PAGE_RENDER = { overview: [renderOverview], live: [renderLive], screens: [renderScreens], revenue: [renderRevenue, renderBuyers, renderJourneys], engage: [renderEngage],
+  users: [renderUsers], social: [renderSocial], leagues: [renderLeagues], ga4: [renderGA4], official: [renderOfficial], posts: [renderPosts], push: [renderPushStats, pushRefresh], sent: [renderSent], settings: [] };
 let dirtyPages = new Set();
 let currentPage = "overview";
 let days = +(store.get("bs-panel-aralik") || 7);
-if (![1, 7, 30, 90].includes(days)) days = 7;
+if (![1, 7, 30, 90, 365].includes(days)) days = 7;
 let appF = store.get("bs-panel-uygulama") || "all";
 if (appF !== "all" && !APPS[appF]) appF = "all";
 
@@ -779,7 +838,7 @@ function go(page) {
   $("drawer").classList.add("hidden");
   // Sayfa kodu dosyanın sonunda tanımlı; ilk açılışta (adres #push ise) hazır olsun diye ertele.
   setTimeout(() => pageLoad(page), 0);
-  $("chips").classList.toggle("hidden", page === "push" || page === "sent" || page === "settings" || page === "leagues");
+  $("chips").classList.toggle("hidden", page === "push" || page === "sent" || page === "settings" || page === "leagues" || page === "official" || page === "posts");
   const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
   requestAnimationFrame(fit); setTimeout(fit, 120);
   window.scrollTo(0, 0);
@@ -788,8 +847,8 @@ function go(page) {
    kuralda reddedilip önbelleğe hata olarak düşmesin). */
 function pageLoad(page) {
   if (!dataReady || page !== currentPage) return;
-  if (page === "revenue") loadJourneys();
-  if (page === "social" || page === "users") loadSocial();
+  if (page === "revenue") { loadJourneys(); loadAllStats(); loadSocial(); }
+  if (page === "social" || page === "users" || page === "official" || page === "posts") loadSocial();
   if (page === "leagues") loadLeagues();
   if (page === "push") { loadPushHealth(); loadTemplates(); pushRefresh(); }
   if (page === "sent") loadPushes();
@@ -820,7 +879,7 @@ function renderChips() {
 // ---------- Veri ----------
 async function refreshAll() {
   $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
-  evCache = {}; pwLoaded = false; social = null; socialPromise = null; pushes = null; leagueData = null; leaguePromise = null;
+  evCache = {}; pwLoaded = false; social = null; allStats = null; allStatsP = null; socialPromise = null; pushes = null; leagueData = null; leaguePromise = null;
   pushHealth = null; templates = null; openStats = null;
   try { await loadData(true); } finally { $("refreshTop").disabled = false; }
   pageLoad(currentPage);
@@ -1035,6 +1094,51 @@ function renderRevenue() {
     <div>Ortalama maç</div><div>${pro.length ? (sum(pro, "n_matches") / pro.length).toFixed(1).replace(".", ",") : "-"} (Pass olmayan: ${(() => { const f = installs.filter(i => !i.pro); return f.length ? (sum(f, "n_matches") / f.length).toFixed(1).replace(".", ",") : "-"; })()})</div>`;
 }
 
+/* Tüm zamanlar: dönemden bağımsız. Günlük kayıtların hepsi bir kez okunur;
+   kurulumların kendi sayaçları telemetriden önceki alımları da taşır. */
+let allStats = null, allStatsP = null;
+function loadAllStats() {
+  if (allStatsP) return allStatsP;
+  allStatsP = (async () => {
+    try {
+      if (DEMO) allStats = demo.stats;
+      else { const { db, F } = FB; allStats = (await F.getDocs(F.query(F.collection(db, "stats"), F.limit(20000)))).docs.map(d => { const x = d.data(); return { ...x, app: x.app || d.id.split("_")[0], day: x.day || d.id.slice(-10) }; }); }
+    } catch (e) { allStats = { err: e.code || e.message }; }
+    if (currentPage === "revenue") renderBuyers();
+  })();
+  return allStatsP;
+}
+$("rbSearch").oninput = () => renderBuyers(); $("rbKind").onchange = () => renderBuyers();
+const everBought = i => !!(i.pro || ts(i.purchasedAt) || i.plan || +i.purchases > 0 || ev(i, "pw_buy") > 0);
+function renderBuyers() {
+  if (!$("rbRows")) return;
+  const S = Array.isArray(allStats) ? allStats.filter(s => appF === "all" || s.app === appF) : null;
+  const first = S && S.length ? S.reduce((m, s) => s.day < m ? s.day : m, "9999") : null;
+  const buyers = installs.filter(everBought);
+  const instBuys = sum(installs, "purchases"), instPw = sum(installs, "paywall_views");
+  const dated = buyers.filter(i => ts(i.purchasedAt));
+  const oldest = dated.length ? dated.reduce((m, i) => ts(i.purchasedAt) < m ? ts(i.purchasedAt) : m, new Date()) : null;
+  $("revAll").innerHTML = [
+    kpiH("Satın alma (günlük kayıt)", S ? fmt(sum(S, "purchases")) : "…", S ? (first ? `${first.slice(8)}.${first.slice(5, 7)}.${first.slice(0, 4)} gününden beri, ${fmt(S.length)} kayıt` : "kayıt yok") : (allStats?.err ? "okunamadı: " + esc(allStats.err) : "okunuyor")),
+    kpiH("Paywall gösterimi (günlük kayıt)", S ? fmt(sum(S, "paywall_views")) : "…", S ? `dönüşüm ${yuzde(sum(S, "purchases"), sum(S, "paywall_views"))}` : ""),
+    kpiH("Satın alma (kurulum sayacı)", fmt(instBuys), `${fmt(instPw)} paywall gösterimi`),
+    kpiH("Satın almış kurulum", fmt(buyers.length), `${fmt(buyers.filter(i => i.pro).length)} şu an Pass`),
+    kpiH("Tarihi bilinen alım", fmt(dated.length), oldest ? `en eskisi ${dateS(oldest)}` : "purchasedAt yok"),
+    kpiH("Eski kullanıcı hakkı", fmt(installs.filter(i => i.grandfathered).length), "grandfathered"),
+  ].join("");
+  const q = $("rbSearch").value.trim().toLowerCase().replace(/^@/, ""), k = $("rbKind").value;
+  const keep = { all: () => true, bought: i => ts(i.purchasedAt) || +i.purchases > 0 || ev(i, "pw_buy") > 0 || (i.plan && !i.grandfathered), pro: i => i.pro, grand: i => i.grandfathered, lapsed: i => !i.pro && (ts(i.purchasedAt) || i.plan || +i.purchases > 0) }[k] || (() => true);
+  const list = buyers.filter(i => keep(i) && (!q || [i.id, handleOf(i), nameOf(i), i.plan, i.buySource, appName(i.app)].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => (ts(b.purchasedAt)?.getTime() || 0) - (ts(a.purchasedAt)?.getTime() || 0) || (ts(b.lastSeen)?.getTime() || 0) - (ts(a.lastSeen)?.getTime() || 0));
+  $("rbCount").textContent = `${fmt(list.length)} kurulum`;
+  const st = i => i.pro ? (i.grandfathered && !i.plan ? '<span class="pill sky">Eski kullanıcı</span>' : '<span class="pill pro">Pass</span>') : '<span class="pill no">Pass değil</span>';
+  $("rbRows").innerHTML = list.length ? list.slice(0, 500).map(i => { const pa = passApp(i.plan);
+    return `<tr class="click" data-id="${esc(i.id)}"><td>${whoCell(i)}</td><td>${appTag(i.app)}</td><td>${st(i)}</td><td><code>${esc(i.plan || "-")}</code></td><td>${pa ? (APPS[pa] ? appTag(pa) : esc(passAppName(pa))) : "-"}</td>
+      <td>${esc(i.buySource ? srcName(i.buySource) : "-")}</td><td>${ts(i.purchasedAt) ? dtS(i.purchasedAt) : "-"}</td><td class="n">${fmt(Math.max(+i.purchases || 0, ev(i, "pw_buy")))}</td><td>${ago(ts(i.lastSeen))}</td></tr>`; }).join("")
+    : `<tr><td colspan="9" class="muted">${buyers.length ? "Bu filtreye uyan yok." : "Henüz satın alan ya da Pass sahibi yok."}</td></tr>`;
+  document.querySelectorAll("#rbRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
+}
+
 async function loadEvents(id, n = 300) {
   if (evCache[id]) return evCache[id];
   let list;
@@ -1138,6 +1242,7 @@ const U_COLS = [
   ["status", "Durum", i => (isOnline(i) ? 16 : 0) + (i.pro ? 8 : 0) + (i.signedIn ? 4 : 0) + (i.notif ? 2 : 0) + (i.tester ? 1 : 0), badgesOf],
   ["lastSeen", "Son görülme", i => ts(i.lastSeen)?.getTime() || 0, i => `<span title="${esc(ts(i.lastSeen)?.toLocaleString("tr-TR") || "")}">${ago(ts(i.lastSeen))}</span>`],
   ["app", "Uygulama", i => appName(i.app), i => esc(appName(i.app))],
+  ["platform", "Platform", i => platName(i), i => esc(platName(i))],
   ["region", "Ülke", i => i.region || "", i => i.region ? `${flag(i.region)} ${esc(i.region)}` : "-"],
   ["language", "Dil", i => i.language || "", i => esc(i.language || "-")],
   ["firstSeen", "İlk görülme", i => ts(i.firstSeen)?.getTime() || 0, i => dateS(i.firstSeen)],
@@ -1157,6 +1262,46 @@ const U_COLS = [
 const WHO_COL = ["who", "Kişi", i => handleOf(i) ? "0" + handleOf(i).toLowerCase() : nameOf(i) ? "1" + nameOf(i).toLowerCase() : "2" + i.id, whoCell];
 let uSort = { k: "lastSeen", dir: -1 };
 $("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+const platName = i => i.platform === "android" ? "Android" : i.platform === "ios" ? "iOS" : i.platform ? String(i.platform) : "iOS";
+const UF = ["ufPlat", "ufApp", "ufVer", "ufCountry", "ufLang", "ufPro", "ufSigned", "ufSeen", "ufWatch", "ufNotif"];
+UF.forEach(id => $(id).onchange = renderUsers);
+$("ufReset").onclick = () => { UF.forEach(id => $(id).value = "any"); $("uFilter").value = "all"; $("uSearch").value = ""; renderUsers(); };
+/* Seçenekler veriden: değer ve kaç kurulum. Seçili değer korunur. */
+function fillSel(id, label, m, name = k => k) {
+  const el = $(id), v = el.value || "any";
+  el.innerHTML = `<option value="any">${label}: hepsi</option>` + Object.entries(m).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<option value="${esc(k)}">${esc(name(k))} (${fmt(n)})</option>`).join("");
+  el.value = [...el.options].some(o => o.value === v) ? v : "any";
+}
+function userFilterOk(i) {
+  const g = id => $(id).value, now = Date.now(), seen = ts(i.lastSeen)?.getTime() || 0;
+  if (g("ufPlat") !== "any" && platName(i) !== g("ufPlat")) return false;
+  if (g("ufApp") !== "any" && i.app !== g("ufApp")) return false;
+  if (g("ufVer") !== "any" && `${appName(i.app)} ${verStr(i)}` !== g("ufVer")) return false;
+  if (g("ufCountry") !== "any" && (i.region || "?") !== g("ufCountry")) return false;
+  if (g("ufLang") !== "any" && (lang2(i.language) || "?") !== g("ufLang")) return false;
+  if (g("ufPro") !== "any" && !!i.pro !== (g("ufPro") === "yes")) return false;
+  if (g("ufSigned") !== "any" && !!i.signedIn !== (g("ufSigned") === "yes")) return false;
+  const sd = +g("ufSeen") || 0;
+  if (sd > 0 && !(seen >= now - sd * 864e5)) return false;
+  if (sd < 0 && !(seen < now + sd * 864e5)) return false;
+  const w = g("ufWatch");
+  if (w === "paired" && !i.watchPaired) return false;
+  if (w === "app" && !i.watchApp) return false;
+  if (w === "none" && i.watchPaired) return false;
+  const nt = g("ufNotif");
+  if (nt === "on" && i.notif !== true) return false;
+  if (nt === "reach" && !reachOf(i)) return false;
+  if (nt === "off" && i.notif !== false) return false;
+  return true;
+}
+/* Android: telemetri yalnız iOS'tan geliyor; Android sayısı GA4 özetinde ya da ana Panel'de. */
+function renderPlatNote() {
+  const and = allInstalls.filter(i => i.platform === "android").length;
+  if (and) { $("uPlatNote").innerHTML = ""; return; }
+  const gaApps = (G?.uygulamalar || []).map(r => r.streamName || r.ad || "").filter(Boolean);
+  const gaAnd = gaApps.filter(n => /android/i.test(n)).length;
+  $("uPlatNote").innerHTML = `<div class="note">Bu tabloda Android kurulum yok: Android Tenis uygulaması (<code>com.aberk.wear</code>) bu Firebase projesine telemetri yazmıyor (Firebase hiç bağlı değil), diğer dört uygulamanın Android sürümü yok. Analytics özetinde ${G ? `${fmt(gaApps.length)} veri akışı var, ${gaAnd ? `${fmt(gaAnd)} tanesi Android` : "hepsi iOS; Android akışı yok"}` : "özet yüklenmedi"}. Android indirme ve aktif sayıları Play Console'dan ana <a href="/lab/panel/" target="_blank" rel="noopener">Panel</a>'de (Tennis Padel, Play).</div>`;
+}
 $("uSortSel").onchange = () => { const k = $("uSortSel").value; uSort = { k, dir: k === "who" ? 1 : -1 }; renderUsers(); };
 function renderUsers() {
   const q = $("uSearch").value.trim().toLowerCase().replace(/^@/, ""), f = $("uFilter").value, from = rangeFrom();
@@ -1168,14 +1313,20 @@ function renderUsers() {
   const cols = [WHO_COL, ...U_COLS];
   const col = cols.find(c => c[0] === uSort.k) || U_COLS[1];
   const hay = i => [i.id, handleOf(i), "@" + handleOf(i), nameOf(i), i.uid, i.app, appName(i.app), i.language, i.region, i.appVersion, i.build, i.device, i.tz, i.plan].join(" ").toLowerCase();
-  const rows = installs.filter(i => keep(i) && (!q || hay(i).includes(q)))
+  fillSel("ufPlat", "Platform", countBy(installs, platName));
+  fillSel("ufApp", "Uygulama", countBy(installs, i => i.app || "?"), appName);
+  fillSel("ufVer", "Sürüm", countBy(installs, i => `${appName(i.app)} ${verStr(i)}`));
+  fillSel("ufCountry", "Ülke", countBy(installs, i => i.region || "?"), k => k === "?" ? "Bilinmiyor" : `${flag(k)} ${k}`);
+  fillSel("ufLang", "Dil", countBy(installs, i => lang2(i.language) || "?"), k => LANG[k] ? `${LANG[k]} (${k})` : k);
+  renderPlatNote();
+  const rows = installs.filter(i => keep(i) && userFilterOk(i) && (!q || hay(i).includes(q)))
     .sort((a, b) => { const x = col[2](a), y = col[2](b); return (typeof x === "string" ? x.localeCompare(y, "tr") : x - y) * uSort.dir; });
   $("uCount").textContent = `${fmt(rows.length)} kurulum`;
   if ([...$("uSortSel").options].some(o => o.value === uSort.k)) $("uSortSel").value = uSort.k;
   $("uHead").innerHTML = `<tr>${cols.map(c => `<th class="sort${c[4] ? " n" : ""}" data-k="${c[0]}">${c[1]}${uSort.k === c[0] ? (uSort.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>`;
   document.querySelectorAll("#uHead th.sort").forEach(th => th.onclick = () => { uSort = { k: th.dataset.k, dir: uSort.k === th.dataset.k ? -uSort.dir : (th.dataset.k === "who" ? 1 : -1) }; renderUsers(); });
   $("uRows").innerHTML = rows.length ? rows.slice(0, 1000).map(i => `<tr class="click" data-id="${esc(i.id)}">${cols.map(c => `<td${c[4] ? ' class="n"' : ''}>${c[3](i)}</td>`).join("")}</tr>`).join("")
-    : `<tr><td colspan="${cols.length}" class="muted">${q || f !== "all" ? "Bu aramaya uyan kurulum yok." : "Kurulum yok."}</td></tr>`;
+    : `<tr><td colspan="${cols.length}" class="muted">${q || f !== "all" || UF.some(id => $(id).value !== "any") ? "Bu aramaya uyan kurulum yok." : "Kurulum yok."}</td></tr>`;
   document.querySelectorAll("#uRows tr.click").forEach(tr => tr.onclick = () => openUser(tr.dataset.id));
   $("uSocialNote").innerHTML = !social || social.loading ? `<p class="muted" style="margin:-4px 0 10px">Kullanıcı adları yükleniyor…</p>`
     : social.err?.users ? `<div class="note err">Sosyal profiller okunamadı (${esc(social.err.users)}); kullanıcı adı yalnız telemetriden gelir.</div>` : "";
@@ -1297,6 +1448,9 @@ function loadSocial() {
       handlesN: raw.handlesN, err: raw.err || {}, followers, following };
     renderSocial(); renderUsers();
     if (currentPage === "leagues") renderLeagues();
+    if (currentPage === "official") renderOfficial();
+    if (currentPage === "posts") renderPosts();
+    if (currentPage === "revenue") renderBuyers();
   })();
   return socialPromise;
 }
@@ -1506,6 +1660,146 @@ function openLeague(id) {
     ${fx.length ? `<div class="tablewrap"><table><thead><tr><th class="n">Hafta</th><th>Eşleşme</th><th>Durum</th><th>Skor</th><th>Son işlem</th></tr></thead><tbody>${fx.map(f => `<tr><td class="n">${f.week != null ? fmt(f.week) : "-"}</td><td class="wrap">${side(f, "A")} × ${side(f, "B")}</td><td>${fStatusPill(f)}</td><td>${score(f)}</td><td class="wrap">${lastAct(f)}</td></tr>`).join("")}</tbody></table></div>` : '<p class="muted">Henüz fikstür yok (lig kurulum aşamasında olabilir).</p>'}`;
   $("dClose").onclick = () => d.classList.add("hidden");
   bindInstallChips(d);
+}
+
+// ---------- Resmi hesaplar ----------
+/* Her uygulamanın resmi hesabı: sabit kimlik official_<uygulama>. Belgeler
+   (users, handles) bir kez yazıldı; panel o hesap adına herkese açık gönderi
+   ve resmi lig yazar. Kural: yalnız yönetici, yalnız official_ kimlikleri. */
+const OFFICIAL = {
+  tennis: { handle: "tennispadelscorekeeper", name: "Tennis Padel Score Keeper" },
+  pickleball: { handle: "pickleballscorekeeper", name: "Score Keeper for Pickleball" },
+  volleyball: { handle: "volleyballscorekeeper", name: "Volleyball Score Keeper" },
+  badminton: { handle: "rallybadminton", name: "Rally: Badminton" },
+  tabletennis: { handle: "rallytabletennis", name: "Rally: Table Tennis" },
+};
+const offUid = a => "official_" + a;
+const isOfficial = uid => /^official_[a-z]+$/.test(uid || "");
+const offProfile = a => social?.map?.get(offUid(a)) || null;
+function photoSrc(u) {
+  const p = u?.photo; if (!p) return "";
+  try {
+    if (p.toBase64) return "data:image/jpeg;base64," + p.toBase64();
+    if (typeof p === "string") return p.startsWith("data:") ? p : "data:image/jpeg;base64," + p;
+  } catch { }
+  return "";
+}
+function offAvatar(a) { const src = photoSrc(offProfile(a)); return src ? `<img src="${src}" alt="">` : `<img src="${APP_ICON[a]}" alt="">`; }
+function renderOfficial() {
+  if (!$("ofRows")) return;
+  if (!$("ofAcc").options.length) {
+    $("ofAcc").innerHTML = APP_KEYS.map(a => `<option value="${a}">@${esc(OFFICIAL[a].handle)} · ${esc(appName(a))}</option>`).join("");
+    $("nlApp").innerHTML = APP_KEYS.map(a => `<option value="${a}">${esc(appName(a))}</option>`).join("");
+  }
+  if (!soReady()) { $("ofRows").innerHTML = `<tr><td colspan="5" class="muted">Okunuyor…</td></tr>`; return; }
+  const errs = ["users", "posts", "leagues"].filter(c => social.err?.[c]);
+  $("ofErr").innerHTML = errs.length ? `<div class="note err">Okunamayan: ${errs.map(c => `<code>${c}</code> (${esc(social.err[c])})`).join(", ")}</div>` : "";
+  $("ofRows").innerHTML = APP_KEYS.map(a => {
+    const u = offProfile(a), uid = offUid(a);
+    const lg = social.leagues.filter(l => l.ownerUid === uid);
+    return `<tr><td><span class="ofacc">${offAvatar(a)}<span><b>@${esc(u?.handle || OFFICIAL[a].handle)}</b><small class="muted" style="display:block">${esc(u?.displayName || OFFICIAL[a].name)}${u ? "" : ' · <span style="color:var(--rose)">belge yok</span>'}</small></span></span></td>
+      <td>${appTag(a)}</td><td class="n">${fmt(social.posts.filter(p => p.authorUid === uid).length)}</td><td class="n">${fmt(social.followers.get(uid) || 0)}</td>
+      <td class="wrap">${lg.length ? lg.map(l => `${esc(l.name || "?")} <span class="muted">(${fmt((l.members || []).length)} üye${l.open ? ", açık" : ""}${l.season ? ", " + esc(l.season) : ""})</span>`).join("<br>") : '<span class="muted">yok</span>'}</td></tr>`;
+  }).join("");
+}
+const noDash = s => !/[—–]/.test(s);
+$("ofCap").oninput = () => { $("ofCapN").textContent = `${$("ofCap").value.length}/500`; };
+$("nlName").oninput = () => { $("nlNameN").textContent = `${$("nlName").value.length}/40`; };
+$("ofPost").onclick = async () => {
+  const a = $("ofAcc").value, caption = $("ofCap").value.trim(), place = $("ofPlace").value.trim();
+  const msg = h => { $("ofMsg").innerHTML = h; };
+  if (!caption) { msg(`<div class="note err">Metin boş olmasın.</div>`); return; }
+  if (!noDash(caption + place)) { msg(`<div class="note err">Uzun tire var; kısa tire ya da virgül kullan.</div>`); return; }
+  const u = offProfile(a), uid = offUid(a);
+  const ok = await confirmCard({ title: "Gönderi paylaşılsın mı?", yes: "Paylaş", rows: [["Hesap", `@${esc(u?.handle || OFFICIAL[a].handle)}`], ["Uygulama", appTag(a)], ["Görünürlük", "Herkese açık"], ["Metin", esc(caption)], ...(place ? [["Yer", esc(place)]] : [])], note: "Topluluk akışında herkes görür. Panelden silebilirsin." });
+  if (!ok) return;
+  const data = { authorUid: uid, authorName: (u?.displayName || OFFICIAL[a].name).slice(0, 40), authorHandle: u?.handle || OFFICIAL[a].handle, sport: a,
+    caption: caption.slice(0, 500), audience: "public", allowed: [uid], likeCount: 0, commentCount: 0, showDetails: false, hasPhoto: false, gameType: "" };
+  if (place) data.place = place.slice(0, 60);
+  $("ofPost").disabled = true; msg("Paylaşılıyor…");
+  try {
+    let id;
+    if (DEMO) { id = "p" + Date.now(); social.posts.unshift({ id, ...data, createdAt: new Date() }); }
+    else { const { db, F } = FB; const ref = await F.addDoc(F.collection(db, "posts"), { ...data, createdAt: F.serverTimestamp() }); id = ref.id; social.posts.unshift({ id, ...data, createdAt: new Date() }); }
+    $("ofCap").value = ""; $("ofPlace").value = ""; $("ofCapN").textContent = "0/500";
+    msg(`<div class="note okn">Paylaşıldı (<code>posts/${esc(id)}</code>).</div>`); toast("Gönderi paylaşıldı");
+    renderOfficial(); dirtyPages.add("posts"); dirtyPages.add("social");
+  } catch (e) { msg(`<div class="note err">Olmadı: ${esc(e.code || e.message)}</div>`); }
+  finally { $("ofPost").disabled = false; }
+};
+const inviteCode = () => Array.from(crypto.getRandomValues(new Uint8Array(6)), b => "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[b % 31]).join("");
+$("nlCreate").onclick = async () => {
+  const name = $("nlName").value.trim(), a = $("nlApp").value, season = $("nlSeason").value.trim(), open = $("nlOpen").checked;
+  const msg = h => { $("nlMsg").innerHTML = h; };
+  if (!name) { msg(`<div class="note err">Lig adını yaz.</div>`); return; }
+  if (!noDash(name + season)) { msg(`<div class="note err">Uzun tire var; kısa tire ya da virgül kullan.</div>`); return; }
+  const uid = offUid(a), u = offProfile(a);
+  const ok = await confirmCard({ title: "Lig kurulsun mu?", yes: "Kur", rows: [["Ad", esc(name)], ["Spor", appTag(a)], ["Sezon", esc(season || "-")], ["Sahibi", `@${esc(u?.handle || OFFICIAL[a].handle)}`], ["Katılım", open ? "Açık, istek yok" : "İstekle"], ["Görünürlük", "Herkese açık, dünya geneli"]] });
+  if (!ok) return;
+  const data = { name: name.slice(0, 40), sport: a, ownerUid: uid, ownerName: (u?.displayName || OFFICIAL[a].name).slice(0, 40), members: [], memberNames: {}, teams: [],
+    visibility: "public", open, season: season.slice(0, 30), inviteCode: inviteCode(), official: true, status: "active", format: "singles", rulesText: "" };
+  $("nlCreate").disabled = true; msg("Kuruluyor…");
+  try {
+    let id;
+    if (DEMO) { id = "lg" + Date.now(); social.leagues.unshift({ id, ...data, createdAt: new Date() }); }
+    else { const { db, F } = FB; const ref = await F.addDoc(F.collection(db, "leagues"), { ...data, createdAt: F.serverTimestamp() }); id = ref.id; social.leagues.unshift({ id, ...data, createdAt: new Date() }); }
+    $("nlName").value = ""; $("nlNameN").textContent = "0/40";
+    msg(`<div class="note okn">Kuruldu (<code>leagues/${esc(id)}</code>, davet kodu <code>${esc(data.inviteCode)}</code>).</div>`); toast("Lig kuruldu");
+    renderOfficial(); dirtyPages.add("leagues"); dirtyPages.add("social");
+  } catch (e) { msg(`<div class="note err">Olmadı: ${esc(e.code || e.message)}</div>`); }
+  finally { $("nlCreate").disabled = false; }
+};
+
+// ---------- Gönderiler ----------
+["poSearch", "poApp", "poAuthor", "poAud", "poKind"].forEach(id => { $(id)[id === "poSearch" ? "oninput" : "onchange"] = renderPosts; });
+const postAuthor = p => p.authorHandle ? "@" + p.authorHandle : handleBy(p.authorUid) ? "@" + handleBy(p.authorUid) : (p.authorName || shortId(p.authorUid));
+function renderPosts() {
+  if (!$("poRows")) return;
+  if (!soReady()) { $("poRows").innerHTML = `<tr><td colspan="8" class="muted">Okunuyor…</td></tr>`; $("poCount").textContent = ""; return; }
+  $("poErr").innerHTML = social.err?.posts ? `<div class="note err">Gönderiler okunamadı: ${esc(social.err.posts)}</div>` : "";
+  const posts = social.posts;
+  const keepSel = (id, html) => { const v = $(id).value; $(id).innerHTML = html; if ([...$(id).options].some(o => o.value === v)) $(id).value = v; };
+  const byApp = countBy(posts, p => p.sport || "?");
+  keepSel("poApp", `<option value="all">Uygulama: hepsi</option>` + APP_KEYS.map(a => `<option value="${a}">${esc(appName(a))} (${fmt(byApp[a] || 0)})</option>`).join(""));
+  const authors = countBy(posts, p => p.authorUid || "?");
+  keepSel("poAuthor", `<option value="all">Yazar: hepsi</option>` + Object.entries(authors).sort((a, b) => b[1] - a[1]).map(([uid, n]) => { const p = posts.find(x => x.authorUid === uid); return `<option value="${esc(uid)}">${esc(postAuthor(p))} (${fmt(n)})</option>`; }).join(""));
+  const q = $("poSearch").value.trim().toLowerCase().replace(/^@/, ""), ap = $("poApp").value, au = $("poAuthor").value, vis = $("poAud").value, kind = $("poKind").value;
+  const list = posts.filter(p => (ap === "all" || p.sport === ap) && (au === "all" || p.authorUid === au) && (vis === "all" || p.audience === vis)
+      && (kind === "all" || (kind === "match" && p.match) || (kind === "photo" && p.hasPhoto) || (kind === "official" && isOfficial(p.authorUid)))
+      && (!q || [p.authorHandle, p.authorName, handleBy(p.authorUid), p.caption, p.place, p.match?.title, p.id].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => (ts(b.createdAt)?.getTime() || 0) - (ts(a.createdAt)?.getTime() || 0));
+  $("poCount").textContent = `${fmt(list.length)} / ${fmt(posts.length)} gönderi`;
+  const likesOf = p => p.likeCount ?? social.likes.filter(l => (l.path || "").startsWith(`posts/${p.id}/`)).length;
+  const comOf = p => p.commentCount ?? social.comments.filter(c => (c.path || "").startsWith(`posts/${p.id}/`)).length;
+  $("poRows").innerHTML = list.length ? list.slice(0, 1000).map(p => `<tr><td>${dtS(p.createdAt)}</td><td>${appTag(p.sport)}</td>
+      <td><b>${esc(postAuthor(p))}</b>${isOfficial(p.authorUid) ? ' <span class="pill sky">Resmi</span>' : ""}<small class="muted" style="display:block">${esc(p.authorName || "")}</small></td>
+      <td class="wrap">${p.match ? `<span class="pill ok">Maç</span> ${esc(p.match.title || "")} ${esc(p.match.sets || p.match.score || "")}<br>` : ""}${p.hasPhoto ? '<span class="pill no">Fotoğraf</span> ' : ""}${esc((p.caption || "").slice(0, 160)) || (p.match ? "" : '<span class="muted">metin yok</span>')}${p.place ? `<small class="muted" style="display:block">${esc(p.place)}</small>` : ""}</td>
+      <td>${p.audience === "public" ? '<span class="pill ok">Herkese açık</span>' : '<span class="pill no">Takipçilere</span>'}</td>
+      <td class="n">${fmt(likesOf(p))}</td><td class="n">${fmt(comOf(p))}</td>
+      <td><button class="ghost tbtn" data-delpost="${esc(p.id)}" style="color:var(--rose)">Sil</button></td></tr>`).join("")
+    : `<tr><td colspan="8" class="muted">${posts.length ? "Bu filtreye uyan gönderi yok." : "Henüz gönderi yok."}</td></tr>`;
+  $("poRows").querySelectorAll("[data-delpost]").forEach(b => b.onclick = () => deletePost(b.dataset.delpost));
+}
+async function deletePost(id) {
+  const p = social.posts.find(x => x.id === id); if (!p) return;
+  const ok = await confirmCard({ title: "Gönderi silinsin mi?", yes: "Sil", danger: true,
+    rows: [["Yazar", esc(postAuthor(p))], ["Uygulama", appTag(p.sport)], ["Zaman", dtS(p.createdAt)], ["Metin", esc((p.caption || p.match?.title || "-").slice(0, 200))]],
+    note: "Beğeni, yorum ve fotoğrafıyla birlikte kalıcı olarak silinir." });
+  if (!ok) return;
+  try {
+    if (!DEMO) {
+      const { db, F } = FB;
+      const subs = await Promise.all(["likes", "comments"].map(c => F.getDocs(F.collection(db, "posts", id, c))));
+      const refs = subs.flatMap(s => s.docs.map(d => d.ref));
+      for (let k = 0; k < refs.length; k += 400) { const b = F.writeBatch(db); refs.slice(k, k + 400).forEach(r => b.delete(r)); await b.commit(); }
+      await F.deleteDoc(F.doc(db, "postPhotos", id));
+      await F.deleteDoc(F.doc(db, "posts", id));
+    }
+    social.posts = social.posts.filter(x => x.id !== id);
+    social.likes = social.likes.filter(l => !(l.path || "").startsWith(`posts/${id}/`));
+    social.comments = social.comments.filter(c => !(c.path || "").startsWith(`posts/${id}/`));
+    toast("Gönderi silindi"); renderPosts(); dirtyPages.add("social"); dirtyPages.add("official");
+  } catch (e) { toast("Silinemedi: " + (e.code || e.message)); }
 }
 
 // ---------- Analytics ----------
@@ -1947,6 +2241,11 @@ function textSplit(pool, texts) {
   return m;
 }
 const splitText = m => Object.entries(m).sort((a, b) => b[1] - a[1]).map(([l, n]) => `${esc(PUSH_LANGS[l] || l)} metni <b>${fmt(n)}</b>`).join(" · ");
+/* "Yaklaşık N kişi: X iOS, Y Android" (kurulumun platform alanından). */
+function platLine(list) {
+  const ios = list.filter(i => i.platform !== "android").length, and = list.length - ios;
+  return `<div class="row"><b>Yaklaşık ${fmt(list.length)} kişi: ${fmt(ios)} iOS, ${fmt(and)} Android</b></div>${and ? "" : `<div class="row"><span class="muted">Android Tenis telemetri yazmadığı ve bildirim konusuna abone olmadığı için Android'e bu panelden bildirim gitmez.</span></div>`}`;
+}
 function topicPool() { return allInstalls.filter(i => (!pushApps.length || pushApps.includes(i.app)) && i.notif === true); }
 function renderAudience() {
   const box = $("pushAud"); if (!box) return;
@@ -1955,6 +2254,7 @@ function renderAudience() {
   if (pushMode === "topics") {
     const pool = topicPool(), known = allInstalls.filter(i => (!pushApps.length || pushApps.includes(i.app)) && typeof i.notif === "boolean").length;
     box.innerHTML = `<div class="audbox"><div class="big">~${fmt(pool.length)}<small>kurulum</small></div>
+      ${platLine(pool)}
       <div class="row"><span>Bildirime izin veren, ${esc(targetText())}. Konuya abone olan herkes alır; telemetrisi eski olanlar sayıda yok.</span></div>
       ${hasTexts ? `<div class="row"><span>${splitText(textSplit(pool, texts))}</span></div>` : ""}
       <div class="row"><span>${fmt(known)} kurulumun izin durumu biliniyor.</span></div></div>`;
@@ -1969,6 +2269,7 @@ function renderAudience() {
   const split = {};
   if (hasTexts) for (const [l, n] of Object.entries(data.byLang || {})) { const k = texts[l] ? l : "en"; split[k] = (split[k] || 0) + n; }
   box.innerHTML = `<div class="audbox${warn ? " warnbox" : ""}"><div class="big">${fmt(data.withToken)}<small>cihaz</small></div>
+    ${platLine(allInstalls.filter(i => reachOf(i) && matchLocal(i, audFilter())))}
     <div class="row"><span>${esc(audSummary())}</span></div>
     <div class="row">${Object.entries(data.byApp || {}).sort((x, y) => y[1] - x[1]).map(([k, n]) => `<span class="app"><i style="background:${APPS[k]?.renk || "var(--soft)"}"></i>${esc(appName(k))} ${fmt(n)}</span>`).join("")}</div>
     ${hasTexts && data.withToken ? `<div class="row"><span>${splitText(split)}</span></div>` : ""}
@@ -2649,6 +2950,9 @@ function makeDemo() {
       visibility: k % 3 === 1 ? "private" : "public", city: LPLACE[k][0], country: LPLACE[k][1], season: k % 2 ? "Sonbahar 2026" : "Fall 2026",
       format: sport === "volleyball" || k === 3 ? "doubles" : "singles", status: k === 5 ? "setup" : "active", rulesText: "1 set · 6-6'da tiebreak",
       inviteCode: Array.from({ length: 6 }, () => "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[r(0, 31)]).join(""), createdAt: new Date(now - (k === 4 ? 3 : r(9, 60)) * 864e5) }; });
+  APP_KEYS.forEach(a => leagues.push({ id: "w_" + a, name: `${{ tennis: "Tennis & Padel", pickleball: "Pickleball", volleyball: "Volleyball", badminton: "Badminton", tabletennis: "Table Tennis" }[a]} World Ladder`, sport: a,
+    ownerUid: "official_" + a, ownerName: OFFICIAL[a].name, members: users.filter(u => u.sports.includes(a) && !u.id.startsWith("official_")).slice(0, 4).map(u => u.id), memberNames: {}, visibility: "public", open: true, official: true,
+    season: "Season 2026", status: "active", format: "singles", rulesText: "", inviteCode: "W" + a.slice(0, 5).toUpperCase(), createdAt: new Date(now - 864e5) }));
   // Fikstürler: kurulumdaki lig hariç, haftalara dağılmış, her durumdan.
   const fixtures = [], FST = ["approved", "approved", "approved", "confirmed", "submitted", "scheduled", "scheduled", "correction", "proposed"];
   leagues.filter(l => l.status === "active").forEach(l => {
@@ -2673,7 +2977,17 @@ function makeDemo() {
   });
   // Gönderi, yorum, beğeni, takip isteği, bildirim kutusu: bir kısmı bugün.
   const recent = () => new Date(now - Math.pow(rnd(), 2) * 6 * 864e5);
-  const posts = Array.from({ length: 18 }, (_, k) => { const a = pick(users); return { id: "p" + k, authorUid: a.id, authorHandle: a.handle, sport: a.sports[0], audience: k % 4 ? "public" : "followers", createdAt: recent() }; });
+  const CAPS = ["", "", "Great rally today!", "Finally won the tiebreak 💪", "Sunday doubles with the crew", "New racket, new me", "Close one, rematch next week"];
+  const posts = Array.from({ length: 18 }, (_, k) => { const a = pick(users), b = pick(users); const withMatch = k % 3 !== 2;
+    return { id: "p" + k, authorUid: a.id, authorHandle: a.handle, authorName: a.displayName, sport: a.sports[0], audience: k % 4 ? "public" : "followers", allowed: [a.id], caption: pick(CAPS),
+      place: k % 5 === 0 ? "Moda Tenis Kulübü" : undefined, hasPhoto: k % 6 === 1, likeCount: r(0, 6), commentCount: r(0, 3), showDetails: withMatch,
+      match: withMatch ? { title: `${a.displayName} × ${b.displayName}`, sets: `6-${r(0, 5)} · 6-${r(0, 5)}`, score: "2-0", won: rnd() < .6 } : undefined, createdAt: recent() }; });
+  // Resmi hesaplar, birer gönderi ve dünya ligi.
+  APP_KEYS.forEach((a, k) => {
+    const uid = "official_" + a, o = OFFICIAL[a];
+    users.push({ id: uid, handle: o.handle, displayName: o.name, sports: [a], bio: "Official account", private: false, createdAt: new Date(now - 864e5) });
+    if (k < 2) posts.push({ id: "po" + k, authorUid: uid, authorHandle: o.handle, authorName: o.name, sport: a, audience: "public", allowed: [uid], caption: "Season 2026 is on. Join the World Ladder from the Leagues tab.", likeCount: r(2, 9), commentCount: r(0, 3), hasPhoto: false, showDetails: false, createdAt: new Date(now - (k + 1) * 5 * 36e5) });
+  });
   const comments = posts.flatMap(p => Array.from({ length: r(0, 3) }, (_, k) => ({ id: p.id + "c" + k, path: `posts/${p.id}/comments/${p.id}c${k}`, uid: pick(users).id, createdAt: new Date(Math.min(now, ts(p.createdAt).getTime() + r(1, 30) * 36e5)) })));
   const likes = posts.flatMap(p => Array.from({ length: r(0, 6) }, (_, k) => ({ id: p.id + "l" + k, path: `posts/${p.id}/likes/${p.id}l${k}`, createdAt: new Date(Math.min(now, ts(p.createdAt).getTime() + r(1, 20) * 36e5)) })));
   const followRequests = users.slice(0, 4).filter((u, k) => users[k + 5]).map((u, k) => ({ id: `${u.id}_${users[k + 5].id}`, from: u.id, to: users[k + 5].id, createdAt: recent() }));

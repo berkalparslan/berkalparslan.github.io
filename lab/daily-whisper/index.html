@@ -220,6 +220,7 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
           <button class="ghost" id="pPreview">Kaç kişiye gider?</button>
           <span class="muted" id="pCount"></span>
         </div>
+        <p class="muted" id="pEst"></p>
         <div class="toolbar">
           <button id="pSend">Şimdi gönder</button>
           <input type="datetime-local" id="pAt" style="min-width:220px">
@@ -238,10 +239,15 @@ aside .navlabel{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--
       <div class="toolbar">
         <input id="uSearch" placeholder="Ara: e-posta, kurulum, dil, sürüm">
         <select id="uFilter"><option value="all">Hepsi</option><option value="signed">Giriş yapanlar</option><option value="premium">Premium</option><option value="onboarded">Onboarding bitmiş</option><option value="notonboarded">Onboarding yarım</option></select>
+        <select id="uPlat"></select><select id="uVer"></select><select id="uReg"></select><select id="uLang"></select>
+        <select id="uPrem"><option value="">Premium: hepsi</option><option value="1">Premium</option><option value="0">Premium olmayan</option></select>
+        <select id="uAcc"><option value="">Hesap: hepsi</option><option value="1">Giriş yapmış</option><option value="0">Anonim</option></select>
+        <select id="uNotif"><option value="">Bildirim: hepsi</option><option value="push">Push alabilir</option><option value="on">İzin açık</option><option value="off">İzin kapalı</option><option value="unasked">Sorulmadı</option></select>
+        <select id="uSeen"><option value="">Son görülme: hepsi</option><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="30">Son 30 gün</option><option value="-30">30+ gün sessiz</option></select>
         <span class="muted" id="uCount"></span>
       </div>
       <div class="tablewrap"><table><thead><tr>
-        <th>Son görülme</th><th>Hesap</th><th>Durum</th><th>Ekran / adım</th><th>Dil</th><th>Bölge</th><th>Sürüm</th><th>Hikaye</th><th>Dinleme</th><th>Uygulamada</th><th>Bildirim</th><th>AI istek</th><th>İlk görülme</th>
+        <th>Son görülme</th><th>Hesap</th><th>Durum</th><th>Ekran / adım</th><th>Platform</th><th>Dil</th><th>Bölge</th><th>Sürüm</th><th>Hikaye</th><th>Dinleme</th><th>Uygulamada</th><th>Bildirim</th><th>AI istek</th><th>İlk görülme</th>
       </tr></thead><tbody id="uRows"></tbody></table></div>
     </section>
 
@@ -481,7 +487,7 @@ async function loadData() {
   for (let i = 0; i < days; i++) { const k = day(new Date(from.getTime() + i * 864e5)); stats.push({ day: k, ...(byDay[k] || {}) }); }
   $("ovMeta").textContent = `${installs.length} kurulum`;
   $("topMeta").textContent = `Son güncelleme ${new Date().toLocaleTimeString("tr-TR")}`;
-  for (const f of [renderOverview, renderUsers, renderAI, renderLive, renderOnb, renderRevenue, renderEngage, renderNotifs, renderPushes]) {
+  for (const f of [renderOverview, renderUsers, renderAI, renderLive, renderOnb, renderRevenue, renderEngage, renderNotifs, renderPushes, pushEstimate]) {
     try { f(); } catch (e) { console.error(f.name, e); }
   }
 }
@@ -545,9 +551,33 @@ function renderOverview() {
 
 // ---------- Users ----------
 $("uSearch").oninput = renderUsers; $("uFilter").onchange = renderUsers;
+["uPlat", "uVer", "uReg", "uLang", "uPrem", "uAcc", "uNotif", "uSeen"].forEach(id => $(id).onchange = renderUsers);
+const platAd = p => p === "ios" ? "iOS" : p === "android" ? "Android" : (p || "?");
+function fillSel(id, label, vals, name = v => v) {
+  const el = $(id), cur = el.value, cnt = {};
+  vals.forEach(v => { if (v) cnt[v] = (cnt[v] || 0) + 1; });
+  el.innerHTML = `<option value="">${label}: hepsi</option>` + Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([v, n]) => `<option value="${esc(v)}">${esc(name(v))} (${fmt(n)})</option>`).join("");
+  el.value = cnt[cur] ? cur : "";
+}
+function seenOk(i, v) {
+  if (!v) return true;
+  const t = +ts(i.lastSeen) || 0, d = +v;
+  if (d < 0) return t < Date.now() - 30 * 864e5;
+  if (d === 1) { const g = new Date(); g.setHours(0, 0, 0, 0); return t >= +g; }
+  return t >= Date.now() - d * 864e5;
+}
+function extraOk(i) {
+  const v = id => $(id).value, n = v("uNotif");
+  return (!v("uPlat") || i.platform === v("uPlat")) && (!v("uVer") || i.appVersion === v("uVer")) && (!v("uReg") || i.region === v("uReg"))
+    && (!v("uLang") || i.language === v("uLang")) && (!v("uPrem") || !!i.premium === (v("uPrem") === "1"))
+    && (!v("uAcc") || !!i.uid === (v("uAcc") === "1")) && (!n || (n === "push" ? !!(i.apns || i.fcm) : i.notif === n)) && seenOk(i, v("uSeen"));
+}
 function renderUsers() {
+  fillSel("uPlat", "Platform", installs.map(i => i.platform), platAd); fillSel("uVer", "Sürüm", installs.map(i => i.appVersion));
+  fillSel("uReg", "Bölge", installs.map(i => i.region)); fillSel("uLang", "Dil", installs.map(i => i.language));
   const q = $("uSearch").value.trim().toLowerCase(), f = $("uFilter").value;
   const rows = installs.filter(i => {
+    if (!extraOk(i)) return false;
     if (f === "signed" && !i.uid) return false;
     if (f === "premium" && !i.premium) return false;
     if (f === "onboarded" && !i.onboarded) return false;
@@ -559,7 +589,7 @@ function renderUsers() {
     <td>${ago(ts(i.lastSeen))}</td>
     <td>${i.email ? esc(i.email) : `<span class="muted">anonim · ${i.id.slice(0, 8)}</span>`}</td>
     <td>${isOnline(i) ? '<span class="dot"></span>' : ''}${i.premium ? '<span class="pill pro">Premium</span> ' : ''}${i.onboarded ? '<span class="pill ok">Onboarding</span>' : '<span class="pill no">Yarım</span>'}</td>
-    <td>${esc(whereIs(i))}</td>
+    <td>${esc(whereIs(i))}</td><td>${esc(platAd(i.platform))}</td>
     <td>${esc(i.language || "")}</td><td>${esc(i.region || "")}</td><td>${esc(i.appVersion || "")} (${esc(i.build || "")})</td>
     <td>${fmt((i.stories_moment || 0) + (i.stories_custom || 0))}</td><td>${fmt(i.listens)}</td>
     <td>${i.ev ? mins(ev(i, "session_sec")) : "-"}</td><td>${NOTIF[i.notif] || "-"}</td>
@@ -863,6 +893,7 @@ $("pLangs").innerHTML = Object.entries(PUSH_LANGS).map(([l, n]) => `<label><inpu
 function renderPushTarget() {
   $("pOne").innerHTML = pushOne ? `Yalnız tek kişiye gidecek: <b>${esc(installs.find(i => i.id === pushOne)?.email || pushOne.slice(0, 8))}</b> <button class="ghost" id="pOneClear">Filtreye dön</button>` : "";
   if ($("pOneClear")) $("pOneClear").onclick = () => { pushOne = null; renderPushTarget(); };
+  pushEstimate();
 }
 function pushTarget() {
   if (pushOne) return { installIds: [pushOne] };
@@ -879,6 +910,19 @@ function pushErr(e) {
   $("pStatus").textContent = missing ? "" : "Olmadı: " + (e.message || e.code);
   if (missing) { $("pushSetup").classList.remove("hidden"); $("pushSetup").innerHTML = "Gönderme sunucusu henüz kurulmadı. Apple'dan push anahtarı (.p8) gelince kuruluyor."; }
 }
+// Live local estimate from loaded installs that can get a push (apns or fcm token).
+function pushEstimate() {
+  if (!$("pEst")) return;
+  const t = pushTarget(), now = Date.now();
+  const list = installs.filter(i => (i.apns || i.fcm) && (t.installIds ? t.installIds.includes(i.id) : (
+    (t.platform === "all" || i.platform === t.platform) && (t.premium === "any" || !!i.premium === (t.premium === "yes"))
+    && (t.onboarded === "any" || !!i.onboarded === (t.onboarded === "yes")) && (!t.languages.length || t.languages.includes(i.language))
+    && (!t.activeDays || (+ts(i.lastSeen) || 0) >= now - t.activeDays * 864e5) && (!t.inactiveDays || (+ts(i.lastSeen) || 0) < now - t.inactiveDays * 864e5))));
+  const ios = list.filter(i => i.platform === "ios").length, and = list.filter(i => i.platform === "android").length;
+  $("pEst").textContent = `Yaklaşık ${fmt(list.length)} kişi: ${fmt(ios)} iOS, ${fmt(and)} Android (yüklü kurulumlardan, push alabilenler)`;
+}
+document.querySelector('section[data-view="push"]').addEventListener("input", pushEstimate);
+document.querySelector('section[data-view="push"]').addEventListener("change", pushEstimate);
 $("pPreview").onclick = async () => {
   $("pCount").textContent = "Hesaplanıyor…";
   try { const r = (await httpsCallable(fns, "pushPreview")({ target: pushTarget() })).data; $("pCount").textContent = `${fmt(r.total)} kişi (${fmt(r.ios)} iOS, ${fmt(r.android)} Android)`; }

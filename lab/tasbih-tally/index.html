@@ -437,16 +437,55 @@ function kullanim(c) {
     Object.entries(su).filter(([k]) => !k.endsWith("_sec")).map(([k, v]) => [k, sayi(v)]))));
 }
 
+const kf = { q: "", platform: "", appVersion: "", region: "", language: "", pro: "", son: "" };
+function kSonOk(i, v) {
+  if (!v) return true;
+  const t = new Date(i.lastSeen || 0).getTime(), d = Number(v);
+  if (d < 0) return t < Date.now() - 30 * 86400000;
+  if (d === 1) { const g = new Date(); g.setHours(0, 0, 0, 0); return t >= g.getTime(); }
+  return t >= Date.now() - d * 86400000;
+}
 function kullanicilar(c) {
-  const liste = veri.installs.slice().sort((a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0));
-  const t = tablo(["Kurulum", "Platform", "Surum", "Bolge", "Bitki", "Pro", "Son gorulme"],
-    liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "",
-                    sayi(i.n_plants), i.pro ? "evet" : "", tarih(i.lastSeen)]));
-  [...t.querySelectorAll("tr")].slice(1).forEach((tr, idx) => {
-    tr.style.cursor = "pointer";
-    tr.onclick = () => cekmece(liste[idx]);
-  });
-  c.appendChild(kart(`${liste.length} kurulum`, t));
+  const hepsi = veri.installs.slice().sort((a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0));
+  const bar = el("div", "kfiltre");
+  bar.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px";
+  const ara = el("input"); ara.placeholder = "Ara: kurulum, surum, bolge, dil"; ara.value = kf.q; ara.style.maxWidth = "260px";
+  bar.appendChild(ara);
+  const secim = (k, ad, adla = v => v) => {
+    const s = el("select"); s.style.width = "auto";
+    const say = {}; hepsi.forEach(i => { const v = i[k]; if (v) say[v] = (say[v] || 0) + 1; });
+    s.innerHTML = `<option value="">${ad}: hepsi</option>` + Object.entries(say).sort((a, b) => b[1] - a[1])
+      .map(([v, n]) => `<option value="${String(v).replace(/"/g, "&quot;")}">${adla(v)} (${n})</option>`).join("");
+    if (!say[kf[k]]) kf[k] = "";
+    s.value = kf[k]; s.onchange = () => { kf[k] = s.value; ciz2(); };
+    bar.appendChild(s);
+  };
+  secim("platform", "Platform", v => v === "ios" ? "iOS" : v === "android" ? "Android" : v);
+  secim("appVersion", "Surum"); secim("region", "Bolge"); secim("language", "Dil");
+  const sabit = (k, html) => { const s = el("select"); s.style.width = "auto"; s.innerHTML = html; s.value = kf[k]; s.onchange = () => { kf[k] = s.value; ciz2(); }; bar.appendChild(s); };
+  sabit("pro", '<option value="">Pro: hepsi</option><option value="1">Pro</option><option value="0">Pro olmayan</option>');
+  sabit("son", '<option value="">Son gorulme: hepsi</option><option value="1">Bugun</option><option value="7">Son 7 gun</option><option value="30">Son 30 gun</option><option value="-30">30+ gun sessiz</option>');
+  const kutu = el("div");
+  c.appendChild(bar); c.appendChild(kutu);
+  ara.oninput = () => { kf.q = ara.value; ciz2(); };
+  function ciz2() {
+    const q = kf.q.trim().toLowerCase();
+    const liste = hepsi.filter(i => (!kf.platform || i.platform === kf.platform) && (!kf.appVersion || i.appVersion === kf.appVersion)
+      && (!kf.region || i.region === kf.region) && (!kf.language || i.language === kf.language)
+      && (!kf.pro || !!i.pro === (kf.pro === "1")) && kSonOk(i, kf.son)
+      && (!q || [i.id, i.platform, i.appVersion, i.region, i.language].join(" ").toLowerCase().includes(q)));
+    kutu.innerHTML = "";
+    const t = tablo(["Kurulum", "Platform", "Surum", "Bolge", "Bitki", "Pro", "Son gorulme"],
+      liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "",
+                      sayi(i.n_plants), i.pro ? "evet" : "", tarih(i.lastSeen)]));
+    [...t.querySelectorAll("tr")].slice(1).forEach((tr, idx) => {
+      tr.style.cursor = "pointer";
+      tr.onclick = () => cekmece(liste[idx]);
+    });
+    kutu.appendChild(kart(`${liste.length} / ${hepsi.length} kurulum`, t));
+
+  }
+  ciz2();
 }
 
 async function cekmece(install) {
