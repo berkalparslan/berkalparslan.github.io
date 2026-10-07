@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Player profile · Bam Studio</title>
+<meta property="og:title" content="Follow me on Bam Sports" />
+<meta property="og:description" content="Open my player profile in the app, or get the app on the App Store." />
+<meta property="og:image" content="https://bamstudio.dev/tennis-padel/assets/icon.webp" />
+<link rel="icon" href="/favicon.ico" />
+<style>
+  :root { --acc: #2CD758; --bg: #f2f2f7; --card: #fff; --ink: #111; --mute: #6b6b70; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #000; --card: #1c1c1e; --ink: #f5f5f7; --mute: #9a9aa0; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif;
+         min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+  main { width: 100%; max-width: 420px; }
+  .card { background: var(--card); border-radius: 20px; padding: 28px 22px; text-align: center;
+          box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+  .avatar { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center;
+            justify-content: center; font: 800 32px/1 ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+            color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, transparent); }
+  .handle { font: 800 26px/1.2 ui-rounded, "SF Pro Rounded", system-ui, sans-serif; word-break: break-all; }
+  .sub { color: var(--mute); margin-top: 6px; }
+  .btn { display: block; text-align: center; text-decoration: none; font-weight: 700; padding: 15px; border-radius: 99px; margin-top: 12px; }
+  .primary { background: var(--acc); color: #fff; }
+  .ghost { background: var(--card); color: var(--ink); }
+  .apps { margin-top: 22px; }
+  .apps h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--mute); margin: 0 0 8px 4px; }
+  .app { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 16px; padding: 12px;
+         margin-top: 8px; text-decoration: none; color: var(--ink); }
+  .app img { width: 44px; height: 44px; border-radius: 11px; }
+  .app b { display: block; font-size: 15px; }
+  .app span { color: var(--mute); font-size: 13px; }
+  .app i { margin-left: auto; font-style: normal; font-weight: 700; color: var(--acc); font-size: 14px; white-space: nowrap; }
+  .hint { color: var(--mute); font-size: 13px; text-align: center; margin-top: 14px; }
+  .foot { text-align: center; color: var(--mute); font-size: 12px; margin-top: 26px; }
+  .foot a { color: inherit; }
+  .err { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="card" id="card">
+    <div class="avatar" id="avatar">@</div>
+    <div class="handle" id="handle"></div>
+    <div class="sub" data-t="sub"></div>
+  </div>
+  <p class="card err" id="err" data-t="bad"></p>
+  <a class="btn primary" id="open" data-t="open"></a>
+  <section class="apps" id="apps">
+    <h2 data-t="get"></h2>
+    <div id="list"></div>
+  </section>
+  <p class="hint" data-t="hint"></p>
+  <p class="foot">Bam Studio · <a href="https://bamstudio.dev/">bamstudio.dev</a></p>
+</main>
+<script>
+(function () {
+  var APPS = {
+    tennis:      { name: "Tennis Padel Score Keeper",   scheme: "tenniskeeper",     store: "6756925523", color: "#2CD758", icon: "/tennis-padel/assets/icon.webp" },
+    pickleball:  { name: "Score Keeper for Pickleball", scheme: "pickleballkeeper", store: "6760598754", color: "#30B0C7", icon: "/pickleball/assets/icon.webp" },
+    volleyball:  { name: "Score Keeper for Volleyball", scheme: "volleyballkeeper", store: "6760615315", color: "#FF9500", icon: "/volleyball/assets/icon.webp" },
+    badminton:   { name: "Rally: Badminton",            scheme: "badmintonkeeper",  store: "6802337158", color: "#FF3B30", icon: "/rally-badminton/assets/icon.webp" },
+    tabletennis: { name: "Rally: Table Tennis",         scheme: "tablekeeperapp",   store: "6802339775", color: "#007AFF", icon: "/rally-table-tennis/assets/icon.webp" }
+  };
+  var tr = /^tr\b/i.test(navigator.language || "");
+  var T = tr ? {
+    sub: "Bam Sports oyuncusu", open: "Uygulamada aç ve takip et", get: "Uygulamayı indir",
+    store: "App Store", hint: "Uygulama yüklüyse profil açılır. Tek hesap beş uygulamanın hepsinde çalışır.",
+    bad: "Bu bağlantıda oyuncu bilgisi yok. Gönderen kişiden yeniden paylaşmasını iste."
+  } : {
+    sub: "Bam Sports player", open: "Open in the app and follow", get: "Get the app",
+    store: "App Store", hint: "With the app installed, the profile opens there. One account works in all five apps.",
+    bad: "This link has no player in it. Ask the sender to share it again."
+  };
+  document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = T[el.getAttribute("data-t")]; });
+  document.documentElement.lang = tr ? "tr" : "en";
+
+  var q = new URLSearchParams(location.search);
+  var h = (q.get("h") || "").replace(/^@/, "").toLowerCase();
+  var a = q.get("a") || "";
+  var app = APPS[a];
+  var valid = /^[a-z0-9_.]{3,20}$/.test(h);
+
+  if (app) document.documentElement.style.setProperty("--acc", app.color);
+
+  var list = document.getElementById("list");
+  var order = app ? [a].concat(Object.keys(APPS).filter(function (k) { return k !== a; })) : Object.keys(APPS);
+  (app ? [a] : order).forEach(function (k) {
+    var x = APPS[k];
+    var el = document.createElement("a");
+    el.className = "app";
+    el.href = "https://apps.apple.com/app/id" + x.store;
+    el.innerHTML = '<img alt="" /><div><b></b><span></span></div><i></i>';
+    el.querySelector("img").src = x.icon;
+    el.querySelector("b").textContent = x.name;
+    el.querySelector("span").textContent = "iPhone · Apple Watch";
+    el.querySelector("i").textContent = T.store;
+    list.appendChild(el);
+  });
+
+  var open = document.getElementById("open");
+  if (!valid) {
+    document.getElementById("card").style.display = "none";
+    document.getElementById("err").style.display = "block";
+    open.style.display = "none";
+    return;
+  }
+  document.getElementById("handle").textContent = "@" + h;
+  document.getElementById("avatar").textContent = h.charAt(0).toUpperCase();
+  document.title = "@" + h + " · Bam Studio";
+
+  var scheme = (app || APPS.tennis).scheme;
+  var deep = scheme + "://u/" + encodeURIComponent(h);
+  open.href = deep;
+  // Try the app once on arrival; without it nothing happens and the store buttons stay.
+  if (app && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
+    setTimeout(function () { location.href = deep; }, 300);
+  }
+})();
+</script>
+</body>
+</html>
