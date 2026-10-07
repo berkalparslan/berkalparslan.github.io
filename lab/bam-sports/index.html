@@ -232,6 +232,7 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
     <a href="#engage" data-page="engage">Kullanım</a>
     <a href="#users" data-page="users">Kullanıcılar</a>
     <a href="#social" data-page="social">Sosyal</a>
+    <a href="#leagues" data-page="leagues">Ligler</a>
     <a href="#ga4" data-page="ga4">Analytics</a>
     <div class="navlabel">YÖNET</div>
     <a href="#push" data-page="push">Bildirim gönder</a>
@@ -332,6 +333,9 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
       <h1>Sosyal</h1>
       <p class="muted">Apple ya da Google ile giriş, takip, paylaşılan maç sonuçları ve ligler. Listeler Firestore'dan (<code>users</code>, <code>follows</code>, <code>leagues</code>, <code>matches</code>) okunur; olay sayıları telemetriden. Kurulum çipine dokununca o kurulumun ayrıntısı açılır.</p>
       <div class="kpis" id="soKpis"></div>
+      <h2>İçerik ve bildirim</h2>
+      <p class="muted" style="margin-top:-6px">Firestore'daki toplamlar; alt satır bugün (Türkiye saatiyle gece yarısından beri) eklenen. Bildirim: oyuncudan oyuncuya kutu kayıtları (<code>notifications/*/items</code>), parantezde push olarak gidenler.</p>
+      <div class="kpis" id="soKpis2"></div>
       <div id="soErr"></div>
       <div class="card">
         <div class="sec-h"><h2 id="soListTitle">Kullanıcılar</h2>
@@ -345,6 +349,20 @@ td.wrap{white-space:normal;min-width:140px;max-width:280px}
         <div class="card"><h2>Arkadaşlar ve lig ekranı</h2><div class="dl" id="soScreens"></div></div>
         <div class="card"><h2>Firestore belgeleri</h2><div class="tablewrap"><table><thead><tr><th>Koleksiyon</th><th class="n">Belge</th><th>Not</th></tr></thead><tbody id="soDocs"></tbody></table></div></div>
       </div>
+    </section>
+
+    <section data-view="leagues" class="hidden">
+      <h1>Ligler</h1>
+      <p class="muted">Bütün ligler, özel olanlar da (yönetici okuması). Fikstürler <code>leagues/*/fixtures</code>, davetler <code>leagueInvites</code>, katılma istekleri <code>leagueRequests</code>. "Bu hafta aktif": son 7 günde kurulan ya da fikstüründe bir işlem (öneri, onay, düzeltme) olan lig. Satıra dokununca üyeler, fikstürler, bekleyen istek ve davetler açılır.</p>
+      <div class="kpis" id="lgKpis"></div>
+      <div id="lgErr"></div>
+      <div class="toolbar">
+        <input id="lgSearch" type="search" placeholder="Ara: lig adı, @düzenleyici, şehir, davet kodu">
+        <select id="lgSport" aria-label="Spor"></select>
+        <select id="lgVis" aria-label="Görünürlük"><option value="all">Herkese açık ve özel</option><option value="public">Herkese açık</option><option value="private">Özel</option></select>
+        <span class="muted" id="lgCount"></span>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Lig</th><th>Spor</th><th>Düzenleyici</th><th class="n">Üye</th><th>Görünürlük</th><th>Yer</th><th>Durum</th><th class="n">Fikstür</th><th class="n">Onaylı sonuç</th><th class="n">Bekleyen</th><th>Kuruldu</th></tr></thead><tbody id="lgRows"></tbody></table></div>
     </section>
 
     <section data-view="ga4" class="hidden">
@@ -666,7 +684,7 @@ let installs = [], stats = [];          // uygulama filtresi uygulanmış
 let evCache = {}, pwLoaded = false, pwLoading = false;
 let FB = null, dataReady = false;
 const PAGE_RENDER = { overview: [renderOverview], live: [renderLive], screens: [renderScreens], revenue: [renderRevenue, renderJourneys], engage: [renderEngage],
-  users: [renderUsers], social: [renderSocial], ga4: [renderGA4], push: [renderPushStats, pushRefresh], sent: [renderSent], settings: [] };
+  users: [renderUsers], social: [renderSocial], leagues: [renderLeagues], ga4: [renderGA4], push: [renderPushStats, pushRefresh], sent: [renderSent], settings: [] };
 let dirtyPages = new Set();
 let currentPage = "overview";
 let days = +(store.get("bs-panel-aralik") || 7);
@@ -761,7 +779,7 @@ function go(page) {
   $("drawer").classList.add("hidden");
   // Sayfa kodu dosyanın sonunda tanımlı; ilk açılışta (adres #push ise) hazır olsun diye ertele.
   setTimeout(() => pageLoad(page), 0);
-  $("chips").classList.toggle("hidden", page === "push" || page === "sent" || page === "settings");
+  $("chips").classList.toggle("hidden", page === "push" || page === "sent" || page === "settings" || page === "leagues");
   const fit = () => document.querySelectorAll(`section[data-view="${page}"] canvas`).forEach(c => charts[c.id]?.resize());
   requestAnimationFrame(fit); setTimeout(fit, 120);
   window.scrollTo(0, 0);
@@ -772,6 +790,7 @@ function pageLoad(page) {
   if (!dataReady || page !== currentPage) return;
   if (page === "revenue") loadJourneys();
   if (page === "social" || page === "users") loadSocial();
+  if (page === "leagues") loadLeagues();
   if (page === "push") { loadPushHealth(); loadTemplates(); pushRefresh(); }
   if (page === "sent") loadPushes();
 }
@@ -801,7 +820,7 @@ function renderChips() {
 // ---------- Veri ----------
 async function refreshAll() {
   $("refreshTop").disabled = true; $("topMeta").textContent = "Yenileniyor…";
-  evCache = {}; pwLoaded = false; social = null; socialPromise = null; pushes = null;
+  evCache = {}; pwLoaded = false; social = null; socialPromise = null; pushes = null; leagueData = null; leaguePromise = null;
   pushHealth = null; templates = null; openStats = null;
   try { await loadData(true); } finally { $("refreshTop").disabled = false; }
   pageLoad(currentPage);
@@ -1262,18 +1281,28 @@ function loadSocial() {
         try { raw[c] = (await F.getDocs(F.query(F.collection(db, c), F.limit(lim)))).docs.map(d => ({ id: d.id, ...d.data() })); }
         catch (e) { raw[c] = []; raw.err[c] = e.code === "permission-denied" ? "kurallar okumaya izin vermiyor" : (e.code || e.message); }
       };
+      // Alt koleksiyonlar (yorum, beğeni, bildirim kutusu) collection group ile; kural yalnız yöneticiye açık.
+      const group = async (key, c, lim) => {
+        try { raw[key] = (await F.getDocs(F.query(F.collectionGroup(db, c), F.limit(lim)))).docs.map(d => ({ id: d.id, path: d.ref.path, ...d.data() })); }
+        catch (e) { raw[key] = []; raw.err[key] = e.code === "permission-denied" ? "kurallar okumaya izin vermiyor" : (e.code || e.message); }
+      };
       await Promise.all([get("users", 3000), get("follows", 10000), get("leagues", 1000), get("matches", 3000),
+        get("posts", 5000), get("followRequests", 5000), group("comments", "comments", 10000), group("likes", "likes", 20000), group("notifItems", "items", 20000),
         (async () => { try { raw.handlesN = (await F.getCountFromServer(F.collection(db, "handles"))).data().count; } catch (e) { raw.err.handles = e.code || e.message; } })()]);
     }
     const followers = new Map(), following = new Map();
     for (const f of raw.follows) { following.set(f.follower, (following.get(f.follower) || 0) + 1); followers.set(f.followee, (followers.get(f.followee) || 0) + 1); }
     social = { users: raw.users, map: new Map(raw.users.map(u => [u.id, u])), follows: raw.follows, leagues: raw.leagues, matches: raw.matches,
+      posts: raw.posts || [], comments: raw.comments || [], likes: raw.likes || [], followRequests: raw.followRequests || [], notifItems: raw.notifItems || [],
       handlesN: raw.handlesN, err: raw.err || {}, followers, following };
     renderSocial(); renderUsers();
+    if (currentPage === "leagues") renderLeagues();
   })();
   return socialPromise;
 }
 const soReady = () => social && !social.loading;
+/* Türkiye'de bugünün başı (UTC+3, yaz saati yok). */
+function todayStartTR() { const off = 3 * 36e5, d = new Date(Date.now() + off); d.setUTCHours(0, 0, 0, 0); return d.getTime() - off; }
 const handleBy = uid => social?.map?.get(uid)?.handle;
 const atH = uid => handleBy(uid) ? `@${esc(handleBy(uid))}` : `<code>${esc(String(uid || "?").slice(0, 8))}</code>`;
 $("soSearch").oninput = renderSoList;
@@ -1293,11 +1322,25 @@ function renderSocial() {
     kpiH("Giriş yapmış kurulum", fmt(signed.length), installs.length ? `%${pct(signed.length, installs.length)} kurulum` : ""),
     kpiH("Sosyal işlem", fmt(evSum(stats, "social")), `${fmt(evSum(stats, "signin"))} giriş, ${periodWord()}`),
   ].join("");
+  const t0 = todayStartTR(), today = arr => arr.filter(x => (ts(x.createdAt)?.getTime() || 0) >= t0);
+  const c2 = (label, key, note = "") => {
+    if (!ok) return kpiH(label, "…", "");
+    const arr = social[key] || [];
+    return kpiH(label, social.err?.[key] ? "-" : fmt(arr.length), social.err?.[key] ? "okunamadı" : `bugün ${fmt(today(arr).length)}${note}`);
+  };
+  const itemsToday = ok ? today(social.notifItems || []) : [];
+  $("soKpis2").innerHTML = [
+    c2("Gönderi", "posts"), c2("Yorum", "comments"), c2("Beğeni", "likes"),
+    c2("Takip isteği", "followRequests", ok ? ` · ${fmt((social.followRequests || []).length)} bekliyor` : ""),
+    ok ? kpiH("Bildirim bugün", social.err?.notifItems ? "-" : fmt(itemsToday.length), social.err?.notifItems ? "okunamadı" : `${fmt(itemsToday.filter(x => x.pushed).length)} push · toplam ${fmt((social.notifItems || []).length)}`) : kpiH("Bildirim bugün", "…"),
+  ].join("");
   const errs = ok ? Object.entries(social.err || {}) : [];
   $("soErr").innerHTML = errs.length ? `<div class="note err">Okunamayan: ${errs.map(([c, e]) => `<code>${esc(c)}</code> (${esc(e)})`).join(", ")}</div>` : "";
   $("soDocs").innerHTML = !ok ? `<tr><td colspan="3" class="muted">Okunuyor…</td></tr>`
     : [["users", "Profil (users)", social.users.length], ["handles", "Kullanıcı adı (handles)", social.handlesN], ["follows", "Takip (follows)", social.follows.length],
-      ["leagues", "Lig (leagues)", social.leagues.length], ["matches", "Paylaşılan maç (matches)", social.matches.length]]
+      ["leagues", "Lig (leagues)", social.leagues.length], ["matches", "Paylaşılan maç (matches)", social.matches.length],
+      ["posts", "Gönderi (posts)", social.posts.length], ["comments", "Yorum (posts/*/comments)", social.comments.length], ["likes", "Beğeni (posts/*/likes)", social.likes.length],
+      ["followRequests", "Takip isteği (followRequests)", social.followRequests.length], ["notifItems", "Bildirim kutusu (notifications/*/items)", social.notifItems.length]]
       .map(([c, ad, v]) => `<tr><td>${ad}</td><td class="n">${v != null ? `<b>${fmt(v)}</b>` : "-"}</td><td class="muted" style="white-space:normal">${esc(social.err?.[c] || "")}</td></tr>`).join("");
   bars("soSignin", sorted(signins, SIGNIN), "Bu dönemde giriş yok.");
   bars("soActions", sorted(acts, SOCIAL), "Bu dönemde sosyal işlem yok.");
@@ -1345,6 +1388,124 @@ function renderSoList() {
   $("soCount").textContent = `${fmt(n)} kayıt`;
   $("soRows").innerHTML = rows.length ? rows.join("") : `<tr><td colspan="8" class="muted">${q ? "Bu aramaya uyan kayıt yok." : "Henüz kayıt yok."}</td></tr>`;
   bindInstallChips($("soRows"));
+}
+
+// ---------- Ligler ----------
+/* Ligler sosyal okumadan (leagues, bütün ligler: kural yöneticiye açık),
+   fikstürler collection group ile, davet ve istekler kendi koleksiyonundan.
+   Bir kez okunur; Yenile ile tazelenir. */
+let leagueData = null, leaguePromise = null;
+const L_STATUS = { setup: ["Kurulumda", "no"], active: ["Sürüyor", "ok"], finished: ["Bitti", "sky"], done: ["Bitti", "sky"], archived: ["Arşiv", "no"] };
+const F_STATUS = { scheduled: ["Oynanacak", "no"], submitted: ["Onay bekliyor", "warn"], confirmed: ["Düzenleyici bekliyor", "warn"], approved: ["Onaylandı", "ok"], correction: ["Düzeltme istendi", "err"], proposed: ["Eklenecek maç", "sky"] };
+const F_ACTION = { proposed: "önerdi", submitted: "sonucu girdi", confirmed: "onayladı", added: "ekledi", approved: "düzenleyici onayladı", correction: "düzeltme istedi", declined: "reddetti", edited: "düzenledi" };
+const PENDING_F = ["submitted", "confirmed", "correction", "proposed"];
+function loadLeagues() {
+  if (leaguePromise) return leaguePromise;
+  leagueData = { loading: true };
+  renderLeagues();
+  leaguePromise = (async () => {
+    const soP = loadSocial();
+    let raw;
+    if (DEMO) raw = demo.leagueData;
+    else {
+      const { db, F } = FB; raw = { err: {} };
+      const run = async (key, q) => {
+        try { raw[key] = (await F.getDocs(q)).docs.map(d => ({ id: d.id, leagueId: d.ref.parent.parent?.id || d.data().leagueId, ...d.data() })); }
+        catch (e) { raw[key] = []; raw.err[key] = e.code === "permission-denied" ? "kurallar okumaya izin vermiyor" : (e.code || e.message); }
+      };
+      await Promise.all([
+        run("fixtures", F.query(F.collectionGroup(db, "fixtures"), F.limit(20000))),
+        run("invites", F.query(F.collection(db, "leagueInvites"), F.limit(5000))),
+        run("requests", F.query(F.collection(db, "leagueRequests"), F.limit(5000))),
+      ]);
+    }
+    await soP;
+    const byLeague = new Map();
+    for (const f of raw.fixtures) { const a = byLeague.get(f.leagueId) || []; a.push(f); byLeague.set(f.leagueId, a); }
+    leagueData = { fixtures: raw.fixtures, invites: raw.invites, requests: raw.requests, byLeague, err: raw.err || {} };
+    renderLeagues();
+  })();
+  return leaguePromise;
+}
+const lgReady = () => leagueData && !leagueData.loading && soReady();
+/* Fikstürün son işlem zamanı: geçmişin son kaydı, yoksa kuruluşu. */
+const fixLast = f => Math.max(ts(f.createdAt)?.getTime() || 0, ...(f.history || []).map(h => ts(h.at)?.getTime() || 0));
+const approvedAt = f => { const h = (f.history || []).filter(x => x.action === "approved").map(x => ts(x.at)?.getTime() || 0); return h.length ? Math.max(...h) : (f.status === "approved" ? fixLast(f) : 0); };
+const memberName = (l, uid) => handleBy(uid) ? `@${esc(handleBy(uid))}` : l.memberNames?.[uid] ? esc(l.memberNames[uid]) : `<code>${esc(String(uid || "?").slice(0, 8))}</code>`;
+const ownerCell = l => handleBy(l.ownerUid) ? `<b>@${esc(handleBy(l.ownerUid))}</b>` : l.ownerName ? esc(l.ownerName) : atH(l.ownerUid);
+const placeOf = l => [l.city, l.country ? `${flag(l.country)} ${l.country}` : ""].filter(Boolean).join(", ");
+const visPill = l => (l.visibility || "private") === "public" ? '<span class="pill ok">Herkese açık</span>' : '<span class="pill no">Özel</span>';
+const lStatusPill = l => { const s = L_STATUS[l.status] || [l.status || "-", "no"]; return `<span class="pill ${s[1]}">${esc(s[0])}</span>`; };
+const fStatusPill = f => { const s = F_STATUS[f.status] || [f.status || "?", "no"]; return `<span class="pill ${s[1]}">${esc(s[0])}</span>`; };
+$("lgSearch").oninput = renderLeagues; $("lgVis").onchange = renderLeagues;
+$("lgSport").innerHTML = `<option value="all">Bütün sporlar</option>` + APP_KEYS.map(a => `<option value="${a}">${esc(appName(a))}</option>`).join("");
+$("lgSport").onchange = renderLeagues;
+function renderLeagues() {
+  if (!lgReady()) {
+    $("lgKpis").innerHTML = ["Lig", "Herkese açık", "Bu hafta aktif", "Bu hafta onaylı sonuç"].map(k => kpiH(k, "…")).join("");
+    $("lgRows").innerHTML = `<tr><td colspan="11" class="muted">Okunuyor…</td></tr>`; $("lgCount").textContent = ""; $("lgErr").innerHTML = ""; return;
+  }
+  const all = social.leagues, D = leagueData, week = Date.now() - 7 * 864e5;
+  const fx = id => D.byLeague.get(id) || [];
+  const activeWeek = l => (ts(l.createdAt)?.getTime() || 0) >= week || fx(l.id).some(f => fixLast(f) >= week);
+  const apprWeek = D.fixtures.filter(f => approvedAt(f) >= week);
+  $("lgKpis").innerHTML = [
+    kpiH("Lig", fmt(all.length), `${fmt(all.reduce((t, l) => t + (l.members || []).length, 0))} üyelik`),
+    kpiH("Herkese açık", fmt(all.filter(l => l.visibility === "public").length), `${fmt(all.filter(l => l.visibility !== "public").length)} özel`),
+    kpiH("Bu hafta aktif", fmt(all.filter(activeWeek).length), "son 7 gün"),
+    kpiH("Bu hafta onaylı sonuç", fmt(apprWeek.length), `${fmt(D.fixtures.length)} fikstür · ${fmt(D.fixtures.filter(f => PENDING_F.includes(f.status)).length)} bekleyen`),
+    kpiH("Bekleyen istek / davet", `${fmt(D.requests.length)} / ${fmt(D.invites.length)}`, "leagueRequests / leagueInvites"),
+  ].join("");
+  const errs = Object.entries({ ...D.err, ...(social.err?.leagues ? { leagues: social.err.leagues } : {}) });
+  $("lgErr").innerHTML = errs.length ? `<div class="note err">Okunamayan: ${errs.map(([c, e]) => `<code>${esc(c)}</code> (${esc(e)})`).join(", ")}</div>` : "";
+  const q = $("lgSearch").value.trim().toLowerCase().replace(/^@/, ""), sp = $("lgSport").value, vis = $("lgVis").value;
+  const list = all.filter(l => (sp === "all" || l.sport === sp) && (vis === "all" || (l.visibility || "private") === vis)
+      && (!q || [l.name, l.inviteCode, handleBy(l.ownerUid), l.ownerName, l.city, l.country, l.season, appName(l.sport)].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => (ts(b.createdAt)?.getTime() || 0) - (ts(a.createdAt)?.getTime() || 0));
+  $("lgCount").textContent = `${fmt(list.length)} lig`;
+  $("lgRows").innerHTML = list.length ? list.map(l => {
+    const f = fx(l.id);
+    return `<tr class="click" data-lg="${esc(l.id)}"><td><b>${esc(l.name || "?")}</b>${l.season ? `<small class="muted" style="display:block">${esc(l.season)}</small>` : ""}</td><td>${appTag(l.sport)}</td><td>${ownerCell(l)}</td>
+      <td class="n">${fmt((l.members || []).length)}</td><td>${visPill(l)}</td><td>${esc(placeOf(l)) || "-"}</td><td>${lStatusPill(l)}</td>
+      <td class="n">${fmt(f.length)}</td><td class="n">${fmt(f.filter(x => x.status === "approved").length)}</td><td class="n">${fmt(f.filter(x => PENDING_F.includes(x.status)).length + D.requests.filter(r => r.leagueId === l.id).length)}</td><td>${dateS(l.createdAt)}</td></tr>`;
+  }).join("") : `<tr><td colspan="11" class="muted">${q || sp !== "all" || vis !== "all" ? "Bu filtreye uyan lig yok." : "Henüz lig yok."}</td></tr>`;
+  document.querySelectorAll("#lgRows tr.click").forEach(tr => tr.onclick = () => openLeague(tr.dataset.lg));
+}
+function openLeague(id) {
+  const l = social?.leagues?.find(x => x.id === id); if (!l || !lgReady()) return;
+  const D = leagueData, d = $("drawer");
+  d.classList.remove("hidden"); d.scrollTop = 0; d.dataset.open = "lg:" + id;
+  const fx = (D.byLeague.get(id) || []).slice().sort((a, b) => (+a.week || 0) - (+b.week || 0) || fixLast(b) - fixLast(a));
+  const reqs = D.requests.filter(r => r.leagueId === id), invs = D.invites.filter(r => r.leagueId === id);
+  const byStatus = countBy(fx, f => f.status || "?");
+  const side = (f, k) => esc(f[`side${k}Name`] || "") || (f[`side${k}Members`] || []).map(u => memberName(l, u)).join(" & ") || "?";
+  const score = f => f.result ? esc(f.result.sets || `${f.result.setsA ?? "?"}-${f.result.setsB ?? "?"}`) : "-";
+  const lastAct = f => { const h = (f.history || []).slice().sort((a, b) => (ts(b.at)?.getTime() || 0) - (ts(a.at)?.getTime() || 0))[0];
+    return h ? `${memberName(l, h.by)} ${esc(F_ACTION[h.action] || h.action || "")} · ${dtS(h.at)}${h.reason ? ` <span class="muted">(${esc(h.reason)})</span>` : ""}` : "-"; };
+  const person = (uid, name, handle) => uid && handleBy(uid) ? `@${esc(handleBy(uid))}` : handle ? `@${esc(handle)}` : esc(name || String(uid || "?").slice(0, 8));
+  d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">${esc(l.name || "?")}</h2><button class="ghost" id="dClose">Kapat</button></div>
+    <p class="muted" style="overflow-wrap:anywhere;margin:4px 0 10px"><code>${esc(id)}</code></p>
+    <div style="margin:0 0 12px;display:flex;gap:6px;flex-wrap:wrap">${appTag(l.sport)} ${visPill(l)} ${lStatusPill(l)}</div>
+    <div class="dl">
+      <div>Düzenleyici</div><div>${ownerCell(l)}${l.ownerName && handleBy(l.ownerUid) ? ` <span class="muted">${esc(l.ownerName)}</span>` : ""}</div>
+      <div>Sezon</div><div>${esc(l.season || "-")}</div>
+      <div>Biçim</div><div>${esc([l.format === "doubles" ? "Çiftler" : l.format === "singles" ? "Tekler" : l.format, l.gameType].filter(Boolean).join(" · ") || "-")}</div>
+      <div>Kurallar</div><div>${esc(l.rulesText || "-")}</div>
+      <div>Yer</div><div>${esc(placeOf(l)) || "-"}</div>
+      <div>Davet kodu</div><div><code>${esc(l.inviteCode || "-")}</code></div>
+      <div>Kuruldu</div><div>${ts(l.createdAt)?.toLocaleString("tr-TR") || "-"}</div>
+      <div>Fikstür</div><div>${fmt(fx.length)}${fx.length ? " · " + Object.entries(byStatus).map(([k, v]) => `${esc((F_STATUS[k] || [k])[0])} ${fmt(v)}`).join(" · ") : ""}</div>
+    </div>
+    <h2>Üyeler <span class="muted">${fmt((l.members || []).length)}</span></h2>
+    <div class="tablewrap"><table><thead><tr><th>Oyuncu</th><th>Kurulumlar</th></tr></thead><tbody>${(l.members || []).map(u => `<tr><td>${memberName(l, u)}${u === l.ownerUid ? ' <span class="pill warn">Düzenleyici</span>' : ""}${handleBy(u) && l.memberNames?.[u] ? ` <span class="muted">${esc(l.memberNames[u])}</span>` : ""}</td><td>${installsOf(u).map(installChip).join(" ") || '<span class="muted">telemetride yok</span>'}</td></tr>`).join("") || '<tr><td colspan="2" class="muted">Üye yok.</td></tr>'}</tbody></table></div>
+    <h2>Bekleyen katılma istekleri <span class="muted">${fmt(reqs.length)}</span></h2>
+    ${reqs.length ? `<div class="tablewrap"><table><thead><tr><th>Oyuncu</th><th>İstedi</th></tr></thead><tbody>${reqs.map(r => `<tr><td>${person(r.uid, r.name, r.handle)}</td><td>${dtS(r.createdAt)}</td></tr>`).join("")}</tbody></table></div>` : '<p class="muted">Yok.</p>'}
+    <h2>Gönderilen davetler <span class="muted">${fmt(invs.length)}</span></h2>
+    ${invs.length ? `<div class="tablewrap"><table><thead><tr><th>Davet edilen</th><th>Davet eden</th><th>Zaman</th></tr></thead><tbody>${invs.map(r => `<tr><td>${person(r.uid, r.name, r.handle)}</td><td>${person(r.fromUid, r.fromName)}</td><td>${dtS(r.createdAt)}</td></tr>`).join("")}</tbody></table></div>` : '<p class="muted">Yok.</p>'}
+    <h2>Fikstürler <span class="muted">${fmt(fx.length)}</span></h2>
+    ${fx.length ? `<div class="tablewrap"><table><thead><tr><th class="n">Hafta</th><th>Eşleşme</th><th>Durum</th><th>Skor</th><th>Son işlem</th></tr></thead><tbody>${fx.map(f => `<tr><td class="n">${f.week != null ? fmt(f.week) : "-"}</td><td class="wrap">${side(f, "A")} × ${side(f, "B")}</td><td>${fStatusPill(f)}</td><td>${score(f)}</td><td class="wrap">${lastAct(f)}</td></tr>`).join("")}</tbody></table></div>` : '<p class="muted">Henüz fikstür yok (lig kurulum aşamasında olabilir).</p>'}`;
+  $("dClose").onclick = () => d.classList.add("hidden");
+  bindInstallChips(d);
 }
 
 // ---------- Analytics ----------
@@ -1610,9 +1771,7 @@ function setMode(m) {
   document.querySelectorAll("#pushModes .mode").forEach(b => b.classList.toggle("on", b.dataset.mode === m));
   $("whoTopics").classList.toggle("hidden", m !== "topics");
   $("whoAud").classList.toggle("hidden", m !== "devices");
-  $("pushHint").innerHTML = m === "topics"
-    ? `Test: yalnız <code>bs_test</code> konusuna tek mesaj (Türkçe metin varsa o, yoksa İngilizce); uygulama seçimi dikkate alınmaz.`
-    : `Test: filtre ne olursa olsun yalnız test cihazlarına (TestFlight ya da Profil'de sürüm satırına yedi dokunuş), her biri kendi dilinde.`;
+  $("pushHint").innerHTML = `Test: ${m === "topics" ? "uygulama seçimi" : "filtre"} ne olursa olsun yalnız test cihazlarına (TestFlight ya da Profil'de sürüm satırına yedi dokunuş), cihaz adresiyle tek tek, her biri kendi dilinde. <code>bs_test</code> konusu kullanılmaz: konuya gönderim kimse abone olmasa da "gönderildi" görünür.`;
   if (m === "devices") renderAudFilters();
   pushChanged(true);
 }
@@ -2051,7 +2210,10 @@ function buildPayload(kind) {
   if (pushMode === "topics") { p.apps = pushApps.slice(); p.estimate = topicPool().length; }
   else p.filter = audFilter();
   if (kind === "validate") p.validate = true;
-  if (kind === "test") { p.test = true; p.summary = pushMode === "topics" ? "Test cihazları (bs_test)" : "Test cihazları (cihaz adresiyle)"; }
+  /* Test her zaman cihaz adresiyle gider: bs_test konusuna gönderim FCM'de
+     "gönderildi" der ama 2.0 (10) ve öncesi iOS sürümleri konulara hiç
+     katılamadı, telefona bir şey düşmüyordu. Worker da testi cihaz moduna çevirir. */
+  if (kind === "test") { p.test = true; p.mode = "devices"; delete p.apps; delete p.estimate; p.filter = {}; p.summary = "Test cihazları (cihaz adresiyle)"; }
   if (kind === "schedule") p.sendAt = new Date(sendAtMs()).toISOString();
   return p;
 }
@@ -2463,8 +2625,8 @@ function makeDemo() {
   });
   // Sosyal katman: giriş yapanlara hesap, bazısı iki uygulamada aynı hesap.
   const HANDLES = ["deniz.k", "matchpoint", "ace_ali", "lena_spin", "volley.ece", "baseline_bob", "smash.sam", "drop_shot", "tiebreak.tom", "rally_rita", "kort.kral", "net.ninja",
-    "spin.doctor", "padel_pia", "love_all", "mert.serve", "dinks.only", "kitchen_kim", "shuttle.sun", "pingpong.pao", "berk.test", "elif.ace", "sena.set", "can.lob", "jo_volley", "max.power", "nora_net", "omer.ok"];
-  const NAMES = ["Deniz Kaya", "Lucas M.", "Ali Yıldız", "Lena", "Ece", "Bob Turner", "Sam", "Mia Rossi", "Tom", "Rita", "Kerem", "Yuki", "Dr. Spin", "Pia", "Chloé", "Mert", "Dana", "Kim", "Sunny", "Pao", "Berk (test)", "Elif", "Sena", "Can", "Jo", "Max", "Nora", "Ömer"];
+    "spin.doctor", "padel_pia", "love_all", "mert.serve", "dinks.only", "kitchen_kim", "shuttle.sun", "pingpong.pao", "test.user", "elif.ace", "sena.set", "can.lob", "jo_volley", "max.power", "nora_net", "omer.ok"];
+  const NAMES = ["Deniz Kaya", "Lucas M.", "Ali Yıldız", "Lena", "Ece", "Bob Turner", "Sam", "Mia Rossi", "Tom", "Rita", "Kerem", "Yuki", "Dr. Spin", "Pia", "Chloé", "Mert", "Dana", "Kim", "Sunny", "Pao", "Test", "Elif", "Sena", "Can", "Jo", "Max", "Nora", "Ömer"];
   const signedL = list.filter(i => i.signedIn), users = [];
   signedL.forEach((inst, k) => {
     if (k % 6 === 5 && users.length) { const u = users[users.length - 1]; inst.uid = u.id; if (!u.sports.includes(inst.app)) u.sports.push(inst.app); }
@@ -2479,9 +2641,44 @@ function makeDemo() {
   for (const u of users) for (let k = 0; k < r(0, 6); k++) { const o = pick(users); if (o !== u && !follows.some(f => f.follower === u.id && f.followee === o.id)) follows.push({ id: `${u.id}_${o.id}`, follower: u.id, followee: o.id, createdAt: new Date(now - r(1, 40) * 864e5) }); }
   const LNAMES = ["Salı Akşamı Ligi", "Moda Kort Kulübü", "Office Smash", "Sunday Doubles", "Kadıköy Pickle", "Ping Pong Masters"];
   const LSPORT = ["tennis", "tennis", "volleyball", "tennis", "pickleball", "tabletennis"];
+  const LPLACE = [["İstanbul", "TR"], ["İstanbul", "TR"], ["London", "GB"], ["Berlin", "DE"], ["İzmir", "TR"], ["Amsterdam", "NL"]];
   const leagues = LNAMES.map((name, k) => { const owner = users[(k * 5) % users.length]; const sport = LSPORT[k];
     const members = [owner.id, ...users.filter(u => u !== owner && rnd() < .3).map(u => u.id)].slice(0, 9);
-    return { id: "lg" + k, name, sport, ownerUid: owner.id, members, inviteCode: Array.from({ length: 6 }, () => "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[r(0, 31)]).join(""), createdAt: new Date(now - r(2, 60) * 864e5) }; });
+    if (members.length < 3) members.push(...users.filter(u => !members.includes(u.id)).slice(0, 3 - members.length).map(u => u.id));
+    return { id: "lg" + k, name, sport, ownerUid: owner.id, ownerName: owner.displayName, members, memberNames: Object.fromEntries(members.map(id => [id, users.find(u => u.id === id)?.displayName || ""])),
+      visibility: k % 3 === 1 ? "private" : "public", city: LPLACE[k][0], country: LPLACE[k][1], season: k % 2 ? "Sonbahar 2026" : "Fall 2026",
+      format: sport === "volleyball" || k === 3 ? "doubles" : "singles", status: k === 5 ? "setup" : "active", rulesText: "1 set · 6-6'da tiebreak",
+      inviteCode: Array.from({ length: 6 }, () => "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[r(0, 31)]).join(""), createdAt: new Date(now - (k === 4 ? 3 : r(9, 60)) * 864e5) }; });
+  // Fikstürler: kurulumdaki lig hariç, haftalara dağılmış, her durumdan.
+  const fixtures = [], FST = ["approved", "approved", "approved", "confirmed", "submitted", "scheduled", "scheduled", "correction", "proposed"];
+  leagues.filter(l => l.status === "active").forEach(l => {
+    let fid = 0;
+    for (let w = 1; w <= 4; w++) for (let k = 0; k + 1 < l.members.length && k < 4; k += 2) {
+      const a = l.members[k], b = l.members[k + 1], st = w <= 2 ? (rnd() < .8 ? "approved" : pick(FST)) : pick(FST);
+      const made = ts(l.createdAt).getTime() + w * 3 * 864e5, at = Math.min(now - 12 * 36e5, made + r(1, 5) * 864e5);
+      const res = st === "scheduled" ? null : (() => { const ga = r(3, 7), gb = r(0, 6); return { sets: `${ga}-${gb}, ${r(4, 7)}-${r(0, 5)}`, setsA: 2, setsB: 0, winner: "A", source: "phone" }; })();
+      const hist = st === "scheduled" ? [] : [{ action: st === "proposed" ? "proposed" : "submitted", by: a, at: new Date(at), reason: "" }];
+      if (["confirmed", "approved"].includes(st)) hist.push({ action: "confirmed", by: b, at: new Date(at + 4 * 36e5), reason: "" });
+      if (st === "approved") hist.push({ action: "approved", by: l.ownerUid, at: new Date(Math.min(now - 6e4, at + 9 * 36e5)), reason: "" });
+      if (st === "correction") hist.push({ action: "correction", by: l.ownerUid, at: new Date(at + 6 * 36e5), reason: "Skor eksik" });
+      fixtures.push({ id: `${l.id}f${fid++}`, leagueId: l.id, week: w, sideA: a, sideB: b, sideAMembers: [a], sideBMembers: [b],
+        sideAName: l.memberNames[a], sideBName: l.memberNames[b], status: st, result: res, history: hist, createdAt: new Date(made) });
+    }
+  });
+  const lReq = [], lInv = [];
+  leagues.forEach((l, k) => {
+    const outs = users.filter(u => !l.members.includes(u.id));
+    if (k % 2 === 0 && outs[k]) lReq.push({ id: `${l.id}_${outs[k].id}`, leagueId: l.id, leagueName: l.name, uid: outs[k].id, name: outs[k].displayName, handle: outs[k].handle, ownerUid: l.ownerUid, createdAt: new Date(now - r(1, 40) * 36e5) });
+    if (k % 3 !== 2 && outs[k + 2]) lInv.push({ id: `${l.id}_${outs[k + 2].id}`, leagueId: l.id, leagueName: l.name, uid: outs[k + 2].id, name: outs[k + 2].displayName, handle: outs[k + 2].handle, fromUid: l.ownerUid, fromName: l.ownerName, createdAt: new Date(now - r(1, 70) * 36e5) });
+  });
+  // Gönderi, yorum, beğeni, takip isteği, bildirim kutusu: bir kısmı bugün.
+  const recent = () => new Date(now - Math.pow(rnd(), 2) * 6 * 864e5);
+  const posts = Array.from({ length: 18 }, (_, k) => { const a = pick(users); return { id: "p" + k, authorUid: a.id, authorHandle: a.handle, sport: a.sports[0], audience: k % 4 ? "public" : "followers", createdAt: recent() }; });
+  const comments = posts.flatMap(p => Array.from({ length: r(0, 3) }, (_, k) => ({ id: p.id + "c" + k, path: `posts/${p.id}/comments/${p.id}c${k}`, uid: pick(users).id, createdAt: new Date(Math.min(now, ts(p.createdAt).getTime() + r(1, 30) * 36e5)) })));
+  const likes = posts.flatMap(p => Array.from({ length: r(0, 6) }, (_, k) => ({ id: p.id + "l" + k, path: `posts/${p.id}/likes/${p.id}l${k}`, createdAt: new Date(Math.min(now, ts(p.createdAt).getTime() + r(1, 20) * 36e5)) })));
+  const followRequests = users.slice(0, 4).filter((u, k) => users[k + 5]).map((u, k) => ({ id: `${u.id}_${users[k + 5].id}`, from: u.id, to: users[k + 5].id, createdAt: recent() }));
+  const NTYPES = ["like", "comment", "follow", "leagueResult", "leagueInvite", "leagueRequest"];
+  const notifItems = Array.from({ length: 40 }, (_, k) => { const at = recent(); return { id: "n" + k, path: `notifications/${pick(users).id}/items/n${k}`, type: pick(NTYPES), fromUid: pick(users).id, createdAt: at, pushed: rnd() < .7 }; });
   const matches = Array.from({ length: 26 }, (_, k) => { const a = pick(users), b = pick(users.filter(u => u !== a)) || a; const played = now - r(0, 45) * 864e5 - r(0, 20) * 36e5;
     return { id: "m" + k, sport: a.sports[0], createdBy: a.id, players: [a.id, b.id], status: k % 5 === 0 ? "pending" : k % 13 === 7 ? "disputed" : "confirmed", winner: pick([a.id, b.id]), playedAt: new Date(played), createdAt: new Date(played + 36e5) }; });
   // Gönderilenler: her durumdan biri; açılmalar günlük kayıtlara ve kurulumlara işlenir.
@@ -2524,7 +2721,8 @@ function makeDemo() {
     { id: "t2", name: "Geri dön (14 gün)", mode: "devices", apps: [], aud: { apps: [], langs: [], pro: "free", signed: "any", act: "inactive", actDays: 7, inactDays: 14, ids: [] }, texts: T2, tab: "setup", updatedAt: new Date(now - 6 * 864e5) },
   ];
   demo = { installs: list, stats: Object.values(statsMap), events, ga4: fakeGA4(rnd, pick), pushes: demoPushes, templates,
-    socialData: { users, follows, leagues, matches, handlesN: users.length, err: {} } };
+    socialData: { users, follows, leagues, matches, posts, comments, likes, followRequests, notifItems, handlesN: users.length, err: {} },
+    leagueData: { fixtures, invites: lInv, requests: lReq, err: {} } };
 }
 function fakeGA4(rnd, pick) {
   const now = Date.now(), gun = 90, g = { uretim: new Date(now - 5 * 36e5).toISOString(), gun, gunluk: [], olaylar: [], kohort: [] };
