@@ -120,13 +120,14 @@ const firebaseConfig = {
 /* Ekran anahtarlari uygulamada sabit; burada yalnizca etiketleri degisir.
    Yeni ekran eklendiginde bu haritaya da bir satir gir. */
 const EKRAN = {
-  plants: "Bitkiler", care: "Bakim", catalog: "Katalog", settings: "Ayarlar",
+  plants: "Bitkiler", care: "Bakim", catalog: "Ogren", learn: "Ogren", settings: "Ayarlar",
   plant: "Bitki sayfasi", paywall: "Paywall", rescue: "Kurtarma plani",
   add: "Bitki ekle", camera: "Kamera", closed: "Kapali",
 };
 const PAYWALL_KAYNAK = {
   onboarding: "Tanitim sonu", identify: "Tanima limiti", plantlimit: "Bitki limiti",
-  plant_limit: "Bitki limiti", reminders: "Hatirlatmalar", rescue: "Kurtarma plani", settings: "Ayarlar",
+  plant_limit: "Bitki limiti", reminders: "Hatirlatmalar", rescue: "Kurtarma plani",
+  learn: "Ogren sorgusu", settings: "Ayarlar",
 };
 const SAYAC = {
   installs_new: "Yeni kurulum", sessions: "Oturum", onboarding_done: "Tanitim bitti",
@@ -230,8 +231,15 @@ function sahte() {
     return { id: gun(d), installs_new: 2 + (i % 4), sessions: 18 + i * 3, plants_added: 3 + (i % 5),
              photos_taken: 2 + (i % 3), paywall_views: 4 + (i % 3), purchases: i % 5 === 0 ? 1 : 0,
              waterings: 9 + i, rescues_started: i % 4 === 0 ? 1 : 0, identifications: 2 + (i % 3),
-             ev: { pw_view_onboarding: 3, pw_view_rescue: 2, screen_plants_sec: 420, screen_care_sec: 160,
-                   screen_plant_sec: 300, screen_paywall_sec: 55, water_care: 7, water_detail: 3 } };
+             onboarding_done: 1 + (i % 2), shares: i % 3, reminder_actions: i % 4,
+             ai_requests: 5 + i, ai_tokens_in: 900 + i * 40, ai_tokens_out: 300 + i * 15, ai_failed: i % 6 === 0 ? 1 : 0,
+             ev: { pw_view_onboarding: 3, pw_view_rescue: 2, pw_buy_rescue: i % 5 === 0 ? 1 : 0,
+                   screen_plants: 9, screen_care: 4, screen_plant: 6, screen_paywall: 2,
+                   screen_plants_sec: 420, screen_care_sec: 160, screen_plant_sec: 300, screen_paywall_sec: 55,
+                   screen_time_plants_sec: 420, water_care: 7, water_detail: 3,
+                   lookup_photo: 2, lookup_name: 1, identify_ai: 2, identify_local: 1,
+                   share_link_create: i % 3 === 0 ? 1 : 0, plant_added_monstera: 2, plant_added_custom: 1,
+                   ai_requests: 5 } };
   });
   const now = Date.now();
   const installs = [...Array(26)].map((_, i) => ({
@@ -265,7 +273,7 @@ const topla = (days, key) => days.reduce((a, d) => a + (Number(d[key]) || 0), 0)
 const evTopla = (days, onek) => {
   const out = {};
   for (const d of days) for (const [k, v] of Object.entries(d.ev || {})) {
-    if (k.startsWith(onek)) out[k.slice(onek.length)] = (out[k] || 0) + Number(v);
+    if (k.startsWith(onek)) { const ad = k.slice(onek.length); out[ad] = (out[ad] || 0) + Number(v); }
   }
   return out;
 };
@@ -344,12 +352,27 @@ function genel(c) {
     grafik.appendChild(satir);
   });
   c.appendChild(kart("Gunluk oturum", grafik));
+  /* Elimizde yalnizca ilk ve son gorulme var, gun gun oturum yok. Yani bu
+     "kurdu ve N gun sonra hala aciyordu" demek, klasik D1/D7 degil. Yakin
+     bir vekil ve arkadaslara dagitirken bakilacak ilk sey. */
+  const kal = [1, 7, 30].map(n => {
+    const uygun = installs.filter(i => i.firstSeen && Date.now() - new Date(i.firstSeen).getTime() >= n * 86400000);
+    const kalan = uygun.filter(i => new Date(i.lastSeen || 0) - new Date(i.firstSeen) >= n * 86400000);
+    return [`${n}. gun`, uygun.length ? `%${Math.round(kalan.length / uygun.length * 100)}` : "-", `${kalan.length}/${uygun.length}`];
+  });
+  c.appendChild(kart("Kalicilik", tablo(["Kurulumdan sonra", "Hala acan", "Kurulum"], kal)));
   const platform = {};
   installs.forEach(i => platform[i.platform || "?"] = (platform[i.platform || "?"] || 0) + 1);
   const bolge = {};
   installs.forEach(i => bolge[i.region || "?"] = (bolge[i.region || "?"] || 0) + 1);
   const surum = {};
   installs.forEach(i => surum[i.appVersion || "?"] = (surum[i.appVersion || "?"] || 0) + 1);
+  /* iOS telemetrisi 1.1 ile geliyor. Magazadaki surum 1.0 oldugu surece
+     buradaki herkes Android, ve bu bos bir panel gibi gorunuyor. */
+  if (installs.length && !installs.some(i => i.platform === "ios")) {
+    c.appendChild(kart(null, el("p", "muted",
+      "Hic iOS kurulumu yok. Telemetri iOS'ta 1.1 ile basliyor; App Store'da 1.1 yayilana kadar buradaki herkes Android.")));
+  }
   const grid = el("div"); grid.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px";
   for (const [ad, harita] of [["Platform", platform], ["Bolge", bolge], ["Surum", surum]]) {
     grid.appendChild(kart(ad, tablo([ad, "Kurulum"], Object.entries(harita).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, sayi(v)]))));
@@ -374,6 +397,7 @@ function canli(c) {
 function ekranlar(c) {
   const sn = {}, giris = {};
   for (const d of veri.days) for (const [k, v] of Object.entries(d.ev || {})) {
+    if (k.startsWith("screen_time")) continue;
     let m = k.match(/^screen_(.+)_sec$/);
     if (m) { sn[m[1]] = (sn[m[1]] || 0) + Number(v); continue; }
     m = k.match(/^screen_(.+)$/);
@@ -429,9 +453,25 @@ function kullanim(c) {
     ["Isigi secilmis bitki", sayi(isikli), toplamBitki ? `%${Math.round(isikli / toplamBitki * 100)}` : ""],
     ["Kurulum basina bitki", veri.installs.length ? (toplamBitki / veri.installs.length).toFixed(1) : "0"],
   ]));
-  const su = evTopla(veri.days, "water_");
-  c.appendChild(kart("Sulama nereden", tablo(["Yer", "Adet"],
-    Object.entries(su).filter(([k]) => !k.endsWith("_sec")).map(([k, v]) => [k, sayi(v)]))));
+  const dagilim = (onek, baslik, adlar = {}) => {
+    const h = evTopla(veri.days, onek);
+    const satirlar = Object.entries(h).filter(([k]) => !k.endsWith("_sec") && k)
+      .sort((a, b) => b[1] - a[1]).map(([k, v]) => [adlar[k] || k, sayi(v)]);
+    c.appendChild(kart(baslik, satirlar.length ? tablo(["Yer", "Adet"], satirlar)
+      : el("p", "muted", "Henuz kayit yok.")));
+  };
+  dagilim("water_", "Sulama nereden", { care: "Bakim sekmesi", detail: "Bitki sayfasi", notif: "Bildirim" });
+  dagilim("lookup_", "Ogren sorgulari", { photo: "Fotografla", name: "Adiyla" });
+  dagilim("identify_", "Tanima", { ai: "AI", local: "Cihazda" });
+  dagilim("share_link_", "Paylasim baglantisi", { create: "Olusturuldu", stop: "Durduruldu" });
+  /* plant_added'in parametresi tur kimligi; katalog burada yok, kimlik yeterince
+     okunur. "custom" katalogda olmayan bitki, "shared" baglantiyla gelen. */
+  const turler = evTopla(veri.days, "plant_added_");
+  const enCok = Object.entries(turler).filter(([k]) => !k.endsWith("_sec") && k)
+    .sort((a, b) => b[1] - a[1]).slice(0, 12);
+  c.appendChild(kart("En cok eklenen tur", enCok.length
+    ? tablo(["Tur", "Adet"], enCok.map(([k, v]) => [k === "custom" ? "Katalog disi" : k === "shared" ? "Baglantiyla gelen" : k, sayi(v)]))
+    : el("p", "muted", "Henuz kayit yok.")));
 }
 
 const kf = { q: "", platform: "", appVersion: "", region: "", language: "", pro: "", son: "" };
@@ -529,8 +569,24 @@ function ai(c) {
     ["Cikis jetonu", sayi(topla(veri.days, "ai_tokens_out"))],
     ["Hata", sayi(topla(veri.days, "ai_failed"))],
   ]));
+  const giris = topla(veri.days, "ai_tokens_in"), cikis = topla(veri.days, "ai_tokens_out");
+  /* Gemini Flash Lite liste fiyati: 1M giris jetonu 0,10 $, 1M cikis 0,40 $.
+     Fiyat degisirse burayi guncelle; panel baska hicbir yerde fiyat tutmuyor. */
+  const dolar = giris / 1e6 * 0.10 + cikis / 1e6 * 0.40;
+  c.appendChild(tiles([
+    ["Tahmini maliyet", "$" + dolar.toFixed(2), `son ${aralik} gun`],
+    ["Istek basina", istek ? "$" + (dolar / istek).toFixed(4) : "0"],
+    ["Engellendi", sayi(topla(veri.days, "ai_blocked"))],
+    ["Hata orani", istek ? `%${(topla(veri.days, "ai_failed") / istek * 100).toFixed(1)}` : "0"],
+  ]));
+  c.appendChild(kart("Nerede kullaniliyor", tablo(["Yer", "Ne yapiyor"], [
+    ["Tanima", "Fotograftan tur onerisi"],
+    ["Ogren", "Senin olmayan bir bitki icin saha rehberi sayfasi"],
+    ["Bitki sayfasi", "Bilinmesi gerekenler"],
+    ["Buyume", "Iki fotografi karsilastiran rapor"],
+  ])));
   c.appendChild(kart(null, el("p", "muted",
-    "Leafbook'ta yapay zeka tanima ve buyume raporu icin kullaniliyor. Jeton sayaclari Gemini cagrilari olculunce dolacak.")));
+    "Sayaclar her Gemini cagrisinda artiyor: istek, jeton, engellenen ve hatali. Istemler ve fotograflar gonderilmiyor, yalnizca sayilar.")));
 }
 
 function analytics(c) {
@@ -548,9 +604,11 @@ function ayarlar(c) {
     "leafbook-bamtech · Firestore eur3 · kurallar yalnizca bu e-postaya okuma izni veriyor.")));
   c.appendChild(kart("Yapilacaklar", el("div", null,
     "<ul style='margin:0;padding-left:18px'>" +
-    "<li>Blaze plani: olay TTL politikasi, bildirim fonksiyonu, Identity Platform</li>" +
-    "<li>APNs anahtari Firebase'e yuklenecek</li>" +
+    "<li>iOS 1.1 yayilana kadar telemetri yalnizca Android'den geliyor</li>" +
+    "<li>Bildirim: Spark'ta FCM HTTP v1 + Cloudflare Worker ile kurulabilir, Blaze sart degil</li>" +
+    "<li>Olay kayitlarinin TTL politikasi Blaze istiyor; o zamana kadar events birikiyor</li>" +
     "<li>GA4 baglandiginda Analytics sayfasi dolacak</li>" +
+    "<li>Data safety / App Privacy beyani iki magazada da guncellenecek</li>" +
     "</ul>")));
 }
 </script>
