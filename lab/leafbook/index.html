@@ -16,47 +16,7 @@
   document.documentElement.setAttribute("data-theme", t);
 })();
 </script>
-<style>
-:root{color-scheme:light;--bg:#f2f6f3;--card:#fff;--ink:#14181a;--soft:#5f6670;--line:#e0e6e2;--accent:#2e9e63;--on-accent:#fff;--rose:#d6455d;--ok:#2e9e63;--warn:#c77d00;--sky:#0a6fe0;--side:#e7f1ea}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#0b0e0c;--card:#151916;--ink:#f1f4f2;--soft:#a0a8a3;--line:#262b27;--accent:#4ade80;--on-accent:#06281a;--rose:#ff6f88;--ok:#4ade80;--warn:#f5b53c;--sky:#5aa8ff;--side:#101512}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0b0e0c;--card:#151916;--ink:#f1f4f2;--soft:#a0a8a3;--line:#262b27;--accent:#4ade80;--on-accent:#06281a;--rose:#ff6f88;--ok:#4ade80;--warn:#f5b53c;--sky:#5aa8ff;--side:#101512}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:var(--accent)}
-h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}
-.muted{color:var(--soft);font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;min-width:0}
-input,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
-button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--on-accent)}
-button.ghost{background:transparent;color:var(--soft);border:1px solid var(--line);padding:6px 12px;font-size:12px}
-button.ghost.on{color:var(--ink);border-color:var(--accent)}
-.hidden{display:none!important}
-#login{max-width:380px;margin:12vh auto;padding:22px}
-.layout{display:flex;min-height:100vh}
-aside{width:210px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:3px}
-aside .brand{font-weight:800;font-size:17px;margin:0 8px 16px}
-aside .sec{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--soft);margin:14px 8px 6px}
-aside a{display:block;padding:8px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:14px}
-aside a.on{background:var(--card);font-weight:700}
-main{flex:1;padding:22px;max-width:1150px;min-width:0}
-.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-.top .grow{flex:1}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.tile b{display:block;font-size:24px;line-height:1.2}
-.tile span{font-size:12px;color:var(--soft)}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
-th{font-size:12px;color:var(--soft);font-weight:600}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.bar{height:6px;border-radius:3px;background:var(--accent);opacity:.75}
-.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--side);color:var(--soft)}
-.pill.live{background:var(--accent);color:var(--on-accent)}
-.drawer{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;justify-content:flex-end;z-index:20}
-.drawer .inner{width:min(520px,100%);background:var(--bg);height:100%;overflow:auto;padding:20px}
-.ev{display:grid;grid-template-columns:120px 1fr auto;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line)}
-.ev .t{color:var(--soft);font-variant-numeric:tabular-nums}
-</style>
+<link rel="stylesheet" href="/lab/assets/panel.css?v=1">
 </head>
 <body>
 
@@ -77,6 +37,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
     <a href="#paywall" data-p="paywall">Paywall ve satin alma</a>
     <a href="#kullanim" data-p="kullanim">Kullanim</a>
     <a href="#kullanicilar" data-p="kullanicilar">Kullanicilar</a>
+    <a href="#satis" data-p="satis">Satis</a>
     <a href="#ai" data-p="ai">Yapay zeka</a>
     <a href="#analytics" data-p="analytics">Analytics</a>
     <div class="sec">YONET</div>
@@ -106,8 +67,10 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, query, orderBy, limit, where, doc, documentId }
+import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { $, el, sayi, sure, gun, tarih, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
+  from "/lab/assets/panel.js?v=1";
 
 const firebaseConfig = {
   apiKey: "AIzaSyADKB3iVGvc8DnXRtUAOHKhBQZ6yU77GX8",
@@ -143,12 +106,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const demo = new URLSearchParams(location.search).has("demo");
 
-const $ = s => document.querySelector(s);
-const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
-const sayi = n => (n == null ? "0" : Number(n).toLocaleString("tr-TR"));
-const sure = s => s == null ? "" : s >= 3600 ? `${Math.round(s / 360) / 10} sa` : s >= 60 ? `${Math.round(s / 6) / 10} dk` : `${Math.round(s)} sn`;
-const gun = d => d.toISOString().slice(0, 10);
-const tarih = v => v ? new Date(v).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
+
 
 let aralik = 7;
 let sayfa = location.hash.slice(1) || "genel";
@@ -256,6 +214,7 @@ function sahte() {
 }
 
 async function yukle() {
+  satisBelge = undefined;
   $("#durum").textContent = "Yukleniyor...";
   try {
     veri = demo ? sahte() : { days: await gunler(), installs: await kurulumlar() };
@@ -278,37 +237,6 @@ const evTopla = (days, onek) => {
   return out;
 };
 
-function tablo(basliklar, satirlar) {
-  const t = el("table");
-  const head = el("tr");
-  basliklar.forEach((b, i) => head.appendChild(el("th", i ? "num" : "", b)));
-  t.appendChild(head);
-  for (const s of satirlar) {
-    const tr = el("tr");
-    s.forEach((c, i) => tr.appendChild(el("td", i ? "num" : "", c)));
-    t.appendChild(tr);
-  }
-  return t;
-}
-
-function kart(baslik, ...cocuklar) {
-  const c = el("div", "card");
-  if (baslik) c.appendChild(el("h2", null, baslik));
-  cocuklar.forEach(x => x && c.appendChild(x));
-  return c;
-}
-
-function tiles(pairs) {
-  const wrap = el("div", "tiles");
-  for (const [ad, deger, alt] of pairs) {
-    const t = el("div", "tile");
-    t.appendChild(el("b", null, deger));
-    t.appendChild(el("span", null, alt ? `${ad} · ${alt}` : ad));
-    wrap.appendChild(t);
-  }
-  return wrap;
-}
-
 // Sayfalar
 
 function ciz() {
@@ -317,10 +245,10 @@ function ciz() {
   c.innerHTML = "";
   if (!veri) return;
   const ad = { genel: "Genel bakis", canli: "Canli", ekranlar: "Ekranlar", paywall: "Paywall ve satin alma",
-               kullanim: "Kullanim", kullanicilar: "Kullanicilar", ai: "Yapay zeka", analytics: "Analytics",
-               bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
+               kullanim: "Kullanim", kullanicilar: "Kullanicilar", satis: "Satis", ai: "Yapay zeka",
+               analytics: "Analytics", bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
   $("#baslik").textContent = ad;
-  ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, ai, analytics, bildirim, ayarlar }[sayfa] || genel)(c);
+  ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, satis, ai, analytics, bildirim, ayarlar }[sayfa] || genel)(c);
 }
 
 function genel(c) {
@@ -360,7 +288,7 @@ function genel(c) {
     const kalan = uygun.filter(i => new Date(i.lastSeen || 0) - new Date(i.firstSeen) >= n * 86400000);
     return [`${n}. gun`, uygun.length ? `%${Math.round(kalan.length / uygun.length * 100)}` : "-", `${kalan.length}/${uygun.length}`];
   });
-  c.appendChild(kart("Kalicilik", tablo(["Kurulumdan sonra", "Hala acan", "Kurulum"], kal)));
+  c.appendChild(kart("Kalicilik", veriTablo(["Kurulumdan sonra", { ad: "Hala acan", num: true }, { ad: "Kurulum", num: true }], kal, { ara: false, kopyala: false })));
   const platform = {};
   installs.forEach(i => platform[i.platform || "?"] = (platform[i.platform || "?"] || 0) + 1);
   const bolge = {};
@@ -375,7 +303,7 @@ function genel(c) {
   }
   const grid = el("div"); grid.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px";
   for (const [ad, harita] of [["Platform", platform], ["Bolge", bolge], ["Surum", surum]]) {
-    grid.appendChild(kart(ad, tablo([ad, "Kurulum"], Object.entries(harita).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, sayi(v)]))));
+    grid.appendChild(kart(ad, dagilimTablo(harita, [ad, "Kurulum"], { kopyala: false })));
   }
   c.appendChild(grid);
 }
@@ -386,12 +314,16 @@ function canli(c) {
     .filter(i => i.screen && i.screen !== "closed" && now - new Date(i.lastSeen || 0).getTime() < 3 * 60000)
     .sort((a, b) => new Date(b.lastSeen) - new Date(a.lastSeen));
   c.appendChild(kart(`Su an uygulamada: ${acik.length}`,
-    acik.length ? tablo(["Kurulum", "Ekran", "Platform", "Bitki", "Son"],
-      acik.map(i => [i.id.slice(0, 8), EKRAN[i.screen] || i.screen, i.platform || "", sayi(i.n_plants), tarih(i.lastSeen)]))
-      : el("p", "muted", "Simdi kimse yok. Son 3 dakikada kalp atisi gonderen kurulum sayiliyor.")));
+    veriTablo(["Kurulum", { ad: "Ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Bitki", num: true }, "Son"],
+      acik.map(i => [i.id.slice(0, 8), EKRAN[i.screen] || i.screen, i.platform || "", sayi(i.n_plants),
+                     { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+      { sirala: [4, "desc"], bos: "Simdi kimse yok. Son 3 dakikada kalp atisi gonderen kurulum sayiliyor." })));
   const son = veri.installs.slice().sort((a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0)).slice(0, 25);
-  c.appendChild(kart("Son gorulenler", tablo(["Kurulum", "Son ekran", "Platform", "Son"],
-    son.map(i => [i.id.slice(0, 8), EKRAN[i.lastScreen || i.screen] || i.lastScreen || "", i.platform || "", tarih(i.lastSeen)]))));
+  c.appendChild(kart("Son gorulenler", veriTablo(
+    ["Kurulum", { ad: "Son ekran", filtre: true }, { ad: "Platform", filtre: true }, "Son"],
+    son.map(i => [i.id.slice(0, 8), EKRAN[i.lastScreen || i.screen] || i.lastScreen || "", i.platform || "",
+                  { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+    { sirala: [3, "desc"] })));
 }
 
 function ekranlar(c) {
@@ -405,10 +337,11 @@ function ekranlar(c) {
   }
   const adlar = [...new Set([...Object.keys(sn), ...Object.keys(giris)])]
     .sort((a, b) => (sn[b] || 0) - (sn[a] || 0));
-  c.appendChild(kart("Ekranda gecen sure", adlar.length
-    ? tablo(["Ekran", "Acilis", "Toplam", "Acilis basina"],
-        adlar.map(a => [EKRAN[a] || a, sayi(giris[a]), sure(sn[a]), giris[a] ? sure((sn[a] || 0) / giris[a]) : ""]))
-    : el("p", "muted", "Henuz ekran verisi yok.")));
+  c.appendChild(kart("Ekranda gecen sure",
+    veriTablo(["Ekran", { ad: "Acilis", num: true }, { ad: "Toplam", num: true }, { ad: "Acilis basina", num: true }],
+        adlar.map(a => [EKRAN[a] || a, sayi(giris[a]), { d: sure(sn[a]), s: sn[a] || 0 },
+                        { d: giris[a] ? sure((sn[a] || 0) / giris[a]) : "", s: giris[a] ? (sn[a] || 0) / giris[a] : 0 }]),
+        { sirala: [2, "desc"], bos: "Henuz ekran verisi yok." })));
 }
 
 function paywall(c) {
@@ -428,23 +361,21 @@ function paywall(c) {
     ["Donusum", acilis ? `%${(alim / acilis * 100).toFixed(1)}` : "0"],
   ]));
   const adlar = [...new Set([...Object.keys(kaynak), ...Object.keys(satin)])];
-  c.appendChild(kart("Nereden acildi", adlar.length
-    ? tablo(["Kaynak", "Acilis", "Satin alma", "Donusum"],
-        adlar.sort((a, b) => (kaynak[b] || 0) - (kaynak[a] || 0)).map(a =>
-          [PAYWALL_KAYNAK[a] || a, sayi(kaynak[a]), sayi(satin[a]),
-           kaynak[a] ? `%${((satin[a] || 0) / kaynak[a] * 100).toFixed(1)}` : ""]))
-    : el("p", "muted", "Henuz paywall verisi yok.")));
+  c.appendChild(kart("Nereden acildi",
+    veriTablo(["Kaynak", { ad: "Acilis", num: true }, { ad: "Satin alma", num: true }, { ad: "Donusum", num: true }],
+        adlar.map(a => [PAYWALL_KAYNAK[a] || a, sayi(kaynak[a]), sayi(satin[a]),
+                        { d: kaynak[a] ? yuzde(satin[a] || 0, kaynak[a], 1) : "", s: kaynak[a] ? (satin[a] || 0) / kaynak[a] : 0 }]),
+        { sirala: [1, "desc"], bos: "Henuz paywall verisi yok." })));
   const planlar = {};
   veri.installs.filter(i => i.pro).forEach(i => planlar[i.plan || "?"] = (planlar[i.plan || "?"] || 0) + 1);
-  c.appendChild(kart("Pro kurulumlar", tablo(["Plan", "Kurulum"],
-    Object.entries(planlar).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, sayi(v)]))));
+  c.appendChild(kart("Pro kurulumlar", dagilimTablo(planlar, ["Plan", "Kurulum"])));
 }
 
 function kullanim(c) {
   const satirlar = Object.entries(SAYAC)
     .filter(([k]) => !k.startsWith("ai_"))
     .map(([k, ad]) => [ad, sayi(topla(veri.days, k))]);
-  c.appendChild(kart(`Son ${aralik} gun`, tablo(["Olay", "Adet"], satirlar)));
+  c.appendChild(kart(`Son ${aralik} gun`, veriTablo(["Olay", { ad: "Adet", num: true }], satirlar, { sirala: [1, "desc"] })));
   const toplamBitki = veri.installs.reduce((a, i) => a + (Number(i.n_plants) || 0), 0);
   const isikli = veri.installs.reduce((a, i) => a + (Number(i.n_with_light) || 0), 0);
   c.appendChild(tiles([
@@ -457,8 +388,8 @@ function kullanim(c) {
     const h = evTopla(veri.days, onek);
     const satirlar = Object.entries(h).filter(([k]) => !k.endsWith("_sec") && k)
       .sort((a, b) => b[1] - a[1]).map(([k, v]) => [adlar[k] || k, sayi(v)]);
-    c.appendChild(kart(baslik, satirlar.length ? tablo(["Yer", "Adet"], satirlar)
-      : el("p", "muted", "Henuz kayit yok.")));
+    c.appendChild(kart(baslik, veriTablo(["Yer", { ad: "Adet", num: true }], satirlar,
+      { sirala: [1, "desc"], bos: "Henuz kayit yok." })));
   };
   dagilim("water_", "Sulama nereden", { care: "Bakim sekmesi", detail: "Bitki sayfasi", notif: "Bildirim" });
   dagilim("lookup_", "Ogren sorgulari", { photo: "Fotografla", name: "Adiyla" });
@@ -469,12 +400,15 @@ function kullanim(c) {
   const turler = evTopla(veri.days, "plant_added_");
   const enCok = Object.entries(turler).filter(([k]) => !k.endsWith("_sec") && k)
     .sort((a, b) => b[1] - a[1]).slice(0, 12);
-  c.appendChild(kart("En cok eklenen tur", enCok.length
-    ? tablo(["Tur", "Adet"], enCok.map(([k, v]) => [k === "custom" ? "Katalog disi" : k === "shared" ? "Baglantiyla gelen" : k, sayi(v)]))
-    : el("p", "muted", "Henuz kayit yok.")));
+  c.appendChild(kart("En cok eklenen tur",
+veriTablo(["Tur", { ad: "Adet", num: true }],
+        enCok.map(([k, v]) => [k === "custom" ? "Katalog disi" : k === "shared" ? "Baglantiyla gelen" : k, sayi(v)]),
+        { sirala: [1, "desc"], bos: "Henuz kayit yok." })));
 }
 
-const kf = { q: "", platform: "", appVersion: "", region: "", language: "", pro: "", son: "" };
+/* Kurulum listesi. Kolon filtreleri ve arama tablonun kendi isi; burada
+   yalnizca turetilmis iki suzgec kaliyor (Pro, son gorulme). */
+const kf = { pro: "", son: "" };
 function kSonOk(i, v) {
   if (!v) return true;
   const t = new Date(i.lastSeen || 0).getTime(), d = Number(v);
@@ -483,44 +417,37 @@ function kSonOk(i, v) {
   return t >= Date.now() - d * 86400000;
 }
 function kullanicilar(c) {
-  const hepsi = veri.installs.slice().sort((a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0));
-  const bar = el("div", "kfiltre");
-  bar.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px";
-  const ara = el("input"); ara.placeholder = "Ara: kurulum, surum, bolge, dil"; ara.value = kf.q; ara.style.maxWidth = "260px";
-  bar.appendChild(ara);
-  const secim = (k, ad, adla = v => v) => {
-    const s = el("select"); s.style.width = "auto";
-    const say = {}; hepsi.forEach(i => { const v = i[k]; if (v) say[v] = (say[v] || 0) + 1; });
-    s.innerHTML = `<option value="">${ad}: hepsi</option>` + Object.entries(say).sort((a, b) => b[1] - a[1])
-      .map(([v, n]) => `<option value="${String(v).replace(/"/g, "&quot;")}">${adla(v)} (${n})</option>`).join("");
-    if (!say[kf[k]]) kf[k] = "";
-    s.value = kf[k]; s.onchange = () => { kf[k] = s.value; ciz2(); };
+  const hepsi = veri.installs;
+  const bar = el("div", "bar2");
+  const sabit = (k, html) => {
+    const s = el("select");
+    s.style.width = "auto";
+    s.innerHTML = html;
+    s.value = kf[k];
+    s.onchange = () => { kf[k] = s.value; ciz2(); };
     bar.appendChild(s);
   };
-  secim("platform", "Platform", v => v === "ios" ? "iOS" : v === "android" ? "Android" : v);
-  secim("appVersion", "Surum"); secim("region", "Bolge"); secim("language", "Dil");
-  const sabit = (k, html) => { const s = el("select"); s.style.width = "auto"; s.innerHTML = html; s.value = kf[k]; s.onchange = () => { kf[k] = s.value; ciz2(); }; bar.appendChild(s); };
   sabit("pro", '<option value="">Pro: hepsi</option><option value="1">Pro</option><option value="0">Pro olmayan</option>');
   sabit("son", '<option value="">Son gorulme: hepsi</option><option value="1">Bugun</option><option value="7">Son 7 gun</option><option value="30">Son 30 gun</option><option value="-30">30+ gun sessiz</option>');
   const kutu = el("div");
-  c.appendChild(bar); c.appendChild(kutu);
-  ara.oninput = () => { kf.q = ara.value; ciz2(); };
+  c.appendChild(bar);
+  c.appendChild(kutu);
   function ciz2() {
-    const q = kf.q.trim().toLowerCase();
-    const liste = hepsi.filter(i => (!kf.platform || i.platform === kf.platform) && (!kf.appVersion || i.appVersion === kf.appVersion)
-      && (!kf.region || i.region === kf.region) && (!kf.language || i.language === kf.language)
-      && (!kf.pro || !!i.pro === (kf.pro === "1")) && kSonOk(i, kf.son)
-      && (!q || [i.id, i.platform, i.appVersion, i.region, i.language].join(" ").toLowerCase().includes(q)));
+    const liste = hepsi.filter(i => (!kf.pro || !!i.pro === (kf.pro === "1")) && kSonOk(i, kf.son));
     kutu.innerHTML = "";
-    const t = tablo(["Kurulum", "Platform", "Surum", "Bolge", "Bitki", "Pro", "Son gorulme"],
-      liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "",
-                      sayi(i.n_plants), i.pro ? "evet" : "", tarih(i.lastSeen)]));
-    [...t.querySelectorAll("tr")].slice(1).forEach((tr, idx) => {
-      tr.style.cursor = "pointer";
-      tr.onclick = () => cekmece(liste[idx]);
-    });
-    kutu.appendChild(kart(`${liste.length} / ${hepsi.length} kurulum`, t));
-
+    kutu.appendChild(kart(null, veriTablo(
+      ["Kurulum", { ad: "Platform", filtre: true }, { ad: "Surum", filtre: true }, { ad: "Bolge", filtre: true },
+       { ad: "Dil", filtre: true }, { ad: "Bitki", num: true }, { ad: "Fotograf", num: true }, "Pro", "Son gorulme"],
+      liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "", i.language || "",
+                      sayi(i.n_plants), sayi(i.n_photos), i.pro ? "evet" : "",
+                      { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+      { sirala: [8, "desc"], araYazi: "Ara: kurulum, surum, bolge, dil",
+        bos: "Bu suzgece uyan kurulum yok.",
+        satirTik: satir => {
+          const kisa = String(satir[0]);
+          const kurulum = liste.find(i => i.id.slice(0, 8) === kisa);
+          if (kurulum) cekmece(kurulum);
+        } })));
   }
   ciz2();
 }
@@ -561,6 +488,54 @@ async function cekmece(install) {
   }
 }
 
+/* Magaza parasi App Store Connect ve Play raporlarindan geliyor; anahtarlari
+   statik sayfada tutamayiz, bu yuzden Mac'teki gunluk is (scripts/lab/panel-yaz.mjs)
+   ozeti panel/sales belgesine yaziyor ve burasi yalnizca onu okuyor. */
+let satisBelge;
+async function satis(c) {
+  if (demo) {
+    satisBelge = { uretim: new Date().toISOString(), gun: 30, indirme: 184, guncelleme: 96, iap: 7,
+      gelir: { USD: 41.3, TRY: 120 }, ulkeler: { TR: 96, US: 42, DE: 21, GB: 25 },
+      gunluk: [...Array(14)].map((_, i) => ({ tarih: gun(new Date(Date.now() - (13 - i) * 86400000)),
+        indirme: 4 + (i % 5), guncelleme: 2 + (i % 3), iap: i % 4 === 0 ? 1 : 0, gelir: { USD: i % 4 === 0 ? 2.9 : 0 } })) };
+  }
+  if (satisBelge === undefined) {
+    c.appendChild(kart(null, el("p", "muted", "Yukleniyor...")));
+    try {
+      const d = await getDoc(doc(db, "panel", "sales"));
+      satisBelge = d.exists() ? d.data() : null;
+    } catch (e) { satisBelge = null; }
+    if (sayfa === "satis") ciz();
+    return;
+  }
+  if (!satisBelge) {
+    c.appendChild(kart("Satis", el("p", "muted",
+      "Henuz veri yok. Mac'teki gunluk is panel/sales belgesini yazinca burasi dolar: node scripts/lab/panel-yaz.mjs")));
+    return;
+  }
+  const s = satisBelge;
+  const gelirler = Object.entries(s.gelir || {});
+  c.appendChild(tiles([
+    ["Indirme", sayi(s.indirme), `${s.gun} gun`],
+    ["Guncelleme", sayi(s.guncelleme)],
+    ["Satin alma", sayi(s.iap)],
+    ...(gelirler.length ? gelirler.map(([kod, tutar]) => ["Gelir", para(tutar, kod)])
+                        : [["Gelir", para(0, "USD"), "henuz yok"]]),
+  ]));
+  c.appendChild(kart("Gun gun", veriTablo(
+    ["Gun", { ad: "Indirme", num: true }, { ad: "Guncelleme", num: true }, { ad: "Satin alma", num: true }, { ad: "Gelir", num: true }],
+    (s.gunluk || []).map(g => {
+      const toplam = Object.values(g.gelir || {}).reduce((a, b) => a + Number(b), 0);
+      return [g.tarih, sayi(g.indirme), sayi(g.guncelleme), sayi(g.iap), { d: toplam ? toplam.toFixed(2) : "", s: toplam }];
+    }),
+    { sirala: [0, "desc"], bos: "Gun kaydi yok." })));
+  c.appendChild(kart("Ulkeler", dagilimTablo(s.ulkeler, ["Ulke", "Indirme"])));
+  c.appendChild(kart(null, el("p", "muted",
+    `Kaynak: App Store Connect satis raporu ve Play. Mac'teki gunluk is yaziyor, en son ${tarih(s.uretim)}. ` +
+    "Apple raporu bir gun gecikmeli gelir. RevenueCat'in abonelik durumu burada yok; o gizli anahtar istiyor, " +
+    "istenirse ayni is onu da bu belgeye ekleyebilir.")));
+}
+
 function ai(c) {
   const istek = topla(veri.days, "ai_requests");
   c.appendChild(tiles([
@@ -579,7 +554,7 @@ function ai(c) {
     ["Engellendi", sayi(topla(veri.days, "ai_blocked"))],
     ["Hata orani", istek ? `%${(topla(veri.days, "ai_failed") / istek * 100).toFixed(1)}` : "0"],
   ]));
-  c.appendChild(kart("Nerede kullaniliyor", tablo(["Yer", "Ne yapiyor"], [
+  c.appendChild(kart("Nerede kullaniliyor", veriTablo(["Yer", "Ne yapiyor"], [
     ["Tanima", "Fotograftan tur onerisi"],
     ["Ogren", "Senin olmayan bir bitki icin saha rehberi sayfasi"],
     ["Bitki sayfasi", "Bilinmesi gerekenler"],
