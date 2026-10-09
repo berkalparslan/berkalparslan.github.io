@@ -49,7 +49,11 @@ export function tiles(pairs) {
   return wrap;
 }
 
-const metin = h => (h == null ? "" : typeof h === "object" ? String(h.d ?? "") : String(h));
+/* Bir hucre dugme ya da baska bir ogeyse metni bos kalir: arama, siralama ve
+   Kopyala onu gormez, zaten gormemeli. */
+const ogeMi = h => h instanceof Node || (h != null && typeof h === "object" && h.d instanceof Node);
+const oge = h => (h instanceof Node ? h : h.d);
+const metin = h => (h == null || ogeMi(h) ? "" : typeof h === "object" ? String(h.d ?? "") : String(h));
 const anahtar = h => (h != null && typeof h === "object" && "s" in h ? h.s : h);
 
 /* Sayi gibi duran her seyi sayi gibi sirala: "1.234", "%12,5", "$3.40",
@@ -160,7 +164,11 @@ export function veriTablo(kolonlar, satirlar, secenek = {}) {
     const govde = el("tbody");
     liste.forEach(s => {
       const tr = el("tr");
-      kol.forEach((k, i) => tr.appendChild(el("td", k.num ? "num" : "", metin(s[i]))));
+      kol.forEach((k, i) => {
+        const td = el("td", k.num ? "num" : "");
+        if (ogeMi(s[i])) td.appendChild(oge(s[i])); else td.textContent = metin(s[i]);
+        tr.appendChild(td);
+      });
       if (secenek.satirTik) { tr.classList.add("tiklanir"); tr.onclick = () => secenek.satirTik(s, satirlar.indexOf(s)); }
       govde.appendChild(tr);
     });

@@ -16,7 +16,7 @@
   document.documentElement.setAttribute("data-theme", t);
 })();
 </script>
-<link rel="stylesheet" href="/lab/assets/panel.css?v=1">
+<link rel="stylesheet" href="/lab/assets/panel.css?v=3">
 </head>
 <body>
 
@@ -70,7 +70,8 @@ import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPop
 import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { $, el, sayi, sure, gun, tarih, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
-  from "/lab/assets/panel.js?v=1";
+  from "/lab/assets/panel.js?v=3";
+import { pushSayfasi } from "/lab/assets/push.js?v=1";
 
 const firebaseConfig = {
   apiKey: "AIzaSyADKB3iVGvc8DnXRtUAOHKhBQZ6yU77GX8",
@@ -569,9 +570,34 @@ function analytics(c) {
     "GA4 ozeti Mac'teki gunluk is (scripts/lab/leafbook.mjs) panel/ga4 belgesine yazinca burada gorunur.")));
 }
 
+/* Bildirim sayfasi ortak katmandan gelir; burada yalnizca bu uygulamanin
+   adresi, dilleri ve sekmeleri tarif edilir. Diger paneller de ayni modulu
+   kullanir, o yuzden kullanimi her yerde aynidir. */
+const PUSH_URL = "https://leafbook-push.kittapcom.workers.dev";
+
 function bildirim(c) {
-  c.appendChild(kart("Bildirim gonder", el("p", "muted",
-    "Bildirim icin Cloud Functions gerekiyor, o da Blaze plani istiyor. Plan acilinca sendPush fonksiyonu ve konular kurulacak.")));
+  pushSayfasi(c, {
+    worker: PUSH_URL,
+    token: () => auth.currentUser.getIdToken(),
+    diller: ["en", "tr", "de", "es", "fr", "it", "pt", "nl", "ru", "ja", "ko", "zh", "ar", "pl", "sv", "id"],
+    sekmeler: [
+      { id: "plants", ad: "Bitkiler" },
+      { id: "care", ad: "Bakim" },
+      { id: "community", ad: "Topluluk" },
+      { id: "learn", ad: "Ogren" },
+      { id: "notifications", ad: "Bildirim kutusu" },
+    ],
+    gecmis: async () => {
+      const snap = await getDocs(query(collection(db, "pushes"), orderBy("at", "desc"), limit(50)));
+      return snap.docs.map(d => ({ pid: d.id, ...d.data(), at: zamana(d.data().at), sendAt: zamana(d.data().sendAt) }));
+    },
+  });
+}
+
+/* Firestore zaman damgasi -> ISO; tablo ve tarih() ikisini de anliyor. */
+function zamana(v) {
+  if (!v) return null;
+  return typeof v.toDate === "function" ? v.toDate().toISOString() : v;
 }
 
 function ayarlar(c) {

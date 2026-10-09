@@ -34,6 +34,21 @@ veriTablo(
 `{ d, s }` biçimi, görünenle sıralananın ayrıştığı yerler için: tarih
 "8 Eki 10:00" görünür ama zaman damgasına göre sıralanır.
 
+Bir hücre DOM öğesi de olabilir (satır içi bir düğme). Arama, sıralama ve
+Kopyala onu boş sayar, çünkü kopyalanacak bir metni yoktur.
+
+## Bildirim sayfası
+
+```js
+import { pushSayfasi } from "/lab/assets/push.js?v=1";
+pushSayfasi(icerik, { worker, token, diller, sekmeler, gecmis });
+```
+
+Arkasında uygulamanın kendi Cloudflare Worker'ı var (FCM HTTP v1, Spark
+planında çalışır). Sayfa her panelde aynı: **Doğrula → Test cihazlarına →
+Gönder**, yanında zamanlama ve gönderilenler listesi. Değişen yalnız Worker
+adresi, diller ve sekme adları.
+
 ## Satış sayfası
 
 Mağaza parası App Store Connect ve Play raporlarından gelir; anahtarları
