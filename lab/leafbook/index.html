@@ -40,6 +40,9 @@
     <a href="#satis" data-p="satis">Satis</a>
     <a href="#ai" data-p="ai">Yapay zeka</a>
     <a href="#analytics" data-p="analytics">Analytics</a>
+    <div class="sec">TOPLULUK</div>
+    <a href="#topluluk" data-p="topluluk">Gonderiler</a>
+    <a href="#raporlar" data-p="raporlar">Raporlar</a>
     <div class="sec">YONET</div>
     <a href="#bildirim" data-p="bildirim">Bildirim gonder</a>
     <a href="#ayarlar" data-p="ayarlar">Ayarlar</a>
@@ -67,7 +70,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId }
+import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId, deleteDoc }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { $, el, sayi, sure, gun, tarih, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
   from "/lab/assets/panel.js?v=3";
@@ -247,9 +250,11 @@ function ciz() {
   if (!veri) return;
   const ad = { genel: "Genel bakis", canli: "Canli", ekranlar: "Ekranlar", paywall: "Paywall ve satin alma",
                kullanim: "Kullanim", kullanicilar: "Kullanicilar", satis: "Satis", ai: "Yapay zeka",
-               analytics: "Analytics", bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
+               analytics: "Analytics", topluluk: "Gonderiler", raporlar: "Raporlar",
+               bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
   $("#baslik").textContent = ad;
-  ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, satis, ai, analytics, bildirim, ayarlar }[sayfa] || genel)(c);
+  ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, satis, ai, analytics,
+     topluluk, raporlar, bildirim, ayarlar }[sayfa] || genel)(c);
 }
 
 function genel(c) {
@@ -570,6 +575,110 @@ function analytics(c) {
     "GA4 ozeti Mac'teki gunluk is (scripts/lab/leafbook.mjs) panel/ga4 belgesine yazinca burada gorunur.")));
 }
 
+/* ── Topluluk ─────────────────────────────────────────────────────────── */
+
+/* Gonderiler ve raporlar Firestore'dan dogrudan okunur; kurallar yoneticiye
+   silme izni veriyor. Gonderiyi silmek nazarlarini, yorumlarini ve iki
+   fotograf kopyasini da siler, geri alinamaz. */
+async function gonderileriOku(n = 100) {
+  const snap = await getDocs(query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(n)));
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+async function gonderiSil(id) {
+  for (const alt of ["nazar", "comments"]) {
+    const s = await getDocs(query(collection(db, "posts", id, alt), limit(300)));
+    await Promise.all(s.docs.map(d => deleteDoc(d.ref)));
+  }
+  await Promise.all([
+    deleteDoc(doc(db, "postPhotos", id)).catch(() => {}),
+    deleteDoc(doc(db, "postThumbs", id)).catch(() => {}),
+  ]);
+  await deleteDoc(doc(db, "posts", id));
+}
+
+function topluluk(c) {
+  const kutu = el("div");
+  c.appendChild(kutu);
+  kutu.appendChild(el("p", "muted", "Yukleniyor..."));
+
+  gonderileriOku().then(liste => {
+    kutu.textContent = "";
+    const nazar = liste.reduce((t, p) => t + (p.nazarCount || 0), 0);
+    const yorum = liste.reduce((t, p) => t + (p.commentCount || 0), 0);
+    const kisi = new Set(liste.map(p => p.authorUid)).size;
+    kutu.appendChild(tiles([
+      ["Gonderi", sayi(liste.length)],
+      ["Paylasan", sayi(kisi)],
+      ["Nazar", sayi(nazar)],
+      ["Yorum", sayi(yorum)],
+    ]));
+    kutu.appendChild(kart("Gonderiler", veriTablo(
+      ["Zaman", { ad: "Kisi", filtre: true }, "Bitki", "Metin",
+       { ad: "Nazar", num: true }, { ad: "Yorum", num: true }, ""],
+      liste.map(p => {
+        const t = p.createdAt?.toDate ? p.createdAt.toDate() : new Date(p.createdAt || 0);
+        return [
+          { d: tarih(t.toISOString()), s: t.getTime() },
+          p.authorHandle ? "@" + p.authorHandle : (p.authorName || ""),
+          p.speciesName || p.plantName || "",
+          (p.text || "").slice(0, 90),
+          p.nazarCount || 0,
+          p.commentCount || 0,
+          silDugmesi(p, () => topluluk(c)),
+        ];
+      }),
+      { sirala: [0, "desc"], bos: "Henuz gonderi yok." },
+    )));
+  }).catch(e => { kutu.textContent = ""; kutu.appendChild(kart("Gonderiler", el("p", "muted", "Okunamadi: " + e.message))); });
+}
+
+function silDugmesi(p, sonra) {
+  const b = el("button", "ghost", "Sil");
+  b.onclick = async () => {
+    if (!confirm("Gonderi, nazarlari, yorumlari ve fotograflari silinsin mi? Geri alinamaz.")) return;
+    b.disabled = true; b.textContent = "Siliniyor...";
+    try { await gonderiSil(p.id); sonra(); }
+    catch (e) { b.disabled = false; b.textContent = "Sil"; alert(e.message); }
+  };
+  return b;
+}
+
+function raporlar(c) {
+  const kutu = el("div");
+  c.appendChild(kutu);
+  kutu.appendChild(el("p", "muted", "Yukleniyor..."));
+
+  Promise.all([
+    getDocs(query(collection(db, "reports"), orderBy("createdAt", "desc"), limit(100))),
+    gonderileriOku(200),
+  ]).then(([snap, gonderiler]) => {
+    const harita = new Map(gonderiler.map(p => [p.id, p]));
+    const liste = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    kutu.textContent = "";
+    kutu.appendChild(el("p", "muted",
+      "Bildiren kisi raporu atinca o kisiyi kendisi icin zaten gizliyor. Burasi gonderinin " +
+      "herkes icin kalkmasi gerekip gerekmedigine bakilan yer. Silinmis gonderinin raporu " +
+      "\"gonderi yok\" der."));
+    kutu.appendChild(veriTablo(
+      ["Zaman", { ad: "Sebep", filtre: true }, "Gonderi", "Yazar", { ad: "Nazar", num: true }, ""],
+      liste.map(r => {
+        const t = r.createdAt?.toDate ? r.createdAt.toDate() : new Date(r.createdAt || 0);
+        const p = harita.get(r.postId);
+        return [
+          { d: tarih(t.toISOString()), s: t.getTime() },
+          r.reason || "",
+          p ? (p.text || p.speciesName || "(fotograf)").slice(0, 70) : "gonderi yok",
+          p ? (p.authorHandle ? "@" + p.authorHandle : p.authorName || "") : "",
+          p ? (p.nazarCount || 0) : "",
+          p ? silDugmesi(p, () => raporlar(c)) : "",
+        ];
+      }),
+      { sirala: [0, "desc"], bos: "Hic rapor gelmemis." },
+    ));
+  }).catch(e => { kutu.textContent = ""; kutu.appendChild(el("p", "muted", "Okunamadi: " + e.message)); });
+}
+
 /* Bildirim sayfasi ortak katmandan gelir; burada yalnizca bu uygulamanin
    adresi, dilleri ve sekmeleri tarif edilir. Diger paneller de ayni modulu
    kullanir, o yuzden kullanimi her yerde aynidir. */
@@ -606,7 +715,8 @@ function ayarlar(c) {
   c.appendChild(kart("Yapilacaklar", el("div", null,
     "<ul style='margin:0;padding-left:18px'>" +
     "<li>iOS 1.1 yayilana kadar telemetri yalnizca Android'den geliyor</li>" +
-    "<li>Bildirim: Spark'ta FCM HTTP v1 + Cloudflare Worker ile kurulabilir, Blaze sart degil</li>" +
+    "<li>Topluluk 1.2 ile geldi: hesap, gonderi, nazar, yorum; moderasyon telefonda Vision + Gemini</li>" +
+    "<li>Bildirim kuruldu: leafbook-push Worker'i (FCM HTTP v1, Spark), Bildirim gonder sayfasi</li>" +
     "<li>Olay kayitlarinin TTL politikasi Blaze istiyor; o zamana kadar events birikiyor</li>" +
     "<li>GA4 baglandiginda Analytics sayfasi dolacak</li>" +
     "<li>Data safety / App Privacy beyani iki magazada da guncellenecek</li>" +
