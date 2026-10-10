@@ -16,7 +16,7 @@
   document.documentElement.setAttribute("data-theme", t);
 })();
 </script>
-<link rel="stylesheet" href="/lab/assets/panel.css?v=3">
+<link rel="stylesheet" href="/lab/assets/panel.css?v=4">
 </head>
 <body>
 
@@ -39,7 +39,7 @@
     <a href="#kullanicilar" data-p="kullanicilar">Kullanicilar</a>
     <a href="#satis" data-p="satis">Satis</a>
     <a href="#ai" data-p="ai">Yapay zeka</a>
-    <a href="#analytics" data-p="analytics">Analytics</a>
+    <a href="#analytics" data-p="analytics">Veri sagligı</a>
     <div class="sec">TOPLULUK</div>
     <a href="#topluluk" data-p="topluluk">Gonderiler</a>
     <a href="#raporlar" data-p="raporlar">Raporlar</a>
@@ -72,8 +72,8 @@ import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPop
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId, deleteDoc }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { $, el, sayi, sure, gun, tarih, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
-  from "/lab/assets/panel.js?v=3";
+import { $, el, sayi, sure, gun, tarih, zaman, ms, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
+  from "/lab/assets/panel.js?v=4";
 import { pushSayfasi } from "/lab/assets/push.js?v=1";
 
 const firebaseConfig = {
@@ -169,10 +169,22 @@ addEventListener("hashchange", () => { sayfa = location.hash.slice(1) || "genel"
 
 // Veri
 
+/* Firestore zaman alanlari Timestamp nesnesi olarak gelir; `new Date(...)`
+   icine girince "Invalid Date" olur ve filtrelerde sessizce NaN'a doner.
+   Kapida bir kez ISO metne ceviriyoruz, icerisi tek bir bicim goruyor. */
+const ZAMAN_ALANLARI = ["firstSeen", "lastSeen", "purchasedAt"];
+
 async function kurulumlar() {
   const out = [];
   const snap = await getDocs(collection(db, "installs"));
-  snap.forEach(d => out.push({ id: d.id, ...d.data() }));
+  snap.forEach(d => {
+    const kayit = { id: d.id, ...d.data() };
+    for (const alan of ZAMAN_ALANLARI) {
+      const t = zaman(kayit[alan]);
+      kayit[alan] = t ? t.toISOString() : null;
+    }
+    out.push(kayit);
+  });
   return out;
 }
 
@@ -250,7 +262,7 @@ function ciz() {
   if (!veri) return;
   const ad = { genel: "Genel bakis", canli: "Canli", ekranlar: "Ekranlar", paywall: "Paywall ve satin alma",
                kullanim: "Kullanim", kullanicilar: "Kullanicilar", satis: "Satis", ai: "Yapay zeka",
-               analytics: "Analytics", topluluk: "Gonderiler", raporlar: "Raporlar",
+               analytics: "Veri sagligi", topluluk: "Gonderiler", raporlar: "Raporlar",
                bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
   $("#baslik").textContent = ad;
   ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, satis, ai, analytics,
@@ -260,7 +272,7 @@ function ciz() {
 function genel(c) {
   const { days, installs } = veri;
   const now = Date.now();
-  const aktif = installs.filter(i => now - new Date(i.lastSeen || 0).getTime() < aralik * 86400000);
+  const aktif = installs.filter(i => now - ms(i.lastSeen) < aralik * 86400000);
   const pro = installs.filter(i => i.pro).length;
   c.appendChild(tiles([
     ["Kurulum", sayi(installs.length), "toplam"],
@@ -290,8 +302,8 @@ function genel(c) {
      "kurdu ve N gun sonra hala aciyordu" demek, klasik D1/D7 degil. Yakin
      bir vekil ve arkadaslara dagitirken bakilacak ilk sey. */
   const kal = [1, 7, 30].map(n => {
-    const uygun = installs.filter(i => i.firstSeen && Date.now() - new Date(i.firstSeen).getTime() >= n * 86400000);
-    const kalan = uygun.filter(i => new Date(i.lastSeen || 0) - new Date(i.firstSeen) >= n * 86400000);
+    const uygun = installs.filter(i => i.firstSeen && Date.now() - ms(i.firstSeen) >= n * 86400000);
+    const kalan = uygun.filter(i => ms(i.lastSeen) - ms(i.firstSeen) >= n * 86400000);
     return [`${n}. gun`, uygun.length ? `%${Math.round(kalan.length / uygun.length * 100)}` : "-", `${kalan.length}/${uygun.length}`];
   });
   c.appendChild(kart("Kalicilik", veriTablo(["Kurulumdan sonra", { ad: "Hala acan", num: true }, { ad: "Kurulum", num: true }], kal, { ara: false, kopyala: false })));
@@ -317,18 +329,18 @@ function genel(c) {
 function canli(c) {
   const now = Date.now();
   const acik = veri.installs
-    .filter(i => i.screen && i.screen !== "closed" && now - new Date(i.lastSeen || 0).getTime() < 3 * 60000)
-    .sort((a, b) => new Date(b.lastSeen) - new Date(a.lastSeen));
+    .filter(i => i.screen && i.screen !== "closed" && now - ms(i.lastSeen) < 3 * 60000)
+    .sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen));
   c.appendChild(kart(`Su an uygulamada: ${acik.length}`,
     veriTablo(["Kurulum", { ad: "Ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Bitki", num: true }, "Son"],
       acik.map(i => [i.id.slice(0, 8), EKRAN[i.screen] || i.screen, i.platform || "", sayi(i.n_plants),
-                     { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+                     { d: tarih(i.lastSeen), s: ms(i.lastSeen) }]),
       { sirala: [4, "desc"], bos: "Simdi kimse yok. Son 3 dakikada kalp atisi gonderen kurulum sayiliyor." })));
-  const son = veri.installs.slice().sort((a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0)).slice(0, 25);
+  const son = veri.installs.slice().sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen)).slice(0, 25);
   c.appendChild(kart("Son gorulenler", veriTablo(
     ["Kurulum", { ad: "Son ekran", filtre: true }, { ad: "Platform", filtre: true }, "Son"],
     son.map(i => [i.id.slice(0, 8), EKRAN[i.lastScreen || i.screen] || i.lastScreen || "", i.platform || "",
-                  { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+                  { d: tarih(i.lastSeen), s: ms(i.lastSeen) }]),
     { sirala: [3, "desc"] })));
 }
 
@@ -417,7 +429,7 @@ veriTablo(["Tur", { ad: "Adet", num: true }],
 const kf = { pro: "", son: "" };
 function kSonOk(i, v) {
   if (!v) return true;
-  const t = new Date(i.lastSeen || 0).getTime(), d = Number(v);
+  const t = ms(i.lastSeen), d = Number(v);
   if (d < 0) return t < Date.now() - 30 * 86400000;
   if (d === 1) { const g = new Date(); g.setHours(0, 0, 0, 0); return t >= g.getTime(); }
   return t >= Date.now() - d * 86400000;
@@ -446,7 +458,7 @@ function kullanicilar(c) {
        { ad: "Dil", filtre: true }, { ad: "Bitki", num: true }, { ad: "Fotograf", num: true }, "Pro", "Son gorulme"],
       liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "", i.language || "",
                       sayi(i.n_plants), sayi(i.n_photos), i.pro ? "evet" : "",
-                      { d: tarih(i.lastSeen), s: new Date(i.lastSeen || 0).getTime() }]),
+                      { d: tarih(i.lastSeen), s: ms(i.lastSeen) }]),
       { sirala: [8, "desc"], araYazi: "Ara: kurulum, surum, bolge, dil",
         bos: "Bu suzgece uyan kurulum yok.",
         satirTik: satir => {
@@ -484,7 +496,7 @@ async function cekmece(install) {
     snap.forEach(doc => {
       const e = doc.data();
       const satir = el("div", "ev");
-      satir.appendChild(el("span", "t", tarih(e.t?.toDate ? e.t.toDate() : e.t)));
+      satir.appendChild(el("span", "t", tarih(e.t)));
       satir.appendChild(el("span", null, `${e.e}${e.p ? " · " + (EKRAN[e.p] || PAYWALL_KAYNAK[e.p] || e.p) : ""}`));
       satir.appendChild(el("span", "muted", e.s ? sure(e.s) : ""));
       liste.appendChild(satir);
@@ -537,7 +549,7 @@ async function satis(c) {
     { sirala: [0, "desc"], bos: "Gun kaydi yok." })));
   c.appendChild(kart("Ulkeler", dagilimTablo(s.ulkeler, ["Ulke", "Indirme"])));
   c.appendChild(kart(null, el("p", "muted",
-    `Kaynak: App Store Connect satis raporu ve Play. Mac'teki gunluk is yaziyor, en son ${tarih(s.uretim)}. ` +
+    `Kaynak: App Store Connect satis raporu ve Play. Mac'teki gunluk is yaziyor, en son ${tarih(s.uretim) || "bilinmiyor"}. ` +
     "Apple raporu bir gun gecikmeli gelir. RevenueCat'in abonelik durumu burada yok; o gizli anahtar istiyor, " +
     "istenirse ayni is onu da bu belgeye ekleyebilir.")));
 }
@@ -570,9 +582,46 @@ function ai(c) {
     "Sayaclar her Gemini cagrisinda artiyor: istek, jeton, engellenen ve hatali. Istemler ve fotograflar gonderilmiyor, yalnizca sayilar.")));
 }
 
+/* Bu sayfa bir sure "GA4 ozeti buraya gelecek" dedi, ama gelemezdi:
+   Leafbook'ta Firebase Analytics SDK'si yok, dolayisiyla GA4 mulku de bos.
+   Onun yerine uygulamanin kendi telemetrisi var ve GA4'un verecegi her seyi
+   zaten veriyor, ustune ekran suresi ve bitki sayisi gibi GA4'un bilmedigi
+   seyleri de. Sayfa artik bunu soyluyor. */
 function analytics(c) {
-  c.appendChild(kart("Analytics ozeti", el("p", "muted",
-    "GA4 ozeti Mac'teki gunluk is (scripts/lab/leafbook.mjs) panel/ga4 belgesine yazinca burada gorunur.")));
+  c.appendChild(kart("Neden burada GA4 yok", el("div", null,
+    "<p class='muted'>Leafbook'ta Firebase Analytics SDK'si bulunmuyor, bu yuzden bir GA4 mulku de " +
+    "yok. Bos bir sayfa yerine neyin nerede oldugu:</p>" +
+    "<ul style='margin:0;padding-left:18px'>" +
+    "<li><b>Kurulum, oturum, tutunma</b> &rarr; Genel bakis</li>" +
+    "<li><b>Hangi ekranda ne kadar kaliniyor</b> &rarr; Ekranlar</li>" +
+    "<li><b>Paywall ve satin alma</b> &rarr; Paywall ve satin alma</li>" +
+    "<li><b>Bitki, fotograf, sulama, AI</b> &rarr; Kullanim</li>" +
+    "<li><b>Magaza parasi</b> &rarr; Satis (App Store Connect ve Play raporlari)</li>" +
+    "</ul>" +
+    "<p class='muted' style='margin-top:10px'>GA4'un ekleyecegi tek sey <b>kurulumun nereden geldigi</b> " +
+    "olurdu (kampanya, yonlendiren). Reklam verilmeye baslanirsa SDK eklenir, bir satir is; o zamana " +
+    "kadar uygulamaya 15 MB tasitmanin anlami yok.</p>")));
+
+  /* Verinin kendisi saglikli mi: panelde bir sayi tuhaf gorunurse once
+     buraya bakilir. */
+  const { installs, days } = veri;
+  const eksikZaman = installs.filter(i => !i.lastSeen || !i.firstSeen).length;
+  const telemetrisiz = installs.filter(i => !i.appVersion).length;
+  const bot = installs.filter(i => i.platform === "android" && !["tr"].includes(i.language)).length;
+  c.appendChild(tiles([
+    ["Kurulum kaydi", sayi(installs.length)],
+    ["Gun kaydi", sayi(days.length)],
+    ["Zamani eksik", sayi(eksikZaman), eksikZaman ? "tarih alanlari bos" : "yok"],
+    ["Surumu eksik", sayi(telemetrisiz)],
+  ]));
+  c.appendChild(kart("Okurken dikkat", el("div", null,
+    "<ul style='margin:0;padding-left:18px'>" +
+    `<li>Android kurulumlarinin cogu <b>App Hive test cihazlari</b> (su an ${sayi(bot)} tanesi Turkce disi bir dilde). ` +
+    "Tutunma ve oturum sayilari gercek kullaniciyi degil onlari olcuyor.</li>" +
+    "<li>iOS telemetrisi <b>1.1 ile</b> basladi, ondan oncesi yok.</li>" +
+    "<li>Tutunma, kurulumun uzerinden o kadar gun gecmis olanlar uzerinden hesaplanir; " +
+    "uygulama yeniyken payda kucuk olur.</li>" +
+    "</ul>")));
 }
 
 /* ── Topluluk ─────────────────────────────────────────────────────────── */
@@ -617,7 +666,7 @@ function topluluk(c) {
       ["Zaman", { ad: "Kisi", filtre: true }, "Bitki", "Metin",
        { ad: "Nazar", num: true }, { ad: "Yorum", num: true }, ""],
       liste.map(p => {
-        const t = p.createdAt?.toDate ? p.createdAt.toDate() : new Date(p.createdAt || 0);
+        const t = zaman(p.createdAt) || new Date(0);
         return [
           { d: tarih(t.toISOString()), s: t.getTime() },
           p.authorHandle ? "@" + p.authorHandle : (p.authorName || ""),
@@ -663,7 +712,7 @@ function raporlar(c) {
     kutu.appendChild(veriTablo(
       ["Zaman", { ad: "Sebep", filtre: true }, "Gonderi", "Yazar", { ad: "Nazar", num: true }, ""],
       liste.map(r => {
-        const t = r.createdAt?.toDate ? r.createdAt.toDate() : new Date(r.createdAt || 0);
+        const t = zaman(r.createdAt) || new Date(0);
         const p = harita.get(r.postId);
         return [
           { d: tarih(t.toISOString()), s: t.getTime() },

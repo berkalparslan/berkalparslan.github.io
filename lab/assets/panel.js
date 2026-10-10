@@ -25,10 +25,36 @@ export const para = (n, kod = "USD") =>
   n == null ? "-" : Number(n).toLocaleString("tr-TR", { style: "currency", currency: kod, maximumFractionDigits: 2 });
 export const sure = s => s == null ? "" :
   s >= 3600 ? `${Math.round(s / 360) / 10} sa` : s >= 60 ? `${Math.round(s / 6) / 10} dk` : `${Math.round(s)} sn`;
-export const gun = d => new Date(d).toISOString().slice(0, 10);
-export const tarih = v => v
-  ? new Date(v).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
-  : "";
+export const gun = d => { const t = zaman(d); return t ? t.toISOString().slice(0, 10) : ""; };
+
+/* Her seyi Date'e cevirir: Firestore Timestamp'i ({toDate}), REST'ten gelen
+   {seconds,nanoseconds}, ISO metni, milisaniye ya da Date. Okunamayani null
+   doner.
+   Firestore'dan gelen bir belgeyi dogrudan `new Date(...)` icine vermek
+   "Invalid Date" uretir ve bu tabloda goze carpar ama filtrede carpmaz:
+   NaN her karsilastirmada false'tur, yani "son 7 gunde aktif" sessizce sifir
+   olur. Panelde tarih okunan her yer buradan gecsin. */
+export function zaman(v) {
+  if (v == null || v === "") return null;
+  if (v instanceof Date) return isNaN(v) ? null : v;
+  if (typeof v === "object") {
+    if (typeof v.toDate === "function") { const d = v.toDate(); return isNaN(d) ? null : d; }
+    if (typeof v.seconds === "number") return new Date(v.seconds * 1000);
+    if (typeof v._seconds === "number") return new Date(v._seconds * 1000);
+    return null;
+  }
+  const d = new Date(v);
+  return isNaN(d) ? null : d;
+}
+
+/* Siralama ve karsilastirma icin: okunamayan tarih 0, boylece en alta duser
+   ve hicbir filtreyi NaN ile bozmaz. */
+export const ms = v => { const d = zaman(v); return d ? d.getTime() : 0; };
+
+export const tarih = v => {
+  const d = zaman(v);
+  return d ? d.toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
+};
 
 export function kart(baslik, ...cocuklar) {
   const c = el("div", "card");

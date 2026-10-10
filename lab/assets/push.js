@@ -19,7 +19,7 @@
  *     kurulumlar: () => [...],            // kitle tahmini icin, istege bagli
  *   });
  */
-import { $, el, sayi, tarih, kart, tiles, veriTablo } from "/lab/assets/panel.js?v=3";
+import { $, el, sayi, tarih, kart, tiles, veriTablo } from "/lab/assets/panel.js?v=4";
 
 const DIL_ADI = {
   en: "Ingilizce", tr: "Turkce", de: "Almanca", es: "Ispanyolca", fr: "Fransizca",
