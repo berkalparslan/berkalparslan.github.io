@@ -16,65 +16,18 @@
   document.documentElement.setAttribute("data-theme", t);
 })();
 </script>
-<link rel="stylesheet" href="/lab/assets/panel.css?v=4">
+<link rel="stylesheet" href="/lab/assets/panel.css?v=5">
 </head>
 <body>
-
-<div id="login" class="card">
-  <h1>Leafbook</h1>
-  <p class="muted" id="loginNote">Panele Google hesabinla gir. Yalnizca yonetici e-postasi okuyabilir.</p>
-  <p><button id="send">Google ile gir</button></p>
-  <p class="muted" id="loginMsg"></p>
-</div>
-
-<div id="app" class="layout hidden">
-  <aside>
-    <div class="brand">Leafbook</div>
-    <div class="sec">ANALIZ</div>
-    <a href="#genel" data-p="genel">Genel bakis</a>
-    <a href="#canli" data-p="canli">Canli</a>
-    <a href="#ekranlar" data-p="ekranlar">Ekranlar</a>
-    <a href="#paywall" data-p="paywall">Paywall ve satin alma</a>
-    <a href="#kullanim" data-p="kullanim">Kullanim</a>
-    <a href="#kullanicilar" data-p="kullanicilar">Kullanicilar</a>
-    <a href="#satis" data-p="satis">Satis</a>
-    <a href="#ai" data-p="ai">Yapay zeka</a>
-    <a href="#analytics" data-p="analytics">Veri sagligı</a>
-    <div class="sec">TOPLULUK</div>
-    <a href="#topluluk" data-p="topluluk">Gonderiler</a>
-    <a href="#raporlar" data-p="raporlar">Raporlar</a>
-    <div class="sec">YONET</div>
-    <a href="#bildirim" data-p="bildirim">Bildirim gonder</a>
-    <a href="#ayarlar" data-p="ayarlar">Ayarlar</a>
-    <div style="flex:1"></div>
-    <button class="ghost" id="tema">Tema</button>
-    <button class="ghost" id="cikis">Cikis</button>
-  </aside>
-
-  <main>
-    <div class="top">
-      <strong id="baslik">Genel bakis</strong>
-      <span class="grow"></span>
-      <button class="ghost range" data-d="1">Bugun</button>
-      <button class="ghost range on" data-d="7">7 gun</button>
-      <button class="ghost range" data-d="30">30 gun</button>
-      <button class="ghost range" data-d="90">90 gun</button>
-      <button class="ghost" id="yenile">Yenile</button>
-    </div>
-    <div id="icerik"></div>
-    <p class="muted" id="durum"></p>
-  </main>
-</div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup }
-  from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId, deleteDoc }
-  from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { $, el, sayi, sure, gun, tarih, zaman, ms, yuzde, para, kart, tiles, veriTablo, dagilimTablo }
-  from "/lab/assets/panel.js?v=4";
-import { pushSayfasi } from "/lab/assets/push.js?v=1";
+import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, where, doc, documentId, deleteDoc,
+  addDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { $, el, sayi, sure, gun, tarih, tarihTam, tarihHucre, zaman, ms, yuzde, para, kart, tiles, veriTablo, dagilimTablo,
+  kullaniciCekmecesi } from "/lab/assets/panel.js?v=5";
+import { panelKabuk } from "/lab/assets/shell.js?v=1";
+import { pushSayfasi, gonderilenlerSayfasi, kisiyeBildirim } from "/lab/assets/push.js?v=2";
+import { dunyaHaritasi } from "/lab/assets/harita.js?v=1";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyADKB3iVGvc8DnXRtUAOHKhBQZ6yU77GX8",
@@ -105,67 +58,17 @@ const SAYAC = {
   ai_tokens_out: "AI cikis jetonu", ai_blocked: "AI engellendi", ai_failed: "AI hatasi",
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const demo = new URLSearchParams(location.search).has("demo");
-
-
-
-let aralik = 7;
-let sayfa = location.hash.slice(1) || "genel";
-let veri = null;
-
-// Giris
-
-$("#send").onclick = async () => {
-  try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch (e) {
-    $("#loginMsg").textContent = e.message;
-  }
-};
-
-/* Asil kapi Firestore kurallari: okuma yalnizca bu e-postaya acik, baska
-   hicbir hesap tek bir belge bile okuyamaz. Buradaki kontrol ikinci katman:
-   yetkisiz biri giris yaparsa bos/kirik panel yerine acik bir mesaj gorsun. */
+/* Asil kapi Firestore kurallari: okuma yalnizca bu e-postaya acik. Kabuktaki
+   kontrol ikinci katman: yetkisiz biri kirik panel yerine acik bir mesaj gorur. */
 const YONETICI = "aberkalparslan@gmail.com";
 
-onAuthStateChanged(auth, user => {
-  if (demo) {
-    $("#login").classList.add("hidden");
-    $("#app").classList.remove("hidden");
-    yukle();
-    return;
-  }
-  if (user && user.email === YONETICI && user.emailVerified) {
-    $("#login").classList.add("hidden");
-    $("#app").classList.remove("hidden");
-    yukle();
-  } else if (user) {
-    $("#login").classList.remove("hidden");
-    $("#app").classList.add("hidden");
-    $("#loginMsg").textContent = "Bu panel yalnizca yoneticiye acik.";
-    signOut(auth);
-  } else {
-    $("#login").classList.remove("hidden");
-    $("#app").classList.add("hidden");
-  }
-});
+let db = null;
+let K = null;              // kabuk
+let aralik = 7;
+let veri = null;
+const demo = new URLSearchParams(location.search).has("demo");
+const ciz = () => K && K.ciz();
 
-$("#cikis").onclick = () => signOut(auth);
-$("#tema").onclick = () => {
-  const t = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", t);
-  localStorage.setItem("bamtech-panel-tema", t);
-};
-document.querySelectorAll(".range").forEach(b => b.onclick = () => {
-  aralik = Number(b.dataset.d);
-  document.querySelectorAll(".range").forEach(x => x.classList.toggle("on", x === b));
-  yukle();
-});
-$("#yenile").onclick = () => yukle();
-addEventListener("hashchange", () => { sayfa = location.hash.slice(1) || "genel"; ciz(); });
 
 // Veri
 
@@ -229,17 +132,18 @@ function sahte() {
   return { days, installs };
 }
 
-async function yukle() {
+async function yukle(k) {
+  K = k;
+  if (!db && k.app) db = getFirestore(k.app);
+  aralik = k.aralik || 7;
   satisBelge = undefined;
-  $("#durum").textContent = "Yukleniyor...";
   try {
     veri = demo ? sahte() : { days: await gunler(), installs: await kurulumlar() };
-    $("#durum").textContent = demo ? "Demo veri" : `${veri.installs.length} kurulum, ${veri.days.length} gun`;
+    k.durum(demo ? "Demo veri" : `${veri.installs.length} kurulum, ${veri.days.length} gün`);
   } catch (e) {
-    $("#durum").textContent = "Hata: " + e.message;
+    k.durum("Hata: " + e.message);
     veri = { days: [], installs: [] };
   }
-  ciz();
 }
 
 // Yardimcilar
@@ -255,19 +159,7 @@ const evTopla = (days, onek) => {
 
 // Sayfalar
 
-function ciz() {
-  document.querySelectorAll("aside a").forEach(a => a.classList.toggle("on", a.dataset.p === sayfa));
-  const c = $("#icerik");
-  c.innerHTML = "";
-  if (!veri) return;
-  const ad = { genel: "Genel bakis", canli: "Canli", ekranlar: "Ekranlar", paywall: "Paywall ve satin alma",
-               kullanim: "Kullanim", kullanicilar: "Kullanicilar", satis: "Satis", ai: "Yapay zeka",
-               analytics: "Veri sagligi", topluluk: "Gonderiler", raporlar: "Raporlar",
-               bildirim: "Bildirim gonder", ayarlar: "Ayarlar" }[sayfa] || "Genel bakis";
-  $("#baslik").textContent = ad;
-  ({ genel, canli, ekranlar, paywall, kullanim, kullanicilar, satis, ai, analytics,
-     topluluk, raporlar, bildirim, ayarlar }[sayfa] || genel)(c);
-}
+// Sayfalar
 
 function genel(c) {
   const { days, installs } = veri;
@@ -319,6 +211,9 @@ function genel(c) {
     c.appendChild(kart(null, el("p", "muted",
       "Hic iOS kurulumu yok. Telemetri iOS'ta 1.1 ile basliyor; App Store'da 1.1 yayilana kadar buradaki herkes Android.")));
   }
+  const harita = el("div");
+  c.appendChild(kart("Ülkeler", harita));
+  dunyaHaritasi(harita, bolge, { birim: "kurulum" });
   const grid = el("div"); grid.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px";
   for (const [ad, harita] of [["Platform", platform], ["Bolge", bolge], ["Surum", surum]]) {
     grid.appendChild(kart(ad, dagilimTablo(harita, [ad, "Kurulum"], { kopyala: false })));
@@ -455,55 +350,58 @@ function kullanicilar(c) {
     kutu.innerHTML = "";
     kutu.appendChild(kart(null, veriTablo(
       ["Kurulum", { ad: "Platform", filtre: true }, { ad: "Surum", filtre: true }, { ad: "Bolge", filtre: true },
-       { ad: "Dil", filtre: true }, { ad: "Bitki", num: true }, { ad: "Fotograf", num: true }, "Pro", "Son gorulme"],
+       { ad: "Dil", filtre: true }, { ad: "Bitki", num: true }, { ad: "Fotoğraf", num: true }, "Pro", "İlk görülme", "Son görülme"],
       liste.map(i => [i.id.slice(0, 8), i.platform || "", i.appVersion || "", i.region || "", i.language || "",
                       sayi(i.n_plants), sayi(i.n_photos), i.pro ? "evet" : "",
-                      { d: tarih(i.lastSeen), s: ms(i.lastSeen) }]),
-      { sirala: [8, "desc"], araYazi: "Ara: kurulum, surum, bolge, dil",
+                      tarihHucre(i.firstSeen), tarihHucre(i.lastSeen)]),
+      { sirala: [9, "desc"], araYazi: "Ara: kurulum, surum, bolge, dil",
         bos: "Bu suzgece uyan kurulum yok.",
-        satirTik: satir => {
-          const kisa = String(satir[0]);
-          const kurulum = liste.find(i => i.id.slice(0, 8) === kisa);
-          if (kurulum) cekmece(kurulum);
-        } })));
+        satirTik: (_, n) => cekmece(liste[n]) })));
   }
   ciz2();
 }
 
-async function cekmece(install) {
-  const d = el("div", "drawer");
-  const inner = el("div", "inner");
-  d.appendChild(inner);
-  d.onclick = e => { if (e.target === d) d.remove(); };
-  inner.appendChild(el("h1", null, install.id.slice(0, 8)));
-  inner.appendChild(el("p", "muted", [install.platform, install.appVersion, install.region, install.language]
-    .filter(Boolean).join(" · ")));
-  inner.appendChild(tiles([
-    ["Bitki", sayi(install.n_plants)], ["Fotograf", sayi(install.n_photos)],
-    ["Kurtarma", sayi(install.n_rescues)], ["Oturum", sayi(install.sessions)],
-    ["Pro", install.pro ? "evet" : "hayir", install.buySource || ""],
-  ]));
-  inner.appendChild(el("p", "muted", `Ilk: ${tarih(install.firstSeen)} · Son: ${tarih(install.lastSeen)}`));
-  const liste = el("div");
-  liste.appendChild(el("p", "muted", "Zaman cizelgesi yukleniyor..."));
-  inner.appendChild(kart("Zaman cizelgesi", liste));
-  document.body.appendChild(d);
-  if (demo) { liste.innerHTML = "<p class='muted'>Demo modunda cizelge yok.</p>"; return; }
-  try {
-    const snap = await getDocs(query(collection(db, "installs", install.id, "events"), orderBy("t", "desc"), limit(120)));
-    liste.innerHTML = "";
-    if (snap.empty) liste.appendChild(el("p", "muted", "Kayit yok."));
-    snap.forEach(doc => {
-      const e = doc.data();
-      const satir = el("div", "ev");
-      satir.appendChild(el("span", "t", tarih(e.t)));
-      satir.appendChild(el("span", null, `${e.e}${e.p ? " · " + (EKRAN[e.p] || PAYWALL_KAYNAK[e.p] || e.p) : ""}`));
-      satir.appendChild(el("span", "muted", e.s ? sure(e.s) : ""));
-      liste.appendChild(satir);
-    });
-  } catch (err) {
-    liste.innerHTML = `<p class="muted">Hata: ${err.message}</p>`;
-  }
+function cekmece(i) {
+  const ulasir = (typeof i.fcm === "string" ? i.fcm.length > 0 : !!i.fcm) && i.notif !== false;
+  kullaniciCekmecesi(i, [
+    ["Kurulum", i.id],
+    ["Platform", [i.platform, i.appVersion].filter(Boolean).join(" ")],
+    ["Bölge / dil", [i.region, i.language].filter(Boolean).join(" / ")],
+    ["İlk görülme", tarihTam(i.firstSeen)],
+    ["Son görülme", tarihTam(i.lastSeen)],
+    ["Şu an", i.screen && i.screen !== "closed" ? EKRAN[i.screen] || i.screen : "kapalı"],
+    ["Bildirim", `${i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor"} · ${ulasir ? "cihaz adresi var" : "cihaz adresi yok"}`],
+    ["Test cihazı", i.tester ? "Evet" : "Hayır"],
+    { baslik: "Kullanım" },
+    ["Bitki", sayi(i.n_plants)], ["Fotoğraf", sayi(i.n_photos)], ["Kurtarma", sayi(i.n_rescues)],
+    ["Oturum", sayi(i.sessions)], ["Sulama", sayi(i.waterings)],
+    ["Pro", i.pro ? `Evet${i.plan ? " · " + i.plan : ""}${i.buySource ? " · " + (PAYWALL_KAYNAK[i.buySource] || i.buySource) : ""}` : "Hayır"],
+    ...(i.purchasedAt ? [["Satın alma", tarihTam(i.purchasedAt)]] : []),
+  ], {
+    baslik: `Kurulum ${i.id.slice(0, 8)}`,
+    alt: [i.platform, i.appVersion, i.region, i.language].filter(Boolean).join(" · "),
+    eylemler: [{ ad: "Bu kişiye bildirim gönder", kapali: !ulasir, tik: kapat => { kapat(); kisiyeBildirim(i.id); K.git("bildirim"); } }],
+    hamAlanlar: true,
+    ek: async kutu => {
+      kutu.appendChild(el("h2", null, "Zaman çizelgesi"));
+      const liste = el("div");
+      kutu.appendChild(liste);
+      if (demo) { liste.appendChild(el("p", "muted", "Demo modunda çizelge yok.")); return; }
+      liste.appendChild(el("p", "muted", "Yükleniyor..."));
+      const snap = await getDocs(query(collection(db, "installs", i.id, "events"), orderBy("t", "desc"), limit(120)));
+      liste.textContent = "";
+      if (snap.empty) liste.appendChild(el("p", "muted", "Kayıt yok."));
+      snap.forEach(d => {
+        const e = d.data();
+        const satir = el("div", "ev");
+        satir.appendChild(el("span", "t", tarihTam(e.t)));
+        const ad = el("span"); ad.textContent = `${e.e}${e.p ? " · " + (EKRAN[e.p] || PAYWALL_KAYNAK[e.p] || e.p) : ""}`;
+        satir.appendChild(ad);
+        satir.appendChild(el("span", "muted", e.s ? sure(e.s) : ""));
+        liste.appendChild(satir);
+      });
+    },
+  });
 }
 
 /* Magaza parasi App Store Connect ve Play raporlarindan geliyor; anahtarlari
@@ -523,7 +421,7 @@ async function satis(c) {
       const d = await getDoc(doc(db, "panel", "sales"));
       satisBelge = d.exists() ? d.data() : null;
     } catch (e) { satisBelge = null; }
-    if (sayfa === "satis") ciz();
+    if (K.sayfa === "satis") ciz();
     return;
   }
   if (!satisBelge) {
@@ -647,6 +545,7 @@ async function gonderiSil(id) {
 }
 
 function topluluk(c) {
+  if (!db) { c.appendChild(kart(null, el("p", "muted", "Demo modunda topluluk verisi yok."))); return; }
   const kutu = el("div");
   c.appendChild(kutu);
   kutu.appendChild(el("p", "muted", "Yukleniyor..."));
@@ -694,6 +593,7 @@ function silDugmesi(p, sonra) {
 }
 
 function raporlar(c) {
+  if (!db) { c.appendChild(kart(null, el("p", "muted", "Demo modunda topluluk verisi yok."))); return; }
   const kutu = el("div");
   c.appendChild(kutu);
   kutu.appendChild(el("p", "muted", "Yukleniyor..."));
@@ -736,18 +636,40 @@ const PUSH_URL = "https://leafbook-push.kittapcom.workers.dev";
 function bildirim(c) {
   pushSayfasi(c, {
     worker: PUSH_URL,
-    token: () => auth.currentUser.getIdToken(),
+    token: () => K.token(),
+    uygulama: { ad: "Leafbook", ikon: "/leafbook/assets/icon.png", renk: "#2e9e63" },
     diller: ["en", "tr", "de", "es", "fr", "it", "pt", "nl", "ru", "ja", "ko", "zh", "ar", "pl", "sv", "id"],
+    /* leafbook-push Worker'i baslik 50, metin 160 karakterde durduruyor. */
+    sinir: { baslik: 50, metin: 160 },
     sekmeler: [
       { id: "plants", ad: "Bitkiler" },
-      { id: "care", ad: "Bakim" },
+      { id: "care", ad: "Bakım" },
       { id: "community", ad: "Topluluk" },
-      { id: "learn", ad: "Ogren" },
+      { id: "learn", ad: "Öğren" },
       { id: "notifications", ad: "Bildirim kutusu" },
     ],
+    kurulumlar: () => veri?.installs || [],
+    /* Firestore kurallarinda pushTemplates yok; sablonlar bu tarayicida.
+       Kurala eklenince: sablon: { db, F: { collection, getDocs, query, orderBy, limit, addDoc, setDoc, doc, deleteDoc, serverTimestamp } } */
+    anahtar: "leafbook",
+    gonderilenler: "gonderilenler",
+  });
+}
+
+function gonderilenler(c) {
+  gonderilenlerSayfasi(c, {
+    worker: PUSH_URL,
+    token: () => K.token(),
+    kurulumlar: () => veri?.installs || [],
     gecmis: async () => {
-      const snap = await getDocs(query(collection(db, "pushes"), orderBy("at", "desc"), limit(50)));
-      return snap.docs.map(d => ({ pid: d.id, ...d.data(), at: zamana(d.data().at), sendAt: zamana(d.data().sendAt) }));
+      if (demo) return [];
+      const snap = await getDocs(query(collection(db, "pushes"), orderBy("at", "desc"), limit(200)));
+      return snap.docs.map(d => ({ pid: d.id, ...d.data() }));
+    },
+    /* Acilmalar gunluk kayitlarda: stats/{gun}.ev.push_open_<kimlik>. */
+    gunluk: async ilk => {
+      const snap = await getDocs(query(collection(db, "stats"), where(documentId(), ">=", ilk), orderBy(documentId())));
+      return snap.docs.map(d => ({ day: d.id, ...d.data() }));
     },
   });
 }
@@ -771,6 +693,38 @@ function ayarlar(c) {
     "<li>Data safety / App Privacy beyani iki magazada da guncellenecek</li>" +
     "</ul>")));
 }
+
+/* Kabuk en sonda: sayfa fonksiyonlarinin kullandigi let/const tanimlari hazir olsun. */
+K = await panelKabuk({
+  ad: "Leafbook",
+  ikon: "/assets/lab-icons/leafbook-180.png",
+  firebaseConfig,
+  yonetici: YONETICI,
+  araliklar: [1, 7, 30, 90], aralik: 7,
+  yukle,
+  gruplar: [
+    { baslik: "ANALİZ", sayfalar: [
+      { id: "genel", ad: "Genel bakış", ciz: genel },
+      { id: "canli", ad: "Canlı", ciz: canli },
+      { id: "ekranlar", ad: "Ekranlar", ciz: ekranlar },
+      { id: "paywall", ad: "Paywall ve satın alma", ciz: paywall },
+      { id: "kullanim", ad: "Kullanım", ciz: kullanim },
+      { id: "kullanicilar", ad: "Kullanıcılar", ciz: kullanicilar },
+      { id: "satis", ad: "Satış", ciz: satis },
+      { id: "ai", ad: "Yapay zekâ", ciz: ai },
+      { id: "analytics", ad: "Analytics", ciz: analytics },
+    ] },
+    { baslik: "SOSYAL", sayfalar: [
+      { id: "topluluk", ad: "Gönderiler", ciz: topluluk },
+      { id: "raporlar", ad: "Raporlar", ciz: raporlar },
+    ] },
+    { baslik: "YÖNET", sayfalar: [
+      { id: "bildirim", ad: "Bildirim gönder", ciz: bildirim },
+      { id: "gonderilenler", ad: "Gönderilenler", ciz: gonderilenler },
+      { id: "ayarlar", ad: "Ayarlar", ciz: ayarlar },
+    ] },
+  ],
+});
 </script>
 </body>
 </html>

@@ -56,6 +56,119 @@ export const tarih = v => {
   return d ? d.toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
 };
 
+/* Tablolarda ve cekmecede tam tarih: "10 Eki 2026 14:03:27". Saat Turkiye
+   saatiyle yazilir (panelde her sey Turkiye saati), saniye elde varsa gelir.
+   Yalnizca gun olan bir metin ("2026-10-10") saatsiz yazilir. */
+const AYLAR = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+const IST_PARCA = typeof Intl !== "undefined" ? new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/Istanbul", year: "numeric", month: "numeric", day: "numeric",
+  hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+}) : null;
+export function tarihTam(v, secenek = {}) {
+  const d = zaman(v);
+  if (!d) return "";
+  const p = {};
+  if (IST_PARCA) for (const x of IST_PARCA.formatToParts(d)) p[x.type] = x.value;
+  else Object.assign(p, { day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear(),
+    hour: String(d.getHours()).padStart(2, "0"), minute: String(d.getMinutes()).padStart(2, "0"), second: String(d.getSeconds()).padStart(2, "0") });
+  const gunMetni = `${Number(p.day)} ${AYLAR[Number(p.month) - 1]} ${p.year}`;
+  if (secenek.saatsiz || (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v))) return gunMetni;
+  return `${gunMetni} ${p.hour}:${p.minute}${secenek.saniyesiz ? "" : ":" + p.second}`;
+}
+
+/** veriTablo hucresi: tam tarih gorunur, zaman damgasina gore siralanir. */
+export const tarihHucre = v => ({ d: tarihTam(v), s: ms(v) });
+
+/* Kullanici (kurulum) detay cekmecesi; bam-sports'taki gibi sagdan acilir.
+ *
+ *   kullaniciCekmecesi(kayit, [
+ *     ["Platform", kayit.platform],
+ *     ["Son gorulme", kayit.lastSeen],            // Date/ISO/Timestamp tam tarihe doner
+ *     { baslik: "Kullanim" },                      // ara baslik
+ *     ["Bitki", sayi(kayit.n_plants)],
+ *   ], {
+ *     baslik: "@ad ya da kimlik", alt: "ikinci satir",
+ *     eylemler: [{ ad: "Bu kisiye bildirim gonder", tik: () => ..., kapali: false }],
+ *     ek: async govde => { ...zaman cizelgesi... },
+ *     hamAlanlar: true,                            // en altta butun alanlar
+ *   });
+ *
+ * Deger bir DOM ogesi de olabilir. Kapat dugmesi, Esc ve disari tiklama kapatir. */
+export function kullaniciCekmecesi(kayit, alanlar = [], secenek = {}) {
+  document.querySelectorAll(".drawer[data-cekmece]").forEach(x => x.remove());
+  const d = el("div", "drawer");
+  d.dataset.cekmece = "1";
+  const ic = el("div", "inner");
+  d.appendChild(ic);
+  const ust = el("div", "cek-ust");
+  ust.appendChild(el("h1", null, ""));
+  ust.firstChild.textContent = secenek.baslik || kayit?.id || "Kayıt";
+  const kapatB = el("button", "ghost", "Kapat");
+  ust.appendChild(kapatB);
+  ic.appendChild(ust);
+  if (secenek.alt) { const a = el("p", "muted"); a.textContent = secenek.alt; ic.appendChild(a); }
+  if (secenek.eylemler?.length) {
+    const ey = el("div", "actions");
+    ey.style.margin = "0 0 14px";
+    for (const e of secenek.eylemler) {
+      const b = el("button", e.ikincil ? "ghost" : null);
+      b.textContent = e.ad;
+      b.disabled = !!e.kapali;
+      b.onclick = () => e.tik(kapat);
+      ey.appendChild(b);
+      if (e.not) { const n = el("p", "muted"); n.textContent = e.not; ey.appendChild(n); }
+    }
+    ic.appendChild(ey);
+  }
+  const dl = el("div", "dl");
+  const deger = v => {
+    if (v instanceof Node) return v;
+    const z = v instanceof Date || (v && typeof v === "object" && (v.toDate || typeof v.seconds === "number")) ? tarihTam(v) : v;
+    const s = el("div");
+    s.textContent = z == null || z === "" ? "-" : String(z);
+    return s;
+  };
+  for (const a of alanlar) {
+    if (!a) continue;
+    if (!Array.isArray(a) && a.baslik) {
+      const h = el("h2", "cek-ara"); h.textContent = a.baslik; dl.appendChild(h);
+      continue;
+    }
+    const [k, v] = a;
+    const kk = el("div"); kk.textContent = k;
+    dl.appendChild(kk);
+    const dv = deger(typeof v === "function" ? v(kayit) : v);
+    if (dv.tagName !== "DIV") { const s = el("div"); s.appendChild(dv); dl.appendChild(s); } else dl.appendChild(dv);
+  }
+  ic.appendChild(dl);
+  const ekKutu = el("div");
+  ic.appendChild(ekKutu);
+  if (secenek.hamAlanlar && kayit) {
+    const det = el("details");
+    det.style.marginTop = "18px";
+    det.appendChild(el("summary", "muted", "Bütün alanlar"));
+    const h = el("div", "dl");
+    h.style.marginTop = "10px";
+    const duz = (o, on = "") => Object.entries(o || {}).sort().forEach(([k, v]) => {
+      if (v && typeof v === "object" && !Array.isArray(v) && !zaman(v)) return duz(v, on + k + ".");
+      const a = el("div"); a.textContent = on + k;
+      const b = el("div"); b.textContent = zaman(v) && typeof v !== "number" ? tarihTam(v) : Array.isArray(v) ? v.join(", ") : String(v ?? "");
+      h.append(a, b);
+    });
+    duz(kayit);
+    det.appendChild(h);
+    ic.appendChild(det);
+  }
+  function kapat() { d.remove(); removeEventListener("keydown", tus); }
+  function tus(e) { if (e.key === "Escape") kapat(); }
+  kapatB.onclick = kapat;
+  d.onclick = e => { if (e.target === d) kapat(); };
+  addEventListener("keydown", tus);
+  document.body.appendChild(d);
+  if (secenek.ek) Promise.resolve(secenek.ek(ekKutu, kapat)).catch(e => { ekKutu.appendChild(el("p", "muted", "Hata: " + (e?.message || e))); });
+  return { kutu: d, govde: ic, ek: ekKutu, kapat };
+}
+
 export function kart(baslik, ...cocuklar) {
   const c = el("div", "card");
   if (baslik) c.appendChild(el("h2", null, baslik));
@@ -140,7 +253,7 @@ export function veriTablo(kolonlar, satirlar, secenek = {}) {
     b.onclick = () => {
       const liste = suzulmus();
       const metinler = [kol.map(k => k.ad).join("\t"), ...liste.map(s => s.map(metin).join("\t"))].join("\n");
-      navigator.clipboard?.writeText(metinler).then(() => { b.textContent = "Kopyalandi"; setTimeout(() => (b.textContent = "Kopyala"), 1400); });
+      navigator.clipboard?.writeText(metinler).then(() => { b.textContent = "Kopyalandı"; setTimeout(() => (b.textContent = "Kopyala"), 1400); });
     };
     alt.appendChild(b);
     kutu.appendChild(alt);
@@ -165,9 +278,9 @@ export function veriTablo(kolonlar, satirlar, secenek = {}) {
   function ciz() {
     const liste = suzulmus();
     kaydir.innerHTML = "";
-    sayac.textContent = liste.length === satirlar.length ? `${sayi(satirlar.length)} satir` : `${sayi(liste.length)} / ${sayi(satirlar.length)}`;
+    sayac.textContent = liste.length === satirlar.length ? `${sayi(satirlar.length)} satır` : `${sayi(liste.length)} / ${sayi(satirlar.length)}`;
     if (!liste.length) {
-      kaydir.appendChild(el("p", "bos", secenek.bos || "Kayit yok."));
+      kaydir.appendChild(el("p", "bos", secenek.bos || "Kayıt yok."));
       return;
     }
     const t = el("table");
