@@ -29,6 +29,7 @@ Each app has a tour page, a privacy policy and store links. Apps never sell user
 ## Pages
 - [Home](https://bamstudio.dev/): showcase of all apps
 - [Support](https://bamstudio.dev/support/): help and contact
+- [Feedback](https://bamstudio.dev/geri-bildirim/): send a bug report, an idea or thanks for any app (preselect with ?app=<slug>)
 - [Privacy policies](https://bamstudio.dev/privacy/): per-app privacy policies
 - [Website privacy](https://bamstudio.dev/privacy/site/)
 - [Terms of use](https://bamstudio.dev/terms/)

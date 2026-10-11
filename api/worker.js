@@ -4,6 +4,7 @@
    - GET  /api/confirm     bülten onayı
    - GET  /api/unsubscribe bültenden çıkış
    - POST /api/poll        "en sevdiğin 3 uygulama" anketi; seçilen uygulamaların %20 kodlarını mailler
+   - POST /api/feedback    geri bildirim formu (/geri-bildirim/): D1'e yazar, merhaba@'ya mail atar
    - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
    Veri D1'de (binding: DB), mail Resend ile (secret: RESEND_KEY). */
 import APPS from "./apps.json";
@@ -26,6 +27,7 @@ export default {
       if (route === "/api/confirm") return await confirm(url, env);
       if (route === "/api/unsubscribe") return await unsubscribe(url, env);
       if (route === "/api/poll" && req.method === "POST") return await poll(req, env);
+      if (route === "/api/feedback" && req.method === "POST") return await feedback(req, env);
       return json({ ok: false, error: "not_found" }, 404);
     } catch (e) {
       console.error(e && e.stack || e);
@@ -51,20 +53,20 @@ async function body(req) {
   return o;
 }
 
-/* Saatte IP başına en fazla 10 istek. */
-async function limited(req, env) {
-  const ip = req.headers.get("cf-connecting-ip") || "0";
+/* Saatte IP başına en fazla `max` istek (varsayılan 10). `bucket` ayrı bir sayaç açar. */
+async function limited(req, env, bucket = "", max = 10) {
+  const ip = bucket + (req.headers.get("cf-connecting-ip") || "0");
   const hour = now().slice(0, 13);
   await env.DB.prepare("INSERT INTO hits(ip,hour,n) VALUES(?,?,1) ON CONFLICT(ip,hour) DO UPDATE SET n=n+1").bind(ip, hour).run();
   const r = await env.DB.prepare("SELECT n FROM hits WHERE ip=? AND hour=?").bind(ip, hour).first();
-  return r && r.n > 10;
+  return r && r.n > max;
 }
 
-async function send(env, to, subject, html, text) {
+async function send(env, to, subject, html, text, replyTo = REPLY) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${env.RESEND_KEY}`, "content-type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: [to], reply_to: REPLY, subject, html, text }),
+    body: JSON.stringify({ from: FROM, to: [to], reply_to: replyTo, subject, html, text }),
   });
   if (!r.ok) throw new Error("resend " + r.status + " " + (await r.text()).slice(0, 200));
 }
@@ -140,6 +142,49 @@ async function poll(req, env) {
   const m = mailPoll(lang, apps, codes, platform, sub && !sub.already ? sub.token : null);
   await send(env, email, m.subject, m.html, m.text);
   return json({ ok: true, codes: Object.keys(codes).length });
+}
+
+/* ── geri bildirim ──────────────────────────────────────── */
+const FB_TYPES = { hata: "Hata", oneri: "Öneri", tesekkur: "Teşekkür", diger: "Diğer" };
+const clip = (v, n) => String(v ?? "").replace(/\r\n?/g, "\n").trim().slice(0, n);
+
+async function feedback(req, env) {
+  const b = await body(req);
+  if (b.website) return json({ ok: true }); // bal tuzağı
+  const message = clip(b.message, 4000);
+  if (message.length < 3) return json({ ok: false, error: "message" }, 400);
+  const email = clip(b.email, 200).toLowerCase();
+  if (email && !okEmail(email)) return json({ ok: false, error: "email" }, 400);
+  /* Parti ekranındaki QR'dan aynı evdeki herkes aynı IP'den gelir: bülten/anket
+     sayacından ayrı, saatte 20. */
+  if (await limited(req, env, "fb:", 20)) return json({ ok: false, error: "rate" }, 429);
+
+  const app = BY[b.app] ? b.app : "genel";
+  const type = FB_TYPES[b.type] ? b.type : "diger";
+  const name = clip(b.name, 100), lang = L(b.lang), src = clip(b.src, 40);
+  const ua = clip(req.headers.get("user-agent"), 300);
+  const country = (req.cf && req.cf.country) || null;
+  const r = await env.DB.prepare("INSERT INTO feedback(app,type,message,name,email,lang,src,ua,country,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)")
+    .bind(app, type, message, name || null, email || null, lang, src || null, ua || null, country, now()).run();
+  const id = r.meta && r.meta.last_row_id;
+
+  const appName = app === "genel" ? "Genel / site" : BY[app].name;
+  const subject = `Geri bildirim: ${appName} · ${FB_TYPES[type]}`;
+  const rows = [["Uygulama", appName], ["Tür", FB_TYPES[type]], ["Ad", name || "(yok)"], ["E-posta", email || "(yok)"],
+    ["Dil", lang], ["Kaynak", src || "site"], ["Ülke", country || "?"], ["Tarayıcı", ua || "?"], ["Kayıt", id ? `#${id}` : "?"]];
+  const text = [message, "", "──", ...rows.map(([k, v]) => `${k}: ${v}`)].join("\n");
+  /* Bilerek sade, onay mailleri gibi. */
+  const html = `<!doctype html><html lang="tr"><head><meta charset="utf-8"></head><body style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#111">
+<p style="white-space:pre-wrap">${esc(message)}</p>
+<hr style="border:0;border-top:1px solid #ccc">
+<p style="font-size:13px;color:#555">${rows.map(([k, v]) => `<b>${k}:</b> ${esc(v)}`).join("<br>")}</p>
+</body></html>`;
+  try {
+    await send(env, REPLY, subject, html, text, email || REPLY);
+  } catch (e) {
+    console.error("feedback mail", e && e.message); // kayıt D1'de duruyor, kullanıcıya hata gösterme
+  }
+  return json({ ok: true });
 }
 
 /* ── mail şablonları ────────────────────────────────────── */

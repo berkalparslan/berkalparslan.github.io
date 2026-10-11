@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geri bildirim · Bam Studio</title>
+<meta name="description" content="Bam Studio uygulamaları için hata, öneri ya da teşekkür bırak. Her mesajı okuyoruz." />
+<link rel="canonical" href="https://bamstudio.dev/geri-bildirim/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Geri bildirim · Bam Studio" />
+<meta property="og:description" content="Bir hata, bir fikir ya da sadece teşekkür: uygulamayı seç, iki satır yaz." />
+<meta property="og:image" content="https://bamstudio.dev/assets/brand/og.png" />
+<meta name="theme-color" content="#e9ccff" />
+<link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32" />
+<link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512" />
+<link rel="apple-touch-icon" href="/assets/brand/icon-180.png" />
+<script>
+  (function () {
+    var d = document.documentElement, lang;
+    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
+    var q = location.search.match(/[?&]lang=(tr|en)\b/);
+    if (q) lang = q[1];
+    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
+    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
+    d.setAttribute("data-title-tr", "Geri bildirim · Bam Studio");
+    d.setAttribute("data-title-en", "Feedback · Bam Studio");
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/tanitim.css" />
+<style>
+  .fb-hero .app-pick { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; background: #fff; border: var(--line); border-radius: 999px; padding: 6px 16px 6px 6px; font-weight: 700; transform: rotate(-2deg); }
+  .fb-hero .app-pick img { width: 40px; height: 40px; border: var(--line); border-radius: 12px; background: #fff; }
+  .fb { padding: 70px 0 90px; background: var(--paper); }
+  .fb-form { max-width: 720px; margin: 0 auto; display: grid; gap: 22px; }
+  .fld { display: grid; gap: 8px; }
+  .fld > span, .fld legend { font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+  .fld small { font-weight: 500; text-transform: none; letter-spacing: 0; opacity: .65; }
+  fieldset.fld { border: 0; }
+  .inp { width: 100%; min-width: 0; font: inherit; font-size: 16px; padding: 14px 18px; border: var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); }
+  select.inp { appearance: none; -webkit-appearance: none; padding-right: 44px; cursor: pointer;
+    background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 18px center / 12px 8px; }
+  textarea.inp { border-radius: 24px; min-height: 180px; resize: vertical; line-height: 1.5; }
+  .inp:focus { outline: 3px solid var(--violet); outline-offset: 2px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .types { display: flex; flex-wrap: wrap; gap: 8px; }
+  .types label { position: relative; border: var(--line); border-radius: 999px; background: var(--paper); padding: 10px 16px; font-weight: 700; font-size: 14px; cursor: pointer; transition: transform .15s; }
+  .types label:hover { transform: translateY(-2px) rotate(-1deg); }
+  .types input { position: absolute; opacity: 0; pointer-events: none; }
+  .types label:has(input:checked) { background: var(--ink); color: var(--paper); transform: rotate(-2deg); }
+  .types label:has(input:focus-visible) { outline: 3px solid var(--violet); outline-offset: 2px; }
+  .count { justify-self: end; font-size: 12px; opacity: .6; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+  .send { justify-self: start; cursor: pointer; }
+  .send[disabled] { opacity: .5; cursor: wait; }
+  .msg { font-weight: 700; min-height: 1.4em; }
+  .msg:empty { display: none; }
+  .msg.ok { background: var(--mint); border: var(--line); border-radius: 18px; padding: 14px 18px; }
+  .msg.err { background: #fff; border: 2px solid var(--ember); border-radius: 18px; padding: 14px 18px; }
+  .note { font-size: 14px; opacity: .75; }
+  .note a { text-decoration: underline; }
+  @media (max-width: 640px) { .two { grid-template-columns: 1fr; } .fb { padding: 48px 0 70px; } }
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+</head>
+<body style="--app:#e9ccff;--acc:#5c4ade">
+
+<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;Geri bildirim&quot;, &quot;Feedback&quot;, &quot;Hata · Öneri · Teşekkür&quot;]"></div></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Bam Studio">b</a>
+    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
+    <nav class="nav"><a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a></nav>
+    <button class="pill lang" type="button">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero fb-hero" data-emoji="[]">
+    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+    <div class="wrap hero-in">
+      <p class="kick"><span class="tr">Her mesajı okuyoruz</span><span class="en">We read every message</span></p>
+      <h1 class="disp"><span class="tr">Geri bildirim</span><span class="en">Feedback</span></h1>
+      <p class="lede"><span class="tr">Bir hata mı buldun, aklına bir fikir mi geldi, ya da sadece teşekkür mü etmek istiyorsun? İki satır yeter.</span><span class="en">Found a bug, got an idea, or just want to say thanks? Two lines are plenty.</span></p>
+      <span class="app-pick" id="appPick" hidden><img alt="" src="/assets/brand/icon-180.png" /><span lang="en"></span></span>
+    </div>
+  </section>
+
+  <section class="fb">
+    <div class="wrap">
+      <form class="fb-form" id="fbForm" novalidate>
+        <label class="fld">
+          <span><span class="tr">Hangi uygulama?</span><span class="en">Which app?</span></span>
+          <select class="inp" name="app" id="fbApp">
+            <option value="genel" data-tr="Genel / site" data-en="General / website">Genel / site</option>
+            <!-- uygulamalar:başla -->
+            <option value="walletcoach" data-alias="walletcoach" data-icon="/walletcoach/assets/icon-512.png" data-color="#dceeff">Wallet Coach</option>
+            <option value="tennis-padel" data-alias="tennis-padel" data-icon="/tennis-padel/assets/icon.webp" data-color="#c8f560">Tennis &amp; Padel</option>
+            <option value="nubi" data-alias="nubi" data-icon="/assets/home/nubi-icon.webp" data-color="#ffd731">Nubi</option>
+            <option value="daily-whisper" data-alias="daily-whisper" data-icon="/assets/home/daily-whisper-icon.webp" data-color="#e9ccff">Daily Whisper</option>
+            <option value="o-mu-bu-mu" data-alias="o-mu-bu-mu" data-icon="/assets/home/omubumu-icon.webp" data-color="#5c4ade">O mu Bu mu?</option>
+            <option value="tasbih-tally" data-alias="tasbih-tally" data-icon="/tasbih-tally/assets/icon.webp" data-color="#55db9c">Tasbih Tally</option>
+            <option value="bodybook" data-alias="bodybook" data-icon="/assets/home/bodybook-icon.webp" data-color="#fb4903">BodyBook</option>
+            <option value="leafbook" data-alias="leafbook" data-icon="/assets/home/leafbook-icon.webp" data-color="#55db9c">Leafbook</option>
+            <option value="bosyeryok" data-alias="bosyeryok" data-icon="/bosyeryok/assets/icon-512.png" data-color="#ffd731">Boş Yer Yok</option>
+            <option value="kit" data-alias="kit-qr" data-icon="/assets/home/kit-icon.webp" data-color="#4da2ff">Kit</option>
+            <option value="yonca" data-alias="yonca" data-icon="/assets/home/yonca-icon.webp" data-color="#55db9c">Yonca</option>
+            <option value="matchday" data-alias="matchday" data-icon="/matchday/assets/icon-512.png" data-color="#c8f560">Matchday</option>
+            <option value="pickleball" data-alias="pickleball" data-icon="/pickleball/assets/icon.webp" data-color="#4da2ff">Pickleball</option>
+            <option value="orbix-roulette" data-alias="orbix-roulette" data-icon="/orbix-roulette/assets/icon.webp" data-color="#5c4ade">Orbix</option>
+            <option value="volleyball" data-alias="volleyball" data-icon="/volleyball/assets/icon.webp" data-color="#ffd731">Volleyball</option>
+            <option value="rally-badminton" data-alias="rally-badminton" data-icon="/rally-badminton/assets/icon.webp" data-color="#e9ccff">Rally: Badminton</option>
+            <option value="rally-table-tennis" data-alias="rally-table-tennis" data-icon="/rally-table-tennis/assets/icon.webp" data-color="#fb4903">Rally: Table Tennis</option>
+            <option value="bumpline" data-alias="bumpline" data-icon="/bumpline/assets/icon.webp" data-color="#ffb3d9">Bumpline</option>
+            <option value="store-mockup" data-alias="store-mockup" data-icon="/assets/home/icons/store-mockup.svg" data-color="#e9ccff">Framegrove</option>
+            <option value="mihenk" data-alias="mihenk" data-icon="/assets/home/icons/mihenk.svg" data-color="#ffd731">Mihenk</option>
+            <!-- uygulamalar:bitti -->
+          </select>
+        </label>
+
+        <fieldset class="fld">
+          <legend><span class="tr">Ne hakkında?</span><span class="en">What about?</span></legend>
+          <div class="types">
+            <label><input type="radio" name="type" value="hata" checked /><span class="tr">Hata</span><span class="en">Bug</span></label>
+            <label><input type="radio" name="type" value="oneri" /><span class="tr">Öneri</span><span class="en">Idea</span></label>
+            <label><input type="radio" name="type" value="tesekkur" /><span class="tr">Teşekkür</span><span class="en">Thanks</span></label>
+            <label><input type="radio" name="type" value="diger" /><span class="tr">Diğer</span><span class="en">Other</span></label>
+          </div>
+        </fieldset>
+
+        <label class="fld">
+          <span><span class="tr">Mesajın</span><span class="en">Your message</span></span>
+          <textarea class="inp" name="message" id="fbMsg" required maxlength="4000" rows="7"></textarea>
+          <span class="count" id="fbCount">0 / 4000</span>
+        </label>
+
+        <div class="two">
+          <label class="fld">
+            <span><span class="tr">Adın</span><span class="en">Your name</span> <small><span class="tr">(isteğe bağlı)</span><span class="en">(optional)</span></small></span>
+            <input class="inp" type="text" name="name" maxlength="100" autocomplete="name" />
+          </label>
+          <label class="fld">
+            <span><span class="tr">E-posta</span><span class="en">Email</span> <small><span class="tr">(cevap istersen)</span><span class="en">(if you want a reply)</span></small></span>
+            <input class="inp" type="email" name="email" maxlength="200" autocomplete="email" placeholder="e-posta@adresin.com" />
+          </label>
+        </div>
+
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <button class="pill dark big send" type="submit"><span class="tr">Gönder →</span><span class="en">Send →</span></button>
+        <p class="msg" id="fbOut" role="status"></p>
+        <p class="note"><span class="tr">Mesajın yalnızca okunmak ve istersen cevap vermek için saklanır (<a href="/privacy/site/">gizlilik</a>). Doğrudan yazmak istersen: <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></span><span class="en">Your message is kept only to read it and, if you like, to reply (<a href="/privacy/site/">privacy</a>). Prefer email? <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></span></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav>
+      <a href="/">Bam Studio</a>
+      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+      <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
+      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/blog/">Blog</a>
+      <a href="/terms/"><span class="tr">Şartlar</span><span class="en">Terms</span></a>
+      <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
+    </nav>
+    <span class="copy">© 2026 Bam Studio</span>
+  </div>
+  <div class="giant disp" lang="en" aria-hidden="true">Bam Studio</div>
+</footer>
+
+<script src="/assets/tanitim.js"></script>
+<script src="/assets/caps.js" defer></script>
+<script>
+  (function () {
+    "use strict";
+    var root = document.documentElement;
+    var isTr = function () { return root.getAttribute("data-lang") === "tr"; };
+    var API = /(^|\.)bamstudio\.dev$|^localhost$|^127\.0\.0\.1$/.test(location.hostname) ? "/api" : "https://bamstudio.dev/api";
+    var f = document.getElementById("fbForm"), sel = document.getElementById("fbApp");
+    var out = document.getElementById("fbOut"), ta = document.getElementById("fbMsg"), cnt = document.getElementById("fbCount");
+    var pick = document.getElementById("appPick"), hero = document.querySelector(".fb-hero");
+    var qs = new URLSearchParams(location.search);
+    var src = (qs.get("src") || "").slice(0, 40);
+
+    /* "Genel / site" seçeneğinin yazısı dile göre */
+    var gen = sel.querySelector('option[value="genel"]');
+    function paintGeneral() { gen.textContent = isTr() ? gen.dataset.tr : gen.dataset.en; }
+    paintGeneral();
+    document.querySelectorAll(".lang").forEach(function (b) { b.addEventListener("click", function () { setTimeout(paintGeneral, 0); }); });
+
+    /* ?app=<slug> ön seçim (tanıtım klasör adı da olur, ör. kit-qr) */
+    function showApp() {
+      var o = sel.options[sel.selectedIndex];
+      if (!o || o.value === "genel") { pick.hidden = true; hero.style.removeProperty("--app"); return; }
+      pick.hidden = false;
+      pick.querySelector("img").src = o.dataset.icon || "/assets/brand/icon-180.png";
+      pick.querySelector("span").textContent = o.textContent;
+      if (o.dataset.color) hero.style.setProperty("--app", o.dataset.color);
+    }
+    var want = (qs.get("app") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
+    if (want) {
+      var hit = Array.prototype.find.call(sel.options, function (o) { return o.value === want || o.dataset.alias === want; });
+      if (hit) sel.value = hit.value;
+    }
+    var t = (qs.get("type") || "").toLowerCase();
+    if (t) { var r = f.querySelector('input[name="type"][value="' + t.replace(/[^a-z]/g, "") + '"]'); if (r) r.checked = true; }
+    sel.addEventListener("change", showApp);
+    showApp();
+
+    ta.addEventListener("input", function () { cnt.textContent = ta.value.length + " / 4000"; });
+
+    var ERR = {
+      message: ["Birkaç kelime yazar mısın?", "Please write a few words."],
+      email: ["E-posta adresini kontrol eder misin? Boş da bırakabilirsin.", "Please check your email address, or leave it empty."],
+      rate: ["Biraz yavaşla, birazdan tekrar dene.", "Slow down a little, try again shortly."],
+      x: ["Bir şey ters gitti, birazdan tekrar dener misin? Olmazsa merhaba@bamstudio.dev adresine yaz.", "Something went wrong, please try again shortly. Or write to merhaba@bamstudio.dev."]
+    };
+    function say(ok, pair) { out.className = "msg " + (ok ? "ok" : "err"); out.textContent = isTr() ? pair[0] : pair[1]; }
+
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var msg = ta.value.trim(), mail = f.email.value.trim();
+      if (msg.length < 3) return say(false, ERR.message);
+      if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) return say(false, ERR.email);
+      var btn = f.querySelector(".send"); btn.disabled = true;
+      var data = { app: sel.value, type: (f.querySelector('input[name="type"]:checked') || {}).value || "diger", message: msg,
+        name: f.elements["name"].value.trim(), email: mail, website: f.website.value, lang: isTr() ? "tr" : "en", src: src };
+      fetch(API + "/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(data) })
+        .then(function (r) { return r.json().catch(function () { return { ok: false, error: "x" }; }); })
+        .catch(function () { return { ok: false, error: "x" }; })
+        .then(function (res) {
+          btn.disabled = false;
+          if (res.ok) {
+            say(true, mail
+              ? ["Aldık, teşekkürler! Okuyup " + mail + " adresine döneceğiz.", "Got it, thank you! We'll read it and get back to " + mail + "."]
+              : ["Aldık, teşekkürler! Her mesajı tek tek okuyoruz.", "Got it, thank you! We read every single one."]);
+            ta.value = ""; cnt.textContent = "0 / 4000";
+            if (window.umami) try { umami.track("geri-bildirim", { app: data.app, type: data.type }); } catch (e2) {}
+          } else say(false, ERR[res.error] || ERR.x);
+        });
+    });
+  })();
+</script>
+</body>
+</html>

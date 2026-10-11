@@ -203,7 +203,8 @@ def render(d):
       <h2 class="disp big">{t(pv.get("title", {"tr": "Verin sende", "en": "Your data stays yours"}))}</h2>
       <div><p class="band-p">{t(pv.get("text"))}</p>
       <p class="row-btns"><a class="pill" href="{e(pv.get("href", "/privacy/"))}"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
-      <a class="pill" href="{e(d.get("support", "/support/"))}"><span class="tr">Destek</span><span class="en">Support</span> →</a></p></div>
+      <a class="pill" href="{e(d.get("support", "/support/"))}"><span class="tr">Destek</span><span class="en">Support</span> →</a>
+      <a class="pill" href="/geri-bildirim/?app={e(slug)}" data-umami-event="geri-bildirim" data-umami-event-app="{e(slug)}"><span class="tr">Geri bildirim</span><span class="en">Feedback</span> →</a></p></div>
     </div>
   </section>'''
 
@@ -307,6 +308,7 @@ def render(d):
       <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
       <a href="{e((d.get("privacy") or {}).get("href", "/privacy/"))}"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
       <a href="{e(d.get("support", "/support/"))}"><span class="tr">Destek</span><span class="en">Support</span></a>
+      <a href="/geri-bildirim/?app={e(slug)}" data-umami-event="geri-bildirim" data-umami-event-app="{e(slug)}"><span class="tr">Geri bildirim</span><span class="en">Feedback</span></a>
       <a href="/blog/">Blog</a>
       <a href="/terms/"><span class="tr">Şartlar</span><span class="en">Terms</span></a>
       <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>

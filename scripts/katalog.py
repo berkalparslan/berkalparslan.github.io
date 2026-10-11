@@ -196,6 +196,19 @@ new, n = re.subn(r"(<!-- katalog:başla -->\n).*?(\s*<!-- katalog:bitti -->)",
                  lambda m: m.group(1) + rows + m.group(2), src, flags=re.S)
 assert n == 1, "katalog işaretleri bulunamadı"
 idx.write_text(new)
+# Geri bildirim sayfasındaki uygulama seçimi de bu listeden. data-alias: tanıtım
+# klasör adı (ör. kit → kit-qr), ?app= ile ikisi de çalışsın.
+def fb_option(a):
+    alias = (a.get("tour") or "").strip("/")
+    alias = alias if alias and "/" not in alias else a["slug"]
+    return (f'            <option value="{a["slug"]}" data-alias="{e(alias)}" data-icon="{e(a["icon"] or "")}" '
+            f'data-color="{a["color"]}">{e(a["name"])}</option>')
+fb = ROOT / "geri-bildirim/index.html"
+fsrc = fb.read_text()
+fnew, n = re.subn(r"(<!-- uygulamalar:başla -->\n).*?(\s*<!-- uygulamalar:bitti -->)",
+                  lambda m: m.group(1) + "\n".join(fb_option(a) for a in APPS) + m.group(2), fsrc, flags=re.S)
+assert n == 1, "geri bildirim işaretleri bulunamadı"
+fb.write_text(fnew)
 # Arka uç (api/worker.js) mailde uygulama kartlarını bu listeden çizer.
 (ROOT / "api/apps.json").write_text(json.dumps([
     {k: a.get(k) for k in ("slug", "name", "sub", "icon", "color", "ios", "play", "tour", "status")} | {"tr": a["tr"], "en": a["en"]}
