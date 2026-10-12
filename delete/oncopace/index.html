@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oncopace · Hesap silme</title>
+<meta name="description" content="Oncopace hesabını ve hesabına bağlı tüm verileri silme adımları; uygulamadan ya da e-postayla.">
+<link rel="canonical" href="https://bamstudio.dev/delete/oncopace/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Oncopace · Hesap silme">
+<meta property="og:description" content="Oncopace hesabını ve hesabına bağlı tüm verileri silme adımları; uygulamadan ya da e-postayla.">
+<meta property="og:url" content="https://bamstudio.dev/delete/oncopace/">
+<script>
+  (function () {
+    try { document.documentElement.setAttribute("data-theme", localStorage.getItem("bb-theme") || "light"); }
+    catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+<style>
+  .doc-nav { font-size: .9rem; margin: -.25rem 0 1.5rem; }
+  .doc-nav a { white-space: nowrap; }
+  .doc-nav span[aria-current] { font-weight: 600; white-space: nowrap; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; }
+  .table-wrap table { min-width: 640px; margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Studio</span></a>
+    <nav>
+      <a href="/lab/oncopace/">Tanıtım</a>
+      <a href="/">Uygulamalar</a>
+      <a href="/privacy/">Tüm politikalar</a>
+      <a href="/support/">Destek</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Oncopace · Hesap silme</h1>
+<p class="doc-nav"><a href="/privacy/oncopace/">Aydınlatma Metni</a> · <a href="/consent/oncopace/">Açık Rıza Metni</a> · <a href="/terms/oncopace/">Kullanım Koşulları</a> · <span aria-current="page">Hesap silme</span></p>
+
+<p>oncopace hesabını ve hesabına bağlı tüm verileri istediğin zaman silebilirsin.</p>
+
+<h2>Uygulamadan silmek için</h2>
+<ol>
+  <li>oncopace uygulamasını aç ve alttaki Profil sekmesine git.</li>
+  <li>Hesap ve veriler bölümüne gir ve hesabını sil.</li>
+  <li>Onayladığında hesabın kapanır.</li>
+</ol>
+
+<h2>Uygulamaya giremiyorsan</h2>
+<p>Uygulamada kayıtlı e-posta adresinden <a href="mailto:oncopaceapp@gmail.com?subject=Hesap%20silme%20talebi">oncopaceapp@gmail.com</a> adresine, konu satırına <strong>Hesap silme talebi</strong> yazarak bir e-posta gönder. Talebin en geç 30 gün içinde sonuçlandırılır ve sana e-posta ile bilgi verilir.</p>
+
+<h2>Neler silinir?</h2>
+<p>Sunucudaki profil bilgilerin, sağlık ve takip kayıtların, doktor görüşmesi notların, sohbetlerin ve Al’a sorduğun sorular 30 gün içinde silinir veya anonim hale getirilir. Telefonundaki belgeler ve adım verileri de temizlenir.</p>
+<p>Diğer kullanıcılara gönderdiğin mesajlar, onların sohbet geçmişinde “silinmiş kullanıcı” adıyla görünmeye devam edebilir. Mevzuat gereği saklanması zorunlu kayıtlar (örneğin işlem güvenliği kayıtları) kanunda öngörülen süre boyunca saklanır. Ayrıntılar <a href="/privacy/oncopace/">Aydınlatma Metni’nde</a>.</p>
+
+</main>
+
+<footer>
+  <p>Veri sorumlusu: Dilaynaz Toy Ateş · Geliştirici: Bam Studio · <a href="mailto:oncopaceapp@gmail.com">oncopaceapp@gmail.com</a> ·
+    <a href="/privacy/">Tüm politikalar</a> ·
+    <a href="/support/">Destek</a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>
