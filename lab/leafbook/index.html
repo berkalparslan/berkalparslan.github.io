@@ -56,6 +56,7 @@ const SAYAC = {
   rescues_started: "Kurtarma plani", waterings: "Sulama", reminder_actions: "Bildirim dugmesi",
   shares: "Paylasim", ai_requests: "AI istegi", ai_tokens_in: "AI giris jetonu",
   ai_tokens_out: "AI cikis jetonu", ai_blocked: "AI engellendi", ai_failed: "AI hatasi",
+  posts: "Toplulukta gonderi", nazars: "Nazar", comments: "Yorum", sign_ins: "Giris",
 };
 
 /* Asil kapi Firestore kurallari: okuma yalnizca bu e-postaya acik. Kabuktaki
@@ -289,13 +290,22 @@ function kullanim(c) {
     .filter(([k]) => !k.startsWith("ai_"))
     .map(([k, ad]) => [ad, sayi(topla(veri.days, k))]);
   c.appendChild(kart(`Son ${aralik} gun`, veriTablo(["Olay", { ad: "Adet", num: true }], satirlar, { sirala: [1, "desc"] })));
-  const toplamBitki = veri.installs.reduce((a, i) => a + (Number(i.n_plants) || 0), 0);
-  const isikli = veri.installs.reduce((a, i) => a + (Number(i.n_with_light) || 0), 0);
+  const topla2 = alan => veri.installs.reduce((a, i) => a + (Number(i[alan]) || 0), 0);
+  const toplamBitki = topla2("n_plants"), isikli = topla2("n_with_light");
   c.appendChild(tiles([
     ["Kayitli bitki", sayi(toplamBitki), "tum kurulumlar"],
-    ["Fotograf", sayi(veri.installs.reduce((a, i) => a + (Number(i.n_photos) || 0), 0))],
+    ["Fotograf", sayi(topla2("n_photos"))],
     ["Isigi secilmis bitki", sayi(isikli), toplamBitki ? `%${Math.round(isikli / toplamBitki * 100)}` : ""],
     ["Kurulum basina bitki", veri.installs.length ? (toplamBitki / veri.installs.length).toFixed(1) : "0"],
+  ]));
+  /* 1.2 ile gelenler. Alani yazmayan eski surumler sifir sayilir, o yuzden
+     yaninda kac kurulumun bildirdigi de yaziyor. */
+  const bildiren = veri.installs.filter(i => i.n_places !== undefined).length;
+  c.appendChild(tiles([
+    ["Yer tanimlanmis", sayi(topla2("n_places")), `${sayi(bildiren)} kurulum bildiriyor`],
+    ["Disarida duran bitki", sayi(topla2("n_outdoor"))],
+    ["Toplulukta gosterilen", sayi(topla2("n_shared"))],
+    ["Hesap acmis", sayi(veri.installs.filter(i => i.signedIn === true).length)],
   ]));
   const dagilim = (onek, baslik, adlar = {}) => {
     const h = evTopla(veri.days, onek);
@@ -308,6 +318,12 @@ function kullanim(c) {
   dagilim("lookup_", "Ogren sorgulari", { photo: "Fotografla", name: "Adiyla" });
   dagilim("identify_", "Tanima", { ai: "AI", local: "Cihazda" });
   dagilim("share_link_", "Paylasim baglantisi", { create: "Olusturuldu", stop: "Durduruldu" });
+  dagilim("post_", "Toplulukta gonderi", { plant: "Kendi bitkisi", free: "Serbest" });
+  dagilim("sign_in_", "Giris yontemi", { apple: "Apple", google: "Google", email: "E-posta", email_new: "E-posta (yeni)" });
+  dagilim("post_blocked_", "Fotograf denetimi reddetti",
+          { not_plant: "Bitki degil", person: "Insan (cihazda)", unsafe: "Uygunsuz", text: "Yazi", error: "Kontrol edilemedi", offline: "Baglanti yok" });
+  dagilim("comment_blocked_", "Yorum denetimi reddetti", { comment: "Uygunsuz yazi" });
+  dagilim("post_checked_", "Denetim nerede yapildi", { on_device: "Cihazda (AI ulasilamadi)" });
   /* plant_added'in parametresi tur kimligi; katalog burada yok, kimlik yeterince
      okunur. "custom" katalogda olmayan bitki, "shared" baglantiyla gelen. */
   const turler = evTopla(veri.days, "plant_added_");
