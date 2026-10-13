@@ -16,6 +16,7 @@ export const APPS = [
   { slug: "o-mu-bu-mu",         ad: "O mu Bu mu?",         ios: { bundle: "com.berkalparslan.thisOne",         sku: "com.aberk.thisone" },                 android: "com.berkalparslan.thisOne" },
   { slug: "leafbook",           ad: "Leafbook",            ios: { bundle: "com.aberk.Leafbook",                sku: "leafbook" },                          android: "com.aberk.leafbook" },
   { slug: "matchday",           ad: "Matchday",            ios: { bundle: "com.aberk.matchday",                sku: "matchday_sku" },                      android: "com.aberk.matchday" },
+  { slug: "nika",               ad: "Nika",                ios: { bundle: "com.aberk.nika",                    sku: "nika_sku" },                          android: "com.aberk.nika" },
 
   /* iOS'u Elif'in hesabında olanlar: ios.hesap = "page" → ~/.ascelerate/config.page.json.
      Yorum ve sürüm okunuyor; satış raporu o dosyada vendorNumber varsa geliyor.
@@ -32,6 +33,7 @@ export const APPS = [
   { slug: "pickleball",         ad: "Pickleball",          ios: { bundle: "com.aberk.Pickleball-Score-Keeper", sku: "pickleball-v1" },                     android: null },
   { slug: "volleyball",         ad: "Volleyball",          ios: { bundle: "com.aberk.Volleyball-Score-Keeper", sku: "com.aberk.Volleyball-Score-Keeper" }, android: null },
   { slug: "yonca",              ad: "Yonca",               ios: { bundle: "com.aberk.Yonca",                   sku: "com.aberk.Yonca" },                   android: null },
+  { slug: "iz",                 ad: "İz",                  ios: { bundle: "com.aberk.iz",                      sku: "iz_sku" },                            android: null },
   { slug: "kit-qr",             ad: "Kit QR",              ios: { bundle: "com.aberk.kit",                     sku: "Kit" },                               android: null },
   { slug: "loomi",              ad: "Loomi",               ios: { bundle: "com.aberk.Loomi",                   sku: "com.aberk.Loomi" },                   android: null },
   { slug: "kirk-hafta",         ad: "Bumpline",            ios: { bundle: "com.aberk.KirkHafta",               sku: "FORTYWEEKS001" },                     android: null },

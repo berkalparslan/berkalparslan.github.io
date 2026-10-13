@@ -43,6 +43,9 @@ export function zaman(v) {
     if (typeof v._seconds === "number") return new Date(v._seconds * 1000);
     return null;
   }
+  /* Metinde yalnız tarih gibi duran (2026-10-10...) çevrilir: "1.3" sürümü ya da
+     "11" build numarası new Date ile geçerli tarih sayılıyordu. */
+  if (typeof v === "string" && !/^\d{4}-\d{2}-\d{2}/.test(v.trim())) return null;
   const d = new Date(v);
   return isNaN(d) ? null : d;
 }
@@ -176,17 +179,113 @@ export function kart(baslik, ...cocuklar) {
   return c;
 }
 
-/** [ad, deger, alt] uclulerinden kutucuk izgarasi. */
+/** [ad, deger, alt, fark?] dortlulerinden kutucuk izgarasi.
+ *  fark: { simdi, once, ters? } -> "▲ %12" onceki doneme gore (ters: dusus iyi),
+ *  ya da bir DOM ogesi (ornegin kivilcim()). */
 export function tiles(pairs) {
   const wrap = el("div", "tiles");
-  for (const [ad, deger, alt] of pairs) {
+  for (const [ad, deger, alt, fark] of pairs) {
     const t = el("div", "tile");
-    t.appendChild(el("b", null, String(deger)));
+    const b = el("b");
+    b.textContent = String(deger);
+    if (fark && !(fark instanceof Node)) {
+      const f = farkYazi(fark);
+      if (f) { const x = el("span", "fark " + f.sinif); x.textContent = f.metin; x.title = `önceki dönem ${sayi(fark.once)}`; b.appendChild(x); }
+    }
+    t.appendChild(b);
     t.appendChild(el("span", null, alt ? `${ad} · ${alt}` : ad));
+    if (fark instanceof Node) t.appendChild(fark);
     wrap.appendChild(t);
   }
   return wrap;
 }
+
+/** Onceki doneme gore degisim: {metin:"▲ %12", sinif:"iyi"|"kotu"|""} */
+export function farkYazi({ simdi, once, ters }) {
+  if (once == null || simdi == null) return null;
+  if (!once && !simdi) return null;
+  if (!once) return { metin: "yeni", sinif: ters ? "kotu" : "iyi" };
+  const r = (simdi - once) / once * 100;
+  if (Math.abs(r) < 0.5) return { metin: "= 0%", sinif: "" };
+  const yukari = r > 0;
+  return { metin: `${yukari ? "▲" : "▼"} %${Math.abs(r).toFixed(Math.abs(r) < 10 ? 1 : 0)}`, sinif: yukari !== !!ters ? "iyi" : "kotu" };
+}
+
+/* --- Donem: aralik gun sayisi -> [bas, son) ve bir onceki esit donem ------
+   aralik 0 = tum zamanlar. Gun sinirlari Turkiye saatine gore gece yarisi. */
+export function donem(aralik, simdi = Date.now()) {
+  if (!aralik) return { bas: 0, son: simdi, oncekiBas: null, oncekiSon: null, gun: null };
+  const gunBasi = istGunBasi(simdi);
+  const bas = aralik === 1 ? gunBasi : gunBasi - (aralik - 1) * 864e5;
+  const uzun = simdi - bas;
+  return { bas, son: simdi, oncekiBas: bas - uzun, oncekiSon: bas, gun: aralik };
+}
+/** Turkiye saatiyle o gunun 00:00'i (ms). */
+export function istGunBasi(t = Date.now()) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Istanbul", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date(t)).map(x => [x.type, x.value]));
+  return Date.parse(`${p.year}-${p.month}-${p.day}T00:00:00+03:00`);
+}
+/** ms -> Turkiye gununun metni "2026-10-13". */
+export function istGun(v) {
+  const d = zaman(v); if (!d) return "";
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Istanbul", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(d).map(x => [x.type, x.value]));
+  return `${p.year}-${p.month}-${p.day}`;
+}
+
+/* --- Surum filtresi ----------------------------------------------------- */
+/** Surum metinlerini buyukten kucuge siralar ("2.10" > "2.9"). */
+export function surumSirala(liste) {
+  const k = v => String(v).split(/[^\d]+/).filter(Boolean).map(Number);
+  return [...new Set(liste.filter(Boolean).map(String))].sort((a, b) => {
+    const x = k(a), y = k(b);
+    for (let i = 0; i < Math.max(x.length, y.length); i++) if ((x[i] || 0) !== (y[i] || 0)) return (y[i] || 0) - (x[i] || 0);
+    return 0;
+  });
+}
+/** Kurulum listesindeki surumler (adetleriyle). */
+export function surumListesi(kurulumlar, alan = "appVersion") {
+  const say = {};
+  for (const k of kurulumlar || []) { const v = k?.[alan]; if (v) say[v] = (say[v] || 0) + 1; }
+  return surumSirala(Object.keys(say)).map(v => ({ surum: v, adet: say[v] }));
+}
+/** Secili surume gore suz; "" ya da null hepsi. */
+export const surumSuz = (liste, surum, alan = "appVersion") => !surum ? (liste || []) : (liste || []).filter(k => String(k?.[alan] ?? "") === String(surum));
+
+/* --- Surum notlari: /lab/assets/surumler.json (scripts/lab/surumler.mjs) --
+   { uretim, apps: { <slug>: [{ surum, platform:"ios"|"android", tarih, durum, notlar:[...]}] } } */
+let SURUMLER = null;
+export async function surumNotlari(slug) {
+  if (!SURUMLER) SURUMLER = fetch("/lab/assets/surumler.json", { cache: "no-store" }).then(r => r.ok ? r.json() : { apps: {} }).catch(() => ({ apps: {} }));
+  const j = await SURUMLER;
+  const sluglar = Array.isArray(slug) ? slug : [slug];
+  return sluglar.flatMap(s => (j.apps?.[s] || []).map(x => ({ ...x, slug: s })))
+    .sort((a, b) => ms(b.tarih) - ms(a.tarih));
+}
+/** Surum notlari listesi kutusu; `limit` kadar, platformlar yan yana etiketli. */
+export function surumNotlariKutu(liste, secenek = {}) {
+  const k = el("div", "sn-liste");
+  const l = (liste || []).slice(0, secenek.limit || 50);
+  if (!l.length) { k.appendChild(el("p", "muted", "Sürüm notu yok. <code>scripts/lab/surumler.mjs</code> mağaza notlarını çeker.")); return k; }
+  for (const x of l) {
+    const d = el("div", "sn");
+    const h = el("h3");
+    h.textContent = x.surum;
+    const etiket = el("span", "pill", x.platform === "android" ? "Android" : x.platform === "ios" ? "iOS" : esc(x.platform || ""));
+    h.appendChild(etiket);
+    if (secenek.uygulamaAdi && x.slug) h.appendChild(el("span", "pill", esc(secenek.uygulamaAdi(x.slug))));
+    const t = el("small"); t.textContent = [tarihTam(x.tarih, { saatsiz: true }) || "tarih bilinmiyor", x.durum].filter(Boolean).join(" · "); h.appendChild(t);
+    d.appendChild(h);
+    const notlar = (x.notlar || []).filter(Boolean);
+    if (notlar.length) {
+      const ul = el("ul");
+      for (const n of notlar) { const li = el("li"); li.textContent = n; ul.appendChild(li); }
+      d.appendChild(ul);
+    } else d.appendChild(el("p", "muted", "Not girilmemiş."));
+    k.appendChild(d);
+  }
+  return k;
+}
+const esc = v => String(v ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 /* Bir hucre dugme ya da baska bir ogeyse metni bos kalir: arama, siralama ve
    Kopyala onu gormez, zaten gormemeli. */

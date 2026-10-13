@@ -365,6 +365,30 @@ export const PROFIL = {
     diller: 2,
     not: "iOS incelemede. Play kapalı testte. Yönetim paneli /lab/matchday/."
   },
+  "nika": {
+    ikon: "/assets/lab-icons/nika-180.png",
+    kategori: "Yaşam tarzı",
+    model: "abonelik",
+    fiyat: "Premium (alan başına)",
+    servisler: ["asc", "play", "cloudflare"],
+    reklam: false,
+    maliyet: 0,
+    sayfa: "",
+    diller: 2,
+    not: "Düğün planlayıcı. iOS incelemede, Android sırada. Arka uç Cloudflare (nika.bamstudio.dev). Panel /lab/nika/."
+  },
+  "iz": {
+    ikon: "🧭",
+    kategori: "Yaşam tarzı",
+    model: "bedava",
+    fiyat: "Henüz yok",
+    servisler: ["asc"],
+    reklam: false,
+    maliyet: 0,
+    sayfa: "",
+    diller: 2,
+    not: "Hayat defteri. TestFlight iç testte (build 3)."
+  },
   "loomi": {
     ikon: "🧶",
     kategori: "—",

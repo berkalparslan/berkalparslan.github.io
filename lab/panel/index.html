@@ -255,6 +255,32 @@
     th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; }
     th { font-size: 13px; font-weight: 600; color: var(--faint); background: var(--surface-2); position: sticky; top: 0; }
     th:first-child, td:first-child { padding-left: 16px; }
+    th.sirali-th { cursor: pointer; user-select: none; }
+    th.sirali-th:hover { color: var(--text); }
+    th.sirali-th[data-yon]:not([data-yon=""])::after { content: " " attr(data-yon); font-size: 10px; color: var(--accent, currentColor); }
+    #kitleHarita { --card: var(--surface); --soft: var(--faint); --ink: var(--text); --bg: var(--surface); }
+    .harita { position: relative; }
+    .harita svg { display: block; width: 100%; height: auto; }
+    .harita path { stroke: var(--surface); stroke-width: .4; vector-effect: non-scaling-stroke; }
+    .harita path.bos { fill: color-mix(in srgb, var(--faint) 16%, transparent); }
+    .harita path:hover { stroke: var(--text); stroke-width: 1; }
+    .harita .ipucu { position: absolute; pointer-events: none; background: var(--text); color: var(--surface); font-size: 12px; font-weight: 600; padding: 5px 9px; border-radius: 8px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); z-index: 3; }
+    .harita .lejant { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--faint); margin-top: 8px; flex-wrap: wrap; }
+    .harita .lejant i { display: inline-block; width: 18px; height: 10px; border-radius: 2px; }
+    .harita .muted { color: var(--faint); font-size: 13px; }
+    .surum-liste { padding: 6px 16px; }
+    .mini-tablo { margin-top: 8px; font-size: 12px; }
+    .mini-tablo th, .mini-tablo td { padding: 4px 6px; }
+    .surum-not { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .surum-not:last-child { border-bottom: 0; }
+    .surum-not .sn-bas { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 13px; }
+    .surum-not .sn-surum { font-size: 15px; }
+    .surum-not .sn-etki { margin-left: auto; font-size: 12px; color: var(--faint); font-family: var(--mono); }
+    .surum-not ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.45; }
+    .surum-not li { margin: 2px 0; }
+    .tablo-ara { display: flex; gap: 10px; align-items: center; margin: 0 0 8px; }
+    .tablo-ara input { max-width: 260px; font: inherit; font-size: 13px; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+    .tablo-ara span { font-size: 12px; color: var(--faint); }
     th:last-child, td:last-child { padding-right: 16px; }
     tr:last-child td { border-bottom: 0; }
     tbody tr[data-app] { cursor: pointer; }
@@ -591,6 +617,7 @@
       <div class="yan-b"><h2>Uygulama</h2><div class="yig" id="yigUyg"></div></div>
       <div class="yan-b"><h2>Renk</h2><div class="renkler" id="renkler"></div></div>
       <div class="yan-b"><h2>Uygulama panelleri</h2><nav class="paneller">
+        <a href="#" data-app="__site"><img src="/assets/lab-icons/lab-180.png" alt="" /><span>bamstudio.dev (site)</span><small>›</small></a>
         <a href="/lab/wallet-coach/" target="_blank" rel="noopener"><img src="/assets/lab-icons/wallet-coach-180.png" alt="" /><span>Wallet Coach</span><small>↗</small></a>
         <a href="/lab/daily-whisper/" target="_blank" rel="noopener"><img src="/assets/lab-icons/daily-whisper-180.png" alt="" /><span>Daily Whisper</span><small>↗</small></a>
         <a href="/lab/omubumu/" target="_blank" rel="noopener"><img src="/assets/lab-icons/omubumu-180.png" alt="" /><span>O mu Bu mu?</span><small>↗</small></a>
@@ -738,10 +765,10 @@
 
     /* ── Durum ───────────────────────────────────────────────── */
     let D = null;
-    let S = { aralik: 30, platform: "hepsi", app: null, sekme: "ozet", yorumSuzgec: "hepsi", gorevSuzgec: "acik", gorevEtiket: "hepsi" };
+    let S = { aralik: 28, platform: "hepsi", app: null, sekme: "ozet", yorumSuzgec: "hepsi", gorevSuzgec: "acik", gorevEtiket: "hepsi" };
     let YEREL = {};
 
-    const ARALIKLAR = [{ v: 7, e: "7g" }, { v: 30, e: "30g" }, { v: 90, e: "90g" }, { v: 0, e: "Tümü" }];
+    const ARALIKLAR = [{ v: 1, e: "Son gün" }, { v: 7, e: "7g" }, { v: 28, e: "28g" }, { v: 90, e: "90g" }, { v: 0, e: "Tümü" }];
     const PLATFORMLAR = [{ v: "hepsi", e: "Hepsi" }, { v: "ios", e: "iOS" }, { v: "and", e: "Play" }];
 
     const yaz = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
@@ -1180,6 +1207,8 @@
           ${SIRA.map(k => { const g = satirlar.filter(x => x.d.katman === k); if (!g.length) return "";
             return `<div class="katman-baslik">${katmanEtiket(k)}<span>${g.length} uygulama · ${esc(KATMAN[k].a)}</span></div>
             <div class="uyg-kartlar">${g.map(({ a, d }) => uygKart(a, d, bas, son)).join("")}</div>`; }).join("")}
+          ${!secim && (D.web || D.framegrove) ? `<div class="katman-baslik"><span class="etiket e-site">Site</span><span>bamstudio.dev ve açık kaynak · karta tıkla, site görünümü açılır</span></div>
+            <div class="uyg-kartlar">${siteKart(uzun)}${fgKart()}</div>` : ""}
         </section>
 
         <section>
@@ -1565,6 +1594,11 @@
         </div>
 
         <section>
+          <h3>Dünya haritası <span class="acik">· ${esc(ULKE_METRIK.find(m => m.v === metrik)?.e || metrik)} · ülkeye gel, sayı görünür</span></h3>
+          <div class="panel" style="padding:14px 16px"><div id="kitleHarita" data-veri="${esc(JSON.stringify(Object.fromEntries(satirlar.map(([k, r]) => [k, Math.round(r[anahtar] || 0)]).filter(([k, v]) => v && k !== "??"))))}"></div></div>
+        </section>
+
+        <section>
           <h3>Ülkeler <span class="acik">· ilk 12, seçili ölçüte göre</span>
             <span class="metrik-sec">${ULKE_METRIK.filter(m => m.v === "indirme" || kolonlar.some(c => c.k === m.v)).map(m => `<button data-ulkem="${m.v}" aria-pressed="${metrik === m.v}">${m.e}</button>`).join("")}</span></h3>
           <div class="panel">
@@ -1583,7 +1617,7 @@
               <tbody>${satirlar.slice(0, 40).map(([k, r]) => `<tr><td class="ad"><span class="bayrak">${bayrak(k)}</span>${esc(ulkeAd(k))} <span class="zero mono" style="font-size:13px">${esc(k)}</span></td>${kolonlar.map(c => isi(r[c.k], c.k, c.renk)).join("")}</tr>`).join("")}</tbody></table>
               ${satirlar.length > 40 ? `<div class="dip" style="padding:0 16px 12px">+${satirlar.length - 40} ülke daha</div>` : ""}` : '<div class="bos" style="padding:14px 16px">Ülke verisi yok.</div>'}
           </div>
-          <div class="dip">İndirme: App Store satış raporu + Play toplu raporu (seçili aralık). Aktif (GA4): Firebase Analytics günlük aktif kullanıcıların toplamı, yani kullanıcı-gün. Play cihaz: Play'in en son günkü kurulu cihaz sayısı. Telemetri: uygulama panellerinin Firestore kayıtlarından son 30 günde açanlar (Wallet Coach, Daily Whisper). Site: Cloudflare Web Analytics, ziyaret.</div>
+          <div class="dip">İndirme: App Store satış raporu + Play toplu raporu (seçili aralık). Aktif (GA4): Firebase Analytics günlük aktif kullanıcıların toplamı, yani kullanıcı-gün. Play cihaz: Play'in en son günkü kurulu cihaz sayısı. Telemetri: uygulama panellerinin Firestore kayıtlarından son 30 günde açanlar (Wallet Coach, Daily Whisper, Leafbook, Tasbih Tally, Matchday, beş spor uygulaması). Site: Cloudflare Web Analytics, ziyaret.</div>
         </section>
 
         <section>
@@ -1705,6 +1739,105 @@
 
     /* Genel bakıştaki uygulama kartı (eski model): ikon, büyük indirme, eğri,
        gelir/satın alma/puan, sonraki adım. Metin kesilmez, kart uzar. */
+    /* ── Sürümler: /lab/assets/surumler.json (scripts/lab/surumler.mjs) ──
+       Mağazaya giden "Yenilikler" metni. Etki: yayın gününden önceki ve
+       sonraki 7 günün indirme ve satın alması (aynı platform). */
+    let SURUMLER = {};
+    const SURUM_PLAT = { ios: "iOS", android: "Android", wear: "Wear OS", watchos: "watchOS" };
+    function surumlerListe(slugs) {
+      const l = [];
+      for (const a of slugs) for (const x of SURUMLER[a.slug] || []) {
+        if (S.platform === "ios" && !["ios", "watchos"].includes(x.platform)) continue;
+        if (S.platform === "and" && !["android", "wear"].includes(x.platform)) continue;
+        l.push({ ...x, a });
+      }
+      return l.sort((x, y) => String(y.tarih).localeCompare(String(x.tarih)));
+    }
+    function surumEtkisi(x) {
+      const g = String(x.tarih || "").slice(0, 10); const ix = D.gunler.indexOf(g);
+      if (ix < 0 || x.durum === "hazırlanıyor" || x.durum === "incelemede" || x.durum === "reddedildi") return null;
+      const alan = x.platform === "ios" || x.platform === "watchos" ? ["i", "s"] : ["a", "ps"];
+      const top = (b, e, k) => { let t = 0; for (let i = Math.max(0, b); i < Math.min(D.gunler.length, e); i++) t += D.veri[x.a.slug]?.[i]?.[k] || 0; return t; };
+      const sonVeri = sonIndeks();
+      const sonrakiGun = Math.min(7, sonVeri - ix + 1);
+      if (sonrakiGun < 1) return null;
+      return { once: top(ix - 7, ix, alan[0]), sonra: top(ix, ix + sonrakiGun, alan[0]), onceS: top(ix - 7, ix, alan[1]), sonraS: top(ix, ix + sonrakiGun, alan[1]), gun: sonrakiGun };
+    }
+    function surumSatiri(x, uygulamaGoster) {
+      const e = surumEtkisi(x);
+      const f = e && e.once ? Math.round((e.sonra / e.gun * 7 - e.once) / e.once * 100) : null;
+      return `<div class="surum-not">
+        <div class="sn-bas">${uygulamaGoster ? `<span class="ad-hucre">${ikonKucuk(x.a)}<b>${esc(x.a.ad)}</b></span>` : ""}<b class="sn-surum">${esc(x.surum)}</b>
+          <span class="y-kay ${x.platform === "android" || x.platform === "wear" ? "and" : ""}">${SURUM_PLAT[x.platform] || esc(x.platform)}</span>
+          <span class="zero">${x.tarih ? tarihYazi(x.tarih) : "tarih bilinmiyor"}${x.durum ? ` · ${esc(x.durum)}` : ""}</span>
+          ${e ? `<span class="sn-etki" title="Yayından önceki 7 gün → sonraki ${e.gun} gün (${e.gun < 7 ? "7 güne oranlandı" : "tam"})">indirme ${sayi(e.once)} → ${sayi(e.sonra)}${f !== null ? ` <span class="${f > 0 ? "up" : f < 0 ? "down" : ""}">${f > 0 ? "▲" : f < 0 ? "▼" : "="}${Math.abs(f)}%</span>` : ""} · satın alma ${sayi(e.onceS)} → ${sayi(e.sonraS)}</span>` : ""}</div>
+        ${x.notlar?.length ? `<ul>${x.notlar.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : `<div class="zero" style="font-size:13px">Not girilmemiş.</div>`}
+      </div>`;
+    }
+    function surumCiz() {
+      const slugs = secili();
+      const l = surumlerListe(slugs);
+      const son30 = l.filter(x => gunFarki(bugun(), String(x.tarih).slice(0, 10)) <= 30);
+      return `
+        <div class="cards">
+          <div class="card"><div class="k">Sürüm · son 30 gün</div><div class="v">${sayi(son30.length)}</div><div class="s">${sayi(new Set(son30.map(x => x.a.slug)).size)} uygulama</div></div>
+          <div class="card"><div class="k">İncelemede</div><div class="v">${sayi(l.filter(x => x.durum === "incelemede").length)}</div><div class="s">App Store</div></div>
+          <div class="card"><div class="k">Hazırlanıyor / yayın bekliyor</div><div class="v">${sayi(l.filter(x => ["hazırlanıyor", "yayın bekliyor"].includes(x.durum)).length)}</div><div class="s">gönderim Berk'te</div></div>
+          <div class="card"><div class="k">Reddedilen</div><div class="v ${l.some(x => x.durum === "reddedildi") ? "down" : ""}">${sayi(l.filter(x => x.durum === "reddedildi").length)}</div><div class="s">son 20 sürüm içinde</div></div>
+        </div>
+        <section><h3>Hangi sürümde neler geldi <span class="acik">· en yeni üstte · etki: yayından önceki 7 gün → sonraki 7 gün, aynı platform</span></h3>
+          <div class="panel surum-liste">${l.map(x => surumSatiri(x, !S.app)).join("") || '<div class="bos">Sürüm notu yok. <code>node scripts/lab/surumler.mjs</code></div>'}</div></section>
+        <div class="dip">Kaynak: App Store Connect sürümleri ve "Yenilikler" metni, Play track'lerinin sürüm notları; her sabah <code>scripts/lab/surumler.mjs</code>. Play tarih vermediği için Android sürümünün tarihi ilk görüldüğü gün.</div>`;
+    }
+
+    /* Site da bir uygulama gibi: ziyaret, sparkline, bülten/anket/kod. */
+    function siteSeri(n) {
+      const w = D.web; if (!w) return [];
+      const g = Object.keys(w.gunluk || {}).sort(), sonG = g.at(-1); if (!sonG) return [];
+      const l = []; for (let i = n - 1; i >= 0; i--) { const t = new Date(Date.parse(sonG) - i * 864e5).toISOString().slice(0, 10); l.push(w.gunluk[t]?.ziyaret || 0); }
+      return l;
+    }
+    function seriSpark(v) {
+      const W = 300, H = 44, enCok = Math.max(1, ...v);
+      if (v.length < 2) return "";
+      const pt = v.map((x, i) => [(i / (v.length - 1) * W), (H - 3 - (x / enCok) * (H - 6))]);
+      const d = "M" + pt.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" L");
+      return `<svg class="spark-genis" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path class="alan" d="${d} L${W},${H} L0,${H} Z"/><path class="cizgi" d="${d}" vector-effect="non-scaling-stroke"/></svg>`;
+    }
+    function siteKart(uzun) {
+      const w = webOzet(); if (!w) return "";
+      const n = Math.min(Math.max(uzun || 30, 2), Math.max(w.gunSay, 2));
+      const seri = siteSeri(n), top = seri.reduce((a, b) => a + b, 0);
+      const onceki = siteSeri(n * 2).slice(0, n).reduce((a, b) => a + b, 0);
+      const f = onceki && w.gunSay >= n * 2 ? Math.round((top - onceki) / onceki * 100) : null;
+      return `<div class="uk ${S.app === SITE ? "secili" : ""}" data-app="${SITE}">
+        <div class="ust"><div class="ikon">🌐</div>
+          <div class="adlar"><b>bamstudio.dev</b><a class="panel-git" href="/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Site ↗</a><small>Site · Cloudflare Web Analytics · ${w.gunSay} gün ölçüm</small></div></div>
+        <div class="buyuk"><span class="n ${top ? "" : "zero"}">${sayi(top)}</span><span class="e">ziyaret · ${n} gün</span>
+          ${f !== null ? `<span class="f ${f > 0 ? "up" : f < 0 ? "down" : "flat"}">${f > 0 ? "▲" : f < 0 ? "▼" : "="} ${Math.abs(f)}%</span>` : ""}</div>
+        ${seriSpark(seri)}
+        <div class="mini">
+          <div><b class="${w.abone ? "" : "zero"}">${sayi(w.abone)}</b><small>bülten${w.bekleyen ? ` +${w.bekleyen}` : ""}</small></div>
+          <div><b class="${w.anket ? "" : "zero"}">${sayi(w.anket)}</b><small>anket</small></div>
+          <div><b class="${w.enAzKod !== null && w.enAzKod < 50 ? "down" : ""}">${w.enAzKod ?? "·"}</b><small>en az kod</small></div>
+        </div>
+        <div class="sonraki">Son gün ${sayi(w.z1)} ziyaret · 30 gün ${sayi(w.z30)} ziyaret, ${sayi(w.pv30)} sayfa · ${w.ulke30} ülke</div>
+      </div>`;
+    }
+    function fgKart() {
+      const o = fgOzet(); if (!o) return "";
+      return `<div class="uk ${S.app === FG ? "secili" : ""}" data-app="${FG}">
+        <div class="ust"><img class="ikon" src="/assets/home/icons/store-mockup.svg" alt="">
+          <div class="adlar"><b>Framegrove</b><a class="panel-git" href="https://framegrove.bamstudio.dev/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Site ↗</a><small>Açık kaynak · npm · GitHub · MCP</small></div></div>
+        <div class="buyuk"><span class="n ${o.npm30 ? "" : "zero"}">${sayi(o.npm30)}</span><span class="e">npm indirme · 30 gün</span></div>
+        <div class="mini">
+          <div><b>${sayi(o.npm7)}</b><small>npm 7g</small></div>
+          <div><b>${sayi(o.site30)}</b><small>site 30g</small></div>
+          <div><b>★${sayi(o.yildiz)}</b><small>GitHub</small></div>
+        </div>
+      </div>`;
+    }
+
     function uygKart(a, d, bas, son) {
       const p = a.profil || {}, o = d.o, f = o.fark, cn = canliSay().app[a.slug] || 0;
       return `<div class="uk ${S.app === a.slug ? "secili" : ""}" data-app="${esc(a.slug)}">
@@ -1845,11 +1978,12 @@
       </div>`);
       /* Telemetri */
       if (tel) kareler.push(`<div class="kare t-pembe">
-        <header><b>Uygulama telemetrisi</b><span class="sag"><a href="/lab/${a.slug === "walletcoach" ? "wallet-coach" : a.slug}/" target="_blank" rel="noopener">panel ↗</a></span></header>
+        <header><b>Uygulama telemetrisi</b><span class="sag"><a href="/lab/${PANEL_YOL[a.slug] || a.slug}/" target="_blank" rel="noopener">panel ↗</a></span></header>
         <div class="buyuk"><span class="n">${sayi(tel.toplam)}</span><span class="e">kurulum</span>${tel.canli ? `<span class="up">● ${tel.canli} canlı</span>` : ""}</div>
         <div class="ikil"><div><b>${sayi(tel.aktif7)}</b><small>7 gün aktif</small></div><div><b>${sayi(tel.yeni7)}</b><small>7 gün yeni</small></div><div><b>${sayi(tel.pro)}</b><small>pro / premium</small></div></div>
         <div class="alt-satir">${Object.entries(tel.platform || {}).map(([k, n]) => `${esc(PLAT_AD[k] || k)} ${n}`).join(" · ")}</div>
         <div class="alt-satir">${Object.entries(tel.ulke || {}).sort((x, y) => y[1].aktif30 - x[1].aktif30).slice(0, 8).map(([k, x]) => `${bayrak(k)} ${x.aktif30}`).join("  ")}</div>
+        ${Object.keys(tel.surum || {}).length ? `<table class="mini-tablo"><thead><tr><th>Sürüm</th><th class="num">Kurulum</th><th class="num">7g aktif</th><th class="num">Pro</th></tr></thead><tbody>${Object.entries(tel.surum).sort((x, y) => y[1].aktif7 - x[1].aktif7 || y[1].toplam - x[1].toplam).slice(0, 8).map(([k, x]) => `<tr><td>${esc(k.replace(/^ios /, "iOS ").replace(/^android /, "Android "))}</td><td class="num">${sayi(x.toplam)}</td><td class="num">${sayi(x.aktif7)}</td><td class="num">${sayi(x.pro)}</td></tr>`).join("")}</tbody></table>` : ""}
       </div>`);
       /* Görevler */
       kareler.push(`<div class="kare serbest ${gorevler.length > 4 ? "genis" : ""}">
@@ -1858,6 +1992,11 @@
         <div class="alt-satir" style="margin-top:auto"><a href="#" data-sekme="gorev">Görevler sekmesi</a> · vault ${esc(v.guncelleme || "·")}</div>
       </div>`);
       /* Kimlik */
+      const sl = surumlerListe([a]).slice(0, 3);
+      kareler.push(`<div class="kare genis serbest">
+        <header><b>Sürümler · neler geldi</b><span class="sag"><a href="#" data-sekme="surum">Sürümler sekmesi</a></span></header>
+        ${sl.map(x => surumSatiri(x, false)).join("") || '<div class="alt-satir">Sürüm notu yok.</div>'}
+      </div>`);
       kareler.push(`<div class="kare genis serbest">
         <header><b>Kimlik</b></header>
         <dl class="kv">
@@ -2217,11 +2356,12 @@
         { v: "finans", e: "Finans" },
         { v: "pazarlama", e: "Pazarlama" },
         { v: "takip", e: "Takip" },
+        { v: "surum", e: "Sürümler" },
         { v: "yorum", e: "Yorumlar", say: cevapsizSay ? `${cevapsizSay}↩` : tumYorumlar().length || "", uyari: !!cevapsizSay },
         { v: "gorev", e: "Görevler", say: acikGorev || "" },
         { v: "veri", e: "Veri", say: D.notlar?.length || "" }
       ];
-      const govde = ({ canli: canliCiz, kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
+      const govde = ({ canli: canliCiz, kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, surum: surumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
       const altYazi = S.sekme === "canli" ? "anlık, Firestore telemetrisi" : ["ozet", "kitle", "portfoy", "pazarlama", "finans"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
       $("#ana").innerHTML = `
         <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : t.canli ? "canli" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
@@ -2246,7 +2386,78 @@
         k.appendChild(b);
       }
     }
-    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); kareKatla(); yaz(DURUM_KEY, S); }
+    /* Her tablo sıralanır (başlığa tıkla), 7 satırdan uzunsa arama kutusu
+       çıkar. Tablolar HTML metni olarak çiziliyor; burada sonradan güçlenir,
+       satırların data-app tıklaması olduğu gibi kalır. Sıra seçimi aynı
+       başlıklı tabloda yeniden çizimden sonra da korunur. */
+    const TABLO_SIRA = {};
+    function hucreDeger(td) {
+      const t = (td?.dataset.s ?? td?.textContent ?? "").trim();
+      if (!t || t === "·" || t === "-") return { n: null, t: "" };
+      const ay = t.match(/^(\d{1,2}) (Oca|Şub|Mar|Nis|May|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara)( (\d{4}))?/);
+      if (ay) return { n: (Number(ay[4] || new Date().getFullYear()) * 12 + AY.indexOf(ay[2])) * 40 + Number(ay[1]), t };
+      if (/^[★☆]+$/.test(t)) return { n: (t.match(/★/g) || []).length, t };
+      /* Sayıyla başlayan (önünde %, ₺, $, ≈, ★, ▲, − olabilir) her hücre sayı gibi sıralanır. */
+      const sm = t.match(/^[\s%≈$₺€£★+▲▼=]*([−-]?)\s*([\d][\d.,]*)/);
+      if (sm) {
+        const r = sm[2].replace(/[.,]$/, "");
+        const n = Number(/,/.test(r) ? r.replace(/\./g, "").replace(",", ".") : /^\d+\.\d{1,2}$/.test(r) ? r : r.replace(/\./g, ""));
+        if (Number.isFinite(n)) return { n: sm[1] ? -n : n, t };
+      }
+      return { n: null, t: t.toLocaleLowerCase("tr") };
+    }
+    function tablolariGuclendir() {
+      document.querySelectorAll("#ana table").forEach((tb, ti) => {
+        if (tb.dataset.gucl) return; tb.dataset.gucl = "1";
+        const govde = tb.tBodies[0]; if (!govde) return;
+        const satirlar = [...govde.rows];
+        if (satirlar.length < 2 || satirlar.some(r => [...r.cells].some(c => c.colSpan > 1 || c.rowSpan > 1))) return;
+        const bas = tb.tHead?.rows[0] || (tb.rows[0] !== satirlar[0] ? tb.rows[0] : null); if (!bas) return;
+        const anahtar = [...bas.cells].map(c => c.textContent.trim()).join("|");
+        const sirala = (i, yon) => {
+          const l = satirlar.slice().sort((x, y) => {
+            const a = hucreDeger(x.cells[i]), b = hucreDeger(y.cells[i]);
+            if (a.n != null && b.n != null) return (a.n - b.n) * yon;
+            if (a.n != null) return -1; if (b.n != null) return 1;
+            return a.t.localeCompare(b.t, "tr") * yon;
+          });
+          l.forEach(r => govde.appendChild(r));
+          [...bas.cells].forEach((c, j) => c.dataset.yon = j === i ? (yon > 0 ? "▲" : "▼") : "");
+          TABLO_SIRA[anahtar] = [i, yon];
+        };
+        [...bas.cells].forEach((c, i) => {
+          c.classList.add("sirali-th");
+          c.addEventListener("click", e => { e.stopPropagation(); const o = TABLO_SIRA[anahtar]; sirala(i, o && o[0] === i ? -o[1] : (c.classList.contains("num") ? -1 : 1)); });
+        });
+        if (TABLO_SIRA[anahtar]) sirala(...TABLO_SIRA[anahtar]);
+        if (satirlar.length > 7) {
+          const kap = tb.closest(".panel") || tb.parentElement;
+          const kutu = document.createElement("div"); kutu.className = "tablo-ara";
+          kutu.innerHTML = `<input type="search" placeholder="Bu tabloda ara" aria-label="Tabloda ara"><span>${satirlar.length} satır</span>`;
+          const inp = kutu.querySelector("input"), say = kutu.querySelector("span");
+          inp.addEventListener("click", e => e.stopPropagation());
+          inp.addEventListener("input", () => {
+            const q = inp.value.trim().toLocaleLowerCase("tr"); let n = 0;
+            satirlar.forEach(r => { const g = !q || r.textContent.toLocaleLowerCase("tr").includes(q); r.hidden = !g; if (g) n++; });
+            say.textContent = q ? `${n} / ${satirlar.length}` : `${satirlar.length} satır`;
+          });
+          kap.parentElement.insertBefore(kutu, kap);
+        }
+      });
+    }
+
+    /* Kitle haritası: ortak harita bileşeni (lab/assets/harita.js), bir kez yüklenir. */
+    let HARITA_MOD = null;
+    async function haritaCiz() {
+      const k = document.getElementById("kitleHarita"); if (!k) return;
+      try {
+        HARITA_MOD ||= import("/lab/assets/harita.js?v=1");
+        const { dunyaHaritasi } = await HARITA_MOD;
+        await dunyaHaritasi(k, JSON.parse(k.dataset.veri || "{}"), { birim: "" });
+      } catch (e) { k.innerHTML = `<div class="bos">Harita yüklenemedi.</div>`; }
+    }
+
+    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); kareKatla(); tablolariGuclendir(); haritaCiz(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
     document.addEventListener("toggle", e => {
@@ -2439,13 +2650,15 @@
       D = await coz(await paketAl(), parola);
       SON_PAROLA = parola;
       try { sessionStorage.setItem(OTURUM, parola); } catch (e) { }
+      try { SURUMLER = (await (await fetch("/lab/assets/surumler.json", { cache: "no-store" })).json()).apps || {}; } catch (e) { SURUMLER = {}; }
       S = { ...S, ...oku(DURUM_KEY, {}) };
+      if (!ARALIKLAR.some(x => x.v === S.aralik)) S.aralik = S.aralik === 30 ? 28 : 28;
       YEREL = oku(GOREV_KEY, {});
       for (const a of D.apps) for (const g of a.vault?.gorevler || []) if (g.bitti) delete YEREL[`${a.slug}|${kimlik(g.yazi)}`];
       for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
       yaz(GOREV_KEY, YEREL);
       if (S.app && !ozelApp(S.app) && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (!["ozet", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "surum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz(); faceDugmeleri();
       if (D.canli?.url && !CANLI.zamanlayici) {
         canliCek(true);

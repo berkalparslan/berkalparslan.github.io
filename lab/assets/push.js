@@ -30,7 +30,7 @@
  *
  *   kisiyeBildirim(kurulumId)                // çekmeceden: bir sonraki çizimde tek kişi seçili gelir
  */
-import { el, sayi, tarihTam, kart, tiles, veriTablo, ms } from "/lab/assets/panel.js?v=5";
+import { el, sayi, tarihTam, kart, tiles, veriTablo, ms } from "/lab/assets/panel.js?v=6";
 
 const DIL_ADI = {
   tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca",
@@ -40,10 +40,14 @@ const DIL_ADI = {
   no: "Norveççe", nb: "Norveççe", ro: "Romence", hu: "Macarca", he: "İbranice", th: "Tayca",
   vi: "Vietnamca", ms: "Malayca", fa: "Farsça", az: "Azerice",
 };
+/* Kurulumun dil alanı; cfg.dilAlani ile değişir (ör. "appLang"). */
+let DIL_ALANI = "language";
 const SIMDI = { tr: "şimdi", en: "now", de: "jetzt", es: "ahora", fr: "maintenant", it: "ora", pt: "agora", nl: "nu",
-  ru: "сейчас", ja: "今", ko: "지금", zh: "现在", ar: "الآن", pl: "teraz", sv: "nu", id: "sekarang" };
+  ru: "сейчас", ja: "今", ko: "지금", zh: "现在", ar: "الآن", pl: "teraz", sv: "nu", id: "sekarang",
+  fa: "اکنون", ur: "ابھی", ms: "sekarang", hi: "अभी", uk: "зараз", vi: "bây giờ", th: "ตอนนี้", el: "τώρα", cs: "teď", ro: "acum", hu: "most", da: "nu", nb: "nå", fi: "nyt", he: "עכשיו", bn: "এখন" };
 const YEREL = { tr: "tr-TR", en: "en-US", de: "de-DE", es: "es-ES", fr: "fr-FR", it: "it-IT", pt: "pt-BR", nl: "nl-NL",
-  ru: "ru-RU", ja: "ja-JP", ko: "ko-KR", zh: "zh-CN", ar: "ar", pl: "pl-PL", sv: "sv-SE", id: "id-ID" };
+  ru: "ru-RU", ja: "ja-JP", ko: "ko-KR", zh: "zh-CN", ar: "ar", pl: "pl-PL", sv: "sv-SE", id: "id-ID",
+  fa: "fa-IR", ur: "ur-PK", ms: "ms-MY", hi: "hi-IN", uk: "uk-UA", vi: "vi-VN", th: "th-TH", el: "el-GR", cs: "cs-CZ", ro: "ro-RO", hu: "hu-HU", da: "da-DK", nb: "nb-NO", fi: "fi-FI", he: "he-IL", bn: "bn-BD" };
 const ORNEK = { tr: ["Yeni bir şey var", "Uygulamayı aç, sana hazırladığımız yeniliğe göz at."],
   en: ["Something new is here", "Open the app and take a look at what we made for you."] };
 const EMOJI = ["🌿", "🌱", "🪴", "💧", "☀️", "🔥", "🎉", "✨", "⭐", "✅", "👋", "💪", "📅", "⏰", "🎁", "❤️"];
@@ -79,7 +83,7 @@ const ulasilir = i => tokenVar(i) && i.notif !== false;
 function eslesir(i, f, now = Date.now()) {
   if (f.installIds?.length) return f.installIds.includes(i.id);
   if (f.apps?.length && !f.apps.includes(i.app)) return false;
-  if (f.langs?.length && !f.langs.includes(lang2(i.language))) return false;
+  if (f.langs?.length && !f.langs.includes(lang2(i[DIL_ALANI]))) return false;
   if (f.pro === "pro" && i.pro !== true) return false;
   if (f.pro === "free" && i.pro === true) return false;
   const g = ms(i.lastSeen);
@@ -121,7 +125,10 @@ async function cagir(cfg, yol, govde) {
     body: JSON.stringify(govde),
   });
   const d = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(d.error || d.message || `HTTP ${r.status}`);
+  if (!r.ok) {
+    const e = d.error ?? d.message;
+    throw new Error(typeof e === "string" ? e : e?.message || e?.code || (e ? JSON.stringify(e) : `HTTP ${r.status}`));
+  }
   return d;
 }
 
@@ -134,6 +141,7 @@ export function kisiyeBildirim(id) { bekleyenKisi = id; }
 // ════════════════════════════════════════════════════════════════════════
 
 export function pushSayfasi(kok, cfg) {
+  DIL_ALANI = cfg.dilAlani || "language";
   const SINIR_T = cfg.sinir?.baslik ?? 60, SINIR_B = cfg.sinir?.metin ?? 180, EN_FAZLA = cfg.enFazlaDil ?? 4;
   const ANA = cfg.anaDiller || ["tr", "en"];
   const EK_DILLER = (cfg.diller || Object.keys(DIL_ADI)).filter(l => !ANA.includes(l));
@@ -153,13 +161,17 @@ export function pushSayfasi(kok, cfg) {
   try { const t = JSON.parse(depo.al(TASLAK) || "null"); if (t) taslakYukle(t); } catch (e) { }
   taslakHazir = true;
   if (bekleyenKisi) { s.mod = "devices"; s.kitle.ids = [bekleyenKisi]; bekleyenKisi = null; }
+  /* cfg.konular === false: uygulama konuya abone değil, yalnız Kitle.
+     cfg.zamanlama === false: Worker'da cron yok, yalnız Hemen. */
+  if (cfg.konular === false) s.mod = "devices";
+  if (cfg.zamanlama === false) s.ne = "now";
 
   // ── İskelet ──
   kok.innerHTML = `<div id="pDurum"></div>
   <div class="pushgrid">
     <div>
       <div class="card"><h2>Kime</h2>
-        <div class="modes"><button data-mod="topics">Konular<small>Bildirime izin veren herkes, tek hamlede. Her cihaz kendi dilini alır.</small></button>
+        <div class="modes"${cfg.konular === false ? ' style="grid-template-columns:1fr"' : ""}>${cfg.konular === false ? "" : `<button data-mod="topics">Konular<small>Bildirime izin veren herkes, tek hamlede. Her cihaz kendi dilini alır.</small></button>`}
           <button data-mod="devices">Kitle<small>Filtreye uyan cihazlara tek tek. Kime gittiğini tam bilirsin.</small></button></div>
         <div id="pKitleF"></div><div id="pKitle"></div></div>
       <div class="card"><h2>Metin</h2>
@@ -171,7 +183,7 @@ export function pushSayfasi(kok, cfg) {
         <div class="field" style="margin-top:14px"><span class="lbl">Dokununca açılacak yer</span><select id="pSekme"></select></div>
         <div id="pKontrol"></div></div>
       <div class="card"><h2>Ne zaman</h2>
-        <div class="seg" id="pNe"><button data-ne="now">Hemen</button><button data-ne="later">Zamanla</button></div>
+        <div class="seg" id="pNe"><button data-ne="now">Hemen</button>${cfg.zamanlama === false ? "" : `<button data-ne="later">Zamanla</button>`}</div>${cfg.zamanlama === false ? `<p class="muted" style="margin:8px 0 0">Zamanlama kapalı: Worker'da cron yok.</p>` : ""}
         <div id="pSonra" class="hidden" style="margin-top:12px"><div class="field" style="max-width:320px"><span class="lbl">Tarih ve saat (Türkiye saati)</span><input id="pZaman" type="datetime-local" step="300"></div>
           <p class="muted" id="pZamanBilgi" style="margin:0"></p></div>
         <div class="actions"><button class="ghost" data-git="validate">Doğrula (kimseye gitmez)</button>
@@ -301,6 +313,7 @@ export function pushSayfasi(kok, cfg) {
   }
 
   function kontrol() {
+    if (!kok.isConnected) return;
     const p = sorunlar(), bos = !Object.keys(metinler()).length, zs = zamanSorunu();
     const a = kitle();
     const kimse = s.mod === "devices" && a && a.withToken === 0;
@@ -326,13 +339,13 @@ export function pushSayfasi(kok, cfg) {
     if (s.mod !== "devices") { f.innerHTML = ""; return; }
     const k = s.kitle, liste = hepsi(), havuz = liste.filter(ulasilir);
     const dilSay = {};
-    for (const i of liste) if (i.language) dilSay[lang2(i.language)] = (dilSay[lang2(i.language)] || 0) + 1;
+    for (const i of liste) if (i[DIL_ALANI]) dilSay[lang2(i[DIL_ALANI])] = (dilSay[lang2(i[DIL_ALANI])] || 0) + 1;
     const diller = [...new Set([...Object.keys(dilSay).sort((a, b) => dilSay[b] - dilSay[a]).slice(0, 12), ...k.langs])];
     const seg = (ad, alan, secenek) => `<div><span class="lbl">${ad}</span><div class="seg" data-seg="${alan}">${secenek.map(([v, y]) => `<button data-v="${v}" class="${k[alan] === v ? "on" : ""}">${y}</button>`).join("")}</div></div>`;
     f.innerHTML = `<div id="pFiltre"${k.ids.length ? ' style="opacity:.42;pointer-events:none" aria-disabled="true"' : ""}>
         <span class="lbl">Cihaz dili</span>
-        <div class="chips"><button class="chip${!k.langs.length ? " on" : ""}" data-dil2="">Hepsi</button>${diller.map(l => `<button class="chip${k.langs.includes(l) ? " on" : ""}" data-dil2="${esc(l)}">${esc(dilAdi(l))} <small>${sayi(havuz.filter(i => lang2(i.language) === l).length)}</small></button>`).join("")}</div>
-        <div class="frow">${seg("Pro", "pro", [["any", "Hepsi"], ["pro", "Pro"], ["free", "Ücretsiz"]])}${seg("Hesap", "signed", [["any", "Hepsi"], ["yes", "Girişli"], ["no", "Girişsiz"]])}</div>
+        <div class="chips"><button class="chip${!k.langs.length ? " on" : ""}" data-dil2="">Hepsi</button>${diller.map(l => `<button class="chip${k.langs.includes(l) ? " on" : ""}" data-dil2="${esc(l)}">${esc(dilAdi(l))} <small>${sayi(havuz.filter(i => lang2(i[DIL_ALANI]) === l).length)}</small></button>`).join("")}</div>
+        <div class="frow">${cfg.pro === false ? "" : seg("Pro", "pro", [["any", "Hepsi"], ["pro", "Pro"], ["free", "Ücretsiz"]])}${seg("Hesap", "signed", [["any", "Hepsi"], ["yes", "Girişli"], ["no", "Girişsiz"]])}</div>
         <div class="frow"><div>${seg("Son görülme", "act", [["any", "Hepsi"], ["active", "Son N günde açan"], ["inactive", "N gündür açmayan"]]).slice(5, -6)}
           <label class="inline-n${k.act === "any" ? " hidden" : ""}"><input id="pGun" type="number" min="1" max="365" inputmode="numeric" value="${k.act === "inactive" ? k.inactDays : k.actDays}"> gün</label></div></div>
       </div>
@@ -385,7 +398,7 @@ export function pushSayfasi(kok, cfg) {
   function yerelSay(f) {
     const m = hepsi().filter(i => eslesir(i, f)), u = m.filter(ulasilir);
     const byLang = {};
-    for (const i of u) { const l = lang2(i.language) || "?"; byLang[l] = (byLang[l] || 0) + 1; }
+    for (const i of u) { const l = lang2(i[DIL_ALANI]) || "?"; byLang[l] = (byLang[l] || 0) + 1; }
     return { total: m.length, withToken: u.length, noToken: m.filter(i => !tokenVar(i)).length,
       notifOff: m.filter(i => tokenVar(i) && i.notif === false).length, byLang, yerel: true };
   }
@@ -420,7 +433,7 @@ export function pushSayfasi(kok, cfg) {
       if (!cfg.kurulumlar) { kutu.innerHTML = ""; return; }
       const havuz = hepsi().filter(i => i.notif === true);
       const byLang = {};
-      for (const i of havuz) { const l = lang2(i.language); byLang[l] = (byLang[l] || 0) + 1; }
+      for (const i of havuz) { const l = lang2(i[DIL_ALANI]); byLang[l] = (byLang[l] || 0) + 1; }
       const ios = havuz.filter(i => i.platform !== "android").length;
       kutu.innerHTML = `<div class="audbox"><div class="big">~${sayi(havuz.length)}<small>kurulum</small></div>
         <div class="row"><b>${sayi(ios)} iOS, ${sayi(havuz.length - ios)} Android</b></div>
@@ -432,7 +445,7 @@ export function pushSayfasi(kok, cfg) {
     if (!a) { kutu.innerHTML = `<div class="audbox"><span class="muted">Worker sayıyor...</span></div>`; return; }
     const uzak = s.uzak && s.uzak.key === anahtarF();
     const kaynak = uzak ? (s.uzak.err ? `Worker sayamadı (${esc(s.uzak.err)}); panel verisi gösteriliyor.` : `Worker sayımı · ${s.uzak.at.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`)
-      : "Panel verisinden anlık tahmin; Worker sayıyor...";
+      : new URLSearchParams(location.search).has("demo") ? "Demo: yalnız panel verisi, Worker sayımı yok." : "Panel verisinden anlık tahmin; Worker sayıyor...";
     const enFazla = s.saglik?.maxDevices || a.maxDevices || 2000;
     const uyari = a.withToken === 0 || a.withToken > enFazla;
     kutu.innerHTML = `<div class="audbox${uyari ? " warnbox" : ""}"><div class="big">${sayi(a.withToken)}<small>cihaz</small></div>
@@ -500,7 +513,7 @@ export function pushSayfasi(kok, cfg) {
     return { mode: s.mod, kitle: { ...s.kitle, ids: s.kitle.ids.slice(0, 20) }, texts: metinler(), extra: s.ekDiller, tab: s.sekme || null };
   }
   function taslakYukle(d) {
-    s.mod = d.mode === "devices" ? "devices" : "topics";
+    s.mod = d.mode === "devices" || cfg.konular === false ? "devices" : "topics";
     const k = { langs: [], pro: "any", signed: "any", act: "any", actDays: 7, inactDays: 14, ids: [] };
     if (d.kitle) Object.assign(k, d.kitle);
     else if (d.filter) {
@@ -585,12 +598,13 @@ export function pushSayfasi(kok, cfg) {
   // ── Worker ──
   async function saglikYukle() {
     const k = $("pDurum");
+    if (!k) return;
     k.innerHTML = `<p class="muted">Worker kontrol ediliyor...</p>`;
     try {
       const r = await fetch(cfg.worker + "/health?deep=1", { cache: "no-store" });
       s.saglik = await r.json();
       k.innerHTML = !s.saglik.ready
-        ? `<div class="note err"><b>Worker çalışıyor ama FCM anahtarı (FCM_SA) kurulu değil.</b> Worker klasöründe <code>npx wrangler secret put FCM_SA &lt; servis-hesabi.json</code>, sonra deploy.</div>`
+        ? (s.saglik.note ? `<div class="note err"><b>Worker çalışıyor ama gönderime hazır değil.</b> ${esc(s.saglik.note)}</div>` : `<div class="note err"><b>Worker çalışıyor ama FCM anahtarı (FCM_SA) kurulu değil.</b> Worker klasöründe <code>npx wrangler secret put FCM_SA &lt; servis-hesabi.json</code>, sonra deploy.</div>`)
         : s.saglik.firestore && s.saglik.firestore !== "ok" ? `<div class="note err">Worker hazır ama Firestore'a ulaşamadı: ${esc(s.saglik.firestore)}</div>` : "";
     } catch (e) {
       s.saglik = null;
@@ -644,7 +658,7 @@ export function pushSayfasi(kok, cfg) {
     if (d.status === "scheduled") return `<div class="note okn"><b>Zamanlandı:</b> ${esc(istMetin(Date.parse(d.sendAt)))} (Türkiye), ${esc(kalanMetin(Date.parse(d.sendAt)))}. Kimlik <code>${esc(d.pid)}</code>. Gönderilenler'den iptal edebilirsin.${ac}</div>`;
     const r = d.results || [], hata = r.filter(x => !x.ok).length;
     if (d.validate || tur === "validate") {
-      return `<div class="note ${hata ? "err" : "okn"}"><b>Doğrulandı:</b> ${d.mode === "devices" ? `filtreye uyan <b>${sayi(d.counts?.targeted)}</b> cihaz; kullanılan her dil için bir örnek cihazla FCM denendi, ` : ""}${sayi(r.length - hata)} / ${sayi(r.length)} geçti. Kimseye gönderilmedi.</div>`
+      return `<div class="note ${hata ? "err" : "okn"}"><b>Doğrulandı:</b> ${d.mode === "devices" ? `filtreye uyan <b>${sayi(d.counts?.targeted)}</b> cihaz; kullanılan her dil için bir örnek cihazla ${esc(cfg.saglayici || "FCM")} denendi, ` : ""}${sayi(r.length - hata)} / ${sayi(r.length)} geçti. Kimseye gönderilmedi.</div>`
         + (r.length ? veriHtml(r) : "");
     }
     if (d.mode === "devices") {
@@ -693,10 +707,13 @@ export function gonderilenlerSayfasi(kok, cfg) {
     ciz();
   }
   function acilma(p) {
-    const k = `push_open_${p.pid || p.id}`, ilk = gunAnahtar(ms(p.sentAt || p.startedAt || p.at) || Date.now());
+    /* Uygulamalar olay adını küçültüyor; büyük harfli kimlik iki biçimde de aranır. */
+    const kimlik = String(p.pid || p.id), k = `push_open_${kimlik}`, kk = `push_open_${kimlik.toLowerCase()}`;
+    const say = ev => +(ev?.[k] || 0) + (kk !== k ? +(ev?.[kk] || 0) : 0);
+    const ilk = gunAnahtar(ms(p.sentAt || p.startedAt || p.at) || Date.now());
     let n = 0;
-    for (const g of gunluk) if ((g.day || g.id) >= ilk) n += +(g.ev?.[k] || 0);
-    const kisi = cfg.kurulumlar ? (cfg.kurulumlar() || []).filter(i => +(i.ev?.[k] || 0) > 0).length : null;
+    for (const g of gunluk) if ((g.day || g.id) >= ilk) n += say(g.ev);
+    const kisi = cfg.kurulumlar ? (cfg.kurulumlar() || []).filter(i => say(i.ev) > 0).length : null;
     return { n, kisi };
   }
   function oran(p, o) {

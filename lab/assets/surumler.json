@@ -1,0 +1,1626 @@
+{
+ "uretim": "2026-10-13T21:47:00.986Z",
+ "apps": {
+  "leafbook": [
+   {
+    "surum": "1.2.1",
+    "platform": "ios",
+    "tarih": "2026-10-13T14:38:15-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "Bitki tanımada bir düzeltme.",
+     "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
+    ]
+   },
+   {
+    "surum": "1.2.1",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     10
+    ],
+    "notlar": [
+     "Bitki tanımada bir düzeltme.",
+     "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
+    ],
+    "tarih": "2026-10-13",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "ios",
+    "tarih": "2026-10-12T05:37:38-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Bitkilerinin artık bir yeri var.",
+     "Bitkiye bir yer ver: ev, yazlık, ailenin evi. Raf ona göre gruplar, ona göre filtreler, basılı tutunca bitki taşınır.",
+     "Nerede durduğunu söyle: ev içi, balkon, teras, bahçe, ya da toprağa dikili. Sulama gününü değiştiriyor, ne kadar değiştirdiğini de yazıyor.",
+     "Sulama nihayet mevsimi biliyor. Ocaktaki bir bitki temmuz hızıyla su içmez.",
+     "Her bitki sayfasında \"Neden N günde bir?\" var: katalog, ışık, durduğu yer, mevsim, hepsi tek tek.",
+     "BAŞKALARININ BİTKİLERİ",
+     "Topluluk geldi. Kendi bitkini göster, başkasınınkine nazar bırak, kahverengi uçlar ne demek diye sor.",
+     "Yalnız bitki. Her fotoğraf yayınlanmadan önce kontrol ediliyor.",
+     "Hesap yalnız topluluk için. Bitkilerin telefonunda kalıyor.",
+     "AYRICA",
+     "Büyüme artık iki fotoğrafı AI okuyarak buluyor, piksel sayarak değil. Eski sayı, gözle büyümüş bitkiye küçülmüş diyebiliyordu.",
+     "Fotoğraflar tam ekran açılıyor, kaydırarak zaman çizelgesinde geziyorsun, her birinin altında tarihi var.",
+     "Paylaş ne demek istediğini soruyor: bitkinin kendisi, bir resmi, ya da topluluk.",
+     "On beş yeni dil.",
+     "Sayfa başlıkları kalktı, alt barın altında hiçbir şey kalmıyor, bitki sayfası epey kısaldı."
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-10-02T11:38:21-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Sulama artık takvime değil, evine göre.",
+     "Bitkinin nerede durduğunu söyle, Leafbook sulama aralığını ışığa göre ayarlasın. Loş köşe aralığı uzatır, güneşli pencere kısaltır, sebebini de yazar.",
+     "Yeni Öğren sekmesi: senin olmayan bir bitkinin fotoğrafını çek ya da adını yaz, anlaşılır bir sayfa gelsin. Baktığın bitki asla bitkilerine eklenmez.",
+     "Bir bitkiyi bağlantıyla ya da QR ile birine gönder. Karşı taraf fotoğrafını ve bakımını görür, tek dokunuşla kendi rafına ekler.",
+     "Hatırlatmada iki düğme var: suladım, ya da toprak hala nemli. İkincisi sulamayı bekletir ve programı öğretir.",
+     "Leafbook artık yaprakların boyutu kadar rengini de ölçüyor, sarıya kayınca haber veriyor.",
+     "Bir sorun mu var? Toprakla ilgili üç soru sebebi söylüyor ve tarihli adımlardan oluşan 14 günlük plan açıyor.",
+     "Takma ad artık zorunlu değil. Ad vermezsen bitki türüyle listelenir, ne zaman senin olduğunu da yazabilirsin.",
+     "Kamerada flaş ve yakınlaştırma; çektiğin fotoğrafı galerine kaydedebilirsin."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-09-14T02:50:54-07:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "1.2",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     9
+    ],
+    "notlar": [
+     "Bitkilerinin artık bir yeri var.",
+     "Bitkiye bir yer ver: ev, yazlık, ailenin evi. Raf ona göre gruplar, istemediğin yeri katlar.",
+     "Nerede durduğunu söyle: ev içi, balkon, teras, bahçe ya da toprak. Sulama gününü değiştirir, ne kadar değiştirdiğini de yazar.",
+     "Sulama artık mevsimi biliyor. Ocaktaki bitki temmuz hızıyla su içmez.",
+     "Topluluk geldi: kendi bitkini göster, nazar bırak, kahverengi uçları sor. Her fotoğraf önce kontrol edilir.",
+     "On beş yeni dil."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0 (5)",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Bitkinin durduğu yer artık sulama ritmini belirliyor: loş köşe aralığı uzatıyor, güneşli pencere kısaltıyor.",
+     "Bitki eklerken en son ne zaman suladığını seçebiliyorsun.",
+     "Hatırlatmada iki düğme var: suladım, ya da toprak hala nemli. İkincisi programı öğretiyor.",
+     "Leafbook yaprak rengini izliyor, sarıya kayınca haber veriyor.",
+     "Toprakla ilgili üç soru sebebi söylüyor ve 14 günlük plan çıkarıyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "walletcoach": [
+   {
+    "surum": "2.4.1",
+    "platform": "ios",
+    "tarih": "2026-10-12T02:44:23-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Fiş ve ekstre okuma artık daha güvenli ve kararlı. Küçük düzeltmeler."
+    ]
+   },
+   {
+    "surum": "2.4",
+    "platform": "ios",
+    "tarih": "2026-09-22T08:00:08-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Mới: Sao kê thẻ tín dụng. Chia sẻ file PDF từ ứng dụng ngân hàng hoặc thêm ảnh chụp màn hình; chi tiêu được chia theo lĩnh vực, cửa hàng bạn mua nhiều nhất và chiếc thẻ đã tốn của bạn bao nhiêu.",
+     "Mới: chia sẻ qua liên kết. Chia sẻ việc sửa nhà, chuyến đi, Nhật ký giá hay Bảng tiết kiệm bằng mã QR hoặc liên kết; người nhận có thể theo dõi, sao chép hoặc đề xuất thêm mục, bạn duyệt và nhận thông báo khi có đề xuất mới.",
+     "Mới: tab Phân tích với mẹo về ngày chốt sao kê, điền giao dịch mua từ ảnh, Bài viết và ứng dụng Apple Watch.",
+     "Nay đã có 17 ngôn ngữ."
+    ]
+   },
+   {
+    "surum": "2.3",
+    "platform": "ios",
+    "tarih": "2026-09-07T05:58:22-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Rehberli başlangıç — Kurulumdan hemen sonra ilk üç satırını birlikte giriyoruz: bir gelir, bir sabit gider, bir abonelik. İstediğini atlayabilirsin.",
+     "Zamanını bilen tanıtımlar — Her ekran ilk açılışında yine kendini tanıtıyor, ama artık boş ekranın üstünde ya da geride bıraktığın bir ekranın arkasında açılmıyor. Her tur, anlattığı işi başlatmayı teklif ederek bitiyor.",
+     "Fiyat takibi kendini anlatıyor — Bu özellik ikinci kayıttan sonra anlam kazanıyor; tanıtım artık örnek bir ürün eklemeyi öneriyor: aynı ürün, üç tarih, iki market.",
+     "Saat hesabı önce geliri istiyor — Gelir girilmeden fiyat yazınca anlamsız bir sayı yerine neyin eksik olduğunu söylüyor.",
+     "Şimdi ne kadar, iki yönlü — Eski bir tutarı bugüne getir ya da bugünkü tutarın o tarihte ne ettiğini gör.",
+     "Grafikler katlanıyor — Paneldeki ve planların içindeki dağılım ve trend kartları kapatılabiliyor.",
+     "Sıralama düzeldi — Blok sıralanırken satırı basılı tutmak artık sürüklemeyle kavga eden bir menü açmıyor.",
+     "İlk ekrandan ayarlara kadar metinler sadeleşti."
+    ]
+   },
+   {
+    "surum": "2.2",
+    "platform": "ios",
+    "tarih": "2026-09-04T08:22:44-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Tanıtım sayfaları eklendi. Daha kolay bir arayüz.",
+     "Düzeltmeler — Panelde yaklaşan ödemeler ve gelirler tek yerde toplandı, aynı satırın iki kez görünmesi giderildi. Puan verme ve paylaşma düğmeleri düzeltildi. Verileri silme tek ekranda toplandı. Sıralama değiştirme sağlandı"
+    ]
+   },
+   {
+    "surum": "2.1",
+    "platform": "ios",
+    "tarih": "2026-08-25T06:43:47-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Projeler — Bir inşaat, taşınma ya da düğün gibi işlerin toplamını ay tablosundan ayrı tut. Bütçe çubuğu, kategoriye göre dağılım halkası, aylık grafik ve kalem listesi. Dışa aktarımda her proje kendi sayfası.",
+     "Fiyat takibi — Tekrar aldığın ürünlerin birim fiyatını karşılaştır. En ucuz nereden aldığını, ortalamayı ve ilk alıştan bu yana değişimi gösterir. Aynı şeyi tekrar alırken \"geçen sefer kaçtı\" der. Alımlara fotoğraf ekleyebilirsin.",
+     "Eski kayıtlarını getir — Excel'inin ya da defterinin fotoğrafını çek, uygulamadaki komutu kopyalayıp bir yapay zekâya gönder, dönen dosyayı içe aktar. Mevcut kayıtların silinmez, üstüne eklenir.",
+     "Daha kolay başlangıç — İlk ay için satır önerileri, boş ekranlarda ne yazılacağını gösteren örnekler.",
+     "Düzeltmeler — Panelde yaklaşan ödemeler ve gelirler tek yerde toplandı, aynı satırın iki kez görünmesi giderildi. Puan verme ve paylaşma düğmeleri düzeltildi. Verileri silme tek ekranda toplandı."
+    ]
+   },
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-08-20T15:34:49-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Wallet Coach baştan yazıldı.",
+     "Aylık tablo: kredi kartları, krediler, ev, sigorta, abonelikler ve gelirler.",
+     "Ödedikçe işaretle, ay bitince tek tuşla yeni aya devret.",
+     "Panel: ay sonu durumu, gider dağılımı, giren-çıkan grafiği, yaklaşan vadeler.",
+     "Vade takvimi ve vade hatırlatmaları.",
+     "Alacak-verecek defteri: KDV, fatura durumu, kısmi tahsilat.",
+     "Varlıklar: nominal kazancın yanında enflasyona, dolara ve altına göre reel",
+     "getiri.",
+     "Kredi ve taahhütlerde bitiş ayı, \"kaç ay kaldı\" ve bitince otomatik düşme.",
+     "Karttan ödenen satırlar: görünür kalır, ay toplamına iki kez girmez.",
+     "Geçen ayla karşılaştırma, her bölüm için ayrı.",
+     "iCloud yedekleme ve tek dosyayla yeni telefona taşıma.",
+     "Tarih aralığı seçerek PDF ya da tablo olarak dışa aktarma.",
+     "Gizli mod: tek dokunuşla bütün rakamları gizle.",
+     "Yeni simge, yeni tema. Uygulama artık açık temayla açılıyor."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-04T15:48:47-07:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "2.4",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     24
+    ],
+    "notlar": [
+     "Yeni: Kredi kartı ekstresi. PDF'i bankanın uygulamasından paylaş ya da ekran görüntüsü ekle; harcaman sektörlere ayrılır, kartın sana maliyeti görünür.",
+     "Yeni: Analiz sekmesi ve kart kesim tarihi ipuçları.",
+     "Yeni: Bağlantıyla paylaş. Tadilatı, tatili ya da fiyat takibini QR veya bağlantıyla paylaş; ekleme önerirler, sen onaylarsın ve bildirim alırsın.",
+     "Yeni: Fotoğraftan doldur ve Yazılar.",
+     "Sekmeler yenilendi. Artık 17 dilde."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.4",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     24
+    ],
+    "notlar": [
+     "Fiş okuma artık Bam Studio sunucusu üzerinden çalışıyor. Ödeme kütüphanesi güncellendi."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.4",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     24
+    ],
+    "notlar": [
+     "AI özellikleri artık Bam Studio sunucusu üzerinden çalışıyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "bosyeryok": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-31T01:57:56-07:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "1.0.3",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "İlk sürüm.",
+     "Otopark işlet: tarifeyi sen belirle, personeli sen al, maaşlar her saniye kasadan düşsün. Dört konum, her birinin kendi 24 saatlik talep eğrisi var. On iki yükseltme, altı personel, üç tarife ve abonman. On dokuz sokak olayı. İhale blokları sıfırlar, kalıcı ruhsat verir.",
+     "Reklam yok, hesap yok, kayıt cihazda kalır. Türkçe ve İngilizce, Ayarlar'dan değişir."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.3",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "İlk sürüm.",
+     "Otopark işlet: tarifeyi sen belirle, personeli sen al, maaşlar her saniye kasadan düşsün. Dört konum, her birinin kendi 24 saatlik talep eğrisi var. On iki yükseltme, altı personel, üç tarife ve abonman. On dokuz sokak olayı. İhale blokları sıfırlar, kalıcı ruhsat verir.",
+     "Reklam yok, hesap yok, kayıt cihazda kalır. Türkçe ve İngilizce, Ayarlar'dan değişir."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.3",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Kasa RevenueCat üzerinden çalışıyor; satın alma geri yükleme daha güvenilir."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.3",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Kasa RevenueCat üzerinden çalışıyor; satın alma geri yükleme daha güvenilir."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "bodybook": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-09T13:02:12-07:00",
+    "durum": "reddedildi",
+    "notlar": []
+   },
+   {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     2
+    ],
+    "notlar": [
+     "Bildirimler",
+     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
+     "Bildirimler uygulamada seçtiğin dilde geliyor",
+     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
+     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
+     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
+     "BodyBook Pro",
+     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test · draft",
+    "vc": [
+     2
+    ],
+    "notlar": [
+     "Bildirimler",
+     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
+     "Bildirimler uygulamada seçtiğin dilde geliyor",
+     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
+     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
+     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
+     "BodyBook Pro",
+     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     2
+    ],
+    "notlar": [
+     "Bildirimler",
+     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
+     "Bildirimler uygulamada seçtiğin dilde geliyor",
+     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
+     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
+     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
+     "BodyBook Pro",
+     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2 (1.1)",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     2
+    ],
+    "notlar": [
+     "Bildirimler",
+     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
+     "Bildirimler uygulamada seçtiğin dilde geliyor",
+     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
+     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
+     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
+     "BodyBook Pro",
+     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "tasbih-tally": [
+   {
+    "surum": "1.3",
+    "platform": "ios",
+    "tarih": "2026-10-06T08:54:57-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Tebrik kartları",
+     "Cuma, Ramazan, arefe, bayram ve kandiller için hazır kartlar",
+     "Tek dokunuşla WhatsApp'tan, durumdan ya da hikayeden paylaş",
+     "Pro: kendi mesajını yaz, ismini ekle",
+     "Ramazan",
+     "İmsak ve iftara geri sayım",
+     "30 günlük imsakiye, tuttuğun oruçları işaretle",
+     "Yeni hatırlatıcılar",
+     "Namaz sonrası tesbihat",
+     "Serin kırılmak üzereyken uyarı",
+     "Daha derli toplu",
+     "Kıble artık Vakitler sayfasında",
+     "Esma, ezkar, takvim ve kartlar için yeni Rehber sekmesi"
+    ]
+   },
+   {
+    "surum": "1.2",
+    "platform": "ios",
+    "tarih": "2026-09-17T08:13:18-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Artık tam bir dini uygulama: namaz vakitleri ve ezan hatırlatıcı, kıble pusulası, zikir setleri (33·33·34), sabah-akşam zikirleri, niyetleriyle 99 isim, Hicri takvim, günün duası, ana ekran widget'ı, 9 dil, koyu tema. Telefon ↔ saat senkronu."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2025-12-19T16:14:24-08:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "1.2",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     44
+    ],
+    "notlar": [
+     "Artık tam bir dini uygulama: namaz vakitleri ve ezan hatırlatıcı, kıble pusulası, zikir setleri (33·33·34), sabah-akşam zikirleri, niyetleriyle 99 isim, Hicri takvim, günün duası, ana ekran widget'ı, 9 dil, koyu tema. Telefon ↔ saat senkronu."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     44
+    ],
+    "notlar": [
+     "Artık tam bir dini uygulama: namaz vakitleri ve ezan hatırlatıcı, kıble pusulası, zikir setleri (33·33·34), sabah-akşam zikirleri, niyetleriyle 99 isim, Hicri takvim, günün duası, ana ekran widget'ı, 9 dil, koyu tema. Telefon ↔ saat senkronu."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     44
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     44
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "wear",
+    "track": "wear:beta",
+    "durum": "wear:beta",
+    "vc": [
+     45
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "wear",
+    "track": "wear:close release",
+    "durum": "wear:close release",
+    "vc": [
+     45
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "5 (1.0)",
+    "platform": "wear",
+    "track": "wear:for5",
+    "durum": "wear:for5",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
+     "Özellikler:",
+     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
+     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
+     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
+     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
+     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
+     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     45
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     45
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "20 (1.0)",
+    "platform": "wear",
+    "track": "wear:track1",
+    "durum": "wear:track1",
+    "vc": [
+     20
+    ],
+    "notlar": [
+     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
+     "Özellikler:",
+     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
+     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
+     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
+     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
+     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
+     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "4 (1.0)",
+    "platform": "wear",
+    "track": "wear:tstt",
+    "durum": "wear:tstt",
+    "vc": [
+     4
+    ],
+    "notlar": [
+     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
+     "Özellikler:",
+     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
+     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
+     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
+     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
+     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
+     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "orbix-roulette": [
+   {
+    "surum": "1.2",
+    "platform": "ios",
+    "tarih": "2026-03-12T11:12:57-07:00",
+    "durum": "reddedildi",
+    "notlar": [
+     "Welcome to Orbix Roulette!",
+     "Spin the roulette wheel right on your Apple Watch. Tap the screen or turn the Digital Crown to play. Haptic feedback, sound effects, and spin history included."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2025-12-07T03:39:30-08:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "31 (1.2)",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     31
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "5 (1.0)",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Launch of the most realistic roulette game for your phone and Wear OS!",
+     "Tap or Turn control.",
+     "Realistic physics."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "31 (1.2)",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     31
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "31 (1.2)",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     31
+    ],
+    "notlar": [],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "30 (1.2)",
+    "platform": "wear",
+    "track": "wear:closed wearos",
+    "durum": "wear:closed wearos",
+    "vc": [
+     30
+    ],
+    "notlar": [
+     "Launch of the most realistic roulette game for Wear OS!",
+     "Tap or Turn control.",
+     "Realistic physics."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "30 (1.2)",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     30
+    ],
+    "notlar": [
+     "Launch of the most realistic roulette game for Wear OS!",
+     "Tap or Turn control.",
+     "Realistic physics."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "30 (1.2)",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     30
+    ],
+    "notlar": [
+     "Launch of the most realistic roulette game for Wear OS!",
+     "Tap or Turn control.",
+     "Realistic physics."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "tennis-padel": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-10-06T09:33:20-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Version 2.0, our biggest update yet:",
+     "Live score on iPhone and Apple Watch, synced, and two phones on one match",
+     "Live Activity and watch complication",
+     "Changeover and set break timers with real tennis and padel rules",
+     "Detailed stats with serve stats, and a richer logbook",
+     "Leagues: worldwide ranking, local leagues, invite friends",
+     "Community feed with @usernames, follow and notifications",
+     "Share cards, Story and QR, courts map and voice umpire"
+    ]
+   },
+   {
+    "surum": "1.8",
+    "platform": "ios",
+    "tarih": "2026-06-22T15:21:08-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "IMPROVEMENTS",
+     "Bluetooth speakers now connect instantly — no more delay",
+     "before the first score announcement",
+     "Story & Send Match now available to free users by watching",
+     "a short ad",
+     "Send to Apple Watch also unlocked via ad for free users",
+     "\"Restore Original Purchase\" button added to Profile —",
+     "previously paid users can verify their purchase manually",
+     "Lifetime Pro now activates immediately on first launch",
+     "after updating (no delay)",
+     "Fixed: users who originally purchased versions 1.4.1,",
+     "1.5.1 or 1.6.1 now correctly receive Lifetime Pro",
+     "BUG FIXES",
+     "Resolved an issue where match history could be lost",
+     "after updating the app",
+     "Pro status badge now appears correctly without requiring",
+     "an app restart"
+    ]
+   },
+   {
+    "surum": "1.7.0",
+    "platform": "ios",
+    "tarih": "2026-06-10T11:32:37-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Big update! Tennis Padel Score Keeper is now FREE.",
+     "Thank you for your support — if you previously purchased the app,",
+     "you've been automatically upgraded to Lifetime Pro at no extra cost.",
+     "Welcome screen will confirm your status on first launch.",
+     "NEW",
+     "All-Sports Pass: one subscription covers Tennis, Pickleball & Volleyball",
+     "Watch ads to earn extra free matches",
+     "Quota badge in Logbook — always see how many matches you have left",
+     "Bonus match notification on Apple Watch when a reward is earned",
+     "IMPROVEMENTS",
+     "First Serve: tap the dice  to randomly pick who serves",
+     "Type an opponent name → save to your list with one tap",
+     "Your profile name now syncs to Apple Watch automatically",
+     "VICTORY shown in green, Ended Early shown in gray",
+     "Apple Health card opens the Health app directly",
+     "iPad layout fixes",
+     "Existing paid users: your Lifetime Pro is already active — no action needed."
+    ]
+   },
+   {
+    "surum": "1.6.1",
+    "platform": "ios",
+    "tarih": "2026-03-14T01:19:51-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "v1.6 — The Ultimate Padel & Tennis Update: Doubles, H2H & Deep Link Sharing!",
+     "We’ve been working hard based on your amazing feedback. Here is what’s new in v1.6:",
+     "Match Import via Link: You can now share a match result with your opponent via a simple link. When they tap it, the match opens directly in their app, and the score/result automatically flips to their perspective!",
+     "Full Doubles Mode: You can now input 4 player names for Padel and Doubles Tennis. The app handles the automatic serve rotation and the Watch will announce exactly whose turn it is to serve.",
+     "iPhone Match Setup: Don't want to fiddle with your watch before a match? Configure everything (game type, players, deuce rules) on your iPhone and tap \"Send to Watch\" to sync instantly.",
+     "Head-to-Head Tracking: Save your regular opponents and filter your logbook to see your lifetime win/loss record against them.",
+     "Logbook Tags: Match formats (Bo3, 1 Set, Training) are now displayed as clean badges right in your match history.",
+     "UI Polish: Cleaner share cards for Practice sessions and overall layout improvements.",
+     "Enjoy your matches, and keep the feedback coming!"
+    ]
+   },
+   {
+    "surum": "1.5.1",
+    "platform": "ios",
+    "tarih": "2026-03-12T16:08:26-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Practice Mode: A new dedicated mode for training sessions — just start and let the watch track your workout stats without keeping score",
+     "Stability improvements and performance optimizations"
+    ]
+   },
+   {
+    "surum": "1.4.1",
+    "platform": "ios",
+    "tarih": "2026-01-24T13:51:21-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "Hotfix & Improvements:",
+     "Fixed: Solved a bug where tie-break scores were displayed as 6-6 instead of 7-6.",
+     "Fixed: Resolved an issue with adding photos to match results.",
+     "Fixed: Serve indicators now stay visible during \"Game Point\" alerts on Apple Watch.",
+     "New: Academy Tab! Added a complete guide for Rules, Tactics, and App Features.",
+     "Improved: Share Activity cards now support better layouts for match details.",
+     "Thank you for your feedback! Keep them coming."
+    ]
+   },
+   {
+    "surum": "1.4",
+    "platform": "ios",
+    "tarih": "2026-01-19T10:45:06-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "This update brings a highly requested feature and critical fixes based on your feedback!",
+     "NEW: Share Your Victory",
+     "Turn your match results into professional scorecards instantly!",
+     "3 Stunning Styles: Choose between \"Modern\" (Photo/Gradient), \"Classic Court\" (Real textures), or \"Sticker\" (Transparent overlay).",
+     "Instagram Ready: Perfectly sized for Stories.",
+     "Rich Stats: Show off your detailed set scores, total points won, and match duration.",
+     "CRITICAL FIXES:",
+     "watchOS 10 Support: We heard you! The app requirement has been lowered to watchOS 10.0. It now works on Apple Watch Series 4, 5, SE, and newer models.",
+     "Super Tie-Break Logic: Fixed a bug where the 3rd set wouldn't correctly switch to a 10-point tie-break if the 2nd set ended in a standard tie-break.",
+     "Summary Screen: Fixed an issue where the final score appeared as \"0-0\" games instead of points in Super Tie-Break mode.",
+     "UI Polish: Added clearer labels for \"Unlimited Mode\" and \"Super Tie-Break\" in the setup screen."
+    ]
+   },
+   {
+    "surum": "1.3",
+    "platform": "ios",
+    "tarih": "2026-01-18T06:25:55-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "HUGE UPDATE v1.3: Super Tie-Break, Star Point & Health Stats!",
+     "We listened to your feedback on Reddit, and we delivered. This update makes the app truly \"Pro\" level.",
+     "Super Tie-Break Mode: Added by popular request! In Setup, toggle the sets to see \"Bo3 (S.TB)\". This plays a standard Best of 3 match, but the final set becomes a 10-point Tie-Break.",
+     "\"Bronze Point\" (Hybrid 2): We expanded the Deuce rules. You can now choose \"Hyb (2)\" to play 2 full Advantages before switching to Sudden Death (Golden Point).",
+     "Health Stats Dashboard: Swipe LEFT on the score screen to see your live Heart Rate, Active Calories, and Distance.",
+     "Visual Service Aid: Forget \"Deuce\" or \"Ad\" court confusion. We added clear \"LEFT / RIGHT\" visual indicators with arrows at the top of the screen.",
+     "Compact UI Fix: Complete layout redesign for 40mm/41mm Apple Watch users. No more squished text!",
+     "Fixes: Solved the \"Defeat\" bug in Unlimited Mode and improved the \"End Match\" flow."
+    ]
+   },
+   {
+    "surum": "1.2",
+    "platform": "ios",
+    "tarih": "2026-01-16T01:02:32-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "We’ve been working hard to make this the best umpire on your wrist. Here is what’s new:",
+     "Unlimited Games Mode: New in Setup! Toggle past 5 sets to unlock the \"Unlimited\" mode. Perfect for timed tournaments or casual play without set limits.",
+     "\"Hybrid\" (Silver) Point Rule: Added the popular \"1 Advantage, then Golden Point\" rule. Especially designed for Padel players.",
+     "Coin Toss: Can't decide who serves first? Use the new randomizer tool on the setup screen.",
+     "Cloud Sync: Your match history is now safer. We rebuilt the database to support seamless cloud syncing and future leaderboard features.",
+     "New Match Summary: Enjoy a confetti celebration and see \"Total Points Won\" stats directly on your wrist.",
+     "Improved Logbook: Better \"Save\" experience and keyboard layouts for easier note-taking on your iPhone.",
+     "Stability: Fixed database migration issues and improved performance."
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-01-09T08:52:20-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "The biggest update yet! We’ve turned your Apple Watch into a true pro umpire.",
+     "Workout Integration: Matches are now saved as \"Tennis\" or \"Padel\" workouts in Apple Health! This keeps your watch screen active during the match and tracks your heart rate & calories.",
+     "Voice Umpire: Enable \"Voice Score\" in Setup to hear score announcements like a real TV broadcast.",
+     "Smart Sync: Scores now sync instantly to your phone, even if it's locked in your bag.",
+     "Match Duration: Track exactly how long your match lasted.",
+     "Early Finish: Added an option to end matches early if needed.",
+     "Enjoy the game!"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2025-12-23T07:11:05-08:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "155 (1.2.0)",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     155
+    ],
+    "notlar": [
+     "Games shown in the match bar and undo always visible. Set-by-set table with games and tie-break points in match detail, points bar, session stats. Tie-break sets now recorded as 7-6 (n). Voice score announcements, saved opponents on watch, opponent filter in logbook."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.0",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     204
+    ],
+    "notlar": [
+     "Fixes: @username saving after Google sign in, one player name for profile and account, live board text no longer cut off, full screen returns to portrait, tester Pass mode."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.0",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     200
+    ],
+    "notlar": [
+     "2.0.0: yeni tasarım, ortak skor motoru, topluluk, ligler, Pass. İç test."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.0",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     203
+    ],
+    "notlar": [
+     "2.0: new engine and full phone sync."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "156 (1.2.0)",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     156
+    ],
+    "notlar": [
+     "Games shown in the match bar and undo always visible. Set-by-set table with games and tie-break points in match detail, points bar, session stats. Tie-break sets now recorded as 7-6 (n). Voice score announcements, saved opponents on watch, opponent filter in logbook."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.0",
+    "platform": "wear",
+    "track": "wear:wear",
+    "durum": "wear:wear",
+    "vc": [
+     203
+    ],
+    "notlar": [
+     "2.0: new engine and full phone sync."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "o-mu-bu-mu": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-09-17T18:28:52-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Apple Watch uygulaması geldi.",
+     "Günün ikilemi bileğinde: oy ver, herkesin ne seçtiğini gör.",
+     "Hızlı turnuva: Son 4, Son 8 ya da Son 16 — bir dakikada şampiyon.",
+     "Telefondakiyle aynı turnuvalar, aynı kura.",
+     "2.0 baştan yazıldı.",
+     "Yeni tasarım: her şey tek ekranda.",
+     "Gerçek Son 64/32/16/8 turnuvaları, turnuva ağacı ve şampiyonun yolu.",
+     "Arkadaş turnuvası: kodu paylaş, herkes aynı kurayı oynasın, şampiyonlar yan yana.",
+     "Kendi turnuvan: fotoğraflarını ekle, bağlantıyla paylaş.",
+     "İsteğe bağlı Apple / Google girişi.",
+     "Günün ikilemi, seri sayacı, İngilizce arayüz."
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-06-12T15:10:21-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Yeni özellikler ve iyileştirmeler eklendi."
+    ]
+   },
+   {
+    "surum": "1.0.1",
+    "platform": "ios",
+    "tarih": "2025-08-17T12:55:33-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Kendi Turnuvanı oluşturup paylaşabileceğin yeni mod",
+     "Tam ekran görsel önizleme",
+     "Verilen oy sonrası yüzde barı",
+     "Karanlık mod iyileştirmeleri ve Hata düzeltmeleri"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2025-01-07T15:04:46-08:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "2.0",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     23
+    ],
+    "notlar": [
+     "Baştan yazıldı. Yeni ana ekran, Son 8/16/32/64 eleme turnuvaları ve yeni \"Kazanan kalır\" modu. Arkadaşlarınla aynı kurayı oyna: QR ya da bağlantı paylaş, şampiyonları karşılaştır. Kendi turnuvanı kur, fotoğraflarını ekle. Her fotoğrafı büyüt. Günün ikilemi ve turnuvası. Reklamları kaldır ya da Pro ile sınırsız turnuva. Türkçe ve İngilizce arayüz. Daha hızlı, daha hafif."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "8 (1.0.1)",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     8
+    ],
+    "notlar": [
+     "O mu Bu mu? Harika bir seçim app'i"
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "22 (2.0)",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     22
+    ],
+    "notlar": [
+     "Baştan yazıldı. Yeni ana ekran, Son 8/16/32/64 eleme turnuvaları ve yeni \"Kazanan kalır\" modu. Arkadaşlarınla aynı kurayı oyna: QR ya da bağlantı paylaş, şampiyonları karşılaştır. Kendi turnuvanı kur, fotoğraflarını ekle. Her fotoğrafı büyüt. Günün ikilemi ve turnuvası. Reklamları kaldır ya da Pro ile sınırsız turnuva. Türkçe ve İngilizce arayüz. Daha hızlı, daha hafif."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     26
+    ],
+    "notlar": [
+     "Turnuva bitince artık herkesin ne seçtiğini görüyorsun: bu turnuvada en çok şampiyon olan seçenekler ve senin şampiyonunun oranı. İkilemde oy verince çoğunlukta mısın azınlıkta mısın yazıyor, serin de görünüyor. Şampiyonu paylaşmak için fotoğraflı kart geldi. Bir de bildirim: günün ikilemi ve yeni turnuvalar için, istersen."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0 (1028)",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     1028
+    ],
+    "notlar": [
+     "Wear OS uygulaması. Günün ikilemine bileğinden oy ver, Son 4/8/16 turnuvayı bir dakikada bitir. Telefonla aynı kura, aynı katalog. Bu sürümde: büyük yazı tipi seçildiğinde hiçbir yazı kesilmiyor, yuvarlak ekran yerleşimi düzeltildi, listelerde kaydırma çubuğu var."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0 (1028)",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     1028
+    ],
+    "notlar": [
+     "Wear OS uygulaması. Günün ikilemine bileğinden oy ver, Son 4/8/16 turnuvayı bir dakikada bitir. Telefonla aynı kura, aynı katalog. Bu sürümde: büyük yazı tipi seçildiğinde hiçbir yazı kesilmiyor, yuvarlak ekran yerleşimi düzeltildi, listelerde kaydırma çubuğu var."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "matchday": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-09-28T11:00:59-07:00",
+    "durum": "reddedildi",
+    "notlar": []
+   },
+   {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     8
+    ],
+    "notlar": [
+     "Davet edilenler hemen kadroda görünüyor, tik geri alınabiliyor, oyuncu menüsüyle kaptan yap ve kadrodan çıkar. Haftaya tekrarla ile kadro ve takım seçimi. Oyuncular sonucu organizatöre onaya gönderebiliyor. Açık tema, yeni ana sayfa ve Maçlar sekmesi."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     8
+    ],
+    "notlar": [
+     "Davet edilenler hemen kadroda görünüyor, tik geri alınabiliyor, oyuncu menüsüyle kaptan yap ve kadrodan çıkar. Haftaya tekrarla ile kadro ve takım seçimi. Oyuncular sonucu organizatöre onaya gönderebiliyor. Açık tema, yeni ana sayfa ve Maçlar sekmesi."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "daily-whisper": [
+   {
+    "surum": "2.1.1",
+    "platform": "ios",
+    "tarih": "2026-10-12T02:46:07-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Hikayelerin ve seslerin artık daha güvenli ve kararlı geliyor. Küçük düzeltmeler."
+    ]
+   },
+   {
+    "surum": "2.1",
+    "platform": "ios",
+    "tarih": "2026-10-03T01:59:25-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Yepyeni bir görünüm: sakin krem sayfalar, fotoğraflar ve burcuna özel çizilmiş kart.",
+     "Hikayeni oku ya da dinle; ekran kilitliyken de çalmaya devam ediyor",
+     "Olumlamaları doğrudan Instagram Hikayesi olarak paylaş",
+     "Profiline kendi fotoğrafını ekle",
+     "Widget eklemek için adım adım rehber",
+     "Daily Whisper artık 24 dilde",
+     "Birçok küçük iyileştirme"
+    ]
+   },
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-09-26T07:14:15-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Daily Whisper yenilendi. Seni tanıyan bir ses her gün sana kişisel bir hikaye yazıp okuyor. İstediğin konuda hikaye iste, şükran serisi tut, Vision Board'unu kur. İlk uygulamayı satın aldıysan buradaki her şey senin, ücretsiz, her zaman."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-01-14T14:35:17-08:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "Yepyeni bir görünüm: sakin krem sayfalar, fotoğraflar ve burcuna özel çizilmiş kart.",
+     "Hikayeni oku ya da dinle; ekran kilitliyken de çalmaya devam ediyor",
+     "Olumlamaları doğrudan Instagram Hikayesi olarak paylaş",
+     "Profiline kendi fotoğrafını ekle",
+     "Widget eklemek için adım adım rehber",
+     "Daily Whisper artık 24 dilde",
+     "Birçok küçük iyileştirme"
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     12
+    ],
+    "notlar": [
+     "Sunucular yoğunken hikayeler daha hızlı yazılıyor. Küçük düzeltmeler."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "AI özellikleri artık Bam Studio sunucusu üzerinden çalışıyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "nubi": [
+   {
+    "surum": "1.0.1",
+    "platform": "ios",
+    "tarih": "2026-10-01T07:53:24-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Nubi artık on dil konuşuyor: Japonca, Korece, İtalyanca ve Çince eklendi, dilediğini uygulama içinde Ayarlar'dan seçebilirsin. Satın almalar artık RevenueCat üzerinden, daha akıcı. Küçük düzeltmeler ve iyileştirmeler."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-09-25T06:14:58-07:00",
+    "durum": "yayında",
+    "notlar": []
+   },
+   {
+    "surum": "1.0",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     9
+    ],
+    "notlar": [
+     "Düşen atıştırmalıklar artık düzgün iniyor, durulamada duş gerçekten akıyor ve coin paketine dokununca satın alma açılıyor. Yıkama daha hızlı, bebeğini köpüğe gömmüyor. Nubi artık İspanyolca, Almanca, Fransızca ve Portekizce de konuşuyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     9
+    ],
+    "notlar": [
+     "Düşen atıştırmalıklar artık düzgün iniyor, durulamada duş gerçekten akıyor ve coin paketine dokununca satın alma açılıyor. Yıkama daha hızlı, bebeğini köpüğe gömmüyor. Nubi artık İspanyolca, Almanca, Fransızca ve Portekizce de konuşuyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     2
+    ],
+    "notlar": [
+     "First internal build: full Nubi virtual pet with coins, tasks, 6 mini games, shop, widgets."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0",
+    "platform": "wear",
+    "track": "wear:wear-alpha",
+    "durum": "wear:wear-alpha",
+    "vc": [
+     1009
+    ],
+    "notlar": [
+     "Saat uygulaması artık İngilizce ve Türkçenin yanında İspanyolca, Almanca, Fransızca ve Portekizce de konuşuyor; saatinin kendi dilini izliyor."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "rally-badminton": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-10-06T09:33:28-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Rally: Badminton 2.0 en büyük güncellememiz.",
+     "iPhone ve Apple Watch arasında canlı senkron skor, iki telefonla tek maç",
+     "Canlı Etkinlik, Dynamic Island ve saat komplikasyonu",
+     "Servis karesi, çiftlerde rotasyon ve 11'de taraf değiştirme",
+     "Servis ve karşılama dahil detaylı istatistik",
+     "Ligler, dünya sıralaması, topluluk akışı ve @kullanıcı adları",
+     "Paylaşım kartları, Story ve QR, kort haritası, sesli hakem",
+     "Uygulamada 8 dil ve yeni tasarım"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-17T07:29:51-07:00",
+    "durum": "yayında",
+    "notlar": []
+   }
+  ],
+  "rally-table-tennis": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-10-06T09:33:32-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Rally 2.0 şimdiye kadarki en büyük güncellememiz.",
+     "iPhone ve Apple Watch'ta hep eşit canlı skor ya da iki telefonda tek maç",
+     "Canlı Etkinlik, Dynamic Island ve saat komplikasyonu",
+     "Gerçek ITTF kurallarıyla taraf değiştirme ve 60 saniyelik dinlenme sayacı",
+     "Servis ve karşılama dahil ayrıntılı istatistik",
+     "Ligler: dünya sıralama ligi, yerel ligler, arkadaş daveti",
+     "@kullanıcıadı ile topluluk akışı, takip ve bildirimler",
+     "Yeni paylaşım kartları, Hikaye ve QR",
+     "Masa ve kulüp haritası, sesli hakem, 8 dilde uygulama"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-17T07:40:50-07:00",
+    "durum": "yayında",
+    "notlar": []
+   }
+  ],
+  "pickleball": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-10-06T09:33:09-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Score Keeper for Pickleball 2.0, our biggest update:",
+     "Live score on iPhone and Apple Watch, always in sync",
+     "Two phones, one match",
+     "Live Activity, Dynamic Island and watch complication",
+     "Changeover and rest timers with real pickleball rules",
+     "Detailed stats with serve and return",
+     "Worldwide ranking league, local leagues, invite friends",
+     "Community feed with @usernames, follow and notifications",
+     "New share cards, Story and QR",
+     "Courts map and voice umpire",
+     "8 app languages"
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-06-07T15:23:26-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Watch ↔ iPhone Sync Improvements",
+     "Fixed an issue where free match quota could show different numbers on iPhone and Apple Watch. Both devices now stay perfectly in sync in real time — including after purchases and app restarts.",
+     "Free Match + Ad Reward",
+     "Reached your free match limit? You can now watch a short ad in the Logbook to earn +1 free match — no purchase required.",
+     "Apple Health Integration",
+     "Your workout data (heart rate, calories, distance) is now clearly displayed throughout the app — in match details, setup screen, and your profile.",
+     "Logbook Improvements",
+     "Matches ended early now show \"Ended Early\" instead of \"Defeat\""
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-03-14T13:51:43-07:00",
+    "durum": "yayında",
+    "notlar": []
+   }
+  ],
+  "volleyball": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-10-06T09:33:25-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Version 2.0, notre plus grande mise à jour :",
+     "Score en direct sur iPhone et Apple Watch, synchronisé",
+     "Deux iPhone suivent le même match",
+     "Activité en direct, Dynamic Island et complication",
+     "Minuteur de pause et changement de côté à 8 au set décisif",
+     "Stats détaillées avec service et side out",
+     "Ligues : classement mondial, ligues locales, invitations",
+     "Communauté avec @pseudo, abonnements et notifications",
+     "Nouvelles cartes de partage, Story et QR",
+     "Carte des terrains, arbitre vocal et 8 langues"
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-06-07T14:29:41-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Free Match + Ad Reward",
+     "Reached your free match limit? You can now watch a short ad to earn an extra match — no purchase required.",
+     "Watch ↔ iPhone Sync Improvements",
+     "Fixed an issue where free match quota could show different numbers on iPhone and Apple Watch. Both devices now stay perfectly in sync in real time.",
+     "Logbook Improvements",
+     "Matches ended early now show \"Ended Early\" instead of \"Defeat\"",
+     "Victory results now displayed in green for clearer win/loss distinction",
+     "Fixed text overlap on iPad displays",
+     "Privacy Policy and Terms of Use links are now available directly in the subscription screen."
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-03-15T06:34:04-07:00",
+    "durum": "yayında",
+    "notlar": []
+   }
+  ],
+  "yonca": [
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2026-09-16T03:37:19-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Çekiliş yap: isimleri yapıştır, kazananı ve yedekleri çek, sonucu kartla paylaş",
+     "Tekrar eden isimler tek sayılır; Instagram yorumu, WhatsApp listesi, Excel sütunu olduğu gibi yapıştırılır",
+     "Yonca Pro: sınırsız çekiliş yapma ve takip — aylık, yıllık (7 gün ücretsiz) ve ömür boyu"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-08-17T06:07:02-07:00",
+    "durum": "yayında",
+    "notlar": []
+   }
+  ],
+  "kit-qr": [
+   {
+    "surum": "2.0",
+    "platform": "ios",
+    "tarih": "2026-09-25T01:45:15-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Kit 2.0 est une toute nouvelle app.",
+     "Portefeuille: cartes de fidélité et billets au même endroit. Photographie une carte, Kit lit le code-barres ou le numéro.",
+     "Billets: concerts, matchs, vols. Partage une capture d'écran ou un PDF vers Kit et montre-le à l'entrée.",
+     "Infos produit et livre depuis le code-barres: nutrition, allergènes, additifs, auteur, éditeur.",
+     "Studio de design: couleurs, formes, emoji, ton logo. Les codes enregistrés gardent leur design et restent modifiables.",
+     "Apple Watch: cartes, billets et codes personnalisés au poignet.",
+     "Contrôle de sécurité des liens, menus de restaurant triés, codes de paiement et maison connectée.",
+     "28 langues."
+    ]
+   },
+   {
+    "surum": "1.2",
+    "platform": "ios",
+    "tarih": "2026-01-07T06:37:30-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "Bu sürümde Kit'i baştan aşağı yeniledik ve QR deneyiminizi bir üst seviyeye taşıyacak özellikler ekledik:",
+     "Apple Watch Desteği: Artık telefonunuzu çıkarmanıza gerek yok! Sık kullandığınız QR kodları (WiFi, Kartvizit vb.) saatinize gönderin ve bileğinizden paylaşın.",
+     "Tasarım Stüdyosu (Pro): Standart karelere elveda! QR kodlarınıza logo ekleyin, özel şekiller (Daire, Badem, Yumuşak Köşe) kullanın ve markanıza uygun renkleri seçin.",
+     "Akıllı Tarayıcı: Tarayıcımız artık çok daha zeki. Okutulan QR'ın içeriğini (WiFi, Etkinlik, Kişi) otomatik tanır ve \"Şifreyi Kopyala\", \"Rehbere Ekle\", \"Takvime Kaydet\" gibi akıllı aksiyonlar sunar.",
+     "Gelişmiş Geçmiş: Taradığınız ve oluşturduğunuz kodlar artık daha detaylı ve düzenli.",
+     "Performans İyileştirmeleri: Daha hızlı açılış, daha akıcı geçişler ve hata düzeltmeleri.",
+     "Kit'i kullandığınız için teşekkürler! Yorumlarınız bizim için çok değerli."
+    ]
+   },
+   {
+    "surum": "1.1",
+    "platform": "ios",
+    "tarih": "2023-05-26T03:50:43-07:00",
+    "durum": "yayında",
+    "notlar": [
+     "Added new features and bug fixes"
+    ]
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2023-03-11T14:30:09-08:00",
+    "durum": "eski",
+    "notlar": []
+   }
+  ],
+  "loomi": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-01-18T23:23:58-08:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   }
+  ],
+  "kirk-hafta": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-09-03T00:17:40-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   }
+  ],
+  "viral-sounds": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2024-02-18T15:06:04-08:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   },
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2024-02-18T15:06:04-08:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   }
+  ],
+  "nika": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-10-05T04:05:52-07:00",
+    "durum": "incelemede",
+    "notlar": []
+   },
+   {
+    "surum": "1.0 (5)",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "İlk kapalı test sürümü: plan, bütçe, davetliler, davetiye, masa planı, misafir albümleri, widget."
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     5
+    ],
+    "notlar": [
+     "Kod kullan, yeni fiyatlar"
+    ],
+    "tarih": null,
+    "tarihKaynak": "ilk görülme"
+   }
+  ],
+  "iz": [
+   {
+    "surum": "1.0",
+    "platform": "ios",
+    "tarih": "2026-10-12T15:25:54-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   }
+  ]
+ }
+}

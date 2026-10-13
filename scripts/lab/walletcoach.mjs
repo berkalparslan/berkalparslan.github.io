@@ -91,8 +91,18 @@ for (const [ad, gun] of [["dau", 1], ["wau", 7], ["mau", 28]]) {
 }
 const surumler = await rapor({ dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
   dimensions: d("platform", "appVersion"), metrics: m("activeUsers") });
-const ulkeler = await rapor({ dateRanges: aralik, dimensions: d("country"), metrics: m("totalUsers") });
+/* countryId ISO-2: panel dünya haritası onu boyar. */
+const ulkeler = await rapor({ dateRanges: aralik, dimensions: d("country", "countryId"), metrics: m("totalUsers", "newUsers") });
 const diller = await rapor({ dateRanges: aralik, dimensions: d("language"), metrics: m("totalUsers") });
+
+/* Sürüm bazlı analiz: gün x sürüm aktif/yeni kullanıcı ve sürüm başına olaylar.
+   "Bir sürümden sonra ne değişti" sorusunun Analytics tarafı. */
+const surumGunluk = (await rapor({ dateRanges: aralik, dimensions: d("date", "platform", "appVersion"),
+  metrics: m("activeUsers", "newUsers", "sessions", "userEngagementDuration") }))
+  .map(r => ({ t: tarih(r.date), p: r.platform.toLowerCase(), s: r.appVersion, au: r.activeUsers, nu: r.newUsers, os: r.sessions, sure: r.userEngagementDuration }));
+const olaySurum = (await rapor({ dateRanges: aralik, dimensions: d("eventName", "platform", "appVersion"),
+  metrics: m("eventCount", "totalUsers") }))
+  .map(r => ({ o: r.eventName, p: r.platform.toLowerCase(), s: r.appVersion, n: r.eventCount, k: r.totalUsers }));
 
 /* Platform karşılaştırması: dönemin tamamı. */
 const platformlar = await rapor({ dateRanges: aralik, dimensions: d("platform"),
@@ -147,7 +157,7 @@ async function gemini() {
 }
 
 const paket = { uretim: new Date().toISOString(), gun: GUN, toplam, aktif, gunluk, olaylar, olayKisi,
-  ekranlar, surumler, ulkeler, diller, platformlar, olayPlatform, kaynaklar, cihazlar, isletim, saatler, gemini: await gemini(),
+  ekranlar, surumler, surumGunluk, olaySurum, ulkeler, diller, platformlar, olayPlatform, kaynaklar, cihazlar, isletim, saatler, gemini: await gemini(),
   bildirimler: (() => { try { return JSON.parse(readFileSync(join(homedir(), "dev", "vault", "metrikler", "veri", "wc-bildirimler.json"), "utf8")); } catch { return []; } })(),
   kohort: kohort.map(r => ({ ilk: tarih(r.firstSessionDate), t: tarih(r.date), k: r.activeUsers })) };
 

@@ -6,18 +6,53 @@ diğerinde de aynı işi yapar. Standart: vault `konular/panel-standardi.md`.
 Referans panel: `lab/leafbook/`.
 
 ```html
-<link rel="stylesheet" href="/lab/assets/panel.css?v=5">
+<link rel="stylesheet" href="/lab/assets/panel.css?v=6">
 ```
 ```js
-import { panelKabuk } from "/lab/assets/shell.js?v=1";
+import { panelKabuk } from "/lab/assets/shell.js?v=2";
 import { kart, tiles, veriTablo, dagilimTablo, sayi, sure, tarih, tarihTam, tarihHucre,
-         yuzde, para, kullaniciCekmecesi } from "/lab/assets/panel.js?v=5";
-import { pushSayfasi, gonderilenlerSayfasi, kisiyeBildirim } from "/lab/assets/push.js?v=2";
+         yuzde, para, zaman, ms, donem, farkYazi, istGun, istGunBasi,
+         surumListesi, surumSuz, surumNotlari, surumNotlariKutu, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
+import { gunlukCubuk, cizgi, huni, yatayCubuk, saatIsi, saatMatrisi, kivilcim, gunleriDoldur } from "/lab/assets/grafik.js?v=1";
+import { pushSayfasi, gonderilenlerSayfasi, kisiyeBildirim, onayKarti } from "/lab/assets/push.js?v=3";
 import { dunyaHaritasi } from "/lab/assets/harita.js?v=1";
 ```
 
 Bir dosya değişince `?v=` numarasını artır, onu içe aktaran her yerde de
-(`shell.js` ve `push.js` `panel.js?v=5`'i içe aktarır).
+(`shell.js` ve `push.js` `panel.js?v=6`'yı içe aktarır).
+
+## 13 Ekim eklemeleri
+
+- **Aralık**: `araliklar: [1, 7, 28, 90, 0]` (0 = Tümü). Aralık değişince
+  varsayılan olarak yalnız yeniden çizilir; veri bir kez yüklenir, hesap
+  istemcide `donem(kabuk.aralik)` ile (`{ bas, son, oncekiBas, oncekiSon }`,
+  Türkiye günü sınırlı). Sunucudan aralığa göre çekmek için `aralikYukler: true`.
+  Seçim panel başına `localStorage`'da kalır.
+- **Önceki döneme göre**: `tiles([[ad, deger, alt, { simdi, once, ters }]])`
+  ▲▼ yüzdesi yazar (`ters`: düşüş iyi, ör. hata). 4. eleman `kivilcim([...])` da olabilir.
+- **Sürüm filtresi**: `surumler: () => surumListesi(veri.installs)` üst satıra
+  Sürüm seçici koyar; seçili sürüm `kabuk.surum`. Kurulum bazlı sayılar
+  `surumSuz(liste, kabuk.surum)` ile süzülür.
+- **Sürüm notları**: `surumNotu: "<slug>"` (ya da dizi) üst satıra "Sürüm notları"
+  çekmecesini koyar. Köşe kartı: `surumNotlariKutu(await surumNotlari(slug), { limit: 4 })`.
+  Veri `/lab/assets/surumler.json`, her sabah `scripts/lab/surumler.mjs`
+  (App Store "Yenilikler" + Play sürüm notları; mağazada zaten açık metin).
+  Ana panelde "Sürümler" sekmesi aynı dosyadan, yayından önceki/sonraki 7 günün
+  indirme ve satın almasıyla.
+- **Tema**: `tema: { acik: { accent, onAccent, bg, card, side, line, ink, soft }, koyu: {...}, sabit: "light" }`
+  uygulamanın renkleri; `sabit` ilk açılış temasını sabitler (Tema düğmesi yine çalışır).
+- **Grafikler (`grafik.js`)**: `gunlukCubuk` (tek seri ya da yığılmış), `cizgi`
+  (çok seri, imleç), `huni`, `yatayCubuk`, `saatIsi` (+`saatMatrisi`, Türkiye saati),
+  `kivilcim`, `gunleriDoldur`. Hepsi SVG, üzerine gelince değer, renkler
+  `--accent` ve `--s1..--s8` (dataviz varsayılan paleti, açık/koyu ayrı seçilmiş).
+  Kutu önce DOM'a eklenmeli (genişlik ölçülür).
+- `.izgara2`, `.izgara3`: kartları yan yana diz.
+- **pushSayfasi seçenekleri**: `konular: false` (uygulama konuya abone değil, yalnız Kitle),
+  `zamanlama: false` (Worker'da cron yok), `pro: false` (satın alma yok, Pro süzgeci gizli),
+  `dilAlani: "appLang"` (kurulumun dil alanı `language` değilse), `saglayici: "APNs"`
+  (doğrulama metninde FCM yerine). Worker `/health` cevabında `note` verirse
+  "hazır değil" kutusunda o yazar.
+- `zaman()` metinde yalnız `2026-10-10…` biçimini tarih sayar ("1.3" sürümü tarih değil).
 
 ## Kabuk: `shell.js`
 

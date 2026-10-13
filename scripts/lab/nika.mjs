@@ -12,9 +12,10 @@
  * Yazma: D1 HTTP API (aynı token, d1:write). Panel aynı belgeyi PUT /v1/admin/infra
  * ile de alabilir; burada oturum gerekmesin diye doğrudan D1'e yazılır.
  * Token analytics iznini taşımıyorsa bunu yazar, panel tablo sayılarıyla yetinir.
+ * Ayrıca mağaza satış özetini (vault/metrikler/veri) admin_kv 'sales' olarak yazar.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
@@ -146,13 +147,45 @@ if (hatalar.length) console.log("nika: analytics hataları (token izni?): " + ha
 
 if (DRY) { console.log(JSON.stringify(ozet, null, 2).slice(0, 3000)); process.exit(0); }
 
-const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT}/d1/database/${DB_ID}/query`, {
-  method: "POST", headers: { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" },
-  body: JSON.stringify({
-    sql: "INSERT INTO admin_kv (key, value, updated_at) VALUES ('infra_cf', ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at",
-    params: [JSON.stringify(ozet), new Date().toISOString()],
-  }),
-});
-const j = await r.json().catch(() => ({}));
-if (!r.ok || !j.success) { console.error(`nika: D1'e yazılamadı ${r.status} ${JSON.stringify(j.errors || j).slice(0, 300)}`); process.exit(1); }
+async function kvYaz(anahtar, deger) {
+  const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT}/d1/database/${DB_ID}/query`, {
+    method: "POST", headers: { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sql: "INSERT INTO admin_kv (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at",
+      params: [anahtar, JSON.stringify(deger), new Date().toISOString()],
+    }),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.success) throw new Error(`${r.status} ${JSON.stringify(j.errors || j).slice(0, 300)}`);
+}
+
+try { await kvYaz("infra_cf", ozet); }
+catch (e) { console.error(`nika: D1'e yazılamadı ${e.message}`); process.exit(1); }
 console.log("nika: altyapı özeti D1'e yazıldı (admin_kv infra_cf)");
+
+/* Mağaza satışı: panel-yaz.mjs'in Firestore'a yazdığı `panel/sales` belgesinin
+   aynısı, Nika'da D1 admin_kv 'sales'. Kaynak vault/metrikler/veri (collect.mjs).
+   Nika apps.mjs'te yoksa günlük dosyalarda `apps.nika` olmaz; belge boş yazılır
+   ve panel satın almaları sunucunun kendi kaydından (entitlements) liste
+   fiyatıyla tahmin eder. */
+const VERI = join(homedir(), "dev", "vault", "metrikler", "veri");
+const sinir = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
+const dosyalar = existsSync(VERI) ? readdirSync(VERI).filter(f => /^ios-\d{4}-\d{2}-\d{2}\.json$/.test(f) && f.slice(4, 14) >= sinir).sort() : [];
+const androidKova = (() => { try { return JSON.parse(readFileSync(join(VERI, "android-kova.json"), "utf8")); } catch { return { gunluk: {} }; } })();
+const satirlar = [], ulkeler = {}, paralar = {};
+for (const f of dosyalar) {
+  let g; try { g = JSON.parse(readFileSync(join(VERI, f), "utf8")); } catch { continue; }
+  const tarih = f.slice(4, 14), a = g.apps?.nika, p = androidKova.gunluk?.nika?.[tarih];
+  if (!a && !p) continue;
+  satirlar.push({ tarih, indirme: (a?.indirme || 0) + (p?.indirme || 0), guncelleme: (a?.guncelleme || 0) + (p?.guncelleme || 0), iap: (a?.iap || 0) + (p?.iap || 0), gelir: a?.gelir || {} });
+  for (const [u, n] of Object.entries(a?.ulkeler || {})) ulkeler[u] = (ulkeler[u] || 0) + n;
+}
+for (const s of satirlar) for (const [kod, t] of Object.entries(s.gelir)) paralar[kod] = (paralar[kod] || 0) + Number(t);
+const satisBelge = {
+  uretim: new Date().toISOString(), kaynak: "vault/metrikler/veri", gun: satirlar.length,
+  indirme: satirlar.reduce((x, s) => x + s.indirme, 0), guncelleme: satirlar.reduce((x, s) => x + s.guncelleme, 0),
+  iap: satirlar.reduce((x, s) => x + s.iap, 0), gelir: paralar, ulkeler, gunluk: satirlar.slice(-90),
+  not: satirlar.length ? null : "Nika scripts/lab/apps.mjs'te yok; mağaza raporu eşleşmiyor",
+};
+try { await kvYaz("sales", satisBelge); console.log(`nika: satış özeti yazıldı (${satisBelge.gun} gün, ${satisBelge.indirme} indirme, ${satisBelge.iap} iap)`); }
+catch (e) { console.error(`nika: satış özeti yazılamadı ${e.message}`); }

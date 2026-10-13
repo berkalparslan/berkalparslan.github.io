@@ -19,10 +19,14 @@ import { homedir } from "node:os";
 export const PROJELER = {
   "wallet-coach-87336": "walletcoach",
   "kit-app-a91b5": "daily-whisper",
-  "leafbook-bamtech": "leafbook"
+  "leafbook-bamtech": "leafbook",
+  "tasbih-tally-bamtech": "tasbih-tally",
+  "matchday-bamtech": "matchday",
+  /* Beş spor uygulaması tek projede; kurulumun `app` alanı slug'ı seçer. */
+  "bam-tech-sports": { tennis: "tennis-padel", pickleball: "pickleball", volleyball: "volleyball", badminton: "rally-badminton", tabletennis: "rally-table-tennis" }
 };
 
-const ALANLAR = ["firstSeen", "lastSeen", "platform", "region", "pro", "premium", "tester", "screen"];
+const ALANLAR = ["firstSeen", "lastSeen", "platform", "region", "pro", "premium", "tester", "screen", "appVersion", "app"];
 
 async function firebaseToken() {
   const api = await import("/opt/homebrew/lib/node_modules/firebase-tools/lib/api.js");
@@ -61,9 +65,16 @@ export async function telemetri(log = () => {}) {
   catch (e) { cikti.hatalar.push({ proje: "*", hata: e.message }); log(`  telemetri ✗ ${e.message}`); return cikti; }
 
   const simdi = Date.now(), gun = 864e5;
-  for (const [proje, slug] of Object.entries(PROJELER)) {
+  const isler = [];
+  for (const [proje, h] of Object.entries(PROJELER)) {
+    if (typeof h === "string") { isler.push([proje, h, null]); continue; }
+    for (const [anahtar, slug] of Object.entries(h)) isler.push([proje, slug, anahtar]);
+  }
+  const onbellek = {};
+  for (const [proje, slug, anahtar] of isler) {
     try {
-      const hepsi = await kurulumlar(proje, token);
+      onbellek[proje] ||= await kurulumlar(proje, token);
+      const hepsi = anahtar ? onbellek[proje].filter(k => k.app === anahtar) : onbellek[proje];
       const l = hepsi.filter(k => !k.tester);
       const yas = t => t ? (simdi - Date.parse(t)) / gun : Infinity;
       const o = {
@@ -75,7 +86,7 @@ export async function telemetri(log = () => {}) {
         yeni7: l.filter(k => yas(k.firstSeen) < 7).length,
         yeni30: l.filter(k => yas(k.firstSeen) < 30).length,
         pro: l.filter(k => k.pro || k.premium).length,
-        platform: {}, ulke: {}, gunlukYeni: {}
+        platform: {}, ulke: {}, gunlukYeni: {}, surum: {}
       };
       for (const k of l) {
         const p = (k.platform || "?").toLowerCase();
@@ -83,6 +94,7 @@ export async function telemetri(log = () => {}) {
         const u = /^[A-Z]{2}$/.test(k.region || "") ? k.region : "??";
         const x = o.ulke[u] ||= { toplam: 0, aktif7: 0, aktif30: 0 };
         x.toplam++; if (yas(k.lastSeen) < 7) x.aktif7++; if (yas(k.lastSeen) < 30) x.aktif30++;
+        if (k.appVersion) { const v = o.surum[`${p} ${k.appVersion}`] ||= { toplam: 0, aktif7: 0, pro: 0 }; v.toplam++; if (yas(k.lastSeen) < 7) v.aktif7++; if (k.pro || k.premium) v.pro++; }
         if (k.firstSeen && yas(k.firstSeen) < 90) { const t = k.firstSeen.slice(0, 10); o.gunlukYeni[t] = (o.gunlukYeni[t] || 0) + 1; }
       }
       cikti.apps[slug] = o;

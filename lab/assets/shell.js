@@ -12,10 +12,14 @@
  *       { baslik: "SOSYAL", sayfalar: [...] },
  *       { baslik: "YÖNET",  sayfalar: [...] },
  *     ],
- *     araliklar: [1, 7, 30, 90], aralik: 7,  // ust satirdaki gun dugmeleri (istege bagli)
- *     yukle: async kabuk => {...},           // giristen sonra, Yenile'de ve aralik degisince
+ *     araliklar: [1, 7, 28, 90, 0], aralik: 7, // ust satirdaki gun dugmeleri; 0 = Tumu
+ *     aralikYukler: false,                   // true: aralik degisince yukle() yeniden calisir
+ *     yukle: async kabuk => {...},           // giristen sonra ve Yenile'de
+ *     surumler: () => [{ surum, adet }],     // ust satirda Surum secici (panel.js surumListesi)
+ *     surumNotu: "leafbook",                 // ust satirda "Surum notlari" (surumler.json slug'i ya da dizi)
+ *     tema: { acik: { accent: "#2e9e63", ... }, koyu: {...}, sabit: "light" },  // uygulama renkleri
  *   });
- *   kabuk.app / kabuk.auth / kabuk.kullanici / await kabuk.token() / kabuk.aralik
+ *   kabuk.app / kabuk.auth / kabuk.kullanici / await kabuk.token() / kabuk.aralik / kabuk.surum
  *   kabuk.git("bildirim") / kabuk.ciz() / kabuk.durum("metin") / kabuk.demo
  *
  * Giris yalniz Google ile. Firebase'li panelde Firebase Auth acilir penceresi;
@@ -30,20 +34,25 @@
  * Asil kapi her zaman sunucu tarafi (Firestore kurallari ya da Worker); buradaki
  * kontrol yetkisiz birinin kirik panel yerine acik bir mesaj gormesi icin.
  */
-import { $, el } from "/lab/assets/panel.js?v=5";
+import { $, el, surumNotlari, surumNotlariKutu } from "/lab/assets/panel.js?v=6";
 
 const FB = "https://www.gstatic.com/firebasejs/10.14.1";
 const TEMA = "bamtech-panel-tema";
 const G_IKON = `<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>`;
 
 export async function panelKabuk(cfg) {
-  temaUygula();
+  temaRenkleri(cfg.tema);
+  temaUygula(cfg.tema?.sabit);
+  const ANAHTAR = "bamtech-panel:" + (cfg.anahtar || cfg.ad);
+  const hafiza = (() => { try { return JSON.parse(localStorage.getItem(ANAHTAR) || "{}"); } catch (e) { return {}; } })();
+  const hafizaYaz = () => { try { localStorage.setItem(ANAHTAR, JSON.stringify({ aralik: kabuk.aralik, surum: kabuk.surum })); } catch (e) { } };
   const demo = new URLSearchParams(location.search).has("demo");
   const sayfalar = cfg.gruplar.flatMap(g => g.sayfalar);
   const ilk = cfg.varsayilan || sayfalar[0]?.id;
   const kabuk = {
     demo, app: null, auth: null, kullanici: null, oturum: null,
-    aralik: cfg.aralik || (cfg.araliklar ? cfg.araliklar[1] ?? cfg.araliklar[0] : null),
+    aralik: cfg.araliklar?.includes(hafiza.aralik) ? hafiza.aralik : cfg.aralik ?? (cfg.araliklar ? cfg.araliklar[1] ?? cfg.araliklar[0] : null),
+    surum: hafiza.surum || "",
     sayfa: ilk, icerik: null,
     token: async () => {
       if (kabuk.auth?.currentUser) return kabuk.auth.currentUser.getIdToken();
@@ -97,12 +106,25 @@ export async function panelKabuk(cfg) {
   baslik.id = "baslik";
   ust.append(baslik, el("span", "grow"));
   const aralikB = [];
+  let surumSec = null;
+  if (cfg.surumler) {
+    surumSec = el("select", "surum");
+    surumSec.title = "Sürüme göre süz: kurulum bazlı sayılar seçili sürümdeki kurulumlardan";
+    surumSec.onchange = () => { kabuk.surum = surumSec.value; surumSec.classList.toggle("on", !!kabuk.surum); hafizaYaz(); ciz(); };
+    ust.appendChild(surumSec);
+  }
+  if (cfg.surumNotu) {
+    const b = el("button", "ghost", "Sürüm notları");
+    b.onclick = () => surumCekmecesi();
+    ust.appendChild(b);
+  }
   for (const g of cfg.araliklar || []) {
-    const b = el("button", "ghost range" + (g === kabuk.aralik ? " on" : ""), g === 1 ? "Bugün" : `${g} gün`);
+    const b = el("button", "ghost range" + (g === kabuk.aralik ? " on" : ""), g === 0 ? "Tümü" : g === 1 ? "Bugün" : `${g} gün`);
     b.onclick = () => {
       kabuk.aralik = g;
       aralikB.forEach(x => x.classList.toggle("on", x === b));
-      yenile();
+      hafizaYaz();
+      if (cfg.aralikYukler) yenile(); else ciz();
     };
     aralikB.push(b);
     ust.appendChild(b);
@@ -146,9 +168,41 @@ export async function panelKabuk(cfg) {
     ciz();
   }
 
+  function surumleriDoldur() {
+    if (!surumSec) return;
+    let l = [];
+    try { l = cfg.surumler(kabuk) || []; } catch (e) { }
+    if (kabuk.surum && !l.some(x => String(x.surum) === String(kabuk.surum))) l = [{ surum: kabuk.surum, adet: 0 }, ...l];
+    surumSec.innerHTML = `<option value="">Sürüm: hepsi</option>` + l.map(x => `<option value="${String(x.surum).replace(/"/g, "&quot;")}">${String(x.surum).replace(/</g, "&lt;")}${x.adet != null ? ` (${x.adet})` : ""}</option>`).join("");
+    surumSec.value = kabuk.surum || "";
+    surumSec.classList.toggle("on", !!kabuk.surum);
+  }
+
+  async function surumCekmecesi() {
+    const d = el("div", "drawer"); d.dataset.cekmece = "1";
+    const ic = el("div", "inner");
+    const ustS = el("div", "cek-ust");
+    ustS.appendChild(el("h1", null, "Sürüm notları"));
+    const kp = el("button", "ghost", "Kapat"); ustS.appendChild(kp);
+    ic.append(ustS, el("p", "muted", "Mağazaya giden “Yenilikler” metni, sürüm ve tarihiyle. Kaynak: App Store Connect ve Play, her sabah."));
+    const govde = el("div"); govde.textContent = "Yükleniyor...";
+    ic.appendChild(govde); d.appendChild(ic);
+    const kapat = () => { d.remove(); removeEventListener("keydown", tus); };
+    const tus = e => { if (e.key === "Escape") kapat(); };
+    kp.onclick = kapat; d.onclick = e => { if (e.target === d) kapat(); }; addEventListener("keydown", tus);
+    document.body.appendChild(d);
+    govde.textContent = "";
+    govde.appendChild(surumNotlariKutu(await surumNotlari(cfg.surumNotu), { uygulamaAdi: cfg.uygulamaAdi }));
+  }
+  kabuk.surumCekmecesi = surumCekmecesi;
+
   function ciz() {
+    surumleriDoldur();
+    document.querySelectorAll(".drawer[data-cekmece]").forEach(x => x.remove());
     const id = location.hash.slice(1);
     const s = sayfalar.find(x => x.id === id) || sayfalar.find(x => x.id === ilk);
+    /* Sayfa değişince açık çekmece kapanır (aynı sayfada yeniden çizimde kalır). */
+    if (kabuk.sayfa !== s.id) document.querySelectorAll(".drawer[data-cekmece]").forEach(x => x.remove());
     kabuk.sayfa = s.id;
     yan.querySelectorAll("a[data-p]").forEach(a => a.classList.toggle("on", a.dataset.p === s.id));
     const on = yan.querySelector("a.on");
@@ -237,9 +291,22 @@ export async function panelKabuk(cfg) {
   return kabuk;
 }
 
-function temaUygula() {
+/* Uygulamanin renkleri: panel.css rollerini (--accent, --bg, --side ...) ezer.
+   acik/koyu ayri verilir; sabit "light" ise panel hep acik acilir (Tema
+   dugmesi yine calisir). */
+function temaRenkleri(tema) {
+  if (!tema) return;
+  const satir = o => Object.entries(o || {}).map(([k, v]) => `--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}:${v}`).join(";");
+  const st = document.createElement("style");
+  st.textContent = `:root{${satir(tema.acik)}}` +
+    (tema.koyu ? `:root[data-theme="dark"]{${satir(tema.koyu)}}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){${satir(tema.koyu)}}}` : "");
+  document.head.appendChild(st);
+}
+
+function temaUygula(sabit) {
   let t = null;
   try { t = localStorage.getItem(TEMA); } catch (e) { }
+  if (!t && sabit) t = sabit;
   if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   document.documentElement.setAttribute("data-theme", t);
 }

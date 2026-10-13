@@ -55,7 +55,8 @@ function ozet(slug, gunlukler) {
   const satirlar = [];
   for (const g of gunlukler) {
     const a = g.apps?.[slug];
-    const p = android.gunluk?.[slug]?.[g.tarih];
+    /* android-kova.json: gunluk[gün][slug] */
+    const p = android.gunluk?.[g.tarih]?.[slug];
     if (!a && !p) continue;
     satirlar.push({
       tarih: g.tarih,
@@ -81,6 +82,23 @@ function ozet(slug, gunlukler) {
   };
 }
 
+function birlestir(ozetler) {
+  const gun = {}, gelir = {}, ulkeler = {};
+  for (const o of Object.values(ozetler)) {
+    for (const r of o.gunluk) {
+      const g = gun[r.tarih] ||= { tarih: r.tarih, indirme: 0, guncelleme: 0, iap: 0, gelir: {} };
+      g.indirme += r.indirme; g.guncelleme += r.guncelleme; g.iap += r.iap;
+      for (const [k, v] of Object.entries(r.gelir)) g.gelir[k] = (g.gelir[k] || 0) + Number(v);
+    }
+    for (const [k, v] of Object.entries(o.gelir)) gelir[k] = (gelir[k] || 0) + v;
+    for (const [k, v] of Object.entries(o.ulkeler)) ulkeler[k] = (ulkeler[k] || 0) + v;
+  }
+  const satirlar = Object.values(gun).sort((a, b) => a.tarih.localeCompare(b.tarih));
+  const top = k => Object.values(ozetler).reduce((a, o) => a + o[k], 0);
+  return { uretim: new Date().toISOString(), gun: satirlar.length, indirme: top("indirme"), guncelleme: top("guncelleme"), iap: top("iap"),
+    gelir, ulkeler, gunluk: satirlar.slice(-60), uygulamalar: ozetler };
+}
+
 /* Firestore REST'e JSON yazmak icin tip sarmalayicilari. Ic ice haritalar
    mapValue olarak gidiyor; sayilar tam sayi degilse doubleValue. */
 function alan(v) {
@@ -97,8 +115,10 @@ export async function panelYaz(log = console.log) {
   if (!gunlukler.length) { log("  panel-yaz: gunluk dosya yok, atlandi"); return; }
   let t;
   try { t = await token(); } catch (e) { log(`  panel-yaz ✗ ${e.message}`); return; }
-  for (const [proje, slug] of Object.entries(PROJELER)) {
-    const belge = ozet(slug, gunlukler);
+  for (const [proje, h] of Object.entries(PROJELER)) {
+    /* Birden çok uygulamalı proje (bam-tech-sports): toplam + uygulama başına. */
+    const slug = typeof h === "string" ? h : proje;
+    const belge = typeof h === "string" ? ozet(h, gunlukler) : birlestir(Object.fromEntries(Object.values(h).map(sl => [sl, ozet(sl, gunlukler)])));
     const url = `https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents/panel/sales`;
     const r = await fetch(url, {
       method: "PATCH",

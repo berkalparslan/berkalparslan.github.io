@@ -21,11 +21,17 @@ set -e
 echo "── $(date "+%Y-%m-%d %H:%M") çekim başladı"
 
 node scripts/lab/collect.mjs --days 45
+# Sürüm notları (App Store + Play "Yenilikler") → lab/assets/surumler.json, panellerin Sürümler bölümü.
+node scripts/lab/surumler.mjs || echo "sürüm notları çekilemedi"
 node scripts/lab/build.mjs
 # Magaza parasini her uygulamanin kendi projesine yazar; uygulama
 # panellerinin Satis sayfasi bunu okuyor.
 node scripts/lab/panel-yaz.mjs || echo "panel satis yazimi başarısız"
 node scripts/lab/walletcoach.mjs --days 90 || echo "wallet-coach çekimi başarısız"
+# Daily Whisper: AI proxy sayaçları + Gemini (Cloud Monitoring) + GA4 → kit-app-a91b5 panel/ai, panel/ga4.
+node scripts/lab/daily-whisper.mjs --days 90 || echo "daily-whisper çekimi başarısız"
+# O mu Bu mu: GA4 + mağaza özeti → thisone-ba533 panel/ga4, panel/sales.
+node scripts/lab/o-mu-bu-mu.mjs --days 90 || echo "o-mu-bu-mu çekimi başarısız"
 # Bam Sports (beş spor uygulaması): GA4 özeti → bam-tech-sports Firestore panel/ga4.
 node scripts/lab/bam-sports.mjs --days 90 || echo "bam-sports çekimi başarısız"
 # Nika: Cloudflare GraphQL (Workers/D1/R2 kullanımı) → Nika D1, panelin Altyapı sayfası.
@@ -34,11 +40,11 @@ node scripts/lab/nika.mjs --days 30 || echo "nika altyapı çekimi başarısız"
 "$HOME/dev/wallet-coach/tools/rates_auto.sh" || echo "wallet-coach kur verisi bakılmalı"
 
 git pull -q --rebase --autostash origin main || echo "git pull başarısız, yine de deneniyor"
-git add lab/panel/data.enc.json
+git add lab/panel/data.enc.json lab/assets/surumler.json
 if git diff --cached --quiet; then
   echo "değişiklik yok"
 else
-  git commit -q -m "panel: $(date +%Y-%m-%d) verisi" -- lab/panel/data.enc.json
+  git commit -q -m "panel: $(date +%Y-%m-%d) verisi" -- lab/panel/data.enc.json lab/assets/surumler.json
   # Başka oturum araya push ettiyse bir kez yeniden tabana al ve dene.
   git push -q || { git pull -q --rebase --autostash origin main && git push -q; }
   echo "yayınlandı"
