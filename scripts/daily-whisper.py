@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://bamstudio.dev"
+DW = "https://dailywhisper.bamstudio.dev"  # asıl adres; api/worker.js kökü /daily-whisper/ sayfalarına eşler
 BASE = "/daily-whisper/"
 A = BASE + "assets/v2/"
 IOS = "https://apps.apple.com/app/id6757824195"
@@ -353,6 +354,12 @@ FAVICON = "data:image/svg+xml," + (
 
 
 def url(lang):
+    """Alt alan adındaki yol (dailywhisper.bamstudio.dev/tr/)."""
+    return "/" if lang == "en" else f"/{lang}/"
+
+
+def path(lang):
+    """Sitedeki dosya yolu (daily-whisper/tr/index.html)."""
     return BASE if lang == "en" else f"{BASE}{lang}/"
 
 
@@ -374,18 +381,19 @@ def render(lang):
     t = T[lang]
     e = escape
     og = f"{SITE}{A}og-{OG.get(lang, 'en')}.jpg"
-    alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{url(l)}" />' for l in LANGS)
-    alts += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{BASE}" />'
+    alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="{DW}{url(l)}" />' for l in LANGS)
+    alts += f'\n<link rel="alternate" hreflang="x-default" href="{DW}/" />'
     cur = ' aria-current="true"'
     langs_menu = "".join(
         f'<a href="{url(l)}" data-l="{l}"{cur if l == lang else ""} lang="{l}">{NAMES[l]}</a>' for l in LANGS)
 
     # İngilizce kök sayfa: kayıtlı seçim yoksa tarayıcı diline yönlendir
-    redirect = ""
+    redirect = """<script>(function(){var h=location.hostname;if(/^(bamstudio\\.dev|www\\.bamstudio\\.dev|berkalparslan\\.github\\.io)$/.test(h)){window.dwMoved=1;
+location.replace("https://dailywhisper.bamstudio.dev"+location.pathname.replace(/^\\/daily-whisper/,"")+location.search+location.hash);}})();</script>"""
     if lang == "en":
-        redirect = """<script>(function(){var s;try{s=localStorage.getItem("dw-lang")}catch(e){}
+        redirect += """<script>(function(){if(window.dwMoved)return;var s;try{s=localStorage.getItem("dw-lang")}catch(e){}
 if(/[?&]lang=en\\b/.test(location.search))return;var n=(s||navigator.language||"").slice(0,2).toLowerCase();
-if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/daily-whisper/"+n+"/"+location.hash);})();</script>"""
+if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/"+n+"/"+location.hash);})();</script>"""
 
     steps = "".join(
         f'<li class="step rv"><span class="num">{i + 1:02d}</span><h3>{e(a)}</h3><p>{e(b)}</p></li>'
@@ -434,11 +442,11 @@ if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/daily-whisper/"+n
 <title>{e(t["title"])}</title>
 {redirect}
 <meta name="description" content="{e(t["desc"])}" />
-<link rel="canonical" href="{SITE}{url(lang)}" />
+<link rel="canonical" href="{DW}{url(lang)}" />
 {alts}
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Daily Whisper" />
-<meta property="og:url" content="{SITE}{url(lang)}" />
+<meta property="og:url" content="{DW}{url(lang)}" />
 <meta property="og:title" content="{e(t["title"])}" />
 <meta property="og:description" content="{e(t["desc"])}" />
 <meta property="og:image" content="{og}" />
@@ -542,7 +550,7 @@ if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/daily-whisper/"+n
 <footer class="foot">
   <div class="wrap foot-in">
     <p>{e(t["made"])}</p>
-    <nav><a href="/privacy/daily-whisper/">{e(t["privacy"])}</a><a href="/terms/">{e(t["terms"])}</a><a href="/support/">{e(t["support"])}</a><a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></nav>
+    <nav><a href="{SITE}/privacy/daily-whisper/">{e(t["privacy"])}</a><a href="{SITE}/terms/">{e(t["terms"])}</a><a href="{SITE}/support/">{e(t["support"])}</a><a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></nav>
   </div>
 </footer>
 
@@ -774,7 +782,7 @@ h3{font-size:19px;line-height:1.3;font-weight:500;letter-spacing:-.01em}
 def main():
     (ROOT / "daily-whisper/assets/v2/site.css").write_text(CSS.strip() + "\n")
     for lang in LANGS:
-        out = ROOT / url(lang).strip("/") / "index.html"
+        out = ROOT / path(lang).strip("/") / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         html = render(lang)
         for bad in ("—", "–", "â"):
