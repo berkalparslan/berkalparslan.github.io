@@ -68,7 +68,7 @@ export function ascIstemci(env) {
         const cid = x.relationships?.response?.data?.id;
         const c = cid ? cevaplar[cid] : null;
         return {
-          puan: x.attributes.rating ?? null, baslik: x.attributes.title || "", metin: x.attributes.body || "",
+          id: x.id, puan: x.attributes.rating ?? null, baslik: x.attributes.title || "", metin: x.attributes.body || "",
           kisi: x.attributes.reviewerNickname || "", ulke: x.attributes.territory || "", tarih: x.attributes.createdDate || "",
           /* PENDING_PUBLISH: cevap yazılmış, Apple henüz yayınlamamış; cevapsız değil. */
           cevap: c && ["PUBLISHED", "PENDING_PUBLISH"].includes(c.state)

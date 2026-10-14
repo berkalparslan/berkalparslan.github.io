@@ -2371,9 +2371,45 @@
         <span class="rk-k">${r.tarih === bugun() ? "Bugünün raporu" : `Son rapor · ${esc(tarihYazi(r.tarih))}`}${yeni ? '<span class="rk-yeni">yeni</span>' : ""}</span>
         <span class="rk-o">${esc(r.ozet)}</span><span class="rk-ok">Raporu aç →</span></a>`;
     }
+    /* Anlık uyarılar: scripts/lab/uyari.mjs 30 dk'da bir yeni yorum, mağaza
+       durumu, satın alma, anomali bulur, site Worker'ına yazar (son 200).
+       Burada GET /api/panel-alerts ile canlı çekilir (anahtar canlı kaynakla aynı). */
+    let UYARI = { veri: null, hata: null, zaman: 0, cekiliyor: false, hepsi: false };
+    const uyariUc = () => D?.canli?.url ? D.canli.url.replace(/\/api\/live.*$/, "/api/panel-alerts") : null;
+    async function uyariCek() {
+      const u = uyariUc(); if (!u || UYARI.cekiliyor) return;
+      UYARI.cekiliyor = true;
+      try {
+        const r = await fetch(u, { headers: { "x-live-key": D.canli.anahtar }, cache: "no-store" });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+        UYARI.veri = j.alerts || []; UYARI.hata = null;
+      } catch (e) { UYARI.hata = String(e.message || e); }
+      UYARI.zaman = Date.now(); UYARI.cekiliyor = false;
+      if (S.sekme === "rapor") ciz();
+    }
+    const UYARI_TUR = { yorum: "Yorum", durum: "Mağaza", satis: "Satın alma", anomali: "Anomali", saglik: "Bildirim", test: "Deneme" };
+    function uyariBolum() {
+      if (!uyariUc()) return "";
+      if (Date.now() - UYARI.zaman > 60000 && !UYARI.cekiliyor) setTimeout(uyariCek, 0);
+      const l = UYARI.veri || [];
+      const goster = UYARI.hepsi ? l : l.slice(0, 15);
+      const sat = a => {
+        const app = a.uygulama && D.apps.find(x => x.slug === a.uygulama);
+        const s = a.oncelik === "yuksek" ? "a" : a.oncelik === "normal" ? "b" : "c";
+        return `<div class="u ${s}"><i></i><span class="kim">${app ? `<a href="#" data-app="${esc(app.slug)}">${esc(app.ad)}</a>` : esc(UYARI_TUR[a.tur] || a.tur)}</span>
+          <span class="ne"><b>${esc(a.baslik)}</b>${a.govde ? `<br><span class="zero">${esc(a.govde)}</span>` : ""}</span><span class="sag zero" title="${esc(new Date(a.t).toLocaleString("tr-TR"))}">${esc(once(a.t))}</span></div>`;
+      };
+      const govde = UYARI.veri === null
+        ? `<div class="u c"><i></i><span class="kim">Uyarılar</span><span class="ne">${UYARI.hata ? `Çekilemedi: ${esc(UYARI.hata)}` : "yükleniyor…"}</span><span class="sag"></span></div>`
+        : l.length ? goster.map(sat).join("") : `<div class="u c"><i></i><span class="kim">Uyarılar</span><span class="ne">Henüz uyarı yok. Yeni yorum, mağaza durumu, satın alma ve anomaliler burada görünür.</span><span class="sag"></span></div>`;
+      return `<section><h3>Uyarılar${l.length ? ` <span class="zero" style="font-weight:400;font-size:13px">son ${l.length}</span>` : ""}</h3>
+        <div class="uyarilar">${govde}</div>
+        ${l.length > 15 ? `<button class="kopya" data-uyarihepsi="1">${UYARI.hepsi ? "Daha az göster" : `Tümünü göster (${l.length})`}</button>` : ""}</section>`;
+    }
     function raporCiz() {
       const l = raporlar();
-      if (!l.length) return `<section><div class="panel"><div class="bos">Henüz rapor yok. Her sabah 07:00'de <code>scripts/lab/rapor.mjs</code> üretir, ilk rapor yarın sabah gelir.</div></div></section>`;
+      if (!l.length) return `${uyariBolum()}<section><div class="panel"><div class="bos">Henüz rapor yok. Her sabah 07:00'de <code>scripts/lab/rapor.mjs</code> üretir, ilk rapor yarın sabah gelir.</div></div></section>`;
       const r = l.find(x => x.tarih === S.rapor) || l[0];
       const okundu = raporOkundu();
       if (r.tarih > okundu) { try { localStorage.setItem(RAPOR_KEY, r.tarih); } catch (e) { } }
@@ -2383,6 +2419,7 @@
         <nav class="rapor-liste" aria-label="Rapor tarihleri">${l.map(x => `<button data-rapor="${esc(x.tarih)}" aria-pressed="${x.tarih === r.tarih}"><span>${esc(tarihYazi(x.tarih))}</span>${x.tarih > okundu && x.tarih !== r.tarih ? '<i class="nokta" title="okunmadı"></i>' : ""}</button>`).join("")}</nav>
         <div>
           <div class="rapor-ozet"><b>${esc(r.baslik)}</b><br>${esc(r.ozet)}<span class="alt">Mağaza verisi ${esc(tarihYazi(r.gun))} · üretim ${esc(tarihYazi(r.uretim || r.tarih))}</span></div>
+          ${uyariBolum()}
           ${(r.bolumler || []).map(bolum).join("")}
         </div></div>`;
     }
@@ -2543,6 +2580,7 @@
         return;
       }
       if (e.target.closest("[data-canliyenile]")) { e.preventDefault(); canliCek(true); return; }
+      if (e.target.closest("[data-uyarihepsi]")) { e.preventDefault(); UYARI.hepsi = !UYARI.hepsi; ciz(); return; }
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
       const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-gorevet],[data-renk],[data-ulkem],[data-rapor]");

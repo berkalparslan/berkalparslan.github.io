@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Anlık uyarılar (uyari.mjs), 30 dakikada bir. Kurmak için (bir kez):
+       cp scripts/lab/com.bamtech.lab-uyari.plist ~/Library/LaunchAgents/
+       launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.bamtech.lab-uyari.plist
+     Hemen denemek:  launchctl kickstart -k gui/$(id -u)/com.bamtech.lab-uyari
+     Kaldırmak:      launchctl bootout gui/$(id -u)/com.bamtech.lab-uyari
+     Log: ~/dev/vault/metrikler/veri/uyari.log
+     Mac uykudaysa aralık kaçar; uyanınca ilk fırsatta çalışır. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.bamtech.lab-uyari</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>/Users/aberk/dev/web-githubpages/berkalparslan.github.io/scripts/lab/uyari.mjs</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/aberk/dev/web-githubpages/berkalparslan.github.io</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>HOME</key><string>/Users/aberk</string>
+  </dict>
+  <key>StartInterval</key><integer>1800</integer>
+  <key>StandardOutPath</key><string>/Users/aberk/dev/vault/metrikler/veri/uyari.log</string>
+  <key>StandardErrorPath</key><string>/Users/aberk/dev/vault/metrikler/veri/uyari.log</string>
+  <key>RunAtLoad</key><false/>
+</dict>
+</plist>

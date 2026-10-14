@@ -54,3 +54,16 @@ CREATE TABLE IF NOT EXISTS panel_devices (
   created_at TEXT NOT NULL,
   last_seen TEXT NOT NULL
 );
+-- Panel anlık uyarıları (scripts/lab/uyari.mjs yazar, Panel iOS ve lab paneli okur); son 200 tutulur.
+-- Kişisel veri yok: yorumcu adı, e-posta, kullanıcı adı girmez.
+CREATE TABLE IF NOT EXISTS panel_alerts (
+  id TEXT PRIMARY KEY,      -- tur-<sha1 12>, uyari.mjs üretir
+  t TEXT NOT NULL,          -- ISO, algılama zamanı
+  tur TEXT NOT NULL,        -- yorum | durum | satis | anomali | saglik | test
+  uygulama TEXT,            -- katalog slug'ı ya da boş
+  baslik TEXT NOT NULL,
+  govde TEXT,
+  oncelik TEXT NOT NULL,    -- yuksek | normal | dusuk
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS panel_alerts_t ON panel_alerts(t);

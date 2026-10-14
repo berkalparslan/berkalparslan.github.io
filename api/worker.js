@@ -7,6 +7,7 @@
    - POST /api/feedback    geri bildirim formu (/geri-bildirim/): D1'e yazar, merhaba@'ya mail atar
    - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
    - POST/GET/DELETE /api/panel-device  Panel iOS uygulamasının APNs jetonları (anahtar ister, bkz. panelDevice())
+   - POST/GET /api/panel-alerts  Panel anlık uyarıları, son 200 (anahtar ister, bkz. panelAlerts())
    Veri D1'de (binding: DB), mail Resend ile (secret: RESEND_KEY). */
 import APPS from "./apps.json";
 
@@ -24,6 +25,7 @@ export default {
       const route = url.pathname.replace(/\/+$/, "");
       if (route === "/api/live") return await live(req, env);
       if (route === "/api/panel-device") return await panelDevice(req, env, url);
+      if (route === "/api/panel-alerts") return await panelAlerts(req, env, url);
       if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
       if (route === "/api/subscribe" && req.method === "POST") return await subscribe(req, env);
       if (route === "/api/confirm") return await confirm(url, env);
@@ -421,6 +423,47 @@ async function panelDevice(req, env, url) {
     if (!okTok(token)) return yanit({ ok: false, error: "invalid" }, 400);
     const r = await env.DB.prepare("DELETE FROM panel_devices WHERE token=?").bind(token).run();
     return yanit({ ok: true, silinen: r.meta?.changes ?? 0 });
+  }
+  return yanit({ ok: false, error: "method" }, 405);
+}
+
+/* ── Panel anlık uyarıları ──────────────────────────────────
+   Mac'teki scripts/lab/uyari.mjs 30 dakikada bir yeni yorum, mağaza durumu,
+   satın alma, anomali ve bildirim Worker'ı sağlığını kontrol eder; bulduğunu
+   buraya yazar (POST { alerts: [...] }), Panel iOS ve lab paneli okur (GET).
+   Yetki panel-device ile aynı (x-live-key). Kişisel veri yok; son 200 uyarı
+   tutulur. Tablo: panel_alerts (schema.sql). */
+const ALERT_TUR = ["yorum", "durum", "satis", "anomali", "saglik", "test"];
+const ALERT_ONCELIK = ["yuksek", "normal", "dusuk"];
+async function panelAlerts(req, env, url) {
+  const cors = liveCors(req);
+  const bas = { ...cors, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "x-live-key, content-type" };
+  const yanit = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...bas } });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: bas });
+  if (!env.LIVE_KEY) return yanit({ ok: false, error: "not_configured" }, 503);
+  if (!esit(req.headers.get("x-live-key") || "", env.LIVE_KEY)) return yanit({ ok: false, error: "unauthorized" }, 401);
+  if (req.method === "GET") {
+    const limit = Math.min(200, Math.max(1, Number(url.searchParams.get("limit")) || 200));
+    const r = await env.DB.prepare("SELECT id, t, tur, uygulama, baslik, govde, oncelik FROM panel_alerts ORDER BY t DESC, id LIMIT ?").bind(limit).all();
+    return yanit({ ok: true, alerts: r.results || [] });
+  }
+  if (req.method === "POST") {
+    let b; try { b = await req.json(); } catch { return yanit({ ok: false, error: "json" }, 400); }
+    const liste = Array.isArray(b?.alerts) ? b.alerts.slice(0, 200) : [];
+    const str = (v, n) => typeof v === "string" ? v.slice(0, n) : null;
+    const t0 = now();
+    const ekle = [];
+    for (const a of liste) {
+      const id = str(a?.id, 64), t = str(a?.t, 40), baslik = str(a?.baslik, 120);
+      if (!id || !/^[a-z]+-[0-9a-z]{4,40}$/.test(id) || !t || isNaN(Date.parse(t)) || !baslik || !ALERT_TUR.includes(a?.tur)) continue;
+      const uyg = str(a?.uygulama, 60);
+      ekle.push(env.DB.prepare("INSERT OR IGNORE INTO panel_alerts(id, t, tur, uygulama, baslik, govde, oncelik, created_at) VALUES(?,?,?,?,?,?,?,?)")
+        .bind(id, new Date(t).toISOString(), a.tur, uyg && /^[a-z0-9-]+$/.test(uyg) ? uyg : null, baslik, str(a?.govde, 400) || "", ALERT_ONCELIK.includes(a?.oncelik) ? a.oncelik : "normal", t0));
+    }
+    if (!ekle.length) return yanit({ ok: false, error: "invalid" }, 400);
+    ekle.push(env.DB.prepare("DELETE FROM panel_alerts WHERE id NOT IN (SELECT id FROM panel_alerts ORDER BY t DESC, id LIMIT 200)"));
+    await env.DB.batch(ekle);
+    return yanit({ ok: true, eklenen: ekle.length - 1 });
   }
   return yanit({ ok: false, error: "method" }, 405);
 }

@@ -30,7 +30,7 @@ export const PROJELER = {
 
 const ALANLAR = ["firstSeen", "lastSeen", "platform", "region", "pro", "premium", "tester", "screen", "appVersion", "app"];
 
-async function firebaseToken() {
+export async function firebaseToken() {
   const api = await import("/opt/homebrew/lib/node_modules/firebase-tools/lib/api.js");
   const c = JSON.parse(readFileSync(join(homedir(), ".config", "configstore", "firebase-tools.json"), "utf8"));
   const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST",
@@ -41,7 +41,7 @@ async function firebaseToken() {
   return j.access_token;
 }
 
-const deger = f => f == null ? null : f.stringValue ?? f.timestampValue ?? f.booleanValue ?? (f.integerValue != null ? Number(f.integerValue) : null);
+export const deger = f => f == null ? null : f.stringValue ?? f.timestampValue ?? f.booleanValue ?? (f.integerValue != null ? Number(f.integerValue) : null);
 
 async function kurulumlar(proje, token) {
   const l = []; let sayfa;

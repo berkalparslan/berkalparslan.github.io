@@ -62,6 +62,18 @@ yayınladığı için yeniden deneniyor. `--force` hepsini baştan çeker.
 - Panel: Genel bakış üstünde "Bugünün raporu" kartı, **Raporlar** sekmesi. iOS Panel: Özet kartı, sol üst Raporlar düğmesi, Özet sekmesinde okunmamış rozeti.
 - `rapor-gonder.mjs`: jetonlar `GET https://bamstudio.dev/api/panel-device` (x-live-key = Keychain `bamtech-lab-live`), APNs ES256 JWT (`~/dev/p8/AuthKey_2972UYSCQ2.p8`), HTTP/2, topic `dev.bamstudio.panel`; ölü jeton silinir; günde bir kez (`raporlar/.gonderildi.json`). `--kuru`, `--test`, `--zorla`.
 - Worker ucu `/api/panel-device` (api/worker.js): POST kaydeder, GET listeler, DELETE siler; D1 tablosu `panel_devices` (api/schema.sql).
+- APNs gönderimi `apns.mjs`'te (rapor-gonder.mjs ve uyari.mjs ortak).
+
+## Anlık uyarılar (14 Eki 2026)
+
+`uyari.mjs` launchd ile 30 dakikada bir (`com.bamtech.lab-uyari.plist`, kopyası burada; log `~/dev/vault/metrikler/veri/uyari.log`). `gunluk.sh`'tan bağımsız.
+
+- Kontroller (yalnız okuma): yeni mağaza yorumu (ASC customerReviews iki hesap, `gplay reviews list`), App Store en yeni sürüm durumu (incelemede, onaylandı, Pending Developer Release, reddedildi, metadata reddi, geçersiz binary), Play production'da yeni sürüm, telemetrili projelerde `installs.purchasedAt` son 3 gün (runQuery, test cihazı hariç), bildirim Worker'larının `/health`'i (ready false→true bilgi, iki kez erişilemezse uyarı). Günde bir kez 12:00 TSİ sonrası anomali: aktif kullanıcı önceki günlerin ortalamasının yarısının altında (en az 3 günlük geçmiş, ortalama ≥ 3), 2 gündür kurulum yok ama önceki 7 günde ≥ 2, bir veri kaynağı 3 gündür yenilenmiyor.
+- Durum `~/dev/vault/metrikler/veri/uyari-durum.json`. İlk çalışma ve yeni eklenen her kaynak (uygulama, hesap, Worker) önce tohumlanır: mevcut olaylar görüldü sayılır, bildirim gitmez.
+- Uyarı `{ id, t, tur, uygulama, baslik, govde, oncelik }` hemen `POST /api/panel-alerts`'e yazılır (D1 `panel_alerts`, son 200; yazılamazsa sonraki çalışmada tekrar). Kişisel veri yok (yorumcu adı alınmaz).
+- Push: aynı çalışmadaki uyarılar tek bildirimde ("3 yeni uyarı"), yükte `uyari: "<id>"`. 00:00-08:00 TSİ yalnız `yuksek` (ret, 1-2★) hemen gider, gerisi 08:00 sonrası ilk çalışmada toplu.
+- `--kuru` (yazdırır, göndermez, durumu kaydetmez), `--test` ("Uyarılar çalışıyor" deneme uyarısı), `--anomali` (bugün yapıldıysa da). Test için `UYARI_DURUM=<dosya>` başka bir durum dosyası kullandırır.
+- Okuyanlar: iOS Panel (Raporlar ekranı → Uyarılar bölümü, okunmamış rozeti, bildirime dokununca açılır), lab paneli Raporlar sekmesindeki Uyarılar bölümü.
 
 ## Neden şifreli
 
