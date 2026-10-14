@@ -334,6 +334,8 @@ def main():
     for f in files:
         d = json.loads(f.read_text())
         if only and d["slug"] not in only: continue
+        if d.get("custom"):  # sayfa kendi betiğiyle üretiliyor (ör. scripts/daily-whisper.py)
+            print("atlandı (custom):", d["slug"]); continue
         out = ROOT / d["slug"] / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(render(d))

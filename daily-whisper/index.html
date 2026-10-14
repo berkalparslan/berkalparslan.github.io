@@ -1,205 +1,193 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Daily Whisper: Affirmations · Bam Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Daily Whisper: Hear your dream</title>
+<script>(function(){var s;try{s=localStorage.getItem("dw-lang")}catch(e){}
+if(/[?&]lang=en\b/.test(location.search))return;var n=(s||navigator.language||"").slice(0,2).toLowerCase();
+if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/daily-whisper/"+n+"/"+location.hash);})();</script>
 <meta name="description" content="Every morning, a short story written for you: a scene from the life you want, with your name in it, read aloud in a warm voice." />
 <link rel="canonical" href="https://bamstudio.dev/daily-whisper/" />
+<link rel="alternate" hreflang="en" href="https://bamstudio.dev/daily-whisper/" />
+<link rel="alternate" hreflang="tr" href="https://bamstudio.dev/daily-whisper/tr/" />
+<link rel="alternate" hreflang="es" href="https://bamstudio.dev/daily-whisper/es/" />
+<link rel="alternate" hreflang="de" href="https://bamstudio.dev/daily-whisper/de/" />
+<link rel="alternate" hreflang="fr" href="https://bamstudio.dev/daily-whisper/fr/" />
+<link rel="alternate" hreflang="it" href="https://bamstudio.dev/daily-whisper/it/" />
+<link rel="alternate" hreflang="x-default" href="https://bamstudio.dev/daily-whisper/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Daily Whisper: Affirmations" />
+<meta property="og:site_name" content="Daily Whisper" />
+<meta property="og:url" content="https://bamstudio.dev/daily-whisper/" />
+<meta property="og:title" content="Daily Whisper: Hear your dream" />
 <meta property="og:description" content="Every morning, a short story written for you: a scene from the life you want, with your name in it, read aloud in a warm voice." />
-<meta property="og:image" content="https://bamstudio.dev/daily-whisper/assets/icon.webp" />
-<meta name="theme-color" content="#e9ccff" />
-<link rel="icon" href="/daily-whisper/assets/icon.webp" />
-<link rel="apple-touch-icon" href="/daily-whisper/assets/icon.webp" />
-<script>
-  (function () {
-    var d = document.documentElement, lang;
-    try { lang = localStorage.getItem("bb-lang"); } catch (e) {}
-    var q = location.search.match(/[?&]lang=(tr|en)\b/);
-    if (q) lang = q[1];
-    if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
-    d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
-    d.setAttribute("data-title-tr", "Daily Whisper: Olumlamalar · Bam Studio");
-    d.setAttribute("data-title-en", "Daily Whisper: Affirmations · Bam Studio");
-  })();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css?v=2b382b4b" />
-
+<meta property="og:image" content="https://bamstudio.dev/daily-whisper/assets/v2/og-en.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Daily Whisper: Hear your dream" />
+<meta name="twitter:description" content="Every morning, a short story written for you: a scene from the life you want, with your name in it, read aloud in a warm voice." />
+<meta name="twitter:image" content="https://bamstudio.dev/daily-whisper/assets/v2/og-en.jpg" />
+<meta name="apple-itunes-app" content="app-id=6757824195" />
+<meta name="theme-color" content="#F3EDE5" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2380505C'/%3E%3Cpath d='M19.5 7a9.5 9.5 0 1 0 5.8 16.2A8.2 8.2 0 0 1 19.5 7z' fill='none' stroke='%23F3EDE5' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="preload" href="/daily-whisper/assets/v2/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="/daily-whisper/assets/v2/fonts/Poppins-Medium.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="stylesheet" href="/daily-whisper/assets/v2/site.css?v=3" />
 <script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
 </head>
-<body style="--app:#e9ccff;--acc:#ffb3d9">
-
-<div class="marquee" aria-hidden="true"><div class="mq" data-items="[&quot;iPhone · Apple Watch · Widget&quot;, &quot;Daily Whisper&quot;, &quot;iPhone · Apple Watch · Widgets&quot;]"></div></div>
+<body>
 
 <header class="top">
   <div class="wrap bar">
-    <a class="logo" href="/" aria-label="Bam Studio">b</a>
-    <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#bugun"><span class="tr">Bugün</span><span class="en">Today</span></a><a href="#dinle"><span class="tr">Dinle</span><span class="en">Listen</span></a><a href="#yeni"><span class="tr">Yeni hikaye</span><span class="en">New story</span></a><a href="#burc"><span class="tr">Burç</span><span class="en">Horoscope</span></a></nav>
-    <button class="pill lang" type="button">EN</button>
+    <a class="brand" href="/daily-whisper/"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M20.5 4.5a11.5 11.5 0 1 0 7 19.6A10 10 0 0 1 20.5 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M24 7.5v3M22.5 9h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Daily Whisper</span></a>
+    <nav class="nav"><a href="#how">How it works</a><a href="#today">Features</a><a href="#faq">FAQ</a></nav>
+    <details class="lang">
+      <summary aria-label="Language">EN<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+      <div class="menu"><a href="/daily-whisper/" data-l="en" aria-current="true" lang="en">English</a><a href="/daily-whisper/tr/" data-l="tr" lang="tr">Türkçe</a><a href="/daily-whisper/es/" data-l="es" lang="es">Español</a><a href="/daily-whisper/de/" data-l="de" lang="de">Deutsch</a><a href="/daily-whisper/fr/" data-l="fr" lang="fr">Français</a><a href="/daily-whisper/it/" data-l="it" lang="it">Italiano</a></div>
+    </details>
+    <a class="btn sm" href="#get">Get the app</a>
   </div>
 </header>
 
 <main>
-  <section class="hero" data-emoji="[&quot;✨&quot;, &quot;🌙&quot;, &quot;🎧&quot;, &quot;💜&quot;, &quot;⭐&quot;, &quot;🌊&quot;, &quot;🙏&quot;]">
-    <img class="ribbon" src="/assets/ribbon.svg" alt="" aria-hidden="true" />
+  <section class="hero">
     <div class="wrap hero-in">
-      <img class="app-icon" src="/daily-whisper/assets/icon.webp" alt="" width="180" height="180" />
-      <p class="kick"><span class="tr">iPhone · Apple Watch · Widget</span><span class="en">iPhone · Apple Watch · Widgets</span> </p>
-      <h1 class="disp" lang="en">Daily Whisper</h1>
-      <p class="lede"><span class="tr">İstediğin hayatı her sabah kendi hikayen olarak dinle. İçinde adın, sevdiklerin ve şehrin var; sanki olmuş gibi anlatılır, sıcak bir ses onu sana okur.</span><span class="en">Hear the life you want as your own story, every morning. Your name, your people and your city are in it, told as if it has already happened and read to you in a warm voice.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Her sabah yeni hikaye</span><span class="en">A new story every morning</span></span><span class="pill-s"><span class="tr">Sesli anlatım</span><span class="en">Read aloud</span></span><span class="pill-s"><span class="tr">Burç yorumu</span><span class="en">Daily horoscope</span></span><span class="pill-s">Apple Watch</span></div>
-      <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
-      <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
-    </div>
-  </section>
-
-  <div class="promo tr"><div class="promo-track"><img src="/daily-whisper/assets/promo/tr/01-future-self.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/02-your-goal.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/03-listen.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/04-affirmations.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/05-vision.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/06-stars.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/07-gratitude.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/tr/08-everywhere.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/01-future-self.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/02-your-goal.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/03-listen.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/04-affirmations.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/05-vision.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/06-stars.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/07-gratitude.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/tr/08-everywhere.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/daily-whisper/assets/promo/en/01-future-self.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/02-your-goal.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/03-listen.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/04-affirmations.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/05-vision.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/06-stars.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/07-gratitude.webp" alt="" loading="lazy" /><img src="/daily-whisper/assets/promo/en/08-everywhere.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/01-future-self.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/02-your-goal.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/03-listen.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/04-affirmations.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/05-vision.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/06-stars.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/07-gratitude.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/daily-whisper/assets/promo/en/08-everywhere.webp" alt="" loading="lazy" /></div></div>
-
-  <section class="z z-l" id="bugun">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/01-today.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/01-today.webp" alt="Your future self, telling it" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/01-today.webp&quot;]"><img src="/daily-whisper/assets/screens/en/01-today.webp" alt="Your future self, telling it" loading="lazy" /></span></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Bugün</span><span class="en">Today</span></p>
-        <h2 class="disp"><span class="tr">Gelecekteki sen anlatıyor</span><span class="en">Your future self, telling it</span></h2>
-        <p class="z-p"><span class="tr">Kısa bir sohbetle seni tanır: adın, işin, sevdiklerin, değiştirmek istediğin şey ve hayal ettiğin hayat. Her gün o hayattan yeni bir sahne yazılır.</span><span class="en">A short chat gets to know you: your name, work, the people you love, what you want to change and the life you imagine. Each day a new scene from that life is written.</span></p>
-        <ul class="bul"><li><span class="tr">Aynı hikayeyi iki kez anlatmaz</span><span class="en">Never the same story twice</span></li><li><span class="tr">Dinle ve oku düğmeleri, sonraki hikayeye geri sayım</span><span class="en">Listen and read buttons, a countdown to the next story</span></li><li><span class="tr">Hikayen hazır olduğunda sabah bildirimi</span><span class="en">A morning notification when your story is ready</span></li></ul>
+      <div class="hero-copy">
+        <p class="kick">Manifest stories, made for you</p>
+        <h1>Hear your dream.</h1>
+        <p class="lede">Every morning, a short story written just for you: a scene from the life you want, with your name, your people and your city in it, read aloud in a warm voice.</p>
+        <div class="ctas" id="hero-cta"><a class="btn " href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper" data-umami-event-where="hero"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span><small>Download on the</small>App Store</span></a><span class="soon">Android coming soon</span></div>
+        <p class="note">iPhone · iPad · Apple Watch · Widgets</p>
       </div>
-    </div>
-  </section>
-  <section class="z z-r" id="dinle">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/02-player.webp&quot;, &quot;/daily-whisper/assets/screens/tr/03-soundscapes.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/02-player.webp" alt="Close your eyes, press play" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/02-player.webp&quot;, &quot;/daily-whisper/assets/screens/en/03-soundscapes.webp&quot;]"><img src="/daily-whisper/assets/screens/en/02-player.webp" alt="Close your eyes, press play" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Dinle</span><span class="en">Listen</span></p>
-        <h2 class="disp"><span class="tr">Gözlerini kapat, dinle</span><span class="en">Close your eyes, press play</span></h2>
-        <p class="z-p"><span class="tr">Hikaye yaklaşık bir saniyede konuşmaya başlar. Şarkı sözü gibi: okunan cümle ortada parlar. İstersen tüm hikayeyi yazı olarak açarsın.</span><span class="en">The story starts speaking in about a second. Like song lyrics, the line being read glows in the middle. You can open the whole story as text too.</span></p>
-        <ul class="bul"><li><span class="tr">Yağmur, okyanus, gece, 528 Hz, 432 Hz ya da sessiz</span><span class="en">Rain, ocean, night, 528 Hz, 432 Hz or silence</span></li><li><span class="tr">Birden çok anlatıcı sesi</span><span class="en">Several narrator voices</span></li><li><span class="tr">5 saniye ileri ve geri, sürükleyerek sarma</span><span class="en">Skip 5 seconds either way, or drag to scrub</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-l" id="yeni">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/09-new-story.webp&quot;, &quot;/daily-whisper/assets/screens/tr/08-stories.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/09-new-story.webp" alt="A story for any goal" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/09-new-story.webp&quot;, &quot;/daily-whisper/assets/screens/en/08-stories.webp&quot;]"><img src="/daily-whisper/assets/screens/en/09-new-story.webp" alt="A story for any goal" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Yeni hikaye</span><span class="en">New story</span></p>
-        <h2 class="disp"><span class="tr">Her hedefe bir hikaye</span><span class="en">A story for any goal</span></h2>
-        <p class="z-p"><span class="tr">&quot;Perşembe günkü sunum&quot;, &quot;deniz kenarına taşınmak&quot; gibi bir hedef yazarsın, bir dakika içinde hikayesi hazır.</span><span class="en">Write a goal like &quot;Thursday&#x27;s presentation&quot; or &quot;moving to the coast&quot; and its story is ready within a minute.</span></p>
-        <ul class="bul"><li><span class="tr">Neredeyim, yanımda kim var, ne gerçek oldu: ipuçları hazır</span><span class="en">Prompts: where am I, who is with me, what came true</span></li><li><span class="tr">Her hikaye saklanır, istediğin zaman yeniden dinlersin</span><span class="en">Every story is kept to replay any time</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-r" id="burc">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/04-zodiac.webp&quot;, &quot;/daily-whisper/assets/screens/tr/05-zodiac-advice.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/04-zodiac.webp" alt="What do the stars say?" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/04-zodiac.webp&quot;, &quot;/daily-whisper/assets/screens/en/05-zodiac-advice.webp&quot;]"><img src="/daily-whisper/assets/screens/en/04-zodiac.webp" alt="What do the stars say?" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Burç</span><span class="en">Horoscope</span></p>
-        <h2 class="disp"><span class="tr">Yıldızlar ne diyor?</span><span class="en">What do the stars say?</span></h2>
-        <p class="z-p"><span class="tr">Güneş, Ay ve yükselen burç; doğum saati ve yeri girilirse hesaplanır. Her gün aşk, para ve kariyer yorumu.</span><span class="en">Sun, Moon and rising sign, worked out from your birth time and place if you add them. A daily reading for love, money and career.</span></p>
-        <ul class="bul"><li><span class="tr">&quot;Bugün iyi gelir&quot; ve &quot;Bugün ertele&quot;</span><span class="en">&quot;Good today&quot; and &quot;Hold off today&quot;</span></li><li><span class="tr">Ayın evresi, yeni ay, dolunay, retrodaki gezegenler</span><span class="en">The Moon&#x27;s phase, new and full moons, planets in retrograde</span></li><li><span class="tr">Haritan: bir kez yazılan kişisel yorum</span><span class="en">Your chart: a personal reading, written once</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-l" id="olumlama">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/06-affirmations.webp&quot;, &quot;/daily-whisper/assets/screens/tr/07-vision-board.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/06-affirmations.webp" alt="Your words, your board" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/06-affirmations.webp&quot;, &quot;/daily-whisper/assets/screens/en/07-vision-board.webp&quot;]"><img src="/daily-whisper/assets/screens/en/06-affirmations.webp" alt="Your words, your board" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Olumlama ve Vision Board</span><span class="en">Affirmations and Vision Board</span></p>
-        <h2 class="disp"><span class="tr">Sözlerin, panon, hayalin</span><span class="en">Your words, your board</span></h2>
-        <p class="z-p"><span class="tr">Kendi hikayelerinden çıkan olumlamalar ve seçilmiş bir deste, kart kart kaydırılır. Vision board&#x27;da 50&#x27;ye kadar fotoğraf ve söz, kolaj halinde.</span><span class="en">Affirmations drawn from your own stories plus a curated deck, swiped card by card. The vision board holds up to 50 photos and words as a collage.</span></p>
-        <ul class="bul"><li><span class="tr">Kalple favorilere ekle, kartı paylaş</span><span class="en">Heart a card to save it, share any card</span></li><li><span class="tr">Fotoğrafları sürükleyerek yerleştir, manifest cümleni düzenle</span><span class="en">Drag photos around, edit your manifest line</span></li><li><span class="tr">Duvar kağıdı olarak kaydet ve paylaş (Premium)</span><span class="en">Save it as a wallpaper and share it (Premium)</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-r" id="sukran">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/10-gratitude.webp&quot;, &quot;/daily-whisper/assets/screens/tr/11-me.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/10-gratitude.webp" alt="Notice the good" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/10-gratitude.webp&quot;, &quot;/daily-whisper/assets/screens/en/11-me.webp&quot;]"><img src="/daily-whisper/assets/screens/en/10-gratitude.webp" alt="Notice the good" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Şükran</span><span class="en">Gratitude</span></p>
-        <h2 class="disp"><span class="tr">Güzel olanı fark et</span><span class="en">Notice the good</span></h2>
-        <p class="z-p"><span class="tr">Her gün minnettar olduğun küçük şeyler gün gün listelenir. Seri sayacı kaç gündür aralıksız yazdığını gösterir.</span><span class="en">The small things you are grateful for, listed day by day, with a streak that counts the days in a row.</span></p>
-        <ul class="bul"><li><span class="tr">Ben ekranı: hikaye sayısı, şükran serisi, manifestin</span><span class="en">The Me screen: stories, gratitude streak, your manifest</span></li><li><span class="tr">Profili düzenle, yeni hikayeler değişikliğe göre yazılır</span><span class="en">Edit your profile; new stories follow the changes</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-l" id="widget">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#4da2ff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/tr/12-widgets.webp&quot;]"><img src="/daily-whisper/assets/screens/tr/12-widgets.webp" alt="Inspiration on your Home Screen" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/daily-whisper/assets/screens/en/12-widgets.webp&quot;]"><img src="/daily-whisper/assets/screens/en/12-widgets.webp" alt="Inspiration on your Home Screen" loading="lazy" /></span></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Widget</span><span class="en">Widgets</span></p>
-        <h2 class="disp"><span class="tr">Günün ilhamı ana ekranda</span><span class="en">Inspiration on your Home Screen</span></h2>
-        <p class="z-p"><span class="tr">Olumlama widget&#x27;ı gün içinde değişir; günün olumlamaları ya da favorilerin. Burç widget&#x27;ı burcunu, Ayın evresini ve günün yorumunu gösterir.</span><span class="en">The affirmation widget changes through the day, from today&#x27;s set or your favourites. The horoscope widget shows your sign, the Moon phase and today&#x27;s reading.</span></p>
-        <ul class="bul"><li><span class="tr">Ana ekranda üç boy, kilit ekranında da var</span><span class="en">Three sizes on the Home Screen, and on the Lock Screen too</span></li></ul>
-      </div>
-    </div>
-  </section>
-  <section class="z z-r" id="saat">
-    <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/daily-whisper/assets/watch/tr/01-affirmation.webp&quot;, &quot;/daily-whisper/assets/watch/tr/02-zodiac.webp&quot;, &quot;/daily-whisper/assets/watch/tr/03-favourites.webp&quot;]"><img src="/daily-whisper/assets/watch/tr/01-affirmation.webp" alt="On your wrist, every day" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span><span class="dev en"><span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="[&quot;/daily-whisper/assets/watch/en/01-affirmation.webp&quot;, &quot;/daily-whisper/assets/watch/en/02-zodiac.webp&quot;, &quot;/daily-whisper/assets/watch/en/03-favourites.webp&quot;]"><img src="/daily-whisper/assets/watch/en/01-affirmation.webp" alt="On your wrist, every day" loading="lazy" /></span></span><span class="strap b2"></span><span class="crown"></span></span><span class="dots"><i class="on"></i><i class=""></i><i class=""></i></span></span></div>
-      <div class="z-txt reveal">
-        <p class="kick">Apple Watch</p>
-        <h2 class="disp"><span class="tr">Bileğinde, her gün</span><span class="en">On your wrist, every day</span></h2>
-        <p class="z-p"><span class="tr">Günün olumlaması, burç yorumu ve favorilerin saatte.</span><span class="en">Today&#x27;s affirmation, your horoscope and your favourites on your Watch.</span></p>
-        
+      <div class="hero-art" style="--ph:url('/daily-whisper/assets/v2/photos/sea.webp')">
+        <span class="phone h1p"><img src="/daily-whisper/assets/v2/screens/en/01-today.webp" alt="" loading="lazy" decoding="async" /></span>
+        <span class="phone h2p"><img src="/daily-whisper/assets/v2/screens/en/02-player.webp" alt="" loading="lazy" decoding="async" /></span>
       </div>
     </div>
   </section>
 
-  <section class="band band-sun" id="fiyat">
+  <section class="how" id="how">
     <div class="wrap">
-      <h2 class="disp big"><span class="tr">İki hikaye bizden</span><span class="en">Two stories on us</span></h2>
-      <p class="band-p"><span class="tr">Gerisi Premium ile. Haftalık, aylık ya da yıllık; haftalıkta 7 gün ücretsiz deneme.</span><span class="en">The rest with Premium. Weekly, monthly or yearly; the weekly plan starts with a 7-day free trial.</span></p>
-      <div class="plans"><div class="plan" style="--c:#e9ccff;--r:-2deg"><h3><span class="tr">Ücretsiz</span><span class="en">Free</span></h3><p class="price"><span class="tr">İki hikaye</span><span class="en">Two stories</span></p><ul><li><span class="tr">İlki sohbetin sonunda, ikincisi kendin anlatarak</span><span class="en">One after the chat, one you describe yourself</span></li><li><span class="tr">Günlük burç yorumu</span><span class="en">Daily horoscope</span></li><li><span class="tr">Olumlamalar, vision board, şükran</span><span class="en">Affirmations, vision board, gratitude</span></li><li><span class="tr">Widget&#x27;lar ve Apple Watch</span><span class="en">Widgets and Apple Watch</span></li></ul></div><div class="plan" style="--c:#ffd731;--r:2deg"><h3>Premium</h3><p class="price"><span class="tr">Haftalık, aylık, yıllık</span><span class="en">Weekly, monthly, yearly</span></p><ul><li><span class="tr">Her sabah yeni hikaye</span><span class="en">A new story every morning</span></li><li><span class="tr">İstediğin kadar hikaye</span><span class="en">As many stories as you like</span></li><li><span class="tr">Tüm anlatıcı sesleri</span><span class="en">All narrator voices</span></li><li><span class="tr">Vision board&#x27;u kaydet ve paylaş</span><span class="en">Save and share your vision board</span></li></ul></div></div>
+      <p class="kick rv">How it works</p>
+      <h2 class="rv">Three quiet minutes a day</h2>
+      <ol class="steps"><li class="step rv"><span class="num">01</span><h3>Tell it your dream</h3><p>A short, gentle chat: your name, the people you love, what you want to change and the life you imagine.</p></li><li class="step rv"><span class="num">02</span><h3>A new story every morning</h3><p>Each day a new scene from that life is written for you, told as if it has already happened. Never the same story twice.</p></li><li class="step rv"><span class="num">03</span><h3>Close your eyes and listen</h3><p>A warm voice reads it to you over rain, ocean or 432 Hz. Or read it at your own pace.</p></li></ol>
     </div>
   </section>
 
-
-  <section class="band band-mint" id="gizlilik">
-    <div class="wrap pv">
-      <h2 class="disp big"><span class="tr">Cevapların sende</span><span class="en">Your answers stay yours</span></h2>
-      <div><p class="band-p"><span class="tr">Cevapların yalnızca hikayelerini yazmak için kullanılır; satılmaz, reklam için paylaşılmaz. Apple ya da Google ile giriş isteğe bağlı; giriş yaparsan hikayelerin yeni telefona taşınır.</span><span class="en">Your answers are used only to write your stories; never sold, never shared for ads. Signing in with Apple or Google is optional; if you do, your stories move with you to a new phone.</span></p>
-      <p class="row-btns"><a class="pill" href="/privacy/daily-whisper/"><span class="tr">Gizlilik politikası</span><span class="en">Privacy policy</span> →</a>
-      <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span> →</a>
-      <a class="pill" href="/geri-bildirim/?app=daily-whisper" data-umami-event="geri-bildirim" data-umami-event-app="daily-whisper"><span class="tr">Geri bildirim</span><span class="en">Feedback</span> →</a></p></div>
-    </div>
-  </section>
-
-  <section class="band band-violet" id="indir">
-    <div class="wrap get">
-      <div>
-        <h2 class="disp big"><span lang="en">Daily Whisper</span><br /><span class="tr">cebinde</span><span class="en">in your pocket</span></h2>
-        <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a></p>
+  <section class="row" id="today">
+    <div class="wrap row-in">
+      <div class="stage rv" style="--ph:url('/daily-whisper/assets/v2/photos/garden.webp')"><span class="phone p1"><img src="/daily-whisper/assets/v2/screens/en/01-today.webp" alt="" loading="lazy" decoding="async" /></span></div>
+      <div class="copy rv">
+        <p class="kick">Today</p>
+        <h2>Your future self has a story for you</h2>
+        <p class="p">Open the app and today&#x27;s story is waiting. Your name is in it, and so are your people and your city.</p>
+        <ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A gentle notification when it is ready</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Listen or read, with a countdown to the next one</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Today&#x27;s affirmation and horoscope on the same page</span></li></ul>
       </div>
-      <div class="qrs"><a class="qr-card" data-umami-event="qr-indir" data-umami-event-app="daily-whisper" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-qr="https://apps.apple.com/app/id6757824195" style="--r:2deg"><span class="q"></span><span class="qt"><b>App Store</b><span class="tr">telefonunla okut, indir</span><span class="en">scan to download</span></span></a></div>
+    </div>
+  </section>
+  <section class="row flip" id="listen">
+    <div class="wrap row-in">
+      <div class="stage rv duo" style="--ph:url('/daily-whisper/assets/v2/photos/sea.webp')"><span class="phone p1"><img src="/daily-whisper/assets/v2/screens/en/02-player.webp" alt="" loading="lazy" decoding="async" /></span><span class="phone p2"><img src="/daily-whisper/assets/v2/screens/en/03-soundscapes.webp" alt="" loading="lazy" decoding="async" /></span></div>
+      <div class="copy rv">
+        <p class="kick">Listen</p>
+        <h2>Close your eyes. Hear your dream.</h2>
+        <p class="p">The story is read aloud line by line, like a quiet film. Choose your narrator and set your atmosphere.</p>
+        <ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Rain, ocean, night, 432 Hz or 528 Hz under the voice</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Several narrator voices and speeds</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>The full text whenever you want to read</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="row" id="manifest">
+    <div class="wrap row-in">
+      <div class="stage rv duo" style="--ph:url('/daily-whisper/assets/v2/photos/rainbow.webp')"><span class="phone p1"><img src="/daily-whisper/assets/v2/screens/en/09-new-story.webp" alt="" loading="lazy" decoding="async" /></span><span class="phone p2"><img src="/daily-whisper/assets/v2/screens/en/08-stories.webp" alt="" loading="lazy" decoding="async" /></span></div>
+      <div class="copy rv">
+        <p class="kick">New manifest</p>
+        <h2>Your dream. Your story.</h2>
+        <p class="p">A job interview, a new home, a first date? Describe one moment and hear yourself living it.</p>
+        <ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Any goal, any moment</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Place, people and feeling to guide you</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Every story kept in your library, with favourites</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="row flip" id="stars">
+    <div class="wrap row-in">
+      <div class="stage rv duo" style="--ph:url('/daily-whisper/assets/v2/photos/moon.webp')"><span class="phone p1"><img src="/daily-whisper/assets/v2/screens/en/04-zodiac.webp" alt="" loading="lazy" decoding="async" /></span><span class="phone p2"><img src="/daily-whisper/assets/v2/screens/en/05-zodiac-advice.webp" alt="" loading="lazy" decoding="async" /></span></div>
+      <div class="copy rv">
+        <p class="kick">Stars</p>
+        <h2>What do the stars say today?</h2>
+        <p class="p">A daily reading from your Sun, Moon and Rising: love, money and career, plus what the sky is doing today.</p>
+        <ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Your chart from your birth details</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Moon phases and retrogrades, explained simply</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Small, practical advice for the day</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote" style="--ph:url('/daily-whisper/assets/v2/photos/meadow.webp')">
+    <div class="wrap"><blockquote class="rv">I am building a life that feels like mine.</blockquote></div>
+  </section>
+
+  <section class="more">
+    <div class="wrap">
+      <p class="kick rv">And more</p>
+      <h2 class="rv">Everything that keeps your dream close</h2>
+      <div class="cards"><article class="card rv"><div class="ct"><h3>Words that feel like you</h3><p>Swipe through affirmations and keep the ones that speak to you.</p></div><div class="cv"><span class="phone mini"><img src="/daily-whisper/assets/v2/screens/en/06-affirmations.webp" alt="" loading="lazy" decoding="async" /></span></div></article><article class="card rv"><div class="ct"><h3>Make room for your dream</h3><p>Your photos and words on a Vision Board. Save it as a wallpaper.</p></div><div class="cv"><span class="phone mini"><img src="/daily-whisper/assets/v2/screens/en/07-vision-board.webp" alt="" loading="lazy" decoding="async" /></span></div></article><article class="card rv"><div class="ct"><h3>Notice the good</h3><p>A small gratitude journal for the little things, every day.</p></div><div class="cv"><span class="phone mini"><img src="/daily-whisper/assets/v2/screens/en/10-gratitude.webp" alt="" loading="lazy" decoding="async" /></span></div></article><article class="card rv"><div class="ct"><h3>Always with you</h3><p>Affirmations and astrology on your widgets and Apple Watch.</p></div><div class="cv"><span class="phone mini"><img src="/daily-whisper/assets/v2/screens/en/12-widgets.webp" alt="" loading="lazy" decoding="async" /></span></div></article><article class="card rv"><div class="ct"><h3>Share what lifts you</h3><p>Turn an affirmation into a story or a post in one tap.</p></div><div class="cv"><span class="phone mini"><img src="/daily-whisper/assets/v2/screens/en/13-share.webp" alt="" loading="lazy" decoding="async" /></span></div></article><article class="card rv"><div class="ct"><h3>In your language</h3><p>Stories are written natively in 24 languages.</p></div><div class="cv langs" style="--ph:url('/daily-whisper/assets/v2/photos/water.webp')"><div class="chips"><span lang="en">English</span><span lang="tr">Türkçe</span><span lang="es">Español</span><span lang="de">Deutsch</span><span lang="fr">Français</span><span lang="it">Italiano</span><span>+18</span></div><b>24</b></div></article></div>
+    </div>
+  </section>
+
+  <section class="pro">
+    <div class="wrap pro-in rv">
+      <div>
+        <p class="kick">Premium</p>
+        <h2>Start with two free stories</h2>
+        <p class="p">Try Daily Whisper with two stories on us. Premium opens everything, and it starts with a 7 day free trial. Cancel anytime.</p>
+      </div>
+      <ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A new story every morning</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Unlimited manifests</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Every narrator voice</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>432 Hz, 528 Hz and every soundscape</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Vision Board wallpaper</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ready while you sleep</span></li></ul>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap narrow">
+      <h2 class="rv">Questions</h2>
+      <details class="qa rv"><summary><span>Is Daily Whisper free?</span><i aria-hidden="true"></i></summary><p>You can try two stories for free. A story every morning and the full experience come with Premium, which starts with a 7 day free trial.</p></details><details class="qa rv"><summary><span>Which languages does it speak?</span><i aria-hidden="true"></i></summary><p>The app is in English, Turkish, Spanish, German, French and Italian, and stories are written natively in 24 languages.</p></details><details class="qa rv"><summary><span>Do I need an account?</span><i aria-hidden="true"></i></summary><p>No. You can start right away. An optional account keeps your stories safe across devices.</p></details><details class="qa rv"><summary><span>Is it on Android?</span><i aria-hidden="true"></i></summary><p>Daily Whisper is on iPhone, iPad and Apple Watch today. The Android version is coming soon.</p></details><details class="qa rv"><summary><span>What happens to my answers?</span><i aria-hidden="true"></i></summary><p>They are used only to write your stories. The privacy policy has all the details.</p></details>
+    </div>
+  </section>
+
+  <section class="end" id="get">
+    <div class="wrap end-in rv" style="--ph:url('/daily-whisper/assets/v2/photos/window.webp')">
+      <div class="end-copy">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M20.5 4.5a11.5 11.5 0 1 0 7 19.6A10 10 0 0 1 20.5 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M24 7.5v3M22.5 9h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h2>Return to your dream every day.</h2>
+        <p class="p">Download Daily Whisper and hear your first story today.</p>
+        <div class="ctas"><a class="btn light" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper" data-umami-event-where="end"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span><small>Download on the</small>App Store</span></a><span class="soon light">Android coming soon</span></div>
+      </div>
     </div>
   </section>
 </main>
 
 <footer class="foot">
-  <div class="wrap">
-    <nav>
-      <a href="/">Bam Studio</a>
-      <a href="/#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
-      <a href="/privacy/daily-whisper/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
-      <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
-      <a href="/geri-bildirim/?app=daily-whisper" data-umami-event="geri-bildirim" data-umami-event-app="daily-whisper"><span class="tr">Geri bildirim</span><span class="en">Feedback</span></a>
-      <a href="/blog/">Blog</a>
-      <a href="/terms/"><span class="tr">Şartlar</span><span class="en">Terms</span></a>
-      <a href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
-    </nav>
-    <span class="copy">© 2026 Bam Studio</span>
+  <div class="wrap foot-in">
+    <p>Daily Whisper is made by Bam Studio.</p>
+    <nav><a href="/privacy/daily-whisper/">Privacy</a><a href="/terms/">Terms</a><a href="/support/">Support</a><a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></nav>
   </div>
-  <div class="giant disp" lang="en" aria-hidden="true">Daily Whisper</div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js?v=cd6608e9"></script>
-<script src="/assets/caps.js?v=3488c691" defer></script>
+<div class="dock" aria-hidden="true"><a class="btn " href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper" data-umami-event-where="dock"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span><small>Download on the</small>App Store</span></a></div>
 
+<script>
+(function(){
+  document.querySelectorAll(".lang a").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("dw-lang",a.dataset.l)}catch(e){}})});
+  document.addEventListener("click",function(ev){var d=document.querySelector(".lang");if(d.open&&!d.contains(ev.target))d.open=false});
+  var rv=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+    document.documentElement.classList.add("anim");
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{rootMargin:"0px 0px -8% 0px"});
+    rv.forEach(function(el){io.observe(el)});
+  }
+  var dock=document.querySelector(".dock"),hero=document.getElementById("hero-cta"),end=document.getElementById("get");
+  if("IntersectionObserver" in window){
+    var vis={};var o2=new IntersectionObserver(function(es){es.forEach(function(x){vis[x.target.id]=x.isIntersecting});var show=!vis["hero-cta"]&&!vis["get"];dock.classList.toggle("on",show);dock.setAttribute("aria-hidden",show?"false":"true")});
+    o2.observe(hero);o2.observe(end);
+  }
+})();
+</script>
 </body>
 </html>

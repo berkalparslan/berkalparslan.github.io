@@ -9,11 +9,17 @@
   <url><loc>https://bamstudio.dev/bodybook/support/</loc><lastmod>2026-10-03</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/bosyeryok/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/bumpline/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/consent/oncopace/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/daily-whisper/de/</loc><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/daily-whisper/es/</loc><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/daily-whisper/fr/</loc><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/daily-whisper/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
-  <url><loc>https://bamstudio.dev/geri-bildirim/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
-  <url><loc>https://bamstudio.dev/</loc><lastmod>2026-10-12</lastmod><priority>1.0</priority></url>
+  <url><loc>https://bamstudio.dev/daily-whisper/it/</loc><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/daily-whisper/tr/</loc><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/geri-bildirim/</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/</loc><lastmod>2026-10-14</lastmod><priority>1.0</priority></url>
   <url><loc>https://bamstudio.dev/kit-qr/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
-  <url><loc>https://bamstudio.dev/kit-qr/privacy/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
+  <url><loc>https://bamstudio.dev/kit-qr/privacy/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/konfeti/</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/leafbook/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/leafbook/s/</loc><lastmod>2026-10-06</lastmod><priority>0.8</priority></url>
@@ -34,17 +40,16 @@
   <url><loc>https://bamstudio.dev/privacy/bosyeryok/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/bumpline/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/daily-whisper/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
-  <url><loc>https://bamstudio.dev/privacy/</loc><lastmod>2026-10-08</lastmod><priority>0.4</priority></url>
-  <url><loc>https://bamstudio.dev/privacy/kit-qr/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
+  <url><loc>https://bamstudio.dev/privacy/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
+  <url><loc>https://bamstudio.dev/privacy/iz/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
+  <url><loc>https://bamstudio.dev/privacy/kit-qr/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/konfeti/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/leafbook/</loc><lastmod>2026-10-10</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/matchday/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/nika/</loc><lastmod>2026-10-06</lastmod><priority>0.4</priority></url>
-  <url><loc>https://bamstudio.dev/privacy/nubi/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
+  <url><loc>https://bamstudio.dev/privacy/nubi/</loc><lastmod>2026-10-14</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/o-mu-bu-mu/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/oncopace/</loc><lastmod>2026-10-12</lastmod><priority>0.4</priority></url>
-  <url><loc>https://bamstudio.dev/consent/oncopace/</loc><lastmod>2026-10-12</lastmod><priority>0.4</priority></url>
-  <url><loc>https://bamstudio.dev/terms/oncopace/</loc><lastmod>2026-10-12</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/orbix-roulette/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/pickleball/</loc><lastmod>2026-10-08</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/privacy/rally-badminton/</loc><lastmod>2026-10-08</lastmod><priority>0.4</priority></url>
@@ -62,6 +67,7 @@
   <url><loc>https://bamstudio.dev/tasbih-tally/privacy/</loc><lastmod>2026-10-03</lastmod><priority>0.4</priority></url>
   <url><loc>https://bamstudio.dev/tennis-padel/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/terms/</loc><lastmod>2026-10-04</lastmod><priority>0.8</priority></url>
+  <url><loc>https://bamstudio.dev/terms/oncopace/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/u/</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/volleyball/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://bamstudio.dev/walletcoach/</loc><lastmod>2026-10-12</lastmod><priority>0.8</priority></url>
