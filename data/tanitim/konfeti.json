@@ -1,0 +1,327 @@
+{
+ "slug": "konfeti",
+ "name": "Konfeti",
+ "title": {
+  "tr": "Konfeti: Parti TV",
+  "en": "Konfeti: Party TV"
+ },
+ "description": {
+  "tr": "Ev partisi için TV uygulaması. Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi? ve daha fazlası; misafirler QR'ı okutup telefonla oy verir, fotoğraflar TV'de duvara dönüşür. Android TV, Google TV ve web.",
+  "en": "A party app for your TV. This or That?, Forbidden Words, Truth or Dare? and more; guests scan a QR code and vote from their phones, and photos become a wall on the TV. Android TV, Google TV and the web."
+ },
+ "icon": "/konfeti/assets/icon-512.png",
+ "color": "#ffd731",
+ "accent": "#fb4903",
+ "status": "new",
+ "kicker": {
+  "tr": "Android TV · Google TV · Web",
+  "en": "Android TV · Google TV · Web"
+ },
+ "lede": {
+  "tr": "Partiyi TV'ye taşı. Oyunu kumandayla seç, misafirler QR'ı okutup telefonla katılsın; oylar, fotoğraflar ve puanlar büyük ekranda.",
+  "en": "Put the party on the TV. Pick a game with the remote, guests scan the QR and join from their phones; votes, photos and scores land on the big screen."
+ },
+ "pills": [
+  {
+   "tr": "Hesap yok",
+   "en": "No account"
+  },
+  {
+   "tr": "Reklam yok",
+   "en": "No ads"
+  },
+  {
+   "tr": "Telefona kurulum yok",
+   "en": "Nothing to install on phones"
+  },
+  {
+   "tr": "9 oyun",
+   "en": "9 games"
+  },
+  {
+   "tr": "TR · EN",
+   "en": "TR · EN"
+  },
+  {
+   "tr": "Google Play'de yakında",
+   "en": "Coming soon to Google Play"
+  }
+ ],
+ "platforms": [
+  "android",
+  "web"
+ ],
+ "buttons": [
+  {
+   "label": {
+    "tr": "Web uygulamasını aç",
+    "en": "Open the web app"
+   },
+   "href": "https://konfeti.bamstudio.dev",
+   "dark": true
+  }
+ ],
+ "emoji": [
+  "🎉",
+  "🎊",
+  "🥳",
+  "🎂",
+  "🎈",
+  "🏆",
+  "📸"
+ ],
+ "sections": [
+  {
+   "id": "oyunlar",
+   "kicker": {
+    "tr": "Oyunlar",
+    "en": "Games"
+   },
+   "title": {
+    "tr": "Dokuz oyun, tek kumanda",
+    "en": "Nine games, one remote"
+   },
+   "text": {
+    "tr": "Partiyi TV'den yönet, oyunu kumandayla seç. Herkes aynı ekrana bakar, kahkaha salonda kalır.",
+    "en": "Run the party from the TV and pick a game with the remote. Everyone looks at the same screen and the laughs stay in the room."
+   },
+   "bullets": [
+    {
+     "tr": "Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi?",
+     "en": "This or That?, Forbidden Words, Truth or Dare?"
+    },
+    {
+     "tr": "En Çok Kim?, Ben Daha Önce Hiç, Görev Çarkı",
+     "en": "Most Likely To, Never Have I Ever, Task Wheel"
+    },
+    {
+     "tr": "Sessiz Sinema, Ben Kimim? ve Turnuva",
+     "en": "Charades, Who Am I? and the This-or-That Tournament"
+    }
+   ],
+   "color": "#ffd731",
+   "device": "image",
+   "images": {
+    "any": [
+     "/konfeti/assets/art/oyunlar.svg"
+    ]
+   }
+  },
+  {
+   "id": "telefon",
+   "kicker": {
+    "tr": "Telefonla oy",
+    "en": "Vote by phone"
+   },
+   "title": {
+    "tr": "QR'ı okut, oyuna gir",
+    "en": "Scan the QR, you're in"
+   },
+   "text": {
+    "tr": "Misafirler TV'deki QR kodu okutur, telefonun tarayıcısında oyuna katılır. Uygulama indirmek yok, hesap açmak yok.",
+    "en": "Guests scan the QR code on the TV and join from their phone's browser. Nothing to install, no account to create."
+   },
+   "bullets": [
+    {
+     "tr": "Adını ya da takma adını yaz, emojini seç",
+     "en": "Type a name or nickname, pick an emoji"
+    },
+    {
+     "tr": "Oylar telefondan, sonuç TV'de",
+     "en": "Votes on the phone, results on the TV"
+    },
+    {
+     "tr": "Kimin neye oy verdiğini kimse görmez",
+     "en": "Nobody sees who voted for what"
+    }
+   ],
+   "color": "#e9ccff",
+   "device": "image",
+   "images": {
+    "any": [
+     "/konfeti/assets/art/telefon.svg"
+    ]
+   }
+  },
+  {
+   "id": "foto",
+   "kicker": {
+    "tr": "Fotoğraf duvarı",
+    "en": "Photo wall"
+   },
+   "title": {
+    "tr": "Gecenin fotoğrafları TV'de",
+    "en": "The night's photos on the big screen"
+   },
+   "text": {
+    "tr": "Misafirler çektikleri fotoğrafları telefondan yükler, TV'de canlı bir duvar olur. Beğeniler puana dönüşür.",
+    "en": "Guests upload their photos from their phones and the TV turns them into a live wall. Likes turn into points."
+   },
+   "bullets": [
+    {
+     "tr": "Ev sahibi istemediği fotoğrafı TV'den anında siler",
+     "en": "The host removes any photo from the TV right away"
+    },
+    {
+     "tr": "Parti odası 30 gün sonra kendiliğinden silinir",
+     "en": "The party room deletes itself after 30 days"
+    }
+   ],
+   "color": "#55db9c",
+   "device": "image",
+   "images": {
+    "any": [
+     "/konfeti/assets/art/foto.svg"
+    ]
+   }
+  },
+  {
+   "id": "puan",
+   "kicker": {
+    "tr": "Puan tablosu",
+    "en": "Leaderboard"
+   },
+   "title": {
+    "tr": "Gecenin şampiyonu belli",
+    "en": "Crown the champion"
+   },
+   "text": {
+    "tr": "Oylar, doğru cevaplar ve beğeniler puan tablosunda toplanır. Parti bitince gecenin özeti ekrana gelir.",
+    "en": "Votes, right answers and likes add up on the leaderboard. When the party ends, the night's recap takes the screen."
+   },
+   "bullets": [
+    {
+     "tr": "Bireysel ya da takım halinde",
+     "en": "Solo or in teams"
+    },
+    {
+     "tr": "Parti özeti: en çok oy alan, en çok beğenilen fotoğraf",
+     "en": "Party recap: top voter, most liked photo"
+    }
+   ],
+   "color": "#ffb3d9",
+   "device": "image",
+   "images": {
+    "any": [
+     "/konfeti/assets/art/puan.svg"
+    ]
+   }
+  },
+  {
+   "id": "etkinlik",
+   "kicker": {
+    "tr": "Etkinlikler",
+    "en": "Events"
+   },
+   "title": {
+    "tr": "Her partiye kendi havası",
+    "en": "Every party gets its own vibe"
+   },
+   "text": {
+    "tr": "Doğum günü, yılbaşı, maç gecesi, oyun gecesi, baby shower ya da ev partisi. Etkinliği seç, ekran ona göre süslensin.",
+    "en": "Birthday, New Year, match night, game night, baby shower or house party. Pick the event and the screen dresses up for it."
+   },
+   "bullets": [
+    {
+     "tr": "Pasta anı: ışıklar kısılır, şarkı başlar",
+     "en": "Cake moment: lights down, the song starts"
+    },
+    {
+     "tr": "Yılbaşında gece yarısı geri sayımı",
+     "en": "Midnight countdown on New Year's Eve"
+    },
+    {
+     "tr": "Misafir köşesi: Wi-Fi QR'ı, şifre yalnız TV'de kalır",
+     "en": "Guest corner: a Wi-Fi QR, the password stays on the TV"
+    }
+   ],
+   "color": "#c8f560",
+   "device": "image",
+   "images": {
+    "any": [
+     "/konfeti/assets/art/etkinlik.svg"
+    ]
+   }
+  }
+ ],
+ "pricing": {
+  "title": {
+   "tr": "Ücretsiz başla",
+   "en": "Start free"
+  },
+  "lede": {
+   "tr": "Temel oyunlar ücretsiz. Konfeti Pro tek seferlik bir satın almadır, abonelik yok.",
+   "en": "The core games are free. Konfeti Pro is a one-time purchase, not a subscription."
+  },
+  "plans": [
+   {
+    "name": {
+     "tr": "Konfeti",
+     "en": "Konfeti"
+    },
+    "price": {
+     "tr": "Ücretsiz",
+     "en": "Free"
+    },
+    "items": [
+     {
+      "tr": "Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi?",
+      "en": "This or That?, Forbidden Words, Truth or Dare?"
+     },
+     {
+      "tr": "En Çok Kim?, Ben Daha Önce Hiç, Görev Çarkı",
+      "en": "Most Likely To, Never Have I Ever, Task Wheel"
+     },
+     {
+      "tr": "Telefonla oy, puan tablosu, parti özeti",
+      "en": "Phone voting, leaderboard, party recap"
+     },
+     {
+      "tr": "Parti başına 30 fotoğraf",
+      "en": "30 photos per party"
+     }
+    ]
+   },
+   {
+    "name": {
+     "tr": "Konfeti Pro",
+     "en": "Konfeti Pro"
+    },
+    "price": {
+     "tr": "Tek seferlik",
+     "en": "One-time"
+    },
+    "items": [
+     {
+      "tr": "Sessiz Sinema, Ben Kimim? ve Turnuva",
+      "en": "Charades, Who Am I? and the Tournament"
+     },
+     {
+      "tr": "Shot modu (18+, isteğe bağlı)",
+      "en": "Shot mode (18+, optional)"
+     },
+     {
+      "tr": "Parti başına sınırsız fotoğraf",
+      "en": "Unlimited photos per party"
+     },
+     {
+      "tr": "Birden fazla parti",
+      "en": "Multiple parties"
+     }
+    ]
+   }
+  ]
+ },
+ "privacy": {
+  "title": {
+   "tr": "Parti sizde kalır",
+   "en": "The party stays yours"
+  },
+  "text": {
+   "tr": "Hesap yok, reklam yok, reklam kimliği yok. Parti odası 4 karakterlik özel bir kodla açılır; oda ve fotoğraflar son hareketten 30 gün sonra kendiliğinden silinir. Wi-Fi şifresi yalnız TV'de kalır.",
+   "en": "No account, no ads, no advertising ID. The party room opens with a private 4-character code; the room and its photos delete themselves 30 days after the last activity. The Wi-Fi password stays on the TV."
+  },
+  "href": "/privacy/konfeti/"
+ },
+ "support": "/support/"
+}

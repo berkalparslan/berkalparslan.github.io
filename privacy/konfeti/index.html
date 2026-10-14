@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konfeti · Gizlilik Politikası / Privacy Policy</title>
+<meta name="description" content="Konfeti gizlilik politikası: hesap yok, reklam yok, parti odası 30 gün sonra kendiliğinden silinir. Konfeti privacy policy.">
+<link rel="canonical" href="https://bamstudio.dev/privacy/konfeti/">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Studio</span></a>
+    <nav>
+      <a href="/konfeti/">Tanıtım</a>
+      <a href="/">Uygulamalar</a>
+      <a href="/privacy/">Tüm politikalar</a>
+      <a href="/support/">Destek</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Konfeti: Gizlilik Politikası</h1>
+<p class="updated">Son güncelleme: 14 Ekim 2026</p>
+<p class="lang-note">English version below · İngilizcesi aşağıdadır</p>
+
+<p>Bu politika Bam Studio tarafından geliştirilen Konfeti uygulamasını kapsar: Android TV / Google TV uygulaması, misafirlerin telefondan açtığı sayfa ve <a href="https://konfeti.bamstudio.dev" target="_blank" rel="noopener">konfeti.bamstudio.dev</a> web uygulaması.</p>
+
+<h2>Kısaca</h2>
+<ul>
+  <li>Hesap yok. Ne ev sahibi ne misafirler kayıt olur; e-posta ya da telefon numarası istenmez.</li>
+  <li>Reklam yok. Reklam kimliği kullanılmaz, üçüncü taraf reklam ya da analiz SDK'sı yoktur.</li>
+  <li>Parti odası ve içindeki fotoğraflar, odadaki son hareketten 30 gün sonra kendiliğinden silinir.</li>
+  <li>Verilerin satılmaz, veri simsarlarıyla paylaşılmaz.</li>
+</ul>
+
+<h2>Parti odası nasıl çalışır</h2>
+<p>TV'de bir parti başlattığında 4 karakterlik bir kodla tanımlanan özel bir parti odası açılır. Misafirler TV'deki QR kodu okutup bu odaya telefonlarının tarayıcısından katılır, bir şey kurmaları gerekmez. Oda, Cloudflare altyapısında (Workers ve Durable Objects) çalışır; fotoğraflar Cloudflare R2 depolamasında tutulur. Odaya yalnızca kodu bilenler girebilir.</p>
+
+<h2>Odada tutulan veriler</h2>
+<ul>
+  <li><strong>Misafirin yazdığı ad:</strong> katılırken girilen ilk ad ya da takma ad ve seçilen emoji. Gerçek ad yazmak zorunlu değildir.</li>
+  <li><strong>Fotoğraflar:</strong> misafirlerin fotoğraf duvarına yüklediği fotoğraflar.</li>
+  <li><strong>Oyun verileri:</strong> oylar, beğeniler, puanlar ve takım skorları. Telefonlar kimin neye oy verdiğini göremez.</li>
+  <li><strong>Parti bilgileri:</strong> ev sahibinin TV'de seçtiği etkinlik türü, dil ve isteğe bağlı olarak yazdığı parti adı (örneğin doğum günü olan kişinin adı).</li>
+</ul>
+<p>Bu verilerin tamamı, odadaki son hareketten <strong>30 gün sonra</strong> fotoğraflarla birlikte kendiliğinden silinir. Ev sahibi bir fotoğrafı TV'den istediği an silebilir; silinen fotoğraf depolamadan da kaldırılır.</p>
+
+<h2>Yalnız TV'de kalan veriler</h2>
+<p>Misafirlerin QR ile ağa bağlanması için girdiğin Wi-Fi adı ve şifresi yalnızca TV'de (uygulamanın yerel deposunda, localStorage) saklanır. Parti odasına yazılmaz ve sunucuda tutulmaz. Kurulumu telefonundan yapmayı seçersen, bu bilgiler yalnız kurulum QR'ındaki gizli anahtarı bilen telefona, şifreli bağlantı üzerinden aktarılır; sunucu bu içeriğe bakmaz ve kaydetmez.</p>
+<p>Uygulama ayarların, Pro durumu ve gecenin özeti için tutulan sayaçlar da TV'de kalır.</p>
+
+<h2>Anonim parti istatistiği</h2>
+<p>Uygulamayı geliştirebilmek için bir parti bittiğinde ya da süresi dolduğunda tek satırlık anonim bir özet kaydedilir: tarih (yalnız gün), etkinlik türü, dil, platform (Android, web gibi), Pro olup olmadığı, oyuncu, fotoğraf, oy ve soru sayıları, oynanan oyunlar ve partinin süresi. Bu özette ad, fotoğraf, oda kodu, cihaz kimliği ya da kişiyi tanımlayan başka bir bilgi <strong>yer almaz</strong>.</p>
+
+<h2>Teknik kayıtlar ve güvenlik</h2>
+<p>Tüm bağlantılar şifrelidir (HTTPS ve WSS). Altyapı sağlayıcımız Cloudflare, hizmeti çalıştırmak ve kötüye kullanımı önlemek için IP adresi gibi standart teknik bilgileri kısa süreli işleyebilir. Bu bilgiler bir hesapla ya da reklam profiliyle eşleştirilmez.</p>
+
+<h2>Konfeti Pro</h2>
+<p>Konfeti Pro, Google Play üzerinden yapılan isteğe bağlı, tek seferlik bir uygulama içi satın almadır. Ödemeyi Google Play işler; kart ya da ödeme bilgilerin bize ulaşmaz. Uygulama yalnızca satın almanın geçerli olup olmadığını öğrenir.</p>
+
+<h2>Shot modu (18+)</h2>
+<p>Shot modu isteğe bağlıdır, varsayılan olarak kapalıdır ve yalnızca 18 yaşını doldurmuş yetişkinler içindir.</p>
+
+<h2>Yapmadıklarımız</h2>
+<ul>
+  <li>Hesap açtırmak, e-posta ya da telefon numarası istemek</li>
+  <li>Reklam göstermek, reklam kimliğini okumak</li>
+  <li>Verilerini satmak, kiralamak ya da veri simsarlarıyla paylaşmak</li>
+  <li>Konumunu takip etmek</li>
+</ul>
+
+<h2>Çocuklar</h2>
+<p>Konfeti 13 yaşın altındaki çocuklara yönelik değildir ve onlardan bilerek veri toplamaz.</p>
+
+<h2>Haklarınız ve silme talebi</h2>
+<p>Oda verileri 30 gün içinde kendiliğinden silinir; ev sahibi fotoğrafları TV'den hemen silebilir. Daha erken silinmesini istediğin bir fotoğraf ya da oda verisi varsa, oda kodunu ve partinin tarihini yazarak <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a> adresine e-posta gönder; talebini en kısa sürede yerine getiririz. KVKK veya GDPR kapsamındaki diğer talepler için de aynı adresi kullanabilirsin.</p>
+
+<h2>Değişiklikler</h2>
+<p>Bu politika değişirse bu sayfa ve yukarıdaki tarih güncellenir. Toplanan veri kapsamı genişlerse, o sürüm yayınlanmadan önce hem bu sayfa hem Google Play veri güvenliği beyanı güncellenir.</p>
+
+<h2>İletişim</h2>
+<p>Bam Studio · <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></p>
+
+<hr>
+
+<h1 id="en">Konfeti: Privacy Policy</h1>
+<p class="updated">Last updated: 14 October 2026</p>
+
+<p>This policy covers Konfeti, made by Bam Studio: the Android TV / Google TV app, the page guests open on their phones, and the web app at <a href="https://konfeti.bamstudio.dev" target="_blank" rel="noopener">konfeti.bamstudio.dev</a>.</p>
+
+<h2>In short</h2>
+<ul>
+  <li>No account. Neither the host nor the guests sign up; no email or phone number is asked for.</li>
+  <li>No ads. No advertising ID is used and there are no third-party advertising or analytics SDKs.</li>
+  <li>A party room and its photos are deleted automatically 30 days after the room's last activity.</li>
+  <li>Your data is never sold or shared with data brokers.</li>
+</ul>
+
+<h2>How a party room works</h2>
+<p>When you start a party on the TV, a private party room identified by a 4-character code is opened. Guests scan the QR code on the TV and join the room from their phone's browser, with nothing to install. The room runs on Cloudflare infrastructure (Workers and Durable Objects); photos are stored in Cloudflare R2. Only people who know the code can enter the room.</p>
+
+<h2>Data kept in the room</h2>
+<ul>
+  <li><strong>The name a guest types:</strong> a first name or nickname entered when joining, plus a chosen emoji. A real name is not required.</li>
+  <li><strong>Photos:</strong> photos guests upload to the photo wall.</li>
+  <li><strong>Game data:</strong> votes, likes, points and team scores. Phones cannot see who voted for what.</li>
+  <li><strong>Party details:</strong> the event type and language the host picks on the TV, and an optional party name (for example the birthday person's name).</li>
+</ul>
+<p>All of this, including the photos, is deleted automatically <strong>30 days after the room's last activity</strong>. The host can delete any photo from the TV at any time, and a deleted photo is removed from storage as well.</p>
+
+<h2>Data that stays on the TV</h2>
+<p>The Wi-Fi name and password you enter so guests can join your network with a QR code are stored only on the TV (in the app's local storage, localStorage). They are not written to the party room and are not kept on the server. If you choose to set up from your phone, these details are passed over the encrypted connection only to the phone that holds the secret key from the setup QR code; the server does not read or store them.</p>
+<p>Your app settings, Pro status and the counters used for the party recap also stay on the TV.</p>
+
+<h2>Anonymous party statistics</h2>
+<p>To improve the app, a single anonymous summary row is recorded when a party ends or expires: the date (day only), event type, language, platform (such as Android or web), whether Pro was active, the number of players, photos, votes and questions, the games played and how long the party lasted. This summary <strong>does not</strong> contain names, photos, the room code, a device identifier or anything else that identifies a person.</p>
+
+<h2>Technical logs and security</h2>
+<p>All connections are encrypted in transit (HTTPS and WSS). Our infrastructure provider Cloudflare may briefly process standard technical information such as IP addresses to run the service and prevent abuse. This information is never linked to an account or an advertising profile.</p>
+
+<h2>Konfeti Pro</h2>
+<p>Konfeti Pro is an optional one-time in-app purchase made through Google Play. Google Play processes the payment; we never receive your card or payment details. The app only learns whether the purchase is valid.</p>
+
+<h2>Shot mode (18+)</h2>
+<p>Shot mode is optional, turned off by default, and intended only for adults aged 18 and over.</p>
+
+<h2>What the app never does</h2>
+<ul>
+  <li>Make you create an account or ask for your email or phone number</li>
+  <li>Show ads or read your advertising ID</li>
+  <li>Sell or rent your data, or share it with data brokers</li>
+  <li>Track your location</li>
+</ul>
+
+<h2>Children</h2>
+<p>Konfeti is not directed at children under 13 and does not knowingly collect data from them.</p>
+
+<h2>Your rights and deletion requests</h2>
+<p>Room data is deleted automatically within 30 days, and the host can delete photos from the TV right away. If you would like a photo or room data removed sooner, email <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a> with the room code and the date of the party, and we will handle it as soon as possible. Use the same address for any other request under GDPR or Turkish KVKK.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, this page and the date above are updated. If the scope of collected data ever widens, both this page and the Google Play data safety declaration are updated before that version ships.</p>
+
+<h2>Contact</h2>
+<p>Bam Studio · <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></p>
+
+</main>
+
+<footer>
+  <p>© 2026 Bam Studio ·
+    <a href="/privacy/">Tüm politikalar</a> ·
+    <a href="/support/">Destek</a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>

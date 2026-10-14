@@ -39,6 +39,19 @@
   "en": "A virtual pet that lives in real time. Hungry while you work, sleepy at night, a little bored when you forget it, and growing up right in front of you."
  },
  {
+  "slug": "konfeti",
+  "name": "Konfeti",
+  "sub": "Party TV",
+  "icon": "/konfeti/assets/icon-512.png",
+  "color": "#ffd731",
+  "ios": null,
+  "play": null,
+  "tour": "/konfeti/",
+  "status": "new",
+  "tr": "Ev partisi için TV uygulaması. Oyunu kumandayla seç, misafirler QR'ı okutup telefonla oy versin; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Android TV, Google TV ve web.",
+  "en": "A party app for your TV. Pick a game with the remote, guests scan the QR and vote from their phones; photos, scores and the night's recap land on the big screen. Android TV, Google TV and the web."
+ },
+ {
   "slug": "daily-whisper",
   "name": "Daily Whisper",
   "sub": "Affirmations",

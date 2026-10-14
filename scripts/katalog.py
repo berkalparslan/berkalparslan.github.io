@@ -33,6 +33,12 @@ APPS = [
        tr="Gerçek zamanlı yaşayan bir sanal evcil hayvan. Sen işteyken acıkır, gece uykusu gelir, unutursan biraz sıkılır; her gün gözünün önünde büyür.",
        en="A virtual pet that lives in real time. Hungry while you work, sleepy at night, a little bored when you forget it, and growing up right in front of you.",
        tour="/nubi/", ios="6816090205", search="nubi sanal evcil hayvan tamagotchi pet virtual"),
+  dict(slug="konfeti", name="Konfeti", sub="Party TV", icon="/konfeti/assets/icon-512.png", status="new", released="2026-10-14",
+       tags="fun", plat="web android", color="#ffd731",
+       tr="Ev partisi için TV uygulaması. Oyunu kumandayla seç, misafirler QR'ı okutup telefonla oy versin; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Android TV, Google TV ve web.",
+       en="A party app for your TV. Pick a game with the remote, guests scan the QR and vote from their phones; photos, scores and the night's recap land on the big screen. Android TV, Google TV and the web.",
+       # Play'de henüz yayında değil: play_pending yalnız kayıt, link çizilmez. Yayına girince play= yap.
+       tour="/konfeti/", play_pending="dev.bamstudio.konfeti", search="konfeti parti party tv android tv google tv oyun game bu mu o mu yasak kelime doğruluk cesaret"),
   dict(slug="daily-whisper", name="Daily Whisper", sub="Affirmations", icon="/assets/home/daily-whisper-icon.webp", status="new", released="2026-10-02",
        tags="health", plat="ios watchos", color="#e9ccff",
        tr="Her sabah sana özel yazılmış kısa bir hikaye: hayalini kurduğun hayattan bir sahne, senin adınla, sıcak bir sesle okunur.",
