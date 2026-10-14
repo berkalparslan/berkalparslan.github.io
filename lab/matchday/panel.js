@@ -13,7 +13,7 @@
  */
 import { getFirestore, collection, collectionGroup, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, deleteField,
   query, orderBy, limit, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { panelKabuk } from "/lab/assets/shell.js?v=2";
+import { panelKabuk } from "/lab/assets/shell.js?v=3";
 import { el, kart, tiles, veriTablo, sayi, sure, tarihTam, tarihHucre, yuzde, zaman, ms, istGun, istGunBasi,
   donem, farkYazi, surumListesi, surumSuz, surumNotlari, surumNotlariKutu, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
 import { gunlukCubuk, cizgi, huni, yatayCubuk, saatIsi, saatMatrisi, kivilcim, gunleriDoldur } from "/lab/assets/grafik.js?v=1";

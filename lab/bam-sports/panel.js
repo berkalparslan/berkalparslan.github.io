@@ -13,7 +13,7 @@
  * `panel/sales` (panel-yaz.mjs) ve `panel/magaza` (bam-sports.mjs: platform
  * ayrımı, kur, Pass fiyatları).
  */
-import { panelKabuk } from "/lab/assets/shell.js?v=2";
+import { panelKabuk } from "/lab/assets/shell.js?v=3";
 import { el, kart, tiles, veriTablo, sayi, tarihTam, tarihHucre, zaman, ms, istGun, donem,
   surumNotlari, surumNotlariKutu, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
 import { gunlukCubuk, cizgi, huni, yatayCubuk, saatIsi, saatMatrisi, kivilcim } from "/lab/assets/grafik.js?v=1";

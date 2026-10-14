@@ -162,8 +162,13 @@ export async function panelKabuk(cfg) {
   async function yenile() {
     if (cfg.yukle) {
       kabuk.durum("Yükleniyor...");
+      kabuk.yukleHata = null;
       try { await cfg.yukle(kabuk); }
-      catch (e) { kabuk.durum("Hata: " + (e.message || e)); }
+      catch (e) {
+        console.error(e);
+        kabuk.yukleHata = (e.code ? e.code + ": " : "") + (e.message || e);
+        kabuk.durum("Hata: " + kabuk.yukleHata);
+      }
     }
     ciz();
   }
@@ -210,6 +215,12 @@ export async function panelKabuk(cfg) {
     baslik.textContent = s.ad;
     document.title = `${s.ad} · ${cfg.ad} Panel`;
     icerik.textContent = "";
+    /* Veri yüklenemediyse sebep sayfanın en üstünde görünsün (alttaki durum satırı gözden kaçıyor). */
+    if (kabuk.yukleHata) {
+      const u = el("div", "uyari-satir");
+      u.textContent = "Veri yüklenemedi: " + kabuk.yukleHata + (/permission/i.test(kabuk.yukleHata) ? " · Giriş yapan hesap yönetici değil ya da kural izin vermiyor." : "") + " · Yenile'ye bas; sürerse bu metnin ekran görüntüsünü at.";
+      icerik.appendChild(u);
+    }
     try { s.ciz(icerik, kabuk); }
     catch (e) { console.error(e); icerik.appendChild(el("p", "muted", "Sayfa çizilemedi: " + (e.message || e))); }
   }
