@@ -1090,7 +1090,7 @@ function loadSocial() {
       // Alt koleksiyonlar (yorum, beğeni, bildirim kutusu, engel) collection group ile; kural yalnız yöneticiye açık.
       const group = async (key, c, lim) => { try { raw[key] = (await F.getDocs(F.query(F.collectionGroup(db, c), F.limit(lim)))).docs.map(d => ({ id: d.id, path: d.ref.path, ...d.data() })); } catch (e) { raw[key] = []; raw.err[key] = izin(e); } };
       await Promise.all([get("users", 3000), get("follows", 10000), get("leagues", 1000), get("matches", 3000), get("posts", 5000), get("followRequests", 5000), get("reports", 3000),
-        group("comments", "comments", 10000), group("likes", "likes", 20000), group("notifItems", "items", 20000), group("blocks", "blocks", 5000),
+        group("comments", "comments", 10000), group("likes", "likes", 10000), group("notifItems", "items", 10000), group("blocks", "blocks", 5000),
         (async () => { try { raw.handlesN = (await F.getCountFromServer(F.collection(db, "handles"))).data().count; } catch (e) { raw.err.handles = e.code || e.message; } })()]);
     }
     const followers = new Map(), following = new Map();
