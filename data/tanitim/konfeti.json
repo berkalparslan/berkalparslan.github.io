@@ -7,7 +7,7 @@
  },
  "description": {
   "tr": "Ev partisi için TV uygulaması. Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi? ve daha fazlası; misafirler QR'ı okutup telefonla oy verir, fotoğraflar TV'de duvara dönüşür. Android TV, Google TV ve web.",
-  "en": "A party app for your TV. This or That?, Forbidden Words, Truth or Dare? and more; guests scan a QR code and vote from their phones, and photos become a wall on the TV. Android TV, Google TV and the web."
+  "en": "A party app for your TV. This or That, Forbidden Words, Truth or Dare and more; guests scan a QR code and vote from their phones, and photos become a wall on the TV. Android TV, Google TV and the web."
  },
  "icon": "/konfeti/assets/icon-512.png",
  "color": "#ffd731",
@@ -88,11 +88,11 @@
    "bullets": [
     {
      "tr": "Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi?",
-     "en": "This or That?, Forbidden Words, Truth or Dare?"
+     "en": "This or That, Forbidden Words, Truth or Dare"
     },
     {
      "tr": "En Çok Kim?, Ben Daha Önce Hiç, Görev Çarkı",
-     "en": "Most Likely To, Never Have I Ever, Task Wheel"
+     "en": "Most Likely To, Never Have I Ever, Spin the Wheel"
     },
     {
      "tr": "Sessiz Sinema, Ben Kimim? ve Turnuva",
@@ -100,10 +100,17 @@
     }
    ],
    "color": "#ffd731",
-   "device": "image",
+   "device": "laptop",
    "images": {
-    "any": [
-     "/konfeti/assets/art/oyunlar.svg"
+    "tr": [
+     "/konfeti/assets/shots/tr/03-yasak.webp",
+     "/konfeti/assets/shots/tr/04-cark.webp",
+     "/konfeti/assets/shots/tr/01-home.webp"
+    ],
+    "en": [
+     "/konfeti/assets/shots/en/03-yasak.webp",
+     "/konfeti/assets/shots/en/04-cark.webp",
+     "/konfeti/assets/shots/en/01-home.webp"
     ]
    }
   },
@@ -136,10 +143,13 @@
     }
    ],
    "color": "#e9ccff",
-   "device": "image",
+   "device": "laptop",
    "images": {
-    "any": [
-     "/konfeti/assets/art/telefon.svg"
+    "tr": [
+     "/konfeti/assets/shots/tr/02-bumu.webp"
+    ],
+    "en": [
+     "/konfeti/assets/shots/en/02-bumu.webp"
     ]
    }
   },
@@ -168,10 +178,13 @@
     }
    ],
    "color": "#55db9c",
-   "device": "image",
+   "device": "laptop",
    "images": {
-    "any": [
-     "/konfeti/assets/art/foto.svg"
+    "tr": [
+     "/konfeti/assets/shots/tr/06-foto.webp"
+    ],
+    "en": [
+     "/konfeti/assets/shots/en/06-foto.webp"
     ]
    }
   },
@@ -200,10 +213,15 @@
     }
    ],
    "color": "#ffb3d9",
-   "device": "image",
+   "device": "laptop",
    "images": {
-    "any": [
-     "/konfeti/assets/art/puan.svg"
+    "tr": [
+     "/konfeti/assets/shots/tr/05-puan.webp",
+     "/konfeti/assets/shots/tr/07-ozet.webp"
+    ],
+    "en": [
+     "/konfeti/assets/shots/en/05-puan.webp",
+     "/konfeti/assets/shots/en/07-ozet.webp"
     ]
    }
   },
@@ -236,10 +254,15 @@
     }
    ],
    "color": "#c8f560",
-   "device": "image",
+   "device": "laptop",
    "images": {
-    "any": [
-     "/konfeti/assets/art/etkinlik.svg"
+    "tr": [
+     "/konfeti/assets/shots/tr/01-home.webp",
+     "/konfeti/assets/shots/tr/10-kurulum.webp"
+    ],
+    "en": [
+     "/konfeti/assets/shots/en/01-home.webp",
+     "/konfeti/assets/shots/en/10-kurulum.webp"
     ]
    }
   }
@@ -266,11 +289,11 @@
     "items": [
      {
       "tr": "Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi?",
-      "en": "This or That?, Forbidden Words, Truth or Dare?"
+      "en": "This or That, Forbidden Words, Truth or Dare"
      },
      {
       "tr": "En Çok Kim?, Ben Daha Önce Hiç, Görev Çarkı",
-      "en": "Most Likely To, Never Have I Ever, Task Wheel"
+      "en": "Most Likely To, Never Have I Ever, Spin the Wheel"
      },
      {
       "tr": "Telefonla oy, puan tablosu, parti özeti",
