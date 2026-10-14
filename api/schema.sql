@@ -46,3 +46,11 @@ CREATE TABLE IF NOT EXISTS feedback (
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS feedback_app ON feedback(app, created_at);
+-- Panel iOS uygulamasının (dev.bamstudio.panel) APNs jetonları; rapor-gonder.mjs okur
+CREATE TABLE IF NOT EXISTS panel_devices (
+  token TEXT PRIMARY KEY,   -- APNs cihaz jetonu (hex)
+  env TEXT NOT NULL,        -- development | production (imza türü)
+  app TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  last_seen TEXT NOT NULL
+);

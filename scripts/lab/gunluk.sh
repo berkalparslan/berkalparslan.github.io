@@ -23,6 +23,9 @@ echo "── $(date "+%Y-%m-%d %H:%M") çekim başladı"
 node scripts/lab/collect.mjs --days 45
 # Sürüm notları (App Store + Play "Yenilikler") → lab/assets/surumler.json, panellerin Sürümler bölümü.
 node scripts/lab/surumler.mjs || echo "sürüm notları çekilemedi"
+# Günlük rapor (son verili gün + genel tablo) → vault/metrikler/veri/raporlar/.
+# build'den ÖNCE: build son 60 raporu şifreli pakete koyuyor (panel + iOS Panel).
+node scripts/lab/rapor.mjs || echo "rapor üretilemedi"
 node scripts/lab/build.mjs
 # Magaza parasini her uygulamanin kendi projesine yazar; uygulama
 # panellerinin Satis sayfasi bunu okuyor.
@@ -49,6 +52,9 @@ else
   git push -q || { git pull -q --rebase --autostash origin main && git push -q; }
   echo "yayınlandı"
 fi
+# Telefona sabah bildirimi (APNs, Panel uygulaması). Paket push edildikten
+# sonra: bildirime dokununca uygulama yeni paketi indirip raporu açıyor.
+node scripts/lab/rapor-gonder.mjs || echo "rapor bildirimi gönderilemedi"
 echo "── $(date "+%Y-%m-%d %H:%M") bitti"
 }
 

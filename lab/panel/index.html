@@ -519,6 +519,30 @@
     .uyari-kutu { background: var(--p-sari); border: 1px solid var(--p-kenar); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13.5px; margin-bottom: 14px; }
     .bilgi-kutu { background: var(--p-mavi); border: 1px solid var(--p-kenar); border-radius: var(--r-sm); padding: 9px 13px; font-size: 13.5px; color: var(--subtle); margin-bottom: 14px; }
 
+    /* Günlük rapor: Genel bakış kartı + Raporlar sekmesi */
+    .rapor-kart { display: grid; gap: 4px; background: var(--p-lila); border: 1px solid var(--p-kenar); border-radius: var(--r); padding: 13px 16px; margin-bottom: 16px; color: var(--text); text-decoration: none; }
+    .rapor-kart:hover { box-shadow: 0 0 0 2px var(--accent) inset; }
+    .rapor-kart .rk-k { font-size: 13px; font-weight: 650; color: var(--subtle); display: flex; gap: 8px; align-items: center; }
+    .rapor-kart .rk-o { font-size: 15px; line-height: 1.45; }
+    .rapor-kart .rk-ok { font-size: 13px; color: var(--accent); font-weight: 600; }
+    .rk-yeni { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--surface); padding: 0 7px; border-radius: 99px; }
+    .rapor-duzen { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .rapor-liste { display: grid; gap: 4px; position: sticky; top: 12px; max-height: calc(100vh - 40px); overflow-y: auto; }
+    .rapor-liste button { text-align: left; font: inherit; font-size: 13.5px; background: transparent; border: 1px solid transparent; border-radius: var(--r-sm); padding: 7px 10px; color: var(--subtle); cursor: pointer; display: flex; justify-content: space-between; gap: 6px; }
+    .rapor-liste button:hover { background: var(--surface-2); }
+    .rapor-liste button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); font-weight: 650; border-color: var(--p-kenar); }
+    .rapor-liste .nokta { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); align-self: center; }
+    .rapor-ozet { background: var(--p-lila); border: 1px solid var(--p-kenar); border-radius: var(--r); padding: 13px 16px; margin-bottom: 16px; font-size: 15px; line-height: 1.45; }
+    .rapor-ozet .alt { display: block; font-size: 13px; color: var(--faint); margin-top: 4px; }
+    .rapor-bolum .not { font-size: 13px; color: var(--faint); margin: -4px 0 8px; }
+    .rapor-bolum.uyari .panel { background: var(--p-sari); border-color: var(--p-kenar); }
+    .rapor-bolum ul.notes { color: var(--text); font-size: 14px; }
+    @media (max-width: 760px) {
+      .rapor-duzen { grid-template-columns: minmax(0, 1fr); }
+      .rapor-liste { position: static; display: flex; overflow-x: auto; max-height: none; padding-bottom: 4px; }
+      .rapor-liste button { white-space: nowrap; flex: none; }
+    }
+
     .ulke-tablo td.isi { position: relative; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; min-width: 92px; }
     .ulke-tablo td.isi i { position: absolute; left: 4px; right: 4px; top: 4px; bottom: 4px; border-radius: 5px; z-index: 0; }
     .ulke-tablo td.isi span { position: relative; z-index: 1; padding-right: 4px; }
@@ -1189,6 +1213,7 @@
       if (secim) return uyHtml + uygulamaDetay(secim);
 
       return `
+        ${raporKart()}
         ${uyHtml}
         <div class="cards">
           <div class="card"><div class="k">Şu an uygulamada</div><div class="v ${cs.toplam ? "up" : ""}">${CANLI.veri ? sayi(cs.toplam) : (CANLI.hata ? "·" : "…")}</div><div class="s">${CANLI.veri ? `son 1 saat ${sayi(cs.s60)} · <a href="#" data-sekme="canli">Canlı</a>` : D.canli ? "yükleniyor" : "canlı kaynak yok"}</div></div>
@@ -2324,6 +2349,42 @@
         </ul></div></section>`;
     }
 
+    /* ── Sekme: raporlar ─────────────────────────────────────────
+       Her sabah scripts/lab/rapor.mjs'in ürettiği günlük rapor (en yeni önce,
+       son 60). Kısa özet telefona bildirim olarak gider (Panel iOS); burada
+       bölümler okunur. Okundu bilgisi yalnız bu tarayıcıda. */
+    const RAPOR_KEY = "bamtech-panel-rapor-okundu";
+    const raporlar = () => D.raporlar || [];
+    const raporOkundu = () => { try { return localStorage.getItem(RAPOR_KEY) || ""; } catch (e) { return ""; } };
+    const raporOkunmamis = () => { const o = raporOkundu(); return raporlar().filter(r => r.tarih > o).length; };
+    function raporTablo(t) {
+      const hucre = (c, i) => i === 0 ? `<td>${esc(c)}</td>` : `<td class="num${c === 0 ? " zero" : ""}">${typeof c === "number" ? sayi(c) : esc(c)}</td>`;
+      return `<div class="panel scroll"><table><thead><tr>${t.kolonlar.map((k, i) => `<th${i ? ' class="num"' : ""}>${esc(k)}</th>`).join("")}</tr></thead>
+        <tbody>${t.satirlar.length ? t.satirlar.map(r => `<tr>${r.map(hucre).join("")}</tr>`).join("") : `<tr><td colspan="${t.kolonlar.length}" class="zero">Veri yok.</td></tr>`}</tbody></table></div>`;
+    }
+    function raporKart() {
+      const r = raporlar()[0]; if (!r) return "";
+      const yeni = r.tarih > raporOkundu();
+      return `<a href="#" class="rapor-kart" data-rapor="${esc(r.tarih)}">
+        <span class="rk-k">${r.tarih === bugun() ? "Bugünün raporu" : `Son rapor · ${esc(tarihYazi(r.tarih))}`}${yeni ? '<span class="rk-yeni">yeni</span>' : ""}</span>
+        <span class="rk-o">${esc(r.ozet)}</span><span class="rk-ok">Raporu aç →</span></a>`;
+    }
+    function raporCiz() {
+      const l = raporlar();
+      if (!l.length) return `<section><div class="panel"><div class="bos">Henüz rapor yok. Her sabah 07:00'de <code>scripts/lab/rapor.mjs</code> üretir, ilk rapor yarın sabah gelir.</div></div></section>`;
+      const r = l.find(x => x.tarih === S.rapor) || l[0];
+      const okundu = raporOkundu();
+      if (r.tarih > okundu) { try { localStorage.setItem(RAPOR_KEY, r.tarih); } catch (e) { } }
+      const bolum = b => `<section class="rapor-bolum ${b.ton === "uyari" ? "uyari" : ""}"><h3>${esc(b.baslik)}</h3>${b.not ? `<div class="not">${esc(b.not)}</div>` : ""}
+        ${b.tablo ? raporTablo(b.tablo) : ""}${b.satirlar?.length ? `<div class="panel"><ul class="notes">${b.satirlar.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>` : ""}</section>`;
+      return `<div class="rapor-duzen">
+        <nav class="rapor-liste" aria-label="Rapor tarihleri">${l.map(x => `<button data-rapor="${esc(x.tarih)}" aria-pressed="${x.tarih === r.tarih}"><span>${esc(tarihYazi(x.tarih))}</span>${x.tarih > okundu && x.tarih !== r.tarih ? '<i class="nokta" title="okunmadı"></i>' : ""}</button>`).join("")}</nav>
+        <div>
+          <div class="rapor-ozet"><b>${esc(r.baslik)}</b><br>${esc(r.ozet)}<span class="alt">Mağaza verisi ${esc(tarihYazi(r.gun))} · üretim ${esc(tarihYazi(r.uretim || r.tarih))}</span></div>
+          ${(r.bolumler || []).map(bolum).join("")}
+        </div></div>`;
+    }
+
     /* ── Çizim ───────────────────────────────────────────────── */
     function anaCiz() {
       if (S.app === SITE) {
@@ -2350,6 +2411,7 @@
       const acikGorev = tumGorevler().reduce((t, gr) => t + gr.gorevler.filter(g => !g.bitti).length, 0);
       const SEKMELER = [
         { v: "ozet", e: "Genel bakış" },
+        { v: "rapor", e: "Raporlar", say: S.sekme !== "rapor" && raporOkunmamis() ? "yeni" : "", uyari: S.sekme !== "rapor" && !!raporOkunmamis() },
         { v: "canli", e: "Canlı", say: CANLI.veri ? (canliSay(secim ? [secim.slug] : null).toplam || "") : "", canli: true },
         { v: "kitle", e: "Kitle" },
         { v: "portfoy", e: secim ? "Uygulama" : "Uygulamalar" },
@@ -2361,7 +2423,7 @@
         { v: "gorev", e: "Görevler", say: acikGorev || "" },
         { v: "veri", e: "Veri", say: D.notlar?.length || "" }
       ];
-      const govde = ({ canli: canliCiz, kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, surum: surumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
+      const govde = ({ rapor: raporCiz, canli: canliCiz, kitle: kitleCiz, portfoy: portfoyCiz, finans: finansCiz, pazarlama: pazarlamaCiz, takip: takipCiz, yorum: yorumCiz, surum: surumCiz, gorev: gorevCiz, veri: veriCiz }[S.sekme] || ozetCiz)();
       const altYazi = S.sekme === "canli" ? "anlık, Firestore telemetrisi" : ["ozet", "kitle", "portfoy", "pazarlama", "finans"].includes(S.sekme) ? `${D.gunler[bas]} → ${D.gunler[son - 1]} · ${platEt}` : platEt;
       $("#ana").innerHTML = `
         <div class="sekmeler">${SEKMELER.map(t => `<button data-sekme="${t.v}" aria-pressed="${S.sekme === t.v}">${t.e}${t.say ? `<span class="say ${t.uyari ? "uyari" : t.canli ? "canli" : ""}">${t.say}</span>` : ""}</button>`).join("")}</div>
@@ -2481,7 +2543,7 @@
       if (e.target.closest("[data-canliyenile]")) { e.preventDefault(); canliCek(true); return; }
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
-      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-gorevet],[data-renk],[data-ulkem]");
+      const b = e.target.closest("[data-aralik],[data-platform],[data-app],[data-sekme],[data-yorum],[data-gorev],[data-gorevet],[data-renk],[data-ulkem],[data-rapor]");
       if (!b || !D) return;
       const d = b.dataset;
       if (d.renk !== undefined) {
@@ -2489,7 +2551,8 @@
         try { if (d.renk) localStorage.setItem(RENK_KEY, d.renk); else localStorage.removeItem(RENK_KEY); } catch (e) { }
         renkCiz(); return;
       }
-      if (d.aralik !== undefined) S.aralik = Number(d.aralik);
+      if (d.rapor !== undefined) { e.preventDefault(); S.sekme = "rapor"; S.rapor = d.rapor || null; window.scrollTo({ top: 0 }); }
+      else if (d.aralik !== undefined) S.aralik = Number(d.aralik);
       else if (d.platform) S.platform = d.platform;
       else if (d.sekme) { e.preventDefault(); S.sekme = d.sekme; }
       else if (d.ulkem) S.ulkeMetrik = d.ulkem;
@@ -2658,7 +2721,7 @@
       for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
       yaz(GOREV_KEY, YEREL);
       if (S.app && !ozelApp(S.app) && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "surum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (!["ozet", "rapor", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "surum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz(); faceDugmeleri();
       if (D.canli?.url && !CANLI.zamanlayici) {
         canliCek(true);

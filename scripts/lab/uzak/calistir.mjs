@@ -100,6 +100,7 @@ export async function calistir(env, log = () => {}) {
 
   /* 4. Paket */
   const panel = panelOlustur({ gunluk, android, yorumlar, kova, kur, iosDurum, vault, ga4, kovaTanimli: !!env.GPLAY_BUCKET,
+    raporlar: onceki?.raporlar || [],
     yenile: env.ACTIONS_TOKEN ? { tur: "actions", repo: "berkalparslan/berkalparslan.github.io", workflow: "panel.yml", token: env.ACTIONS_TOKEN } : null,
     kaynakSistem: env.KAYNAK_SISTEM || "uzak" });
   const { paket, boyut } = await sifrele(panel, env.LAB_PASSPHRASE);

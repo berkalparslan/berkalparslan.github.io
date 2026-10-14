@@ -6,6 +6,7 @@
    - POST /api/poll        "en sevdiğin 3 uygulama" anketi; seçilen uygulamaların %20 kodlarını mailler
    - POST /api/feedback    geri bildirim formu (/geri-bildirim/): D1'e yazar, merhaba@'ya mail atar
    - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
+   - POST/GET/DELETE /api/panel-device  Panel iOS uygulamasının APNs jetonları (anahtar ister, bkz. panelDevice())
    Veri D1'de (binding: DB), mail Resend ile (secret: RESEND_KEY). */
 import APPS from "./apps.json";
 
@@ -22,6 +23,7 @@ export default {
     try {
       const route = url.pathname.replace(/\/+$/, "");
       if (route === "/api/live") return await live(req, env);
+      if (route === "/api/panel-device") return await panelDevice(req, env, url);
       if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
       if (route === "/api/subscribe" && req.method === "POST") return await subscribe(req, env);
       if (route === "/api/confirm") return await confirm(url, env);
@@ -382,4 +384,43 @@ async function live(req, env) {
   liveCache = { ok: true, zaman: iso(simdi), esikDk: 3, toplam: apps.reduce((t, a) => t + a.liste.filter((x) => x.canli).length, 0), apps };
   liveCacheT = Date.now();
   return yanit(liveCache);
+}
+
+/* ── Panel iOS bildirim jetonları ───────────────────────────
+   Panel uygulaması (dev.bamstudio.panel, App Store'da değil) APNs cihaz
+   jetonunu buraya kaydeder; Mac'teki rapor-gonder.mjs listeyi alıp sabah
+   raporunu gönderir, ölü jetonu siler. Yetki /api/live ile aynı: panelin
+   şifreli paketindeki LIVE_KEY, x-live-key başlığında. Kişisel veri yok,
+   yalnız jeton + ortam + uygulama kimliği. Tablo: panel_devices (schema.sql). */
+const PANEL_APP = "dev.bamstudio.panel";
+async function panelDevice(req, env, url) {
+  const cors = liveCors(req);
+  const bas = { ...cors, "access-control-allow-methods": "GET, POST, DELETE, OPTIONS", "access-control-allow-headers": "x-live-key, content-type" };
+  const yanit = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...bas } });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: bas });
+  if (!env.LIVE_KEY) return yanit({ ok: false, error: "not_configured" }, 503);
+  if (!esit(req.headers.get("x-live-key") || "", env.LIVE_KEY)) return yanit({ ok: false, error: "unauthorized" }, 401);
+  const okTok = (t) => typeof t === "string" && /^[0-9a-f]{64,200}$/i.test(t);
+  if (req.method === "GET") {
+    const r = await env.DB.prepare("SELECT token, env, app, created_at, last_seen FROM panel_devices ORDER BY last_seen DESC LIMIT 50").all();
+    return yanit({ ok: true, devices: r.results || [] });
+  }
+  if (req.method === "POST") {
+    let b; try { b = await req.json(); } catch { return yanit({ ok: false, error: "json" }, 400); }
+    const token = String(b?.token || "").toLowerCase(), ortam = b?.env === "production" ? "production" : b?.env === "development" ? "development" : null;
+    if (!okTok(token) || !ortam || (b?.app || PANEL_APP) !== PANEL_APP) return yanit({ ok: false, error: "invalid" }, 400);
+    const t = now();
+    await env.DB.prepare("INSERT INTO panel_devices(token, env, app, created_at, last_seen) VALUES(?,?,?,?,?) ON CONFLICT(token) DO UPDATE SET env=excluded.env, last_seen=excluded.last_seen")
+      .bind(token, ortam, PANEL_APP, t, t).run();
+    return yanit({ ok: true });
+  }
+  if (req.method === "DELETE") {
+    let token = url.searchParams.get("token") || "";
+    if (!token) { try { token = (await req.json())?.token || ""; } catch { } }
+    token = String(token).toLowerCase();
+    if (!okTok(token)) return yanit({ ok: false, error: "invalid" }, 400);
+    const r = await env.DB.prepare("DELETE FROM panel_devices WHERE token=?").bind(token).run();
+    return yanit({ ok: true, silinen: r.meta?.changes ?? 0 });
+  }
+  return yanit({ ok: false, error: "method" }, 405);
 }

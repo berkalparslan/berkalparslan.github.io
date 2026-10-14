@@ -14,16 +14,15 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { homedir } from "node:os";
 
 import { panelOlustur, ozetSatiri } from "./ozet.mjs";
 import { sifrele } from "./kripto.mjs";
+import { VERI, veriOku, hamOku, raporlariOku } from "./ham.mjs";
 
 const KOK  = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const VERI = join(homedir(), "dev", "vault", "metrikler", "veri");
 const CIKTI = join(KOK, "lab", "panel", "data.enc.json");
 const SERVIS = "bamtech-lab-panel";
 
@@ -48,30 +47,16 @@ function parolaAl() {
 }
 
 if (!existsSync(VERI)) { console.error(`Ham veri yok: ${VERI}\nÖnce collect.mjs çalıştır.`); process.exit(1); }
-const oku = (ad, bos) => existsSync(join(VERI, ad)) ? JSON.parse(readFileSync(join(VERI, ad), "utf8")) : bos;
-
-const gunluk = readdirSync(VERI)
-  .filter(d => /^ios-\d{4}-\d{2}-\d{2}\.json$/.test(d)).sort()
-  .map(d => JSON.parse(readFileSync(join(VERI, d), "utf8")));
 
 /* Panelin "Yenile" düğmesi: GitHub Actions'ı tetikleyen ince yetkili token,
    vault'ta (private) durur, şifreli pakete girer. Yoksa düğme görünmez. */
-const gizli = oku("gizli.json", {});
+const gizli = veriOku("gizli.json", {});
 
+/* Günlük raporlar (rapor.mjs, build'den önce üretilir): son 60'ı pakete girer.
+   Düz metin hali yalnız vault'ta (metrikler/veri/raporlar/), public depoda yok. */
 const panel = panelOlustur({
-  gunluk,
-  android: oku("android-durum.json", { apps: {}, notlar: [] }),
-  yorumlar: oku("ios-yorumlar.json", {}),
-  kova: oku("android-kova.json", { gunluk: {}, yorumlar: {} }),
-  kur: oku("kurlar.json", null),
-  iosDurum: oku("ios-durum.json", { apps: {} }),
-  vault: oku("vault.json", { apps: {}, genel: [] }),
-  ga4: oku("ga4.json", null),
-  telemetri: oku("telemetri.json", null),
-  web: oku("web.json", null),
-  framegrove: oku("framegrove.json", null),
-  toplamaNotlar: oku("toplama-notlar.json", []),
-  kovaTanimli: !!(process.env.GPLAY_BUCKET_ID || existsSync(join(VERI, "gplay.json"))),
+  ...hamOku(),
+  raporlar: raporlariOku(),
   yenile: gizli.actionsToken ? { tur: "actions", repo: "berkalparslan/berkalparslan.github.io", workflow: "panel.yml", token: gizli.actionsToken } : null,
   kaynakSistem: "mac"
 });

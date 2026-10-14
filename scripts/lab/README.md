@@ -53,6 +53,16 @@ git add lab/panel/data.enc.json && git commit -m "panel verisi" && git push
 `collect.mjs` diskte olan günü tekrar çekmiyor; son 3 gün Apple gecikmeli
 yayınladığı için yeniden deneniyor. `--force` hepsini baştan çeker.
 
+## Günlük rapor ve sabah bildirimi (14 Eki 2026)
+
+`gunluk.sh` sırası: collect → surumler → **rapor.mjs** → build → push → **rapor-gonder.mjs**.
+
+- `rapor.mjs`: aynı ham veriden (ham.mjs → panelOlustur) son verili App Store günü + genel tablo. Kısa özet (başlık ≤ 50, gövde ≤ 170) ve bölümler: özet rakamlar, uygulama uygulama, telemetri, site, yeni yorumlar, mağaza durumu (önceki raporla kıyas), sürüm notları, dikkat, bugün için öneri (#berk görevleri). Çıktı yalnız vault'ta: `~/dev/vault/metrikler/veri/raporlar/YYYY-MM-DD.json`, son 60. Kişisel veri yok. `--kuru` yazmadan basar, `--yazdir` yazar ve basar.
+- `build.mjs` son 60 raporu (kıyas için tutulan `ham` alanı hariç) şifreli pakete `raporlar` olarak koyar. Public depoda düz metin rapor yok.
+- Panel: Genel bakış üstünde "Bugünün raporu" kartı, **Raporlar** sekmesi. iOS Panel: Özet kartı, sol üst Raporlar düğmesi, Özet sekmesinde okunmamış rozeti.
+- `rapor-gonder.mjs`: jetonlar `GET https://bamstudio.dev/api/panel-device` (x-live-key = Keychain `bamtech-lab-live`), APNs ES256 JWT (`~/dev/p8/AuthKey_2972UYSCQ2.p8`), HTTP/2, topic `dev.bamstudio.panel`; ölü jeton silinir; günde bir kez (`raporlar/.gonderildi.json`). `--kuru`, `--test`, `--zorla`.
+- Worker ucu `/api/panel-device` (api/worker.js): POST kaydeder, GET listeler, DELETE siler; D1 tablosu `panel_devices` (api/schema.sql).
+
 ## Neden şifreli
 
 `berkalparslan.github.io` public bir depo ve `/lab/` `noindex` olsa da açık bir

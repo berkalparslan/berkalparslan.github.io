@@ -7,7 +7,8 @@
      android: {apps, notlar, uretim}, yorumlar: {slug: …}, kova: {gunluk, yorumlar, hata},
      kur, iosDurum: {apps, uretim}, vault: {apps, genel, kampanyalar, kampanyaSorular, reklam},
      ga4: {gunluk, satinalma, hatalar, uretim} | null, kovaTanimli: boolean,
-     yenile: {tur, …} | null   (panelin "Yenile" düğmesi için)
+     yenile: {tur, …} | null   (panelin "Yenile" düğmesi için),
+     raporlar: [{tarih, gun, baslik, ozet, bolumler}] en yeni önce (rapor.mjs)
    } */
 
 import { APPS } from "./apps.mjs";
@@ -172,6 +173,8 @@ export function panelOlustur(ham) {
     web: web && !web.hata ? web : null,
     framegrove: fg,
     androidSon: andSon,
+    /* Günlük raporlar (rapor.mjs), en yeni önce, en çok 60. */
+    raporlar: (ham.raporlar || []).slice(0, 60),
     yenile: ham.yenile || null
   };
 }

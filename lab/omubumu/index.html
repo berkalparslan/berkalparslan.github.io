@@ -254,7 +254,7 @@ const kisiHucre = id => { const u = kullanici(id); return u ? kisiAdi(u) : kisaI
 /* Push sayfasi icin kurulum bicimi. Uygulama FCM jetonu tutmuyor (yalniz konu). */
 const pushKurulumlar = () => V.users.filter(u => u.platform === "ios" || u.platform === "android").map(u => ({
   id: u.id, language: u.lang || "", platform: u.platform, lastSeen: u.lastSeenAt, notif: u.notif === true ? true : u.notif === false ? false : null,
-  pro: u.odeyen, signedIn: u.isAnonymous === false, fcm: null, tester: false, ev: u.ev, handle: null, displayName: u.displayName,
+  pro: u.odeyen, signedIn: u.isAnonymous === false, fcm: null, tester: u.tester === true, ev: u.ev, handle: null, displayName: u.displayName,
 }));
 
 /* Oylardan seri: ust uste oy verilen Turkiye gunleri. */
@@ -1449,7 +1449,7 @@ function gonderilenler(c) {
     gunluk: async ilk => V.stats.filter(s => s.day >= ilk).map(s => ({ day: s.day, ev: s.ev || {} })),
     kurulumlar: pushKurulumlar,
   });
-  not(c, "Açılma oranı şimdilik boş kalır: uygulama bildirime dokunulunca <code>push_open</code> olayını yazmıyor (Worker yükte <code>pid</code> gönderiyor, uygulamaya eklenmesi gerek).");
+  not(c, "Açılma oranı, bildirime dokunma ölçümü (<code>push_open</code>) içeren sürümden sonra dolar; o sürüm yayınlanana kadar boş kalır.");
 }
 
 /* Gunun ikilemi / turnuvasi: uygulama meta/daily belgesinde gun anahtari
