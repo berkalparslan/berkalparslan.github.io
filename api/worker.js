@@ -20,6 +20,7 @@ const POLL_APPS = APPS.filter((a) => a.status !== "web" && a.status !== "soon").
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
+    if (url.hostname === DW_HOST) return dailyWhisper(req, env, url);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(req);
     try {
       const route = url.pathname.replace(/\/+$/, "");
@@ -39,6 +40,21 @@ export default {
     }
   },
 };
+
+/* dailywhisper.bamstudio.dev: kökü ve dil klasörlerini /daily-whisper/ altındaki sayfalara eşler.
+   Diğer yollar (varlıklar, gizlilik vb.) olduğu gibi siteden gelir. wrangler.jsonc run_worker_first bu yolları içerir. */
+const DW_HOST = "dailywhisper.bamstudio.dev";
+const DW_LANGS = ["tr", "es", "de", "fr", "it"];
+function dailyWhisper(req, env, url) {
+  const m = url.pathname.match(/^\/([a-z]{2})\/?$/);
+  if (m && DW_LANGS.includes(m[1])) {
+    if (!url.pathname.endsWith("/")) return Response.redirect(`https://${DW_HOST}/${m[1]}/${url.search}`, 301);
+    url.pathname = `/daily-whisper/${m[1]}/`;
+  } else if (url.pathname === "/" || url.pathname === "/index.html") {
+    url.pathname = "/daily-whisper/";
+  }
+  return env.ASSETS.fetch(new Request(url, req));
+}
 
 /* ── yardımcılar ─────────────────────────────────────────── */
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "POST, GET, OPTIONS", "access-control-allow-headers": "content-type" };
