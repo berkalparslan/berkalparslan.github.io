@@ -285,7 +285,7 @@ async function yukle(k) {
   await fb();
   const [iSnap, sSnap] = await Promise.all([
     F.getDocs(F.query(F.collection(db, "installs"), F.limit(10000))),
-    F.getDocs(F.query(F.collection(db, "stats"), F.limit(20000))),
+    F.getDocs(F.query(F.collection(db, "stats"), F.limit(10000))),
   ]);
   allInstalls = iSnap.docs.map(d => ({ id: d.id, ...d.data() }));
   allStats = sSnap.docs.map(statFix);
@@ -1264,7 +1264,7 @@ function loadLeagues() {
       raw = { err: {} };
       const run = async (key, q) => { try { raw[key] = (await F.getDocs(q)).docs.map(d => ({ id: d.id, leagueId: d.ref.parent.parent?.id || d.data().leagueId, ...d.data() })); } catch (e) { raw[key] = []; raw.err[key] = e.code === "permission-denied" ? "kurallar okumaya izin vermiyor" : (e.code || e.message); } };
       await Promise.all([
-        run("fixtures", F.query(F.collectionGroup(db, "fixtures"), F.limit(20000))),
+        run("fixtures", F.query(F.collectionGroup(db, "fixtures"), F.limit(10000))),
         run("invites", F.query(F.collection(db, "leagueInvites"), F.limit(5000))),
         run("requests", F.query(F.collection(db, "leagueRequests"), F.limit(5000))),
       ]);
