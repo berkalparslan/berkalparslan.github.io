@@ -22,6 +22,8 @@ export const PROJELER = {
   "leafbook-bamtech": "leafbook",
   "tasbih-tally-bamtech": "tasbih-tally",
   "matchday-bamtech": "matchday",
+  "kit-qr-bamtech": "kit-qr",
+  "nubi-bamtech": "nubi",
   /* Beş spor uygulaması tek projede; kurulumun `app` alanı slug'ı seçer. */
   "bam-tech-sports": { tennis: "tennis-padel", pickleball: "pickleball", volleyball: "volleyball", badminton: "rally-badminton", tabletennis: "rally-table-tennis" }
 };

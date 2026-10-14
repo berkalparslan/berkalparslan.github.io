@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/nubi-64.png">
+<link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/nubi-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Nubi Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<link rel="stylesheet" href="/lab/assets/panel.css?v=6">
+<style>
+/* Yalniz bu panelin kucuk ekleri; ortak gorunum panel.css'te. */
+.rozet{display:inline-flex;gap:4px;flex-wrap:wrap}
+.rozet .pill.on{background:var(--accent);color:var(--on-accent)}
+.rozet .pill.pro{background:#FFD23F;color:#17151A}
+.rozet .pill.hasta{background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--ink)}
+.rozet .pill.test{background:color-mix(in srgb,#8B5CF6 22%,transparent);color:var(--ink)}
+.cizelge .gun{font-size:12px;font-weight:800;color:var(--soft);margin:14px 0 4px;letter-spacing:.04em}
+.cizelge .ev{grid-template-columns:76px 1fr auto}
+.cizelge .ev.pw{color:var(--accent);font-weight:600}
+.alt-not{font-size:12px;color:var(--soft);margin:6px 0 0}
+.kfiltre{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 4px}
+.kfiltre select{width:auto;padding:7px 10px;font-size:13px}
+.kfiltre button{font-size:12px}
+.ham{font-size:12px}
+</style>
+</head>
+<body>
+<script type="module">
+import { getFirestore, collection, collectionGroup, getDocs, getDoc, query, orderBy, limit, where, doc, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { panelKabuk } from "/lab/assets/shell.js?v=2";
+import { el, kart, tiles, veriTablo, dagilimTablo, sayi, sure, tarihTam, tarihHucre, yuzde, para, zaman, ms, istGun, istGunBasi,
+         donem, farkYazi, surumListesi, surumSuz, surumNotlari, surumNotlariKutu, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
+import { gunlukCubuk, cizgi, huni, yatayCubuk, saatIsi, saatMatrisi, kivilcim, gunleriDoldur } from "/lab/assets/grafik.js?v=1";
+import { dunyaHaritasi } from "/lab/assets/harita.js?v=1";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBxcKb8LpHc3eN7UPBYo9ydv9lD_xcwXt8",
+  authDomain: "nubi-bamtech.firebaseapp.com",
+  projectId: "nubi-bamtech",
+  appId: "1:53369339378:web:ad06b6bd73fc697c667f6b",
+  messagingSenderId: "53369339378",
+};
+/* Asil kapi Firestore kurallari: okuma yalniz bu e-postaya acik. */
+const YONETICI = "aberkalparslan@gmail.com";
+const SLUG = "nubi";
+/* Panel bir kez en fazla bu kadar olay okur (son 180 gun, en yeniden). */
+const OLAY_SINIR = 8000, OLAY_GUN = 180;
+const CANLI_MS = 3 * 60e3;
+
+/* Ekran anahtarlari uygulamada sabit (HomeView/RootScreen trackScreen). Yeni
+   ekran ya da oyun gelirse buraya da. */
+const OYUN = { catch: "Atıştırmalık yakala", memory: "Atıştırmalık eşleştir", socks: "Çorap avı", simon: "Melodiyi tekrarla", stack: "Atıştırmalık kulesi", odd: "Farklı olanı bul", unknown: "Bilinmiyor" };
+const EKRAN = {
+  home: "Ana ekran (bento)", feed: "Besle", wash: "Yıka", play: "Oyun merkezi", coins: "Coin mağazası (paywall)",
+  album: "Albüm", shop: "Mağaza (eşya)", settings: "Ayarlar", widgets: "Widget önizleme", share: "Paylaş",
+  language: "Dil seçimi", onboarding: "Tanıtım ve yumurta", closed: "Kapalı",
+  ...Object.fromEntries(Object.entries(OYUN).map(([k, v]) => ["game_" + k, "Oyun: " + v])),
+};
+/* CoinShopView source: coin magazasini neyin actigi. */
+const PAYWALL_KAYNAK = {
+  home: "Ana ekran coin düğmesi", settings: "Ayarlar > Coin al", shop: "Mağaza > Coin al",
+  shop_short: "Mağaza: eşyaya coin yetmedi", game_short: "Oyun: tur için coin yetmedi", unknown: "Bilinmiyor",
+};
+/* Telemetrinin sayaclari (InstallTelemetry Counter). `olay`: surum secilince
+   olaylardan hangi olay sayilir; yoksa yalniz gunluk stats'ta. */
+const SAYAC = {
+  installs_new: { ad: "Yeni kurulum" },
+  sessions: { ad: "Oturum", olay: "session" },
+  onboarding_done: { ad: "Tanıtımı bitirdi (yumurta seçti)", olay: "onboarding_done" },
+  hatches: { ad: "Yumurta çatladı", olay: "hatch" },
+  paywall_views: { ad: "Coin mağazası açıldı", olay: "pw_view" },
+  purchases: { ad: "Satın alma", olay: "pw_buy" },
+  coins_bought: { ad: "Satın alınan coin" },
+  feeds: { ad: "Besleme", olay: "feed" },
+  washes: { ad: "Yıkama", olay: "wash" },
+  sleeps: { ad: "Uyutma", olay: "sleep" },
+  pets: { ad: "Sevme (dokunuş)" },
+  games: { ad: "Oyun turu", olay: "game_start" },
+  games_paid: { ad: "Coinle oynanan tur", olay: "game_paid" },
+  promises: { ad: "Günün sözü tutuldu", olay: "promise" },
+  tasks_claimed: { ad: "Günlük görev bonusu", olay: "tasks_claimed" },
+  vet_visits: { ad: "Veteriner", olay: "vet" },
+  items_bought: { ad: "Eşya satın alındı (coinle)", olay: "buy_item" },
+  shares: { ad: "Paylaşım", olay: "share" },
+  level_ups: { ad: "Seviye atladı", olay: "level_up" },
+  evolutions: { ad: "Evrim (evre değişti)", olay: "evolve" },
+  daily_gifts: { ad: "Günlük hediye", olay: "daily_gift" },
+  watch_actions: { ad: "Saatten bakım", olay: "watch_action" },
+  widget_actions: { ad: "Widget düğmesi", olay: "widget_action" },
+  push_opens: { ad: "Hatırlatmaya dokundu", olay: "push_open" },
+};
+/* Coin paketleri: iOS com.page.nubipet.coins.N, Android com.aberk.nubi.coins.N.
+   Fiyat ABD liste fiyati (ProStore demo listesi), tahmini. */
+const PLAN = {
+  "coins.100": { ad: "100 coin", usd: 0.99, coin: 100 },
+  "coins.300": { ad: "330 coin (300 + 30)", usd: 2.99, coin: 330 },
+  "coins.800": { ad: "950 coin (800 + 150)", usd: 6.99, coin: 950 },
+  "coins.2000": { ad: "2.600 coin (2000 + 600)", usd: 14.99, coin: 2600 },
+};
+const EVRE = ["Yumurta", "Bebek", "Çocuk", "Genç", "Yetişkin"];
+const EVRE_AD = { egg: "Yumurta", baby: "Bebek", kid: "Çocuk", teen: "Genç", adult: "Yetişkin" };
+const KARAKTER = { gourmet: "Gurme (besleme)", sparkle: "Pırıl (yıkama)", dreamer: "Uykucu (uyku)", rascal: "Haylaz (oyun)", egg: "Henüz yumurta" };
+const RENK = { coral: "Mercan", sky: "Gök", grape: "Mor", lime: "Lime", mint: "Nane", rose: "Gül", butter: "Tereyağı", earth: "Toprak" };
+const YEMEK = { snack: "Atıştırmalık (bedava)", meal: "Öğün (4 coin)", feast: "Ziyafet (10 coin)" };
+const SOZ = { water: "Bir bardak su", stretch: "Esneme", window: "Pencereyi aç", text: "Birine mesaj", walk: "Yürüyüş", breathe: "Nefes", tidy: "Topla", fruit: "Meyve", sun: "Güneş", thanks: "Teşekkür" };
+const ESYA_TUR = { hat: "Şapka", room: "Oda", buddy: "Arkadaş", decor: "Oda eşyası", color: "Renk", vet: "Veteriner", round: "Oyun turu" };
+const HATIRLATMA = { "need-hunger": "Açlık", "need-hygiene": "Temizlik", "need-energy": "Enerji", "need-fun": "Eğlence", promise: "Günün sözü" };
+const SAAT_EYLEM = { snack: "Atıştırmalık", pet: "Sev", feed: "Besle (kiler)", wash: "Hızlı banyo", sleep: "Uyut / uyandır", claim: "Görev bonusu", vet: "Veteriner", buy: "Şapka al", unknown: "Bilinmiyor" };
+const DIL = { en: "İngilizce", tr: "Türkçe", es: "İspanyolca", de: "Almanca", fr: "Fransızca", pt: "Portekizce", "pt-BR": "Portekizce (Brezilya)",
+  it: "İtalyanca", ja: "Japonca", ko: "Korece", zh: "Çince", "zh-Hans": "Çince (basit)", ru: "Rusça", ar: "Arapça", nl: "Felemenkçe", pl: "Lehçe" };
+const IPHONE = {
+  "iPhone12,1": "iPhone 11", "iPhone12,8": "iPhone SE (2. nesil)", "iPhone13,2": "iPhone 12", "iPhone14,2": "iPhone 13 Pro", "iPhone14,5": "iPhone 13",
+  "iPhone14,6": "iPhone SE (3. nesil)", "iPhone14,7": "iPhone 14", "iPhone15,2": "iPhone 14 Pro", "iPhone15,4": "iPhone 15", "iPhone16,1": "iPhone 15 Pro",
+  "iPhone16,2": "iPhone 15 Pro Max", "iPhone17,1": "iPhone 16 Pro", "iPhone17,2": "iPhone 16 Pro Max", "iPhone17,3": "iPhone 16", "iPhone17,5": "iPhone 16e",
+  "iPhone18,1": "iPhone 17 Pro", "iPhone18,3": "iPhone 17",
+};
+/* Telemetrinin kurulum belgesine yazdigi alanlar (firestore.rules installFields). */
+const ALANLAR = [
+  ["platform", "iOS + Android"], ["appVersion", "iOS + Android"], ["build", "iOS + Android"], ["language", "iOS + Android"],
+  ["appLang", "iOS + Android"], ["region", "iOS + Android"], ["tz", "iOS + Android"], ["device", "iOS + Android"], ["os", "iOS + Android"],
+  ["firstSeen", "iOS + Android"], ["lastSeen", "iOS + Android"], ["screen", "iOS + Android"], ["lastScreen", "iOS + Android"],
+  ["notif", "iOS + Android"], ["reminders", "iOS + Android"], ["onboarded", "iOS + Android"], ["tester", "iOS + Android"], ["theme", "iOS + Android"],
+  ["egg", "iOS + Android"], ["trait", "iOS + Android"], ["pro", "satın alınca"], ["plan", "satın alınca"], ["buySource", "satın alınca"], ["purchasedAt", "satın alınca"],
+  ["n_hatched", "iOS + Android"], ["n_level", "iOS + Android"], ["n_age", "iOS + Android"], ["n_stage", "iOS + Android"], ["n_coins", "iOS + Android"],
+  ["n_streak", "iOS + Android"], ["n_bond", "iOS + Android"], ["n_owned", "iOS + Android"], ["n_decor", "iOS + Android"], ["n_forms", "iOS + Android"],
+  ["n_best", "iOS + Android"], ["n_ill", "iOS + Android"], ["n_feed", "iOS + Android"], ["n_wash", "iOS + Android"], ["n_sleep", "iOS + Android"],
+  ["n_play", "iOS + Android"], ["n_widgets", "iOS + Android"], ["n_watch", "iOS + Android"],
+];
+
+let K = null, db = null;
+let veri = { installs: [], days: [], harita: new Map() };
+let olay = { liste: null, hata: "", tavan: false, kaynak: "" };
+let notlar = [];
+let satisBelge;            // undefined: okunmadi, null: yok
+let canliZaman = null;
+const demo = new URLSearchParams(location.search).has("demo");
+const ciz = () => K && K.ciz();
+
+// ── Kucuk yardimcilar ──────────────────────────────────────────────────────
+
+const esc = v => String(v ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const say = (liste, f) => liste.reduce((m, x) => { const k = f(x); if (k != null && k !== "") m[k] = (m[k] || 0) + 1; return m; }, {});
+const topla = (liste, f) => liste.reduce((a, x) => a + (Number(f(x)) || 0), 0);
+const n = v => Number(v) || 0;
+const ort = (liste, f) => liste.length ? topla(liste, f) / liste.length : 0;
+const ondalik = (v, b = 1) => Number(v || 0).toFixed(b).replace(".", ",");
+const slug = t => String(t ?? "").toLowerCase().replace(/[^a-z0-9]/g, "_").slice(0, 40);
+const platAd = p => p === "ios" ? "iOS" : p === "android" ? "Android" : p ? String(p) : "Bilinmiyor";
+const dilAd = l => !l ? "Bilinmiyor" : DIL[l] ? `${DIL[l]} (${l})` : l;
+const ulkeAdlari = (() => { try { return new Intl.DisplayNames(["tr"], { type: "region" }); } catch (e) { return null; } })();
+const ulke = k => { if (!k) return "Bilinmiyor"; try { return ulkeAdlari?.of(k) || k; } catch (e) { return k; } };
+const cihazAd = d => !d ? "Bilinmiyor" : IPHONE[d] || d;
+const ekranAd = k => !k ? "-" : EKRAN[k] || k;
+const kaynakAd = k => !k ? "-" : PAYWALL_KAYNAK[k] || k;
+const planAnahtar = p => String(p || "").split(":")[0].split(".").slice(-2).join(".");
+const planAd = p => !p ? "-" : PLAN[planAnahtar(p)]?.ad || String(p);
+const planFiyat = p => PLAN[planAnahtar(p)]?.usd ?? null;
+/* pw_tap_coins_300 gibi olay parametresi: "coins_300" → "coins.300". */
+const paketAd = s => { const x = String(s || ""); return PLAN[x.includes(".") ? planAnahtar(x) : x.replace("_", ".")]?.ad || x || "-"; };
+const evreAd = s => s == null || s === "" ? "Bilinmiyor" : EVRE[n(s)] ?? String(s);
+const evi = (i, k) => n(i?.ev?.[k]);
+const kisa = id => String(id || "").slice(0, 8);
+const fark = (simdi, once, ters) => once == null ? undefined : { simdi, once, ters };
+const gunSay = (a, b) => Math.floor((ms(b) - ms(a)) / 864e5);
+const dk = s => s ? sure(s) : "0 sn";
+const canliMi = i => i.screen && i.screen !== "closed" && Date.now() - ms(i.lastSeen) < CANLI_MS;
+const surumAd = i => i.appVersion ? `${i.appVersion}${i.build ? ` (${i.build})` : ""}` : "Bilinmiyor";
+const surumKey = v => String(v || "").split(/[^\d]+/).filter(Boolean).map(x => x.padStart(4, "0")).join(".");
+const saatDurum = v => v == null ? "Bilinmiyor" : n(v) === 2 ? "Saat uygulaması kullanılıyor" : n(v) === 1 ? "Saat bağlı, uygulama kullanılmamış" : "Saat yok";
+const evetHayir = v => v === true ? "Evet" : v === false ? "Hayır" : "Bilinmiyor";
+
+function grafikKart(ana, baslik, cizici, not) {
+  const kutu = el("div");
+  const k = kart(baslik, kutu);
+  if (not) k.appendChild(el("p", "alt-not", not));
+  ana.appendChild(k);
+  try { cizici(kutu); } catch (e) { console.error(e); kutu.appendChild(el("p", "muted", "Çizilemedi: " + esc(e.message))); }
+  return k;
+}
+function izgara(c, sinif = "izgara2") { const g = el("div", sinif); c.appendChild(g); return g; }
+function notSatir(c, html, sinif = "note") { const d = el("div", sinif, html); c.appendChild(d); return d; }
+
+function kovala(degerler, sinirlar, bicim) {
+  const m = {};
+  for (const [ad] of sinirlar) m[ad] = 0;
+  for (const v of degerler) {
+    const k = sinirlar.find(([, alt, ust]) => v >= alt && v < ust);
+    if (k) m[k[0]]++;
+  }
+  return Object.entries(m).filter(([, v]) => v || !bicim);
+}
+const SURE_KOVA = [["10 sn altı", 0, 10], ["10-30 sn", 10, 30], ["30-60 sn", 30, 60], ["1-3 dk", 60, 180], ["3-10 dk", 180, 600], ["10-30 dk", 600, 1800], ["30 dk üstü", 1800, 1e9]];
+const PW_KOVA = [["3 sn altı", 0, 3], ["3-10 sn", 3, 10], ["10-30 sn", 10, 30], ["30-60 sn", 30, 60], ["1-3 dk", 60, 180], ["3 dk üstü", 180, 1e9]];
+/* ev haritasindan bir onekin alt anahtarlari (_sec haric). */
+const onekten = (ev, on, adlar = {}) => Object.fromEntries(Object.entries(ev).filter(([k]) => k.startsWith(on) && !k.endsWith("_sec")).map(([k, v]) => [adlar[k.slice(on.length)] || k.slice(on.length), v]));
+
+// ── Veri ───────────────────────────────────────────────────────────────────
+
+const ZAMAN_ALANLARI = ["firstSeen", "lastSeen", "purchasedAt"];
+function kurulumDuzelt(k) {
+  for (const a of ZAMAN_ALANLARI) { const t = zaman(k[a]); k[a] = t ? t.toISOString() : null; }
+  if (!k.ev || typeof k.ev !== "object") k.ev = {};
+  return k;
+}
+async function kurulumlariOku() {
+  const snap = await getDocs(collection(db, "installs"));
+  return snap.docs.map(d => kurulumDuzelt({ id: d.id, ...d.data() }));
+}
+async function gunleriOku() {
+  const snap = await getDocs(collection(db, "stats"));
+  return snap.docs.map(d => ({ id: d.id, ...d.data(), ev: d.data().ev || {} })).sort((a, b) => a.id < b.id ? -1 : 1);
+}
+const olayKaydi = (d, iid) => {
+  const x = d.data();
+  return { iid: iid || d.ref.parent.parent?.id || "", t: ms(x.t), e: String(x.e || ""), p: x.p != null ? String(x.p) : "", s: n(x.s) };
+};
+async function olaylariOku(kurulumlar) {
+  const bas = Timestamp.fromMillis(Date.now() - OLAY_GUN * 864e5);
+  try {
+    const snap = await getDocs(query(collectionGroup(db, "events"), where("t", ">=", bas), orderBy("t", "desc"), limit(OLAY_SINIR)));
+    return { liste: snap.docs.map(d => olayKaydi(d)), tavan: snap.size >= OLAY_SINIR, kaynak: "tek sorgu" };
+  } catch (e) {
+    if (kurulumlar.length > 80) throw e;
+    const parca = await Promise.all(kurulumlar.map(k => getDocs(query(collection(db, "installs", k.id, "events"), where("t", ">=", bas), orderBy("t", "desc"), limit(400)))
+      .then(s => s.docs.map(d => olayKaydi(d, k.id))).catch(() => [])));
+    return { liste: parca.flat().sort((a, b) => b.t - a.t), tavan: false, kaynak: "kurulum kurulum (indeks hazır değil: " + (e.code || e.message) + ")" };
+  }
+}
+
+async function yukle(k) {
+  K = k;
+  if (!db && k.app) db = getFirestore(k.app);
+  satisBelge = undefined;
+  try {
+    if (demo) {
+      const s = sahte();
+      veri = { installs: s.installs, days: s.days, harita: new Map(s.installs.map(i => [i.id, i])) };
+      olay = { liste: s.events, hata: "", tavan: false, kaynak: "demo" };
+      satisBelge = s.satis;
+    } else {
+      const [installs, days] = await Promise.all([kurulumlariOku(), gunleriOku()]);
+      veri = { installs, days, harita: new Map(installs.map(i => [i.id, i])) };
+      try { const o = await olaylariOku(installs); olay = { ...o, hata: "" }; }
+      catch (e) { olay = { liste: [], hata: e.code || e.message, tavan: false, kaynak: "" }; }
+    }
+    notlar = await surumNotlari(SLUG).catch(() => []);
+    k.durum(`${demo ? "Demo veri · " : ""}${sayi(veri.installs.length)} kurulum · ${sayi(veri.days.length)} gün kaydı · ${sayi(olay.liste?.length || 0)} olay${olay.tavan ? " (sınır)" : ""}`);
+  } catch (e) {
+    k.durum("Hata: " + (e.code || e.message));
+    veri = { installs: [], days: [], harita: new Map() };
+    olay = { liste: [], hata: e.message, tavan: false, kaynak: "" };
+  }
+}
+
+// ── Donem hesaplari ────────────────────────────────────────────────────────
+
+const kurulumlar = () => surumSuz(veri.installs, K.surum);
+function statsGunleri(bas, son) { const a = istGun(bas || 0), b = istGun(son); return veri.days.filter(d => d.id >= a && d.id <= b); }
+function olaylar(bas, son, surum = K.surum) {
+  return (olay.liste || []).filter(e => e.t >= bas && e.t <= son && (!surum || String(veri.harita.get(e.iid)?.appVersion ?? "") === String(surum)));
+}
+/* Olaylardan uygulamanin ev haritasini yeniden kurar (InstallTelemetry.record). */
+function olayEv(liste) {
+  const ev = {};
+  const ekle = (k, v) => { ev[k] = (ev[k] || 0) + v; };
+  for (const e of liste) {
+    const a = slug(e.e), p = e.p ? slug(e.p) : null;
+    if (a === "screen_time") { if (p && e.s > 0) ekle(`screen_${p}_sec`, e.s); continue; }
+    ekle(a, 1);
+    if (p) ekle(`${a}_${p}`, 1);
+    if (e.s > 0) { ekle(`${a}_sec`, e.s); if (p) ekle(`${a}_${p}_sec`, e.s); }
+  }
+  return ev;
+}
+/* Bir donemin sayaclari. Surum secili degilse gunluk stats toplamlarindan
+   (tam, ama surume bolunemez), seciliyse o surumdeki kurulumlarin olaylarindan. */
+function donemVeri(bas, son) {
+  const ol = olaylar(bas, son);
+  if (K.surum) {
+    const ev = olayEv(ol), sayac = {};
+    for (const [k, x] of Object.entries(SAYAC)) if (x.olay) sayac[k] = ev[x.olay] || 0;
+    return { kaynak: "olay", ev, sayac, olay: ol, gunler: [] };
+  }
+  const g = statsGunleri(bas, son), ev = {}, sayac = {};
+  for (const d of g) {
+    for (const [k, v] of Object.entries(d.ev || {})) ev[k] = (ev[k] || 0) + n(v);
+    for (const k of Object.keys(SAYAC)) sayac[k] = (sayac[k] || 0) + n(d[k]);
+  }
+  return { kaynak: "stats", ev, sayac, olay: ol, gunler: g };
+}
+function ikiDonem() {
+  const D = donem(K.aralik);
+  return { D, simdi: donemVeri(D.bas, D.son), once: D.oncekiBas != null ? donemVeri(D.oncekiBas, D.oncekiSon - 1) : null };
+}
+const donemAd = () => K.aralik === 0 ? "tüm zamanlar" : K.aralik === 1 ? "bugün" : `son ${K.aralik} gün`;
+const surumNotu = () => K.surum ? `Sürüm ${K.surum} seçili: sayılar o sürümdeki kurulumların olaylarından (son ${OLAY_GUN} gün).` : "";
+function gunAraligi(D) {
+  const son = istGun(D.son);
+  const ilk = [veri.days[0]?.id, ...veri.installs.map(i => istGun(i.firstSeen))].filter(Boolean).sort()[0] || son;
+  const bas = D.bas ? istGun(D.bas) : ilk;
+  return [bas < son ? bas : son, son];
+}
+const kisiSay = liste => new Set(liste.map(e => e.iid)).size;
+function aktifSayisi(bas, son) {
+  if (olay.liste?.length) return kisiSay(olaylar(bas, son));
+  return kurulumlar().filter(i => ms(i.lastSeen) >= bas && ms(i.lastSeen) <= son).length;
+}
+function yayinNotu() {
+  const m = {};
+  for (const x of notlar) { const g = istGun(x.tarih); if (g) m[g] = [m[g], `${x.surum} ${platAd(x.platform)}`].filter(Boolean).join(", "); }
+  return m;
+}
+/* Gun gun bir sayac: surum seciliyse olaydan, degilse stats'tan. */
+function gunlukSeri(D, seriler) {
+  const h = {};
+  if (K.surum) {
+    for (const e of olaylar(D.bas, D.son)) for (const s of seriler) if (s.olay && e.e === s.olay) { const g = istGun(e.t); (h[g] ||= {})[s.alan] = (h[g]?.[s.alan] || 0) + 1; }
+  } else {
+    for (const d of statsGunleri(D.bas, D.son)) h[d.id] = Object.fromEntries(seriler.map(s => [s.alan, n(s.sayac ? d[s.sayac] : d.ev?.[s.ev])]));
+  }
+  return h;
+}
+
+// ── Genel bakis ────────────────────────────────────────────────────────────
+
+function telemetriYokNotu(c) {
+  if (!veri.installs.length && !demo) {
+    notSatir(c, "<b>Henüz veri yok.</b> Telemetri 14 Ekim 2026'da koda girdi (iOS + Android, commit 26df3af) ama henüz hiçbir mağaza sürümünde yok. " +
+      "Bir sonraki iOS ve Android sürümü yayınlanınca kurulumlar burada görünmeye başlar. Şimdilik sayfaları <a href='?demo'>?demo</a> ile görebilirsin.", "uyari-satir");
+  }
+}
+
+function genel(c) {
+  telemetriYokNotu(c);
+  const { D, simdi, once } = ikiDonem();
+  const hepsi = kurulumlar();
+  const yeni = hepsi.filter(i => ms(i.firstSeen) >= D.bas && ms(i.firstSeen) <= D.son).length;
+  const yeniOnce = once ? hepsi.filter(i => ms(i.firstSeen) >= D.oncekiBas && ms(i.firstSeen) < D.oncekiSon).length : null;
+  const aktif = aktifSayisi(D.bas, D.son), aktifOnce = once ? aktifSayisi(D.oncekiBas, D.oncekiSon - 1) : null;
+  const ses = simdi.sayac.sessions || 0, sesOnce = once?.sayac.sessions ?? null;
+  const sesSn = simdi.ev.session_sec || 0, sesAdet = simdi.ev.session || 0;
+  const sesOrtOnce = once && once.ev.session ? (once.ev.session_sec || 0) / once.ev.session : null;
+  const odeyen = hepsi.filter(i => i.pro === true).length;
+  const izin = hepsi.filter(i => i.notif === true).length, izinBilinen = hepsi.filter(i => typeof i.notif === "boolean").length;
+  const pw = simdi.sayac.paywall_views || 0, al = simdi.sayac.purchases || 0;
+  const cikan = hepsi.filter(i => n(i.n_hatched) === 1);
+  const [bg, sg] = gunAraligi(D);
+  const gunlukSes = gunleriDoldur(Object.fromEntries(veri.days.map(d => [d.id, n(d.sessions)])), bg, sg).map(x => x.v);
+
+  if (K.surum) notSatir(c, esc(surumNotu()) + " Kurulum bazlı sayılar seçili sürümdeki kurulumlardan.", "note");
+  c.appendChild(tiles([
+    ["Kurulum", sayi(hepsi.length), "tüm zamanlar"],
+    ["Yeni kurulum", sayi(yeni), donemAd(), fark(yeni, yeniOnce)],
+    ["Aktif kurulum", sayi(aktif), donemAd(), fark(aktif, aktifOnce)],
+    ["Oturum", sayi(ses), donemAd(), fark(ses, sesOnce)],
+    ["Ort. oturum", dk(sesAdet ? sesSn / sesAdet : 0), "süre", fark(sesAdet ? sesSn / sesAdet : 0, sesOrtOnce)],
+    ["Yumurtası çatlayan", sayi(cikan.length), yuzde(cikan.length, hepsi.length, 0)],
+    ["Ort. seviye", ondalik(ort(cikan, i => i.n_level)), "çatlayanlarda"],
+    ["Ort. bebek yaşı", `${ondalik(ort(cikan, i => i.n_age))} gün`, "çatlayanlarda"],
+    ["Coin alan", sayi(odeyen), yuzde(odeyen, hepsi.length, 1)],
+    ["Coin mağazası", sayi(pw), donemAd(), fark(pw, once?.sayac.paywall_views ?? null)],
+    ["Satın alma", sayi(al), donemAd(), fark(al, once?.sayac.purchases ?? null)],
+    ["Bildirim izni", yuzde(izin, izinBilinen, 0), `${sayi(izin)} / ${sayi(izinBilinen)}`],
+    ["Bugün açan", sayi(aktifSayisi(istGunBasi(), Date.now())), "Türkiye günü"],
+    ["Günlük oturum", sayi(gunlukSes.length ? Math.round(gunlukSes.reduce((a, b) => a + b, 0) / gunlukSes.length) : 0), "ortalama", kivilcim(gunlukSes.slice(-30))],
+  ]));
+
+  const g1 = izgara(c);
+  const yayin = yayinNotu();
+  grafikKart(g1, K.aralik === 1 ? "Bugün saat saat: aktif kurulum" : "Günlük aktif ve yeni kurulum", kutu => {
+    if (K.aralik === 1) {
+      const sa = Array.from({ length: 24 }, (_, h) => ({ t: String(h).padStart(2, "0") + ":00", aktif: 0 }));
+      const kume = sa.map(() => new Set());
+      const saatAl = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Istanbul", hour: "2-digit", hourCycle: "h23" });
+      for (const e of olaylar(D.bas, D.son)) kume[Number(saatAl.format(e.t))]?.add(e.iid);
+      kume.forEach((s, h) => { sa[h].aktif = s.size; });
+      gunlukCubuk(kutu, sa, { seriler: [{ ad: "Aktif kurulum", alan: "aktif", renk: "var(--accent)" }] });
+      return;
+    }
+    const m = {};
+    for (const e of olaylar(D.bas, D.son)) { const g = istGun(e.t); (m[g] ||= { s: new Set() }).s.add(e.iid); }
+    for (const i of hepsi) { const g = istGun(i.firstSeen); if (g) (m[g] ||= { s: new Set() }).yeni = (m[g].yeni || 0) + 1; }
+    const h = Object.fromEntries(Object.entries(m).map(([g, x]) => [g, { aktif: x.s.size, yeni: x.yeni || 0, not: yayin[g] }]));
+    for (const [g, x] of Object.entries(yayin)) if (!h[g]) h[g] = { aktif: 0, yeni: 0, not: x };
+    cizgi(kutu, gunleriDoldur(h, bg, sg), { seriler: [{ ad: "Aktif kurulum", alan: "aktif" }, { ad: "Yeni kurulum", alan: "yeni" }] });
+  }, `Aktif: o gün en az bir olay yazan kurulum (olaylar son ${OLAY_GUN} gün). Yeni: ilk görülme günü. Sürüm yayın günleri ipucunda.`);
+  grafikKart(g1, "Günlük oturum", kutu => {
+    if (K.surum) {
+      const m = {};
+      for (const e of olaylar(D.bas, D.son)) if (e.e === "session") { const g = istGun(e.t); m[g] = (m[g] || 0) + 1; }
+      gunlukCubuk(kutu, gunleriDoldur(m, bg, sg), { birim: "oturum" });
+    } else {
+      const m = Object.fromEntries(statsGunleri(D.bas, D.son).map(d => [d.id, { oturum: n(d.sessions), not: yayin[d.id] }]));
+      gunlukCubuk(kutu, gunleriDoldur(m, bg, sg), { seriler: [{ ad: "Oturum", alan: "oturum", renk: "var(--accent)" }] });
+    }
+  }, K.surum ? "Seçili sürümün oturum olaylarından." : "Günlük stats sayacı (UTC günü). Sürüm filtresi bu grafiğe sayaçtan uygulanamaz; sürüm seçince olaylardan çizilir.");
+
+  const g2 = izgara(c);
+  const snk = el("div");
+  g2.appendChild(kart("Son sürüm notları", snk));
+  snk.appendChild(surumNotlariKutu(notlar, { limit: 4 }));
+  const a = el("p", "alt-not"); a.innerHTML = `<a style="cursor:pointer">Bütün sürüm notları</a>`; a.querySelector("a").onclick = () => K.surumCekmecesi?.(); snk.appendChild(a);
+  grafikKart(g2, "Kalıcılık (kurulumdan N gün sonra hala açan)", kutu => kaliciTablo(kutu, hepsi),
+    "İlk ve son görülmeden: \"N gün sonra hala açıyordu\", klasik DN'ye yakın bir vekil. Payda: kurulumunun üzerinden en az N gün geçenler.");
+
+  c.appendChild(kart("Sürümler: benimseme ve karşılaştırma", surumTablosu()));
+  c.lastChild.appendChild(el("p", "alt-not", "Kurulum kendi şu anki sürümünde sayılır. Oturum ve coin mağazası kurulumun ömür boyu sayaçlarından (kurulum başına), D1/D7 ilk ve son görülme vekili. Yayın: mağaza notlarındaki tarih."));
+
+  const g3 = izgara(c);
+  const hk = el("div");
+  g3.appendChild(kart("Ülkeler", hk));
+  dunyaHaritasi(hk, say(hepsi, i => i.region), { birim: "kurulum" }).catch(e => { hk.appendChild(el("p", "muted", "Harita yüklenemedi: " + esc(e.message))); });
+  grafikKart(g3, "Ülke", kutu => yatayCubuk(kutu, say(hepsi, i => i.region || "?"), { etiket: k => k === "?" ? "Bilinmiyor" : `${ulke(k)} (${k})`, limit: 12 }));
+  const g4 = izgara(c, "izgara3");
+  grafikKart(g4, "Uygulama dili", kutu => yatayCubuk(kutu, say(hepsi, i => i.appLang || "?"), { etiket: k => k === "?" ? "Bilinmiyor" : dilAd(k) }),
+    "Uygulamada seçili dil; Sistem seçiliyse cihazın dili.");
+  grafikKart(g4, "Platform", kutu => yatayCubuk(kutu, say(hepsi, i => platAd(i.platform))));
+  grafikKart(g4, "Cihaz", kutu => yatayCubuk(kutu, say(hepsi, i => cihazAd(i.device)), { limit: 10 }));
+  grafikKart(g4, "İşletim sistemi sürümü", kutu => yatayCubuk(kutu, say(hepsi, i => i.os ? `${platAd(i.platform)} ${String(i.os).split(".").slice(0, 2).join(".")}` : "Bilinmiyor"), { limit: 10 }));
+  grafikKart(g4, "Sistem dili", kutu => yatayCubuk(kutu, say(hepsi, i => i.language || "?"), { etiket: k => k === "?" ? "Bilinmiyor" : dilAd(k) }));
+  grafikKart(g4, "Tema", kutu => yatayCubuk(kutu, say(hepsi, i => i.theme === "dark" ? "Koyu" : i.theme === "light" ? "Açık" : "Bilinmiyor")));
+}
+
+function kaliciTablo(kutu, hepsi) {
+  const N = [1, 3, 7, 14, 30];
+  const satir = (ad, liste) => [ad, sayi(liste.length), ...N.map(g => {
+    const uygun = liste.filter(i => i.firstSeen && Date.now() - ms(i.firstSeen) >= g * 864e5);
+    const kal = uygun.filter(i => ms(i.lastSeen) - ms(i.firstSeen) >= g * 864e5).length;
+    return { d: uygun.length ? `${yuzde(kal, uygun.length)} (${kal}/${uygun.length})` : "-", s: uygun.length ? kal / uygun.length : -1 };
+  })];
+  const hafta = t => { const g = istGunBasi(ms(t)); const gun = (new Date(g + 3 * 36e5).getUTCDay() + 6) % 7; return istGun(g - gun * 864e5); };
+  const kohort = {};
+  for (const i of hepsi) if (i.firstSeen) (kohort[hafta(i.firstSeen)] ||= []).push(i);
+  const satirlar = [satir("Hepsi", hepsi.filter(i => i.firstSeen)), ...Object.keys(kohort).sort().reverse().slice(0, 12).map(h => satir(`${tarihTam(h)} haftası`, kohort[h]))];
+  kutu.appendChild(veriTablo(["Kohort", { ad: "Kurulum", num: true }, ...N.map(g => ({ ad: `${g}. gün`, num: true }))], satirlar, { ara: false, kopyala: true }));
+}
+
+function surumTablosu() {
+  const gruplar = {};
+  for (const i of veri.installs) (gruplar[i.appVersion || "?"] ||= []).push(i);
+  const yayin = {};
+  for (const x of notlar) if (x.tarih && (x.platform === "ios" || x.platform === "android")) {
+    (yayin[String(x.surum)] ||= []).push(`${platAd(x.platform)} ${tarihTam(x.tarih, { saatsiz: true })}`);
+  }
+  const yedi = Date.now() - 7 * 864e5;
+  const kal = (l, g) => { const u = l.filter(i => Date.now() - ms(i.firstSeen) >= g * 864e5); return u.length ? u.filter(i => ms(i.lastSeen) - ms(i.firstSeen) >= g * 864e5).length / u.length : null; };
+  const satirlar = Object.entries(gruplar).sort((a, b) => surumKey(b[0]).localeCompare(surumKey(a[0]))).map(([v, l]) => {
+    const pro = l.filter(i => i.pro === true).length, akt = l.filter(i => ms(i.lastSeen) >= yedi).length;
+    const ses = topla(l, i => i.sessions), sn = topla(l, i => evi(i, "session_sec")), sa = topla(l, i => evi(i, "session"));
+    const pw = topla(l, i => evi(i, "pw_view")), al = topla(l, i => evi(i, "pw_buy"));
+    const cik = l.filter(i => n(i.n_hatched) === 1);
+    const d1 = kal(l, 1), d7 = kal(l, 7);
+    const ilk = l.map(i => ms(i.firstSeen)).filter(Boolean), son = l.map(i => ms(i.lastSeen)).filter(Boolean);
+    return [
+      { d: v === "?" ? "Bilinmiyor" : v, s: surumKey(v) },
+      [...new Set(l.map(i => platAd(i.platform)))].join(", "),
+      sayi(l.length), { d: yuzde(l.length, veri.installs.length, 0), s: l.length },
+      sayi(akt), { d: `${sayi(pro)} (${yuzde(pro, l.length, 0)})`, s: pro / l.length },
+      { d: yuzde(cik.length, l.length, 0), s: cik.length / l.length },
+      { d: ondalik(ort(cik, i => i.n_level)), s: ort(cik, i => i.n_level) },
+      { d: yuzde(l.filter(i => i.notif === true).length, l.length, 0), s: l.filter(i => i.notif === true).length / l.length },
+      { d: ondalik(ses / l.length), s: ses / l.length },
+      { d: dk(sa ? sn / sa : 0), s: sa ? sn / sa : 0 },
+      { d: ondalik(pw / l.length, 2), s: pw / l.length },
+      { d: pw ? yuzde(al, pw, 1) : "-", s: pw ? al / pw : -1 },
+      { d: d1 == null ? "-" : yuzde(d1, 1, 0), s: d1 ?? -1 }, { d: d7 == null ? "-" : yuzde(d7, 1, 0), s: d7 ?? -1 },
+      ilk.length ? tarihHucre(Math.min(...ilk)) : "-", son.length ? tarihHucre(Math.max(...son)) : "-",
+      (yayin[v] || []).join(" · ") || "-",
+    ];
+  });
+  return veriTablo(["Sürüm", { ad: "Platform", filtre: true }, { ad: "Kurulum", num: true }, { ad: "Pay", num: true }, { ad: "7g aktif", num: true },
+    { ad: "Coin alan", num: true }, { ad: "Çatlatan", num: true }, { ad: "Ort. seviye", num: true }, { ad: "Bildirim izni", num: true },
+    { ad: "Oturum/kurulum", num: true }, { ad: "Ort. oturum", num: true }, { ad: "Mağaza/kurulum", num: true }, { ad: "Dönüşüm", num: true },
+    { ad: "D1", num: true }, { ad: "D7", num: true }, "İlk görülme", "Son görülme", "Mağaza yayını"], satirlar, { sirala: [0, "desc"], ara: false, bos: "Kurulum yok." });
+}
+
+// ── Canli ──────────────────────────────────────────────────────────────────
+
+function canli(c) {
+  telemetriYokNotu(c);
+  clearTimeout(canliZaman);
+  if (!demo) canliZaman = setTimeout(() => { if (K.sayfa === "canli") K.yenile(); }, 60e3);
+  const hepsi = kurulumlar(), now = Date.now();
+  const acik = hepsi.filter(canliMi).sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen));
+  const son = d => hepsi.filter(i => now - ms(i.lastSeen) < d * 60e3).length;
+  c.appendChild(tiles([
+    ["Şu an uygulamada", sayi(acik.length), "son 3 dk kalp atışı"],
+    ["Son 15 dk", sayi(son(15)), "görülen kurulum"],
+    ["Son 1 saat", sayi(son(60))],
+    ["Bugün", sayi(aktifSayisi(istGunBasi(), now)), "olay yazan kurulum"],
+    ["Son 24 saat oturum", sayi(olaylar(now - 864e5, now).filter(e => e.e === "session").length)],
+    ["Son 24 saat bakım", sayi(olaylar(now - 864e5, now).filter(e => ["feed", "wash", "sleep"].includes(e.e)).length), "besle, yıka, uyut"],
+  ]));
+  c.appendChild(kart(`Şu an uygulamada: ${sayi(acik.length)}`, veriTablo(
+    ["Kurulum", { ad: "Ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true },
+     { ad: "Dil", filtre: true }, { ad: "Evre", filtre: true }, { ad: "Seviye", num: true }, "Son kalp atışı"],
+    acik.map(i => [kisa(i.id), ekranAd(i.screen), platAd(i.platform), surumAd(i), ulke(i.region), dilAd(i.appLang), evreAd(i.n_stage), sayi(i.n_level), tarihHucre(i.lastSeen)]),
+    { sirala: [8, "desc"], bos: "Şimdi kimse yok. Uygulama açıkken her dakika kalp atışı yazar; son 3 dakikada atan sayılır.", satirTik: (_, k) => cekmece(acik[k]) })));
+  const g = izgara(c);
+  grafikKart(g, "Son 24 saat, saat saat aktif kurulum", kutu => {
+    const bas = now - 23 * 36e5;
+    const fmt = new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", hour: "2-digit", minute: "2-digit" });
+    const sa = Array.from({ length: 24 }, (_, k) => ({ t: fmt.format(bas + k * 36e5), s: new Set() }));
+    for (const e of olaylar(bas - 36e5, now)) { const k = Math.floor((e.t - (bas - 36e5)) / 36e5) - 1; if (sa[k]) sa[k].s.add(e.iid); }
+    gunlukCubuk(kutu, sa.map(x => ({ t: x.t, v: x.s.size })), { birim: "kurulum", ozet: false });
+  }, "Türkiye saati; o saatte en az bir olay yazan kurulum.");
+  grafikKart(g, "Açık olanlar hangi ekranda", kutu => yatayCubuk(kutu, say(acik, i => ekranAd(i.screen))));
+  const akis = olaylar(now - 7 * 864e5, now, K.surum).slice(0, 80);
+  c.appendChild(kart("Son olaylar", veriTablo(["Zaman", "Kurulum", { ad: "Olay", filtre: true }, "Ayrıntı", { ad: "Süre", num: true }],
+    akis.map(e => [tarihHucre(e.t), kisa(e.iid), olayAd(e.e), olayAyrinti(e), { d: e.s ? sure(e.s) : "", s: e.s }]),
+    { sirala: [0, "desc"], bos: olay.hata ? "Olaylar okunamadı: " + esc(olay.hata) : "Son 7 günde olay yok.", satirTik: (s, k) => { const i = veri.harita.get(akis[k].iid); if (i) cekmece(i); } })));
+  const sonGor = hepsi.slice().sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen)).slice(0, 30);
+  c.appendChild(kart("Son görülenler", veriTablo(
+    ["Kurulum", { ad: "Son ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, "Son görülme"],
+    sonGor.map(i => [kisa(i.id), ekranAd(i.screen === "closed" ? i.lastScreen : i.screen), platAd(i.platform), surumAd(i), ulke(i.region), tarihHucre(i.lastSeen)]),
+    { sirala: [5, "desc"], bos: "Kurulum yok.", satirTik: (_, k) => cekmece(sonGor[k]) })));
+}
+
+const OLAY_AD = {
+  screen: "Ekran", screen_time: "Ekrandan çıktı", session: "Oturum bitti",
+  pw_view: "Coin mağazası açıldı", pw_close: "Coin mağazası kapandı", pw_close_bought: "Coin mağazası kapandı (aldı)", pw_buy: "Coin satın aldı",
+  pw_tap: "Pakete dokundu", pw_cancel: "Ödeme ekranından vazgeçti", pw_fail: "Satın alma hatası", pw_pending: "Ödeme beklemede",
+  onboarding_step: "Tanıtım adımı", onboarding_skip: "Tanıtımı atladı", onboarding_done: "Yumurtayı seçti", onboarding_name: "İsim",
+  hatch: "Yumurta çatladı", feed: "Besledi", wash: "Yıkadı", sleep: "Uyuttu", wake: "Uyandırdı",
+  game_start: "Oyun başladı", game_paid: "Coinle tur", game_end: "Oyun bitti", promise: "Sözü tuttu", tasks_claimed: "Görev bonusu aldı",
+  vet: "Veteriner", coins_short: "Coin yetmedi", buy_item: "Eşya aldı", level_up: "Seviye atladı", evolve: "Evrim", milestone: "Büyüme anı",
+  daily_gift: "Günlük hediye", came_back: "Uzun aradan döndü", share: "Paylaştı", watch_action: "Saatten bakım", widget_action: "Widget düğmesi",
+  push_open: "Hatırlatmaya dokundu", push_permission: "Bildirim izni", setting: "Ayar değişti", rename: "Adını değiştirdi",
+  reset: "Baştan başladı", lab_unlock: "Lab açıldı (test)", lab_hide: "Lab gizlendi",
+};
+const olayAd = e => OLAY_AD[e] || e || "-";
+function olayAyrinti(e) {
+  if (!e.p) return "";
+  if (e.e === "screen" || e.e === "screen_time") return ekranAd(e.p);
+  if (["pw_view", "pw_close", "pw_close_bought", "pw_buy"].includes(e.e)) return kaynakAd(e.p);
+  if (["pw_tap", "pw_cancel", "pw_fail", "pw_pending"].includes(e.e)) return paketAd(e.p);
+  if (e.e.startsWith("game_")) return OYUN[e.p] || e.p;
+  if (e.e === "feed") return YEMEK[e.p] || e.p;
+  if (e.e === "promise") return SOZ[e.p] || e.p;
+  if (e.e === "coins_short") return ESYA_TUR[e.p] || e.p;
+  if (e.e === "buy_item") { const [t, ...r] = e.p.split("_"); return `${ESYA_TUR[t] || t}: ${r.join("_")}`; }
+  if (e.e === "evolve") return EVRE_AD[e.p] || e.p;
+  if (e.e === "hatch" || e.e === "onboarding_done") return RENK[e.p] || e.p;
+  if (e.e === "onboarding_name") return e.p === "custom" ? "Kendi verdiği ad" : "Varsayılan ad (Nubi)";
+  if (e.e === "onboarding_step" || e.e === "onboarding_skip") return `${n(e.p) + 1}. sayfa`;
+  if (e.e === "push_open") return HATIRLATMA[e.p] || e.p;
+  if (e.e === "watch_action") return SAAT_EYLEM[e.p] || e.p;
+  if (e.e === "widget_action") return e.p === "snack" ? "Atıştırmalık" : e.p === "pet" ? "Sev" : e.p;
+  if (e.e === "share") return { story: "Hikaye", post: "Gönderi", watchface: "Saat kadranı için kaydet" }[e.p] || e.p;
+  if (e.e === "push_permission") return e.p === "granted" ? "Verdi" : "Vermedi";
+  if (e.e === "level_up") return `Seviye ${e.p}`;
+  return e.p;
+}
+
+// ── Ekranlar ───────────────────────────────────────────────────────────────
+
+function ekranOzet(ev) {
+  const m = {};
+  for (const [k, v] of Object.entries(ev)) {
+    if (k.startsWith("screen_time")) continue;
+    let x = k.match(/^screen_(.+)_sec$/);
+    if (x) { (m[x[1]] ||= { gir: 0, sn: 0 }).sn += v; continue; }
+    x = k.match(/^screen_(.+)$/);
+    if (x) (m[x[1]] ||= { gir: 0, sn: 0 }).gir += v;
+  }
+  return m;
+}
+function ekranlar(c) {
+  telemetriYokNotu(c);
+  const { D, simdi, once } = ikiDonem();
+  const m = ekranOzet(simdi.ev), mo = once ? ekranOzet(once.ev) : {};
+  const kisi = {};
+  for (const e of simdi.olay) if (e.e === "screen" && e.p) (kisi[e.p] ||= new Set()).add(e.iid);
+  const topSn = Object.values(m).reduce((a, x) => a + x.sn, 0), topGir = Object.values(m).reduce((a, x) => a + x.gir, 0);
+  if (K.surum) notSatir(c, esc(surumNotu()));
+  c.appendChild(tiles([
+    ["Ekran açılışı", sayi(topGir), donemAd(), fark(topGir, once ? Object.values(mo).reduce((a, x) => a + x.gir, 0) : null)],
+    ["Ekranda geçen süre", dk(topSn), donemAd(), fark(topSn, once ? Object.values(mo).reduce((a, x) => a + x.sn, 0) : null)],
+    ["Açılış başına", dk(topGir ? topSn / topGir : 0)],
+    ["En uzun kalınan", ekranAd(Object.entries(m).sort((a, b) => b[1].sn - a[1].sn)[0]?.[0])],
+    ["Oyunlarda geçen", dk(Object.entries(m).filter(([k]) => k.startsWith("game_")).reduce((a, [, x]) => a + x.sn, 0)), donemAd()],
+  ]));
+  const adlar = Object.keys(m).sort((a, b) => m[b].sn - m[a].sn);
+  c.appendChild(kart("Ekranda geçen süre", veriTablo(
+    ["Ekran", { ad: "Açılış", num: true }, { ad: "Önceki", num: true }, { ad: "Değişim", num: true }, { ad: "Kişi", num: true },
+     { ad: "Toplam süre", num: true }, { ad: "Süre payı", num: true }, { ad: "Açılış başına", num: true }],
+    adlar.map(a => {
+      const x = m[a], o = mo[a], f = once ? farkYazi({ simdi: x.gir, once: o?.gir || 0 }) : null;
+      return [ekranAd(a), sayi(x.gir), once ? sayi(o?.gir || 0) : "-", { d: f?.metin || "-", s: o?.gir ? (x.gir - o.gir) / o.gir : 0 },
+        sayi(kisi[a]?.size || 0), { d: dk(x.sn), s: x.sn }, { d: yuzde(x.sn, topSn, 1), s: x.sn }, { d: dk(x.gir ? x.sn / x.gir : 0), s: x.gir ? x.sn / x.gir : 0 }];
+    }), { sirala: [5, "desc"], bos: "Bu dönemde ekran verisi yok." })));
+  const g = izgara(c);
+  grafikKart(g, "Süre payı", kutu => yatayCubuk(kutu, Object.fromEntries(adlar.map(a => [ekranAd(a), Math.round(m[a].sn / 60)])), { limit: 12 }), "Dakika.");
+  grafikKart(g, "Çıkış ekranı (uygulamayı kapattığı yer)", kutu => yatayCubuk(kutu, say(kurulumlar(), i => i.lastScreen ? ekranAd(i.lastScreen) : null)),
+    "Kurulumun son kapattığı ekran (lastScreen); dönemden bağımsız.");
+  const ilk6 = adlar.slice(0, 6), [bg, sg] = gunAraligi(D);
+  const h = {};
+  if (K.surum) {
+    for (const e of simdi.olay) if (e.e === "screen_time" && ilk6.includes(slug(e.p))) { const gg = istGun(e.t); (h[gg] ||= {})[slug(e.p)] = (h[gg]?.[slug(e.p)] || 0) + e.s / 60; }
+  } else {
+    for (const d of simdi.gunler) for (const a of ilk6) (h[d.id] ||= {})[a] = n(d.ev?.[`screen_${a}_sec`]) / 60;
+  }
+  grafikKart(c, "Gün gün ekran süresi (dakika)", kutu => gunlukCubuk(kutu, gunleriDoldur(h, bg, sg).map(x => ({ ...x, ...Object.fromEntries(ilk6.map(a => [a, Math.round(n(x[a]))])) })),
+    { seriler: ilk6.map(a => ({ ad: ekranAd(a), alan: a })) }), K.surum ? "Seçili sürümün olaylarından." : "Günlük stats; sürüm seçince olaylardan.");
+  const ilkE = {};
+  const sirali = simdi.olay.slice().sort((a, b) => a.t - b.t), sonOt = {};
+  for (const e of sirali) {
+    if (e.e === "session") { sonOt[e.iid] = e.t; continue; }
+    if (e.e === "screen" && !(e.iid + ":" + (sonOt[e.iid] || 0) in ilkE)) ilkE[e.iid + ":" + (sonOt[e.iid] || 0)] = e.p;
+  }
+  const g2 = izgara(c);
+  grafikKart(g2, "Oturumun ilk ekranı", kutu => yatayCubuk(kutu, say(Object.values(ilkE), p => ekranAd(p))), "Olaylardan: her oturumda açılan ilk ekran.");
+  grafikKart(g2, "Ana ekrandan sonra nereye", kutu => {
+    const m2 = {};
+    const son = {};
+    for (const e of sirali) if (e.e === "screen") { if (son[e.iid] === "home" && e.p !== "home") m2[ekranAd(e.p)] = (m2[ekranAd(e.p)] || 0) + 1; son[e.iid] = e.p; }
+    yatayCubuk(kutu, m2, { limit: 12 });
+  }, "Olaylardan: ana ekrandan hemen sonra açılan ekran.");
+}
+
+// ── Paywall ve satin alma (coin magazasi) ─────────────────────────────────
+
+function pwOzet(ev) {
+  const m = {};
+  const al = k => (m[k] ||= { ac: 0, al: 0, kap: 0, sn: 0 });
+  for (const [k, v] of Object.entries(ev)) {
+    let x = k.match(/^pw_view_(.+)$/); if (x && !k.endsWith("_sec")) { al(x[1]).ac += v; continue; }
+    x = k.match(/^pw_buy_(.+)$/); if (x && !k.endsWith("_sec") && !x[1].startsWith("pack_")) { al(x[1]).al += v; continue; }
+    x = k.match(/^pw_close_(.+)_sec$/); if (x && !x[1].startsWith("bought")) { al(x[1]).sn += v; continue; }
+    x = k.match(/^pw_close_(.+)$/); if (x && !x[1].startsWith("bought") && !k.endsWith("_sec")) al(x[1]).kap += v;
+  }
+  return m;
+}
+function paywall(c) {
+  telemetriYokNotu(c);
+  notSatir(c, "Nubi'de abonelik yok: \"paywall\" coin mağazası (4 tüketilebilir paket). Satın alan kurulumun <code>pro</code> alanı \"en az bir kez coin aldı\" demek, <code>plan</code> son aldığı paket.", "note");
+  const { D, simdi, once } = ikiDonem();
+  const ac = simdi.sayac.paywall_views || simdi.ev.pw_view || 0, al = simdi.sayac.purchases || simdi.ev.pw_buy || 0;
+  const acO = once ? (once.sayac.paywall_views || once.ev.pw_view || 0) : null, alO = once ? (once.sayac.purchases || once.ev.pw_buy || 0) : null;
+  const kap = simdi.ev.pw_close || 0, kapSn = simdi.ev.pw_close_sec || 0;
+  const pwOl = simdi.olay.filter(e => e.e.startsWith("pw_"));
+  const kisiler = ad => new Set(pwOl.filter(e => e.e === ad).map(e => e.iid));
+  const goren = kisiler("pw_view"), dokunan = kisiler("pw_tap"), vazgecen = kisiler("pw_cancel"), hata = kisiler("pw_fail"), alan = kisiler("pw_buy");
+  const kalan10 = new Set(pwOl.filter(e => (e.e === "pw_close" || e.e === "pw_close_bought" || e.e === "pw_buy") && e.s >= 10).map(e => e.iid));
+  const satinlar = alimlar(D.bas, D.son), satinOnce = once ? alimlar(D.oncekiBas, D.oncekiSon - 1) : null;
+  const gelir = topla(satinlar, x => x.fiyat), gelirO = satinOnce ? topla(satinOnce, x => x.fiyat) : null;
+  const coin = simdi.sayac.coins_bought ?? topla(satinlar, x => PLAN[planAnahtar(x.plan)]?.coin);
+  if (K.surum) notSatir(c, esc(surumNotu()));
+  c.appendChild(tiles([
+    ["Mağaza açıldı", sayi(ac), donemAd(), fark(ac, acO)],
+    ["Mağazayı gören", sayi(goren.size), "kurulum, olaylardan"],
+    ["Pakete dokunan", sayi(dokunan.size), "ödeme ekranı açıldı"],
+    ["Satın alma", sayi(al), donemAd(), fark(al, alO)],
+    ["Dönüşüm", yuzde(al, ac, 1), "alım / açılış", fark(ac ? al / ac : 0, once && acO ? alO / acO : null)],
+    ["Vazgeçen", sayi(simdi.ev.pw_cancel || 0), "ödeme ekranında", fark(simdi.ev.pw_cancel || 0, once ? once.ev.pw_cancel || 0 : null, true)],
+    ["Hata", sayi(simdi.ev.pw_fail || 0), "satın alma tamamlanmadı", fark(simdi.ev.pw_fail || 0, once ? once.ev.pw_fail || 0 : null, true)],
+    ["Ort. açık kalma", dk(kap ? kapSn / kap : 0), "almadan kapatan"],
+    ["Satın alınan coin", sayi(coin), donemAd()],
+    ["Coin alan kurulum", sayi(kurulumlar().filter(i => i.pro === true).length), "tüm zamanlar"],
+    ["Tahmini gelir", para(gelir, "USD"), "ABD liste fiyatı, vergi ve komisyon öncesi", fark(gelir, gelirO)],
+  ]));
+  const g = izgara(c);
+  grafikKart(g, "Huni (kurulum)", kutu => huni(kutu, [["Mağazayı gördü", goren.size], ["10 sn'den uzun kaldı", [...kalan10].filter(x => goren.has(x)).length],
+    ["Pakete dokundu (plan seçti, satın almaya bastı)", [...dokunan].filter(x => goren.has(x)).length], ["Satın aldı", alan.size]], { birim: "kurulum" }),
+    "Nubi'de paket seçmek ve satın almaya basmak tek dokunuş: pakete dokununca mağazanın ödeme ekranı açılır (pw_tap).");
+  grafikKart(g, "Huni (açılış)", kutu => huni(kutu, [["Açıldı", ac], ["Pakete dokunuldu", simdi.ev.pw_tap || 0], ["Satın alındı", al]], { birim: "açılış" }));
+  const m = pwOzet(simdi.ev), mo = once ? pwOzet(once.ev) : {};
+  const kisiK = {};
+  for (const e of pwOl) if (e.e === "pw_view") (kisiK[slug(e.p)] ||= new Set()).add(e.iid);
+  c.appendChild(kart("Nereden açıldı", veriTablo(
+    ["Kaynak", { ad: "Açılış", num: true }, { ad: "Önceki", num: true }, { ad: "Değişim", num: true }, { ad: "Kişi", num: true },
+     { ad: "Ort. açık kalma", num: true }, { ad: "Satın alma", num: true }, { ad: "Dönüşüm", num: true }],
+    Object.keys(m).map(k => {
+      const x = m[k], o = mo[k], f = once ? farkYazi({ simdi: x.ac, once: o?.ac || 0 }) : null;
+      return [kaynakAd(k), sayi(x.ac), once ? sayi(o?.ac || 0) : "-", { d: f?.metin || "-", s: o?.ac ? (x.ac - o.ac) / o.ac : 0 }, sayi(kisiK[k]?.size || 0),
+        { d: dk(x.kap ? x.sn / x.kap : 0), s: x.kap ? x.sn / x.kap : 0 }, sayi(x.al), { d: x.ac ? yuzde(x.al, x.ac, 1) : "-", s: x.ac ? x.al / x.ac : 0 }];
+    }), { sirala: [1, "desc"], bos: "Bu dönemde coin mağazası açılmamış." })));
+  c.lastChild.appendChild(el("p", "alt-not", "\"Coin yetmedi\" kaynakları (mağaza, oyun) kullanıcının bir şey isteyip parası yetmediği an: en sıcak satış anı."));
+  const paketler = Object.keys(PLAN).map(k => { const s = k.replace(".", "_"); return [k, s]; });
+  c.appendChild(kart("Paketler", veriTablo(["Paket", { ad: "Dokunma", num: true }, { ad: "Vazgeçme", num: true }, { ad: "Hata", num: true }, { ad: "Satın alma", num: true },
+    { ad: "Dokunuştan alıma", num: true }, { ad: "Liste fiyatı", num: true }, { ad: "Tahmini gelir", num: true }],
+    paketler.map(([k, s]) => {
+      const dok = n(simdi.ev["pw_tap_" + s]), vaz = n(simdi.ev["pw_cancel_" + s]), hat = n(simdi.ev["pw_fail_" + s]);
+      const alis = K.surum ? satinlar.filter(x => planAnahtar(x.plan) === k).length : n(simdi.ev["pw_buy_pack_" + s]);
+      return [PLAN[k].ad, sayi(dok), sayi(vaz), sayi(hat), sayi(alis), { d: dok ? yuzde(alis, dok, 0) : "-", s: dok ? alis / dok : -1 },
+        { d: para(PLAN[k].usd, "USD"), s: PLAN[k].usd }, { d: para(alis * PLAN[k].usd, "USD"), s: alis * PLAN[k].usd }];
+    }), { ara: false, sirala: [4, "desc"] })));
+  const g2 = izgara(c);
+  const [bg, sg] = gunAraligi(D);
+  grafikKart(g2, "Gün gün açılış ve satın alma", kutu => {
+    const h = {};
+    if (K.surum) for (const e of pwOl) { const gg = istGun(e.t); h[gg] ||= { ac: 0, dok: 0, al: 0 }; if (e.e === "pw_view") h[gg].ac++; if (e.e === "pw_tap") h[gg].dok++; if (e.e === "pw_buy") h[gg].al++; }
+    else for (const d of simdi.gunler) h[d.id] = { ac: n(d.paywall_views), dok: n(d.ev?.pw_tap), al: n(d.purchases) };
+    cizgi(kutu, gunleriDoldur(h, bg, sg), { seriler: [{ ad: "Açılış", alan: "ac" }, { ad: "Pakete dokunma", alan: "dok" }, { ad: "Satın alma", alan: "al" }] });
+  });
+  grafikKart(g2, "Açık kalma süresi", kutu => yatayCubuk(kutu, kovala(pwOl.filter(e => e.e === "pw_close" || e.e === "pw_buy").map(e => e.s), PW_KOVA, true), { limit: 10 }),
+    "Olaylardan: almadan kapatma ve satın almaya kadar geçen süre.");
+  grafikKart(g2, "Kaynağa göre açılış", kutu => yatayCubuk(kutu, Object.fromEntries(Object.entries(m).map(([k, x]) => [kaynakAd(k), x.ac]))));
+  grafikKart(g2, "Coin alanların son paketi", kutu => yatayCubuk(kutu, say(kurulumlar().filter(i => i.pro === true), i => planAd(i.plan))));
+
+  const tum = alimlar(0, Date.now());
+  c.appendChild(kart(`Satın alanlar (${sayi(tum.length)})`, veriTablo(
+    ["Zaman", "Kurulum", { ad: "Paket", filtre: true }, { ad: "Kaynak", filtre: true }, { ad: "Kaç saniyede", num: true }, { ad: "Fiyat (tahmini)", num: true },
+     { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, { ad: "Alım sayısı", num: true }, { ad: "Mağaza görme", num: true },
+     { ad: "Seviye", num: true }, { ad: "Kurulumdan sonra", num: true }],
+    tum.map(x => [tarihHucre(x.t), kisa(x.i.id), planAd(x.plan), kaynakAd(x.kaynak), { d: x.sn != null ? sure(x.sn) : "-", s: x.sn ?? -1 },
+      { d: x.fiyat != null ? para(x.fiyat, "USD") : "-", s: x.fiyat ?? 0 }, platAd(x.i.platform), surumAd(x.i), ulke(x.i.region),
+      sayi(evi(x.i, "pw_buy")), sayi(evi(x.i, "pw_view")), sayi(x.i.n_level),
+      { d: x.i.firstSeen && x.t ? `${sayi(gunSay(x.i.firstSeen, x.t))} gün` : "-", s: x.i.firstSeen ? gunSay(x.i.firstSeen, x.t) : -1 }]),
+    { sirala: [0, "desc"], bos: "Telemetride satın alma yok.", satirTik: (_, k) => cekmece(tum[k].i) })));
+  c.lastChild.appendChild(el("p", "alt-not", "Her satın alma bir satır (pw_buy olayı); olayı olmayan eski alım kurulumun purchasedAt alanından. Fiyat: paket kimliğinden ABD liste fiyatı (0,99 / 2,99 / 6,99 / 14,99 $), tahmini. Gerçek para mağaza raporundan aşağıda."));
+  satis(c, satinlar);
+}
+
+/* Telemetrideki satin almalar: her pw_buy olayi; olay yoksa kurulumun purchasedAt'i. */
+function alimlar(bas, son) {
+  const liste = [], olanlar = new Set();
+  for (const e of olay.liste || []) {
+    if (e.e !== "pw_buy" || e.t < bas || e.t > son) continue;
+    const i = veri.harita.get(e.iid);
+    if (!i || (K.surum && String(i.appVersion) !== String(K.surum))) continue;
+    olanlar.add(i.id);
+    /* Paket: ayni anda yazilan purchasedAt/plan ile eslesirse plan, yoksa pw_tap'tan. */
+    const tap = (olay.liste || []).filter(x => x.iid === e.iid && x.e === "pw_tap" && x.t <= e.t && e.t - x.t < 36e5).sort((a, b) => b.t - a.t)[0];
+    const plan = tap ? tap.p.replace("_", ".") : i.plan;
+    liste.push({ i, t: e.t, sn: e.s, kaynak: e.p || i.buySource, plan, fiyat: planFiyat(plan) });
+  }
+  for (const i of kurulumlar()) if (i.purchasedAt && !olanlar.has(i.id) && ms(i.purchasedAt) >= bas && ms(i.purchasedAt) <= son)
+    liste.push({ i, t: ms(i.purchasedAt), sn: null, kaynak: i.buySource, plan: i.plan, fiyat: planFiyat(i.plan) });
+  return liste.sort((a, b) => b.t - a.t);
+}
+
+/* Magaza parasi panel/sales'tan (scripts/lab/panel-yaz.mjs yaziyor). */
+async function satis(c, satinlar) {
+  const kutu = el("div");
+  c.appendChild(kutu);
+  if (satisBelge === undefined) {
+    kutu.appendChild(kart("Mağaza geliri", el("p", "muted", "Yükleniyor...")));
+    try { const d = await getDoc(doc(db, "panel", "sales")); satisBelge = d.exists() ? d.data() : null; }
+    catch (e) { satisBelge = null; }
+    if (K.sayfa === "paywall") ciz();
+    return;
+  }
+  const D = donem(K.aralik), [bg, sg] = gunAraligi(D);
+  if (!satisBelge) {
+    kutu.appendChild(kart("Mağaza geliri", el("div", null,
+      "<p class='muted'><b>panel/sales belgesi yok.</b> Mac'teki günlük iş (scripts/lab/panel-yaz.mjs) Nubi için henüz yazmıyor: " +
+      "<code>scripts/lab/telemetri.mjs</code> içindeki PROJELER listesine <code>\"nubi-bamtech\": \"nubi\"</code> eklenince indirme, satın alma ve " +
+      "para birimine göre gelir burada görünür. O zamana kadar aşağıdaki gelir telemetriden tahmin.</p>")));
+    const g = izgara(kutu);
+    grafikKart(g, "Tahmini gelir, gün gün (USD)", k => {
+      const h = {};
+      for (const x of satinlar) { const gg = istGun(x.t); h[gg] = Math.round(((h[gg] || 0) + (x.fiyat || 0)) * 100) / 100; }
+      gunlukCubuk(k, gunleriDoldur(h, bg, sg), { birim: "USD" });
+    });
+    grafikKart(g, "Tahmini gelir, pakete göre (USD)", k => {
+      const h = {}; for (const x of satinlar) { const a = planAd(x.plan); h[a] = Math.round(((h[a] || 0) + (x.fiyat || 0)) * 100) / 100; }
+      yatayCubuk(k, h);
+    });
+    grafikKart(g, "Tahmini gelir, ülkeye göre (USD)", k => {
+      const h = {}; for (const x of satinlar) { const a = ulke(x.i.region); h[a] = Math.round(((h[a] || 0) + (x.fiyat || 0)) * 100) / 100; }
+      yatayCubuk(k, h);
+    });
+    return;
+  }
+  const s = satisBelge;
+  const gunluk = (s.gunluk || []).filter(g => !D.bas || g.tarih >= istGun(D.bas));
+  const gelir = {};
+  for (const g of gunluk) for (const [kod, t] of Object.entries(g.gelir || {})) gelir[kod] = (gelir[kod] || 0) + n(t);
+  kutu.appendChild(kart("Mağaza (App Store Connect + Play)", tiles([
+    ["İndirme", sayi(topla(gunluk, g => g.indirme)), donemAd()],
+    ["Güncelleme", sayi(topla(gunluk, g => g.guncelleme))],
+    ["Satın alma", sayi(topla(gunluk, g => g.iap)), "mağaza raporu"],
+    ["Telemetride satın alma", sayi(satinlar.length), "aynı dönem"],
+    ...(Object.keys(gelir).length ? Object.entries(gelir).map(([kod, t]) => ["Gelir", para(t, kod), kod]) : [["Gelir", para(0, "USD"), "henüz yok"]]),
+  ])));
+  const g = izgara(kutu);
+  const anaKod = Object.entries(gelir).sort((a, b) => b[1] - a[1])[0]?.[0] || "USD";
+  grafikKart(g, `Gelir, gün gün (${anaKod})`, k => gunlukCubuk(k, gunleriDoldur(Object.fromEntries(gunluk.map(x => [x.tarih, n(x.gelir?.[anaKod])])), bg, sg), { birim: anaKod }));
+  grafikKart(g, "İndirme, gün gün", k => gunlukCubuk(k, gunleriDoldur(Object.fromEntries(gunluk.map(x => [x.tarih, { ind: n(x.indirme), gun: n(x.guncelleme) }])), bg, sg),
+    { seriler: [{ ad: "İndirme", alan: "ind" }, { ad: "Güncelleme", alan: "gun" }] }));
+  grafikKart(g, "Ülkeye göre indirme", k => yatayCubuk(k, Object.fromEntries(Object.entries(s.ulkeler || {}).map(([u, v]) => [ulke(u), n(v)]))), "Mağaza raporunun bütün dönemi.");
+  grafikKart(g, "Para birimine göre gelir", k => k.appendChild(dagilimTablo(Object.fromEntries(Object.entries(gelir).map(([kod, t]) => [kod, Math.round(t * 100) / 100])), ["Para birimi", "Tutar"], { kopyala: false })));
+  kutu.appendChild(kart("Gün gün", veriTablo(["Gün", { ad: "İndirme", num: true }, { ad: "Güncelleme", num: true }, { ad: "Satın alma", num: true }, { ad: "Gelir", num: true }],
+    gunluk.map(x => [tarihHucre(x.tarih), sayi(x.indirme), sayi(x.guncelleme), sayi(x.iap),
+      { d: Object.entries(x.gelir || {}).map(([kod, t]) => para(t, kod)).join(" + ") || "-", s: Object.values(x.gelir || {}).reduce((a, b) => a + n(b), 0) }]),
+    { sirala: [0, "desc"], bos: "Bu dönemde mağaza satırı yok." })));
+  kutu.appendChild(el("p", "alt-not", `Kaynak: App Store Connect satış raporu (page hesabı) ve Play, en son ${tarihTam(s.uretim) || "bilinmiyor"}. Apple raporu bir gün gecikmeli. İade bu belgede yok. RevenueCat 1 Ekim'deki ilk alımı kaçırmıştı (vault notu).`));
+}
+
+// ── Kullanim ───────────────────────────────────────────────────────────────
+
+function kullanim(c) {
+  telemetriYokNotu(c);
+  const { D, simdi, once } = ikiDonem();
+  const aktif = aktifSayisi(D.bas, D.son);
+  if (K.surum) notSatir(c, esc(surumNotu()) + " Zaman çizelgesine düşmeyen sayaçlar (sevme, satın alınan coin, yeni kurulum) sürüme bölünemez, onlar boş.");
+  c.appendChild(kart(`Sayaçlar (${donemAd()})`, veriTablo(
+    ["Olay", { ad: "Bu dönem", num: true }, { ad: "Önceki dönem", num: true }, { ad: "Değişim", num: true }, { ad: "Aktif kurulum başına", num: true }, { ad: "Durum", filtre: true }],
+    Object.entries(SAYAC).map(([k, x]) => {
+      const a = simdi.sayac[k], b = once?.sayac[k];
+      const f = once && a != null ? farkYazi({ simdi: a, once: b || 0 }) : null;
+      return [x.ad, a == null ? "-" : sayi(a), once && b != null ? sayi(b) : "-", { d: f?.metin || "-", s: b ? ((a || 0) - b) / b : 0 },
+        { d: a != null && aktif ? ondalik(a / aktif, 2) : "-", s: a != null && aktif ? a / aktif : 0 },
+        veri.days.some(d => n(d[k]) > 0) ? "Geliyor" : "Hiç gelmedi"];
+    }), { sirala: [1, "desc"], ara: false })));
+
+  const [bg, sg] = gunAraligi(D);
+  const g = izgara(c);
+  grafikKart(g, "Gün gün bakım", kutu => cizgi(kutu, gunleriDoldur(gunlukSeri(D, [
+    { ad: "Besleme", alan: "f", sayac: "feeds", olay: "feed" }, { ad: "Yıkama", alan: "w", sayac: "washes", olay: "wash" },
+    { ad: "Uyutma", alan: "s", sayac: "sleeps", olay: "sleep" }, { ad: "Oyun turu", alan: "g", sayac: "games", olay: "game_start" }]), bg, sg),
+    { seriler: [{ ad: "Besleme", alan: "f" }, { ad: "Yıkama", alan: "w" }, { ad: "Uyutma", alan: "s" }, { ad: "Oyun turu", alan: "g" }] }),
+    K.surum ? "Seçili sürümün olaylarından." : "Günlük stats; sürüm seçince olaylardan.");
+  grafikKart(g, "Gün gün söz, görev, sevme", kutu => cizgi(kutu, gunleriDoldur(gunlukSeri(D, [
+    { ad: "Söz", alan: "p", sayac: "promises", olay: "promise" }, { ad: "Görev bonusu", alan: "t", sayac: "tasks_claimed", olay: "tasks_claimed" },
+    { ad: "Sevme (100'de)", alan: "e", sayac: "pets" }]), bg, sg).map(x => ({ ...x, e: Math.round(n(x.e) / 100) })),
+    { seriler: [{ ad: "Söz", alan: "p" }, { ad: "Görev bonusu", alan: "t" }, { ad: "Sevme (100'de)", alan: "e" }] }),
+    "Sevme her dokunuşta sayılır, ölçek için 100'e bölündü. Sevme zaman çizelgesine düşmez, sürüm seçilince boş.");
+
+  const ev = simdi.ev;
+  const g2 = izgara(c, "izgara3");
+  grafikKart(g2, "Ne yedirildi", kutu => yatayCubuk(kutu, onekten(ev, "feed_", YEMEK)));
+  grafikKart(g2, "Tutulan söz", kutu => yatayCubuk(kutu, onekten(ev, "promise_", SOZ), { limit: 10 }));
+  grafikKart(g2, "Coin yetmedi (ne için)", kutu => yatayCubuk(kutu, onekten(ev, "coins_short_", ESYA_TUR)), "Coin yetmediği an: mağazaya en sıcak yol.");
+
+  c.appendChild(el("h2", null, "Oyunlar"));
+  const oy = Object.keys(OYUN).filter(k => k !== "unknown");
+  c.appendChild(tiles([
+    ["Oyun turu", sayi(simdi.sayac.games ?? ev.game_start ?? 0), donemAd(), fark(simdi.sayac.games || 0, once ? once.sayac.games || 0 : null)],
+    ["Coinle tur", sayi(simdi.sayac.games_paid ?? ev.game_paid ?? 0), yuzde(simdi.sayac.games_paid || ev.game_paid || 0, simdi.sayac.games || ev.game_start || 0, 0)],
+    ["Oynayan kurulum", sayi(kisiSay(simdi.olay.filter(e => e.e === "game_start")))],
+    ["Bitirilen tur", sayi(ev.game_end || 0), yuzde(ev.game_end || 0, ev.game_start || 0, 0) + " başlayanlardan"],
+  ]));
+  c.appendChild(kart("Oyun oyun", veriTablo(["Oyun", { ad: "Başladı", num: true }, { ad: "Bitti", num: true }, { ad: "Coinle", num: true },
+    { ad: "Ort. skor", num: true }, { ad: "Ekran süresi", num: true }, { ad: "Tur başına", num: true }, { ad: "Kişi", num: true }],
+    oy.map(k => {
+      const bas = n(ev["game_start_" + k]), bit = n(ev["game_end_" + k]), skor = n(ev["game_score_" + k]), sn = n(ev[`screen_game_${k}_sec`]);
+      return [OYUN[k], sayi(bas), sayi(bit), sayi(ev["game_paid_" + k]), { d: bit && skor ? ondalik(skor / bit) : "-", s: bit ? skor / bit : -1 },
+        { d: dk(sn), s: sn }, { d: dk(bit ? sn / bit : 0), s: bit ? sn / bit : 0 }, sayi(kisiSay(simdi.olay.filter(e => e.e === "game_start" && e.p === k)))];
+    }), { ara: false, sirala: [1, "desc"] })));
+  c.lastChild.appendChild(el("p", "alt-not", "Ortalama skor game_score sayacından (zaman çizelgesine düşmez; sürüm seçilince boş). Her oyunda günde 2 bedava tur, sonrası 5 coin."));
+
+  c.appendChild(el("h2", null, "Mağaza (coinle eşya), paylaşım, ayarlar"));
+  const g3 = izgara(c, "izgara3");
+  grafikKart(g3, "Satın alınan eşya türü", kutu => { const h = {}; for (const [k, v] of Object.entries(onekten(ev, "buy_item_"))) { const t = ESYA_TUR[k.split("_")[0]] || k.split("_")[0]; h[t] = (h[t] || 0) + v; } yatayCubuk(kutu, h); });
+  grafikKart(g3, "En çok alınan eşya", kutu => yatayCubuk(kutu, Object.fromEntries(Object.entries(onekten(ev, "buy_item_")).map(([k, v]) => { const [t, ...r] = k.split("_"); return [`${ESYA_TUR[t] || t}: ${r.join("_")}`, v]; })), { limit: 12 }));
+  grafikKart(g3, "Takıp çıkarma (tür)", kutu => yatayCubuk(kutu, onekten(ev, "equip_", ESYA_TUR)), "Sayaç (equip), zaman çizelgesine düşmez.");
+  grafikKart(g3, "Paylaşım", kutu => yatayCubuk(kutu, onekten(ev, "share_", { story: "Hikaye", post: "Gönderi", watchface: "Saat kadranı için kaydet" })));
+  grafikKart(g3, "Ayar değişiklikleri", kutu => yatayCubuk(kutu, onekten(ev, "setting_"), { limit: 12 }));
+  grafikKart(g3, "Diğer", kutu => kutu.appendChild(dagilimTablo({
+    "Veteriner": n(ev.vet), "Seviye atlama": n(ev.level_up), "Evrim": n(ev.evolve), "Büyüme anı": n(ev.milestone), "Günlük hediye": n(ev.daily_gift),
+    "Uzun aradan dönüş": n(ev.came_back), "Hastayken açılış": n(ev.ill_open), "Ad değiştirme": n(ev.rename), "Baştan başlama": n(ev.reset),
+  }, ["Olay", "Adet"], { kopyala: false })));
+
+  c.appendChild(el("h2", null, "Oturum ve saatler"));
+  const g4 = izgara(c);
+  grafikKart(g4, "Oturum süresi dağılımı", kutu => yatayCubuk(kutu, kovala(simdi.olay.filter(e => e.e === "session").map(e => e.s), SURE_KOVA, true), { limit: 10 }),
+    "Olaylardan: arka plana geçerken yazılan oturum süresi.");
+  const ses = simdi.olay.filter(e => e.e === "session");
+  grafikKart(g4, "Kurulum başına oturum", kutu => yatayCubuk(kutu, kovala(Object.values(say(ses, e => e.iid)), [["1", 1, 2], ["2-3", 2, 4], ["4-7", 4, 8], ["8-14", 8, 15], ["15-30", 15, 31], ["30 üstü", 31, 1e9]], true)),
+    `${donemAd()}, olaylardan.`);
+  grafikKart(c, "Ne zaman açılıyor (oturum başlangıcı, gün x saat)", kutu => saatIsi(kutu, saatMatrisi(ses.map(e => e.t - e.s * 1000)), { birim: "oturum" }),
+    "Türkiye saati. Hatırlatmalar 09:00 ile 22:00 arası düşer; günün sözü hatırlatması varsayılan 10:00.");
+  const g5 = izgara(c);
+  grafikKart(g5, "Haftanın günü", kutu => {
+    const ad = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    const mat = saatMatrisi(ses.map(e => e.t));
+    yatayCubuk(kutu, Object.fromEntries(ad.map((a, k) => [a, mat[k].reduce((x, y) => x + y, 0)])), { limit: 7 });
+  });
+  grafikKart(g5, "Yerel saat dilimi", kutu => yatayCubuk(kutu, say(kurulumlar(), i => i.tz || "Bilinmiyor"), { limit: 10 }));
+}
+
+// ── Bebek ve gelisim (uygulamaya ozel) ────────────────────────────────────
+
+function bebek(c) {
+  telemetriYokNotu(c);
+  const hepsi = kurulumlar(), cikan = hepsi.filter(i => n(i.n_hatched) === 1);
+  notSatir(c, "Bu sayfa kurulumun son yazdığı anlık değerden (n_*): uygulama öne gelince ve arka plana geçerken güncellenir. Dönem seçimi buraya uygulanmaz (tanıtım hunisi hariç), sürüm seçimi uygulanır.", "note");
+  c.appendChild(tiles([
+    ["Bebeği olan", sayi(hepsi.filter(i => i.onboarded === true).length), yuzde(hepsi.filter(i => i.onboarded === true).length, hepsi.length, 0)],
+    ["Yumurtası çatlayan", sayi(cikan.length), yuzde(cikan.length, hepsi.length, 0)],
+    ["Ort. seviye", ondalik(ort(cikan, i => i.n_level))],
+    ["En yüksek seviye", sayi(Math.max(0, ...cikan.map(i => n(i.n_level))))],
+    ["Ort. yaş", `${ondalik(ort(cikan, i => i.n_age))} gün`],
+    ["En yaşlı bebek", `${sayi(Math.max(0, ...cikan.map(i => n(i.n_age))))} gün`],
+    ["Serisi süren", sayi(cikan.filter(i => n(i.n_streak) >= 1).length), "1+ gün"],
+    ["7+ gün seri", sayi(cikan.filter(i => n(i.n_streak) >= 7).length)],
+    ["Şu an hasta", sayi(cikan.filter(i => n(i.n_ill) === 1).length), "7 gün bakılmamış"],
+    ["Ort. bağ", `%${ondalik(ort(cikan, i => i.n_bond), 0)}`],
+    ["Ort. coin", sayi(Math.round(ort(cikan, i => i.n_coins))), "cüzdanda"],
+    ["Ort. albüm", `${ondalik(ort(cikan, i => i.n_forms))} / 50`, "görülen form"],
+  ]));
+  const g = izgara(c, "izgara3");
+  grafikKart(g, "Evre", kutu => yatayCubuk(kutu, say(hepsi.filter(i => i.n_stage != null), i => evreAd(i.n_stage))));
+  grafikKart(g, "Karakter dalı (en çok ne yapıldı)", kutu => yatayCubuk(kutu, say(hepsi, i => KARAKTER[i.trait] || (i.trait ? i.trait : null))),
+    "Yetişkin olunca bebeğin hangi dala gideceğini en çok yapılan bakım belirler.");
+  grafikKart(g, "Seçilen yumurta / gövde rengi", kutu => yatayCubuk(kutu, say(hepsi, i => i.egg ? RENK[i.egg] || i.egg : null)));
+  grafikKart(g, "Seviye", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_level)), [["1", 1, 2], ["2-3", 2, 4], ["4-6", 4, 7], ["7-10", 7, 11], ["11-20", 11, 21], ["20+", 21, 1e9]], true), { limit: 10 }));
+  grafikKart(g, "Yaş (gün)", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_age)), [["0", 0, 1], ["1-2", 1, 3], ["3-4 (bebek)", 3, 5], ["5-11 (çocuk)", 5, 12], ["12-17 (genç)", 12, 18], ["18-29", 18, 30], ["30+", 30, 1e9]], true), { limit: 10 }));
+  grafikKart(g, "Seri (gün)", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_streak)), [["0", 0, 1], ["1", 1, 2], ["2-3", 2, 4], ["4-7", 4, 8], ["8-14", 8, 15], ["15-30", 15, 31], ["30+", 31, 1e9]], true), { limit: 10 }));
+  grafikKart(g, "Bağ (%)", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_bond)), [["0-19", 0, 20], ["20-39", 20, 40], ["40-59", 40, 60], ["60-79", 60, 80], ["80-100", 80, 101]], true)));
+  grafikKart(g, "Sahip olunan eşya", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_owned)), [["1 (yalnız çayır)", 0, 2], ["2-3", 2, 4], ["4-6", 4, 7], ["7-12", 7, 13], ["13+", 13, 1e9]], true)),
+    "Şapka, oda, arkadaş, oda eşyası ve renk; başlangıç odası dahil.");
+  grafikKart(g, "Cüzdandaki coin", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_coins)), [["0-19", 0, 20], ["20-49", 20, 50], ["50-99", 50, 100], ["100-299", 100, 300], ["300+", 300, 1e9]], true)),
+    "Çok coin biriken kurulum harcayacak bir şey bulamıyor olabilir.");
+  grafikKart(g, "Bakım dağılımı (ömür boyu)", kutu => yatayCubuk(kutu, { "Besleme": topla(cikan, i => i.n_feed), "Yıkama": topla(cikan, i => i.n_wash), "Uyutma": topla(cikan, i => i.n_sleep), "Oyun": topla(cikan, i => i.n_play) }),
+    "Bebeğin kendi sayaçları (karakter dalını belirleyen).");
+  grafikKart(g, "En iyi oyun skoru", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_best)), [["0", 0, 1], ["1-5", 1, 6], ["6-10", 6, 11], ["11-19", 11, 20], ["20+ (şampiyon)", 20, 1e9]], true)));
+  grafikKart(g, "Albüm (görülen form)", kutu => yatayCubuk(kutu, kovala(cikan.map(i => n(i.n_forms)), [["1-4", 0, 5], ["5-9", 5, 10], ["10-19", 10, 20], ["20-34", 20, 35], ["35-50", 35, 51]], true)));
+
+  c.appendChild(el("h2", null, "Tanıtım (onboarding) hunisi"));
+  const { simdi } = ikiDonem();
+  const ol = simdi.olay;
+  const adim = k => new Set(ol.filter(e => e.e === "onboarding_step" && n(e.p) >= k).map(e => e.iid)).size;
+  const bitti = new Set(ol.filter(e => e.e === "onboarding_done").map(e => e.iid)).size;
+  const catladi = new Set(ol.filter(e => e.e === "hatch").map(e => e.iid)).size;
+  const izinVar = new Set(ol.filter(e => e.e === "push_permission" && e.p === "granted").map(e => e.iid)).size;
+  const g2 = izgara(c);
+  grafikKart(g2, `Tanıtım hunisi (${donemAd()})`, kutu => huni(kutu, [["1. sayfa", adim(0)], ["2. sayfa", adim(1)], ["3. sayfa", adim(2)], ["Yumurta ve isim", adim(3)],
+    ["Yumurtayı seçti", bitti], ["Yumurta çatladı (5 dokunuş)", catladi], ["Bildirim izni verdi", izinVar]], { birim: "kurulum" }),
+    "Olaylardan; kurulum başına bir kez sayılır.");
+  grafikKart(g2, "Tanıtım ayrıntısı", kutu => kutu.appendChild(dagilimTablo({
+    "Atlayan (Skip)": new Set(ol.filter(e => e.e === "onboarding_skip").map(e => e.iid)).size,
+    "Kendi ad veren": new Set(ol.filter(e => e.e === "onboarding_name" && e.p === "custom").map(e => e.iid)).size,
+    "Varsayılan adla (Nubi)": new Set(ol.filter(e => e.e === "onboarding_name" && e.p === "default").map(e => e.iid)).size,
+    "Bildirim iznini reddeden": new Set(ol.filter(e => e.e === "push_permission" && e.p === "denied").map(e => e.iid)).size,
+  }, ["Adım", "Kurulum"], { kopyala: false })));
+
+  const ilk = cikan.slice().sort((a, b) => n(b.n_level) - n(a.n_level)).slice(0, 50);
+  c.appendChild(kart("En ilerlemiş bebekler", veriTablo(
+    ["Kurulum", { ad: "Seviye", num: true }, { ad: "Yaş", num: true }, { ad: "Evre", filtre: true }, { ad: "Dal", filtre: true }, { ad: "Seri", num: true }, { ad: "Bağ", num: true },
+     { ad: "Coin", num: true }, { ad: "Eşya", num: true }, { ad: "Albüm", num: true }, { ad: "En iyi skor", num: true }, { ad: "Hasta", filtre: true }, { ad: "Coin aldı", filtre: true }, "Son görülme"],
+    ilk.map(i => [kisa(i.id), sayi(i.n_level), sayi(i.n_age), evreAd(i.n_stage), KARAKTER[i.trait] || "-", sayi(i.n_streak), `%${sayi(i.n_bond)}`, sayi(i.n_coins),
+      sayi(i.n_owned), sayi(i.n_forms), sayi(i.n_best), n(i.n_ill) ? "Hasta" : "İyi", i.pro ? "Evet" : "Hayır", tarihHucre(i.lastSeen)]),
+    { sirala: [1, "desc"], bos: "Çatlamış yumurta yok.", satirTik: (_, k) => cekmece(ilk[k]) })));
+}
+
+// ── Saat ve widget ─────────────────────────────────────────────────────────
+
+function saatWidget(c) {
+  telemetriYokNotu(c);
+  const hepsi = kurulumlar();
+  const { simdi, once } = ikiDonem();
+  const ev = simdi.ev;
+  notSatir(c, "Saat (Apple Watch, Wear OS) ve widget kendi başına telemetri yazmaz; telefon yazar. Saatten yapılan bakım telefona ulaşınca sayılır. iOS widget düğmeleri app group'a sayı bırakır, uygulama açılınca gönderilir. n_watch: 0 saat yok, 1 bağlı saat var, 2 saat uygulaması kullanılıyor (iOS isWatchAppInstalled; Android'de saatten en az bir bakım gelmiş).", "note");
+  c.appendChild(tiles([
+    ["Saati bağlı", sayi(hepsi.filter(i => n(i.n_watch) >= 1).length), yuzde(hepsi.filter(i => n(i.n_watch) >= 1).length, hepsi.filter(i => i.n_watch != null).length, 0)],
+    ["Saat uygulaması", sayi(hepsi.filter(i => n(i.n_watch) === 2).length), "kurulum"],
+    ["Saatten bakım", sayi(simdi.sayac.watch_actions ?? ev.watch_action ?? 0), donemAd(), fark(simdi.sayac.watch_actions || 0, once ? once.sayac.watch_actions || 0 : null)],
+    ["Widget kuran", sayi(hepsi.filter(i => n(i.n_widgets) > 0).length), yuzde(hepsi.filter(i => n(i.n_widgets) > 0).length, hepsi.filter(i => i.n_widgets != null).length, 0)],
+    ["Ort. widget", ondalik(ort(hepsi.filter(i => n(i.n_widgets) > 0), i => i.n_widgets)), "kuranlarda"],
+    ["Widget düğmesi", sayi(simdi.sayac.widget_actions ?? ev.widget_action ?? 0), donemAd(), fark(simdi.sayac.widget_actions || 0, once ? once.sayac.widget_actions || 0 : null)],
+  ]));
+  const g = izgara(c);
+  grafikKart(g, "Saat durumu", kutu => yatayCubuk(kutu, say(hepsi.filter(i => i.n_watch != null), i => `${platAd(i.platform)}: ${saatDurum(i.n_watch)}`)));
+  grafikKart(g, "Saatten ne yapıldı", kutu => yatayCubuk(kutu, onekten(ev, "watch_action_", SAAT_EYLEM)));
+  grafikKart(g, "Widget sayısı", kutu => yatayCubuk(kutu, say(hepsi.filter(i => i.n_widgets != null), i => n(i.n_widgets) ? `${sayi(i.n_widgets)} widget` : "Widget yok")));
+  grafikKart(g, "Widget düğmeleri", kutu => yatayCubuk(kutu, onekten(ev, "widget_action_", { snack: "Atıştırmalık", pet: "Sev" })));
+  grafikKart(g, "iOS widget boyutu", kutu => yatayCubuk(kutu, onekten(ev, "widget_family_", { systemsmall: "Küçük", systemmedium: "Orta", systemlarge: "Büyük", accessorycircular: "Kilit ekranı yuvarlak", accessoryrectangular: "Kilit ekranı dikdörtgen", accessoryinline: "Kilit ekranı satır" })),
+    "Uygulama her açılışta kurulu widget'ları sayar (iOS); bu yüzden açılış başına bir kez artar, kişi sayısı değil.");
+  grafikKart(g, "Saati olanlar coin alıyor mu", kutu => yatayCubuk(kutu, say(hepsi.filter(i => n(i.n_watch) === 2), i => i.pro ? "Coin aldı" : "Almadı")));
+  const wear = notlar.filter(x => x.platform === "wear");
+  c.appendChild(kart("Wear OS mağaza izleri", veriTablo(["Sürüm", { ad: "İz", filtre: true }, "Durum", "Not"],
+    wear.map(x => [String(x.surum), x.track || x.durum || "-", x.durum || "-", (x.notlar || []).join(" ").slice(0, 120) || "-"]),
+    { ara: false, bos: "Wear OS izi yok (sürüm notları dosyasında wear girdisi yok)." })));
+}
+
+// ── Kullanicilar ───────────────────────────────────────────────────────────
+
+const kf = { son: "", canli: "", yeni: "", paywall: "", alim: "", evre: "", seri: "", hasta: "", saat: "", widget: "", bildirim: "", tanitim: "", test: "" };
+function kullanicilar(c) {
+  telemetriYokNotu(c);
+  const hepsi = kurulumlar(), now = Date.now(), D = donem(K.aralik);
+  const bar = el("div", "kfiltre");
+  const secim = (k, html) => { const s = el("select"); s.innerHTML = html; s.value = kf[k]; s.onchange = () => { kf[k] = s.value; ciz2(); }; bar.appendChild(s); };
+  secim("son", '<option value="">Son görülme: hepsi</option><option value="1">Bugün</option><option value="7">Son 7 gün</option><option value="28">Son 28 gün</option><option value="90">Son 90 gün</option><option value="-7">7+ gün sessiz</option><option value="-28">28+ gün sessiz</option>');
+  secim("canli", '<option value="">Şu an: hepsi</option><option value="1">Şu an uygulamada</option>');
+  secim("yeni", `<option value="">Kurulum: hepsi</option><option value="1">Bu dönemde kurulan (${esc(donemAd())})</option>`);
+  secim("tanitim", '<option value="">Tanıtım: hepsi</option><option value="1">Bebeği var</option><option value="0">Tanıtımda kaldı</option><option value="2">Yumurtada kaldı</option>');
+  secim("evre", '<option value="">Evre: hepsi</option>' + EVRE.map((a, k) => `<option value="${k}">${a}</option>`).join(""));
+  secim("paywall", '<option value="">Coin mağazası: hepsi</option><option value="1">Görmüş</option><option value="0">Hiç görmemiş</option><option value="2">Görmüş, almamış</option><option value="3">Pakete dokunmuş, almamış</option>');
+  secim("alim", '<option value="">Coin: hepsi</option><option value="1">Coin almış</option><option value="0">Hiç almamış</option>');
+  secim("seri", '<option value="">Seri: hepsi</option><option value="1">Serisi süren</option><option value="7">7+ gün seri</option><option value="0">Seri yok</option>');
+  secim("hasta", '<option value="">Sağlık: hepsi</option><option value="1">Hasta</option><option value="0">İyi</option>');
+  secim("saat", '<option value="">Saat: hepsi</option><option value="2">Saat uygulaması</option><option value="1">Bağlı saat</option><option value="0">Saat yok</option>');
+  secim("widget", '<option value="">Widget: hepsi</option><option value="1">Widget kurmuş</option><option value="0">Widget yok</option>');
+  secim("bildirim", '<option value="">Bildirim: hepsi</option><option value="1">İzin var</option><option value="0">İzin yok</option><option value="k">Hatırlatma kapalı</option>');
+  secim("test", '<option value="">Test: hepsi</option><option value="0">Gerçek</option><option value="1">Test cihazı (Lab)</option>');
+  const sifirla = el("button", "ghost", "Süzgeçleri sıfırla");
+  sifirla.onclick = () => { for (const k of Object.keys(kf)) kf[k] = ""; ciz(); };
+  bar.appendChild(sifirla);
+  c.appendChild(bar);
+  const kutu = el("div");
+  c.appendChild(kutu);
+  function uyar(i) {
+    const t = ms(i.lastSeen);
+    if (kf.son) { const d = Number(kf.son); if (d === 1 ? t < istGunBasi() : d > 0 ? t < now - d * 864e5 : !(t && t < now + d * 864e5)) return false; }
+    if (kf.canli && !canliMi(i)) return false;
+    if (kf.yeni && !(ms(i.firstSeen) >= D.bas)) return false;
+    if (kf.tanitim === "1" && i.onboarded !== true) return false;
+    if (kf.tanitim === "0" && i.onboarded === true) return false;
+    if (kf.tanitim === "2" && !(i.onboarded === true && n(i.n_hatched) === 0)) return false;
+    if (kf.evre !== "" && String(n(i.n_stage)) !== kf.evre) return false;
+    const pw = evi(i, "pw_view");
+    if (kf.paywall === "1" && !pw) return false;
+    if (kf.paywall === "0" && pw) return false;
+    if (kf.paywall === "2" && (!pw || i.pro)) return false;
+    if (kf.paywall === "3" && (!evi(i, "pw_tap") || i.pro)) return false;
+    if (kf.alim === "1" && !i.pro) return false;
+    if (kf.alim === "0" && i.pro) return false;
+    const s = n(i.n_streak);
+    if (kf.seri === "1" && s < 1) return false;
+    if (kf.seri === "7" && s < 7) return false;
+    if (kf.seri === "0" && s > 0) return false;
+    if (kf.hasta !== "" && String(n(i.n_ill)) !== kf.hasta) return false;
+    if (kf.saat !== "" && String(n(i.n_watch)) !== kf.saat) return false;
+    if (kf.widget === "1" && !n(i.n_widgets)) return false;
+    if (kf.widget === "0" && n(i.n_widgets)) return false;
+    if (kf.bildirim === "1" && i.notif !== true) return false;
+    if (kf.bildirim === "0" && i.notif === true) return false;
+    if (kf.bildirim === "k" && i.reminders !== false) return false;
+    if (kf.test === "1" && !i.tester) return false;
+    if (kf.test === "0" && i.tester) return false;
+    return true;
+  }
+  function ciz2() {
+    const liste = hepsi.filter(uyar).sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen));
+    kutu.textContent = "";
+    kutu.appendChild(kart(null, veriTablo(
+      ["Durum", "Kurulum", { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, { ad: "Uygulama dili", filtre: true },
+       { ad: "Sistem dili", filtre: true }, { ad: "Cihaz", filtre: true }, { ad: "OS", filtre: true }, { ad: "Saat dilimi", filtre: true }, { ad: "Tema", filtre: true },
+       "İlk görülme", "Son görülme", { ad: "Gün", num: true }, { ad: "Oturum", num: true }, { ad: "Toplam süre", num: true },
+       { ad: "Evre", filtre: true }, { ad: "Dal", filtre: true }, { ad: "Renk", filtre: true }, { ad: "Seviye", num: true }, { ad: "Yaş", num: true }, { ad: "Seri", num: true }, { ad: "Bağ", num: true },
+       { ad: "Coin", num: true }, { ad: "Eşya", num: true }, { ad: "Albüm", num: true }, { ad: "Hasta", filtre: true },
+       { ad: "Besleme", num: true }, { ad: "Oyun turu", num: true }, { ad: "Söz", num: true },
+       { ad: "Mağaza", num: true }, { ad: "Coin aldı", filtre: true }, { ad: "Son paket", filtre: true }, { ad: "Alım kaynağı", filtre: true },
+       { ad: "Widget", num: true }, { ad: "Saat", filtre: true }, { ad: "Bildirim", filtre: true }, { ad: "Hatırlatma", filtre: true }, { ad: "Test", filtre: true }, { ad: "Ekran", filtre: true }],
+      liste.map(i => [
+        { d: rozet(i), s: (canliMi(i) ? 8 : 0) + (i.pro ? 4 : 0) + (n(i.n_ill) ? 2 : 0) + (i.tester ? 1 : 0) },
+        kisa(i.id), platAd(i.platform), surumAd(i), i.region ? `${ulke(i.region)} (${i.region})` : "Bilinmiyor", dilAd(i.appLang), dilAd(i.language),
+        cihazAd(i.device), i.os ? `${platAd(i.platform)} ${i.os}` : "Bilinmiyor", i.tz || "Bilinmiyor", i.theme === "dark" ? "Koyu" : i.theme === "light" ? "Açık" : "Bilinmiyor",
+        tarihHucre(i.firstSeen), tarihHucre(i.lastSeen), { d: i.firstSeen ? sayi(gunSay(i.firstSeen, now)) : "-", s: i.firstSeen ? gunSay(i.firstSeen, now) : -1 },
+        sayi(i.sessions), { d: dk(evi(i, "session_sec")), s: evi(i, "session_sec") },
+        i.onboarded === true ? evreAd(i.n_stage) : "Tanıtımda", KARAKTER[i.trait] || "-", RENK[i.egg] || i.egg || "-",
+        sayi(i.n_level), sayi(i.n_age), sayi(i.n_streak), { d: `%${sayi(i.n_bond)}`, s: n(i.n_bond) }, sayi(i.n_coins), sayi(i.n_owned), sayi(i.n_forms),
+        n(i.n_ill) ? "Hasta" : "İyi", sayi(i.feeds), sayi(i.games), sayi(i.promises),
+        sayi(evi(i, "pw_view")), i.pro ? "Evet" : "Hayır", i.plan ? planAd(i.plan) : "-", i.buySource ? kaynakAd(i.buySource) : "-",
+        sayi(i.n_widgets), saatDurum(i.n_watch), i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor",
+        i.reminders === false ? "Kapalı" : i.reminders === true ? "Açık" : "Bilinmiyor", i.tester ? "Test cihazı" : "Gerçek", canliMi(i) ? ekranAd(i.screen) : "Kapalı",
+      ]),
+      { sirala: [12, "desc"], araYazi: "Ara: kurulum, cihaz, ülke, saat dilimi", bos: "Bu süzgece uyan kurulum yok.", satirTik: (_, k) => cekmece(liste[k]) })));
+    kutu.appendChild(el("p", "alt-not", `${sayi(liste.length)} / ${sayi(hepsi.length)} kurulum. Uygulamada hesap yok, o yüzden hesap süzgeci yok; test cihazı = Ayarlar'da sürüm satırına 7 dokunuşla Lab açılmış kurulum. Satıra dokununca ayrıntı ve zaman çizelgesi.`));
+  }
+  ciz2();
+}
+function rozet(i) {
+  const r = el("span", "rozet");
+  const ekle = (m, s) => { const p = el("span", "pill " + (s || "")); p.textContent = m; r.appendChild(p); };
+  if (canliMi(i)) ekle("Şu an", "on");
+  if (i.pro) ekle("Coin aldı", "pro");
+  if (n(i.n_ill)) ekle("Hasta", "hasta");
+  if (i.tester) ekle("Test", "test");
+  if (!r.children.length) ekle("-");
+  return r;
+}
+
+function cekmece(i) {
+  const pw = evi(i, "pw_view"), ses = evi(i, "session");
+  kullaniciCekmecesi(i, [
+    ["Kurulum", i.id],
+    ["Platform", `${platAd(i.platform)} ${surumAd(i)}`],
+    ["Cihaz", `${cihazAd(i.device)}${i.device && IPHONE[i.device] ? ` (${i.device})` : ""}${i.os ? ` · ${platAd(i.platform)} ${i.os}` : ""}`],
+    ["Uygulama dili", dilAd(i.appLang)],
+    ["Sistem dili / ülke", `${dilAd(i.language)} / ${ulke(i.region)}${i.region ? ` (${i.region})` : ""}`],
+    ["Saat dilimi", i.tz || "-"],
+    ["Tema", i.theme === "dark" ? "Koyu" : i.theme === "light" ? "Açık" : "-"],
+    ["İlk görülme", tarihTam(i.firstSeen) || "-"],
+    ["Son görülme", tarihTam(i.lastSeen) || "-"],
+    ["Kurulum yaşı", i.firstSeen ? `${sayi(gunSay(i.firstSeen, Date.now()))} gün` : "-"],
+    ["Şu an", canliMi(i) ? `Uygulamada · ${ekranAd(i.screen)}` : `Kapalı · son ekran ${ekranAd(i.lastScreen)}`],
+    ["Bildirim", `${i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor"} · hatırlatma ${i.reminders === false ? "kapalı" : "açık"}`],
+    ["Test cihazı (Lab)", evetHayir(!!i.tester)],
+    { baslik: "Bebek" },
+    ["Durum", i.onboarded === true ? (n(i.n_hatched) ? `${evreAd(i.n_stage)} · ${sayi(i.n_age)} gün · seviye ${sayi(i.n_level)}` : "Yumurta, henüz çatlamadı") : "Tanıtımda kaldı"],
+    ["Karakter dalı", KARAKTER[i.trait] || "-"],
+    ["Renk", RENK[i.egg] || i.egg || "-"],
+    ["Seri / bağ", `${sayi(i.n_streak)} gün · %${sayi(i.n_bond)}`],
+    ["Cüzdan", `${sayi(i.n_coins)} coin`],
+    ["Eşya / albüm", `${sayi(i.n_owned)} eşya (${sayi(i.n_decor)} oda eşyası açık) · ${sayi(i.n_forms)} / 50 form`],
+    ["En iyi oyun skoru", sayi(i.n_best)],
+    ["Sağlık", n(i.n_ill) ? "Hasta (7 gün bakılmamış)" : "İyi"],
+    ["Bakım (ömür boyu)", `besleme ${sayi(i.n_feed)} · yıkama ${sayi(i.n_wash)} · uyku ${sayi(i.n_sleep)} · oyun ${sayi(i.n_play)}`],
+    { baslik: "Kullanım" },
+    ["Oturum", `${sayi(i.sessions)} · toplam ${dk(evi(i, "session_sec"))}${ses ? ` · ortalama ${dk(evi(i, "session_sec") / ses)}` : ""}`],
+    ["Sayaçlar", `besleme ${sayi(i.feeds)} · yıkama ${sayi(i.washes)} · uyutma ${sayi(i.sleeps)} · sevme ${sayi(i.pets)} · tur ${sayi(i.games)} (${sayi(i.games_paid)} coinle)`],
+    ["Söz / görev / veteriner", `${sayi(i.promises)} / ${sayi(i.tasks_claimed)} / ${sayi(i.vet_visits)}`],
+    ["Eşya / paylaşım", `${sayi(i.items_bought)} eşya · ${sayi(i.shares)} paylaşım`],
+    ["Saat / widget", `${saatDurum(i.n_watch)} · ${sayi(i.watch_actions)} saatten bakım · ${sayi(i.n_widgets)} widget · ${sayi(i.widget_actions)} widget düğmesi`],
+    ["Hatırlatmaya dokunma", sayi(i.push_opens)],
+    { baslik: "Coin mağazası" },
+    ["Mağaza", `${sayi(pw)} açılış · ${sayi(evi(i, "pw_tap"))} pakete dokunma · ${sayi(evi(i, "pw_cancel"))} vazgeçme · ${sayi(evi(i, "pw_buy"))} satın alma${evi(i, "pw_close") ? ` · ort. ${dk(evi(i, "pw_close_sec") / evi(i, "pw_close"))} açık` : ""}`],
+    ["Satın alınan coin", sayi(i.coins_bought)],
+    ["Coin aldı", i.pro ? `Evet · son paket ${planAd(i.plan)}${planFiyat(i.plan) != null ? ` (${para(planFiyat(i.plan), "USD")}, tahmini)` : ""}` : "Hayır"],
+    ...(i.purchasedAt || i.buySource ? [["Son satın alma", `${tarihTam(i.purchasedAt) || "-"} · ${kaynakAd(i.buySource)}`]] : []),
+  ], {
+    baslik: `Kurulum ${kisa(i.id)}`,
+    alt: [platAd(i.platform), surumAd(i), ulke(i.region), dilAd(i.appLang)].join(" · "),
+    ek: async kutu => {
+      const sm = ekranOzet(i.ev);
+      const k1 = el("div"); kutu.appendChild(el("h2", null, "Ekranlarda geçen süre")); kutu.appendChild(k1);
+      yatayCubuk(k1, Object.fromEntries(Object.entries(sm).filter(([, x]) => x.sn > 0).map(([a, x]) => [ekranAd(a), Math.round(x.sn / 60)])), { limit: 14 });
+      k1.appendChild(el("p", "alt-not", "Dakika, kurulumun ömrü boyunca."));
+      const pk = Object.fromEntries(Object.entries(i.ev).filter(([k]) => /^pw_view_/.test(k) && !k.endsWith("_sec")).map(([k, v]) => [kaynakAd(k.slice(8)), v]));
+      if (Object.keys(pk).length) { const k2 = el("div"); kutu.appendChild(el("h2", null, "Coin mağazası kaynakları")); kutu.appendChild(k2); yatayCubuk(k2, pk); }
+      const det = el("details"); det.style.marginTop = "14px";
+      det.appendChild(el("summary", "muted", "Bütün alanlar"));
+      const h = el("div", "dl ham"); h.style.marginTop = "10px";
+      const yaz = (a, b) => { const x = el("div"); x.textContent = a; const y = el("div"); y.textContent = b; h.append(x, y); };
+      for (const [k, v] of Object.entries(i).filter(([k]) => k !== "ev").sort()) yaz(k, ZAMAN_ALANLARI.includes(k) ? (tarihTam(v) || "-") : v == null || v === "" ? "-" : typeof v === "object" ? JSON.stringify(v) : String(v));
+      for (const [k, v] of Object.entries(i.ev).sort()) yaz("ev." + k, sayi(v));
+      det.appendChild(h); kutu.appendChild(det);
+      kutu.appendChild(el("h2", null, "Zaman çizelgesi"));
+      const tl = el("div", "cizelge"); kutu.appendChild(tl);
+      tl.appendChild(el("p", "muted", "Yükleniyor..."));
+      let evs;
+      try {
+        if (demo) evs = (olay.liste || []).filter(e => e.iid === i.id);
+        else {
+          const snap = await getDocs(query(collection(db, "installs", i.id, "events"), orderBy("t", "desc"), limit(300)));
+          evs = snap.docs.map(d => olayKaydi(d, i.id));
+        }
+      } catch (e) { tl.textContent = ""; tl.appendChild(el("p", "muted", "Okunamadı: " + esc(e.code || e.message))); return; }
+      evs = evs.filter(e => e.e !== "screen").sort((a, b) => b.t - a.t).slice(0, 300);
+      tl.textContent = "";
+      if (!evs.length) { tl.appendChild(el("p", "muted", "Kayıt yok.")); return; }
+      tl.appendChild(el("p", "muted", `Son ${sayi(evs.length)} olay, en yenisi üstte. Ekran girişleri gizli, çıkışlar süresiyle.`));
+      let sonGun = "";
+      for (const e of evs) {
+        const g = tarihTam(e.t, { saatsiz: true });
+        if (g !== sonGun) { tl.appendChild(el("div", "gun", esc(g))); sonGun = g; }
+        const r = el("div", "ev" + (e.e.startsWith("pw_") ? " pw" : ""));
+        const t = el("span", "t"); t.textContent = tarihTam(e.t).split(" ").pop(); r.appendChild(t);
+        const a = el("span"); a.textContent = olayAd(e.e) + (olayAyrinti(e) ? " · " + olayAyrinti(e) : ""); r.appendChild(a);
+        r.appendChild(el("span", "muted", e.s ? esc(sure(e.s)) : ""));
+        tl.appendChild(r);
+      }
+    },
+  });
+}
+
+// ── Analytics ──────────────────────────────────────────────────────────────
+
+function analytics(c) {
+  c.appendChild(kart("Neden burada GA4 yok", el("div", null,
+    "<p class='muted'>Nubi'de Firebase Analytics SDK'si yok (iki platformda da Firebase SDK'si yok, telemetri doğrudan Firestore REST). GA4 mülkü de yok. Neyin nerede olduğu:</p>" +
+    "<ul style='margin:0;padding-left:18px;font-size:14px'>" +
+    "<li><b>Kurulum, aktiflik, kalıcılık, sürümler</b>: Genel bakış</li><li><b>Şu an kim, hangi ekranda</b>: Canlı</li>" +
+    "<li><b>Ekran süreleri</b>: Ekranlar</li><li><b>Coin mağazası, satın alma, gelir</b>: Paywall ve satın alma</li>" +
+    "<li><b>Bakım, oyunlar, eşya, saat haritası</b>: Kullanım</li><li><b>Seviye, yaş, evre, seri, tanıtım hunisi</b>: Bebek ve gelişim</li>" +
+    "<li><b>Apple Watch, Wear OS, widget</b>: Saat ve widget</li></ul>" +
+    "<p class='muted' style='margin-top:10px'>GA4'ün ekleyeceği tek şey kurulumun nereden geldiği (kampanya). Mağaza tarafında kampanya bağlantısı (App Store Connect kaynak, Play UTM) yeter; SDK şart değil.</p>")));
+  const { installs, days } = veri;
+  const ol = olay.liste || [];
+  c.appendChild(tiles([
+    ["Kurulum kaydı", sayi(installs.length)],
+    ["Gün kaydı (stats)", sayi(days.length), days.length ? `${tarihTam(days[0].id)} ile ${tarihTam(days[days.length - 1].id)} arası` : "yok"],
+    ["Olay", sayi(ol.length), olay.tavan ? `sınır ${sayi(OLAY_SINIR)}` : `son ${OLAY_GUN} gün`],
+    ["En eski olay", ol.length ? tarihTam(Math.min(...ol.map(e => e.t)), { saatsiz: true }) : "-"],
+    ["Zamanı eksik kurulum", sayi(installs.filter(i => !i.firstSeen || !i.lastSeen).length)],
+    ["Sürümü eksik", sayi(installs.filter(i => !i.appVersion).length)],
+    ["Test cihazı", sayi(installs.filter(i => i.tester).length)],
+  ]));
+  if (olay.hata) notSatir(c, "Olaylar okunamadı: " + esc(olay.hata), "note err");
+  else if (olay.kaynak) c.appendChild(el("p", "alt-not", "Olaylar: " + esc(olay.kaynak) + "."));
+  c.appendChild(kart("Telemetri alanları: kaç kurulumda dolu", veriTablo(["Alan", "Yazan", { ad: "Dolu", num: true }, { ad: "Oran", num: true }, { ad: "Durum", filtre: true }],
+    ALANLAR.map(([a, yazan]) => {
+      const d = installs.filter(i => i[a] != null && i[a] !== "").length;
+      return [a, yazan || "kimse", sayi(d), { d: yuzde(d, installs.length, 0), s: installs.length ? d / installs.length : 0 }, d ? "Geliyor" : "Henüz boş"];
+    }), { sirala: [2, "desc"], ara: false })));
+  const evAd = {};
+  for (const d of days) for (const k of Object.keys(d.ev || {})) evAd[k.replace(/_sec$/, "").replace(/^(screen|pw_view|pw_close_bought|pw_close|pw_buy_pack|pw_buy|pw_tap|pw_cancel|pw_fail|feed|promise|game_start|game_end|game_paid|game_score|buy_item|coins_short|equip|setting|share|watch_action|widget_action|widget_family|push_open|push_permission|level_up|evolve|milestone|onboarding_step|onboarding_skip|onboarding_done|onboarding_name|hatch|vet|reset)_.+$/, "$1_*")] = 1;
+  c.appendChild(kart("Gelen olay aileleri (stats ev)", el("p", "muted", Object.keys(evAd).sort().map(esc).join(" · ") || "Yok.")));
+  c.appendChild(kart("Okurken dikkat", el("div", null, "<ul style='margin:0;padding-left:18px;font-size:14px'>" +
+    "<li>Telemetri 14 Ekim 2026'da koda girdi (iOS + Android); telemetrili ilk mağaza sürümünden önce veri yok. Saat ve widget kendi başına yazmaz, telefon yazar.</li>" +
+    "<li>Debug derlemeleri ve ekran görüntüsü çekimleri (-screenshots, -screen) hiçbir şey yazmaz. Test cihazı = Lab açık (tester).</li>" +
+    "<li>stats günleri UTC; panelin gün sınırları Türkiye saati. Gece 00:00 ile 03:00 arası bir önceki güne düşebilir.</li>" +
+    "<li>Sevme, takıp çıkarma, oyun skoru ve widget boyutu yalnız sayaç: zaman çizelgesine düşmez, sürüm filtresinde görünmez.</li>" +
+    "<li>Olayların 90 gün TTL'i (x alanı) Firestore TTL politikası ister ve o da Blaze ister; Spark'ta olaylar birikir, panel son 180 günü okur.</li></ul>")));
+}
+
+// ── Bildirim (altyapi yok) ─────────────────────────────────────────────────
+
+function bildirim(c) {
+  notSatir(c, "<b>Bildirim gönderme altyapısı yok.</b> Nubi'de FCM, APNs kaydı ve push Worker'ı yok; uygulama yalnız kendi <b>yerel hatırlatmalarını</b> kuruyor " +
+    "(ihtiyaç 25'in altına düşmeden önce, gece değil; ve günün sözü için seçilen saatte). Panelden toplu ya da kişiye bildirim gönderilemez. " +
+    "Altyapı istenirse Leafbook'taki kalıp (Cloudflare Worker + FCM HTTP v1, ~/dev/leafbook/push-worker) ve uygulamaya FCM kaydı, fcm alanı, nb_all / nb_lang_xx / nb_test konuları gerekir.", "uyari-satir");
+  const { simdi, once } = ikiDonem();
+  const ev = simdi.ev, hepsi = kurulumlar();
+  c.appendChild(tiles([
+    ["Hatırlatmaya dokunma", sayi(simdi.sayac.push_opens ?? ev.push_open ?? 0), donemAd(), fark(simdi.sayac.push_opens || 0, once ? once.sayac.push_opens || 0 : null)],
+    ["Dokunan kurulum", sayi(kisiSay(simdi.olay.filter(e => e.e === "push_open")))],
+    ["Bildirim izni", yuzde(hepsi.filter(i => i.notif === true).length, hepsi.filter(i => typeof i.notif === "boolean").length, 0), "izin verilen / bilinen"],
+    ["Hatırlatmayı kapatan", sayi(hepsi.filter(i => i.reminders === false).length), "Ayarlar"],
+    ["İzni reddeden", sayi(kisiSay(simdi.olay.filter(e => e.e === "push_permission" && e.p === "denied"))), donemAd()],
+  ]));
+  const g = izgara(c);
+  grafikKart(g, "Hangi hatırlatmaya dokunuldu", kutu => yatayCubuk(kutu, onekten(ev, "push_open_", HATIRLATMA)), "push_open olayının parametresi: need-hunger, need-hygiene, need-energy, need-fun, promise.");
+  grafikKart(g, "Günün sözü saati (değiştirenler)", kutu => yatayCubuk(kutu, onekten(ev, "setting_promise_hour_", {})), "Ayarlar'da söz hatırlatma saatini değiştirme; varsayılan 10:00.");
+}
+
+// ── Ayarlar ────────────────────────────────────────────────────────────────
+
+function ayarlar(c) {
+  c.appendChild(kart("Proje", el("div", "dl", [
+    ["Firebase", "nubi-bamtech (Spark), Firestore eur3"],
+    ["Okuma", "Yalnız yönetici e-postası (firestore.rules isAdmin)"],
+    ["Kurallar", "~/dev/nubi/firebase/firestore.rules (firebase deploy --only firestore --project nubi-bamtech)"],
+    ["Telemetri", "iOS Nubi/Services/InstallTelemetry.swift · Android android/app/.../InstallTelemetry.kt (Firestore REST, web anahtarı, SDK yok)"],
+    ["Uygulamalar", "iOS com.page.nubipet (Elif'in hesabı, page profili) · Android com.aberk.nubi · Wear OS aynı paket, wear: izi"],
+    ["Bildirim", "Altyapı yok (yalnız yerel hatırlatmalar)"],
+    ["Satış özeti", "panel/sales: scripts/lab/panel-yaz.mjs her sabah yazar (PROJELER'de nubi-bamtech olunca)"],
+    ["Sürüm notları", "/lab/assets/surumler.json (scripts/lab/surumler.mjs, slug nubi)"],
+  ].map(([a, b]) => `<div>${esc(a)}</div><div>${esc(b)}</div>`).join(""))));
+  c.appendChild(kart("Yapılacaklar", el("div", null, "<ul style='margin:0;padding-left:18px;font-size:14px'>" +
+    "<li>Firebase konsolu > Authentication > Başlayın > Google sağlayıcısını aç; Ayarlar > Yetkili alanlar: bamstudio.dev, www.bamstudio.dev (localhost zaten var). Ücretsiz planda API'den açılmıyor.</li>" +
+    "<li>Telemetrili iOS ve Android sürümünü yayınla; veri ondan sonra gelir.</li>" +
+    "<li>App Privacy / Data safety: kullanım verisi + uygulamaya özel rastgele kimlik, analiz amaçlı, takip değil. Ayarlar'daki \"everything stays on this phone\" cümlesi artık doğru değil.</li>" +
+    "<li>Mac'te telemetri.mjs PROJELER'e \"nubi-bamtech\": \"nubi\" (satış belgesi ve ana panel aktif kullanıcısı).</li>" +
+    "<li>Blaze açılırsa olay TTL'i (events.x) ve isteğe bağlı bildirim altyapısı.</li></ul>")));
+}
+
+// ── Demo verisi ────────────────────────────────────────────────────────────
+
+/* Gercek verinin butun alanlarini tasiyan sahte veri: olaylar uretilir, gunluk
+   stats ve kurulum sayaclari uygulamanin yaptigi gibi olaylardan toplanir.
+   `gizli` olaylar (sevme, skor, takma, widget boyutu) yalniz sayaca gider. */
+function sahte() {
+  let tohum = 20261014;
+  const r = () => { tohum |= 0; tohum = tohum + 0x6D2B79F5 | 0; let t = Math.imul(tohum ^ tohum >>> 15, 1 | tohum); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const sec = a => a[Math.floor(r() * a.length)];
+  const agir = l => { const top = l.reduce((a, x) => a + x[1], 0); let v = r() * top; for (const x of l) { if ((v -= x[1]) <= 0) return x[0]; } return l[0][0]; };
+  const now = Date.now(), G = 864e5, utcGun = t => new Date(t).toISOString().slice(0, 10);
+  const ULKE = [["US", 20], ["TR", 14], ["GB", 7], ["DE", 7], ["BR", 6], ["FR", 5], ["ES", 5], ["MX", 4], ["IT", 4], ["JP", 4], ["KR", 3], ["CA", 4], ["AU", 3], ["IN", 3], ["PH", 3]];
+  const DIL_U = { TR: "tr", DE: "de", BR: "pt-BR", FR: "fr", ES: "es", MX: "es", IT: "it", JP: "ja", KR: "ko" };
+  const TZ = { US: "America/Chicago", TR: "Europe/Istanbul", GB: "Europe/London", DE: "Europe/Berlin", BR: "America/Sao_Paulo", FR: "Europe/Paris", ES: "Europe/Madrid",
+    MX: "America/Mexico_City", IT: "Europe/Rome", JP: "Asia/Tokyo", KR: "Asia/Seoul", CA: "America/Toronto", AU: "Australia/Sydney", IN: "Asia/Kolkata", PH: "Asia/Manila" };
+  const IOS_C = Object.keys(IPHONE), AND_C = ["samsung SM-S921B", "samsung SM-A546E", "Xiaomi 23078PND5G", "Google Pixel 8", "OPPO CPH2591", "motorola moto g84"];
+  const EKR = [["feed", 0.5, 4, 25], ["wash", 0.3, 15, 50], ["play", 0.45, 4, 30], ["shop", 0.18, 6, 60], ["album", 0.12, 5, 50], ["settings", 0.07, 4, 40], ["share", 0.05, 8, 50], ["widgets", 0.01, 3, 20], ["language", 0.01, 3, 12]];
+  const SAAT = [[7, 3], [8, 4], [9, 3], [12, 3], [13, 2], [16, 3], [18, 4], [19, 5], [20, 6], [21, 6], [22, 4], [23, 2]];
+  const KAYNAK = [["home", 5], ["shop_short", 4], ["game_short", 3], ["shop", 2], ["settings", 1]];
+  const PAKET = [["coins.100", 5], ["coins.300", 4], ["coins.800", 2], ["coins.2000", 1]];
+  const ESYA = [["hat_cap", 5], ["hat_bow", 4], ["hat_crown", 1], ["room_candy", 3], ["room_ocean", 2], ["buddy_duck", 3], ["decor_rug", 3], ["decor_lamp", 2], ["color_sky", 2], ["color_rose", 1]];
+  const installs = [], events = [];
+  const ekle = (i, t, e, p = "", s = 0, gizli = false) => events.push({ iid: i.id, t, e, p, s, gizli });
+  for (let k = 0; k < 140; k++) {
+    const yas = Math.floor(Math.pow(r(), 1.3) * 26);
+    const ilk = now - yas * G - r() * G * 0.9;
+    const bolge = agir(ULKE), dil = DIL_U[bolge] || "en";
+    const ios = r() < 0.62;
+    const dusuk = r() < 0.35;
+    let span = Math.max(0, (now - ilk) * Math.pow(r(), dusuk ? 4 : 0.7));
+    if (k < 5) span = now - ilk - k * 45e3;
+    const son = Math.min(now - (k < 5 ? k * 45e3 : 0), ilk + span);
+    const tanitimKaldi = k > 5 && r() < 0.08, yumurtadaKaldi = !tanitimKaldi && k > 5 && r() < 0.06;
+    const renk = sec(["coral", "sky", "grape", "lime"]);
+    const i = {
+      id: (k.toString(16).padStart(4, "0") + "D3M0" + Math.floor(r() * 1e8).toString(16)).toUpperCase().padEnd(36, "0"),
+      platform: ios ? "ios" : "android", appVersion: son > now - 4 * G && r() < 0.8 ? "1.0.2" : "1.0.1", build: "",
+      language: dil === "pt-BR" ? "pt" : dil, appLang: r() < 0.1 ? "en" : dil, region: bolge, tz: TZ[bolge],
+      device: ios ? sec(IOS_C) : sec(AND_C), os: ios ? sec(["18.6", "26.0.1", "26.1", "26.2"]) : sec(["13", "14", "15", "16"]),
+      firstSeen: new Date(ilk).toISOString(), lastSeen: new Date(son).toISOString(), screen: "closed", lastScreen: "home",
+      pro: false, notif: r() < 0.55, reminders: r() < 0.9, onboarded: !tanitimKaldi, tester: k === 9 || k === 23, theme: r() < 0.22 ? "dark" : "light",
+      egg: renk, trait: "egg", n_hatched: 0, n_level: 1, n_age: 0, n_stage: 0, n_coins: 20, n_streak: 0, n_bond: 10, n_owned: 1, n_decor: 0, n_forms: 2, n_best: 0, n_ill: 0,
+      n_feed: 0, n_wash: 0, n_sleep: 0, n_play: 0, n_widgets: r() < 0.25 ? 1 + Math.floor(r() * 2) : 0, n_watch: ios ? sec([0, 0, 0, 1, 2]) : sec([0, 0, 0, 0, 1, 2]), ev: {},
+    };
+    i.build = ios ? (i.appVersion === "1.0.2" ? "6" : "4") : (i.appVersion === "1.0.2" ? "11" : "10");
+    /* Tanitim */
+    let t = ilk;
+    const adimSon = tanitimKaldi ? Math.floor(r() * 4) : 3;
+    const atla = r() < 0.3;
+    for (let a = 0; a <= adimSon; a++) { ekle(i, t, "screen", "onboarding"); ekle(i, t + 1000, "onboarding_step", String(a)); if (atla && a === 1) { ekle(i, t + 1500, "onboarding_skip", "1"); a = 2; } t += 4000 + r() * 6000; }
+    ekle(i, t, "screen_time", "onboarding", Math.round((t - ilk) / 1000));
+    if (tanitimKaldi) { ekle(i, t + 2000, "session", "", Math.round((t - ilk) / 1000) + 2); i.sessions = 1; i.lastScreen = "onboarding"; installs.push(i); continue; }
+    ekle(i, t, "onboarding_done", renk); ekle(i, t, "onboarding_name", r() < 0.7 ? "custom" : "default");
+    let coin = 20, seviye = 1, xp = 0, seri = 0, bag = 10, sahip = 1, form = 2, enIyi = 0, sonGun = "";
+    const sayac = { feed: 0, wash: 0, sleep: 0, play: 0 };
+    if (!yumurtadaKaldi) { t += 6000; ekle(i, t, "hatch", renk); ekle(i, t + 2000, "push_permission", i.notif ? "granted" : "denied"); i.n_hatched = 1; }
+    const oturum = yumurtadaKaldi ? 1 : Math.max(1, Math.round((son - ilk) / G * (0.8 + r() * 2.2)) + (k < 5 ? 2 : 0));
+    const zamanlar = Array.from({ length: Math.min(oturum, 70) }, (_, j) => j === 0 ? t + 2000 : ilk + r() * (son - ilk)).sort((a, b) => a - b);
+    i.sessions = 0;
+    for (const t0 of zamanlar) {
+      let tt = Math.min(now - 60e3, Math.max(t0, istGunBasi(t0) + agir(SAAT) * 36e5 + r() * 36e5));
+      if (tt < t) tt = t0;
+      const bas = tt;
+      const gun = utcGun(tt);
+      if (i.n_hatched && gun !== sonGun) {
+        if (sonGun) { seri = (Date.parse(gun) - Date.parse(sonGun)) <= G ? seri + 1 : 1; bag = Math.min(100, bag + 1.5); } else seri = 1;
+        sonGun = gun; coin += 10; ekle(i, tt, "daily_gift");
+        if (r() < 0.1) ekle(i, tt, "push_open", sec(["need-hunger", "need-fun", "need-hygiene", "need-energy", "promise", "promise"]));
+      }
+      ekle(i, tt, "screen", "home"); i.lastScreen = "home";
+      let evSn = 3 + r() * 20;
+      if (i.n_hatched) {
+        for (let pp = Math.floor(r() * 30); pp > 0; pp--) ekle(i, tt, "pet", "", 0, true);
+        for (const [ad, p, a, b] of EKR) {
+          if (r() > p) continue;
+          const s = Math.round(a + r() * (b - a));
+          tt += evSn * 1000;
+          ekle(i, tt, "screen", ad); i.lastScreen = ad;
+          if (ad === "feed") { const y = agir([["snack", 6], ["meal", 3], ["feast", 1]]); const fiyat = { snack: 0, meal: 4, feast: 10 }[y]; if (coin >= fiyat) { coin -= fiyat; ekle(i, tt + 2000, "feed", y); sayac.feed++; xp += 6; } }
+          if (ad === "wash") { ekle(i, tt + s * 900, "wash", "app"); sayac.wash++; xp += 8; }
+          if (ad === "play") {
+            const oy = sec(["catch", "memory", "socks", "simon", "stack", "odd"]);
+            let ucretli = r() < 0.25;
+            if (ucretli && coin < 5) { ekle(i, tt + 3000, "coins_short", "round"); ekle(i, tt + 3500, "screen", "coins"); paywallAc(i, tt + 3500, "game_short"); ucretli = false; }
+            else {
+              if (ucretli) { coin -= 5; ekle(i, tt + 2000, "game_paid", oy); }
+              ekle(i, tt + 2000, "game_start", oy); ekle(i, tt + 2000, "screen", "game_" + oy);
+              const sure2 = 20 + Math.round(r() * 22), skor = Math.round(r() * 24);
+              ekle(i, tt + 2000 + sure2 * 1000, "game_end", oy); ekle(i, tt + 2000 + sure2 * 1000, "game_score_" + oy, "", 0, true, skor);
+              events[events.length - 1].adet = skor;
+              ekle(i, tt + 2000 + sure2 * 1000, "screen_time", "game_" + oy, sure2);
+              enIyi = Math.max(enIyi, skor); coin += Math.min(12, Math.floor(skor / 2)); sayac.play++; xp += 6 + Math.min(14, skor);
+            }
+          }
+          if (ad === "shop") {
+            const [es] = [agir(ESYA)];
+            if (r() < 0.45) { const fiyat = 40 + Math.floor(r() * 200); if (coin >= fiyat) { coin -= fiyat; sahip++; ekle(i, tt + 4000, "buy_item", es); ekle(i, tt + 4000, "equip", es.split("_")[0], 0, true); } else { ekle(i, tt + 4000, "coins_short", es.split("_")[0]); ekle(i, tt + 4500, "screen", "coins"); paywallAc(i, tt + 4500, "shop_short"); } }
+          }
+          if (ad === "share") { ekle(i, tt + 5000, "share", agir([["story", 5], ["post", 3], ["watchface", 1]])); }
+          if (ad === "settings" && r() < 0.4) ekle(i, tt + 2000, "setting", sec(["theme_dark", "reminders_off", "haptics_off", "lang_tr", "promise_hour_20", "promise_hour_8"]));
+          if (ad === "settings" && r() < 0.15) { ekle(i, tt + 2500, "screen", "coins"); paywallAc(i, tt + 2500, "settings"); }
+          ekle(i, tt + s * 1000, "screen_time", ad, s);
+          tt += s * 1000 + 1000;
+          evSn = 2 + r() * 8;
+        }
+        if (r() < 0.4) { ekle(i, tt, "sleep"); sayac.sleep++; xp += 5; }
+        if (r() < 0.45) { ekle(i, tt, "promise", sec(Object.keys(SOZ))); coin += 15; xp += 20; bag = Math.min(100, bag + 6); }
+        if (r() < 0.25) { ekle(i, tt, "tasks_claimed"); coin += 20; xp += 20; }
+        if (r() < 0.06) { ekle(i, tt, "screen", "coins"); paywallAc(i, tt, "home"); }
+        if (r() < 0.015) { ekle(i, tt, "ill_open", "", 0, true); if (coin >= 50) { coin -= 50; ekle(i, tt + 5000, "vet", "level_" + seviye); } else ekle(i, tt + 5000, "coins_short", "vet"); }
+        if (r() < 0.006) ekle(i, tt, "rename");
+        if (r() < 0.003) ekle(i, tt, "pw_pending", "coins_100");
+        if (i.n_watch === 2 && r() < 0.35) ekle(i, tt - 36e5 * r(), "watch_action", sec(["snack", "pet", "pet", "feed", "sleep", "wash", "claim"]));
+        if (i.n_widgets && r() < 0.4) ekle(i, tt, "widget_action", sec(["snack", "pet"]));
+        if (i.platform === "ios" && i.n_widgets) ekle(i, tt, "widget_family", sec(["systemSmall", "systemMedium", "accessoryCircular"]), 0, true);
+        while (xp >= Math.round(25 * Math.pow(seviye, 1.05))) { xp -= Math.round(25 * Math.pow(seviye, 1.05)); seviye++; coin += seviye * 3; ekle(i, tt, "level_up", String(seviye)); }
+      }
+      const s = Math.max(3, Math.round((tt - bas) / 1000) + Math.round(evSn));
+      ekle(i, bas + s * 1000 - 500, "screen_time", "home", Math.round(evSn));
+      ekle(i, Math.min(now, bas + s * 1000), "session", "", s);
+      i.sessions++;
+      function paywallAc(i2, t2, kaynak) {
+        const ps = Math.round(2 + Math.pow(r(), 2) * 90);
+        ekle(i2, t2, "pw_view", kaynak);
+        if (r() < 0.35) {
+          const pk = agir(PAKET), pks = pk.replace(".", "_");
+          ekle(i2, t2 + ps * 600, "pw_tap", pks);
+          if (r() < 0.38) {
+            ekle(i2, t2 + ps * 1000, "pw_buy", kaynak, ps); ekle(i2, t2 + ps * 1000, "pw_buy_pack_" + pks, "", 0, true);
+            const plan = (i2.platform === "ios" ? "com.page.nubipet." : "com.aberk.nubi.") + pk;
+            Object.assign(i2, { pro: true, plan, buySource: kaynak, purchasedAt: new Date(t2 + ps * 1000).toISOString() });
+            i2.coins_bought = (i2.coins_bought || 0) + PLAN[pk].coin; coin += PLAN[pk].coin;
+            ekle(i2, t2 + ps * 1000 + 3000, "pw_close_bought", kaynak, ps + 3);
+          } else {
+            ekle(i2, t2 + ps * 900, r() < 0.85 ? "pw_cancel" : "pw_fail", pks);
+            ekle(i2, t2 + ps * 1000, "pw_close", kaynak, ps);
+          }
+        } else ekle(i2, t2 + ps * 1000, "pw_close", kaynak, ps);
+        ekle(i2, t2 + ps * 1000, "screen_time", "coins", ps);
+      }
+    }
+    if (i.n_hatched) {
+      const yasGun = Math.floor((now - ilk) / G);
+      i.n_age = yasGun; i.n_stage = yasGun < 5 ? 1 : yasGun < 12 ? 2 : yasGun < 18 ? 3 : 4;
+      i.n_level = seviye; i.n_coins = Math.max(0, coin); i.n_streak = son > now - 1.3 * G ? seri : 0; i.n_bond = Math.round(bag);
+      i.n_owned = sahip; i.n_decor = Math.min(sahip - 1, Math.floor(r() * 3)); i.n_forms = Math.min(50, 2 + yasGun + Math.floor(r() * 5)); i.n_best = enIyi;
+      i.n_ill = son < now - 7 * G ? 1 : 0;
+      i.n_feed = sayac.feed; i.n_wash = sayac.wash; i.n_sleep = sayac.sleep; i.n_play = sayac.play;
+      i.trait = Object.entries({ gourmet: sayac.feed, sparkle: sayac.wash, dreamer: sayac.sleep, rascal: sayac.play }).sort((a, b) => b[1] - a[1])[0][0];
+      for (const [d, ad] of [[5, "kid"], [12, "teen"], [18, "adult"]]) if (yasGun >= d && ilk + d * G < now) ekle(i, ilk + d * G + 36e5, "evolve", ad);
+      for (const [d, m] of [[1, "hair1"], [3, "tooth1"], [5, "ears"], [8, "curl"], [12, "brows"]]) if (yasGun >= d) ekle(i, ilk + d * G + 36e5, "milestone", m);
+      if (i.n_ill && r() < 0.5) ekle(i, son, "came_back", "quiet");
+    }
+    if (i.tester) ekle(i, ilk + 3 * 36e5, "lab_unlock");
+    if (k === 31) ekle(i, son - 6e5, "reset", "level_" + i.n_level);
+    if (k < 5) { i.screen = sec(["home", "feed", "play", "game_catch", "shop", "coins"]); i.lastSeen = new Date(now - k * 40e3).toISOString(); }
+    installs.push(i);
+  }
+  const yeniEv = events.filter(e => e.t <= now).sort((a, b) => b.t - a.t);
+  /* Kurulum ev'i, sayaclari ve gunluk stats: uygulamanin record() mantigi. */
+  const gunler = {};
+  const harita = new Map(installs.map(i => [i.id, i]));
+  const sayacOlay = Object.fromEntries(Object.entries(SAYAC).filter(([, x]) => x.olay).map(([k, x]) => [x.olay, k]));
+  for (const e of yeniEv) {
+    const i = harita.get(e.iid), g = (gunler[utcGun(e.t)] ||= { ev: {} });
+    const ekleH = (k, v) => { i.ev[k] = (i.ev[k] || 0) + v; g.ev[k] = (g.ev[k] || 0) + v; };
+    if (e.gizli) {
+      const adet = e.adet ?? 1;
+      ekleH(e.e, adet);
+      if (e.p) ekleH(`${e.e}_${slug(e.p)}`, adet);
+      if (e.e === "pet") { i.pets = (i.pets || 0) + 1; g.pets = (g.pets || 0) + 1; }
+      continue;
+    }
+    for (const [k, v] of Object.entries(olayEv([e]))) ekleH(k, v);
+    const sy = sayacOlay[e.e];
+    if (sy && !(sy === "shares" && e.p === "watchface")) { i[sy] = (i[sy] || 0) + 1; g[sy] = (g[sy] || 0) + 1; }
+    if (e.e === "pw_buy") { const pk = (yeniEv.find(x => x.iid === e.iid && x.e === "pw_tap" && x.t <= e.t && e.t - x.t < 36e5)?.p || "coins_100").replace("_", "."); g.coins_bought = (g.coins_bought || 0) + (PLAN[pk]?.coin || 0); }
+  }
+  for (const i of installs) { i.installs_new = 1; const g = (gunler[utcGun(ms(i.firstSeen))] ||= { ev: {} }); g.installs_new = (g.installs_new || 0) + 1; }
+  const days = Object.entries(gunler).map(([id, d]) => ({ id, ...d })).sort((a, b) => a.id < b.id ? -1 : 1);
+  const satisGun = days.slice(-60).map(d => ({ tarih: d.id, indirme: n(d.installs_new) + Math.floor(r() * 3), guncelleme: Math.floor(r() * 5), iap: n(d.purchases),
+    gelir: n(d.purchases) ? (r() < 0.6 ? { USD: Math.round(n(d.purchases) * 3.2 * 100) / 100 } : { TRY: Math.round(n(d.purchases) * 89.99 * 100) / 100 }) : {} }));
+  const gelirTop = {};
+  for (const x of satisGun) for (const [kod, t] of Object.entries(x.gelir)) gelirTop[kod] = (gelirTop[kod] || 0) + t;
+  const satis = { uretim: new Date(now - 5 * 36e5).toISOString(), gun: satisGun.length, indirme: topla(satisGun, x => x.indirme), guncelleme: topla(satisGun, x => x.guncelleme),
+    iap: topla(satisGun, x => x.iap), gelir: gelirTop, ulkeler: say(installs, i => i.region), gunluk: satisGun };
+  return { installs, days, events: yeniEv.filter(e => !e.gizli).map(({ gizli, adet, ...e }) => e), satis };
+}
+
+/* Kabuk en sonda: sayfa fonksiyonlarinin kullandigi let/const tanimlari hazir olsun. */
+K = await panelKabuk({
+  ad: "Nubi",
+  ikon: "/assets/lab-icons/nubi-180.png",
+  firebaseConfig,
+  yonetici: YONETICI,
+  araliklar: [1, 7, 28, 90, 0], aralik: 7,
+  yukle,
+  surumler: () => surumListesi(veri.installs),
+  surumNotu: SLUG,
+  /* Uygulamanin kendi renkleri: iOS Theme.swift / Android shared/Palette.kt
+     (kagit #FBF6EC / #141216, murekkep #17151A / #F4EFE6, kutu #FFFFFF / #1F1C23,
+     mercan #FF6B38 vurgu, gri #7A7580). */
+  tema: {
+    acik: { accent: "#FF6B38", onAccent: "#17151A", bg: "#FBF6EC", card: "#FFFFFF", side: "#F3EAD6", line: "#E4DAC6", ink: "#17151A", soft: "#7A7580", ok: "#2DD4A0" },
+    koyu: { accent: "#FF6B38", onAccent: "#17151A", bg: "#141216", card: "#1F1C23", side: "#19171C", line: "#2F2B34", ink: "#F4EFE6", soft: "#A49FAA", ok: "#2DD4A0" },
+    sabit: "light",
+  },
+  gruplar: [
+    { baslik: "ANALİZ", sayfalar: [
+      { id: "genel", ad: "Genel bakış", ciz: genel },
+      { id: "canli", ad: "Canlı", ciz: canli },
+      { id: "ekranlar", ad: "Ekranlar", ciz: ekranlar },
+      { id: "paywall", ad: "Paywall ve satın alma", ciz: paywall },
+      { id: "kullanim", ad: "Kullanım", ciz: kullanim },
+      { id: "kullanicilar", ad: "Kullanıcılar", ciz: kullanicilar },
+      { id: "bebek", ad: "Bebek ve gelişim", ciz: bebek },
+      { id: "saat", ad: "Saat ve widget", ciz: saatWidget },
+      { id: "analytics", ad: "Analytics", ciz: analytics },
+    ] },
+    { baslik: "YÖNET", sayfalar: [
+      { id: "bildirim", ad: "Bildirim", ciz: bildirim },
+      { id: "ayarlar", ad: "Ayarlar", ciz: ayarlar },
+    ] },
+  ],
+});
+</script>
+</body>
+</html>
