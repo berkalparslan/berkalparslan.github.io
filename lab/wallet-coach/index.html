@@ -248,7 +248,7 @@ function durumMetni(i) {
   return [online(i) && "online", i.pro === true && "Pro", i.tester && "Test", i.onboarded === false && "Tanıtım yarım"].filter(Boolean).join(" · ") || "-";
 }
 const pushAd = v => !v ? "Bilgi yok" : v === "fcm ok" ? "FCM tamam" : v === "apns ok" ? "APNs tamam" : v === "ok" ? "Abone" :
-  /^apns failed/.test(v) ? "APNs hatası" : /^fcm failed/.test(v) ? "FCM hatası" : /^failed/.test(v) ? "Abonelik hatası" : String(v).slice(0, 30);
+  /^apns failed/.test(v) ? "APNs hatası" : /^fcm failed/.test(v) ? "FCM hatası" : /^failed/.test(v) ? (/APNS token/i.test(v) ? "Konu kaydı: APNs jetonu gelmeden" : "Konu kaydı hatası") : String(v).slice(0, 30);
 const notifAd = i => i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor";
 function urun(plan) {
   if (!plan) return null;
