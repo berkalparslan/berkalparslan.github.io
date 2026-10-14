@@ -37,6 +37,8 @@ node scripts/lab/daily-whisper.mjs --days 90 || echo "daily-whisper çekimi baş
 node scripts/lab/o-mu-bu-mu.mjs --days 90 || echo "o-mu-bu-mu çekimi başarısız"
 # Bam Sports (beş spor uygulaması): GA4 özeti → bam-tech-sports Firestore panel/ga4.
 node scripts/lab/bam-sports.mjs --days 90 || echo "bam-sports çekimi başarısız"
+# Boş Yer Yok: GA4 özeti + mağaza özeti → bosyeryok-tycoon panel/ga4, panel/magaza.
+node scripts/lab/bosyeryok.mjs --days 90 || echo "bosyeryok çekimi başarısız"
 # Nika: Cloudflare GraphQL (Workers/D1/R2 kullanımı) → Nika D1, panelin Altyapı sayfası.
 node scripts/lab/nika.mjs --days 30 || echo "nika altyapı çekimi başarısız"
 # Wallet Coach kur ve enflasyon: yeni ay varsa ve makulse yayınlar.

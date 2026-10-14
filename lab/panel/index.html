@@ -653,6 +653,7 @@
         <a href="/lab/nika/" target="_blank" rel="noopener"><img src="/assets/lab-icons/nika-180.png" alt="" /><span>Nika</span><small>↗</small></a>
         <a href="/lab/nubi/" target="_blank" rel="noopener"><img src="/assets/lab-icons/nubi-180.png" alt="" /><span>Nubi</span><small>↗</small></a>
         <a href="/lab/kit-qr/" target="_blank" rel="noopener"><img src="/assets/lab-icons/kit-qr-180.png" alt="" /><span>Kit QR</span><small>↗</small></a>
+        <a href="/lab/bosyeryok/" target="_blank" rel="noopener"><img src="/assets/lab-icons/bosyeryok-180.png" alt="" /><span>Boş Yer Yok</span><small>↗</small></a>
       </nav></div>
       <div class="yan-alt">
         <button id="yenile" title="Çekim komutunu kopyalar; terminale yapıştır">yenile</button>
@@ -1034,7 +1035,7 @@
     const platYazi = a => `<span class="plat">${a.ios ? '<span class="ios">iOS</span>' : ""}${a.android ? '<span class="and">AND</span>' : ""}</span>`;
     /* Uygulamanın kendi lab paneli: tek tıkla açılır (yeni sekme). */
     const PANEL_YOL = { "walletcoach": "wallet-coach", "tasbih-tally": "tasbih-tally", "tennis-padel": "bam-sports", "rally-badminton": "bam-sports", "rally-table-tennis": "bam-sports", "pickleball": "bam-sports", "volleyball": "bam-sports",
-      "o-mu-bu-mu": "omubumu", "leafbook": "leafbook", "matchday": "matchday", "daily-whisper": "daily-whisper", "oncopace": "oncopace", "nika": "nika", "nubi": "nubi", "kit-qr": "kit-qr" };
+      "o-mu-bu-mu": "omubumu", "leafbook": "leafbook", "matchday": "matchday", "daily-whisper": "daily-whisper", "oncopace": "oncopace", "nika": "nika", "nubi": "nubi", "kit-qr": "kit-qr", "bosyeryok": "bosyeryok" };
     const panelBtn = a => { const y = a && PANEL_YOL[a.slug]; return y ? `<a class="panel-git" href="/lab/${y}/" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="${esc(a.ad)} panelini aç">Panel ↗</a>` : ""; };
     const storeLink = a => {
       const id = a.vault?.store; const l = [];
