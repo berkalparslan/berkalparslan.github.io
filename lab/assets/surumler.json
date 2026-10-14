@@ -1,12 +1,27 @@
 {
- "uretim": "2026-10-13T21:47:00.986Z",
+ "uretim": "2026-10-14T04:12:06.138Z",
  "apps": {
   "leafbook": [
    {
     "surum": "1.2.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     10
+    ],
+    "notlar": [
+     "Bitki tanımada bir düzeltme.",
+     "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
+    ],
+    "tarih": "2026-10-14",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2.1",
     "platform": "ios",
     "tarih": "2026-10-13T14:38:15-07:00",
-    "durum": "hazırlanıyor",
+    "durum": "incelemede",
     "notlar": [
      "Bitki tanımada bir düzeltme.",
      "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
@@ -73,25 +88,6 @@
     "tarih": "2026-09-14T02:50:54-07:00",
     "durum": "yayında",
     "notlar": []
-   },
-   {
-    "surum": "1.2",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     9
-    ],
-    "notlar": [
-     "Bitkilerinin artık bir yeri var.",
-     "Bitkiye bir yer ver: ev, yazlık, ailenin evi. Raf ona göre gruplar, istemediğin yeri katlar.",
-     "Nerede durduğunu söyle: ev içi, balkon, teras, bahçe ya da toprak. Sulama gününü değiştirir, ne kadar değiştirdiğini de yazar.",
-     "Sulama artık mevsimi biliyor. Ocaktaki bitki temmuz hızıyla su içmez.",
-     "Topluluk geldi: kendi bitkini göster, nazar bırak, kahverengi uçları sor. Her fotoğraf önce kontrol edilir.",
-     "On beş yeni dil."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
    },
    {
     "surum": "1.0 (5)",
