@@ -68,6 +68,7 @@ async function api(yol) {
 }
 
 async function yukle(kabuk) {
+  K = kabuk; // ilk çizim panelKabuk dönmeden gelir
   veri = kabuk.demo ? demoVeri() : await api("/api/panel/veri");
   for (const p of veri.partiler) { try { p.oyunListe = JSON.parse(p.oyunlar || "[]"); } catch { p.oyunListe = []; } }
 }
@@ -85,7 +86,8 @@ function secili() {
 const topla = (l, k) => (l || []).reduce((t, x) => t + (Number(x[k]) || 0), 0);
 const fark = (simdi, once) => once == null ? undefined : { simdi, once };
 
-function genel(icerik) {
+function genel(icerik, kabuk) {
+  if (kabuk) K = kabuk;
   const { d, pp, aa, op, oa } = secili();
   const acilan = topla(aa, "n"), biten = pp.length;
   const ortSure = biten ? Math.round(topla(pp, "sure_dk") / biten) : 0;
@@ -123,7 +125,8 @@ function genel(icerik) {
     "Açılan oda, TV'de her yeni parti açılınca anında sayılır. Parti ayrıntısı (misafir, fotoğraf, oy, oyunlar, süre) parti bitince ya da odada 30 gün hareket olmayınca tek satır olarak yazılır; bu yüzden yeni partiler ayrıntıda gecikmeli görünür. Ad, fotoğraf, oda kodu ya da cihaz kimliği tutulmaz.")));
 }
 
-function partiler(icerik) {
+function partiler(icerik, kabuk) {
+  if (kabuk) K = kabuk;
   const { pp } = secili();
   const satirlar = pp.map(p => [
     { d: p.gun, s: gunMs(p.gun) }, ad(PLATFORM, p.platform), ad(ETKINLIK, p.etkinlik), ad(DIL, p.dil), p.pro ? "Pro" : "Ücretsiz",
@@ -136,7 +139,8 @@ function partiler(icerik) {
   ], satirlar, { sirala: [0, "desc"], bos: "Bu aralıkta biten parti yok." })));
 }
 
-function oyunlar(icerik) {
+function oyunlar(icerik, kabuk) {
+  if (kabuk) K = kabuk;
   const { pp } = secili();
   const say = {}, platformBazli = {};
   for (const p of pp) for (const o of p.oyunListe) {
@@ -151,7 +155,8 @@ function oyunlar(icerik) {
   icerik.appendChild(kart("Oyun tablosu", veriTablo(["Oyun", { ad: "Parti", num: true }, { ad: "Partilerin", num: true }, ...pls.map(p => ({ ad: p, num: true }))], satirlar, { sirala: [1, "desc"], bos: "Henüz veri yok." })));
 }
 
-function kitle(icerik) {
+function kitle(icerik, kabuk) {
+  if (kabuk) K = kabuk;
   const { pp, aa } = secili();
   const say = (l, f, w = () => 1) => l.reduce((o, x) => { const k = f(x); o[k] = (o[k] || 0) + w(x); return o; }, {});
   const izgara = el("div", "izgara3");
@@ -166,7 +171,8 @@ function kitle(icerik) {
 }
 
 /* YÖNET: /yonetim sayfası çerçevede; Google girişinin token'ı şifre yerine gider. */
-function icerikYonetimi(icerik) {
+function icerikYonetimi(icerik, kabuk) {
+  if (kabuk) K = kabuk;
   const bag = el("div", "satir-bag");
   bag.innerHTML = `<span class="not">Destelerdeki kartlar ve "Geliştiriciden" uygulama listesi. Değişiklikler TV'lere bir dakika içinde ulaşır.</span>
     <a href="${API}/yonetim/" target="_blank" rel="noopener">Yeni sekmede aç</a>`;
