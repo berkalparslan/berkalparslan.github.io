@@ -1,4 +1,4 @@
-/* Mihenk — uygulama ölçme aracı
+/* Mihenk: uygulama ölçme aracı
    App Store verisi itunes.apple.com'dan doğrudan gelir (CORS açık).
    Google Play ve App Store ürün sayfaları CORS'a kapalı; onlar için
    köprü gerekir: yerelde server.py, yayında Cloudflare Worker. */
@@ -35,7 +35,7 @@ const money = (v) => v >= 1000 ? '$' + Math.round(v).toLocaleString('tr-TR')
                                : '$' + v.toFixed(v < 10 ? 1 : 0);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g,
   (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-const tidy = (c) => !c ? '—' :
+const tidy = (c) => !c ? '·' :
   String(c).toLowerCase().replace(/_/g,' ').replace(/\b\w/g,(m)=>m.toUpperCase());
 
 const OUT = () => el('out');
@@ -58,12 +58,12 @@ async function bridge(path) {
   const r = await fetch(API + path);
   const j = await r.json();
   if (j.error) {
-    // Köprü eski sürümdeyse yeni uçları tanımıyor — bunu açıkça söyle,
+    // Köprü eski sürümdeyse yeni uçları tanımıyor: bunu açıkça söyle,
     // yoksa "Bilinmeyen uç" diye anlamsız bir hata görünüyor.
     if (/bilinmeyen uç/i.test(j.error)) {
       throw new Error('Bu özellik köprünün güncel sürümünü istiyor. ' +
         (LOCAL ? 'server.py yeniden başlatılmalı.'
-               : 'Cloudflare Worker\'daki kod güncellenmeli — worker.js dosyasının ' +
+               : 'Cloudflare Worker\'daki kod güncellenmeli: worker.js dosyasının ' +
                  'son hâlini panoya kopyalayıp Worker\'a yeniden yapıştır.'));
     }
     throw new Error(j.error);
@@ -116,9 +116,9 @@ function estimate(app, ratings) {
   const monthly = months
     ? { low: total.low / months, mid: total.mid / months, high: total.high / months } : null;
 
-  let conf = 'low', confText = 'Zayıf — 10\'dan az yorum var';
-  if (ratings >= 100) { conf = 'high'; confText = 'Sağlam — 100\'den çok yorum'; }
-  else if (ratings >= 10) { conf = 'mid'; confText = 'Orta — 10 ile 99 arası yorum'; }
+  let conf = 'low', confText = 'Zayıf: 10\'dan az yorum var';
+  if (ratings >= 100) { conf = 'high'; confText = 'Sağlam: 100\'den çok yorum'; }
+  else if (ratings >= 10) { conf = 'mid'; confText = 'Orta: 10 ile 99 arası yorum'; }
 
   const notes = [];
   if (ratings === 0) notes.push({ warn: true, t: 'Hiç yorum yok, bu yüzden indirme tahmini yapılamıyor.' });
@@ -127,7 +127,7 @@ function estimate(app, ratings) {
   const upd = app.currentVersionReleaseDate ? new Date(app.currentVersionReleaseDate) : null;
   if (upd) {
     const ay = (Date.now() - upd) / 2629746000;
-    if (ay > 12) notes.push({ warn: true, t: `${Math.round(ay)} aydır güncellenmemiş. Yorumlar zamanla birikmiş ama indirme durmuş olabilir — tahmin olduğundan yüksek çıkar.` });
+    if (ay > 12) notes.push({ warn: true, t: `${Math.round(ay)} aydır güncellenmemiş. Yorumlar zamanla birikmiş ama indirme durmuş olabilir: tahmin olduğundan yüksek çıkar.` });
     else if (ay < 2) notes.push({ warn: false, t: 'Aktif bakımda: son güncelleme 2 aydan yeni.' });
   }
   if (months && months < 3) notes.push({ warn: true, t: 'Uygulama 3 aydan yeni. Aylık ortalama bu kadar kısa sürede oynak olur.' });
@@ -142,7 +142,7 @@ const storeTag = (s) => s === 'play'
   ? '<span class="store play">▶ Google Play</span>'
   : '<span class="store ios"> App Store</span>';
 
-const yearsLabel = (m) => !m ? '—'
+const yearsLabel = (m) => !m ? '·'
   : (m >= 12 ? (m / 12).toFixed(1) + ' yıl' : Math.round(m) + ' ay');
 
 function notesBlock(notes, calc) {
@@ -173,7 +173,7 @@ function iosCard(app, ratings, per, est, scope, avg) {
         <p class="by">${esc(app.sellerName || '')}</p>
         <div class="tags">
           ${priceTag}
-          <span class="tag">${esc(app.primaryGenreName || '—')}</span>
+          <span class="tag">${esc(app.primaryGenreName || '·')}</span>
           <span class="tag">Sürüm ${esc(app.version || '?')}</span>
           <span class="tag">${yas} önce çıktı</span>
           <span class="tag quiet">${SCOPE_N[scope]} ülke tarandı</span>
@@ -189,18 +189,18 @@ function iosCard(app, ratings, per, est, scope, avg) {
       <div><span class="lab">Toplam yorum</span>
         <span class="fig">${int(ratings)}</span>
         <span class="sub">${avg ? '★ ' + avg.toFixed(2) + ' ortalama puan' : 'henüz puan yok'}</span></div>
-      <div><span class="lab">İndirme — tahmin</span>
-        ${ratings ? `<span class="fig">${int(est.dl.low)} – ${int(est.dl.high)}</span>
+      <div><span class="lab">İndirme: tahmin</span>
+        ${ratings ? `<span class="fig">${int(est.dl.low)}-${int(est.dl.high)}</span>
           <span class="sub">orta değer ${int(est.dl.mid)}</span>`
-          : '<span class="fig">—</span><span class="sub">yorum olmadan hesaplanamıyor</span>'}</div>
-      <div><span class="lab">Aylık gelir — tahmin</span>
-        ${ratings ? `<span class="fig money">${money(est.monthly.low)} – ${money(est.monthly.high)}</span>
+          : '<span class="fig">·</span><span class="sub">yorum olmadan hesaplanamıyor</span>'}</div>
+      <div><span class="lab">Aylık gelir: tahmin</span>
+        ${ratings ? `<span class="fig money">${money(est.monthly.low)}-${money(est.monthly.high)}</span>
           <span class="sub">orta değer ${money(est.monthly.mid)}</span>`
-          : '<span class="fig">—</span>'}</div>
+          : '<span class="fig">·</span>'}</div>
       <div><span class="lab">Çıkışından bugüne</span>
-        ${ratings ? `<span class="fig money">${money(est.total.low)} – ${money(est.total.high)}</span>
+        ${ratings ? `<span class="fig money">${money(est.total.low)}-${money(est.total.high)}</span>
           <span class="sub"><span class="conf ${est.conf}">${esc(est.confText)}</span></span>`
-          : '<span class="fig">—</span>'}</div>
+          : '<span class="fig">·</span>'}</div>
     </div>
 
     <div class="sect tint" data-iosx>
@@ -231,7 +231,7 @@ function playCard(a) {
       <div class="card-id">
         ${storeTag('play')}
         <h3>${esc(a.name || a.package)}</h3>
-        <p class="by">${esc(a.developer || '—')}</p>
+        <p class="by">${esc(a.developer || '·')}</p>
         <div class="tags">${tags.join('')}</div>
       </div>
       <div class="card-actions">
@@ -241,10 +241,10 @@ function playCard(a) {
     </div>
     <div class="figs">
       <div><span class="lab">Kurulum</span>
-        <span class="fig money">${esc(a.installs || '—')}</span>
-        <span class="sub">Google'ın kendi açıkladığı sayı — tahmin değil</span></div>
+        <span class="fig money">${esc(a.installs || '·')}</span>
+        <span class="sub">Google'ın kendi açıkladığı sayı: tahmin değil</span></div>
       <div><span class="lab">Puan</span>
-        <span class="fig">${a.rating ? '★ ' + a.rating.toFixed(1) : '—'}</span>
+        <span class="fig">${a.rating ? '★ ' + a.rating.toFixed(1) : '·'}</span>
         <span class="sub">${a.reviews ? esc(a.reviews) + ' yorum' : 'yorum yok'}</span></div>
       <div><span class="lab">Para modeli</span>
         <span class="fig small">${a.hasIAP ? 'Satın alma var' : 'Satın alma yok'}</span>
@@ -255,7 +255,7 @@ function playCard(a) {
     <div class="sect">
       <ul class="notes">
         <li>Kurulum sayısı Play'in yayınladığı aralıktır; kesin rakam değil ama tahmin de değil.</li>
-        <li>Gelir tahmini Android tarafında yapılmıyor — satın alma dönüşümü ve reklam geliri görünmüyor.</li>
+        <li>Gelir tahmini Android tarafında yapılmıyor: satın alma dönüşümü ve reklam geliri görünmüyor.</li>
       </ul>
     </div>
   </article>`;
@@ -267,8 +267,8 @@ function iosRow(a) {
   return `<button class="row" type="button" data-open-ios="${a.trackId}">
     ${a.artworkUrl60 ? `<img src="${esc(a.artworkUrl60)}" alt="">` : '<span></span>'}
     <span><span class="nm">${esc(a.trackName)}</span>
-      <span class="meta">${esc(a.sellerName || '—')} · ${esc(a.primaryGenreName || '—')} · ${esc(a.formattedPrice || '')}</span></span>
-    <span class="rt"><b>${n ? '≈ ' + int(n * RATIO.mid) : '—'}</b>
+      <span class="meta">${esc(a.sellerName || '·')} · ${esc(a.primaryGenreName || '·')} · ${esc(a.formattedPrice || '')}</span></span>
+    <span class="rt"><b>${n ? '≈ ' + int(n * RATIO.mid) : '·'}</b>
       <span class="rtk">${n ? 'indirme tahmini' : 'yorum yok'}</span></span>
   </button>`;
 }
@@ -276,10 +276,10 @@ function playRowBtn(a, attr) {
   return `<button class="row" type="button" ${attr}="${esc(a.package)}">
     ${a.icon ? `<img src="${esc(a.icon)}" alt="">` : '<span></span>'}
     <span><span class="nm">${esc(a.name || a.package)}</span>
-      <span class="meta">${esc(a.developer || '—')} · ${esc(tidy(a.category))}${
+      <span class="meta">${esc(a.developer || '·')} · ${esc(tidy(a.category))}${
         (a.hasAds ? ' <span class="badge ads">reklam</span>' : '') +
         (a.hasIAP ? ' <span class="badge iap">satın alma</span>' : '')}</span></span>
-    <span class="rt"><b class="money">${esc(a.installs || '—')}</b>
+    <span class="rt"><b class="money">${esc(a.installs || '·')}</b>
       <span class="rtk">kurulum${a.rating ? ' · ★' + a.rating.toFixed(1) : ''}</span></span>
   </button>`;
 }
@@ -339,7 +339,7 @@ async function viewSearch(term, scope) {
     <div><div class="colhead"><h3>${storeTag('ios')}<span class="pill grey" id="niOS">…</span></h3></div>
       <div class="list" id="iosList"><div class="empty">aranıyor…</div></div>
       <p class="foot-note" style="padding:0;margin-top:12px;font-size:13.5px;color:var(--ink2)">
-        Buradaki sayı yalnızca ABD mağazasının yorumlarından hesaplandı — hızlı liste için.
+        Buradaki sayı yalnızca ABD mağazasının yorumlarından hesaplandı: hızlı liste için.
         Bir satıra tıkla, ${SCOPE_N[scope]} ülke taransın ve gerçek toplam çıksın.</p></div>
     <div><div class="colhead"><h3>${storeTag('play')}<span class="pill grey" id="niAnd">…</span></h3></div>
       <div class="list" id="andList"><div class="empty">aranıyor…</div></div>
@@ -355,7 +355,7 @@ async function viewSearch(term, scope) {
       el('iosList').innerHTML = rs.length ? rs.map(iosRow).join('')
         : '<div class="empty">Sonuç yok.</div>';
     }).catch((e) => {
-      el('niOS').textContent = '—';
+      el('niOS').textContent = '·';
       el('iosList').innerHTML = `<div class="empty">Alınamadı: ${esc(e.message)}</div>`;
     });
 
@@ -368,7 +368,7 @@ async function viewSearch(term, scope) {
         ? rs.map((r) => playRowBtn(r, 'data-open-play')).join('')
         : '<div class="empty">Sonuç yok.</div>';
     }).catch(() => {
-      el('niAnd').textContent = '—';
+      el('niAnd').textContent = '·';
       el('andList').innerHTML = `<div class="empty">${BRIDGE
         ? 'Google Play\'e ulaşılamadı.'
         : 'Android araması için köprü gerekiyor.'}</div>`;
@@ -394,9 +394,9 @@ function devSummary(opts) {
         <span class="sub">${paid}</span></div>
       ${ratings !== null ? `<div><span class="lab">Toplam yorum</span><span class="fig">${int(ratings)}</span>
         <span class="sub">${avg ? '★ ' + avg.toFixed(2) + ' ortalama' : 'puan yok'}</span></div>` : ''}
-      <div><span class="lab">${store === 'play' ? 'Toplam kurulum' : 'Toplam indirme — tahmin'}</span>
+      <div><span class="lab">${store === 'play' ? 'Toplam kurulum' : 'Toplam indirme: tahmin'}</span>
         <span class="fig">${dl}</span></div>
-      ${monthly ? `<div><span class="lab">Aylık gelir — tahmin</span>
+      ${monthly ? `<div><span class="lab">Aylık gelir: tahmin</span>
         <span class="fig money">${monthly}</span>
         <span class="sub">portföyün tamamı</span></div>` : ''}
     </div>
@@ -410,7 +410,7 @@ function devSummary(opts) {
       <div class="devbox"><span class="lab">Bakım</span>
         <p class="bignum">${fresh}/${count}</p>
         <p class="note-s">Son 6 ayda güncellenmiş.
-          ${stale ? `<strong>${stale}</strong> tanesi bir yıldır güncellenmemiş — o kalemlerde tahmin şişer.`
+          ${stale ? `<strong>${stale}</strong> tanesi bir yıldır güncellenmemiş: o kalemlerde tahmin şişer.`
                   : 'Bir yıldan uzun süredir bırakılmış uygulama yok.'}</p></div>
       <div class="devbox"><span class="lab">Kategoriler</span>
         <div class="catbars">${cats.slice(0, 6).map(([c, n]) => `<div class="catrow">
@@ -435,7 +435,7 @@ async function viewIOSDev(id, scope, preloaded) {
 
   const scans = [];
   for (let i = 0; i < apps.length; i++) {
-    say(`${i + 1}/${apps.length} — ${apps[i].trackName} taranıyor…`);
+    say(`${i + 1}/${apps.length}: ${apps[i].trackName} taranıyor…`);
     const g = await gather(apps[i].trackId, scope);
     const app = g.base || apps[i];
     const est = estimate(app, g.total);
@@ -471,7 +471,7 @@ function renderIOSDev(apps, scans, scope) {
   const paidN = scans.filter((s) => (s.app.price || 0) > 0).length;
 
   const cats = {};
-  scans.forEach((s) => { const c = s.app.primaryGenreName || '—'; cats[c] = (cats[c] || 0) + 1; });
+  scans.forEach((s) => { const c = s.app.primaryGenreName || '·'; cats[c] = (cats[c] || 0) + 1; });
 
   const rows = `<thead><tr><th>Uygulama</th><th>Kategori</th><th>Fiyat</th>
     <th class="n">Yorum</th><th class="n">Puan</th><th class="n">İndirme</th>
@@ -481,24 +481,24 @@ function renderIOSDev(apps, scans, scope) {
       const upd = a.currentVersionReleaseDate
         ? Math.round((now - new Date(a.currentVersionReleaseDate)) / M) : null;
       return `<tr>
-        <td>${esc(a.trackName)}</td><td>${esc(a.primaryGenreName || '—')}</td>
-        <td>${esc(a.formattedPrice || '—')}</td>
-        <td class="n">${s.ratings || '—'}</td>
-        <td class="n">${s.avg ? '★' + s.avg.toFixed(1) : '—'}</td>
-        <td class="n">${s.ratings ? int(e.dl.low) + ' – ' + int(e.dl.high) : '—'}</td>
+        <td>${esc(a.trackName)}</td><td>${esc(a.primaryGenreName || '·')}</td>
+        <td>${esc(a.formattedPrice || '·')}</td>
+        <td class="n">${s.ratings || '·'}</td>
+        <td class="n">${s.avg ? '★' + s.avg.toFixed(1) : '·'}</td>
+        <td class="n">${s.ratings ? int(e.dl.low) + '-' + int(e.dl.high) : '·'}</td>
         <td class="n">${s.ratings && e.monthly
-          ? money(e.monthly.low) + ' – ' + money(e.monthly.high)
-            + (e.months < 3 ? ' <span class="young">yeni</span>' : '') : '—'}</td>
-        <td class="n">${upd === null ? '—' : upd + ' ay önce'}</td></tr>`;
+          ? money(e.monthly.low) + '-' + money(e.monthly.high)
+            + (e.months < 3 ? ' <span class="young">yeni</span>' : '') : '·'}</td>
+        <td class="n">${upd === null ? '·' : upd + ' ay önce'}</td></tr>`;
     }).join('') + '</tbody>';
 
   return devSummary({
     name: apps[0].artistName || scans[0].app.sellerName || 'Geliştirici',
     store: 'ios', count, ratings, avg, since,
-    dl: `${int(dlL)} – ${int(dlH)}`,
-    monthly: `${money(mL)} – ${money(mH)}`,
+    dl: `${int(dlL)}-${int(dlH)}`,
+    monthly: `${money(mL)}-${money(mH)}`,
     paid: `${paidN} ücretli · ${count - paidN} ücretsiz`,
-    top: sorted[0]?.app.trackName || '—', topShare, fresh, stale,
+    top: sorted[0]?.app.trackName || '·', topShare, fresh, stale,
     cats: Object.entries(cats).sort((a, b) => b[1] - a[1]),
     rows,
     note: `Her uygulama ${SCOPE_N[scope]} ülkede tarandı. Bütün rakamlar tahmin;
@@ -527,27 +527,27 @@ async function viewPlayDev(id, byName) {
   const withAds = apps.filter((x) => x.hasAds).length;
 
   const cats = {};
-  apps.forEach((a) => { const c = a.category || '—'; cats[c] = (cats[c] || 0) + 1; });
+  apps.forEach((a) => { const c = a.category || '·'; cats[c] = (cats[c] || 0) + 1; });
 
   const rows = `<thead><tr><th>Uygulama</th><th>Kategori</th><th>Fiyat</th>
     <th class="n">Kurulum</th><th class="n">Puan</th><th class="n">Yorum</th>
     <th>Para modeli</th><th class="n">Son güncelleme</th></tr></thead><tbody>` +
     apps.map((a) => `<tr>
       <td>${esc(a.name || a.package)}</td><td>${esc(tidy(a.category))}</td>
-      <td>${esc(a.price || '—')}</td>
-      <td class="n">${esc(a.installs || '—')}</td>
-      <td class="n">${a.rating ? '★' + a.rating.toFixed(1) : '—'}</td>
-      <td class="n">${esc(a.reviews || '—')}</td>
-      <td>${a.hasIAP ? 'satın alma' : '—'}${a.hasAds ? ' + reklam' : ''}</td>
-      <td class="n">${esc(a.updated || '—')}</td></tr>`).join('') + '</tbody>';
+      <td>${esc(a.price || '·')}</td>
+      <td class="n">${esc(a.installs || '·')}</td>
+      <td class="n">${a.rating ? '★' + a.rating.toFixed(1) : '·'}</td>
+      <td class="n">${esc(a.reviews || '·')}</td>
+      <td>${a.hasIAP ? 'satın alma' : '·'}${a.hasAds ? ' + reklam' : ''}</td>
+      <td class="n">${esc(a.updated || '·')}</td></tr>`).join('') + '</tbody>';
 
   OUT().innerHTML = devSummary({
     name: apps[0].developer || id,
     store: 'play', count, ratings: null, avg: 0, since: null,
-    dl: totalInstalls ? int(totalInstalls) + '+' : '—',
+    dl: totalInstalls ? int(totalInstalls) + '+' : '·',
     monthly: null,
     paid: `${paidN} ücretli · ${count - paidN} ücretsiz · ${withIAP} satın almalı · ${withAds} reklamlı`,
-    top: apps[0]?.name || '—', topShare, fresh, stale,
+    top: apps[0]?.name || '·', topShare, fresh, stale,
     cats: Object.entries(cats).sort((a, b) => b[1] - a[1]),
     rows,
     note: `Kurulum sayıları Google'ın yayınladığı aralıkların toplamıdır ("10 B+" gibi),
@@ -595,9 +595,9 @@ async function findOnPlay(trackId) {
     return;
   }
   rs.forEach((r) => PLAYS.set(r.package, r));
-  // Otomatik eşleştirme YOK — hangisi olduğuna sen karar ver.
+  // Otomatik eşleştirme YOK: hangisi olduğuna sen karar ver.
   slot.innerHTML = `<div class="sect tint">
-    <h4>Android karşılığı — hangisi olduğunu seç</h4>
+    <h4>Android karşılığı: hangisi olduğunu seç</h4>
     <p class="muted">Ad benzerliğine göre bulunanlar. Otomatik eşleştirmiyorum;
       aynı adı taşıyan başka geliştiricilerin uygulamaları da çıkabiliyor.</p>
     <div class="list picker">${rs.map((r) => playRowBtn(r, 'data-open-play')).join('')}</div>
@@ -654,11 +654,11 @@ function wire() {
       const r = SCANS.get(String(id)); if (!r) return;
       saveRec({
         key: 'ios:' + id, store: 'ios', name: r.app.trackName,
-        cat: r.app.primaryGenreName || '—', price: r.app.formattedPrice || '—',
-        reviews: r.ratings || '—',
-        dl: r.ratings ? int(r.est.dl.low) + ' – ' + int(r.est.dl.high) : '—',
+        cat: r.app.primaryGenreName || '·', price: r.app.formattedPrice || '·',
+        reviews: r.ratings || '·',
+        dl: r.ratings ? int(r.est.dl.low) + '-' + int(r.est.dl.high) : '·',
         rev: r.ratings && r.est.monthly
-          ? money(r.est.monthly.low) + ' – ' + money(r.est.monthly.high) : '—',
+          ? money(r.est.monthly.low) + '-' + money(r.est.monthly.high) : '·',
       });
       b.textContent = 'Kaydedildi ✓'; setTimeout(() => { b.textContent = 'Kaydet'; }, 1600);
     });
@@ -669,8 +669,8 @@ function wire() {
       const a = PLAYS.get(b.dataset.savePlay); if (!a) return;
       saveRec({
         key: 'play:' + a.package, store: 'play', name: a.name || a.package,
-        cat: tidy(a.category), price: a.price || '—',
-        reviews: a.reviews || '—', dl: a.installs || '—', rev: '—',
+        cat: tidy(a.category), price: a.price || '·',
+        reviews: a.reviews || '·', dl: a.installs || '·', rev: '·',
       });
       b.textContent = 'Kaydedildi ✓'; setTimeout(() => { b.textContent = 'Kaydet'; }, 1600);
     });
@@ -742,7 +742,7 @@ try {
   if (!b || BRIDGE) return;
   b.hidden = false;
   b.innerHTML = '<strong>App Store tarafı çalışıyor.</strong> Google Play verisi ve ' +
-    'uygulama içi satın alma bilgisi için köprü gerekiyor — bu iki kaynak tarayıcıdan ' +
+    'uygulama içi satın alma bilgisi için köprü gerekiyor: bu iki kaynak tarayıcıdan ' +
     'doğrudan çekilemiyor.';
 })();
 
