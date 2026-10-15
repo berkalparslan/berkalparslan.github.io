@@ -19,18 +19,18 @@
  "walletcoach": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/walletcoach/tr/01.webp",
-   "/assets/home/screens/walletcoach/tr/02.webp",
-   "/assets/home/screens/walletcoach/tr/03.webp",
-   "/assets/home/screens/walletcoach/tr/04.webp",
-   "/assets/home/screens/walletcoach/tr/05.webp"
+   "/assets/home/screens/walletcoach/v24/tr/01-panel.webp",
+   "/assets/home/screens/walletcoach/v24/tr/02-ay.webp",
+   "/assets/home/screens/walletcoach/v24/tr/04-takvim.webp",
+   "/assets/home/screens/walletcoach/v24/tr/06-varliklar.webp",
+   "/assets/home/screens/walletcoach/v24/tr/07-cuzdan.webp"
   ],
   "en": [
-   "/assets/home/screens/walletcoach/en/01.webp",
-   "/assets/home/screens/walletcoach/en/02.webp",
-   "/assets/home/screens/walletcoach/en/03.webp",
-   "/assets/home/screens/walletcoach/en/04.webp",
-   "/assets/home/screens/walletcoach/en/05.webp"
+   "/assets/home/screens/walletcoach/v24/en/01-panel.webp",
+   "/assets/home/screens/walletcoach/v24/en/02-month.webp",
+   "/assets/home/screens/walletcoach/v24/en/04-calendar.webp",
+   "/assets/home/screens/walletcoach/v24/en/06-assets.webp",
+   "/assets/home/screens/walletcoach/v24/en/07-wallet.webp"
   ]
  },
  "daily-whisper": {
@@ -87,18 +87,20 @@
  "leafbook": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/leafbook/tr/01.webp",
-   "/assets/home/screens/leafbook/tr/02.webp",
-   "/assets/home/screens/leafbook/tr/03.webp",
-   "/assets/home/screens/leafbook/tr/04.webp",
-   "/assets/home/screens/leafbook/tr/05.webp"
+   "/assets/home/screens/leafbook/v12/tr/01.webp",
+   "/assets/home/screens/leafbook/v12/tr/02.webp",
+   "/assets/home/screens/leafbook/v12/tr/03.webp",
+   "/assets/home/screens/leafbook/v12/tr/04.webp",
+   "/assets/home/screens/leafbook/v12/tr/05.webp",
+   "/assets/home/screens/leafbook/v12/tr/06.webp"
   ],
   "en": [
-   "/assets/home/screens/leafbook/en/01.webp",
-   "/assets/home/screens/leafbook/en/02.webp",
-   "/assets/home/screens/leafbook/en/03.webp",
-   "/assets/home/screens/leafbook/en/04.webp",
-   "/assets/home/screens/leafbook/en/05.webp"
+   "/assets/home/screens/leafbook/v12/en/01.webp",
+   "/assets/home/screens/leafbook/v12/en/02.webp",
+   "/assets/home/screens/leafbook/v12/en/03.webp",
+   "/assets/home/screens/leafbook/v12/en/04.webp",
+   "/assets/home/screens/leafbook/v12/en/05.webp",
+   "/assets/home/screens/leafbook/v12/en/06.webp"
   ]
  },
  "tasbih-tally": {
@@ -185,18 +187,18 @@
  "tennis-padel": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/tennis-padel/en/01.webp",
-   "/assets/home/screens/tennis-padel/en/02.webp",
-   "/assets/home/screens/tennis-padel/en/03.webp",
-   "/assets/home/screens/tennis-padel/en/04.webp",
-   "/assets/home/screens/tennis-padel/en/05.webp"
+   "/assets/home/screens/tennis-padel/v2/tr/01-home.webp",
+   "/assets/home/screens/tennis-padel/v2/tr/02-live-scoring.webp",
+   "/assets/home/screens/tennis-padel/v2/tr/05-your-stats.webp",
+   "/assets/home/screens/tennis-padel/v2/tr/06-logbook.webp",
+   "/assets/home/screens/tennis-padel/v2/tr/08-community.webp"
   ],
   "en": [
-   "/assets/home/screens/tennis-padel/en/01.webp",
-   "/assets/home/screens/tennis-padel/en/02.webp",
-   "/assets/home/screens/tennis-padel/en/03.webp",
-   "/assets/home/screens/tennis-padel/en/04.webp",
-   "/assets/home/screens/tennis-padel/en/05.webp"
+   "/assets/home/screens/tennis-padel/v2/en/01-home.webp",
+   "/assets/home/screens/tennis-padel/v2/en/02-live-scoring.webp",
+   "/assets/home/screens/tennis-padel/v2/en/05-your-stats.webp",
+   "/assets/home/screens/tennis-padel/v2/en/06-logbook.webp",
+   "/assets/home/screens/tennis-padel/v2/en/08-community.webp"
   ]
  },
  "pickleball": {
@@ -274,6 +276,57 @@
    "/assets/home/screens/orbix-roulette/any/02.webp",
    "/assets/home/screens/orbix-roulette/any/03.webp",
    "/assets/home/screens/orbix-roulette/any/04.webp"
+  ]
+ },
+ "nika": {
+  "kind": "screen",
+  "tr": [
+   "/nika/assets/screens/tr/01-ana.webp",
+   "/nika/assets/screens/tr/02-plan.webp",
+   "/nika/assets/screens/tr/04-butce.webp",
+   "/nika/assets/screens/tr/05-davetliler.webp",
+   "/nika/assets/screens/tr/09-anilar.webp"
+  ],
+  "en": [
+   "/nika/assets/screens/en/01-ana.webp",
+   "/nika/assets/screens/en/02-plan.webp",
+   "/nika/assets/screens/en/04-butce.webp",
+   "/nika/assets/screens/en/05-davetliler.webp",
+   "/nika/assets/screens/en/09-anilar.webp"
+  ]
+ },
+ "era": {
+  "kind": "screen",
+  "tr": [
+   "/era/assets/screens/tr/01_home.webp",
+   "/era/assets/screens/tr/04_trips.webp",
+   "/era/assets/screens/tr/06_route.webp",
+   "/era/assets/screens/tr/07_reader.webp",
+   "/era/assets/screens/tr/08_memory.webp"
+  ],
+  "en": [
+   "/era/assets/screens/en/01_home.webp",
+   "/era/assets/screens/en/04_trips.webp",
+   "/era/assets/screens/en/06_route.webp",
+   "/era/assets/screens/en/07_reader.webp",
+   "/era/assets/screens/en/08_memory.webp"
+  ]
+ },
+ "konfeti": {
+  "kind": "tv",
+  "tr": [
+   "/konfeti/assets/shots/tr/01-home.webp",
+   "/konfeti/assets/shots/tr/02-bumu.webp",
+   "/konfeti/assets/shots/tr/03-yasak.webp",
+   "/konfeti/assets/shots/tr/04-cark.webp",
+   "/konfeti/assets/shots/tr/06-foto.webp"
+  ],
+  "en": [
+   "/konfeti/assets/shots/en/01-home.webp",
+   "/konfeti/assets/shots/en/02-bumu.webp",
+   "/konfeti/assets/shots/en/03-yasak.webp",
+   "/konfeti/assets/shots/en/04-cark.webp",
+   "/konfeti/assets/shots/en/06-foto.webp"
   ]
  }
 }
