@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notes — Bam Studio</title>
+  <title>Notes · Bam Studio</title>
   <meta name="description" content="Notes on building small independent apps for iPhone and Apple Watch." />
   <link rel="canonical" href="https://bamstudio.dev/blog/" />
   <script>
@@ -49,9 +49,9 @@
 
   <main>
     <h1 class="page-title"><span class="tr">Yazılar</span><span class="en">Notes</span></h1>
-    <p class="page-lede tr">Uygulamalar üzerine kısa yazılar — neyi yanlış yaptım, neyi yeniden
+    <p class="page-lede tr">Uygulamalar üzerine kısa yazılar: neyi yanlış yaptım, neyi yeniden
       yapardım, saklamaya değer teknik ayrıntılar.</p>
-    <p class="page-lede en">Short write-ups on the apps — what I got wrong, what I'd build again,
+    <p class="page-lede en">Short write-ups on the apps: what I got wrong, what I'd build again,
       and the odd technical detail worth keeping.</p>
 
     <ul class="post-list" id="postList">
@@ -88,7 +88,7 @@
       const paintLang = () => {
         langBtn.textContent = root.getAttribute("data-lang") === "tr" ? "EN" : "TR";
         document.title = root.getAttribute("data-lang") === "tr"
-          ? "Yazılar — Bam Studio" : "Notes — Bam Studio";
+          ? "Yazılar · Bam Studio" : "Notes · Bam Studio";
       };
       langBtn.addEventListener("click", () => {
         const next = root.getAttribute("data-lang") === "tr" ? "en" : "tr";
