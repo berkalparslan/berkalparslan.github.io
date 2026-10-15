@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-14T04:12:06.138Z",
+ "uretim": "2026-10-15T04:12:47.851Z",
  "apps": {
   "leafbook": [
    {
@@ -21,7 +21,7 @@
     "surum": "1.2.1",
     "platform": "ios",
     "tarih": "2026-10-13T14:38:15-07:00",
-    "durum": "incelemede",
+    "durum": "yayında",
     "notlar": [
      "Bitki tanımada bir düzeltme.",
      "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
@@ -320,7 +320,7 @@
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-08-09T13:02:12-07:00",
-    "durum": "reddedildi",
+    "durum": "yayında",
     "notlar": []
    },
    {
