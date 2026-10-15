@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/konfeti-64.png">
+<link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/konfeti-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Konfeti Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<link rel="stylesheet" href="/lab/assets/panel.css?v=6">
+<style>
+/* Yalniz bu panele ait kucuk parcalar. */
+.not{font-size:13px;color:var(--soft);line-height:1.5;margin:0}
+.yonetim-cerceve{width:100%;height:calc(100vh - 170px);min-height:560px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.satir-bag{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.satir-bag a{font-weight:600}
+</style>
+</head>
+<body>
+<script type="module">
+import { panelKabuk } from "/lab/assets/shell.js?v=3";
+import { el, kart, tiles, veriTablo, dagilimTablo, sayi, sure, yuzde, ms, donem } from "/lab/assets/panel.js?v=6";
+import { gunlukCubuk, yatayCubuk, gunleriDoldur } from "/lab/assets/grafik.js?v=1";
+
+/* Giris ortak lab Firebase projesiyle (Google); asil kapi Konfeti Worker'i:
+   /api/panel/* ve /api/icerik yazmalari bu ID token'ini dogrular, yalniz yoneticiye acik. */
+const firebaseConfig = {
+  apiKey: "AIzaSyADKB3iVGvc8DnXRtUAOHKhBQZ6yU77GX8",
+  authDomain: "leafbook-bamtech.firebaseapp.com",
+  projectId: "leafbook-bamtech",
+  appId: "1:615635545520:web:99c8f154f221367f5e3a75",
+  messagingSenderId: "615635545520",
+};
+const YONETICI = "aberkalparslan@gmail.com";
+const API = "https://konfeti.bamstudio.dev";
+
+/* Konfeti renkleri: gece 1A1323, altin FFCF3D, pembe FF7EB6. */
+const TEMA = {
+  acik: { accent: "#7a3fd1", onAccent: "#ffffff", bg: "#faf7ff", card: "#ffffff", side: "#f1ebfb", line: "#e4dbf3", ink: "#1a1323", soft: "#6c6380" },
+  koyu: { accent: "#ffcf3d", onAccent: "#1a1323", bg: "#1a1323", card: "#241b31", side: "#1f1729", line: "#352a46", ink: "#f6f3ff", soft: "#b2a8c6" },
+};
+
+const PLATFORM = { tvos: "Apple TV", webos: "LG", tizen: "Samsung", android: "Android TV", web: "Web" };
+const ETKINLIK = { dogum: "Doğum günü", yilbasi: "Yılbaşı", mac: "Maç gecesi", oyun: "Oyun gecesi", bebek: "Bebek partisi", parti: "Ev partisi" };
+const DIL = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", pt: "Portekizce" };
+const OYUN = { bumu: "Bu mu O mu", turnuva: "Turnuva", yasak: "Yasak Kelime", sessiz: "Sessiz Sinema", kimim: "Ben Kimim", dc: "Doğruluk mu Cesaret mi",
+  kim: "En Çok Kim", hic: "Ben Daha Önce Hiç", cark: "Görev Çarkı", pasta: "Pasta anı", sayim: "Geri sayım", foto: "Anı Duvarı", muzik: "Müzik", puan: "Puan tablosu", quiz: "Quiz" };
+const NEDEN = { bitti: "TV bitirdi", sure: "30 gün doldu" };
+const ad = (sozluk, k) => sozluk[k] || k || "Bilinmiyor";
+const PLATFORM_SIRA = ["tvos", "webos", "tizen", "android", "web"];
+
+let K, veri = null;
+
+async function api(yol) {
+  const r = await fetch(API + yol, { headers: { authorization: "Bearer " + await K.token() } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.hata === "yetki" ? "Bu hesabın Konfeti verisine erişimi yok." : "Sunucu: " + (j.hata || r.status));
+  return j;
+}
+
+async function yukle(kabuk) {
+  veri = kabuk.demo ? demoVeri() : await api("/api/panel/veri");
+  for (const p of veri.partiler) { try { p.oyunListe = JSON.parse(p.oyunlar || "[]"); } catch { p.oyunListe = []; } }
+}
+
+/* Gun metni (UTC) -> ms; donem sinirlariyla karsilastirmak icin gun ortasi. */
+const gunMs = g => Date.parse(g + "T12:00:00Z");
+function aralikta(liste, bas, son) { return liste.filter(x => { const t = gunMs(x.gun); return t >= bas && t < son; }); }
+function secili() {
+  const d = donem(K.aralik);
+  const pp = aralikta(veri.partiler, d.bas, d.son + 864e5), aa = aralikta(veri.acilislar, d.bas, d.son + 864e5);
+  const op = d.oncekiBas == null ? null : aralikta(veri.partiler, d.oncekiBas, d.oncekiSon);
+  const oa = d.oncekiBas == null ? null : aralikta(veri.acilislar, d.oncekiBas, d.oncekiSon);
+  return { d, pp, aa, op, oa };
+}
+const topla = (l, k) => (l || []).reduce((t, x) => t + (Number(x[k]) || 0), 0);
+const fark = (simdi, once) => once == null ? undefined : { simdi, once };
+
+function genel(icerik) {
+  const { d, pp, aa, op, oa } = secili();
+  const acilan = topla(aa, "n"), biten = pp.length;
+  const ortSure = biten ? Math.round(topla(pp, "sure_dk") / biten) : 0;
+  icerik.appendChild(tiles([
+    ["Açılan oda", sayi(acilan), "TV'de yeni parti", fark(acilan, oa && topla(oa, "n"))],
+    ["Biten parti", sayi(biten), "özet satırı", fark(biten, op && op.length)],
+    ["Misafir", sayi(topla(pp, "oyuncu")), biten ? `parti başı ${(topla(pp, "oyuncu") / biten).toFixed(1)}` : "", fark(topla(pp, "oyuncu"), op && topla(op, "oyuncu"))],
+    ["Fotoğraf", sayi(topla(pp, "foto")), "", fark(topla(pp, "foto"), op && topla(op, "foto"))],
+    ["Oy", sayi(topla(pp, "oy")), "", fark(topla(pp, "oy"), op && topla(op, "oy"))],
+    ["Ortalama süre", ortSure ? sure(ortSure * 60) : "0", "biten partilerde"],
+  ]));
+
+  const grafik = el("div");
+  icerik.appendChild(kart("Günlük açılan oda, platforma göre", grafik));
+  const harita = {};
+  for (const a of aa) (harita[a.gun] ||= {})[a.platform] = ((harita[a.gun] || {})[a.platform] || 0) + a.n;
+  const gunler = Object.keys(harita).sort();
+  const bas = K.aralik ? new Date(d.bas).toISOString().slice(0, 10) : (gunler[0] || new Date().toISOString().slice(0, 10));
+  const son = new Date().toISOString().slice(0, 10);
+  const platformlar = [...new Set([...PLATFORM_SIRA.filter(p => aa.some(a => a.platform === p)), ...aa.map(a => a.platform)])];
+  gunlukCubuk(grafik, gunleriDoldur(harita, bas, son), {
+    seriler: (platformlar.length ? platformlar : ["tvos"]).map((p, i) => ({ ad: ad(PLATFORM, p), alan: p, renk: `var(--s${i + 1})` })), ozet: true,
+  });
+
+  const izgara = el("div", "izgara2");
+  const pk = el("div"), ek = el("div");
+  izgara.appendChild(kart("Platform (açılan oda)", pk));
+  izgara.appendChild(kart("Etkinlik (biten parti)", ek));
+  icerik.appendChild(izgara);
+  const pSay = {}; for (const a of aa) pSay[ad(PLATFORM, a.platform)] = (pSay[ad(PLATFORM, a.platform)] || 0) + a.n;
+  const eSay = {}; for (const p of pp) eSay[ad(ETKINLIK, p.etkinlik)] = (eSay[ad(ETKINLIK, p.etkinlik)] || 0) + 1;
+  yatayCubuk(pk, pSay); yatayCubuk(ek, eSay);
+
+  icerik.appendChild(kart(null, el("p", "not",
+    "Açılan oda, TV'de her yeni parti açılınca anında sayılır. Parti ayrıntısı (misafir, fotoğraf, oy, oyunlar, süre) parti bitince ya da odada 30 gün hareket olmayınca tek satır olarak yazılır; bu yüzden yeni partiler ayrıntıda gecikmeli görünür. Ad, fotoğraf, oda kodu ya da cihaz kimliği tutulmaz.")));
+}
+
+function partiler(icerik) {
+  const { pp } = secili();
+  const satirlar = pp.map(p => [
+    { d: p.gun, s: gunMs(p.gun) }, ad(PLATFORM, p.platform), ad(ETKINLIK, p.etkinlik), ad(DIL, p.dil), p.pro ? "Pro" : "Ücretsiz",
+    { d: sayi(p.oyuncu), s: p.oyuncu }, { d: sayi(p.foto), s: p.foto }, { d: sayi(p.oy), s: p.oy }, { d: sayi(p.soru), s: p.soru },
+    p.oyunListe.map(o => ad(OYUN, o)).join(", "), { d: sure(p.sure_dk * 60), s: p.sure_dk }, ad(NEDEN, p.neden),
+  ]);
+  icerik.appendChild(kart(`Biten partiler (${sayi(pp.length)})`, veriTablo([
+    "Gün", { ad: "Platform", filtre: true }, { ad: "Etkinlik", filtre: true }, { ad: "Dil", filtre: true }, { ad: "Sürüm", filtre: true },
+    { ad: "Misafir", num: true }, { ad: "Fotoğraf", num: true }, { ad: "Oy", num: true }, { ad: "Soru", num: true }, "Oyunlar", { ad: "Süre", num: true }, { ad: "Bitiş", filtre: true },
+  ], satirlar, { sirala: [0, "desc"], bos: "Bu aralıkta biten parti yok." })));
+}
+
+function oyunlar(icerik) {
+  const { pp } = secili();
+  const say = {}, platformBazli = {};
+  for (const p of pp) for (const o of p.oyunListe) {
+    const a = ad(OYUN, o); say[a] = (say[a] || 0) + 1;
+    const pl = ad(PLATFORM, p.platform); (platformBazli[a] ||= {})[pl] = ((platformBazli[a] || {})[pl] || 0) + 1;
+  }
+  const c = el("div");
+  icerik.appendChild(kart("Oynanan oyunlar (kaç partide açıldı)", c));
+  yatayCubuk(c, say, { limit: 20 });
+  const pls = [...new Set(pp.map(p => ad(PLATFORM, p.platform)))];
+  const satirlar = Object.entries(say).map(([o, n]) => [o, { d: sayi(n), s: n }, { d: yuzde(n, pp.length), s: n / (pp.length || 1) }, ...pls.map(pl => ({ d: sayi(platformBazli[o][pl] || 0), s: platformBazli[o][pl] || 0 }))]);
+  icerik.appendChild(kart("Oyun tablosu", veriTablo(["Oyun", { ad: "Parti", num: true }, { ad: "Partilerin", num: true }, ...pls.map(p => ({ ad: p, num: true }))], satirlar, { sirala: [1, "desc"], bos: "Henüz veri yok." })));
+}
+
+function kitle(icerik) {
+  const { pp, aa } = secili();
+  const say = (l, f, w = () => 1) => l.reduce((o, x) => { const k = f(x); o[k] = (o[k] || 0) + w(x); return o; }, {});
+  const izgara = el("div", "izgara3");
+  izgara.appendChild(kart("Platform (açılan oda)", dagilimTablo(say(aa, a => ad(PLATFORM, a.platform), a => a.n), ["Platform", "Oda"])));
+  izgara.appendChild(kart("Dil (biten parti)", dagilimTablo(say(pp, p => ad(DIL, p.dil)), ["Dil", "Parti"])));
+  izgara.appendChild(kart("Etkinlik (biten parti)", dagilimTablo(say(pp, p => ad(ETKINLIK, p.etkinlik)), ["Etkinlik", "Parti"])));
+  icerik.appendChild(izgara);
+  const boy = say(pp, p => p.oyuncu <= 1 ? "0-1" : p.oyuncu <= 4 ? "2-4" : p.oyuncu <= 9 ? "5-9" : p.oyuncu <= 19 ? "10-19" : "20+");
+  const c = el("div");
+  icerik.appendChild(kart("Parti büyüklüğü (misafir sayısı)", c));
+  yatayCubuk(c, ["0-1", "2-4", "5-9", "10-19", "20+"].map(k => [k + " kişi", boy[k] || 0]));
+}
+
+/* YÖNET: /yonetim sayfası çerçevede; Google girişinin token'ı şifre yerine gider. */
+function icerikYonetimi(icerik) {
+  const bag = el("div", "satir-bag");
+  bag.innerHTML = `<span class="not">Destelerdeki kartlar ve "Geliştiriciden" uygulama listesi. Değişiklikler TV'lere bir dakika içinde ulaşır.</span>
+    <a href="${API}/yonetim/" target="_blank" rel="noopener">Yeni sekmede aç</a>`;
+  icerik.appendChild(bag);
+  if (K.demo) { icerik.appendChild(kart(null, el("p", "not", "Demo modunda içerik yönetimi açılmaz."))); return; }
+  const f = el("iframe", "yonetim-cerceve");
+  f.src = API + "/yonetim/";
+  f.title = "Konfeti içerik yönetimi";
+  icerik.appendChild(f);
+  const gonder = async () => { try { f.contentWindow?.postMessage({ tip: "konfetiPanel", token: await K.token() }, API); } catch { } };
+  const dinle = e => { if (e.origin === API && e.data?.tip === "konfetiYonetimHazir") gonder(); };
+  addEventListener("message", dinle);
+  f.addEventListener("load", gonder);
+  // Firebase token'ı saatte bir döner; çerçeve açıkken tazesini ilet
+  const zam = setInterval(() => { if (!f.isConnected) { clearInterval(zam); removeEventListener("message", dinle); return; } gonder(); }, 20 * 60000);
+}
+
+function demoVeri() {
+  let x = 7; const r = () => (x = (x * 16807) % 2147483647) / 2147483647;
+  const sec = l => l[Math.floor(r() * l.length)];
+  const acilislar = [], partiler = [];
+  for (let g = 60; g >= 0; g--) {
+    const gun = new Date(Date.now() - g * 864e5).toISOString().slice(0, 10);
+    for (const p of PLATFORM_SIRA) { const n = Math.floor(r() * ({ tvos: 4, webos: 3, tizen: 2, android: 5, web: 3 }[p])); if (n) acilislar.push({ gun, platform: p, n }); }
+    const k = Math.floor(r() * 5);
+    for (let i = 0; i < k; i++) {
+      const oyuncu = Math.floor(r() * 14);
+      partiler.push({ id: partiler.length + 1, gun, neden: r() < 0.7 ? "bitti" : "sure", etkinlik: sec(Object.keys(ETKINLIK)), dil: sec(["tr", "tr", "en", "de", "es", "pt"]),
+        platform: sec(PLATFORM_SIRA), pro: r() < 0.2 ? 1 : 0, oyuncu, foto: Math.floor(r() * oyuncu * 3), oy: Math.floor(r() * oyuncu * 6), soru: Math.floor(r() * 20),
+        oyunlar: JSON.stringify(Object.keys(OYUN).filter(() => r() < 0.3)), sure_dk: 20 + Math.floor(r() * 220) });
+    }
+  }
+  return { partiler: partiler.reverse(), acilislar };
+}
+
+K = await panelKabuk({
+  ad: "Konfeti",
+  ikon: "/assets/lab-icons/konfeti-180.png",
+  firebaseConfig,
+  yonetici: YONETICI,
+  girisDogrula: async token => {
+    const r = await fetch(API + "/api/panel/oturum", { headers: { authorization: "Bearer " + token } });
+    if (!r.ok) throw new Error("Konfeti sunucusu bu girişi kabul etmedi.");
+    return r.json();
+  },
+  tema: TEMA,
+  araliklar: [1, 7, 28, 90, 0], aralik: 28,
+  yukle,
+  gruplar: [
+    { baslik: "ANALİZ", sayfalar: [
+      { id: "genel", ad: "Genel bakış", ciz: genel },
+      { id: "partiler", ad: "Partiler", ciz: partiler },
+      { id: "oyunlar", ad: "Oyunlar", ciz: oyunlar },
+      { id: "kitle", ad: "Kitle", ciz: kitle },
+    ] },
+    { baslik: "YÖNET", sayfalar: [
+      { id: "icerik", ad: "İçerik ve metinler", ciz: icerikYonetimi },
+    ] },
+  ],
+});
+</script>
+</body>
+</html>
