@@ -22,6 +22,10 @@ export default {
   async fetch(req, env) {
     const url = new URL(req.url);
     if (url.hostname === DW_HOST) return dailyWhisper(req, env, url);
+    if (url.hostname === MH_HOST) return mihenk(req, env, url);
+    /* Ana alan adındaki eski yollar Mihenk'in kendi adresine gider. */
+    if (/^\/(lab\/)?mihenk(\/|$)/.test(url.pathname) && !/\.(css|js|png|svg|webp|ico)$/.test(url.pathname))
+      return Response.redirect(`https://${MH_HOST}/${url.search}`, 301);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(req);
     try {
       const route = url.pathname.replace(/\/+$/, "");
@@ -54,6 +58,13 @@ function dailyWhisper(req, env, url) {
   } else if (url.pathname === "/" || url.pathname === "/index.html") {
     url.pathname = "/daily-whisper/";
   }
+  return env.ASSETS.fetch(new Request(url, req));
+}
+
+/* mihenk.bamstudio.dev: kök /mihenk/ sayfasına eşlenir; varlıklar /mihenk/ altından gelir. */
+const MH_HOST = "mihenk.bamstudio.dev";
+function mihenk(req, env, url) {
+  if (url.pathname === "/" || url.pathname === "/index.html") url.pathname = "/mihenk/";
   return env.ASSETS.fetch(new Request(url, req));
 }
 

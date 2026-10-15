@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+  <link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/mihenk-64.png">
+  <link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/mihenk-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mihenk: herhangi bir App Store uygulamasının indirme ve gelirini yorum sayısı ve sıralamadan tahmin eden ücretsiz araç. Bam Studio.">
+<link rel="canonical" href="https://mihenk.bamstudio.dev/">
+<meta property="og:title" content="Mihenk: uygulama ölçme aracı">
+<meta property="og:description" content="Bir App Store uygulamasının indirme ve gelirini yorum sayısı ve sıralamadan tahmin edin.">
+<meta property="og:url" content="https://mihenk.bamstudio.dev/">
+<meta property="og:image" content="https://bamstudio.dev/assets/lab-icons/mihenk-512.png">
+<title>Mihenk: uygulama ölçme aracı · Bam Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/mihenk/style.css?v=1788292376">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark">◈</span>
+    <div>
+      <h1>Mihenk</h1>
+      <p>Bir uygulama ne kadar indirilmiş, ne kazanıyor, tahmin eder</p>
+    </div>
+  </div>
+  <button id="themeBtn" class="ghost" type="button" title="Açık / koyu tema">◐</button>
+</header>
+
+<main>
+
+  <!-- Arama -->
+  <section class="hero">
+    <label for="q" class="hero-lab">Ne aramak istiyorsun?</label>
+    <div class="searchbar">
+      <input id="q" type="text" spellcheck="false" autocomplete="off"
+             placeholder="Uygulama adı yaz, ya da bir mağaza bağlantısı yapıştır">
+      <button id="go" type="button">Ara</button>
+    </div>
+
+    <div class="modes" id="modes">
+      <span class="mode-hint">Ne yapabilirsin:</span>
+      <button class="chip" type="button" data-ex="tansiyon takip">Uygulama adı</button>
+      <button class="chip" type="button" data-ex="https://apps.apple.com/app/id6798041415">App Store bağlantısı</button>
+      <button class="chip" type="button" data-ex="https://apps.apple.com/developer/id1676787785">Geliştirici sayfası</button>
+      <button class="chip" type="button" data-ex="https://play.google.com/store/apps/details?id=com.duolingo">Play bağlantısı</button>
+    </div>
+
+    <div class="opts">
+      <label for="scope">Kaç ülkeden yorum toplansın</label>
+      <select id="scope">
+        <option value="fast">Hızlı · 12 ülke</option>
+        <option value="wide">Dengeli · 28 ülke</option>
+        <option value="full" selected>Tam: 46 ülke (en doğru)</option>
+      </select>
+      <span class="opts-note">Ne kadar çok ülke, tahmin o kadar isabetli. Tam tarama biraz uzun sürer.</span>
+    </div>
+  </section>
+
+  <div class="liteban" id="liteban" hidden></div>
+  <div id="status" class="status" hidden></div>
+  <div id="out"></div>
+
+  <!-- Kaydedilenler -->
+  <section id="savedWrap" class="block" hidden>
+    <div class="block-head">
+      <h2>Kaydettiklerin <span id="savedCount" class="pill">0</span></h2>
+      <div class="btnrow">
+        <button id="exportBtn" class="ghost" type="button">Dosyaya aktar</button>
+        <label class="ghost filelabel">Dosyadan yükle<input id="importInput" type="file" accept="application/json" hidden></label>
+        <button id="clearBtn" class="ghost danger" type="button">Listeyi boşalt</button>
+      </div>
+    </div>
+    <div class="scroll">
+      <table id="savedTable">
+        <thead><tr>
+          <th>Uygulama</th><th>Mağaza</th><th>Kategori</th><th>Fiyat</th>
+          <th class="n">Yorum</th><th class="n">İndirme</th>
+          <th class="n">Aylık gelir</th><th></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Yöntem -->
+  <section class="block model">
+    <details>
+      <summary><h2>Bu sayılar nereden geliyor?</h2></summary>
+      <div class="prose">
+        <p class="lead">Apple ve Google, başkasının uygulamasının indirme ve gelirini
+        <strong>yayınlamıyor.</strong> Bu alandaki bütün araçlar (Sensor Tower dahil)
+        tahmin üretiyor. Buradaki de tahmin.</p>
+
+        <h3>İndirme</h3>
+        <p>Yorum sayısından türetiliyor. Uygulamalar indirme başına kabaca sabit bir
+        oranda yorum topluyor; o oran bir aralık olarak uygulanıyor ve sonuç
+        <strong>hiçbir zaman tek sayı değil, hep aralık</strong> olarak gösteriliyor.</p>
+
+        <h3>Gelir</h3>
+        <p>Ücretli uygulamada indirme × fiyat × geliştirici payı. Ücretsiz uygulamada
+        kategorinin indirme başına ortalama değeri kullanılıyor, aboneliği olan
+        uygulamalar için üst sınır açılıyor.</p>
+
+        <h3>Güven</h3>
+        <p>Yorum sayısı azaldıkça hata payı büyür. Uzun süredir güncellenmemiş
+        uygulamalarda tahmin şişer: yorumlar birikmiştir ama indirme durmuş olabilir.</p>
+
+        <h3>Görünmeyenler</h3>
+        <ul>
+          <li>Uygulama içi satın alma dönüşüm oranı</li>
+          <li>Reklam geliri</li>
+          <li>Taranmayan ülkelerdeki yorumlar</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+</main>
+
+<footer>
+  <p>Kaynak: App Store ve Google Play'in herkese açık sayfaları.
+     Kaydettiklerin yalnızca bu tarayıcıda durur, hiçbir yere gönderilmez.</p>
+</footer>
+
+<script>window.MIHENK_API = "https://mihenk.kittapcom.workers.dev";</script>
+<script src="/mihenk/app.js?v=1788292376"></script>
+</body>
+</html>
