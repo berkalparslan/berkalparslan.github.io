@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Bam Studio · Notes</title>
+  <link>https://bamstudio.dev/blog/</link>
+  <atom:link href="https://bamstudio.dev/feed.xml" rel="self" type="application/rss+xml" />
+  <description>Notes on building and shipping small apps.</description>
+  <language>en</language>
+  <item>
+    <title>Nobody reads the description</title>
+    <link>https://bamstudio.dev/blog/2026/screenshots-are-the-product-page/</link>
+    <guid>https://bamstudio.dev/blog/2026/screenshots-are-the-product-page/</guid>
+    <pubDate>Tue, 25 Aug 2026 09:00:00 GMT</pubDate>
+    <description>On the App Store the screenshots are the product page. What I got wrong ordering them, and what a free tool's watermark cost me.</description>
+  </item>
+  <item>
+    <title>The counter is the easy part</title>
+    <link>https://bamstudio.dev/blog/2026/scoring-rules-are-the-app/</link>
+    <guid>https://bamstudio.dev/blog/2026/scoring-rules-are-the-app/</guid>
+    <pubDate>Tue, 25 Aug 2026 09:00:00 GMT</pubDate>
+    <description>Five sports, five score keepers. The hard part was never counting to twenty-one. It was everything the rulebook does around the number.</description>
+  </item>
+  <item>
+    <title>A hub for everything I ship</title>
+    <link>https://bamstudio.dev/blog/2026/a-hub-for-everything-i-ship/</link>
+    <guid>https://bamstudio.dev/blog/2026/a-hub-for-everything-i-ship/</guid>
+    <pubDate>Mon, 17 Aug 2026 09:00:00 GMT</pubDate>
+    <description>Why the apps, the privacy pages and the notes now live at one address, and how this site is put together.</description>
+  </item>
+</channel>
+</rss>

@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /lab/
 Disallow: /wc/
+Disallow: /api/
 
 Sitemap: https://bamstudio.dev/sitemap.xml

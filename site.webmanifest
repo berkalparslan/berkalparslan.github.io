@@ -1,0 +1,13 @@
+{
+  "name": "Bam Studio",
+  "short_name": "Bam Studio",
+  "description": "Small apps for iPhone, Apple Watch, Android, Wear OS and TV.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#dceeff",
+  "theme_color": "#dceeff",
+  "icons": [
+    { "src": "/assets/brand/icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
