@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Mağaza görsellerini siteye webp olarak alır.
 
-Her satır: (kaynak klasör, hedef klasör, genişlik, en fazla kaç dosya, dosya süzgeci).
+Her satır: (ad, kaynak klasör, hedef klasör, genişlik, en fazla kaç dosya[, yalnız bu adlar sırayla]).
 Kaynak klasörde {L} varsa TR ve EN için ayrı ayrı çalışır ({L} yerine TR/EN ya da tr/en).
 Hedef her zaman küçük harfli dil klasörüdür: <hedef>/tr/01-ad.webp.
 
@@ -19,6 +19,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 D = pathlib.Path.home() / "dev"
 
 SP = D / "sports-preview-campaign/delivery"
+SPORT_SHOTS = ["01-home", "02-live-scoring", "05-your-stats", "07-league-standings", "08-community"]
 JOBS = [
     # Tanıtım sayfalarındaki kayan mağaza şeridi (pazarlama kompozitleri, 250 px gösterim, 2x)
     ("leafbook-promo", D / "leafbook/store/preview/2026-10-12-v1.2-realistic/iPhone/{L}", "leafbook/assets/promo/v12", 500, 8),
@@ -32,23 +33,35 @@ JOBS = [
     ("tasbih-tally-promo", D / "tasbih-preview-work/preview-1.3-2026-10-06/iPhone/{L}", "tasbih-tally/assets/promo/v13", 500, 10),
     ("nika-promo", D / "nika-store-campaign/preview/iPhone/{L}", "nika/assets/promo", 500, 10),
     ("era-promo", D / "output/era-store-2026-10-15/preview/iPhone/{L}", "era/assets/promo", 500, 10),
+    ("daily-whisper-promo", D / "designs/daily-whisper-store-2026-10-06/iPhone/{L}", "daily-whisper/assets/promo", 500, 8),
     ("konfeti-promo", D / "konfeti/store/appletv/{l}", "konfeti/assets/promo", 1040, 8),
     # Ana sayfa vitrini ve tanıtım bölümleri (ham ekranlar, telefon çerçevesine girer)
     ("leafbook-screen", D / "leafbook/store/screenshots/raw-1.2 2/{L}", "assets/home/screens/leafbook/v12", 390, 6),
     ("nika-screen", D / "nika-store-campaign/raw/iPhone/{L}", "nika/assets/screens", 390, 13),
     ("era-screen", D / "iz/docs/screenshots/{l}", "era/assets/screens", 390, 9),
     ("walletcoach-screen", D / "wallet-coach/store/screenshots-store/{l}", "assets/home/screens/walletcoach/v24", 390, 7),
+    # Daily Whisper 2.x Still: ham iPhone ekranları tanıtım sayfasında (daily-whisper/assets/v2/screens), vitrine beşi
+    ("daily-whisper-screen", ROOT / "daily-whisper/assets/v2/screens/{l}", "assets/home/screens/daily-whisper/v2", 390, 5,
+     ["01-today", "02-player", "06-affirmations", "07-vision-board", "04-zodiac"]),
     ("tennis-padel-screen", D / "All Sport Apps/Tennis Padel Score Keeper/screenshots/2.0/{l}", "assets/home/screens/tennis-padel/v2", 390, 9),
+    # Diğer dört spor 2.0: vitrin için beş ham ekran (sosyal bölümü 07 ve 08'i de buradan kullanır)
+    ("pickleball-screen", D / "All Sport Apps/Pickleball Score Keeper/screenshots/2.0/{l}", "assets/home/screens/pickleball/v2", 390, 5, SPORT_SHOTS),
+    ("volleyball-screen", D / "All Sport Apps/Volleyball Score Keeper/screenshots/2.0/{l}", "assets/home/screens/volleyball/v2", 390, 5, SPORT_SHOTS),
+    ("rally-badminton-screen", D / "All Sport Apps/Badminton Score Keeper/screenshots/2.0/{l}", "assets/home/screens/rally-badminton/v2", 390, 5, SPORT_SHOTS),
+    ("rally-table-tennis-screen", D / "All Sport Apps/Table Tennis Score Keeper/screenshots/2.0/{l}", "assets/home/screens/rally-table-tennis/v2", 390, 5, SPORT_SHOTS),
 ]
 
 
-def run(name, src, dst, width, limit):
+def run(name, src, dst, width, limit, only=None):
     out = {}
     for lang in ("tr", "en"):
         s = pathlib.Path(str(src).replace("{L}", lang.upper()).replace("{l}", lang))
         if not s.is_dir():
             print("YOK:", s); continue
-        files = sorted(p for p in s.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg"))[:limit]
+        files = sorted(p for p in s.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp"))
+        if only:  # isteğe bağlı 6. alan: yalnız bu adlar, bu sırayla
+            files = [p for o in only for p in files if p.stem == o]
+        files = files[:limit]
         d = ROOT / dst / lang
         d.mkdir(parents=True, exist_ok=True)
         lst = []
@@ -69,7 +82,7 @@ if __name__ == "__main__":
     want = sys.argv[1:]
     import json
     res = {}
-    for name, src, dst, w, n in JOBS:
+    for name, src, dst, w, n, *only in JOBS:
         if want and not any(x in name for x in want): continue
-        res[name] = run(name, src, dst, w, n)
+        res[name] = run(name, src, dst, w, n, *only)
     (ROOT / "scripts/.gorseller-son.json").write_text(json.dumps(res, indent=1, ensure_ascii=False))

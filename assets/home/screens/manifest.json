@@ -36,18 +36,18 @@
  "daily-whisper": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/daily-whisper/tr/01.webp",
-   "/assets/home/screens/daily-whisper/tr/02.webp",
-   "/assets/home/screens/daily-whisper/tr/03.webp",
-   "/assets/home/screens/daily-whisper/tr/04.webp",
-   "/assets/home/screens/daily-whisper/tr/05.webp"
+   "/assets/home/screens/daily-whisper/v2/tr/01-today.webp",
+   "/assets/home/screens/daily-whisper/v2/tr/02-player.webp",
+   "/assets/home/screens/daily-whisper/v2/tr/06-affirmations.webp",
+   "/assets/home/screens/daily-whisper/v2/tr/07-vision-board.webp",
+   "/assets/home/screens/daily-whisper/v2/tr/04-zodiac.webp"
   ],
   "en": [
-   "/assets/home/screens/daily-whisper/en/01.webp",
-   "/assets/home/screens/daily-whisper/en/02.webp",
-   "/assets/home/screens/daily-whisper/en/03.webp",
-   "/assets/home/screens/daily-whisper/en/04.webp",
-   "/assets/home/screens/daily-whisper/en/05.webp"
+   "/assets/home/screens/daily-whisper/v2/en/01-today.webp",
+   "/assets/home/screens/daily-whisper/v2/en/02-player.webp",
+   "/assets/home/screens/daily-whisper/v2/en/06-affirmations.webp",
+   "/assets/home/screens/daily-whisper/v2/en/07-vision-board.webp",
+   "/assets/home/screens/daily-whisper/v2/en/04-zodiac.webp"
   ]
  },
  "nubi": {
@@ -202,57 +202,71 @@
   ]
  },
  "pickleball": {
-  "kind": "watch",
+  "kind": "screen",
   "tr": [
-   "/assets/home/screens/pickleball/en/01.webp",
-   "/assets/home/screens/pickleball/en/02.webp",
-   "/assets/home/screens/pickleball/en/03.webp"
+   "/assets/home/screens/pickleball/v2/tr/01-home.webp",
+   "/assets/home/screens/pickleball/v2/tr/02-live-scoring.webp",
+   "/assets/home/screens/pickleball/v2/tr/05-your-stats.webp",
+   "/assets/home/screens/pickleball/v2/tr/07-league-standings.webp",
+   "/assets/home/screens/pickleball/v2/tr/08-community.webp"
   ],
   "en": [
-   "/assets/home/screens/pickleball/en/01.webp",
-   "/assets/home/screens/pickleball/en/02.webp",
-   "/assets/home/screens/pickleball/en/03.webp"
+   "/assets/home/screens/pickleball/v2/en/01-home.webp",
+   "/assets/home/screens/pickleball/v2/en/02-live-scoring.webp",
+   "/assets/home/screens/pickleball/v2/en/05-your-stats.webp",
+   "/assets/home/screens/pickleball/v2/en/07-league-standings.webp",
+   "/assets/home/screens/pickleball/v2/en/08-community.webp"
   ]
  },
  "volleyball": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/volleyball/en/01.webp",
-   "/assets/home/screens/volleyball/en/02.webp",
-   "/assets/home/screens/volleyball/en/03.webp",
-   "/assets/home/screens/volleyball/en/04.webp"
+   "/assets/home/screens/volleyball/v2/tr/01-home.webp",
+   "/assets/home/screens/volleyball/v2/tr/02-live-scoring.webp",
+   "/assets/home/screens/volleyball/v2/tr/05-your-stats.webp",
+   "/assets/home/screens/volleyball/v2/tr/07-league-standings.webp",
+   "/assets/home/screens/volleyball/v2/tr/08-community.webp"
   ],
   "en": [
-   "/assets/home/screens/volleyball/en/01.webp",
-   "/assets/home/screens/volleyball/en/02.webp",
-   "/assets/home/screens/volleyball/en/03.webp",
-   "/assets/home/screens/volleyball/en/04.webp"
+   "/assets/home/screens/volleyball/v2/en/01-home.webp",
+   "/assets/home/screens/volleyball/v2/en/02-live-scoring.webp",
+   "/assets/home/screens/volleyball/v2/en/05-your-stats.webp",
+   "/assets/home/screens/volleyball/v2/en/07-league-standings.webp",
+   "/assets/home/screens/volleyball/v2/en/08-community.webp"
   ]
  },
  "rally-table-tennis": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/rally-table-tennis/en/01.webp",
-   "/assets/home/screens/rally-table-tennis/en/02.webp",
-   "/assets/home/screens/rally-table-tennis/en/03.webp"
+   "/assets/home/screens/rally-table-tennis/v2/tr/01-home.webp",
+   "/assets/home/screens/rally-table-tennis/v2/tr/02-live-scoring.webp",
+   "/assets/home/screens/rally-table-tennis/v2/tr/05-your-stats.webp",
+   "/assets/home/screens/rally-table-tennis/v2/tr/07-league-standings.webp",
+   "/assets/home/screens/rally-table-tennis/v2/tr/08-community.webp"
   ],
   "en": [
-   "/assets/home/screens/rally-table-tennis/en/01.webp",
-   "/assets/home/screens/rally-table-tennis/en/02.webp",
-   "/assets/home/screens/rally-table-tennis/en/03.webp"
+   "/assets/home/screens/rally-table-tennis/v2/en/01-home.webp",
+   "/assets/home/screens/rally-table-tennis/v2/en/02-live-scoring.webp",
+   "/assets/home/screens/rally-table-tennis/v2/en/05-your-stats.webp",
+   "/assets/home/screens/rally-table-tennis/v2/en/07-league-standings.webp",
+   "/assets/home/screens/rally-table-tennis/v2/en/08-community.webp"
   ]
  },
  "rally-badminton": {
   "kind": "screen",
   "tr": [
-   "/assets/home/screens/rally-badminton/en/01.webp",
-   "/assets/home/screens/rally-badminton/en/02.webp",
-   "/assets/home/screens/rally-badminton/en/03.webp"
+   "/assets/home/screens/rally-badminton/v2/tr/01-home.webp",
+   "/assets/home/screens/rally-badminton/v2/tr/02-live-scoring.webp",
+   "/assets/home/screens/rally-badminton/v2/tr/05-your-stats.webp",
+   "/assets/home/screens/rally-badminton/v2/tr/07-league-standings.webp",
+   "/assets/home/screens/rally-badminton/v2/tr/08-community.webp"
   ],
   "en": [
-   "/assets/home/screens/rally-badminton/en/01.webp",
-   "/assets/home/screens/rally-badminton/en/02.webp",
-   "/assets/home/screens/rally-badminton/en/03.webp"
+   "/assets/home/screens/rally-badminton/v2/en/01-home.webp",
+   "/assets/home/screens/rally-badminton/v2/en/02-live-scoring.webp",
+   "/assets/home/screens/rally-badminton/v2/en/05-your-stats.webp",
+   "/assets/home/screens/rally-badminton/v2/en/07-league-standings.webp",
+   "/assets/home/screens/rally-badminton/v2/en/08-community.webp"
   ]
  },
  "store-mockup": {

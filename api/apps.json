@@ -13,6 +13,19 @@
   "en": "Household books kept like a spreadsheet with a tab per month: write the month once, tick things off as they are paid, let the next month copy itself. Scans receipts, works out your own inflation."
  },
  {
+  "slug": "nika",
+  "name": "Nika",
+  "sub": "Wedding Planner",
+  "icon": "/assets/home/nika-icon.webp",
+  "color": "#e9ccff",
+  "ios": null,
+  "play": null,
+  "tour": "/nika/",
+  "status": "soon",
+  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. App Store incelemesinde, Android yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In App Store review, Android on the way."
+ },
+ {
   "slug": "tennis-padel",
   "name": "Tennis & Padel",
   "sub": "Score Keeper",
@@ -22,8 +35,47 @@
   "play": "com.aberk.wear",
   "tour": "/tennis-padel/",
   "status": "live",
-  "tr": "Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Apple Watch ve Wear OS'ta tek başına çalışır, telefon soyunma odasında kalabilir.",
-  "en": "Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on Apple Watch and Wear OS, so the phone can stay in the locker room."
+  "tr": "Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Apple Watch ve Wear OS'ta tek başına çalışır, telefon soyunma odasında kalabilir. 2.0 ile sosyal taraf geldi: takip, akış, ligler, iki telefonla aynı maç.",
+  "en": "Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on Apple Watch and Wear OS, so the phone can stay in the locker room. 2.0 adds a social side: follows, a feed, leagues, two phones on one match."
+ },
+ {
+  "slug": "era",
+  "name": "Era",
+  "sub": "Life & Trip Journal",
+  "icon": "/assets/home/era-icon.webp",
+  "color": "#55db9c",
+  "ios": null,
+  "play": null,
+  "tour": "/era/",
+  "status": "soon",
+  "tr": "Kendi hayat defterin. Anıyı tarihi, yeri ve kişileriyle yaz; yolculukları rota olarak çiz, sonra hepsini kitap gibi sayfa sayfa oku. Bir de seçtiğin güne kadar mühürlü kalan zarflar var. Hesap gerekmiyor.",
+  "en": "Your own life journal. Write a memory with its date, place and people; draw trips as routes, then read it all page by page like a book. There are envelopes too, sealed until a day you pick. No account needed."
+ },
+ {
+  "slug": "bodybook",
+  "name": "BodyBook",
+  "sub": "Mole Tracker",
+  "icon": "/assets/home/bodybook-icon.webp",
+  "color": "#fb4903",
+  "ios": "6799754171",
+  "play": "com.aberk.bodybook",
+  "tour": "/bodybook/",
+  "status": "new",
+  "tr": "Benlerini aynı açıdan fotoğrafla, ABCDE listesiyle 3 ila 6 ayda bir karşılaştır. Cilt rutini ve ilaç hatırlatıcısı da içinde. Hepsi telefonunda kalır. Artık iPhone'da da var.",
+  "en": "Photograph your moles from the same angle and compare them every 3 to 6 months with the ABCDE checklist. Skincare routine and pill reminders are in there too. Everything stays on your phone. Now on iPhone as well."
+ },
+ {
+  "slug": "daily-whisper",
+  "name": "Daily Whisper",
+  "sub": "Affirmations",
+  "icon": "/assets/home/daily-whisper-icon.webp",
+  "color": "#e9ccff",
+  "ios": "6757824195",
+  "play": null,
+  "tour": "/daily-whisper/",
+  "status": "new",
+  "tr": "Her sabah sana yazılmış kısa bir hikaye. Hayalini kurduğun hayattan bir sahne, içinde senin adın; sakin bir ses okuyor, sen gözünü kapatıp dinliyorsun. 2.0 ile baştan tasarlandı.",
+  "en": "Every morning a short story written for you. A scene from the life you want, with your name in it, read by a calm voice while you close your eyes and listen. Redesigned from scratch in 2.0."
  },
  {
   "slug": "nubi",
@@ -52,19 +104,6 @@
   "en": "A party game for your TV. You pick a game with the remote, guests scan the QR on screen and vote from their phones; photos, scores and the night's recap show up on the big screen. It runs in the browser today. Apple TV, Google TV, Samsung and LG are in review."
  },
  {
-  "slug": "daily-whisper",
-  "name": "Daily Whisper",
-  "sub": "Affirmations",
-  "icon": "/assets/home/daily-whisper-icon.webp",
-  "color": "#e9ccff",
-  "ios": "6757824195",
-  "play": null,
-  "tour": "/daily-whisper/",
-  "status": "new",
-  "tr": "Her sabah sana yazılmış kısa bir hikaye. Hayalini kurduğun hayattan bir sahne, içinde senin adın; sakin bir ses okuyor, sen gözünü kapatıp dinliyorsun. 2.0 ile baştan tasarlandı.",
-  "en": "Every morning a short story written for you. A scene from the life you want, with your name in it, read by a calm voice while you close your eyes and listen. Redesigned from scratch in 2.0."
- },
- {
   "slug": "o-mu-bu-mu",
   "name": "O mu Bu mu?",
   "sub": "This or That",
@@ -89,19 +128,6 @@
   "status": "live",
   "tr": "Zikir, namaz vakitleri ve kıble. Apple Watch ve Wear OS'ta titreşimle sayar, sayıyı kaybetmezsin.",
   "en": "Dhikr counter, prayer times and qibla. On Apple Watch and Wear OS it counts with haptics, so you never lose count."
- },
- {
-  "slug": "bodybook",
-  "name": "BodyBook",
-  "sub": "Mole Tracker",
-  "icon": "/assets/home/bodybook-icon.webp",
-  "color": "#fb4903",
-  "ios": "6799754171",
-  "play": "com.aberk.bodybook",
-  "tour": "/bodybook/",
-  "status": "new",
-  "tr": "Benlerini aynı açıdan fotoğrafla, ABCDE listesiyle 3 ila 6 ayda bir karşılaştır. Cilt rutini ve ilaç hatırlatıcısı da içinde. Hepsi telefonunda kalır. Artık iPhone'da da var.",
-  "en": "Photograph your moles from the same angle and compare them every 3 to 6 months with the ABCDE checklist. Skincare routine and pill reminders are in there too. Everything stays on your phone. Now on iPhone as well."
  },
  {
   "slug": "leafbook",
@@ -169,32 +195,6 @@
   "en": "The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously."
  },
  {
-  "slug": "nika",
-  "name": "Nika",
-  "sub": "Wedding Planner",
-  "icon": "/assets/home/nika-icon.webp",
-  "color": "#e9ccff",
-  "ios": null,
-  "play": null,
-  "tour": "/nika/",
-  "status": "soon",
-  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. App Store incelemesinde, Android yolda.",
-  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In App Store review, Android on the way."
- },
- {
-  "slug": "era",
-  "name": "Era",
-  "sub": "Life & Trip Journal",
-  "icon": "/assets/home/era-icon.webp",
-  "color": "#55db9c",
-  "ios": null,
-  "play": null,
-  "tour": "/era/",
-  "status": "soon",
-  "tr": "Kendi hayat defterin. Anıyı tarihi, yeri ve kişileriyle yaz; yolculukları rota olarak çiz, sonra hepsini kitap gibi sayfa sayfa oku. Bir de seçtiğin güne kadar mühürlü kalan zarflar var. Hesap gerekmiyor.",
-  "en": "Your own life journal. Write a memory with its date, place and people; draw trips as routes, then read it all page by page like a book. There are envelopes too, sealed until a day you pick. No account needed."
- },
- {
   "slug": "pickleball",
   "name": "Pickleball",
   "sub": "Score Keeper",
@@ -204,8 +204,8 @@
   "play": null,
   "tour": "/pickleball/",
   "status": "live",
-  "tr": "Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak.",
-  "en": "Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score."
+  "tr": "Servis, side-out ve ralli puanlaması sende değil. Sayı tartışmak yerine bileğine bak. 2.0'da arkadaşlarını takip edip lig kurabilirsin.",
+  "en": "Server, side-out and rally scoring handled for you. Glance at your wrist instead of arguing about the score. In 2.0 you can follow friends and run a league."
  },
  {
   "slug": "orbix-roulette",
@@ -230,8 +230,8 @@
   "play": null,
   "tour": "/volleyball/",
   "status": "live",
-  "tr": "Canlı set skoru, maç defteri ve antrenmandan gelen nabız istatistikleri.",
-  "en": "Live set scoring with a match logbook and heart rate stats pulled from your workout."
+  "tr": "Canlı set skoru, maç defteri ve antrenmandan gelen nabız istatistikleri. 2.0 ile ligler, akış ve takımla paylaşılan maç sonuçları geldi.",
+  "en": "Live set scoring with a match logbook and heart rate stats pulled from your workout. 2.0 brings leagues, a feed and results you share with the other side."
  },
  {
   "slug": "rally-badminton",
@@ -243,8 +243,8 @@
   "play": null,
   "tour": "/rally-badminton/",
   "status": "live",
-  "tr": "Ralli puanlaması, servis alanı ve taraf değişimi otomatik; 21 sayı ve iki fark kuralı dahil.",
-  "en": "Rally scoring, service court and side changes handled for you, with 21-point games and the two-point rule built in."
+  "tr": "Ralli puanlaması, servis alanı ve taraf değişimi otomatik; 21 sayı ve iki fark kuralı dahil. 2.0'da takip, lig ve iki telefonla aynı maç var.",
+  "en": "Rally scoring, service court and side changes handled for you, with 21-point games and the two-point rule built in. 2.0 adds follows, leagues and two phones on one match."
  },
  {
   "slug": "rally-table-tennis",
@@ -256,8 +256,8 @@
   "play": null,
   "tour": "/rally-table-tennis/",
   "status": "live",
-  "tr": "On bire kadar, iki sayıda bir servis değişimi, uzayan deuce. Yüksek sesle saymayı bırak.",
-  "en": "Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud."
+  "tr": "On bire kadar, iki sayıda bir servis değişimi, uzayan deuce. Yüksek sesle saymayı bırak. 2.0'da maç sonucunu rakibine gönderiyorsun, o onaylayınca onun defterine de düşüyor.",
+  "en": "Eleven up, serve swaps every two points, deuce that keeps going. Stop counting out loud. In 2.0 you send the result to your opponent and it lands in their logbook once they confirm."
  },
  {
   "slug": "bumpline",
@@ -280,7 +280,7 @@
   "color": "#e9ccff",
   "ios": null,
   "play": null,
-  "tour": "/web/store-mockup/",
+  "tour": "",
   "status": "web",
   "tr": "Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.",
   "en": "Your app's new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source."
@@ -293,7 +293,7 @@
   "color": "#ffd731",
   "ios": null,
   "play": null,
-  "tour": "https://mihenk.bamstudio.dev/",
+  "tour": "",
   "status": "web",
   "tr": "Herhangi bir uygulamanın kaç kez indirildiğini ve ne kazandığını App Store ve Google Play verisinden tahmin eder. Rakibine bak, pazarı ölç.",
   "en": "Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market."

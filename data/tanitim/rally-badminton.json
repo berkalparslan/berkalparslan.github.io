@@ -37,6 +37,10 @@
   {
    "tr": "Apple Health",
    "en": "Apple Health"
+  },
+  {
+   "tr": "Ligler ve akış",
+   "en": "Leagues and a feed"
   }
  ],
  "platforms": [
@@ -239,6 +243,62 @@
     ]
    },
    "color": "#ffb3d9"
+  },
+  {
+   "id": "sosyal",
+   "kicker": {
+    "tr": "2.0 · Sosyal",
+    "en": "2.0 · Social"
+   },
+   "title": {
+    "tr": "Birlikte oynadıkların da burada",
+    "en": "The people you play with, in here too"
+   },
+   "text": {
+    "tr": "Skor tutmak için hesap gerekmiyor. İstersen Apple ya da Google ile girip bir @kullanıcı adı alırsın, sonra birlikte oynadığın insanları bulursun.",
+    "en": "You don't need an account to keep score. If you want one, sign in with Apple or Google, pick an @username and find the people you play with."
+   },
+   "bullets": [
+    {
+     "tr": "Takip et. Profilin kilitliyse seni takip etmek isteyen önce istek gönderir.",
+     "en": "Follow people. If your profile is locked, they send a request first."
+    },
+    {
+     "tr": "Maçı rakibine gönder; o onaylayınca sonuç onun defterine de düşer.",
+     "en": "Send the match to your opponent. Once they confirm, the result shows up in their logbook too."
+    },
+    {
+     "tr": "Akışta gönderi paylaş, beğen, yorum yaz.",
+     "en": "Post to the feed, like posts, leave comments."
+    },
+    {
+     "tr": "Lig kur, arkadaşlarını davet koduyla çağır; fikstür ve puan tablosu sonuç girildikçe güncellenir. Lig kurmak Pro'da, katılmak ücretsiz.",
+     "en": "Start a league and bring friends in with an invite code; fixtures and the table update as results come in. Creating a league needs Pro, joining is free."
+    },
+    {
+     "tr": "Herkesin katılabildiği bir dünya sıralama ligi var, onu uygulamanın resmi hesabı yürütüyor.",
+     "en": "There's a worldwide ranking league anyone can join, run by the app's official account."
+    },
+    {
+     "tr": "Arkadaşını canlı maça çağır: iki telefon aynı maçı tutar, sayı hangisinden girilirse ikisinde de görünür.",
+     "en": "Invite a friend to a live match: two phones keep the same score, whichever one taps the point."
+    },
+    {
+     "tr": "Takip, yorum, lig daveti ya da canlı maç çağrısı gelince bildirim gelir.",
+     "en": "You get a notification for follows, comments, league invites and live match calls."
+    }
+   ],
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/assets/home/screens/rally-badminton/v2/tr/08-community.webp",
+     "/assets/home/screens/rally-badminton/v2/tr/07-league-standings.webp"
+    ],
+    "en": [
+     "/assets/home/screens/rally-badminton/v2/en/08-community.webp",
+     "/assets/home/screens/rally-badminton/v2/en/07-league-standings.webp"
+    ]
+   }
   },
   {
    "id": "hakem",
