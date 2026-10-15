@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konfeti · 개인정보 처리방침</title>
+<meta name="description" content="Konfeti 개인정보 처리방침: 계정 없음, 광고 없음, 파티 방은 30일 후 자동 삭제됩니다.">
+<link rel="canonical" href="https://bamstudio.dev/privacy/konfeti/ko/">
+<script>
+  // Tema tercihi sayfa boyanmadan uygulanır. Varsayılan **açık**.
+  (function () {
+    try {
+      document.documentElement.setAttribute(
+        "data-theme", localStorage.getItem("bb-theme") || "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/assets/brand/icon-180.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">Bam<span>Studio</span></a>
+    <nav>
+      <a href="/konfeti/">소개</a>
+      <a href="/">앱</a>
+      <a href="/privacy/">모든 방침</a>
+      <a href="/support/">지원</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Açık/koyu tema" title="Açık/koyu tema">☾</button>
+  </div>
+</header>
+
+<main>
+
+<h1>Konfeti: 개인정보 처리방침</h1>
+<p class="updated">최종 업데이트: 2026년 10월 15일</p>
+<p class="lang-note"><a href="/privacy/konfeti/#en">English</a> · <a href="/privacy/konfeti/">Türkçe</a></p>
+
+<p>이 방침은 Bam Studio가 만든 Konfeti에 적용됩니다: Android TV / Google TV, Apple TV, LG(webOS), Samsung(Tizen) TV 앱, 손님이 휴대폰에서 여는 페이지, 그리고 <a href="https://konfeti.bamstudio.dev" target="_blank" rel="noopener">konfeti.bamstudio.dev</a> 웹 앱.</p>
+
+<h2>요약</h2>
+<ul>
+  <li>계정이 없습니다. 호스트도 손님도 가입하지 않으며, 이메일이나 전화번호를 묻지 않습니다.</li>
+  <li>광고가 없습니다. 광고 식별자를 사용하지 않으며 제3자 광고 또는 분석 SDK가 없습니다.</li>
+  <li>파티 방과 그 안의 사진은 방의 마지막 활동 후 30일이 지나면 자동으로 삭제됩니다.</li>
+  <li>데이터를 판매하거나 데이터 브로커와 공유하지 않습니다.</li>
+</ul>
+
+<h2>파티 방의 작동 방식</h2>
+<p>TV에서 파티를 시작하면 4자리 코드로 식별되는 비공개 파티 방이 열립니다. 손님은 TV의 QR 코드를 스캔하여 휴대폰 브라우저로 방에 참여하며, 아무것도 설치할 필요가 없습니다. 방은 Cloudflare 인프라(Workers 및 Durable Objects)에서 실행되고, 사진은 Cloudflare R2에 저장됩니다. 코드를 아는 사람만 방에 들어올 수 있습니다.</p>
+
+<h2>방에 보관되는 데이터</h2>
+<ul>
+  <li><strong>손님이 입력한 이름:</strong> 참여할 때 입력한 이름 또는 별명과 선택한 이모지. 실명은 필요하지 않습니다.</li>
+  <li><strong>사진:</strong> 손님이 사진 벽에 올린 사진.</li>
+  <li><strong>게임 데이터:</strong> 투표, 좋아요, 점수, 팀 점수. 휴대폰에서는 누가 무엇에 투표했는지 볼 수 없습니다.</li>
+  <li><strong>파티 정보:</strong> 호스트가 TV에서 고른 행사 종류와 언어, 선택적으로 입력한 파티 이름(예: 생일인 사람의 이름).</li>
+</ul>
+<p>사진을 포함한 이 모든 데이터는 <strong>방의 마지막 활동 후 30일이 지나면</strong> 자동으로 삭제됩니다. 호스트는 언제든지 TV에서 사진을 삭제할 수 있으며, 삭제된 사진은 저장소에서도 제거됩니다.</p>
+
+<h2>TV에만 남는 데이터</h2>
+<p>손님이 QR 코드로 네트워크에 연결할 수 있도록 입력한 Wi-Fi 이름과 비밀번호는 TV(앱의 로컬 저장소, localStorage)에만 저장됩니다. 파티 방에 기록되지 않으며 서버에 보관되지 않습니다. 휴대폰으로 설정하는 경우, 이 정보는 설정 QR 코드의 비밀 키를 가진 휴대폰에만 암호화된 연결로 전달되며, 서버는 이를 읽거나 저장하지 않습니다.</p>
+<p>앱 설정, Pro 상태, 파티 요약에 쓰이는 카운터도 TV에 남습니다.</p>
+
+<h2>익명 파티 통계</h2>
+<p>앱 개선을 위해 날짜와 플랫폼별로 열린 파티 방의 수를 셉니다(숫자만). 또한 파티가 끝나거나 만료되면 익명 요약 한 줄이 기록됩니다: 날짜(일 단위), 행사 종류, 언어, 플랫폼(Android, Apple TV, LG, Samsung, 웹 등), Pro 사용 여부, 참가자·사진·투표·질문 수, 플레이한 게임, 파티 시간. 이 요약에는 이름, 사진, 방 코드, 기기 식별자 등 개인을 식별할 수 있는 정보가 <strong>포함되지 않습니다</strong>.</p>
+
+<h2>기술 기록 및 보안</h2>
+<p>모든 연결은 암호화됩니다(HTTPS 및 WSS). 인프라 제공업체인 Cloudflare는 서비스 운영과 남용 방지를 위해 IP 주소와 같은 표준 기술 정보를 잠시 처리할 수 있습니다. 이 정보는 계정이나 광고 프로필과 연결되지 않습니다.</p>
+
+<h2>Konfeti Pro</h2>
+<p>Konfeti Pro는 Google Play 또는 App Store를 통한 선택적 1회성 인앱 구매입니다. 결제는 Google 또는 Apple이 처리하며, 카드나 결제 정보는 저희에게 전달되지 않습니다. 앱은 구매가 유효한지만 확인합니다. LG 및 Samsung TV 앱에는 구매가 없으며 모든 게임이 무료로 열려 있습니다.</p>
+
+<h2>하지 않는 것</h2>
+<ul>
+  <li>계정 생성 요구, 이메일 또는 전화번호 요청</li>
+  <li>광고 표시, 광고 식별자 읽기</li>
+  <li>데이터 판매, 대여, 데이터 브로커와의 공유</li>
+  <li>위치 추적</li>
+</ul>
+
+<h2>아동</h2>
+<p>Konfeti는 13세 미만 아동을 대상으로 하지 않으며, 아동의 데이터를 고의로 수집하지 않습니다.</p>
+
+<h2 id="deletion">권리 및 삭제 요청</h2>
+<p>방 데이터는 30일 이내에 자동으로 삭제되며, 호스트는 TV에서 사진을 즉시 삭제할 수 있습니다. 사진이나 방 데이터를 더 빨리 삭제하고 싶다면 방 코드와 파티 날짜를 적어 <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a>로 이메일을 보내 주세요. 최대한 빨리 처리하겠습니다. 개인정보 보호 관련 기타 요청도 같은 주소로 보내 주시면 됩니다.</p>
+
+<h2>변경</h2>
+<p>이 방침이 변경되면 이 페이지와 위의 날짜가 업데이트됩니다. 수집하는 데이터의 범위가 넓어지는 경우, 해당 버전이 출시되기 전에 이 페이지와 앱 스토어의 개인정보 신고가 모두 업데이트됩니다.</p>
+
+<h2>연락처</h2>
+<p>Bam Studio · <a href="mailto:merhaba@bamstudio.dev">merhaba@bamstudio.dev</a></p>
+
+</main>
+
+<footer>
+  <p>© 2026 Bam Studio ·
+    <a href="/privacy/">모든 방침</a> ·
+    <a href="/support/">지원</a>
+  </p>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function sync() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      btn.textContent = dark ? "☀︎" : "☾";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+    }
+    btn.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("bb-theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+
+</body>
+</html>
