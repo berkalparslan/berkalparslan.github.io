@@ -65,7 +65,7 @@ const TEMA = {
 const EKRAN = {
   journal: "Anı Defteri", trips: "Yolculuklar", memory: "Anı detayı", editor: "Anı yazıyor", trip: "Yolculuk sayfası",
   trip_editor: "Yolculuk ekliyor", route_studio: "Rota videosu", card_studio: "Kart stüdyosu", reader: "Defter gibi okuyor",
-  import: "Eski notları getiriyor", me: "Ayarlar", cards: "Kartlarım", add: "Ekle menüsü", paywall: "Paywall", onboarding: "Tanıtım", closed: "Kapalı",
+  import: "Eski notları getiriyor", envelope: "Zarf açıyor", me: "Ayarlar", cards: "Kartlarım", add: "Ekle menüsü", paywall: "Paywall", onboarding: "Tanıtım", closed: "Kapalı",
 };
 const KAYNAK = {
   theme: "Pro tema", book: "Yeni defter", photos: "Fotoğraf sınırı", pdf: "PDF", importlines: "İçe aktarım sınırı", import_lines: "İçe aktarım sınırı",
@@ -83,10 +83,14 @@ const SAYAC = {
   ai_requests: "Yapay zeka isteği", ai_blocked: "Yapay zeka kotası doldu", ai_failed: "Yapay zeka hatası",
   memories_added: "Anı eklendi", trips_added: "Yolculuk eklendi", cards_exported: "Kart dışa aktarıldı", videos_exported: "Rota videosu",
   imports_done: "İçe aktarım", books_read: "Defter okundu",
+  envelopes_opened: "Zarf açıldı", trips_from_memory: "Anıdan yolculuk",
 };
-const STIL = { paper: "Kağıt", dark: "Koyu", satellite: "Uydu" };
+const STIL = { paper: "Açık harita", dark: "Gece", satellite: "Uydu" };
+const BEKLE = { "0": "Aynı gün", "1": "1 gün", "2": "2 gün", "3_6": "3-6 gün", "7p": "7+ gün" };
+const WIDGET = { envelope: "Zarf", memory: "Anı", trip: "Yolculuk" };
+const BILDIRIM = { 0: "Kapalı", 1: "Haftada bir", 2: "Ayda bir", 3: "Bugün, yıllar önce", 4: "Yeni zarf gelince" };
 const DIL = { tr: "Türkçe", en: "İngilizce", de: "Almanca", es: "İspanyolca", fr: "Fransızca", it: "İtalyanca", pt: "Portekizce", nl: "Felemenkçe",
-  ru: "Rusça", ja: "Japonca", ko: "Korece", zh: "Çince", ar: "Arapça", pl: "Lehçe", sv: "İsveççe", id: "Endonezce", hi: "Hintçe" };
+  ru: "Rusça", ja: "Japonca", ko: "Korece", zh: "Çince", "pt-BR": "Portekizce (BR)", "zh-Hans": "Çince", system: "Sistem dili", ar: "Arapça", pl: "Lehçe", sv: "İsveççe", id: "Endonezce", hi: "Hintçe" };
 const ONLINE = 3 * 6e4;
 
 // ── Durum ─────────────────────────────────────────────────────────────────
@@ -244,6 +248,24 @@ function olayMetni(e) {
     case "ai_request": return `Yapay zeka isteği${p ? " · " + (AI_YER[p] || p) : ""}`;
     case "ai_blocked": return "Ücretsiz yapay zeka kotası doldu";
     case "ai_error": return `Yapay zeka hatası · ${aiHata(p)}`;
+    case "envelope_tap": return `Mühre dokundu · ${p}. kez`;
+    case "envelope_open": return `Zarfı açtı · ${BEKLE[p] || p} bekledi`;
+    case "envelope_read": return "Zarftaki anıyı açtı";
+    case "envelope_notify": return "Yeni zarf bildirimini açtı";
+    case "home_book_open": return "Rafta büyük defteri açtı";
+    case "home_shelf_tap": return "Anasayfa rafından Yolculuklar'a geçti";
+    case "home_spine": return "Anasayfa rafından yolculuk açtı";
+    case "shelf_pull": return `Raftan defter çekti · ${p === "covers" ? "kapaklar" : "raf"}`;
+    case "shelf_action": return `Raftan sonra · ${({ read: "defter olarak açtı", video: "rota videosu", details: "ayrıntılar" })[p] || p}`;
+    case "trip_from_memory_tap": return `Anıdan yolculuk yaratmaya bastı · ${p === "picker" ? "seçiciden" : "anı sayfasından"}`;
+    case "memory_to_trip": return `Anıyı yolculuğa ekledi${p === "fits" ? " · tarih uyuyor" : ""}`;
+    case "route_len": return `Video süresi · ${p} sn`;
+    case "route_moments": return `Videoda fotoğraflı anı · ${p.replace("_", "-").replace("p", "+")}`;
+    case "route_format": return `Video biçimi · ${p === "story" ? "hikaye" : "kare"}`;
+    case "language_set": return `Dil seçti · ${DIL[p] || p}`;
+    case "place_search": return "Yeri haritadan seçti";
+    case "photo_add": return `Fotoğraf ekledi · ${p.replace("_", "-").replace("p", "+")}`;
+    case "tab_retap": return `Sekmeye tekrar dokundu · ${EKRAN[p] || p}`;
     default: return p ? `${e.e} · ${p}` : e.e;
   }
 }
@@ -719,6 +741,80 @@ function cizelge(l, olaylar) {
   }
 }
 
+// Yeni ozellikler: zarf, raf, anı-yolculuk bağı, rota videosu ayarları, dil, widget, konum.
+function ozellikler(c) {
+  const p = gP(), o = gO(), ins = I();
+  const e = k => evT(p, k), eo = k => o ? evT(o, k) : undefined;
+  const t = (ad, k, alt) => [ad, sayi(e(k)), alt || "", o ? fk(e(k), eo(k)) : undefined];
+  const pay = f => yuzde(ins.filter(f).length, ins.length);
+  const kova = (h, ad) => Object.fromEntries(Object.entries(h).map(([k, v]) => [ad[k] || k, v]));
+  const aralik = k => k.replace("_", "-").replace(/p$/, "+");
+
+  c.appendChild(el("h2", null, "Geçmişten zarf"));
+  const acilan = topla(p, "envelopes_opened");
+  c.appendChild(tiles([
+    ["Zarf açıldı", sayi(acilan), donemAdi(), o ? fk(acilan, topla(o, "envelopes_opened")) : undefined],
+    t("Anıya geçti", "envelope_read", acilan ? yuzde(e("envelope_read"), acilan) + " açılanların" : ""),
+    t("Bildirim açtı", "envelope_notify", "yeni zarf gelince"),
+    ["Şu an bekleyen zarf", sayi(ins.filter(i => n(i.envWait) >= 0 && i.envWait != null).length), "mühürlü"],
+    ["Ortalama bekleme", (() => { const w = ins.filter(i => n(i.envWait) >= 0 && i.envWait != null).map(i => n(i.envWait)); return w.length ? (w.reduce((a, b) => a + b, 0) / w.length).toFixed(1).replace(".", ",") + " gün" : "-"; })(), "açılmamış zarflar"],
+  ]));
+  const g1 = izgara(c, "izgara3");
+  gKart(g1, "Açılmadan önce kaç gün bekledi", k => yatayCubuk(k, kova(evOnek(p, "envelope_open_"), BEKLE)), SURUM_NOT());
+  gKart(g1, "Mühre dokunuş", k => yatayCubuk(k, Object.fromEntries(Object.entries(evOnek(p, "envelope_tap_")).map(([k2, v]) => [k2 + ". dokunuş", v]))),
+    el("p", "muted", "1. dokunuş çatlatır, 2. kırar. 1 ile 2 arasındaki fark, ilk dokunuştan sonra vazgeçenler."));
+  gKart(g1, "Bildirim tercihi (kurulum)", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) { const a = BILDIRIM[n(i.notifMode)] || "Bilinmiyor"; h[a] = (h[a] || 0) + 1; } return h; })()));
+  gKart(c, "Günlük zarf", k => gunlukCubuk(k, statGunluk({ a: x => ham(x, "envelopes_opened"), r: x => ham(x.ev, "envelope_read") }),
+    { seriler: [{ ad: "Açıldı", alan: "a" }, { ad: "Anıya geçti", alan: "r" }] }), SURUM_NOT());
+
+  c.appendChild(el("h2", null, "Raf ve defter"));
+  c.appendChild(tiles([
+    t("Büyük defter açıldı", "home_book_open", "anasayfa rafı"), t("Anasayfa rafından yolculuk", "home_spine"),
+    t("Raftan Yolculuklar'a", "home_shelf_tap"), t("Yolculuk rafından çekildi", "shelf_pull"),
+    ["Defter okundu", sayi(topla(p, "books_read")), "bütün okuyucular", o ? fk(topla(p, "books_read"), topla(o, "books_read")) : undefined],
+    t("Sekmeye tekrar dokunma", "tab_retap", "başa dönüş"),
+  ]));
+  const g2 = izgara(c);
+  gKart(g2, "Raftan çektikten sonra", k => yatayCubuk(k, kova(evOnek(p, "shelf_action_"), { read: "Defter olarak aç", video: "Rota videosu", details: "Ayrıntılar ve düzenle" })),
+    el("p", "muted", `${sayi(e("shelf_pull"))} çekişin ${sayi(Object.values(evOnek(p, "shelf_action_")).reduce((a, b) => a + b, 0))} tanesi bir seçenekle bitti.`));
+  gKart(g2, "Çekme yeri", k => yatayCubuk(k, kova(evOnek(p, "shelf_pull_"), { shelf: "Raf", covers: "Kapaklar" })));
+
+  c.appendChild(el("h2", null, "Anı ve yolculuk"));
+  const yarat = topla(p, "trips_from_memory");
+  c.appendChild(tiles([
+    ["Anıdan yolculuk kaydedildi", sayi(yarat), "", o ? fk(yarat, topla(o, "trips_from_memory")) : undefined],
+    t("Anıdan yolculuğa bastı", "trip_from_memory_tap", e("trip_from_memory_tap") ? yuzde(yarat, e("trip_from_memory_tap")) + " kaydetti" : ""),
+    t("Anıyı yolculuğa ekledi", "memory_to_trip", e("memory_to_trip") ? yuzde(n(evOnek(p, "memory_to_trip_").fits), e("memory_to_trip")) + " tarihi uyuyor" : ""),
+    ["Yolculuğa bağlı anı", sayi(ins.reduce((a, i) => a + n(i.n_linked), 0)), "bütün kurulumlar"],
+    ["Haritadan seçilmiş yer", sayi(ins.reduce((a, i) => a + n(i.n_located), 0)), `${sayi(e("place_search"))} seçim bu dönem`],
+  ]));
+  const g3 = izgara(c);
+  gKart(g3, "Anıdan yolculuk, nereden", k => yatayCubuk(k, kova(evOnek(p, "trip_from_memory_tap_"), { detail: "Anı sayfası", picker: "Yolculuk seçici" })));
+  gKart(g3, "Fotoğraf ekleme (tek seferde)", k => yatayCubuk(k, Object.fromEntries(Object.entries(evOnek(p, "photo_add_")).map(([k2, v]) => [aralik(k2) + " fotoğraf", v]))));
+
+  c.appendChild(el("h2", null, "Rota videosu"));
+  c.appendChild(tiles([
+    ["Video", sayi(topla(p, "videos_exported")), donemAdi(), o ? fk(topla(p, "videos_exported"), topla(o, "videos_exported")) : undefined],
+    ["Fotoğraflı anı içeren", sayi(Object.entries(evOnek(p, "route_moments_")).filter(([k]) => k !== "0").reduce((a, [, v]) => a + v, 0)), "en az bir anı"],
+  ]));
+  const g4 = izgara(c, "izgara3");
+  gKart(g4, "Süre", k => yatayCubuk(k, Object.fromEntries(Object.entries(evOnek(p, "route_len_")).sort((a, b) => n(a[0]) - n(b[0])).map(([k2, v]) => [k2 + " sn", v]))));
+  gKart(g4, "Fotoğraflı anı sayısı", k => yatayCubuk(k, Object.fromEntries(Object.entries(evOnek(p, "route_moments_")).map(([k2, v]) => [aralik(k2), v]))));
+  gKart(g4, "Biçim ve harita", k => yatayCubuk(k, { ...kova(evOnek(p, "route_format_"), { story: "Hikaye 9:16", square: "Kare" }), ...kova(evOnek(p, "route_video_"), STIL) }));
+
+  c.appendChild(el("h2", null, "Dil ve widget"));
+  c.appendChild(tiles([
+    ["Widget kullanan", sayi(ins.filter(i => n(i.n_widgets) > 0).length), pay(i => n(i.n_widgets) > 0)],
+    ["Ana ekrandaki widget", sayi(ins.reduce((a, i) => a + n(i.n_widgets), 0))],
+    ["Uygulamada dil seçen", sayi(ins.filter(i => i.appLang && i.appLang !== "system").length), pay(i => i.appLang && i.appLang !== "system")],
+    t("Dil değiştirme", "language_set"),
+  ]));
+  const g5 = izgara(c, "izgara3");
+  gKart(g5, "Widget türü ve boyutu", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) for (const w of String(i.widgets || "").split(",").filter(Boolean)) { const [ad, b] = w.split("_"); const a = `${WIDGET[ad] || ad} · ${({ s: "küçük", m: "orta", l: "büyük" })[b] || b}`; h[a] = (h[a] || 0) + 1; } return h; })()));
+  gKart(g5, "Uygulama dili (seçilen)", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) { const a = DIL[i.appLang || "system"] || i.appLang; h[a] = (h[a] || 0) + 1; } return h; })()));
+  gKart(g5, "Telefon dili", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) { const a = DIL[i.language] || i.language || "Bilinmiyor"; h[a] = (h[a] || 0) + 1; } return h; })()));
+}
+
 function ai(c) {
   const p = gP(), o = gO();
   const istek = topla(p, "ai_requests"), hata = topla(p, "ai_failed"), kota = topla(p, "ai_blocked");
@@ -806,6 +902,10 @@ function sahte() {
       n_books: 1 + (r() < 0.25 ? 1 : 0), n_memories: Math.floor(Math.pow(r(), 2) * 60), n_photos: 0, n_trips: Math.floor(r() * r() * 7), n_stops: 0, n_cards: Math.floor(r() * 4), ev: {},
     };
     i.n_photos = Math.floor(i.n_memories * (0.5 + r() * 2)); i.n_stops = i.n_trips * Math.floor(2 + r() * 5);
+    i.n_linked = Math.floor(i.n_memories * r() * 0.4); i.n_located = Math.floor(i.n_memories * r() * 0.3);
+    i.notifMode = sec([0, 0, 4, 4, 1, 3]); i.appLang = r() < 0.12 ? sec(["en", "tr", "de"]) : "system";
+    i.widgets = r() < 0.3 ? sec(["envelope_s", "envelope_m", "memory_m,trip_s", "trip_m", "envelope_s,memory_l"]) : ""; i.n_widgets = i.widgets ? i.widgets.split(",").length : 0;
+    i.envWait = r() < 0.5 ? Math.floor(r() * 9) : -1;
     Object.keys(i).forEach(k => i[k] === undefined && delete i[k]);
     installs.push(i);
     const oturum = Math.max(1, Math.round((son - ilk) / G * (0.3 + r())) + 1);
@@ -823,6 +923,16 @@ function sahte() {
       if (r() < 0.06) ekle(t, "route_video", sec(["paper", "paper", "dark", "satellite"]));
       if (r() < 0.04) ekle(t, "import_lines", String(Math.floor(5 + r() * r() * 700)));
       if (r() < 0.05) ekle(t, "book_read");
+      if (r() < 0.2) { ekle(t, "envelope_tap", "1"); if (r() < 0.9) { ekle(t + 900, "envelope_tap", "2"); ekle(t + 1e3, "envelope_open", sec(["0", "0", "1", "2", "3_6", "7p"])); if (r() < 0.6) ekle(t + 9e3, "envelope_read"); if (r() < 0.15) ekle(t + 9e3, "envelope_notify"); } }
+      if (r() < 0.12) ekle(t, "home_book_open");
+      if (r() < 0.08) ekle(t, sec(["home_shelf_tap", "home_spine"]), sec(["trips", "new"]));
+      if (r() < 0.1) { ekle(t, "shelf_pull", sec(["shelf", "shelf", "covers"])); if (r() < 0.8) ekle(t + 2e3, "shelf_action", sec(["read", "read", "video", "details"])); }
+      if (r() < 0.05) { ekle(t, "trip_from_memory_tap", sec(["detail", "picker"])); if (r() < 0.6) ekle(t + 6e4, "trip_from_memory"); }
+      if (r() < 0.06) ekle(t, "memory_to_trip", sec(["fits", "fits", "other"]));
+      if (r() < 0.06) { ekle(t, "route_len", sec(["12", "20", "20", "30", "45", "60"])); ekle(t, "route_moments", sec(["0", "1_2", "3_5", "6p"])); ekle(t, "route_format", sec(["story", "story", "square"])); }
+      if (r() < 0.1) ekle(t, "place_search");
+      if (r() < 0.15) ekle(t, "photo_add", sec(["1", "1", "2_3", "4p"]));
+      if (r() < 0.03) ekle(t, "language_set", sec(["en", "tr", "system"]));
       if (r() < 0.15) { ekle(t, "ai_request", sec(["trip_draft", "notes"])); if (r() < 0.1) ekle(t + 1e3, "ai_error", sec(["trip_draft_500", "notes_429", "trip_draft_429"])); if (!pro && r() < 0.1) ekle(t + 2e3, "ai_blocked"); }
       if (r() < 0.12) { const k = sec(kaynaklar); ekle(t, "pw_view", k); ekle(t + 2e4, "pw_close", k, Math.round(4 + r() * 50)); }
       ekle(t + 1e3, "session", null, top);
@@ -831,7 +941,7 @@ function sahte() {
   }
   events.sort((a, b) => a.t - b.t);
   const sayacOlay = { session: "sessions", pw_view: "paywall_views", pw_buy: "purchases", onboarding_done: "onboarding_done", memory_added: "memories_added",
-    trip_added: "trips_added", card_export: "cards_exported", route_video: "videos_exported", import_lines: "imports_done", book_read: "books_read",
+    trip_added: "trips_added", envelope_open: "envelopes_opened", trip_from_memory: "trips_from_memory", card_export: "cards_exported", route_video: "videos_exported", import_lines: "imports_done", book_read: "books_read",
     ai_request: "ai_requests", ai_error: "ai_failed", ai_blocked: "ai_blocked" };
   const slug = x => String(x).toLowerCase().replace(/[^a-z0-9]/g, "_").slice(0, 40);
   const kayit = (o, e) => {
@@ -871,6 +981,7 @@ K = await panelKabuk({
       { id: "ekranlar", ad: "Ekranlar", ciz: ekranlar },
       { id: "paywall", ad: "Paywall ve satın alma", ciz: paywall },
       { id: "kullanim", ad: "Kullanım", ciz: kullanim },
+      { id: "ozellikler", ad: "Özellikler", ciz: ozellikler },
       { id: "kullanicilar", ad: "Kullanıcılar", ciz: kullanicilar },
       { id: "ai", ad: "Yapay zeka", ciz: ai },
     ] },
