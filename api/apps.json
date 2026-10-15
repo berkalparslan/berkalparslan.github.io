@@ -22,8 +22,8 @@
   "play": "com.aberk.wear",
   "tour": "/tennis-padel/",
   "status": "live",
-  "tr": "Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Saatte tek başına çalışır.",
-  "en": "Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on the watch."
+  "tr": "Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Apple Watch ve Wear OS'ta tek başına çalışır, telefon soyunma odasında kalabilir.",
+  "en": "Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on Apple Watch and Wear OS, so the phone can stay in the locker room."
  },
  {
   "slug": "nubi",
@@ -32,7 +32,7 @@
   "icon": "/assets/home/nubi-icon.webp",
   "color": "#ffd731",
   "ios": "6816090205",
-  "play": null,
+  "play": "com.aberk.nubi",
   "tour": "/nubi/",
   "status": "new",
   "tr": "Gerçek zamanlı yaşayan bir sanal evcil hayvan. Sen işteyken acıkır, gece uykusu gelir, unutursan biraz sıkılır; her gün gözünün önünde büyür.",
@@ -48,8 +48,8 @@
   "play": null,
   "tour": "/konfeti/",
   "status": "new",
-  "tr": "Ev partisi için TV uygulaması. Oyunu kumandayla seç, misafirler QR'ı okutup telefonla oy versin; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Android TV, Google TV ve web.",
-  "en": "A party app for your TV. Pick a game with the remote, guests scan the QR and vote from their phones; photos, scores and the night's recap land on the big screen. Android TV, Google TV and the web."
+  "tr": "Ev partileri için TV oyunu. Oyunu kumandayla seçiyorsun, misafirler TV'deki QR'ı okutup telefonla oy veriyor; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Bugün tarayıcıda açılıyor. Apple TV, Google TV, Samsung ve LG mağazalarında inceleme sürüyor.",
+  "en": "A party game for your TV. You pick a game with the remote, guests scan the QR on screen and vote from their phones; photos, scores and the night's recap show up on the big screen. It runs in the browser today. Apple TV, Google TV, Samsung and LG are in review."
  },
  {
   "slug": "daily-whisper",
@@ -61,8 +61,8 @@
   "play": null,
   "tour": "/daily-whisper/",
   "status": "new",
-  "tr": "Her sabah sana özel yazılmış kısa bir hikaye: hayalini kurduğun hayattan bir sahne, senin adınla, sıcak bir sesle okunur.",
-  "en": "Every morning a short story written just for you: a scene from the life you are working towards, with your name in it, read aloud in a warm voice."
+  "tr": "Her sabah sana yazılmış kısa bir hikaye. Hayalini kurduğun hayattan bir sahne, içinde senin adın; sakin bir ses okuyor, sen gözünü kapatıp dinliyorsun. 2.0 ile baştan tasarlandı.",
+  "en": "Every morning a short story written for you. A scene from the life you want, with your name in it, read by a calm voice while you close your eyes and listen. Redesigned from scratch in 2.0."
  },
  {
   "slug": "o-mu-bu-mu",
@@ -84,24 +84,24 @@
   "icon": "/tasbih-tally/assets/icon.webp",
   "color": "#55db9c",
   "ios": "6756802776",
-  "play": null,
+  "play": "com.aberk.tasbihTally",
   "tour": "/tasbih-tally/",
   "status": "live",
-  "tr": "Zikir, namaz vakitleri ve kıble. Saatte titreşimle sayar, sayıyı kaybetmezsin.",
-  "en": "Dhikr counter, prayer times and qibla. Counts with haptics on the Watch so you never lose count."
+  "tr": "Zikir, namaz vakitleri ve kıble. Apple Watch ve Wear OS'ta titreşimle sayar, sayıyı kaybetmezsin.",
+  "en": "Dhikr counter, prayer times and qibla. On Apple Watch and Wear OS it counts with haptics, so you never lose count."
  },
  {
   "slug": "bodybook",
   "name": "BodyBook",
-  "sub": "Health Tracker",
+  "sub": "Mole Tracker",
   "icon": "/assets/home/bodybook-icon.webp",
   "color": "#fb4903",
-  "ios": null,
+  "ios": "6799754171",
   "play": "com.aberk.bodybook",
   "tour": "/bodybook/",
-  "status": "live",
-  "tr": "Tansiyon, kilo, cilt bakım rutini, ben fotoğrafları, ilaç, su ve uyku tek panelde. Hepsi telefonunda kalır.",
-  "en": "Blood pressure, weight, skincare routine, mole photos, medication, water and sleep in one panel. Everything stays on your phone."
+  "status": "new",
+  "tr": "Benlerini aynı açıdan fotoğrafla, ABCDE listesiyle 3 ila 6 ayda bir karşılaştır. Cilt rutini ve ilaç hatırlatıcısı da içinde. Hepsi telefonunda kalır. Artık iPhone'da da var.",
+  "en": "Photograph your moles from the same angle and compare them every 3 to 6 months with the ABCDE checklist. Skincare routine and pill reminders are in there too. Everything stays on your phone. Now on iPhone as well."
  },
  {
   "slug": "leafbook",
@@ -113,21 +113,21 @@
   "play": "com.aberk.leafbook",
   "tour": "/leafbook/",
   "status": "new",
-  "tr": "Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.",
-  "en": "A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth."
+  "tr": "Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, mevsime göre sulama takvimi al, hayalet kamerayla aynı açıdan çek. 1.2 ile topluluk geldi: başkalarının bitkilerine bak, kahverengi uçlar ne demek diye sor.",
+  "en": "A photo diary for houseplants. Identify from a photo, get a watering schedule that knows the season, shoot from the same angle with the ghost camera. 1.2 adds a community: look at other people's plants and ask what those brown tips mean."
  },
  {
   "slug": "bosyeryok",
-  "name": "Boş Yer Yok",
+  "name": "No Spaces",
   "sub": "Parking Tycoon",
   "icon": "/bosyeryok/assets/icon-512.png",
   "color": "#ffd731",
-  "ios": null,
+  "ios": "6806977094",
   "play": "com.aberk.bosyeryok",
   "tour": "/bosyeryok/",
-  "status": "live",
-  "tr": "Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen koyuyorsun, ekibi sen kuruyorsun, maaşlar her saniye kasadan düşüyor.",
-  "en": "A parking lot tycoon. You don't steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second."
+  "status": "new",
+  "tr": "Otopark işletme oyunu (Türkçe adı Boş Yer Yok). Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen koyuyorsun, ekibi sen kuruyorsun, maaşlar her saniye kasadan düşüyor. Artık iPhone'da da var.",
+  "en": "A parking lot tycoon. You don't steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second. Now on iPhone too."
  },
  {
   "slug": "kit",
@@ -167,6 +167,32 @@
   "status": "soon",
   "tr": "Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.",
   "en": "The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously."
+ },
+ {
+  "slug": "nika",
+  "name": "Nika",
+  "sub": "Wedding Planner",
+  "icon": "/assets/home/nika-icon.webp",
+  "color": "#e9ccff",
+  "ios": null,
+  "play": null,
+  "tour": "/nika/",
+  "status": "soon",
+  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. App Store incelemesinde, Android yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In App Store review, Android on the way."
+ },
+ {
+  "slug": "era",
+  "name": "Era",
+  "sub": "Life & Trip Journal",
+  "icon": "/assets/home/era-icon.webp",
+  "color": "#55db9c",
+  "ios": null,
+  "play": null,
+  "tour": "/era/",
+  "status": "soon",
+  "tr": "Kendi hayat defterin. Anıyı tarihi, yeri ve kişileriyle yaz; yolculukları rota olarak çiz, sonra hepsini kitap gibi sayfa sayfa oku. Bir de seçtiğin güne kadar mühürlü kalan zarflar var. Hesap gerekmiyor.",
+  "en": "Your own life journal. Write a memory with its date, place and people; draw trips as routes, then read it all page by page like a book. There are envelopes too, sealed until a day you pick. No account needed."
  },
  {
   "slug": "pickleball",
@@ -257,7 +283,7 @@
   "tour": "/web/store-mockup/",
   "status": "web",
   "tr": "Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.",
-  "en": "Your app’s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source."
+  "en": "Your app's new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source."
  },
  {
   "slug": "mihenk",
@@ -267,7 +293,7 @@
   "color": "#ffd731",
   "ios": null,
   "play": null,
-  "tour": "/lab/mihenk/",
+  "tour": "https://mihenk.bamstudio.dev/",
   "status": "web",
   "tr": "Herhangi bir uygulamanın kaç kez indirildiğini ve ne kazandığını App Store ve Google Play verisinden tahmin eder. Rakibine bak, pazarı ölç.",
   "en": "Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market."

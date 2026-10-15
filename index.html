@@ -4,18 +4,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bam Studio · Indie iOS, watchOS &amp; Android Apps</title>
+  <title>Bam Studio · Apps for iPhone, Apple Watch, Android &amp; TV</title>
   <meta name="description"
-    content="Bam Studio is a one-person studio. Small apps for iPhone, Apple Watch and Android: a virtual pet, a plant diary, score keepers, household books, tools and games." />
+    content="Small apps for iPhone, Apple Watch, Android, Wear OS and TV: a tennis and padel score keeper for the watch, a dhikr counter, a TV party game, a plant diary, a budget planner and more. We also build apps for clients." />
   <link rel="canonical" href="https://bamstudio.dev/" />
-  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/brand/icon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/brand/icon-180.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="alternate" type="application/rss+xml" title="Bam Studio" href="/feed.xml" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Bam Studio · Indie iOS, watchOS &amp; Android Apps" />
-  <meta property="og:description" content="Small apps that do one thing well. Made by a one-person studio." />
+  <meta property="og:site_name" content="Bam Studio" />
+  <meta property="og:title" content="Bam Studio · Apps for iPhone, Apple Watch, Android &amp; TV" />
+  <meta property="og:description" content="Small apps that do one thing well, on the phone, the wrist and the TV. Made by a small independent studio." />
   <meta property="og:url" content="https://bamstudio.dev/" />
-  <meta property="og:image" content="https://bamstudio.dev/assets/brand/og.png" />
+  <meta property="og:image" content="https://bamstudio.dev/assets/brand/og-2.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="tr_TR" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bam Studio · Apps for iPhone, Apple Watch, Android &amp; TV" />
+  <meta name="twitter:description" content="Small apps that do one thing well, on the phone, the wrist and the TV." />
+  <meta name="twitter:image" content="https://bamstudio.dev/assets/brand/og-2.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+    {"@type":"Organization","@id":"https://bamstudio.dev/#org","name":"Bam Studio","url":"https://bamstudio.dev/","logo":"https://bamstudio.dev/assets/brand/icon-512.png","email":"merhaba@bamstudio.dev",
+     "description":"Independent app studio making apps for iPhone, Apple Watch, Android, Wear OS, TV and the web.",
+     "contactPoint":[{"@type":"ContactPoint","contactType":"customer support","email":"merhaba@bamstudio.dev","availableLanguage":["Turkish","English"]},{"@type":"ContactPoint","contactType":"sales","email":"merhaba@bamstudio.dev","availableLanguage":["Turkish","English"]}],
+     "sameAs":["https://apps.apple.com/developer/id1676787785","https://play.google.com/store/apps/developer?id=bam-tech"]},
+    {"@type":"WebSite","@id":"https://bamstudio.dev/#site","name":"Bam Studio","url":"https://bamstudio.dev/","inLanguage":["en","tr"],"publisher":{"@id":"https://bamstudio.dev/#org"}}
+  ]}</script>
   <meta name="theme-color" content="#dceeff" />
 
   <script>
@@ -58,6 +76,7 @@
     :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
     .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
     .disp { font-family: var(--disp); font-weight: 400; text-transform: uppercase; line-height: .86; letter-spacing: -.005em; }
+    :root[data-lang="tr"] .disp { line-height: .97; } /* İ, Ö, Ü noktaları üst satıra girmesin */
     .lbl { font-weight: 700; font-size: 12px; letter-spacing: .032em; text-transform: uppercase; }
 
     .pill { display: inline-flex; align-items: center; gap: 7px; border: var(--line); border-radius: 999px; background: var(--paper); padding: 9px 14px; font-weight: 700; font-size: 13px; letter-spacing: .03em; white-space: nowrap; transition: transform .15s; }
@@ -226,6 +245,66 @@
 
 
 
+    .chip.soon { border-style: dashed; background: #fff8; }
+    .zhit .m-tv { width: 86%; --tilt: -3deg; }
+    .z-l .zhit .m-tv { --tilt: 3deg; }
+    .zpanel:hover .m-tv { transform: rotate(0) translateY(-6px); }
+
+    /* TV çerçevesi (vitrin ve liste) */
+    .m-tv { display: grid; justify-items: center; width: 400px; transform: rotate(var(--tilt, 0deg)); transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+    .m-tv > .scr { aspect-ratio: 16 / 9; background: #0b0b0d; border: 9px solid #0b0b0d; outline: 2px solid #000; border-radius: 10px; }
+    .m-tv > .scr > img { object-position: center; }
+    .m-tv .stand { display: block; width: 34%; height: 16px; margin-top: 6px; background: #d9d9d9; border: 2px solid #000; border-radius: 4px 4px 14px 14px; }
+    .ph:hover .m-tv { transform: rotate(0) translateY(-6px); }
+
+    /* ── Her ekranda ── */
+    .screens { padding: 80px 0; background: var(--lime); border-top: var(--line); }
+    .scr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 34px; }
+    .scard { position: relative; background: var(--paper); border: 2px solid #000; border-radius: 30px; padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 12px; transform: rotate(var(--r, 0deg)); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+    .scard:hover { transform: rotate(0) translateY(-4px); }
+    .scard.hot { background: var(--ink); color: var(--paper); }
+    .scard .big { font-family: var(--disp); font-size: clamp(64px, 6vw, 96px); line-height: .85; }
+    .scard h3 { font-family: var(--disp); font-weight: 400; font-size: 38px; line-height: .9; text-transform: uppercase; }
+    .scard p { font-size: 15px; }
+    .scard .ic { display: flex; gap: 6px; flex-wrap: wrap; }
+    .scard .ic img { width: 40px; height: 40px; border-radius: 11px; border: 1.5px solid #000; background: #fff; }
+    .scard .chips { display: flex; gap: 4px; flex-wrap: wrap; margin-top: auto; }
+    .scard.hot .chip { border-color: #fff8; }
+    .scard.hot .chip.soon { background: #fff2; }
+    .scard .pill { align-self: flex-start; }
+    .scard.hot .pill { background: var(--sun); color: #000; border-color: var(--sun); }
+    .scard .badge { position: absolute; top: -12px; right: 18px; }
+    @media (max-width: 1100px) { .scr-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 640px) { .scr-grid { grid-template-columns: 1fr; } .scard { transform: none; } }
+
+    /* ── Birlikte yapalım ── */
+    .work { padding: 80px 0; background: var(--violet); color: var(--paper); border-top: var(--line); }
+    .work-in { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .work h2 { font-size: clamp(56px, 8vw, 130px); line-height: .98; }
+    .work .lede { font-size: 18px; margin-top: 18px; max-width: 46ch; }
+    .work ul { list-style: none; display: grid; gap: 8px; margin-top: 22px; }
+    .work li { display: flex; gap: 10px; align-items: baseline; font-weight: 700; font-size: 16px; }
+    .work li::before { content: "✦"; color: var(--sun); }
+    .work .proof { margin-top: 22px; font-size: 14px; opacity: .85; }
+    .work .proof a { text-decoration: underline; }
+    .work-form { background: var(--paper); color: var(--ink); border: 2px solid #000; border-radius: 30px; padding: 24px; display: grid; gap: 12px; transform: rotate(1deg); }
+    .work-form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .work-form label.f { display: grid; gap: 6px; font-weight: 700; font-size: 13px; }
+    .work-form .inp { border-radius: 16px; padding: 12px 14px; font-size: 16px; width: 100%; }
+    .work-form textarea.inp { resize: vertical; min-height: 120px; font: inherit; font-size: 16px; }
+    .work-form fieldset { border: 0; display: grid; gap: 8px; }
+    .work-form legend { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+    .plats { display: flex; flex-wrap: wrap; gap: 6px; }
+    .plats label { position: relative; border: var(--line); border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 13px; cursor: pointer; background: var(--paper); }
+    .plats input { position: absolute; opacity: 0; pointer-events: none; }
+    .plats label:has(input:checked) { background: var(--ink); color: var(--paper); }
+    .plats label:has(input:focus-visible) { outline: 3px solid var(--violet); outline-offset: 2px; }
+    .work-form .opt { font-weight: 500; opacity: .6; }
+    .work-form .small { font-size: 12px; opacity: .7; }
+    .work-form .small a { text-decoration: underline; }
+    @media (max-width: 900px) { .work-in { grid-template-columns: 1fr; } .work-form { transform: none; } }
+    @media (max-width: 520px) { .work-form .two { grid-template-columns: 1fr; } .work-form { padding: 18px; } }
+
     /* ── Köşe çağrısı ── */
     .toast { position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 300px; background: var(--sun); border: 2px solid #000; border-radius: 26px; padding: 16px 18px 18px; transform: rotate(-2deg); animation: toastIn .7s cubic-bezier(.3, 1.5, .5, 1); }
     .toast[hidden] { display: none; }
@@ -340,6 +419,7 @@
       .card { height: 420px; }
       .m-phone { width: 166px; }
       .m-laptop { width: 280px; }
+      .m-tv { width: 290px; }
       .zicon { width: 70px; height: 70px; left: 16px; bottom: 16px; }
       .z-l .zicon { right: 16px; }
       .znum { font-size: 44px; }
@@ -367,6 +447,7 @@
         <a href="/blog/"><span class="tr">Yazılar</span><span class="en">Notes</span></a>
         <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
         <a href="#sss"><span class="tr">SSS</span><span class="en">FAQ</span></a>
+        <a href="#birlikte"><span class="tr">Bize yazın</span><span class="en">Work with us</span></a>
         <button class="lang" type="button">EN</button>
       </nav>
       <div class="stores">
@@ -389,13 +470,14 @@
             <span class="en"><span>Small apps that do</span><span class="l2">one thing well</span></span>
           </h1>
           <p class="hero-sub">
-            <span class="tr">iPhone, Apple Watch ve Android için yaratılmış; sanal evcil hayvan, bitki bakım günlüğü, kortta skor takibi, ev ekonomisi gibi birçok farklı konu için keyifle yazılmış birkaç uygulama. Her biri farklı bir ihtiyaçtan doğdu.</span>
-            <span class="en">Made for iPhone, Apple Watch and Android: a virtual pet, a plant care diary, score keeping on the court, household books and more, a handful of apps written with joy. Each one was born from a different need.</span>
+            <span class="tr">iPhone, Apple Watch, Android, Wear OS ve artık TV için küçük uygulamalar. Sanal evcil hayvan, bitki günlüğü, kortta skor, ev bütçesi, salonda parti oyunu. Her biri önce kendi ihtiyacımız için yazıldı.</span>
+            <span class="en">Small apps for iPhone, Apple Watch, Android, Wear OS and now the TV. A virtual pet, a plant diary, scores on court, household books, a party game for the living room. Each one started as something we needed ourselves.</span>
           </p>
           <p class="hero-note"><span class="tr">* Verilerin satılmaz, korunur.</span><span class="en">* Your data is never sold. It stays protected.</span></p>
           <div class="hero-cta">
             <a class="pill dark big" href="#vitrin"><span class="tr">Vitrine bak ↓</span><span class="en">See the showcase ↓</span></a>
             <a class="pill big" href="#tum"><span class="tr">Tüm uygulamalar</span><span class="en">All apps</span></a>
+            <a class="pill big" href="#birlikte" data-umami-event="hero-proje"><span class="tr">Uygulama yaptır →</span><span class="en">Hire us →</span></a>
           </div>
         </div>
       </div>
@@ -406,7 +488,7 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Vitrin</span><span class="en">Showcase</span></h2>
-          <p><span class="tr">Her uygulama kendi cihazında, gerçek ekranlarıyla. Görmeye hazır mısın? 🚀 Vitrin kendiliğinden akar; durdurmak için üstüne gelmen ya da sürüklemen yeterli. Ekrana dokununca sıradaki ekran gelir. Köşedeki QR'a basınca kart döner: telefonunla okut, App Store ya da Google Play'de aç.</span><span class="en">Every app on its own device, with its real screens. Ready to look? 🚀 The showcase drifts by itself; hover or drag to stop it. Tap a screen for the next one. Hit the QR in the corner and the card flips: scan it with your phone and open it on the App Store or Google Play.</span></p>
+          <p><span class="tr">Her uygulama kendi cihazında, gerçek ekranlarıyla: telefon, saat, TV. Vitrin kendiliğinden akar; durdurmak için üstüne gelmen ya da sürüklemen yeterli. Ekrana dokununca sıradaki ekran gelir. Köşedeki QR'a basınca kart döner: telefonunla okut, App Store ya da Google Play'de aç.</span><span class="en">Every app on its own device with its real screens: phone, watch, TV. The showcase drifts by itself; hover or drag to stop it. Tap a screen for the next one. Hit the QR in the corner and the card flips: scan it with your phone and open it on the App Store or Google Play.</span></p>
           <div class="rail-nav"><button type="button" id="prev" aria-label="Previous">←</button><button type="button" id="next" aria-label="Next">→</button></div>
         </div>
         <div class="filters" role="toolbar" aria-label="Filter by platform">
@@ -415,7 +497,9 @@
           <button data-f="android" aria-pressed="false">Android</button>
           <button data-f="watchos" aria-pressed="false">watchOS</button>
           <button data-f="wearos" aria-pressed="false">Wear OS</button>
+          <button data-f="tv" aria-pressed="false">TV</button>
           <button data-f="web" aria-pressed="false">Web</button>
+          <button data-f="soon" aria-pressed="false"><span class="tr">Yakında</span><span class="en">Coming soon</span></button>
           <button data-f="new" aria-pressed="false"><span class="tr">Yeni</span><span class="en">New</span></button>
           <span class="count lbl" id="count"></span>
         </div>
@@ -430,10 +514,53 @@
         <div class="stat v" style="--c:var(--violet);--r:3deg"><b id="sWatch">0</b><span class="tr">tanesi akıllı saatte de var</span><span class="en">of them on a smartwatch too</span></div>
         <div class="stat" style="--c:var(--mint);--r:-2deg"><b>2</b><span>App Store + Google Play</span></div>
         <div class="stat" style="--c:var(--pink);--r:4deg"><b>4</b><span>iOS · Android · watchOS · Wear OS</span></div>
+        <div class="stat" style="--c:var(--sun);--r:-2deg"><b>+4</b><span class="tr">TV mağazası yolda: Apple TV · Google TV · Samsung · LG</span><span class="en">TV stores on the way: Apple TV · Google TV · Samsung · LG</span></div>
         <div class="stat" style="--c:var(--lav);--r:-3deg"><b id="sWeb">0</b><span class="tr">web uygulaması</span><span class="en">web apps</span></div>
         <div class="stat" style="--c:var(--sky);--r:2deg"><b>2023</b><span class="tr">yılından beri mağazada</span><span class="en">the year the first app shipped</span></div>
         <div class="stat" style="--c:var(--lime);--r:-5deg"><b>1</b><span class="tr">kişilik stüdyo</span><span class="en">person studio</span></div>
         <div class="stat" style="--c:var(--paper);--r:3deg"><b>0</b><span class="tr">satılan veri</span><span class="en">data sold</span></div>
+      </div>
+    </section>
+
+    <!-- ── Her ekranda ──────────────────────────────────── -->
+    <section class="screens" id="ekranlar">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="disp"><span class="tr">Cepte, bilekte, salonda</span><span class="en">Pocket, wrist, living room</span></h2>
+          <p><span class="tr">Uygulamaların çoğu telefonda kalır. Bizimkiler saate ve TV'ye de gidiyor: skoru bileğinden tutuyorsun, parti oyununu salondaki büyük ekranda oynuyorsun.</span><span class="en">Most apps stay on the phone. Ours also go to the watch and the TV: you keep score from your wrist and play the party game on the big screen.</span></p>
+        </div>
+        <div class="scr-grid">
+          <article class="scard" style="--r:-1.5deg">
+            <b class="big" id="pPhone">0</b>
+            <h3><span class="tr">Telefonda</span><span class="en">On the phone</span></h3>
+            <p><span class="tr">iPhone, iPad ve Android. App Store'da ve Google Play'de; çoğu hesap istemiyor, veri telefonda kalıyor.</span><span class="en">iPhone, iPad and Android. On the App Store and Google Play; most need no account and keep your data on the phone.</span></p>
+            <div class="ic"><img src="/walletcoach/assets/icon-512.png" alt="Wallet Coach" loading="lazy" /><img src="/assets/home/leafbook-icon.webp" alt="Leafbook" loading="lazy" /><img src="/assets/home/nubi-icon.webp" alt="Nubi" loading="lazy" /><img src="/assets/home/kit-icon.webp" alt="Kit" loading="lazy" /></div>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">iPadOS</span><span class="chip">Android</span></div>
+          </article>
+          <article class="scard" style="--r:1.5deg">
+            <b class="big" id="pWatch">0</b>
+            <h3><span class="tr">Bilekte</span><span class="en">On the wrist</span></h3>
+            <p><span class="tr">Tennis &amp; Padel skoru saatte tek başına tutar, telefon dolapta kalabilir. Tasbih Tally titreşimle sayar. Pickleball, voleybol, badminton ve masa tenisinde de skor bilekte.</span><span class="en">Tennis &amp; Padel keeps score on the watch by itself, the phone can stay in the locker. Tasbih Tally counts with haptics. Pickleball, volleyball, badminton and table tennis keep score on the wrist too.</span></p>
+            <div class="ic"><img src="/tennis-padel/assets/icon.webp" alt="Tennis &amp; Padel" loading="lazy" /><img src="/tasbih-tally/assets/icon.webp" alt="Tasbih Tally" loading="lazy" /><img src="/pickleball/assets/icon.webp" alt="Pickleball" loading="lazy" /><img src="/orbix-roulette/assets/icon.webp" alt="Orbix" loading="lazy" /></div>
+            <div class="chips"><span class="chip">Apple Watch</span><span class="chip">Wear OS</span></div>
+          </article>
+          <article class="scard hot" style="--r:-1deg">
+            <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span>
+            <b class="big">TV</b>
+            <h3><span class="tr">Salonda</span><span class="en">In the living room</span></h3>
+            <p><span class="tr">Konfeti bir ev partisi oyunu. Oyunu kumandayla seçiyorsun, misafirler TV'deki QR'ı okutup telefonla katılıyor. Şimdilik tarayıcıda çalışıyor; Apple TV, Google TV, Samsung ve LG mağazalarında inceleme sürüyor.</span><span class="en">Konfeti is a house party game. You pick a game with the remote, guests scan the QR on the TV and join from their phones. It runs in the browser for now; Apple TV, Google TV, Samsung and LG are in review.</span></p>
+            <div class="ic"><img src="/konfeti/assets/icon-512.png" alt="Konfeti" loading="lazy" /></div>
+            <div class="chips"><span class="chip soon">Apple TV · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Google TV · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Samsung · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">LG · <span class="tr">yakında</span><span class="en">soon</span></span></div>
+            <a class="pill" href="/konfeti/" data-umami-event="ekranlar-tv"><span class="tr">Konfeti'ye bak →</span><span class="en">See Konfeti →</span></a>
+          </article>
+          <article class="scard" style="--r:1deg">
+            <b class="big" id="pWeb">0</b>
+            <h3><span class="tr">Tarayıcıda</span><span class="en">In the browser</span></h3>
+            <p><span class="tr">Kurulum yok, adres yeter. Konfeti'nin parti ekranı, mağaza görseli hazırlayan Framegrove ve indirme tahmini yapan Mihenk tarayıcıda açılıyor.</span><span class="en">Nothing to install, a link is enough. Konfeti's party screen, Framegrove for store screenshots and Mihenk for download estimates all open in the browser.</span></p>
+            <div class="ic"><img src="/konfeti/assets/icon-512.png" alt="Konfeti" loading="lazy" /><img src="/assets/home/icons/store-mockup.svg" alt="Framegrove" loading="lazy" /><img src="/assets/home/icons/mihenk.svg" alt="Mihenk" loading="lazy" /></div>
+            <div class="chips"><span class="chip">Web</span></div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -442,13 +569,13 @@
       <div class="wrap">
         <div class="sec-head">
           <h2 class="disp"><span class="tr">Tüm uygulamalar</span><span class="en">All the apps</span></h2>
-          <p><span class="tr">Her biri farklı bir ihtiyaçtan doğdu. Görsele dokun, tanıtımı aç; "Vitrinde gör" butonu ile vitrindeki yerine git! 👨🏻‍💻</span><span class="en">Each one was born from a different need. Tap the picture to open its tour, or use "On the shelf" to find it in the showcase! 👨🏻‍💻</span></p>
+          <p><span class="tr">Her biri farklı bir ihtiyaçtan doğdu. Görsele dokun, tanıtımı aç; "Vitrinde gör" ile vitrindeki yerine git.</span><span class="en">Each one was born from a different need. Tap the picture to open its tour, or use "On the shelf" to find it in the showcase.</span></p>
         </div>
         <div id="list">
       <!-- katalog:başla -->
         <article class="zrow z-l" id="app-walletcoach" data-slug="walletcoach" data-tags="tools finance ios android" data-color="#dceeff" data-icon="/walletcoach/assets/icon-512.png" data-ios="https://apps.apple.com/app/id6798041415" data-play="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" data-web="" data-tour="/walletcoach/" data-title="Wallet Coach" data-name="Wallet Coach Monthly Budget wallet coach bütçe ev ekonomisi budget para" style="--c:#dceeff">
           <div class="zpanel">
-            <a class="zhit" href="/walletcoach/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="walletcoach" aria-label="Wallet Coach"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <a class="zhit" href="/walletcoach/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="walletcoach" aria-label="Wallet Coach"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/v24/tr/01-panel.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/walletcoach/v24/en/01-panel.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/walletcoach/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">01</span>
           </div>
@@ -460,21 +587,21 @@
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6798041415" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="walletcoach">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.walletcoach" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="walletcoach">Google Play ↗</a><a class="pill" href="/walletcoach/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="walletcoach"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="walletcoach"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-tennis-padel" data-slug="tennis-padel" data-tags="sport ios android watchos wearos" data-color="#c8f560" data-icon="/tennis-padel/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756925523" data-play="https://play.google.com/store/apps/details?id=com.aberk.wear" data-web="" data-tour="/tennis-padel/" data-title="Tennis &amp; Padel" data-name="Tennis &amp; Padel Score Keeper tennis padel tenis skor score" style="--c:#c8f560">
+        <article class="zrow z-r" id="app-tennis-padel" data-slug="tennis-padel" data-tags="sport ios android watchos wearos" data-color="#c8f560" data-icon="/tennis-padel/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756925523" data-play="https://play.google.com/store/apps/details?id=com.aberk.wear" data-web="" data-tour="/tennis-padel/" data-title="Tennis &amp; Padel" data-name="Tennis &amp; Padel Score Keeper tennis padel tenis skor saati skor tutma score keeper apple watch wear os" style="--c:#c8f560">
           <div class="zpanel">
-            <a class="zhit" href="/tennis-padel/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="tennis-padel" aria-label="Tennis &amp; Padel"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tennis-padel/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <a class="zhit" href="/tennis-padel/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="tennis-padel" aria-label="Tennis &amp; Padel"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tennis-padel/v2/tr/01-home.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tennis-padel/v2/en/01-home.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/tennis-padel/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">02</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Score Keeper </p>
             <h3 class="disp" lang="en">Tennis &amp; Padel</h3>
-            <p class="zp"><span class="tr">Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Saatte tek başına çalışır.</span><span class="en">Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on the watch.</span></p>
+            <p class="zp"><span class="tr">Sayıya dokun, kurallar kendi işlesin: tiebreak, altın sayı, set. Apple Watch ve Wear OS&#x27;ta tek başına çalışır, telefon soyunma odasında kalabilir.</span><span class="en">Tap to score and the rules take care of themselves: tiebreaks, golden points, sets. Runs standalone on Apple Watch and Wear OS, so the phone can stay in the locker room.</span></p>
             <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span><span class="chip">watchOS</span><span class="chip">Wear OS</span></div>
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6756925523" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="tennis-padel">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.wear" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="tennis-padel">Google Play ↗</a><a class="pill" href="/tennis-padel/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="tennis-padel"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="tennis-padel"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-l" id="app-nubi" data-slug="nubi" data-tags="fun ios" data-color="#ffd731" data-icon="/assets/home/nubi-icon.webp" data-ios="https://apps.apple.com/app/id6816090205" data-play="" data-web="" data-tour="/nubi/" data-title="Nubi" data-name="Nubi Virtual Pet nubi sanal evcil hayvan tamagotchi pet virtual" data-released="2026-10-01" style="--c:#ffd731">
+        <article class="zrow z-l" id="app-nubi" data-slug="nubi" data-tags="fun ios android" data-color="#ffd731" data-icon="/assets/home/nubi-icon.webp" data-ios="https://apps.apple.com/app/id6816090205" data-play="https://play.google.com/store/apps/details?id=com.aberk.nubi" data-web="" data-tour="/nubi/" data-title="Nubi" data-name="Nubi Virtual Pet nubi sanal evcil hayvan tamagotchi pet virtual" data-released="2026-10-01" style="--c:#ffd731">
           <div class="zpanel">
             <a class="zhit" href="/nubi/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="nubi" aria-label="Nubi"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/nubi/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/nubi-icon.webp" alt="" loading="lazy" width="512" height="512" />
@@ -484,22 +611,22 @@
             <p class="zkick">Virtual Pet <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
             <h3 class="disp" lang="en">Nubi</h3>
             <p class="zp"><span class="tr">Gerçek zamanlı yaşayan bir sanal evcil hayvan. Sen işteyken acıkır, gece uykusu gelir, unutursan biraz sıkılır; her gün gözünün önünde büyür.</span><span class="en">A virtual pet that lives in real time. Hungry while you work, sleepy at night, a little bored when you forget it, and growing up right in front of you.</span></p>
-            <div class="chips"><span class="chip">iOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="nubi">App Store ↗</a><a class="pill" href="/nubi/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="nubi"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="nubi"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6816090205" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="nubi">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.nubi" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="nubi">Google Play ↗</a><a class="pill" href="/nubi/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="nubi"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="nubi"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-konfeti" data-slug="konfeti" data-tags="fun web android" data-color="#ffd731" data-icon="/konfeti/assets/icon-512.png" data-ios="" data-play="" data-web="" data-tour="/konfeti/" data-title="Konfeti" data-name="Konfeti Party TV konfeti parti party tv android tv google tv oyun game bu mu o mu yasak kelime doğruluk cesaret" data-released="2026-10-14" style="--c:#ffd731">
+        <article class="zrow z-r" id="app-konfeti" data-slug="konfeti" data-tags="fun tv web tvos androidtv tizen webos" data-color="#ffd731" data-icon="/konfeti/assets/icon-512.png" data-ios="" data-play="" data-web="https://konfeti.bamstudio.dev/" data-tour="/konfeti/" data-title="Konfeti" data-name="Konfeti Party TV konfeti parti party tv apple tv android tv google tv samsung lg tizen webos oyun game bu mu o mu yasak kelime doğruluk cesaret" data-released="2026-10-14" style="--c:#ffd731">
           <div class="zpanel">
-            <a class="zhit" href="/konfeti/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="konfeti" aria-label="Konfeti"><span class="m-phone"><span class="isl"></span><span class="scr fallback"><img src="/konfeti/assets/icon-512.png" alt="" loading="lazy" /></span></span></a>
+            <a class="zhit" href="/konfeti/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="konfeti" aria-label="Konfeti"><span class="m-tv tr"><span class="scr"><img src="/konfeti/assets/shots/tr/01-home.webp" alt="" loading="lazy" /></span><span class="stand"></span></span><span class="m-tv en"><span class="scr"><img src="/konfeti/assets/shots/en/01-home.webp" alt="" loading="lazy" /></span><span class="stand"></span></span></a>
             <img class="zicon" src="/konfeti/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">04</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Party TV <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
             <h3 class="disp" lang="en">Konfeti</h3>
-            <p class="zp"><span class="tr">Ev partisi için TV uygulaması. Oyunu kumandayla seç, misafirler QR&#x27;ı okutup telefonla oy versin; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Android TV, Google TV ve web.</span><span class="en">A party app for your TV. Pick a game with the remote, guests scan the QR and vote from their phones; photos, scores and the night&#x27;s recap land on the big screen. Android TV, Google TV and the web.</span></p>
-            <div class="chips"><span class="chip">Web</span><span class="chip">Android</span></div>
-            <div class="rl"><a class="pill" href="/konfeti/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="konfeti"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="konfeti"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <p class="zp"><span class="tr">Ev partileri için TV oyunu. Oyunu kumandayla seçiyorsun, misafirler TV&#x27;deki QR&#x27;ı okutup telefonla oy veriyor; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Bugün tarayıcıda açılıyor. Apple TV, Google TV, Samsung ve LG mağazalarında inceleme sürüyor.</span><span class="en">A party game for your TV. You pick a game with the remote, guests scan the QR on screen and vote from their phones; photos, scores and the night&#x27;s recap show up on the big screen. It runs in the browser today. Apple TV, Google TV, Samsung and LG are in review.</span></p>
+            <div class="chips"><span class="chip">Web</span><span class="chip soon">Apple TV · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Android TV · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Samsung TV · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">LG TV · <span class="tr">yakında</span><span class="en">soon</span></span></div>
+            <div class="rl"><a class="pill dark" href="https://konfeti.bamstudio.dev/" target="_blank" rel="noopener" data-umami-event="web-ac" data-umami-event-app="konfeti"><span class="tr">Tarayıcıda aç</span><span class="en">Open in browser</span> ↗</a><a class="pill" href="/konfeti/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="konfeti"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="konfeti"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
         <article class="zrow z-l" id="app-daily-whisper" data-slug="daily-whisper" data-tags="health ios watchos" data-color="#e9ccff" data-icon="/assets/home/daily-whisper-icon.webp" data-ios="https://apps.apple.com/app/id6757824195" data-play="" data-web="" data-tour="/daily-whisper/" data-title="Daily Whisper" data-name="Daily Whisper Affirmations daily whisper affirmations olumlama manifest hikaye" data-released="2026-10-02" style="--c:#e9ccff">
@@ -511,12 +638,12 @@
           <div class="ztxt">
             <p class="zkick">Affirmations <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
             <h3 class="disp" lang="en">Daily Whisper</h3>
-            <p class="zp"><span class="tr">Her sabah sana özel yazılmış kısa bir hikaye: hayalini kurduğun hayattan bir sahne, senin adınla, sıcak bir sesle okunur.</span><span class="en">Every morning a short story written just for you: a scene from the life you are working towards, with your name in it, read aloud in a warm voice.</span></p>
+            <p class="zp"><span class="tr">Her sabah sana yazılmış kısa bir hikaye. Hayalini kurduğun hayattan bir sahne, içinde senin adın; sakin bir ses okuyor, sen gözünü kapatıp dinliyorsun. 2.0 ile baştan tasarlandı.</span><span class="en">Every morning a short story written for you. A scene from the life you want, with your name in it, read by a calm voice while you close your eyes and listen. Redesigned from scratch in 2.0.</span></p>
             <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6757824195" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="daily-whisper">App Store ↗</a><a class="pill" href="/daily-whisper/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="daily-whisper"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="daily-whisper"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-o-mu-bu-mu" data-slug="o-mu-bu-mu" data-tags="fun ios android watchos wearos" data-color="#5c4ade" data-icon="/assets/home/omubumu-icon.webp" data-ios="https://apps.apple.com/app/id6740251305" data-play="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" data-web="" data-tour="/o-mu-bu-mu/" data-title="O mu Bu mu?" data-name="O mu Bu mu? This or That o mu bu mu would you rather tercih oyunu turnuva" style="--c:#5c4ade">
+        <article class="zrow z-r" id="app-o-mu-bu-mu" data-slug="o-mu-bu-mu" data-tags="fun ios android watchos wearos" data-color="#5c4ade" data-icon="/assets/home/omubumu-icon.webp" data-ios="https://apps.apple.com/tr/app/id6740251305" data-play="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" data-web="" data-tour="/o-mu-bu-mu/" data-title="O mu Bu mu?" data-name="O mu Bu mu? This or That o mu bu mu would you rather tercih oyunu turnuva" style="--c:#5c4ade">
           <div class="zpanel">
             <a class="zhit" href="/o-mu-bu-mu/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="o-mu-bu-mu" aria-label="O mu Bu mu?"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/o-mu-bu-mu/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/omubumu-icon.webp" alt="" loading="lazy" width="512" height="512" />
@@ -527,10 +654,10 @@
             <h3 class="disp" lang="en">O mu Bu mu?</h3>
             <p class="zp"><span class="tr">İmkansız tercihler ve turnuvalar. Arkadaşlarınla sesli oynanır, tartışma garantili.</span><span class="en">Impossible choices and tournaments, Turkish edition. Played out loud with friends, arguments guaranteed.</span></p>
             <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span><span class="chip">watchOS</span><span class="chip">Wear OS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6740251305" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="o-mu-bu-mu">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="o-mu-bu-mu">Google Play ↗</a><a class="pill" href="/o-mu-bu-mu/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="o-mu-bu-mu"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="o-mu-bu-mu"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/tr/app/id6740251305" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="o-mu-bu-mu">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.berkalparslan.thisOne" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="o-mu-bu-mu">Google Play ↗</a><a class="pill" href="/o-mu-bu-mu/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="o-mu-bu-mu"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="o-mu-bu-mu"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-l" id="app-tasbih-tally" data-slug="tasbih-tally" data-tags="tools ios watchos" data-color="#55db9c" data-icon="/tasbih-tally/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756802776" data-play="" data-web="" data-tour="/tasbih-tally/" data-title="Tasbih Tally" data-name="Tasbih Tally Digital Counter tasbih tally zikir tesbih namaz kıble counter" style="--c:#55db9c">
+        <article class="zrow z-l" id="app-tasbih-tally" data-slug="tasbih-tally" data-tags="tools ios android watchos wearos" data-color="#55db9c" data-icon="/tasbih-tally/assets/icon.webp" data-ios="https://apps.apple.com/app/id6756802776" data-play="https://play.google.com/store/apps/details?id=com.aberk.tasbihTally" data-web="" data-tour="/tasbih-tally/" data-title="Tasbih Tally" data-name="Tasbih Tally Digital Counter tasbih tally zikir tesbih zikirmatik namaz vakti kıble dhikr counter" style="--c:#55db9c">
           <div class="zpanel">
             <a class="zhit" href="/tasbih-tally/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="tasbih-tally" aria-label="Tasbih Tally"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/tasbih-tally/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/tasbih-tally/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
@@ -539,51 +666,51 @@
           <div class="ztxt">
             <p class="zkick">Digital Counter </p>
             <h3 class="disp" lang="en">Tasbih Tally</h3>
-            <p class="zp"><span class="tr">Zikir, namaz vakitleri ve kıble. Saatte titreşimle sayar, sayıyı kaybetmezsin.</span><span class="en">Dhikr counter, prayer times and qibla. Counts with haptics on the Watch so you never lose count.</span></p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">watchOS</span></div>
-            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="tasbih-tally">App Store ↗</a><a class="pill" href="/tasbih-tally/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="tasbih-tally"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="tasbih-tally"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <p class="zp"><span class="tr">Zikir, namaz vakitleri ve kıble. Apple Watch ve Wear OS&#x27;ta titreşimle sayar, sayıyı kaybetmezsin.</span><span class="en">Dhikr counter, prayer times and qibla. On Apple Watch and Wear OS it counts with haptics, so you never lose count.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span><span class="chip">watchOS</span><span class="chip">Wear OS</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6756802776" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="tasbih-tally">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.tasbihTally" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="tasbih-tally">Google Play ↗</a><a class="pill" href="/tasbih-tally/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="tasbih-tally"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="tasbih-tally"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-bodybook" data-slug="bodybook" data-tags="health android" data-color="#fb4903" data-icon="/assets/home/bodybook-icon.webp" data-ios="" data-play="https://play.google.com/store/apps/details?id=com.aberk.bodybook" data-web="" data-tour="/bodybook/" data-title="BodyBook" data-name="BodyBook Health Tracker bodybook sağlık tansiyon cilt ben health" style="--c:#fb4903">
+        <article class="zrow z-r" id="app-bodybook" data-slug="bodybook" data-tags="health ios android" data-color="#fb4903" data-icon="/assets/home/bodybook-icon.webp" data-ios="https://apps.apple.com/app/id6799754171" data-play="https://play.google.com/store/apps/details?id=com.aberk.bodybook" data-web="" data-tour="/bodybook/" data-title="BodyBook" data-name="BodyBook Mole Tracker bodybook ben takibi mole tracker cilt abcde ilaç hatırlatıcı health" data-released="2026-10-15" style="--c:#fb4903">
           <div class="zpanel">
             <a class="zhit" href="/bodybook/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="bodybook" aria-label="BodyBook"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bodybook/any/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/bodybook-icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">08</span>
           </div>
           <div class="ztxt">
-            <p class="zkick">Health Tracker </p>
+            <p class="zkick">Mole Tracker <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
             <h3 class="disp" lang="en">BodyBook</h3>
-            <p class="zp"><span class="tr">Tansiyon, kilo, cilt bakım rutini, ben fotoğrafları, ilaç, su ve uyku tek panelde. Hepsi telefonunda kalır.</span><span class="en">Blood pressure, weight, skincare routine, mole photos, medication, water and sleep in one panel. Everything stays on your phone.</span></p>
-            <div class="chips"><span class="chip">Android</span></div>
-            <div class="rl"><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="bodybook">Google Play ↗</a><a class="pill" href="/bodybook/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="bodybook"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="bodybook"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <p class="zp"><span class="tr">Benlerini aynı açıdan fotoğrafla, ABCDE listesiyle 3 ila 6 ayda bir karşılaştır. Cilt rutini ve ilaç hatırlatıcısı da içinde. Hepsi telefonunda kalır. Artık iPhone&#x27;da da var.</span><span class="en">Photograph your moles from the same angle and compare them every 3 to 6 months with the ABCDE checklist. Skincare routine and pill reminders are in there too. Everything stays on your phone. Now on iPhone as well.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6799754171" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="bodybook">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bodybook" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="bodybook">Google Play ↗</a><a class="pill" href="/bodybook/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="bodybook"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="bodybook"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-l" id="app-leafbook" data-slug="leafbook" data-tags="lifestyle ios android" data-color="#55db9c" data-icon="/assets/home/leafbook-icon.webp" data-ios="https://apps.apple.com/app/id6811846217" data-play="https://play.google.com/store/apps/details?id=com.aberk.leafbook" data-web="" data-tour="/leafbook/" data-title="Leafbook" data-name="Leafbook Plant Tracker leafbook bitki takip sulama hayalet kamera plant" data-released="2026-09-29" style="--c:#55db9c">
+        <article class="zrow z-l" id="app-leafbook" data-slug="leafbook" data-tags="lifestyle ios android" data-color="#55db9c" data-icon="/assets/home/leafbook-icon.webp" data-ios="https://apps.apple.com/app/id6811846217" data-play="https://play.google.com/store/apps/details?id=com.aberk.leafbook" data-web="" data-tour="/leafbook/" data-title="Leafbook" data-name="Leafbook Plant Tracker leafbook bitki tanıma bitki bakımı sulama hatırlatıcı hayalet kamera topluluk plant id care" data-released="2026-09-29" style="--c:#55db9c">
           <div class="zpanel">
-            <a class="zhit" href="/leafbook/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="leafbook" aria-label="Leafbook"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <a class="zhit" href="/leafbook/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="leafbook" aria-label="Leafbook"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/v12/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/leafbook/v12/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/assets/home/leafbook-icon.webp" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">09</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Plant Tracker <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
             <h3 class="disp" lang="en">Leafbook</h3>
-            <p class="zp"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, sulama takvimi al; hayalet kamerayla aynı açıdan çek, ne kadar büyüdüğünü ölç.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule, shoot from the same angle with the ghost camera and measure the growth.</span></p>
+            <p class="zp"><span class="tr">Ev bitkileri için fotoğraf günlüğü. Fotoğraftan tanı, mevsime göre sulama takvimi al, hayalet kamerayla aynı açıdan çek. 1.2 ile topluluk geldi: başkalarının bitkilerine bak, kahverengi uçlar ne demek diye sor.</span><span class="en">A photo diary for houseplants. Identify from a photo, get a watering schedule that knows the season, shoot from the same angle with the ghost camera. 1.2 adds a community: look at other people&#x27;s plants and ask what those brown tips mean.</span></p>
             <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
             <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="leafbook">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.leafbook" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="leafbook">Google Play ↗</a><a class="pill" href="/leafbook/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="leafbook"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="leafbook"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-bosyeryok" data-slug="bosyeryok" data-tags="fun android" data-color="#ffd731" data-icon="/bosyeryok/assets/icon-512.png" data-ios="" data-play="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" data-web="" data-tour="/bosyeryok/" data-title="Boş Yer Yok" data-name="Boş Yer Yok Parking Tycoon boş yer yok no spaces otopark parking tycoon oyun game" style="--c:#ffd731">
+        <article class="zrow z-r" id="app-bosyeryok" data-slug="bosyeryok" data-tags="fun ios android" data-color="#ffd731" data-icon="/bosyeryok/assets/icon-512.png" data-ios="https://apps.apple.com/app/id6806977094" data-play="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" data-web="" data-tour="/bosyeryok/" data-title="No Spaces" data-name="No Spaces Parking Tycoon boş yer yok no spaces otopark parking tycoon oyun game" data-released="2026-10-15" style="--c:#ffd731">
           <div class="zpanel">
-            <a class="zhit" href="/bosyeryok/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="bosyeryok" aria-label="Boş Yer Yok"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/en/01.webp" alt="" loading="lazy" /></span></span></a>
+            <a class="zhit" href="/bosyeryok/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="bosyeryok" aria-label="No Spaces"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bosyeryok/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/bosyeryok/assets/icon-512.png" alt="" loading="lazy" width="512" height="512" />
             <span class="znum disp">10</span>
           </div>
           <div class="ztxt">
-            <p class="zkick">Parking Tycoon </p>
-            <h3 class="disp" lang="en">Boş Yer Yok</h3>
-            <p class="zp"><span class="tr">Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen koyuyorsun, ekibi sen kuruyorsun, maaşlar her saniye kasadan düşüyor.</span><span class="en">A parking lot tycoon. You don&#x27;t steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second.</span></p>
-            <div class="chips"><span class="chip">Android</span></div>
-            <div class="rl"><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="bosyeryok">Google Play ↗</a><a class="pill" href="/bosyeryok/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="bosyeryok"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="bosyeryok"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <p class="zkick">Parking Tycoon <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
+            <h3 class="disp" lang="en">No Spaces</h3>
+            <p class="zp"><span class="tr">Otopark işletme oyunu (Türkçe adı Boş Yer Yok). Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen koyuyorsun, ekibi sen kuruyorsun, maaşlar her saniye kasadan düşüyor. Artık iPhone&#x27;da da var.</span><span class="en">A parking lot tycoon. You don&#x27;t steer, you run the place: you set the tariff, hire the crew, and wages come out of the till every second. Now on iPhone too.</span></p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+            <div class="rl"><a class="pill dark" href="https://apps.apple.com/app/id6806977094" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="bosyeryok">App Store ↗</a><a class="pill dark" href="https://play.google.com/store/apps/details?id=com.aberk.bosyeryok" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="bosyeryok">Google Play ↗</a><a class="pill" href="/bosyeryok/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="bosyeryok"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="bosyeryok"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
         <article class="zrow z-l" id="app-kit" data-slug="kit" data-tags="tools ios watchos" data-color="#4da2ff" data-icon="/assets/home/kit-icon.webp" data-ios="https://apps.apple.com/app/id6446224550" data-play="" data-web="" data-tour="/kit-qr/" data-title="Kit" data-name="Kit QR Scanner &amp; Wallet kit qr scanner wallet barcode kod cüzdan kart bilet" data-released="2026-10-01" style="--c:#4da2ff">
@@ -624,15 +751,43 @@
             <p class="zkick">Five a side <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
             <h3 class="disp" lang="en">Matchday</h3>
             <p class="zp"><span class="tr">Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.</span><span class="en">The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously.</span></p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
+            <div class="chips"><span class="chip soon">iOS · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Android · <span class="tr">yakında</span><span class="en">soon</span></span></div>
             <div class="rl"><a class="pill" href="/matchday/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="matchday"><span class="tr">Beta&#x27;ya katıl</span><span class="en">Join the beta</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="matchday"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-r" id="app-pickleball" data-slug="pickleball" data-tags="sport ios watchos" data-color="#4da2ff" data-icon="/pickleball/assets/icon.webp" data-ios="https://apps.apple.com/app/id6760598754" data-play="" data-web="" data-tour="/pickleball/" data-title="Pickleball" data-name="Pickleball Score Keeper pickleball score skor" style="--c:#4da2ff">
+        <article class="zrow z-r" id="app-nika" data-slug="nika" data-tags="lifestyle soon ios android" data-color="#e9ccff" data-icon="/assets/home/nika-icon.webp" data-ios="" data-play="" data-web="" data-tour="/nika/" data-title="Nika" data-name="Nika Wedding Planner nika düğün planlayıcı düğün planlama uygulaması wedding planner davetiye masa planı takı defteri düğün albümü" style="--c:#e9ccff">
+          <div class="zpanel">
+            <a class="zhit" href="/nika/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="nika" aria-label="Nika"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/nika/assets/screens/tr/01-ana.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/nika/assets/screens/en/01-ana.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/assets/home/nika-icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">14</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">Wedding Planner <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
+            <h3 class="disp" lang="en">Nika</h3>
+            <p class="zp"><span class="tr">Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR&#x27;ı okutup fotoğraflarını albüme yükler. App Store incelemesinde, Android yolda.</span><span class="en">Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In App Store review, Android on the way.</span></p>
+            <div class="chips"><span class="chip soon">iOS · <span class="tr">yakında</span><span class="en">soon</span></span><span class="chip soon">Android · <span class="tr">yakında</span><span class="en">soon</span></span></div>
+            <div class="rl"><a class="pill" href="/nika/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="nika"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="nika"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
+        <article class="zrow z-l" id="app-era" data-slug="era" data-tags="lifestyle soon ios" data-color="#55db9c" data-icon="/assets/home/era-icon.webp" data-ios="" data-play="" data-web="" data-tour="/era/" data-title="Era" data-name="Era Life &amp; Trip Journal era anı defteri günlük yolculuk defteri seyahat günlüğü life journal trip journal diary" style="--c:#55db9c">
+          <div class="zpanel">
+            <a class="zhit" href="/era/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="era" aria-label="Era"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/era/assets/screens/tr/01_home.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/era/assets/screens/en/01_home.webp" alt="" loading="lazy" /></span></span></a>
+            <img class="zicon" src="/assets/home/era-icon.webp" alt="" loading="lazy" width="512" height="512" />
+            <span class="znum disp">15</span>
+          </div>
+          <div class="ztxt">
+            <p class="zkick">Life &amp; Trip Journal <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
+            <h3 class="disp" lang="en">Era</h3>
+            <p class="zp"><span class="tr">Kendi hayat defterin. Anıyı tarihi, yeri ve kişileriyle yaz; yolculukları rota olarak çiz, sonra hepsini kitap gibi sayfa sayfa oku. Bir de seçtiğin güne kadar mühürlü kalan zarflar var. Hesap gerekmiyor.</span><span class="en">Your own life journal. Write a memory with its date, place and people; draw trips as routes, then read it all page by page like a book. There are envelopes too, sealed until a day you pick. No account needed.</span></p>
+            <div class="chips"><span class="chip soon">iOS · <span class="tr">yakında</span><span class="en">soon</span></span></div>
+            <div class="rl"><a class="pill" href="/era/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="era"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="era"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+          </div>
+        </article>
+        <article class="zrow z-r" id="app-pickleball" data-slug="pickleball" data-tags="sport ios watchos" data-color="#4da2ff" data-icon="/pickleball/assets/icon.webp" data-ios="https://apps.apple.com/app/id6760598754" data-play="" data-web="" data-tour="/pickleball/" data-title="Pickleball" data-name="Pickleball Score Keeper pickleball score keeper apple watch skor saati" style="--c:#4da2ff">
           <div class="zpanel">
             <a class="zhit" href="/pickleball/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="pickleball" aria-label="Pickleball"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/pickleball/en/01.webp" alt="" loading="lazy" /></span></span></span></a>
             <img class="zicon" src="/pickleball/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">14</span>
+            <span class="znum disp">16</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Score Keeper </p>
@@ -646,7 +801,7 @@
           <div class="zpanel">
             <a class="zhit" href="/orbix-roulette/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="orbix-roulette" aria-label="Orbix"><span class="m-watch "><span class="case"><span class="scr"><img src="/assets/home/screens/orbix-roulette/any/01.webp" alt="" loading="lazy" /></span></span></span></a>
             <img class="zicon" src="/orbix-roulette/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">15</span>
+            <span class="znum disp">17</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Roulette </p>
@@ -660,7 +815,7 @@
           <div class="zpanel">
             <a class="zhit" href="/volleyball/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="volleyball" aria-label="Volleyball"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/volleyball/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/volleyball/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">16</span>
+            <span class="znum disp">18</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Score Keeper </p>
@@ -674,7 +829,7 @@
           <div class="zpanel">
             <a class="zhit" href="/rally-badminton/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="rally-badminton" aria-label="Rally: Badminton"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-badminton/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/rally-badminton/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">17</span>
+            <span class="znum disp">19</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Score Keeper </p>
@@ -688,7 +843,7 @@
           <div class="zpanel">
             <a class="zhit" href="/rally-table-tennis/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="rally-table-tennis" aria-label="Rally: Table Tennis"><span class="m-phone "><span class="isl"></span><span class="scr"><img src="/assets/home/screens/rally-table-tennis/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/rally-table-tennis/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">18</span>
+            <span class="znum disp">20</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Score Keeper </p>
@@ -702,13 +857,13 @@
           <div class="zpanel">
             <a class="zhit" href="/bumpline/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="bumpline" aria-label="Bumpline"><span class="m-phone tr"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/tr/01.webp" alt="" loading="lazy" /></span></span><span class="m-phone en"><span class="isl"></span><span class="scr"><img src="/assets/home/screens/bumpline/en/01.webp" alt="" loading="lazy" /></span></span></a>
             <img class="zicon" src="/bumpline/assets/icon.webp" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">19</span>
+            <span class="znum disp">21</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Pregnancy Tracker <span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span></p>
             <h3 class="disp" lang="en">Bumpline</h3>
             <p class="zp"><span class="tr">Kırk hafta, tek bir tarihten. Hangi haftadasın, bebek ne kadar büyüdü, doğuma kaç gün kaldı; widget, günlük ve paylaşılabilir kartla.</span><span class="en">Forty weeks from a single date. Which week you are in, how big the baby is, how many days are left; with a widget, a journal and a shareable card.</span></p>
-            <div class="chips"><span class="chip">iOS</span></div>
+            <div class="chips"><span class="chip soon">iOS · <span class="tr">yakında</span><span class="en">soon</span></span></div>
             <div class="rl"><a class="pill" href="/bumpline/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="bumpline"><span class="tr">Tanıtım</span><span class="en">Tour</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="bumpline"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
@@ -716,28 +871,28 @@
           <div class="zpanel">
             <a class="zhit" href="/web/store-mockup/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="store-mockup" aria-label="Framegrove"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/store-mockup/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></a>
             <img class="zicon" src="/assets/home/icons/store-mockup.svg" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">20</span>
+            <span class="znum disp">22</span>
           </div>
           <div class="ztxt">
             <p class="zkick">Creative Assets <span class="badge b-web"><span class="tr">web uygulaması</span><span class="en">web app</span></span></p>
             <h3 class="disp" lang="en">Framegrove</h3>
-            <p class="zp"><span class="tr">Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.</span><span class="en">Your app’s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source.</span></p>
+            <p class="zp"><span class="tr">Uygulamanın yeni vitrini: App Store Creative Assets, iPhone Duo ve mağaza ekran görüntüleri. 56 özenli şablon, katmanlı editör ve MCP/skill otomasyonu. Ücretsiz ve açık kaynak.</span><span class="en">Your app&#x27;s new showcase: App Store Creative Assets, iPhone Duo and store screenshots. 56 curated templates, a layer editor and MCP/skill automation. Free and open source.</span></p>
             <div class="chips"><span class="chip">Web</span></div>
             <div class="rl"><a class="pill" href="/web/store-mockup/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="store-mockup"><span class="tr">Aracı aç</span><span class="en">Open the tool</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="store-mockup"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>
-        <article class="zrow z-l" id="app-mihenk" data-slug="mihenk" data-tags="tools web web" data-color="#ffd731" data-icon="/assets/home/icons/mihenk.svg" data-ios="" data-play="" data-web="https://bamstudio.dev/lab/mihenk/" data-tour="/lab/mihenk/" data-title="Mihenk" data-name="Mihenk App Estimator mihenk indirme gelir tahmin downloads revenue estimate web" style="--c:#ffd731">
+        <article class="zrow z-l" id="app-mihenk" data-slug="mihenk" data-tags="tools web web" data-color="#ffd731" data-icon="/assets/home/icons/mihenk.svg" data-ios="" data-play="" data-web="https://mihenk.bamstudio.dev/" data-tour="https://mihenk.bamstudio.dev/" data-title="Mihenk" data-name="Mihenk App Estimator mihenk indirme gelir tahmin downloads revenue estimate web" style="--c:#ffd731">
           <div class="zpanel">
-            <a class="zhit" href="/lab/mihenk/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="mihenk" aria-label="Mihenk"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/mihenk/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></a>
+            <a class="zhit" href="https://mihenk.bamstudio.dev/" target="_blank" rel="noopener" data-umami-event="panel-tanitim" data-umami-event-app="mihenk" aria-label="Mihenk"><span class="m-laptop "><span class="lid"><span class="scr"><img src="/assets/home/screens/mihenk/any/01.webp" alt="" loading="lazy" /></span></span><span class="base"></span></span></a>
             <img class="zicon" src="/assets/home/icons/mihenk.svg" alt="" loading="lazy" width="512" height="512" />
-            <span class="znum disp">21</span>
+            <span class="znum disp">23</span>
           </div>
           <div class="ztxt">
             <p class="zkick">App Estimator <span class="badge b-web"><span class="tr">web uygulaması</span><span class="en">web app</span></span></p>
             <h3 class="disp" lang="en">Mihenk</h3>
             <p class="zp"><span class="tr">Herhangi bir uygulamanın kaç kez indirildiğini ve ne kazandığını App Store ve Google Play verisinden tahmin eder. Rakibine bak, pazarı ölç.</span><span class="en">Estimates how many times any app was downloaded and what it earns, from App Store and Google Play data. Size up a rival, measure a market.</span></p>
             <div class="chips"><span class="chip">Web</span></div>
-            <div class="rl"><a class="pill" href="/lab/mihenk/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="mihenk"><span class="tr">Aracı aç</span><span class="en">Open the tool</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="mihenk"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
+            <div class="rl"><a class="pill" href="https://mihenk.bamstudio.dev/" target="_blank" rel="noopener" data-umami-event="tanitim" data-umami-event-app="mihenk"><span class="tr">Aracı aç</span><span class="en">Open the tool</span> →</a><button class="pill ghost show" type="button" data-umami-event="vitrinde-gor" data-umami-event-app="mihenk"><span class="tr">Vitrinde gör ↑</span><span class="en">On the shelf ↑</span></button></div>
           </div>
         </article>      <!-- katalog:bitti -->
         </div>
@@ -786,12 +941,13 @@
           <details class="qa"><summary><span class="tr">Uygulamalar ücretsiz mi?</span><span class="en">Are the apps free?</span></summary><p><span class="tr">Çoğu ücretsiz indirilir ve temel özellikleri ücretsizdir. Bazılarında isteğe bağlı Pro ya da abonelik var; fiyatlar her uygulamanın tanıtım sayfasında ve mağazada yazar.</span><span class="en">Most are free to download with free core features. Some offer an optional Pro or subscription; prices are on each app's tour page and in the store.</span></p></details>
           <details class="qa"><summary><span class="tr">Hesap açmam gerekiyor mu?</span><span class="en">Do I need an account?</span></summary><p><span class="tr">Hayır. Uygulamaların çoğu hesap istemez, verilerin telefonunda kalır. Hesap gereken birkaç uygulamada bunu tanıtım sayfasında açıkça yazıyoruz.</span><span class="en">No. Most apps need no account and keep your data on your phone. The few that need one say so on their tour page.</span></p></details>
           <details class="qa"><summary><span class="tr">Verilerim satılıyor mu?</span><span class="en">Is my data sold?</span></summary><p><span class="tr">Hayır, hiçbir uygulama verini satmaz ya da reklam şirketleriyle paylaşmaz. Her uygulamanın gizlilik politikası ayrı sayfasında.</span><span class="en">No. None of the apps sell your data or share it with ad brokers. Each app has its own privacy policy page.</span></p></details>
-          <details class="qa"><summary><span class="tr">Android ve Apple Watch'ta var mı?</span><span class="en">Is it on Android and Apple Watch?</span></summary><p><span class="tr">Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS ve Wear OS. Her kartın altında hangi platformlarda olduğu yazar.</span><span class="en">Use the filters in the showcase: iOS, Android, watchOS and Wear OS. Each card lists the platforms it runs on.</span></p></details>
+          <details class="qa"><summary><span class="tr">Android, Apple Watch ya da TV'de var mı?</span><span class="en">Is it on Android, Apple Watch or TV?</span></summary><p><span class="tr">Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS, Wear OS, TV ve web. Her kartın altında hangi platformlarda olduğu yazar; mağazaya henüz çıkmamış olanlarda yakında notu var.</span><span class="en">Use the filters in the showcase: iOS, Android, watchOS, Wear OS, TV and web. Each card lists the platforms it runs on, and the ones not in the store yet are marked as coming soon.</span></p></details>
           <details class="qa"><summary><span class="tr">Aboneliği nasıl iptal ederim?</span><span class="en">How do I cancel a subscription?</span></summary><p><span class="tr">Abonelikler Apple ya da Google üzerinden yönetilir: iPhone'da Ayarlar, adın, Abonelikler; Android'de Google Play, Ödemeler ve abonelikler.</span><span class="en">Subscriptions are managed by Apple or Google: on iPhone, Settings, your name, Subscriptions; on Android, Google Play, Payments and subscriptions.</span></p></details>
           <details class="qa"><summary><span class="tr">Hata bulursam ya da bir fikrim olursa?</span><span class="en">Found a bug or have an idea?</span></summary><p><span class="tr">merhaba@bamstudio.dev adresine yaz. Tek kişilik bir stüdyo, yazan kişiyle konuşuyorsun; genelde birkaç gün içinde dönüş yapılır.</span><span class="en">Write to merhaba@bamstudio.dev. It's a one-person studio, so you talk to the person who builds the apps; replies usually come within a few days.</span></p></details>
+          <details class="qa"><summary><span class="tr">Bize de uygulama yapar mısınız?</span><span class="en">Can you build an app for us?</span></summary><p><span class="tr">Evet. iPhone, Android, saat, TV ve web için uygulama yazıyoruz; tasarım, mağaza sayfası ve yayın dahil. Aşağıdaki formdan ya da merhaba@bamstudio.dev adresinden anlat, birkaç gün içinde dönelim.</span><span class="en">Yes. We build apps for iPhone, Android, watches, TV and the web, design, store listing and release included. Tell us through the form below or at merhaba@bamstudio.dev and we will get back within a few days.</span></p></details>
         </div>
       </div>
-      <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Uygulamalar ücretsiz mi?", "acceptedAnswer": {"@type": "Answer", "text": "Çoğu ücretsiz indirilir ve temel özellikleri ücretsizdir. Bazılarında isteğe bağlı Pro ya da abonelik var; fiyatlar her uygulamanın tanıtım sayfasında ve mağazada yazar."}}, {"@type": "Question", "name": "Hesap açmam gerekiyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır. Uygulamaların çoğu hesap istemez, verilerin telefonunda kalır. Hesap gereken birkaç uygulamada bunu tanıtım sayfasında açıkça yazıyoruz."}}, {"@type": "Question", "name": "Verilerim satılıyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır, hiçbir uygulama verini satmaz ya da reklam şirketleriyle paylaşmaz. Her uygulamanın gizlilik politikası ayrı sayfasında."}}, {"@type": "Question", "name": "Android ve Apple Watch'ta var mı?", "acceptedAnswer": {"@type": "Answer", "text": "Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS ve Wear OS. Her kartın altında hangi platformlarda olduğu yazar."}}, {"@type": "Question", "name": "Aboneliği nasıl iptal ederim?", "acceptedAnswer": {"@type": "Answer", "text": "Abonelikler Apple ya da Google üzerinden yönetilir: iPhone'da Ayarlar, adın, Abonelikler; Android'de Google Play, Ödemeler ve abonelikler."}}, {"@type": "Question", "name": "Hata bulursam ya da bir fikrim olursa?", "acceptedAnswer": {"@type": "Answer", "text": "merhaba@bamstudio.dev adresine yaz. Tek kişilik bir stüdyo, yazan kişiyle konuşuyorsun; genelde birkaç gün içinde dönüş yapılır."}}]}</script>
+      <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Uygulamalar ücretsiz mi?", "acceptedAnswer": {"@type": "Answer", "text": "Çoğu ücretsiz indirilir ve temel özellikleri ücretsizdir. Bazılarında isteğe bağlı Pro ya da abonelik var; fiyatlar her uygulamanın tanıtım sayfasında ve mağazada yazar."}}, {"@type": "Question", "name": "Hesap açmam gerekiyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır. Uygulamaların çoğu hesap istemez, verilerin telefonunda kalır. Hesap gereken birkaç uygulamada bunu tanıtım sayfasında açıkça yazıyoruz."}}, {"@type": "Question", "name": "Verilerim satılıyor mu?", "acceptedAnswer": {"@type": "Answer", "text": "Hayır, hiçbir uygulama verini satmaz ya da reklam şirketleriyle paylaşmaz. Her uygulamanın gizlilik politikası ayrı sayfasında."}}, {"@type": "Question", "name": "Android, Apple Watch ya da TV'de var mı?", "acceptedAnswer": {"@type": "Answer", "text": "Vitrindeki filtrelerle bakabilirsin: iOS, Android, watchOS, Wear OS, TV ve web. Her kartın altında hangi platformlarda olduğu yazar; mağazaya henüz çıkmamış olanlarda yakında notu var."}}, {"@type": "Question", "name": "Aboneliği nasıl iptal ederim?", "acceptedAnswer": {"@type": "Answer", "text": "Abonelikler Apple ya da Google üzerinden yönetilir: iPhone'da Ayarlar, adın, Abonelikler; Android'de Google Play, Ödemeler ve abonelikler."}}, {"@type": "Question", "name": "Hata bulursam ya da bir fikrim olursa?", "acceptedAnswer": {"@type": "Answer", "text": "merhaba@bamstudio.dev adresine yaz. Tek kişilik bir stüdyo, yazan kişiyle konuşuyorsun; genelde birkaç gün içinde dönüş yapılır."}}, {"@type": "Question", "name": "Bize de uygulama yapar mısınız?", "acceptedAnswer": {"@type": "Answer", "text": "Evet. iPhone, Android, saat, TV ve web için uygulama yazıyoruz; tasarım, mağaza sayfası ve yayın dahil. Sayfadaki formdan ya da merhaba@bamstudio.dev adresinden anlat, birkaç gün içinde dönelim."}}]}</script>
     </section>
 
     <!-- ── Yazılar ───────────────────────────────────────── -->
@@ -825,6 +981,48 @@
       </div>
     </section>
 
+    <!-- ── Birlikte yapalım (proje talebi) ───────────────── -->
+    <section class="work" id="birlikte">
+      <div class="wrap work-in">
+        <div>
+          <h2 class="disp"><span class="tr">Uygulamanı birlikte yapalım</span><span class="en">Let's build your app</span></h2>
+          <p class="lede"><span class="tr">Kafanda bir uygulama mı var? iPhone, Android, Apple Watch, Wear OS, TV ve web için yazıyoruz. Tasarımı, mağaza görsellerini ve metinlerini biz hazırlıyoruz, uygulamayı mağazaya da biz çıkarıyoruz. Ne istediğini birkaç cümleyle anlat. İstersen önce görüntülü tanışalım.</span><span class="en">Got an app in mind? We build for iPhone, Android, Apple Watch, Wear OS, TV and the web. We do the design, the store screenshots and the copy, and we ship it to the stores too. Tell us what you want in a few sentences. If you'd rather talk first, we can meet on a video call.</span></p>
+          <ul>
+            <li><span class="tr">Fikirden mağazaya: tasarım, kod, mağaza sayfası, yayın</span><span class="en">Idea to store: design, code, store listing, release</span></li>
+            <li><span class="tr">Aynı projede telefon, saat ve TV</span><span class="en">Phone, watch and TV in one project</span></li>
+            <li><span class="tr">Abonelik, tek seferlik satın alma, bildirim, AI özellikleri</span><span class="en">Subscriptions, one-time purchases, notifications, AI features</span></li>
+            <li><span class="tr">Yayından sonra güncelleme ve bakım</span><span class="en">Updates and upkeep after launch</span></li>
+          </ul>
+          <p class="proof"><span class="tr">Örnek mi lazım? Bu sayfadaki <b id="pLive">0</b> uygulamanın hepsini biz yaptık, <a href="#tum">şuradan bakabilirsin</a>.</span><span class="en">Want examples? We built every one of the <b id="pLive2">0</b> apps on this page, <a href="#tum">have a look</a>.</span></p>
+        </div>
+        <form class="work-form" id="workForm" novalidate>
+          <div class="two">
+            <label class="f"><span><span class="tr">Adın</span><span class="en">Your name</span> <span class="opt"><span class="tr">(isteğe bağlı)</span><span class="en">(optional)</span></span></span><input class="inp" type="text" name="name" maxlength="100" autocomplete="name" /></label>
+            <label class="f"><span><span class="tr">E-posta</span><span class="en">Email</span></span><input class="inp" type="email" name="email" maxlength="200" required autocomplete="email" placeholder="e-posta@adresin.com" /></label>
+          </div>
+          <label class="f"><span><span class="tr">Şirket ya da proje adı</span><span class="en">Company or project</span> <span class="opt"><span class="tr">(isteğe bağlı)</span><span class="en">(optional)</span></span></span><input class="inp" type="text" name="company" maxlength="120" autocomplete="organization" /></label>
+          <fieldset>
+            <legend><span class="tr">Nerede çalışsın?</span><span class="en">Where should it run?</span></legend>
+            <div class="plats">
+              <label><input type="checkbox" name="platforms" value="iPhone / iPad" />iPhone / iPad</label>
+              <label><input type="checkbox" name="platforms" value="Android" />Android</label>
+              <label><input type="checkbox" name="platforms" value="Apple Watch" />Apple Watch</label>
+              <label><input type="checkbox" name="platforms" value="Wear OS" />Wear OS</label>
+              <label><input type="checkbox" name="platforms" value="TV" />TV</label>
+              <label><input type="checkbox" name="platforms" value="Web" />Web</label>
+              <label><input type="checkbox" name="platforms" value="Bilmiyorum" /><span class="tr">Emin değilim</span><span class="en">Not sure</span></label>
+            </div>
+          </fieldset>
+          <label class="f"><span><span class="tr">Ne yapmak istiyorsun?</span><span class="en">What do you want to build?</span></span><textarea class="inp" name="message" required maxlength="4000" rows="5"></textarea></label>
+          <label class="f"><span><span class="tr">Görüşmek istersen uygun gün ve saatler</span><span class="en">Want to talk? Days and times that suit you</span> <span class="opt"><span class="tr">(isteğe bağlı)</span><span class="en">(optional)</span></span></span><input class="inp" type="text" name="slots" maxlength="300" /></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="pill dark big" type="submit" data-umami-event="proje-gonder"><span class="tr">Gönder →</span><span class="en">Send →</span></button>
+          <p class="msg" id="workMsg" role="status"></p>
+          <p class="small"><span class="tr">Yazdıklarını yalnız sana dönmek için kullanıyoruz (<a href="/privacy/site/">gizlilik</a>). Form yerine mail de atabilirsin: <a href="mailto:merhaba@bamstudio.dev?subject=Proje" data-umami-event="proje-eposta">merhaba@bamstudio.dev</a></span><span class="en">We only use what you write to get back to you (<a href="/privacy/site/">privacy</a>). You can also just email <a href="mailto:merhaba@bamstudio.dev?subject=Project" data-umami-event="proje-eposta">merhaba@bamstudio.dev</a></span></p>
+        </form>
+      </div>
+    </section>
+
     <!-- ── İndir ─────────────────────────────────────────── -->
     <section class="get" id="get">
       <div class="wrap">
@@ -835,7 +1033,7 @@
             <a class="pill dark" href="mailto:merhaba@bamstudio.dev" data-umami-event="eposta"><span class="tr">E-posta</span><span class="en">Email</span></a>
             <a class="pill" href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
             <a class="pill" href="/geri-bildirim/" data-umami-event="geri-bildirim"><span class="tr">Geri bildirim</span><span class="en">Feedback</span></a>
-            <a class="pill" href="https://github.com/berkalparslan" target="_blank" rel="noopener">GitHub ↗</a>
+            <a class="pill" href="#birlikte"><span class="tr">Uygulama yaptır</span><span class="en">Hire us</span></a>
           </div>
           <a class="coffee" href="https://buymeacoffee.com/bamstudio" target="_blank" rel="noopener" data-umami-event="kahve">☕ <span class="tr">Bir kahve ısmarla</span><span class="en">Buy me a coffee</span></a>
         </div>
@@ -866,6 +1064,7 @@
         <a href="/privacy/"><span class="tr">Gizlilik</span><span class="en">Privacy</span></a>
         <a href="/support/"><span class="tr">Destek</span><span class="en">Support</span></a>
         <a href="/geri-bildirim/" data-umami-event="geri-bildirim"><span class="tr">Geri bildirim</span><span class="en">Feedback</span></a>
+        <a href="#birlikte"><span class="tr">Uygulama yaptır</span><span class="en">Hire us</span></a>
         <a href="/blog/">Blog</a>
         <a href="/terms/"><span class="tr">Kullanım şartları</span><span class="en">Terms</span></a>
         <a href="/privacy/site/"><span class="tr">Site gizliliği</span><span class="en">Site privacy</span></a>
@@ -900,10 +1099,16 @@
         if (d && (Date.now() - new Date(d).getTime()) / 864e5 > 45) r.querySelectorAll(".b-new").forEach(b => b.remove());
         else if (r.querySelector(".b-new")) r.dataset.tags += " new";
       });
-      const live = rows.filter(r => !tagsOf(r).some(t => t === "soon" || t === "web"));
+      /* Mağazada olanlar: App Store ya da Google Play bağlantısı olan, "yakında" olmayan. */
+      const live = rows.filter(r => (r.dataset.ios || r.dataset.play) && !tagsOf(r).includes("soon"));
       $("#sLive").textContent = live.length;
       $("#sWatch").textContent = live.filter(r => tagsOf(r).some(t => t === "watchos" || t === "wearos")).length;
       $("#sWeb").textContent = rows.filter(r => tagsOf(r).includes("web")).length;
+      const storeLive = live;
+      $("#pPhone").textContent = storeLive.filter(r => tagsOf(r).some(t => t === "ios" || t === "android")).length;
+      $("#pWatch").textContent = $("#sWatch").textContent;
+      $("#pWeb").textContent = rows.filter(r => r.dataset.web).length;
+      $("#pLive").textContent = $("#pLive2").textContent = rows.length;
 
       function qrInto(el, text) {
         if (!el) return;
@@ -916,8 +1121,8 @@
       /* ── Kayan bant ── */
       function paintMarquee() {
         const items = isTr()
-          ? [live.length + " uygulama mağazada", "Yeni: Nubi", "Leafbook App Store'da", "Daily Whisper 2.0", "Kit 2.0: kart ve bilet cüzdanı", "Matchday yolda", "iOS · Android · watchOS · Wear OS", "Hiçbiri verini satmaz"]
-          : [live.length + " apps in the stores", "New: Nubi", "Leafbook is on the App Store", "Daily Whisper 2.0", "Kit 2.0: a wallet for cards and tickets", "Matchday is on its way", "iOS · Android · watchOS · Wear OS", "None of them sells your data"];
+          ? [live.length + " uygulama mağazada", "Yeni: Konfeti, TV için parti oyunu", "BodyBook artık iPhone'da", "No Spaces artık iPhone'da", "Leafbook 1.2: topluluk", "Daily Whisper 2.0", "Kit 2.0: kart ve bilet cüzdanı", "Yolda: Nika, Era, Matchday", "Telefon · saat · TV · web", "Hiçbiri verini satmaz"]
+          : [live.length + " apps in the stores", "New: Konfeti, a party game for the TV", "BodyBook is now on iPhone", "No Spaces is now on iPhone", "Leafbook 1.2: community", "Daily Whisper 2.0", "Kit 2.0: a wallet for cards and tickets", "On the way: Nika, Era, Matchday", "Phone · watch · TV · web", "None of them sells your data"];
         const one = items.map(t => `<span>${esc(t)}</span><i>✦</i>`).join("");
         $("#marquee").innerHTML = one + one;
       }
@@ -927,7 +1132,8 @@
       const SLOTS = [
         [1, 2], [7, 20], [0, 40], [6, 58], [1, 78], [9, 98],
         [90, 0], [86, 19], [92, 38], [87, 57], [91, 76], [85, 98],
-        [22, -34], [72, -36], [27, 104], [42, 110], [57, 108], [68, 102], [36, -42], [56, -40]
+        [22, -34], [72, -36], [27, 104], [42, 110], [57, 108], [68, 102], [36, -42], [56, -40],
+        [14, 118], [80, 116], [12, -40], [82, -44]
       ];
       const MOBILE = [[2, -150], [26, -128], [51, -152], [76, -126], [38, -80]];
       function placeStickers() {
@@ -991,6 +1197,7 @@
       function deviceHtml(kind, list, icon, slug) {
         const img = list.length ? `<img src="${list[0]}" alt="${esc(slug)} screen" loading="lazy" />` : "";
         if (kind === "laptop") return `<span class="m-laptop"><span class="lid"><span class="scr">${img}</span></span><span class="base"></span></span>`;
+        if (kind === "tv") return `<span class="m-tv"><span class="scr">${img || `<img src="${icon}" alt="" />`}</span><span class="stand"></span></span>`;
         if (kind === "watch") return `<span class="m-watch"><span class="case">${list.length ? `<span class="scr">${img}</span>` : `<span class="scr fallback"><img src="${icon}" alt="" /></span>`}</span></span>`;
         if (!list.length) return `<span class="m-phone"><span class="isl"></span><span class="scr fallback"><img src="${icon}" alt="" /></span></span>`;
         return `<span class="m-phone"><span class="isl"></span><span class="scr">${img}</span></span>`;
@@ -1011,7 +1218,7 @@
       function makeCard(r, i, clone) {
         const slug = r.dataset.slug, { kind, list } = screensFor(slug);
         const ph = document.createElement("article");
-        ph.className = "ph" + (kind === "laptop" ? " wide" : "");
+        ph.className = "ph" + (kind === "laptop" || kind === "tv" ? " wide" : "");
         ph.dataset.slug = slug;
         if (clone) ph.setAttribute("aria-hidden", "true"); else ph.id = "ph-" + slug;
         ph.style.setProperty("--c", r.dataset.color); ph.style.setProperty("--tilt", TILT[i % TILT.length] + "deg");
@@ -1138,7 +1345,7 @@
       const API = location.hostname.endsWith("bamstudio.dev") ? "/api" : "https://bamstudio.dev/api";
       const favApps = $("#favApps"), picked = [];
       function drawFav() {
-        favApps.innerHTML = rows.filter(r => !tagsOf(r).some(t => t === "web" || t === "soon")).map(r =>
+        favApps.innerHTML = rows.filter(r => (r.dataset.ios || r.dataset.play) && !tagsOf(r).some(t => t === "web" || t === "soon")).map(r =>
           `<button type="button" class="fav-app" data-slug="${r.dataset.slug}" aria-pressed="${picked.includes(r.dataset.slug)}">${r.dataset.icon ? `<img src="${r.dataset.icon}" alt="" loading="lazy">` : ""}<span lang="en">${esc(r.dataset.title)}</span></button>`).join("");
         $("#favCount").textContent = picked.length + " / 3";
       }
@@ -1185,6 +1392,20 @@
         else if (res.ok) { say(m, true, "Mailine bir onay bağlantısı gönderdik. Bir tıkla tamam. ✉️", "We sent a confirmation link to your inbox. One tap and you're in. ✉️", true); f.reset(); }
         else say(m, false, ...(ERR[res.error] || ERR.x));
       });
+      /* ── Proje talebi: /api/feedback, type=proje (Worker konuya "Proje talebi" yazar) ── */
+      $("#workForm").addEventListener("submit", async e => {
+        e.preventDefault(); const f = e.target, m = $("#workMsg");
+        const email = f.email.value.trim(), message = f.message.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say(m, false, ...ERR.email);
+        if (message.length < 10) return say(m, false, "Biraz daha anlatır mısın? Birkaç cümle yeter.", "Could you tell us a bit more? A few sentences is enough.");
+        const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
+        const platforms = Array.from(f.querySelectorAll('input[name="platforms"]:checked')).map(x => x.value);
+        const res = await post("/feedback", { type: "proje", app: "genel", src: "proje", email, message, name: f.elements["name"].value, company: f.elements["company"].value, platforms, slots: f.slots.value, website: f.website.value, lang: isTr() ? "tr" : "en" }).catch(() => ({ ok: false, error: "x" }));
+        btn.disabled = false;
+        if (res.ok) { say(m, true, "Aldık, teşekkürler! Birkaç gün içinde e-postana dönüyoruz.", "Got it, thanks! We'll reply to your email within a few days."); f.reset(); }
+        else say(m, false, ...(ERR[res.error] || ERR.x));
+      });
+
       const bq = new URLSearchParams(location.search).get("bulten");
       if (bq) {
         const T = {
@@ -1238,7 +1459,7 @@
       const langBtns = Array.from(document.querySelectorAll(".lang"));
       function paintLangBtns() {
         langBtns.forEach(b => { b.textContent = isTr() ? "EN" : "TR"; b.setAttribute("aria-label", isTr() ? "Switch to English" : "Türkçeye geç"); });
-        document.title = isTr() ? "Bam Studio · iPhone, Apple Watch ve Android uygulamaları" : "Bam Studio · Indie iOS, watchOS & Android Apps";
+        document.title = isTr() ? "Bam Studio · iPhone, Apple Watch, Android ve TV uygulamaları" : "Bam Studio · Apps for iPhone, Apple Watch, Android & TV";
       }
       langBtns.forEach(b => b.addEventListener("click", () => {
         const next = isTr() ? "en" : "tr";
