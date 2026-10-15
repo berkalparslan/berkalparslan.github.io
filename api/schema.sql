@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS hits (
 CREATE TABLE IF NOT EXISTS feedback (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   app TEXT NOT NULL,        -- katalog slug'ı ya da "genel"
-  type TEXT NOT NULL,       -- hata | oneri | tesekkur | diger
+  type TEXT NOT NULL,       -- hata | oneri | tesekkur | diger | proje
   message TEXT NOT NULL,
   name TEXT,
   email TEXT,               -- cevap için, isteğe bağlı

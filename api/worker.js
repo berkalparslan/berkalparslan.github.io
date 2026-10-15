@@ -4,7 +4,8 @@
    - GET  /api/confirm     bülten onayı
    - GET  /api/unsubscribe bültenden çıkış
    - POST /api/poll        "en sevdiğin 3 uygulama" anketi; seçilen uygulamaların %20 kodlarını mailler
-   - POST /api/feedback    geri bildirim formu (/geri-bildirim/): D1'e yazar, merhaba@'ya mail atar
+   - POST /api/feedback    geri bildirim formu (/geri-bildirim/) ve ana sayfadaki proje formu (type=proje):
+                           D1'e yazar, merhaba@'ya mail atar
    - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
    - POST/GET/DELETE /api/panel-device  Panel iOS uygulamasının APNs jetonları (anahtar ister, bkz. panelDevice())
    - POST/GET /api/panel-alerts  Panel anlık uyarıları, son 200 (anahtar ister, bkz. panelAlerts())
@@ -165,16 +166,25 @@ async function poll(req, env) {
 }
 
 /* ── geri bildirim ──────────────────────────────────────── */
-const FB_TYPES = { hata: "Hata", oneri: "Öneri", tesekkur: "Teşekkür", diger: "Diğer" };
+const FB_TYPES = { hata: "Hata", oneri: "Öneri", tesekkur: "Teşekkür", diger: "Diğer", proje: "Proje talebi" };
+/* Ana sayfadaki "Birlikte yapalım" formu type=proje gönderir; ek alanlar mesajın altına eklenir
+   (tabloya yeni sütun gerekmez). Proje talebinde e-posta zorunlu, cevap ona gider. */
+const PROJE_ALAN = [["platforms", "Platformlar"], ["budget", "Bütçe"], ["timeline", "Zaman"], ["slots", "Görüşme için uygun saatler"], ["company", "Şirket"]];
 const clip = (v, n) => String(v ?? "").replace(/\r\n?/g, "\n").trim().slice(0, n);
 
 async function feedback(req, env) {
   const b = await body(req);
   if (b.website) return json({ ok: true }); // bal tuzağı
-  const message = clip(b.message, 4000);
+  const proje = b.type === "proje";
+  let message = clip(b.message, 4000);
   if (message.length < 3) return json({ ok: false, error: "message" }, 400);
   const email = clip(b.email, 200).toLowerCase();
   if (email && !okEmail(email)) return json({ ok: false, error: "email" }, 400);
+  if (proje && !email) return json({ ok: false, error: "email" }, 400);
+  if (proje) {
+    const ek = PROJE_ALAN.map(([k, ad]) => [ad, clip(Array.isArray(b[k]) ? b[k].join(", ") : b[k], 300)]).filter(([, v]) => v);
+    if (ek.length) message = clip(message + "\n\n" + ek.map(([ad, v]) => `${ad}: ${v}`).join("\n"), 5000);
+  }
   /* Parti ekranındaki QR'dan aynı evdeki herkes aynı IP'den gelir: bülten/anket
      sayacından ayrı, saatte 20. */
   if (await limited(req, env, "fb:", 20)) return json({ ok: false, error: "rate" }, 429);
@@ -189,7 +199,7 @@ async function feedback(req, env) {
   const id = r.meta && r.meta.last_row_id;
 
   const appName = app === "genel" ? "Genel / site" : BY[app].name;
-  const subject = `Geri bildirim: ${appName} · ${FB_TYPES[type]}`;
+  const subject = proje ? `Proje talebi: ${name || email}` : `Geri bildirim: ${appName} · ${FB_TYPES[type]}`;
   const rows = [["Uygulama", appName], ["Tür", FB_TYPES[type]], ["Ad", name || "(yok)"], ["E-posta", email || "(yok)"],
     ["Dil", lang], ["Kaynak", src || "site"], ["Ülke", country || "?"], ["Tarayıcı", ua || "?"], ["Kayıt", id ? `#${id}` : "?"]];
   const text = [message, "", "──", ...rows.map(([k, v]) => `${k}: ${v}`)].join("\n");
