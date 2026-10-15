@@ -6,16 +6,16 @@
   "en": "Konfeti: Party TV"
  },
  "description": {
-  "tr": "Ev partisi için TV uygulaması. Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi? ve daha fazlası; misafirler QR'ı okutup telefonla oy verir, fotoğraflar TV'de duvara dönüşür. Android TV, Google TV ve web.",
-  "en": "A party app for your TV. This or That, Forbidden Words, Truth or Dare and more; guests scan a QR code and vote from their phones, and photos become a wall on the TV. Android TV, Google TV and the web."
+  "tr": "Ev partisi için TV oyunu. Bu mu O mu?, Yasak Kelime, Doğruluk mu Cesaret mi? ve daha fazlası; misafirler QR'ı okutup telefonla oy verir, fotoğraflar TV'de duvara dönüşür. Bugün tarayıcıda; Apple TV, Google TV, Samsung ve LG'de yakında.",
+  "en": "A party game for your TV. This or That, Forbidden Words, Truth or Dare and more; guests scan a QR code and vote from their phones, and photos become a wall on the TV. In the browser today; Apple TV, Google TV, Samsung and LG soon."
  },
  "icon": "/konfeti/assets/icon-512.png",
  "color": "#ffd731",
  "accent": "#fb4903",
  "status": "new",
  "kicker": {
-  "tr": "Android TV · Google TV · Web",
-  "en": "Android TV · Google TV · Web"
+  "tr": "TV parti oyunu · Web · Apple TV, Google TV, Samsung, LG yakında",
+  "en": "TV party game · Web · Apple TV, Google TV, Samsung, LG soon"
  },
  "lede": {
   "tr": "Partiyi TV'ye taşı. Oyunu kumandayla seç, misafirler QR'ı okutup telefonla katılsın; oylar, fotoğraflar ve puanlar büyük ekranda.",
@@ -43,21 +43,20 @@
    "en": "TR · EN"
   },
   {
-   "tr": "Google Play'de yakında",
-   "en": "Coming soon to Google Play"
+   "tr": "TV mağazalarında incelemede",
+   "en": "In review on the TV stores"
   }
  ],
  "platforms": [
-  "android",
   "web"
  ],
  "buttons": [
   {
    "label": {
-    "tr": "Web uygulamasını aç",
-    "en": "Open the web app"
+    "tr": "Tarayıcıda aç",
+    "en": "Open in browser"
    },
-   "href": "https://konfeti.bamstudio.dev",
+   "href": "https://konfeti.bamstudio.dev/",
    "dark": true
   }
  ],
@@ -100,7 +99,7 @@
     }
    ],
    "color": "#ffd731",
-   "device": "laptop",
+   "device": "tv",
    "images": {
     "tr": [
      "/konfeti/assets/shots/tr/03-yasak.webp",
@@ -143,7 +142,7 @@
     }
    ],
    "color": "#e9ccff",
-   "device": "laptop",
+   "device": "tv",
    "images": {
     "tr": [
      "/konfeti/assets/shots/tr/02-bumu.webp"
@@ -178,7 +177,7 @@
     }
    ],
    "color": "#55db9c",
-   "device": "laptop",
+   "device": "tv",
    "images": {
     "tr": [
      "/konfeti/assets/shots/tr/06-foto.webp"
@@ -213,7 +212,7 @@
     }
    ],
    "color": "#ffb3d9",
-   "device": "laptop",
+   "device": "tv",
    "images": {
     "tr": [
      "/konfeti/assets/shots/tr/05-puan.webp",
@@ -254,7 +253,7 @@
     }
    ],
    "color": "#c8f560",
-   "device": "laptop",
+   "device": "tv",
    "images": {
     "tr": [
      "/konfeti/assets/shots/tr/01-home.webp",
@@ -346,5 +345,36 @@
   },
   "href": "/privacy/konfeti/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "promo": {
+  "tr": [
+   "/konfeti/assets/promo/tr/01-home.webp",
+   "/konfeti/assets/promo/tr/02-bumu.webp",
+   "/konfeti/assets/promo/tr/03-yasak.webp",
+   "/konfeti/assets/promo/tr/04-cark.webp",
+   "/konfeti/assets/promo/tr/05-puan.webp",
+   "/konfeti/assets/promo/tr/06-foto.webp",
+   "/konfeti/assets/promo/tr/07-pasta.webp",
+   "/konfeti/assets/promo/tr/08-ozet.webp"
+  ],
+  "en": [
+   "/konfeti/assets/promo/en/01-home.webp",
+   "/konfeti/assets/promo/en/02-bumu.webp",
+   "/konfeti/assets/promo/en/03-yasak.webp",
+   "/konfeti/assets/promo/en/04-cark.webp",
+   "/konfeti/assets/promo/en/05-puan.webp",
+   "/konfeti/assets/promo/en/06-foto.webp",
+   "/konfeti/assets/promo/en/07-pasta.webp",
+   "/konfeti/assets/promo/en/08-ozet.webp"
+  ]
+ },
+ "promo_wide": true,
+ "soon_platforms": [
+  "tvos",
+  "androidtv",
+  "tizen",
+  "webos"
+ ],
+ "seo_title": "Konfeti: Party Game for TV (Apple TV, Google TV, Samsung, LG) · TV Parti Oyunu",
+ "category": "GameApplication"
 }

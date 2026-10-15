@@ -53,12 +53,21 @@
   "📊"
  ],
  "promo": {
-  "any": [
-   "/volleyball/assets/promo/en/01-details.webp",
-   "/volleyball/assets/promo/en/02-logbook.webp",
-   "/volleyball/assets/promo/en/03-share.webp",
-   "/volleyball/assets/promo/en/04-setup.webp",
-   "/volleyball/assets/promo/en/05-sync.webp"
+  "tr": [
+   "/volleyball/assets/promo/v2/tr/01-score.webp",
+   "/volleyball/assets/promo/v2/tr/02-statistics.webp",
+   "/volleyball/assets/promo/v2/tr/03-leagues.webp",
+   "/volleyball/assets/promo/v2/tr/04-share.webp",
+   "/volleyball/assets/promo/v2/tr/05-community.webp",
+   "/volleyball/assets/promo/v2/tr/06-setup.webp"
+  ],
+  "en": [
+   "/volleyball/assets/promo/v2/en/01-score.webp",
+   "/volleyball/assets/promo/v2/en/02-statistics.webp",
+   "/volleyball/assets/promo/v2/en/03-leagues.webp",
+   "/volleyball/assets/promo/v2/en/04-share.webp",
+   "/volleyball/assets/promo/v2/en/05-community.webp",
+   "/volleyball/assets/promo/v2/en/06-setup.webp"
   ]
  },
  "sections": [
@@ -385,5 +394,7 @@
   },
   "href": "/privacy/volleyball/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Volleyball Score Keeper for Apple Watch and iPhone",
+ "category": "SportsApplication"
 }

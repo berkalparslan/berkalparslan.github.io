@@ -3,13 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Leafbook: Plant Tracker · Bam Studio</title>
+<title>Leafbook: Plant Identifier, Watering Reminder and Plant Diary · Bam Studio</title>
 <meta name="description" content="A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera." />
 <link rel="canonical" href="https://bamstudio.dev/leafbook/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Leafbook: Plant Tracker" />
+<meta property="og:site_name" content="Bam Studio" />
+<meta property="og:url" content="https://bamstudio.dev/leafbook/" />
+<meta property="og:title" content="Leafbook: Plant Identifier, Watering Reminder and Plant Diary" />
 <meta property="og:description" content="A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera." />
-<meta property="og:image" content="https://bamstudio.dev/leafbook/assets/icon-512.png" />
+<meta property="og:image" content="https://bamstudio.dev/leafbook/assets/promo/v12/en/01-leafbook.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Leafbook: Plant Identifier, Watering Reminder and Plant Diary" />
+<meta name="twitter:description" content="A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera." />
+<meta name="twitter:image" content="https://bamstudio.dev/leafbook/assets/promo/v12/en/01-leafbook.webp" />
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Leafbook: Plant Tracker", "alternateName": "Leafbook", "url": "https://bamstudio.dev/leafbook/", "description": "A notebook for your houseplants. It identifies them from a photo, sets watering by where each plant sits and measures growth in percent from same-angle photos taken through a ghost camera.", "image": "https://bamstudio.dev/leafbook/assets/icon-512.png", "applicationCategory": "LifestyleApplication", "operatingSystem": "iOS, Android", "publisher": {"@type": "Organization", "name": "Bam Studio", "url": "https://bamstudio.dev/", "email": "merhaba@bamstudio.dev"}, "inLanguage": ["en", "tr"], "screenshot": ["https://bamstudio.dev/leafbook/assets/promo/v12/en/01-leafbook.webp", "https://bamstudio.dev/leafbook/assets/promo/v12/en/02-leafbook.webp", "https://bamstudio.dev/leafbook/assets/promo/v12/en/03-leafbook.webp", "https://bamstudio.dev/leafbook/assets/promo/v12/en/04-leafbook.webp"], "sameAs": ["https://apps.apple.com/app/id6811846217", "https://play.google.com/store/apps/details?id=com.aberk.leafbook"], "installUrl": "https://apps.apple.com/app/id6811846217", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Bam Studio", "item": "https://bamstudio.dev/"}, {"@type": "ListItem", "position": 2, "name": "Leafbook", "item": "https://bamstudio.dev/leafbook/"}]}]</script>
 <meta name="theme-color" content="#55db9c" />
 <link rel="icon" href="/leafbook/assets/icon-512.png" />
 <link rel="apple-touch-icon" href="/leafbook/assets/icon-512.png" />
@@ -22,13 +29,13 @@
     if (!lang) lang = /^tr\b/i.test(navigator.language || "") ? "tr" : "en";
     d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
     d.setAttribute("data-title-tr", "Leafbook: Bitki Takibi · Bam Studio");
-    d.setAttribute("data-title-en", "Leafbook: Plant Tracker · Bam Studio");
+    d.setAttribute("data-title-en", "Leafbook: Plant Identifier, Watering Reminder and Plant Diary · Bam Studio");
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/tanitim.css?v=2b382b4b" />
+<link rel="stylesheet" href="/assets/tanitim.css?v=6f28f102" />
 
 <script defer src="https://cloud.umami.is/script.js" data-website-id="238c1f38-f12a-4cab-b510-c2e56a5964cb" data-domains="bamstudio.dev,www.bamstudio.dev,berkalparslan.github.io"></script>
 </head>
@@ -40,7 +47,7 @@
   <div class="wrap bar">
     <a class="logo" href="/" aria-label="Bam Studio">b</a>
     <a class="pill back" href="/#tum"><span class="tr">← Tüm uygulamalar</span><span class="en">← All apps</span></a>
-    <nav class="nav"><a href="#bitkiler"><span class="tr">Koleksiyon</span><span class="en">Your collection</span></a><a href="#tanima"><span class="tr">Tanıma ve Öğren</span><span class="en">Identify and Learn</span></a><a href="#sulama"><span class="tr">Sulama</span><span class="en">Watering</span></a><a href="#nemli"><span class="tr">Hatırlatmalar</span><span class="en">Reminders</span></a></nav>
+    <nav class="nav"><a href="#bitkiler"><span class="tr">Koleksiyon</span><span class="en">Your collection</span></a><a href="#topluluk"><span class="tr">Topluluk</span><span class="en">Community</span></a><a href="#tanima"><span class="tr">Tanıma ve katalog</span><span class="en">Identify and catalog</span></a><a href="#sulama"><span class="tr">Sulama</span><span class="en">Watering</span></a></nav>
     <button class="pill lang" type="button">EN</button>
   </div>
 </header>
@@ -53,17 +60,17 @@
       <p class="kick"><span class="tr">iPhone ve Android · Türkçe ve İngilizce</span><span class="en">iPhone and Android · English and Turkish</span> <span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span></p>
       <h1 class="disp" lang="en">Leafbook</h1>
       <p class="lede"><span class="tr">Bitkilerinin defteri: ne olduğunu, ne zaman sulanacağını ve ne kadar büyüdüğünü tutar. Takvime göre değil, bitkinin gerçekten yaşadığı köşeye göre.</span><span class="en">A notebook for your plants: what they are, when to water them and how much they have grown. Built around the corner each plant actually lives in, not a calendar.</span></p>
-      <div class="pills"><span class="pill-s"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></span><span class="pill-s"><span class="tr">146 tür</span><span class="en">146 species</span></span><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">iCloud eşitleme</span><span class="en">iCloud sync</span></span></div>
+      <div class="pills"><span class="pill-s"><span class="tr">Hayalet kamera</span><span class="en">Ghost camera</span></span><span class="pill-s"><span class="tr">119+ tür</span><span class="en">119+ species</span></span><span class="pill-s"><span class="tr">Reklamsız</span><span class="en">No ads</span></span><span class="pill-s"><span class="tr">Hesap yok</span><span class="en">No account</span></span><span class="pill-s"><span class="tr">iCloud eşitleme</span><span class="en">iCloud sync</span></span></div>
       <p class="row-btns"><a class="pill dark big" href="https://apps.apple.com/app/id6811846217" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="leafbook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>App Store</a><a class="pill dark big" href="https://play.google.com/store/apps/details?id=com.aberk.leafbook" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="leafbook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>Google Play</a></p>
       <div class="chips"><span class="chip">iOS</span><span class="chip">Android</span></div>
     </div>
   </section>
 
-  <div class="promo tr"><div class="promo-track"><img src="/leafbook/assets/promo/tr/01.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/02.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/03.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/04.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/05.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/tr/06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/tr/06.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/leafbook/assets/promo/en/01.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/02.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/03.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/04.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/05.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/en/06.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/01.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/02.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/03.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/04.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/05.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/en/06.webp" alt="" loading="lazy" /></div></div>
+  <div class="promo tr"><div class="promo-track"><img src="/leafbook/assets/promo/v12/tr/01-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/02-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/03-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/04-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/05-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/06-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/07-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/tr/08-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/01-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/02-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/03-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/04-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/05-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/06-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/07-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/tr/08-leafbook.webp" alt="" loading="lazy" /></div></div><div class="promo en"><div class="promo-track"><img src="/leafbook/assets/promo/v12/en/01-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/02-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/03-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/04-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/05-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/06-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/07-leafbook.webp" alt="" loading="lazy" /><img src="/leafbook/assets/promo/v12/en/08-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/01-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/02-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/03-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/04-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/05-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/06-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/07-leafbook.webp" alt="" loading="lazy" /><img aria-hidden="true" src="/leafbook/assets/promo/v12/en/08-leafbook.webp" alt="" loading="lazy" /></div></div>
 
   <section class="z z-l" id="bitkiler">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/01-plants.webp&quot;]"><img src="/leafbook/assets/screens/tr/01-plants.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/01-plants.webp&quot;]"><img src="/leafbook/assets/screens/en/01-plants.webp" alt="Every plant gets a page" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#55db9c"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/tr/01.webp&quot;, &quot;/leafbook/assets/screens/tr/01-plants.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/tr/01.webp" alt="Every plant gets a page" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/en/01.webp&quot;, &quot;/leafbook/assets/screens/en/01-plants.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/en/01.webp" alt="Every plant gets a page" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
         <p class="kick"><span class="tr">Koleksiyon</span><span class="en">Your collection</span></p>
         <h2 class="disp"><span class="tr">Her bitkinin bir sayfası</span><span class="en">Every plant gets a page</span></h2>
@@ -72,20 +79,31 @@
       </div>
     </div>
   </section>
-  <section class="z z-r" id="tanima">
+  <section class="z z-r" id="topluluk">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/04-learn.webp&quot;, &quot;/leafbook/assets/screens/tr/07-learn-result.webp&quot;]"><img src="/leafbook/assets/screens/tr/04-learn.webp" alt="Ask about any plant you see" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/04-learn.webp&quot;, &quot;/leafbook/assets/screens/en/07-learn-result.webp&quot;]"><img src="/leafbook/assets/screens/en/04-learn.webp" alt="Ask about any plant you see" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/tr/02.webp&quot;, &quot;/assets/home/screens/leafbook/v12/tr/06.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/tr/02.webp" alt="Other people&#x27;s plants" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/en/02.webp&quot;, &quot;/assets/home/screens/leafbook/v12/en/06.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/en/02.webp" alt="Other people&#x27;s plants" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
-        <p class="kick"><span class="tr">Tanıma ve Öğren</span><span class="en">Identify and Learn</span></p>
-        <h2 class="disp"><span class="tr">O bitki neydi?</span><span class="en">What is that plant?</span></h2>
-        <p class="z-p"><span class="tr">Kendi bitkini fotoğraftan tanır. Senin olmayan bir bitkiyi de sorabilirsin: Öğren sekmesinde fotoğrafını çek ya da adını yaz, nereden geldiğini, istediği ışığı ve onu öldüren tek hatayı anlatan bir sayfa gelsin. Baktığın bitki asla senin listene eklenmez.</span><span class="en">It names your own plant from a photo. You can also ask about one that is not yours: in the Learn tab, photograph it or type its name and get a page on where it comes from, the light it wants and the one mistake that kills it. Looking something up never adds it to your plants.</span></p>
-        <ul class="bul"><li><span class="tr">146 türlük bakım kataloğu: ışık, nem, evcil hayvana zehirli mi, sulama ve gübreleme aralığı</span><span class="en">A care catalog of 146 species: light, humidity, pet safety, watering and feeding intervals</span></li><li><span class="tr">Her tür için elle çizilmiş illüstrasyon</span><span class="en">A hand-drawn illustration for every species</span></li></ul>
+        <p class="kick"><span class="tr">Topluluk</span><span class="en">Community</span></p>
+        <h2 class="disp"><span class="tr">Başkalarının bitkileri</span><span class="en">Other people&#x27;s plants</span></h2>
+        <p class="z-p"><span class="tr">1.2 ile geldi. Kendi bitkini göster, başkasınınkine bak, kahverengi uçlar ne demek diye sor. Akışta yalnız bitki var; her fotoğraf yayınlanmadan önce kontrol ediliyor. Hesap yalnız topluluk için, bitkilerin yine telefonunda kalıyor.</span><span class="en">New in 1.2. Show your plant, look at other people&#x27;s, ask what those brown tips mean. The feed is plants only, and every photo is checked before it goes up. The account is only for the community; your plants stay on your phone.</span></p>
+        
       </div>
     </div>
   </section>
-  <section class="z z-l" id="sulama">
+  <section class="z z-l" id="tanima">
     <div class="wrap z-in">
-      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/03-care.webp&quot;]"><img src="/leafbook/assets/screens/tr/03-care.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/03-care.webp&quot;]"><img src="/leafbook/assets/screens/en/03-care.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span></span></div>
+      <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/tr/05.webp&quot;, &quot;/leafbook/assets/screens/tr/07-learn-result.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/tr/05.webp" alt="Snap it, get its name" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/en/05.webp&quot;, &quot;/leafbook/assets/screens/en/07-learn-result.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/en/05.webp" alt="Snap it, get its name" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
+      <div class="z-txt reveal">
+        <p class="kick"><span class="tr">Tanıma ve katalog</span><span class="en">Identify and catalog</span></p>
+        <h2 class="disp"><span class="tr">Fotoğrafını çek, adını söylesin</span><span class="en">Snap it, get its name</span></h2>
+        <p class="z-p"><span class="tr">Fotoğraftan türü bulur ve üç tahmini güven yüzdesiyle sıralar. Fotoğraf çekmek istemezsen &quot;Ne olduğunu biliyorum&quot; de, 119+ türlük katalogdan ara.</span><span class="en">Identifies the species from a photo and ranks three guesses with a confidence score. Don&#x27;t want a photo? Say &quot;I know what it is&quot; and search the catalog of 119+ species.</span></p>
+        <ul class="bul"><li><span class="tr">Her türde ışık, nem, evcil hayvana zehirli mi, sulama ve gübreleme aralığı</span><span class="en">Light, humidity, pet safety, watering and feeding intervals for every species</span></li><li><span class="tr">Her tür için elle çizilmiş illüstrasyon</span><span class="en">A hand-drawn illustration for every species</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="z z-r" id="sulama">
+    <div class="wrap z-in">
+      <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/tr/04.webp&quot;, &quot;/leafbook/assets/screens/tr/03-care.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/tr/04.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/assets/home/screens/leafbook/v12/en/04.webp&quot;, &quot;/leafbook/assets/screens/en/03-care.webp&quot;]"><img src="/assets/home/screens/leafbook/v12/en/04.webp" alt="Not a calendar, a corner" loading="lazy" /></span></span><span class="dots"><i class="on"></i><i class=""></i></span></span></div>
       <div class="z-txt reveal">
         <p class="kick"><span class="tr">Sulama</span><span class="en">Watering</span></p>
         <h2 class="disp"><span class="tr">Takvim değil, köşe</span><span class="en">Not a calendar, a corner</span></h2>
@@ -94,7 +112,7 @@
       </div>
     </div>
   </section>
-  <section class="z z-r" id="nemli">
+  <section class="z z-l" id="nemli">
     <div class="wrap z-in">
       <div class="panel reveal" style="--c:#e9ccff"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/04.webp&quot;]"><img src="/leafbook/assets/promo/tr/04.webp" alt="&quot;Soil is still wet&quot;" loading="lazy" /></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/04.webp&quot;]"><img src="/leafbook/assets/promo/en/04.webp" alt="&quot;Soil is still wet&quot;" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
@@ -105,7 +123,7 @@
       </div>
     </div>
   </section>
-  <section class="z z-l" id="hayalet">
+  <section class="z z-r" id="hayalet">
     <div class="wrap z-in">
       <div class="panel reveal" style="--c:#ffd731"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/02.webp&quot;, &quot;/leafbook/assets/screens/tr/06-ghost.webp&quot;]"><img src="/leafbook/assets/promo/tr/02.webp" alt="Same angle, every time" loading="lazy" /></span><span class="dots"><i class="on"></i><i class=""></i></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/02.webp&quot;]"><img src="/leafbook/assets/promo/en/02.webp" alt="Same angle, every time" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
@@ -116,7 +134,7 @@
       </div>
     </div>
   </section>
-  <section class="z z-r" id="buyume">
+  <section class="z z-l" id="buyume">
     <div class="wrap z-in">
       <div class="panel reveal" style="--c:#c8f560"><span class="dev tr"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/tr/01.webp&quot;]"><img src="/leafbook/assets/promo/tr/01.webp" alt="Proof it is growing" loading="lazy" /></span></span><span class="dev en"><span class="m-image" data-cycle="[&quot;/leafbook/assets/promo/en/01.webp&quot;]"><img src="/leafbook/assets/promo/en/01.webp" alt="Proof it is growing" loading="lazy" /></span></span></div>
       <div class="z-txt reveal">
@@ -127,7 +145,7 @@
       </div>
     </div>
   </section>
-  <section class="z z-l" id="kurtarma">
+  <section class="z z-r" id="kurtarma">
     <div class="wrap z-in">
       <div class="panel reveal" style="--c:#ffb3d9"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/02-growth.webp&quot;]"><img src="/leafbook/assets/screens/tr/02-growth.webp" alt="Spots yellowing before you do" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/02-growth.webp&quot;]"><img src="/leafbook/assets/screens/en/02-growth.webp" alt="Spots yellowing before you do" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
@@ -138,13 +156,13 @@
       </div>
     </div>
   </section>
-  <section class="z z-r" id="paylas">
+  <section class="z z-l" id="paylas">
     <div class="wrap z-in">
       <div class="panel reveal" style="--c:#dceeff"><span class="dev tr"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/tr/05-share.webp&quot;]"><img src="/leafbook/assets/screens/tr/05-share.webp" alt="Show off your collection" loading="lazy" /></span></span></span><span class="dev en"><span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="[&quot;/leafbook/assets/screens/en/05-share.webp&quot;]"><img src="/leafbook/assets/screens/en/05-share.webp" alt="Show off your collection" loading="lazy" /></span></span></span></div>
       <div class="z-txt reveal">
         <p class="kick"><span class="tr">Paylaş</span><span class="en">Share</span></p>
-        <h2 class="disp"><span class="tr">Bir bitkiyi birine gönder</span><span class="en">Send a plant to someone</span></h2>
-        <p class="z-p"><span class="tr">İki türlü paylaşım var. Tek bitki ya da bütün koleksiyon için kart: fotoğraf, büyüme yüzdesi, bitki sayısı, takip edilen gün. Bir de bağlantı: bir bitkiyi birine gönderirsin, karşı taraf QR'ı okutur ya da linke dokunur, fotoğrafını ve bakımını görür. Leafbook yüklüyse tek dokunuşla kendi rafına ekler. Giden tek şey o bitki, bakım geçmişin telefonunda kalır.</span><span class="en">Two kinds of sharing. A card for one plant or the whole collection: photo, growth percentage, plant count and days tracked. And a link: send one plant to someone, they scan the QR or tap the link and see its photo and the care it needs. If they have Leafbook, one tap puts it on their own shelf. Only that plant travels; your care log stays on your phone.</span></p>
+        <h2 class="disp"><span class="tr">Koleksiyonunu göster</span><span class="en">Show off your collection</span></h2>
+        <p class="z-p"><span class="tr">Tek bitki ya da bütün koleksiyon için kart: fotoğraf, büyüme yüzdesi, bitki sayısı, takip edilen gün. Hazır başlıklardan seç ya da kendin yaz, sosyal medyaya uygun boyutta paylaş.</span><span class="en">A card for one plant or the whole collection: photo, growth percentage, plant count and days tracked. Pick a ready caption or write your own and share it at a size made for social media.</span></p>
         
       </div>
     </div>
@@ -198,7 +216,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="/assets/tanitim.js?v=cd6608e9"></script>
+<script src="/assets/tanitim.js?v=ce3d775f"></script>
 <script src="/assets/caps.js?v=3488c691" defer></script>
 
 </body>

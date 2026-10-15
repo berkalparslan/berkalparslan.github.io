@@ -6,16 +6,16 @@
   "en": "Tasbih Tally: Dhikr & Prayer"
  },
  "description": {
-  "tr": "Zikirmatik, namaz vakitleri ve ezan hatırlatıcı, kıble, 99 isim, sabah akşam ezkarı ve Hicri takvim; iPhone, Apple Watch ve widget'ta. Reklamsız, hesapsız.",
-  "en": "Tasbih counter, prayer times and adhan reminders, Qibla, 99 Names, morning and evening adhkar and a Hijri calendar on iPhone, Apple Watch and widgets. No ads, no account."
+  "tr": "Zikirmatik, namaz vakitleri ve ezan hatırlatıcı, kıble, 99 isim, sabah akşam ezkarı ve Hicri takvim. iPhone, Android, Apple Watch ve Wear OS. Reklamsız, hesapsız.",
+  "en": "Tasbih counter, prayer times and adhan reminders, Qibla, 99 Names, morning and evening adhkar and a Hijri calendar. iPhone, Android, Apple Watch and Wear OS. No ads, no account."
  },
  "icon": "/tasbih-tally/assets/icon.webp",
  "color": "#55db9c",
  "accent": "#ffd731",
  "status": "live",
  "kicker": {
-  "tr": "iPhone · Apple Watch · Widget",
-  "en": "iPhone · Apple Watch · Widgets"
+  "tr": "iPhone · Android · Apple Watch · Wear OS",
+  "en": "iPhone · Android · Apple Watch · Wear OS"
  },
  "lede": {
   "tr": "Sakin, reklamsız bir İslami yol arkadaşı. Ekrana dokun, zikrini say; vakti, kıbleyi, günün ismini ve duasını tek yerde gör. Telefonunda da saatinde de.",
@@ -45,7 +45,9 @@
  ],
  "platforms": [
   "ios",
-  "watchos"
+  "android",
+  "watchos",
+  "wearos"
  ],
  "ios": "6756802776",
  "emoji": [
@@ -59,22 +61,25 @@
  ],
  "promo": {
   "tr": [
-   "/tasbih-tally/assets/promo/tr/01-counter.webp",
-   "/tasbih-tally/assets/promo/tr/02-daily.webp",
-   "/tasbih-tally/assets/promo/tr/03-prayer.webp",
-   "/tasbih-tally/assets/promo/tr/04-names.webp",
-   "/tasbih-tally/assets/promo/tr/05-adhkar.webp",
-   "/tasbih-tally/assets/promo/tr/06-qibla.webp",
-   "/tasbih-tally/assets/promo/tr/07-calendar.webp"
+   "/tasbih-tally/assets/promo/v13/tr/01-counter.webp",
+   "/tasbih-tally/assets/promo/v13/tr/02-today.webp",
+   "/tasbih-tally/assets/promo/v13/tr/03-greeting.webp",
+   "/tasbih-tally/assets/promo/v13/tr/04-ramadan.webp",
+   "/tasbih-tally/assets/promo/v13/tr/05-prayer.webp",
+   "/tasbih-tally/assets/promo/v13/tr/06-names.webp",
+   "/tasbih-tally/assets/promo/v13/tr/07-adhkar.webp",
+   "/tasbih-tally/assets/promo/v13/tr/08-qibla.webp",
+   "/tasbih-tally/assets/promo/v13/tr/09-calendar.webp",
+   "/tasbih-tally/assets/promo/v13/tr/10-card-collection.webp"
   ],
   "en": [
-   "/tasbih-tally/assets/promo/en/01-counter.webp",
-   "/tasbih-tally/assets/promo/en/02-daily.webp",
-   "/tasbih-tally/assets/promo/en/03-prayer.webp",
-   "/tasbih-tally/assets/promo/en/04-names.webp",
-   "/tasbih-tally/assets/promo/en/05-adhkar.webp",
-   "/tasbih-tally/assets/promo/en/06-qibla.webp",
-   "/tasbih-tally/assets/promo/en/07-calendar.webp"
+   "/tasbih-tally/assets/promo/v13/en/01-counter.webp",
+   "/tasbih-tally/assets/promo/v13/en/02-today.webp",
+   "/tasbih-tally/assets/promo/v13/en/03-prayer.webp",
+   "/tasbih-tally/assets/promo/v13/en/04-names.webp",
+   "/tasbih-tally/assets/promo/v13/en/05-adhkar.webp",
+   "/tasbih-tally/assets/promo/v13/en/06-qibla.webp",
+   "/tasbih-tally/assets/promo/v13/en/07-calendar.webp"
   ]
  },
  "sections": [
@@ -429,5 +434,8 @@
   },
   "href": "/tasbih-tally/privacy/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "play": "com.aberk.tasbihTally",
+ "seo_title": "Tasbih Tally: Dhikr Counter, Prayer Times and Qibla · Zikirmatik",
+ "category": "LifestyleApplication"
 }

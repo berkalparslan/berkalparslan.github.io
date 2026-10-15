@@ -66,28 +66,24 @@
  ],
  "promo": {
   "tr": [
-   "/o-mu-bu-mu/assets/promo/tr/01.webp",
-   "/o-mu-bu-mu/assets/promo/tr/02.webp",
-   "/o-mu-bu-mu/assets/promo/tr/03.webp",
-   "/o-mu-bu-mu/assets/promo/tr/04.webp",
-   "/o-mu-bu-mu/assets/promo/tr/05.webp",
-   "/o-mu-bu-mu/assets/promo/tr/06.webp",
-   "/o-mu-bu-mu/assets/promo/tr/07.webp",
-   "/o-mu-bu-mu/assets/promo/tr/08.webp",
-   "/o-mu-bu-mu/assets/promo/tr/09.webp",
-   "/o-mu-bu-mu/assets/promo/tr/10.webp"
+   "/o-mu-bu-mu/assets/promo/v2/tr/01-choice.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/02-votes.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/03-champion.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/04-friends.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/05-streak.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/06-daily.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/07-size.webp",
+   "/o-mu-bu-mu/assets/promo/v2/tr/08-wrist.webp"
   ],
   "en": [
-   "/o-mu-bu-mu/assets/promo/en/01.webp",
-   "/o-mu-bu-mu/assets/promo/en/02.webp",
-   "/o-mu-bu-mu/assets/promo/en/03.webp",
-   "/o-mu-bu-mu/assets/promo/en/04.webp",
-   "/o-mu-bu-mu/assets/promo/en/05.webp",
-   "/o-mu-bu-mu/assets/promo/en/06.webp",
-   "/o-mu-bu-mu/assets/promo/en/07.webp",
-   "/o-mu-bu-mu/assets/promo/en/08.webp",
-   "/o-mu-bu-mu/assets/promo/en/09.webp",
-   "/o-mu-bu-mu/assets/promo/en/10.webp"
+   "/o-mu-bu-mu/assets/promo/v2/en/01-choice.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/02-votes.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/03-champion.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/04-friends.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/05-streak.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/06-daily.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/07-size.webp",
+   "/o-mu-bu-mu/assets/promo/v2/en/08-wrist.webp"
   ]
  },
  "sections": [
@@ -511,5 +507,8 @@
   },
   "href": "/privacy/o-mu-bu-mu/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "O mu Bu mu? This or That Party Game · Tercih Oyunu",
+ "category": "GameApplication",
+ "ios_cc": "tr"
 }

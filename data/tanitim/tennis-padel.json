@@ -61,11 +61,21 @@
   "🥇"
  ],
  "promo": {
-  "any": [
-   "/tennis-padel/assets/promo/en/01-logbook.webp",
-   "/tennis-padel/assets/promo/en/02-rules.webp",
-   "/tennis-padel/assets/promo/en/03-academy.webp",
-   "/tennis-padel/assets/promo/en/04-watch-sync.webp"
+  "tr": [
+   "/tennis-padel/assets/promo/v2/tr/01-score.webp",
+   "/tennis-padel/assets/promo/v2/tr/02-statistics.webp",
+   "/tennis-padel/assets/promo/v2/tr/03-leagues.webp",
+   "/tennis-padel/assets/promo/v2/tr/04-share.webp",
+   "/tennis-padel/assets/promo/v2/tr/05-community.webp",
+   "/tennis-padel/assets/promo/v2/tr/06-setup.webp"
+  ],
+  "en": [
+   "/tennis-padel/assets/promo/v2/en/01-score.webp",
+   "/tennis-padel/assets/promo/v2/en/02-statistics.webp",
+   "/tennis-padel/assets/promo/v2/en/03-leagues.webp",
+   "/tennis-padel/assets/promo/v2/en/04-share.webp",
+   "/tennis-padel/assets/promo/v2/en/05-community.webp",
+   "/tennis-padel/assets/promo/v2/en/06-setup.webp"
   ]
  },
  "sections": [
@@ -464,5 +474,7 @@
   },
   "href": "/privacy/tennis-padel/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Tennis & Padel Score Keeper for Apple Watch and Wear OS",
+ "category": "SportsApplication"
 }

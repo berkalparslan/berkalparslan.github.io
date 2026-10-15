@@ -1,0 +1,240 @@
+{
+ "slug": "nika",
+ "name": "Nika",
+ "title": {
+  "tr": "Nika: Düğün Planlayıcı",
+  "en": "Nika: Wedding Planner"
+ },
+ "seo_title": "Nika: Wedding Planner App for Couples · Düğün Planlayıcı",
+ "description": {
+  "tr": "Düğünü ikiniz birlikte planlayın: yapılacaklar, bütçe, davetliler, masa planı, davetiye, takı defteri ve misafir fotoğrafları tek yerde. iPhone için App Store incelemesinde, Android yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating, invitations, a gift log and guest photos in one place. In App Store review for iPhone, Android on the way."
+ },
+ "icon": "/assets/home/nika-icon.webp",
+ "color": "#e9ccff",
+ "accent": "#5c4ade",
+ "status": "soon",
+ "category": "LifestyleApplication",
+ "kicker": {
+  "tr": "Düğün planlayıcı · iPhone ve Android yakında",
+  "en": "Wedding planner · iPhone and Android soon"
+ },
+ "lede": {
+  "tr": "Bin küçük iş, tek güzel gün. Nika'da ikiniz aynı alanda çalışırsınız: işler, ödemeler, davetliler ve masalar. Misafirler de uygulama indirmeden davetiyeye cevap verir, düğün günü fotoğraflarını QR ile albüme bırakır.",
+  "en": "A thousand small jobs, one good day. In Nika you both work in the same space: tasks, payments, guests and tables. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day."
+ },
+ "pills": [
+  {
+   "tr": "İki kişilik ortak alan",
+   "en": "One shared space for two"
+  },
+  {
+   "tr": "Misafire uygulama yok",
+   "en": "Nothing for guests to install"
+  },
+  {
+   "tr": "Premium tek seferlik",
+   "en": "Premium is a one-time purchase"
+  },
+  {
+   "tr": "18 dil",
+   "en": "18 languages"
+  }
+ ],
+ "platforms": [],
+ "soon_platforms": [
+  "ios",
+  "android"
+ ],
+ "buttons": [
+  {
+   "label": {
+    "tr": "Çıkınca haber ver",
+    "en": "Tell me when it's out"
+   },
+   "href": "/#haberdar",
+   "dark": true
+  }
+ ],
+ "emoji": [
+  "💍",
+  "💐",
+  "🥂",
+  "💌",
+  "📸"
+ ],
+ "promo": {
+  "tr": [
+   "/nika/assets/promo/tr/01-ana.webp",
+   "/nika/assets/promo/tr/02-plan.webp",
+   "/nika/assets/promo/tr/03-butce.webp",
+   "/nika/assets/promo/tr/04-davetliler.webp",
+   "/nika/assets/promo/tr/05-davetiye.webp",
+   "/nika/assets/promo/tr/06-anilar.webp",
+   "/nika/assets/promo/tr/07-muzik.webp",
+   "/nika/assets/promo/tr/08-taki.webp",
+   "/nika/assets/promo/tr/09-hazirlik.webp",
+   "/nika/assets/promo/tr/10-widget.webp"
+  ],
+  "en": [
+   "/nika/assets/promo/en/01-ana.webp",
+   "/nika/assets/promo/en/02-plan.webp",
+   "/nika/assets/promo/en/03-butce.webp",
+   "/nika/assets/promo/en/04-davetliler.webp",
+   "/nika/assets/promo/en/05-davetiye.webp",
+   "/nika/assets/promo/en/06-anilar.webp",
+   "/nika/assets/promo/en/07-muzik.webp",
+   "/nika/assets/promo/en/08-taki.webp",
+   "/nika/assets/promo/en/09-hazirlik.webp",
+   "/nika/assets/promo/en/10-widget.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "plan",
+   "kicker": {
+    "tr": "Plan",
+    "en": "Plan"
+   },
+   "title": {
+    "tr": "Sırası gelen iş önünüzde",
+    "en": "The next job is right in front of you"
+   },
+   "text": {
+    "tr": "İşler aşamaya göre dizilir: şimdi sırada olanlar, 6 ay kala, 3 ay kala, son hafta. Kime atandığı görünür, biten katlanır. Son gün koymak isteğe bağlı.",
+    "en": "Tasks line up by stage: what's due now, six months out, three months out, the last week. You can see who it's assigned to, and finished ones fold away. Deadlines are optional."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nika/assets/screens/tr/02-plan.webp",
+     "/nika/assets/screens/tr/01-ana.webp"
+    ],
+    "en": [
+     "/nika/assets/screens/en/02-plan.webp",
+     "/nika/assets/screens/en/01-ana.webp"
+    ]
+   },
+   "color": "#e9ccff"
+  },
+  {
+   "id": "butce",
+   "kicker": {
+    "tr": "Bütçe",
+    "en": "Budget"
+   },
+   "title": {
+    "tr": "Ne ödendi, ne kaldı",
+    "en": "What's paid, what's left"
+   },
+   "text": {
+    "tr": "Planlanan, ödenen ve kalan tutar tek bakışta. Sıradaki ödeme ve tarihi ana ekranda. Harcama sınırı koymak da isteğe bağlı.",
+    "en": "Planned, paid and remaining at a glance, with the next payment and its date on the home screen. A spending cap is there if you want one."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nika/assets/screens/tr/04-butce.webp",
+     "/nika/assets/screens/tr/03-hazirlik.webp"
+    ],
+    "en": [
+     "/nika/assets/screens/en/04-butce.webp",
+     "/nika/assets/screens/en/03-hazirlik.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "davetliler",
+   "kicker": {
+    "tr": "Davetliler",
+    "en": "Guests"
+   },
+   "title": {
+    "tr": "Kim geliyor, kim nereye oturuyor",
+    "en": "Who's coming, who sits where"
+   },
+   "text": {
+    "tr": "Davet durumu ve katılım cevabı ayrı ayrı takip edilir. Listeyi yapıştırıp hızlıca eklersin, masalara yerleştirirsin. Davetiye için 9 tasarım var, istersen kendi tasarımını yüklersin.",
+    "en": "Invite status and RSVP are tracked separately. Paste a list to add people fast, then seat them at tables. There are 9 invitation designs, or upload your own."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nika/assets/screens/tr/05-davetliler.webp",
+     "/nika/assets/screens/tr/06-davetiye-atolyesi.webp",
+     "/nika/assets/screens/tr/08-masalar.webp"
+    ],
+    "en": [
+     "/nika/assets/screens/en/05-davetliler.webp",
+     "/nika/assets/screens/en/06-davetiye-atolyesi.webp",
+     "/nika/assets/screens/en/08-masalar.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "anilar",
+   "kicker": {
+    "tr": "Anılar",
+    "en": "Memories"
+   },
+   "title": {
+    "tr": "Fotoğraflar kimde kaldı derdi bitsin",
+    "en": "No more chasing everyone's photos"
+   },
+   "text": {
+    "tr": "Nişan, kına, düğün, balayı: her etkinliğin kendi albümü ve QR kodu var. Misafir okutur, tarayıcıdan yükler, siz onaylarsınız.",
+    "en": "Engagement, henna night, wedding, honeymoon: every event gets its own album and QR code. Guests scan it, upload from the browser, and you approve."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nika/assets/screens/tr/09-anilar.webp",
+     "/nika/assets/screens/tr/10-album.webp"
+    ],
+    "en": [
+     "/nika/assets/screens/en/09-anilar.webp",
+     "/nika/assets/screens/en/10-album.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  },
+  {
+   "id": "taki",
+   "kicker": {
+    "tr": "Takı defteri ve müzik",
+    "en": "Gift log and music"
+   },
+   "title": {
+    "tr": "Küçük ama unutulmayacak şeyler",
+    "en": "Small things nobody should forget"
+   },
+   "text": {
+    "tr": "Kimden ne geldiğini yalnız ikinizin gördüğü takı defterine yazın. Giriş, ilk dans ve parti için şarkı listesi yapın, günün programını misafirle paylaşın.",
+    "en": "Write down who gave what in a gift log only the two of you can see. Build song lists for the entrance, the first dance and the party, and share the day's schedule with guests."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/nika/assets/screens/tr/11-taki-defteri.webp",
+     "/nika/assets/screens/tr/12-muzik.webp",
+     "/nika/assets/screens/tr/13-gunun-programi.webp"
+    ],
+    "en": [
+     "/nika/assets/screens/en/11-taki-defteri.webp",
+     "/nika/assets/screens/en/12-muzik.webp",
+     "/nika/assets/screens/en/13-gunun-programi.webp"
+    ]
+   },
+   "color": "#dceeff"
+  }
+ ],
+ "privacy": {
+  "text": {
+   "tr": "Düğün alanınız yalnız sizin ve davet ettiğiniz partner ya da yardımcıların. Misafir fotoğrafları siz onaylamadan albüme girmez. Ayrıntılar gizlilik politikasında.",
+   "en": "Your wedding space belongs to you and the partner or helpers you invite. Guest photos don't reach the album until you approve them. Details are in the privacy policy."
+  },
+  "href": "/privacy/nika/"
+ }
+}

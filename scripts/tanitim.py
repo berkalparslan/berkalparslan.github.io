@@ -24,6 +24,10 @@ düz string de olur):
   "lede": {...},
   "pills": [{...}, ...],              # hero altındaki küçük etiketler
   "platforms": ["ios", "android", "watchos", "wearos", "web"],
+  "soon_platforms": ["tvos", "androidtv", "tizen", "webos"],   # incelemede/yolda: "yakında" çipi, link yok
+  "seo_title": "...",                 # <title> ve og:title (İngilizce, aranan kelimelerle); yoksa title.en
+  "category": "SportsApplication",    # JSON-LD applicationCategory (schema.org)
+  "promo_wide": true,                 # promo şeridi yatay görseller (TV) içeriyorsa
   "ios": "6816090205",                # App Store id (yoksa yok)
   "play": "com.aberk.nubi",           # Play paket adı (yoksa yok)
   "buttons": [{"label": {...}, "href": "...", "dark": true}],   # ek düğmeler (ör. beta)
@@ -34,7 +38,7 @@ düz string de olur):
       "id": "album",
       "kicker": {...}, "title": {...}, "text": {...},
       "bullets": [{...}],
-      "device": "phone" | "watch" | "laptop" | "image",   # görselin çerçevesi
+      "device": "phone" | "watch" | "laptop" | "tv" | "image",   # görselin çerçevesi
       "images": {"tr": [...], "en": [...]},  # ya da "any": [...]; birden fazlaysa döner
       "color": "#55db9c"              # panel rengi (yoksa palet sırası)
     }
@@ -55,7 +59,10 @@ DATA = ROOT / "data" / "tanitim"
 AS = "https://apps.apple.com/app/id"
 GP = "https://play.google.com/store/apps/details?id="
 PALETTE = ["#dceeff", "#e9ccff", "#55db9c", "#ffd731", "#ffb3d9", "#c8f560", "#4da2ff"]
-PLAT = {"ios": "iOS", "android": "Android", "watchos": "watchOS", "wearos": "Wear OS", "web": "Web"}
+PLAT = {"ios": "iOS", "android": "Android", "watchos": "watchOS", "wearos": "Wear OS", "web": "Web",
+        "tvos": "Apple TV", "androidtv": "Android TV", "tizen": "Samsung TV", "webos": "LG TV"}
+OS = {"ios": "iOS", "android": "Android", "watchos": "watchOS", "wearos": "Wear OS", "web": "Web browser",
+      "tvos": "tvOS", "androidtv": "Android TV", "tizen": "Tizen", "webos": "webOS"}
 
 APPLE_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 '
              '.77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 '
@@ -105,6 +112,8 @@ def device(sec, alt):
             inner = f'<span class="m-phone"><span class="isl"></span><span class="scr" data-cycle="{data}">{first}</span></span>'
         elif kind == "watch":
             inner = f'<span class="m-watch"><span class="strap b1"></span><span class="case"><span class="scr" data-cycle="{data}">{first}</span></span><span class="strap b2"></span><span class="crown"></span></span>'
+        elif kind == "tv":
+            inner = f'<span class="m-tv"><span class="scr" data-cycle="{data}">{first}</span><span class="stand"></span></span>'
         elif kind == "laptop":
             inner = f'<span class="m-laptop"><span class="lid"><span class="scr" data-cycle="{data}">{first}</span></span><span class="base"></span></span>'
         else:
@@ -115,11 +124,16 @@ def device(sec, alt):
     return frame(tr, "tr") + frame(en, "en")
 
 
+def ios_url(d):
+    """ios_cc: yalnız bir ülkenin mağazasında olan uygulama (O mu Bu mu yalnız TR)."""
+    return (AS.replace("/app/", f"/{d['ios_cc']}/app/") if d.get("ios_cc") else AS) + d["ios"]
+
+
 def store_buttons(d, big=False):
     out = []
     cls = "pill dark big" if big else "pill dark"
     if d.get("ios"):
-        out.append(f'<a class="{cls}" href="{AS}{d["ios"]}" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="{d["slug"]}">{APPLE_SVG}App Store</a>')
+        out.append(f'<a class="{cls}" href="{ios_url(d)}" target="_blank" rel="noopener" data-umami-event="app-store" data-umami-event-app="{d["slug"]}">{APPLE_SVG}App Store</a>')
     if d.get("play"):
         out.append(f'<a class="{cls}" href="{GP}{d["play"]}" target="_blank" rel="noopener" data-umami-event="google-play" data-umami-event-app="{d["slug"]}">{PLAY_SVG}Google Play</a>')
     for b in d.get("buttons", []):
@@ -146,6 +160,7 @@ def render(d):
     if status == "new": badge = '<span class="badge b-new"><span class="tr">yeni</span><span class="en">new</span></span>'
     elif status == "soon": badge = '<span class="badge b-soon"><span class="tr">yolda</span><span class="en">soon</span></span>'
     chips = "".join(f'<span class="chip">{PLAT[p]}</span>' for p in d.get("platforms", []))
+    chips += "".join(f'<span class="chip soon">{PLAT[p]} · <span class="tr">yakında</span><span class="en">soon</span></span>' for p in d.get("soon_platforms", []))
     pills = "".join(f'<span class="pill-s">{t(p)}</span>' for p in d.get("pills", []))
     emoji = e(json.dumps(d.get("emoji", []), ensure_ascii=False))
 
@@ -155,7 +170,8 @@ def render(d):
         items = "".join(f'<img src="{e(s)}" alt="" loading="lazy" />' for s in lst)
         dup = items.replace("<img ", '<img aria-hidden="true" ')
         return f'<div class="promo {cls}"><div class="promo-track">{items}{dup}</div></div>'
-    promo = strip(ptr, "") if ptr == pen else strip(ptr, "tr") + strip(pen, "en")
+    wide = " wide" if d.get("promo_wide") else ""
+    promo = strip(ptr, wide.strip()) if ptr == pen else strip(ptr, "tr" + wide) + strip(pen, "en" + wide)
 
     secs = []
     for i, s in enumerate(d.get("sections", [])):
@@ -209,7 +225,7 @@ def render(d):
   </section>'''
 
     qrs = []
-    if d.get("ios"): qrs.append(("ios", AS + d["ios"], "App Store"))
+    if d.get("ios"): qrs.append(("ios", ios_url(d), "App Store"))
     if d.get("play"): qrs.append(("play", GP + d["play"], "Google Play"))
     get = ""
     if qrs or d.get("buttons"):
@@ -232,18 +248,45 @@ def render(d):
         nav.append(f'<a href="#{e(s.get("id"))}">{t(s.get("kicker") or s.get("title"))}</a>')
 
     marquee_items = [plain(d.get("kicker"), "tr"), name, plain(d.get("kicker"), "en")]
+    seo_title = d.get("seo_title") or title_en
+    url = f"https://bamstudio.dev/{slug}/"
+    og_img = "https://bamstudio.dev" + (pen[0] if pen else d.get("icon", "/assets/brand/og.png"))
+    stores = ([ios_url(d)] if d.get("ios") else []) + ([GP + d["play"]] if d.get("play") else []) + \
+             [b["href"] for b in d.get("buttons", []) if b["href"].startswith("http")]
+    ld = {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": title_en, "alternateName": name,
+          "url": url, "description": desc_en, "image": "https://bamstudio.dev" + d.get("icon", "/assets/brand/icon-512.png"),
+          "applicationCategory": d.get("category", "LifestyleApplication"),
+          "operatingSystem": ", ".join(OS[p] for p in d.get("platforms", [])) or None,
+          "publisher": {"@type": "Organization", "name": "Bam Studio", "url": "https://bamstudio.dev/", "email": "merhaba@bamstudio.dev"},
+          "inLanguage": ["en", "tr"]}
+    if pen: ld["screenshot"] = ["https://bamstudio.dev" + x for x in pen[:4]]
+    if stores: ld["sameAs"] = stores; ld["installUrl"] = stores[0]
+    if status != "soon" and stores and d.get("free", True):
+        ld["offers"] = {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    ld = {k: v for k, v in ld.items() if v}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Bam Studio", "item": "https://bamstudio.dev/"},
+        {"@type": "ListItem", "position": 2, "name": name, "item": url}]}
+    ldjson = json.dumps([ld, crumbs], ensure_ascii=False).replace("</", "<\\/")
     return f'''<!doctype html>
 <html lang="tr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{e(title_en)} · Bam Studio</title>
+<title>{e(seo_title)} · Bam Studio</title>
 <meta name="description" content="{e(desc_en)}" />
-<link rel="canonical" href="https://bamstudio.dev/{slug}/" />
+<link rel="canonical" href="{url}" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="{e(title_en)}" />
+<meta property="og:site_name" content="Bam Studio" />
+<meta property="og:url" content="{url}" />
+<meta property="og:title" content="{e(seo_title)}" />
 <meta property="og:description" content="{e(desc_en)}" />
-<meta property="og:image" content="https://bamstudio.dev{e(d.get("icon", "/assets/brand/og.png"))}" />
+<meta property="og:image" content="{e(og_img)}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{e(seo_title)}" />
+<meta name="twitter:description" content="{e(desc_en)}" />
+<meta name="twitter:image" content="{e(og_img)}" />
+<script type="application/ld+json">{ldjson}</script>
 <meta name="theme-color" content="{color}" />
 <link rel="icon" href="{e(d.get("icon", "/assets/brand/icon-32.png"))}" />
 <link rel="apple-touch-icon" href="{e(d.get("icon", "/assets/brand/icon-180.png"))}" />
@@ -256,7 +299,7 @@ def render(d):
     if (!lang) lang = /^tr\\b/i.test(navigator.language || "") ? "tr" : "en";
     d.setAttribute("data-lang", lang); d.setAttribute("lang", lang);
     d.setAttribute("data-title-tr", {json.dumps(title_tr + " · Bam Studio", ensure_ascii=False)});
-    d.setAttribute("data-title-en", {json.dumps(title_en + " · Bam Studio", ensure_ascii=False)});
+    d.setAttribute("data-title-en", {json.dumps(seo_title + " · Bam Studio", ensure_ascii=False)});
   }})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />

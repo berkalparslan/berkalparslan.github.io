@@ -60,20 +60,24 @@
  ],
  "promo": {
   "tr": [
-   "/leafbook/assets/promo/tr/01.webp",
-   "/leafbook/assets/promo/tr/02.webp",
-   "/leafbook/assets/promo/tr/03.webp",
-   "/leafbook/assets/promo/tr/04.webp",
-   "/leafbook/assets/promo/tr/05.webp",
-   "/leafbook/assets/promo/tr/06.webp"
+   "/leafbook/assets/promo/v12/tr/01-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/02-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/03-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/04-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/05-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/06-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/07-leafbook.webp",
+   "/leafbook/assets/promo/v12/tr/08-leafbook.webp"
   ],
   "en": [
-   "/leafbook/assets/promo/en/01.webp",
-   "/leafbook/assets/promo/en/02.webp",
-   "/leafbook/assets/promo/en/03.webp",
-   "/leafbook/assets/promo/en/04.webp",
-   "/leafbook/assets/promo/en/05.webp",
-   "/leafbook/assets/promo/en/06.webp"
+   "/leafbook/assets/promo/v12/en/01-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/02-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/03-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/04-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/05-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/06-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/07-leafbook.webp",
+   "/leafbook/assets/promo/v12/en/08-leafbook.webp"
   ]
  },
  "sections": [
@@ -104,13 +108,42 @@
    "device": "phone",
    "images": {
     "tr": [
+     "/assets/home/screens/leafbook/v12/tr/01.webp",
      "/leafbook/assets/screens/tr/01-plants.webp"
     ],
     "en": [
+     "/assets/home/screens/leafbook/v12/en/01.webp",
      "/leafbook/assets/screens/en/01-plants.webp"
     ]
    },
    "color": "#55db9c"
+  },
+  {
+   "id": "topluluk",
+   "kicker": {
+    "tr": "Topluluk",
+    "en": "Community"
+   },
+   "title": {
+    "tr": "Başkalarının bitkileri",
+    "en": "Other people's plants"
+   },
+   "text": {
+    "tr": "1.2 ile geldi. Kendi bitkini göster, başkasınınkine bak, kahverengi uçlar ne demek diye sor. Akışta yalnız bitki var; her fotoğraf yayınlanmadan önce kontrol ediliyor. Hesap yalnız topluluk için, bitkilerin yine telefonunda kalıyor.",
+    "en": "New in 1.2. Show your plant, look at other people's, ask what those brown tips mean. The feed is plants only, and every photo is checked before it goes up. The account is only for the community; your plants stay on your phone."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/assets/home/screens/leafbook/v12/tr/02.webp",
+     "/assets/home/screens/leafbook/v12/tr/06.webp"
+    ],
+    "en": [
+     "/assets/home/screens/leafbook/v12/en/02.webp",
+     "/assets/home/screens/leafbook/v12/en/06.webp"
+    ]
+   },
+   "color": "#c8f560"
   },
   {
    "id": "tanima",
@@ -139,10 +172,12 @@
    "device": "phone",
    "images": {
     "tr": [
-     "/leafbook/assets/screens/tr/04-catalog.webp"
+     "/assets/home/screens/leafbook/v12/tr/05.webp",
+     "/leafbook/assets/screens/tr/07-learn-result.webp"
     ],
     "en": [
-     "/leafbook/assets/screens/en/04-catalog.webp"
+     "/assets/home/screens/leafbook/v12/en/05.webp",
+     "/leafbook/assets/screens/en/07-learn-result.webp"
     ]
    },
    "color": "#c8f560"
@@ -174,9 +209,11 @@
    "device": "phone",
    "images": {
     "tr": [
+     "/assets/home/screens/leafbook/v12/tr/04.webp",
      "/leafbook/assets/screens/tr/03-care.webp"
     ],
     "en": [
+     "/assets/home/screens/leafbook/v12/en/04.webp",
      "/leafbook/assets/screens/en/03-care.webp"
     ]
    },
@@ -432,5 +469,7 @@
   },
   "href": "/privacy/leafbook/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Leafbook: Plant Identifier, Watering Reminder and Plant Diary",
+ "category": "LifestyleApplication"
 }

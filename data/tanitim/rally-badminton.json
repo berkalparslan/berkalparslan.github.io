@@ -53,15 +53,21 @@
   "⏱️"
  ],
  "promo": {
-  "any": [
-   "/rally-badminton/assets/promo/en/01-every-rally.webp",
-   "/rally-badminton/assets/promo/en/02-rules.webp",
-   "/rally-badminton/assets/promo/en/03-wrist.webp",
-   "/rally-badminton/assets/promo/en/04-track.webp",
-   "/rally-badminton/assets/promo/en/05-share.webp",
-   "/rally-badminton/assets/promo/en/06-bwf.webp",
-   "/rally-badminton/assets/promo/en/07-watch.webp",
-   "/rally-badminton/assets/promo/en/08-stats.webp"
+  "tr": [
+   "/rally-badminton/assets/promo/v2/tr/01-score.webp",
+   "/rally-badminton/assets/promo/v2/tr/02-statistics.webp",
+   "/rally-badminton/assets/promo/v2/tr/03-leagues.webp",
+   "/rally-badminton/assets/promo/v2/tr/04-share.webp",
+   "/rally-badminton/assets/promo/v2/tr/05-community.webp",
+   "/rally-badminton/assets/promo/v2/tr/06-setup.webp"
+  ],
+  "en": [
+   "/rally-badminton/assets/promo/v2/en/01-score.webp",
+   "/rally-badminton/assets/promo/v2/en/02-statistics.webp",
+   "/rally-badminton/assets/promo/v2/en/03-leagues.webp",
+   "/rally-badminton/assets/promo/v2/en/04-share.webp",
+   "/rally-badminton/assets/promo/v2/en/05-community.webp",
+   "/rally-badminton/assets/promo/v2/en/06-setup.webp"
   ]
  },
  "sections": [
@@ -382,5 +388,7 @@
   },
   "href": "/privacy/rally-badminton/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Rally: Badminton Score Keeper for Apple Watch and iPhone",
+ "category": "SportsApplication"
 }

@@ -1,0 +1,208 @@
+{
+ "slug": "era",
+ "name": "Era",
+ "title": {
+  "tr": "Era: Anı ve Yolculuk Defteri",
+  "en": "Era: Life & Trip Journal"
+ },
+ "seo_title": "Era: Life and Trip Journal for iPhone · Anı ve Yolculuk Defteri",
+ "description": {
+  "tr": "Fotoğraflarını ve kısa notlarını tarihleriyle sakladığın hayat ve yolculuk defteri. Anıları kitap gibi oku, yolculukları rafa diz, rotanı fotoğraflı videoya dönüştür. iPhone için yakında.",
+  "en": "A life and travel journal for your photos and short notes, each with its date. Read your memories like a book, shelve your trips and turn a route into a video with your photos. Coming soon to iPhone."
+ },
+ "icon": "/assets/home/era-icon.webp",
+ "color": "#55db9c",
+ "accent": "#fb4903",
+ "status": "soon",
+ "category": "LifestyleApplication",
+ "kicker": {
+  "tr": "Anı ve yolculuk defteri · iPhone yakında",
+  "en": "Life and trip journal · iPhone soon"
+ },
+ "lede": {
+  "tr": "Yaşadıklarını biriktir, sonra defter gibi oku. Anıyı tarihi, yeri ve kişileriyle yaz; yolculukları raf raf topla, rotayı haritada canlanan bir videoya çevir.",
+  "en": "Collect what you live through, then read it like a book. Write a memory with its date, place and people; shelve your trips one by one and turn a route into a video that plays out on the map."
+ },
+ "pills": [
+  {
+   "tr": "Hesap gerekmiyor",
+   "en": "No account needed"
+  },
+  {
+   "tr": "Face ID kilidi",
+   "en": "Face ID lock"
+  },
+  {
+   "tr": "iCloud eşitleme",
+   "en": "iCloud sync"
+  },
+  {
+   "tr": "8 dil",
+   "en": "8 languages"
+  }
+ ],
+ "platforms": [],
+ "soon_platforms": [
+  "ios"
+ ],
+ "buttons": [
+  {
+   "label": {
+    "tr": "Çıkınca haber ver",
+    "en": "Tell me when it's out"
+   },
+   "href": "/#haberdar",
+   "dark": true
+  }
+ ],
+ "emoji": [
+  "📖",
+  "✈️",
+  "🗺️",
+  "📷",
+  "✉️"
+ ],
+ "promo": {
+  "tr": [
+   "/era/assets/promo/tr/01-defter.webp",
+   "/era/assets/promo/tr/02-rota-video.webp",
+   "/era/assets/promo/tr/03-kitap.webp",
+   "/era/assets/promo/tr/04-yolculuklar.webp",
+   "/era/assets/promo/tr/05-ani.webp",
+   "/era/assets/promo/tr/06-zarf.webp",
+   "/era/assets/promo/tr/07-rota.webp",
+   "/era/assets/promo/tr/08-kart.webp",
+   "/era/assets/promo/tr/09-notlar.webp",
+   "/era/assets/promo/tr/10-basla.webp"
+  ],
+  "en": [
+   "/era/assets/promo/en/01-defter.webp",
+   "/era/assets/promo/en/02-rota-video.webp",
+   "/era/assets/promo/en/03-kitap.webp",
+   "/era/assets/promo/en/04-yolculuklar.webp",
+   "/era/assets/promo/en/05-ani.webp",
+   "/era/assets/promo/en/06-zarf.webp",
+   "/era/assets/promo/en/07-rota.webp",
+   "/era/assets/promo/en/08-kart.webp",
+   "/era/assets/promo/en/09-notlar.webp",
+   "/era/assets/promo/en/10-basla.webp"
+  ]
+ },
+ "sections": [
+  {
+   "id": "defter",
+   "kicker": {
+    "tr": "Defter",
+    "en": "Journal"
+   },
+   "title": {
+    "tr": "Hayatın için tek bir defter",
+    "en": "One journal for your life"
+   },
+   "text": {
+    "tr": "Anılar tarihleriyle zaman çizelgesinde durur, fotoğraf koymak şart değil. Günü hatırlamıyorsan ay ya da yıl yazman yeter. Arama, favoriler, takvim ve yerler görünümü var.",
+    "en": "Memories sit on a timeline by date, and a photo is optional. Don't remember the exact day? A month or a year is enough. There's search, favourites, a calendar and a places view."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/era/assets/screens/tr/01_home.webp",
+     "/era/assets/screens/tr/08_memory.webp"
+    ],
+    "en": [
+     "/era/assets/screens/en/01_home.webp",
+     "/era/assets/screens/en/08_memory.webp"
+    ]
+   },
+   "color": "#55db9c"
+  },
+  {
+   "id": "kitap",
+   "kicker": {
+    "tr": "Kitap gibi oku",
+    "en": "Read it like a book"
+   },
+   "title": {
+    "tr": "Sayfalar kıvrılarak çevrilir",
+    "en": "Pages curl as you turn them"
+   },
+   "text": {
+    "tr": "Sert kapak, sırt, sayfa kalınlığı. Tek sayfa ya da açık kitap görünümüyle okursun. Yolculuk defterinde önce rota özeti gelir, sonra her etabın bilet sayfası ve o duraktaki anılar.",
+    "en": "Hard cover, spine, the thickness of the pages. Read one page at a time or as an open book. A trip journal opens with the route summary, then a ticket page for each leg and the memories from that stop."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/era/assets/screens/tr/07_reader.webp"
+    ],
+    "en": [
+     "/era/assets/screens/en/07_reader.webp"
+    ]
+   },
+   "color": "#ffd731"
+  },
+  {
+   "id": "yolculuk",
+   "kicker": {
+    "tr": "Yolculuklar",
+    "en": "Trips"
+   },
+   "title": {
+    "tr": "Rotan haritada canlansın",
+    "en": "Watch your route come alive on the map"
+   },
+   "text": {
+    "tr": "Duraklar sırayla açılır, fotoğraflar ilgili durakta polaroid gibi belirir. 12 saniyeden 60 saniyeye kadar Hikaye ya da Kare boyutunda video, telefonunda hazırlanır.",
+    "en": "Stops open one after another and photos pop up like polaroids at the right place. A Story or Square video from 12 to 60 seconds, made right on your phone."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/era/assets/screens/tr/04_trips.webp",
+     "/era/assets/screens/tr/05_trip.webp",
+     "/era/assets/screens/tr/06_route.webp"
+    ],
+    "en": [
+     "/era/assets/screens/en/04_trips.webp",
+     "/era/assets/screens/en/05_trip.webp",
+     "/era/assets/screens/en/06_route.webp"
+    ]
+   },
+   "color": "#dceeff"
+  },
+  {
+   "id": "zarf",
+   "kicker": {
+    "tr": "Zarflar",
+    "en": "Envelopes"
+   },
+   "title": {
+    "tr": "Geleceğe bir not bırak",
+    "en": "Leave a note for later"
+   },
+   "text": {
+    "tr": "Bir zarf yaz, açılacağı günü seç. O güne kadar mühürlü kalır; gün gelince ana ekranda seni bekler.",
+    "en": "Write an envelope and pick the day it opens. It stays sealed until then, and on the day it's waiting on your home screen."
+   },
+   "device": "phone",
+   "images": {
+    "tr": [
+     "/era/assets/screens/tr/02_envelope.webp",
+     "/era/assets/screens/tr/03_envelope_open.webp"
+    ],
+    "en": [
+     "/era/assets/screens/en/02_envelope.webp",
+     "/era/assets/screens/en/03_envelope_open.webp"
+    ]
+   },
+   "color": "#ffb3d9"
+  }
+ ],
+ "privacy": {
+  "text": {
+   "tr": "Defterin cihazında ve kendi iCloud hesabında durur, hesap açman gerekmez. AI özelliklerini kullandığında yalnız o metin işlenmek üzere gönderilir. Ayrıntılar gizlilik politikasında.",
+   "en": "Your journal lives on your device and in your own iCloud, no account needed. When you use an AI feature, only that text is sent to be processed. Details are in the privacy policy."
+  },
+  "href": "/privacy/era/"
+ }
+}

@@ -22,6 +22,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 :focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
 .disp { font-family: var(--disp); font-weight: 400; text-transform: uppercase; line-height: .86; letter-spacing: -.005em; }
+/* Türkçe büyük harflerde (İ, Ö, Ü, Ş) noktalar bir üst satırın altına giriyordu */
+:root[data-lang="tr"] .disp { line-height: .97; }
 
 /* Hap düğmeler */
 .pill { display: inline-flex; align-items: center; gap: 8px; border: var(--line); border-radius: 999px; background: var(--paper); padding: 9px 15px; font-weight: 700; font-size: 13px; letter-spacing: .03em; white-space: nowrap; transition: transform .15s; }
@@ -34,6 +36,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .b-new { background: var(--ember); color: #fff; }
 .b-soon { background: var(--sun); }
 .chip { font-size: 11px; font-weight: 700; letter-spacing: .03em; border: 1px solid #0005; border-radius: 999px; padding: 3px 9px; }
+.chip.soon { border-style: dashed; background: #fff8; }
 
 /* Kayan bant */
 .marquee { background: var(--ink); color: var(--paper); overflow: hidden; white-space: nowrap; }
@@ -165,6 +168,15 @@ footer.foot { background: var(--ink); color: var(--paper); padding: 40px 0 0; ov
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s, transform .8s cubic-bezier(.2, 1.2, .4, 1); }
 .reveal.in { opacity: 1; transform: none; }
 
+
+/* TV çerçevesi ve yatay promo şeridi (Konfeti) */
+.m-tv { display: grid; justify-items: center; width: min(560px, 82vw); transform: rotate(-2deg); transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.m-tv > .scr { display: block; position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #0b0b0d; border: 10px solid #0b0b0d; outline: 2px solid #000; border-radius: 12px; }
+.m-tv > .scr img { object-position: center; }
+.m-tv .stand { display: block; width: 32%; height: 18px; margin-top: 8px; background: #d6d6d6; border: 2px solid #000; border-radius: 4px 4px 16px 16px; }
+.panel:hover .m-tv { transform: rotate(0) translateY(-6px); }
+.promo.wide img { width: 520px; border-radius: 18px; }
+
 @media (max-width: 900px) {
   .nav { display: none; }
   .pill.lang { margin-left: auto; }
@@ -179,6 +191,7 @@ footer.foot { background: var(--ink); color: var(--paper); padding: 40px 0 0; ov
   .app-icon { width: 96px; height: 96px; }
   .fly { width: 54px; height: 54px; font-size: 26px; }
   .promo img { width: 190px; }
+  .promo.wide img { width: 320px; }
   .foot .copy { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {

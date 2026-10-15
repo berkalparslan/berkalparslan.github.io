@@ -53,14 +53,21 @@
   "⏱️"
  ],
  "promo": {
-  "any": [
-   "/rally-table-tennis/assets/promo/en/01-rules.webp",
-   "/rally-table-tennis/assets/promo/en/02-wrist.webp",
-   "/rally-table-tennis/assets/promo/en/03-track.webp",
-   "/rally-table-tennis/assets/promo/en/04-share.webp",
-   "/rally-table-tennis/assets/promo/en/05-ittf.webp",
-   "/rally-table-tennis/assets/promo/en/06-watch.webp",
-   "/rally-table-tennis/assets/promo/en/07-stats.webp"
+  "tr": [
+   "/rally-table-tennis/assets/promo/v2/tr/01-score.webp",
+   "/rally-table-tennis/assets/promo/v2/tr/02-statistics.webp",
+   "/rally-table-tennis/assets/promo/v2/tr/03-leagues.webp",
+   "/rally-table-tennis/assets/promo/v2/tr/04-share.webp",
+   "/rally-table-tennis/assets/promo/v2/tr/05-community.webp",
+   "/rally-table-tennis/assets/promo/v2/tr/06-setup.webp"
+  ],
+  "en": [
+   "/rally-table-tennis/assets/promo/v2/en/01-score.webp",
+   "/rally-table-tennis/assets/promo/v2/en/02-statistics.webp",
+   "/rally-table-tennis/assets/promo/v2/en/03-leagues.webp",
+   "/rally-table-tennis/assets/promo/v2/en/04-share.webp",
+   "/rally-table-tennis/assets/promo/v2/en/05-community.webp",
+   "/rally-table-tennis/assets/promo/v2/en/06-setup.webp"
   ]
  },
  "sections": [
@@ -381,5 +388,7 @@
   },
   "href": "/privacy/rally-table-tennis/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Rally: Table Tennis Score Keeper for Apple Watch and iPhone",
+ "category": "SportsApplication"
 }

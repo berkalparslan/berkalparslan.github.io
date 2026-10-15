@@ -53,11 +53,21 @@
   "📊"
  ],
  "promo": {
-  "any": [
-   "/pickleball/assets/promo/en/01-share.webp",
-   "/pickleball/assets/screens/en/01-setup.webp",
-   "/pickleball/assets/promo/en/02-rules.webp",
-   "/pickleball/assets/screens/en/02-share.webp"
+  "tr": [
+   "/pickleball/assets/promo/v2/tr/01-score.webp",
+   "/pickleball/assets/promo/v2/tr/02-statistics.webp",
+   "/pickleball/assets/promo/v2/tr/03-leagues.webp",
+   "/pickleball/assets/promo/v2/tr/04-share.webp",
+   "/pickleball/assets/promo/v2/tr/05-community.webp",
+   "/pickleball/assets/promo/v2/tr/06-setup.webp"
+  ],
+  "en": [
+   "/pickleball/assets/promo/v2/en/01-score.webp",
+   "/pickleball/assets/promo/v2/en/02-statistics.webp",
+   "/pickleball/assets/promo/v2/en/03-leagues.webp",
+   "/pickleball/assets/promo/v2/en/04-share.webp",
+   "/pickleball/assets/promo/v2/en/05-community.webp",
+   "/pickleball/assets/promo/v2/en/06-setup.webp"
   ]
  },
  "sections": [
@@ -394,5 +404,7 @@
   },
   "href": "/privacy/pickleball/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "seo_title": "Pickleball Score Keeper for Apple Watch and iPhone",
+ "category": "SportsApplication"
 }

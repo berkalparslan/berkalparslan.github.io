@@ -6,16 +6,16 @@
   "en": "No Spaces: Parking Tycoon"
  },
  "description": {
-  "tr": "Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor.",
-  "en": "A parking lot management game. You don't steer, you run the place: you set the tariff, and wages come out of the till every second."
+  "tr": "Otopark işletme oyunu. Direksiyon çevirmiyorsun, işletiyorsun: tarifeyi sen belirliyorsun, maaşlar her saniye kasadan düşüyor. iPhone ve Android.",
+  "en": "A parking lot tycoon game. You don't steer, you run the place: you set the tariff, and wages come out of the till every second. On iPhone and Android."
  },
  "icon": "/bosyeryok/assets/icon-512.png",
  "color": "#ffd731",
  "accent": "#4da2ff",
- "status": "live",
+ "status": "new",
  "kicker": {
-  "tr": "Android · Google Play'de",
-  "en": "Android · On Google Play"
+  "tr": "iPhone · Android",
+  "en": "iPhone · Android"
  },
  "lede": {
   "tr": "Boş bir arsa, tek blok, on araçlık yer. Direksiyon çevirmiyorsun, işletiyorsun. Kasa sen bakmasan da dolar, ama parayı nereye koyduğun her şeyi belirler.",
@@ -40,6 +40,7 @@
   }
  ],
  "platforms": [
+  "ios",
   "android"
  ],
  "play": "com.aberk.bosyeryok",
@@ -386,5 +387,8 @@
    "en": "No account, no ads, no cross-app tracking. Your save never leaves the phone. What does leave is coarse statistics about which features get used, and the verification of a purchase if you make one."
   },
   "href": "/privacy/bosyeryok/"
- }
+ },
+ "ios": "6806977094",
+ "seo_title": "No Spaces: Parking Tycoon Game for iPhone and Android · Boş Yer Yok",
+ "category": "GameApplication"
 }

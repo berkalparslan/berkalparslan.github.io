@@ -6,16 +6,16 @@
   "en": "Nubi: Virtual Pet"
  },
  "description": {
-  "tr": "Gerçek zamanda yaşayan minik bir sanal dost. iPhone ve Apple Watch.",
-  "en": "A little virtual pet that lives in real time. For iPhone and Apple Watch."
+  "tr": "Gerçek zamanda yaşayan minik bir sanal dost. iPhone, Android ve Apple Watch.",
+  "en": "A little virtual pet that lives in real time. For iPhone, Android and Apple Watch."
  },
  "icon": "/nubi/assets/icon.webp",
  "color": "#ffd731",
  "accent": "#fb4903",
  "status": "new",
  "kicker": {
-  "tr": "iPhone · Apple Watch · Widget",
-  "en": "iPhone · Apple Watch · Widgets"
+  "tr": "iPhone · Android · Apple Watch · Widget",
+  "en": "iPhone · Android · Apple Watch · Widgets"
  },
  "lede": {
   "tr": "Gerçek zamanda yaşayan minik bir dost. Sen işteyken acıkır, gece uykusu gelir; günde birkaç kez uğrarsın, gözünün önünde büyür.",
@@ -41,6 +41,7 @@
  ],
  "platforms": [
   "ios",
+  "android",
   "watchos"
  ],
  "ios": "6816090205",
@@ -341,5 +342,8 @@
    "en": "Your pet, tasks, coins and album stay on your phone. No account, no ads, no analytics. It goes online only for store purchases."
   },
   "href": "/privacy/nubi/"
- }
+ },
+ "play": "com.aberk.nubi",
+ "seo_title": "Nubi: Virtual Pet for iPhone, Android and Apple Watch",
+ "category": "GameApplication"
 }

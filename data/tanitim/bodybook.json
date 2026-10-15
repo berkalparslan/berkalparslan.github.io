@@ -6,20 +6,20 @@
   "en": "BodyBook: Mole Tracker & Pill Reminder"
  },
  "description": {
-  "tr": "Ben fotoğrafı karşılaştır, ilaç hatırlat, tansiyon kaydet. Tansiyon, kilo, ilaç, cilt rutini, ben, su ve uyku tek panelde; her şey telefonunda kalır.",
-  "en": "Compare mole photos, get pill reminders, log blood pressure. Blood pressure, weight, medication, skincare, moles, water and sleep in one panel; everything stays on your phone."
+  "tr": "Benlerini aynı açıdan fotoğrafla, ABCDE ile karşılaştır, kontrol gününü hatırlat. iPhone ve Android; her şey telefonunda kalır.",
+  "en": "Photograph your moles from the same angle, compare them with the ABCDE checklist and get reminded when the next check is due. iPhone and Android; everything stays on your phone."
  },
  "icon": "/assets/home/bodybook-icon.webp",
  "color": "#ffb3d9",
  "accent": "#4da2ff",
- "status": "live",
+ "status": "new",
  "kicker": {
-  "tr": "Android · Google Play'de",
-  "en": "Android · On Google Play"
+  "tr": "iPhone · Android",
+  "en": "iPhone · Android"
  },
  "lede": {
-  "tr": "Tansiyonun, ilaçların, kilon, cilt rutinin ve benlerin beş ayrı uygulamaya dağılmasın. Hepsi tek panelde ve hepsi telefonunda kalır.",
-  "en": "Your blood pressure, medication, weight, skincare routine and moles do not belong in five separate apps. One panel for all of it, and all of it stays on your phone."
+  "tr": "Tansiyonun, ilaçların, kilon, cilt rutinin ve benlerin beş ayrı uygulamaya dağılmasın. Android'de hepsi tek panelde. iPhone sürümü benlere odaklanıyor: vücut haritası, hayalet kamera, ABCDE kontrolü ve hatırlatıcı. İkisinde de veri telefonunda kalır.",
+  "en": "Your blood pressure, medication, weight, skincare routine and moles do not belong in five separate apps. On Android it's all in one panel. The iPhone version focuses on moles: a body map, the ghost camera, the ABCDE check and reminders. Either way, the data stays on your phone."
  },
  "pills": [
   {
@@ -40,6 +40,7 @@
   }
  ],
  "platforms": [
+  "ios",
   "android"
  ],
  "play": "com.aberk.bodybook",
@@ -349,5 +350,8 @@
   "href": "/bodybook/privacy/"
  },
  "support": "/bodybook/support/",
- "extra_html": "<section class=\"band\" id=\"uyari\"><div class=\"wrap\"><p class=\"band-p\"><span class=\"tr\">BodyBook bir öz-izleme ve iyi yaşam uygulamasıdır, tıbbi cihaz değildir. Tanı koymaz, risk skoru üretmez, ilaç ya da doz önermez, etkileşim kontrolü yapmaz. Sağlığınla ilgili kararları hekiminle ver.</span><span class=\"en\">BodyBook is a self-tracking and wellness app, not a medical device. It does not diagnose, produce risk scores, suggest medicines or doses, or check for interactions. Make decisions about your health with your doctor.</span></p></div></section>"
+ "extra_html": "<section class=\"band\" id=\"uyari\"><div class=\"wrap\"><p class=\"band-p\"><span class=\"tr\">BodyBook bir öz-izleme ve iyi yaşam uygulamasıdır, tıbbi cihaz değildir. Tanı koymaz, risk skoru üretmez, ilaç ya da doz önermez, etkileşim kontrolü yapmaz. Sağlığınla ilgili kararları hekiminle ver.</span><span class=\"en\">BodyBook is a self-tracking and wellness app, not a medical device. It does not diagnose, produce risk scores, suggest medicines or doses, or check for interactions. Make decisions about your health with your doctor.</span></p></div></section>",
+ "ios": "6799754171",
+ "seo_title": "BodyBook: Mole Tracker & Skin Check (ABCDE) for iPhone and Android",
+ "category": "HealthApplication"
 }

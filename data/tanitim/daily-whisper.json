@@ -1,5 +1,5 @@
 {
-  "custom": "scripts/daily-whisper.py ile üretiliyor (Still tasarımı, 6 dil)",
+ "custom": "scripts/daily-whisper.py ile üretiliyor (Still tasarımı, 6 dil)",
  "slug": "daily-whisper",
  "name": "Daily Whisper",
  "title": {
@@ -445,5 +445,6 @@
   },
   "href": "/privacy/daily-whisper/"
  },
- "support": "/support/"
+ "support": "/support/",
+ "category": "LifestyleApplication"
 }
