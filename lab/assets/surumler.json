@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-15T04:12:47.851Z",
+ "uretim": "2026-10-17T22:06:54.983Z",
  "apps": {
   "leafbook": [
    {
@@ -1577,7 +1577,7 @@
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-10-05T04:05:52-07:00",
-    "durum": "incelemede",
+    "durum": "reddedildi",
     "notlar": []
    },
    {
@@ -1614,7 +1614,7 @@
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-10-12T15:25:54-07:00",
-    "durum": "hazırlanıyor",
+    "durum": "reddedildi",
     "notlar": []
    }
   ]
