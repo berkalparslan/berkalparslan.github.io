@@ -265,15 +265,25 @@ async function satislar() {
 
 /* ── bildirim Worker'ları ── */
 async function saglik() {
+  const sonuc = [];
   for (const w of BILDIRIM_WORKER) {
-    const ad = w.uygulama ? appAd(w.uygulama) : w.ad;
-    const eski = D.saglik[w.url];
-    let j = null, hata = null;
+    let j = null, hata = null, ag = false;
     try {
       const r = await fetch(`${w.url}/health`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
       j = await r.json().catch(() => null);
       if (!r.ok || !j) hata = `HTTP ${r.status}`;
-    } catch (e) { hata = e.name === "TimeoutError" ? "zaman aşımı" : e.message; }
+    } catch (e) { hata = e.name === "TimeoutError" ? "zaman aşımı" : e.message; ag = true; }
+    sonuc.push({ w, j, hata, ag });
+  }
+  /* Hepsi ağ hatasıysa sorun büyük ihtimalle Mac'in interneti; Worker dışı bir adresle doğrula, durumu değiştirme. */
+  if (sonuc.every(x => x.ag)) {
+    const internet = await fetch("https://www.google.com/generate_204", { cache: "no-store", signal: AbortSignal.timeout(10000) })
+      .then(() => true, () => false);
+    if (!internet) { log("  internet yoktu, Worker kontrolü atlandı"); return; }
+  }
+  for (const { w, j, hata } of sonuc) {
+    const ad = w.uygulama ? appAd(w.uygulama) : w.ad;
+    const eski = D.saglik[w.url];
     const s = { ...(eski || {}), t: simdi.toISOString() };
     if (hata) {
       s.hata = (s.hata || 0) + 1;
