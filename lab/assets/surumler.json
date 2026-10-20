@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-18T13:18:33.347Z",
+ "uretim": "2026-10-20T01:02:37.772Z",
  "apps": {
   "leafbook": [
    {
@@ -1131,6 +1131,20 @@
   ],
   "matchday": [
    {
+    "surum": "1.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     8
+    ],
+    "notlar": [
+     "Davet edilenler hemen kadroda görünüyor, tik geri alınabiliyor, oyuncu menüsüyle kaptan yap ve kadrodan çıkar. Haftaya tekrarla ile kadro ve takım seçimi. Oyuncular sonucu organizatöre onaya gönderebiliyor. Açık tema, yeni ana sayfa ve Maçlar sekmesi."
+    ],
+    "tarih": "2026-10-20",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-09-28T11:00:59-07:00",
@@ -1167,6 +1181,20 @@
    }
   ],
   "daily-whisper": [
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "Hikaye kaydettikten sonra açılışta yaşanan çökme düzeltildi. Hikayeler ve sesler artık Bam Studio sunucusu üzerinden geliyor."
+    ],
+    "tarih": "2026-10-20",
+    "tarihKaynak": "ilk görülme"
+   },
    {
     "surum": "2.1.1",
     "platform": "ios",
