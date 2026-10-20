@@ -363,7 +363,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "/matchday/",
     diller: 2,
-    not: "iOS incelemede. Play kapalı testte. Yönetim paneli /lab/matchday/."
+    not: "iOS 1.0 reddedildi (10 Eki, gerekçe okunmadı). Play production 1.1 ama sayfa 404. Yönetim paneli /lab/matchday/."
   },
   "nika": {
     ikon: "/assets/lab-icons/nika-180.png",
@@ -375,7 +375,7 @@ export const PROFIL = {
     maliyet: 0,
     sayfa: "",
     diller: 2,
-    not: "Düğün planlayıcı. iOS incelemede, Android sırada. Arka uç Cloudflare (nika.bamstudio.dev). Panel /lab/nika/."
+    not: "Düğün planlayıcı. iOS 4.3 reddi, Board itirazında (16 Eki). Android kapalı testte. Arka uç Cloudflare (nika.bamstudio.dev). Panel /lab/nika/."
   },
   "iz": {
     ikon: "🧭",

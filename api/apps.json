@@ -22,8 +22,8 @@
   "play": null,
   "tour": "/nika/",
   "status": "soon",
-  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. App Store incelemesinde, Android yolda.",
-  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In App Store review, Android on the way."
+  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. Android'de kapalı testte, iPhone sürümü yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In closed testing on Android, the iPhone version is on the way."
  },
  {
   "slug": "tennis-padel",
@@ -100,8 +100,8 @@
   "play": null,
   "tour": "/konfeti/",
   "status": "new",
-  "tr": "Ev partileri için TV oyunu. Oyunu kumandayla seçiyorsun, misafirler TV'deki QR'ı okutup telefonla oy veriyor; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Bugün tarayıcıda açılıyor. Apple TV, Google TV, Samsung ve LG mağazalarında inceleme sürüyor.",
-  "en": "A party game for your TV. You pick a game with the remote, guests scan the QR on screen and vote from their phones; photos, scores and the night's recap show up on the big screen. It runs in the browser today. Apple TV, Google TV, Samsung and LG are in review."
+  "tr": "Ev partileri için TV oyunu. Oyunu kumandayla seçiyorsun, misafirler TV'deki QR'ı okutup telefonla oy veriyor; fotoğraflar, puanlar ve gecenin özeti büyük ekranda. Bugün tarayıcıda açılıyor. Samsung ve LG mağazalarında inceleme sürüyor, Google TV ve Apple TV sürümleri yolda.",
+  "en": "A party game for your TV. You pick a game with the remote, guests scan the QR on screen and vote from their phones; photos, scores and the night's recap show up on the big screen. It runs in the browser today. Samsung and LG are in review, Google TV and Apple TV are on the way."
  },
  {
   "slug": "o-mu-bu-mu",
