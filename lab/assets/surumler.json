@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-20T01:02:37.772Z",
+ "uretim": "2026-10-21T04:17:31.783Z",
  "apps": {
   "leafbook": [
    {
@@ -1261,10 +1261,10 @@
     "track": "alpha",
     "durum": "kapalı test",
     "vc": [
-     12
+     13
     ],
     "notlar": [
-     "Sunucular yoğunken hikayeler daha hızlı yazılıyor. Küçük düzeltmeler."
+     "Google Play satın almayı tamamlayamazsa artık ne yapman gerektiği yazıyor. Küçük ekranlarda kesilen \"En avantajlı\" etiketi düzeldi."
     ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
@@ -1642,7 +1642,7 @@
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-10-12T15:25:54-07:00",
-    "durum": "reddedildi",
+    "durum": "incelemede",
     "notlar": []
    }
   ]
