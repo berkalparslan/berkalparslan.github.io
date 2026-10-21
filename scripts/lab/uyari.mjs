@@ -75,7 +75,7 @@ const log = (...a) => console.log(...a);
 const ilkKez = !existsSync(DURUM_YOL);
 const D = ilkKez ? {} : JSON.parse(readFileSync(DURUM_YOL, "utf8"));
 D.surum = 1; D.tohum ||= simdi.toISOString();
-for (const k of ["yorum", "yorumTohum", "ios", "play", "satis", "satisTohum", "saglik", "aktif", "anomali"]) D[k] ||= {};
+for (const k of ["yorum", "yorumTohum", "ios", "play", "satis", "satisTohum", "saglik", "aktif", "anomali", "dwai"]) D[k] ||= {};
 D.bekleyen ||= []; D.yazilacak ||= [];
 
 const yeni = [];
@@ -306,6 +306,84 @@ async function saglik() {
   }
 }
 
+/* ── Daily Whisper AI: Gemini hataları, eski anahtar sıçraması, proxy sınırı ──
+ * Kredi bitince ya da kota dolunca Gemini 429/403/402 döner; 503 (model yoğun) zincirle
+ * karşılandığı için sayılmaz. Son 3 saatte 10+ hata ve %20+ oran: yüksek öncelik.
+ * Proxy dışı anahtarda 3 saatte 300+ istek: anahtar sızmış olabilir.
+ * Proxy günlük çağrısı uygulama sınırının %70'ini geçerse: sınırı yükseltme zamanı. */
+const DW_PROJE = "kit-app-a91b5", DW_PROXY_ANAHTAR = "ai-proxy-dailywhisper";
+async function dwAI() {
+  const S = D.dwai ||= {};
+  try {
+    const t = await firebaseToken();
+    const isim = Object.fromEntries(((await (await fetch(`https://apikeys.googleapis.com/v2/projects/${DW_PROJE}/locations/global/keys`,
+      { headers: { Authorization: `Bearer ${t}` } })).json()).keys || []).map(k => [k.uid, k.displayName]));
+    const u = new URL(`https://monitoring.googleapis.com/v3/projects/${DW_PROJE}/timeSeries`);
+    u.searchParams.set("filter", 'metric.type="serviceruntime.googleapis.com/api/request_count" AND resource.labels.service="generativelanguage.googleapis.com"');
+    u.searchParams.set("interval.startTime", new Date(simdi - 3 * 36e5).toISOString());
+    u.searchParams.set("interval.endTime", simdi.toISOString());
+    u.searchParams.set("aggregation.alignmentPeriod", "10800s");
+    u.searchParams.set("aggregation.perSeriesAligner", "ALIGN_SUM");
+    u.searchParams.set("aggregation.crossSeriesReducer", "REDUCE_SUM");
+    u.searchParams.append("aggregation.groupByFields", "metric.labels.response_code");
+    u.searchParams.append("aggregation.groupByFields", "resource.labels.credential_id");
+    const j = await (await fetch(u, { headers: { Authorization: `Bearer ${t}` } })).json();
+    if (j.error) throw new Error(j.error.message);
+    let toplam = 0, hata = 0; const kodlar = {}, digerAnahtar = {};
+    for (const s of j.timeSeries || []) {
+      const ad = isim[(s.resource.labels.credential_id || "").replace(/^apikey:/, "")] || "?";
+      if (/auto created by Firebase/.test(ad)) continue; // Firebase anahtarları zaten 403, gürültü
+      const kod = Number(s.metric.labels.response_code), n = s.points.reduce((a, p) => a + Number(p.value.int64Value || 0), 0);
+      toplam += n;
+      if (kod !== 200 && kod !== 503 && kod !== 499) { hata += n; kodlar[kod] = (kodlar[kod] || 0) + n; }
+      if (ad !== DW_PROXY_ANAHTAR) digerAnahtar[ad] = (digerAnahtar[ad] || 0) + n;
+    }
+    log(`  Gemini son 3 sa: ${toplam} istek, ${hata} hata ${JSON.stringify(kodlar)}`);
+    const sorun = hata >= 10 && hata / toplam >= 0.2;
+    if (sorun && !S.hata) {
+      S.hata = simdi.toISOString();
+      uyar({ id: kisaId("dwai", `hata:${S.hata}`), tur: "saglik", uygulama: "daily-whisper", oncelik: "yuksek",
+        baslik: "Daily Whisper AI hata veriyor",
+        govde: `Son 3 saatte ${toplam} Gemini isteğinin ${hata} tanesi hata (${Object.entries(kodlar).map(([k, n]) => `${k}: ${n}`).join(", ")}). 429/402 ise AI Studio kredisi ya da kota bitmiş olabilir: aistudio.google.com Billing.` });
+    } else if (!sorun && S.hata && hata < 3) {
+      uyar({ id: kisaId("dwai", `geri:${S.hata}`), tur: "saglik", uygulama: "daily-whisper", oncelik: "dusuk",
+        baslik: "Daily Whisper AI düzeldi", govde: `Son 3 saatte ${toplam} Gemini isteği, ${hata} hata.` });
+      S.hata = null;
+    }
+    for (const [ad, n] of Object.entries(digerAnahtar)) {
+      const k = `${ad}:${bugun}`;
+      if (n >= 300 && !(S.sizinti ||= {})[k]) {
+        S.sizinti[k] = true;
+        uyar({ id: kisaId("dwai", `sizinti:${k}`), tur: "saglik", uygulama: "daily-whisper", oncelik: "yuksek",
+          baslik: `Daily Whisper: "${ad}" anahtarında ani yükseliş`,
+          govde: `Proxy dışındaki bu anahtar son 3 saatte ${n} istek aldı. Normali günde birkaç düzine. Wallet Coach'taki gibi sızmış olabilir; AI Studio → API keys.` });
+      }
+    }
+    if (S.sizinti) for (const k of Object.keys(S.sizinti)) if (!k.endsWith(bugun)) delete S.sizinti[k];
+  } catch (e) { log(`  dw gemini ✗ ${e.message}`); }
+
+  /* proxy sayacı saatte bir (wrangler D1 yavaş) */
+  const saat = simdi.toISOString().slice(0, 13);
+  if (S.proxySaat === saat) return;
+  const gun = simdi.toISOString().slice(0, 10);
+  const r = sh("npx", ["wrangler", "d1", "execute", "bam-ai-proxy", "--remote", "--json", "--command",
+    `SELECT n FROM usage WHERE day = '${gun}' AND scope = 'app:dailywhisper'`]);
+  if (!r.ok) { log(`  dw proxy ✗ ${r.out.split("\n")[0]}`); return; }
+  S.proxySaat = saat;
+  try {
+    const n = JSON.parse(r.out.slice(r.out.indexOf("[")))[0]?.results?.[0]?.n || 0;
+    const toml = readFileSync(join(homedir(), "dev", "ai-proxy", "wrangler.toml"), "utf8");
+    const sinir = Number((toml.match(/LIMIT_APP_DAILYWHISPER\s*=\s*"(\d+)"/) || [])[1]) || 6000;
+    log(`  DW proxy bugün ${n}/${sinir}`);
+    if (n >= sinir * 0.7 && S.proxyGun !== gun) {
+      S.proxyGun = gun;
+      uyar({ id: kisaId("dwai", `proxy:${gun}`), tur: "saglik", uygulama: "daily-whisper", oncelik: n >= sinir ? "yuksek" : "normal",
+        baslik: `Daily Whisper AI günlük sınıra yaklaştı (${n}/${sinir})`,
+        govde: `Bugün proxy'den ${n} çağrı geçti, sınır ${sinir}. Dolunca kullanıcılar 429 alır. ~/dev/ai-proxy/wrangler.toml LIMIT_APP_DAILYWHISPER artırılıp deploy edilmeli.` });
+    }
+  } catch (e) { log(`  dw proxy ✗ ${e.message}`); }
+}
+
 /* ── anomali (günde bir, 12:00 TSİ sonrası) ── */
 function kaynakYasi() {
   const gunFark = iso => iso ? Math.floor((simdi - Date.parse(iso)) / 864e5) : Infinity;
@@ -421,6 +499,7 @@ log("App Store"); await appStore();
 log("Google Play"); play();
 log("Satın alma"); await satislar();
 log("Bildirim Worker'ları"); await saglik();
+log("Daily Whisper AI"); await dwAI();
 await anomali();
 
 /* eski kayıtları buda: yorum/satış kimlikleri 120 gün */
