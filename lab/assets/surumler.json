@@ -1,20 +1,45 @@
 {
- "uretim": "2026-10-21T04:17:31.783Z",
+ "uretim": "2026-10-22T04:10:15.542Z",
  "apps": {
   "leafbook": [
    {
-    "surum": "1.2.1",
+    "surum": "1.2.2",
     "platform": "android",
     "track": "production",
     "durum": "üretim",
     "vc": [
-     10
+     11
     ],
     "notlar": [
-     "Bitki tanımada bir düzeltme.",
-     "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
+     "Bildirimler daha güvenilir. Teklif kodu kullandığında Pro hemen açılıyor. Küçük düzeltmeler."
     ],
-    "tarih": "2026-10-14",
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2.2",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     11
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.2.2",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "Bildirimler daha güvenilir. Teklif kodu kullandığında Pro hemen açılıyor. Küçük düzeltmeler."
+    ],
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
@@ -26,21 +51,6 @@
      "Bitki tanımada bir düzeltme.",
      "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
     ]
-   },
-   {
-    "surum": "1.2.1",
-    "platform": "android",
-    "track": "internal",
-    "durum": "iç test",
-    "vc": [
-     10
-    ],
-    "notlar": [
-     "Bitki tanımada bir düzeltme.",
-     "AI'a ulaşılamadığında uygulama sessizce kendi yaprak rengi tahminini gösteriyordu, yanında bir yüzdeyle, AI'ın hiç cevap vermediğini söylemeden. Artık yeniden deniyor, yine ulaşamazsa bunu yazıyor ve bir kez daha denemeyi öneriyor. O deneme ücretsiz."
-    ],
-    "tarih": "2026-10-13",
-    "tarihKaynak": "ilk görülme"
    },
    {
     "surum": "1.2",
@@ -88,27 +98,49 @@
     "tarih": "2026-09-14T02:50:54-07:00",
     "durum": "yayında",
     "notlar": []
+   }
+  ],
+  "walletcoach": [
+   {
+    "surum": "2.4.2",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     26
+    ],
+    "notlar": [
+     "Paywall'da artık teklif kodunu girebileceğin bir bağlantı var. Destek ve tanıtım bağlantıları yeni adresimize taşındı, uygulama Android 16 için güncellendi."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.0 (5)",
+    "surum": "2.4.2",
     "platform": "android",
     "track": "alpha",
     "durum": "kapalı test",
     "vc": [
-     5
+     26
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.4.2",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     26
     ],
     "notlar": [
-     "Bitkinin durduğu yer artık sulama ritmini belirliyor: loş köşe aralığı uzatıyor, güneşli pencere kısaltıyor.",
-     "Bitki eklerken en son ne zaman suladığını seçebiliyorsun.",
-     "Hatırlatmada iki düğme var: suladım, ya da toprak hala nemli. İkincisi programı öğretiyor.",
-     "Leafbook yaprak rengini izliyor, sarıya kayınca haber veriyor.",
-     "Toprakla ilgili üç soru sebebi söylüyor ve 14 günlük plan çıkarıyor."
+     "Paywall'da artık teklif kodunu girebileceğin bir bağlantı var. Destek ve tanıtım bağlantıları yeni adresimize taşındı, uygulama Android 16 için güncellendi."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
-   }
-  ],
-  "walletcoach": [
+   },
    {
     "surum": "2.4.1",
     "platform": "ios",
@@ -198,217 +230,294 @@
     "tarih": "2026-08-04T15:48:47-07:00",
     "durum": "yayında",
     "notlar": []
-   },
+   }
+  ],
+  "bosyeryok": [
    {
-    "surum": "2.4",
+    "surum": "1.0.4",
     "platform": "android",
     "track": "production",
     "durum": "üretim",
     "vc": [
-     24
+     6
     ],
     "notlar": [
-     "Yeni: Kredi kartı ekstresi. PDF'i bankanın uygulamasından paylaş ya da ekran görüntüsü ekle; harcaman sektörlere ayrılır, kartın sana maliyeti görünür.",
-     "Yeni: Analiz sekmesi ve kart kesim tarihi ipuçları.",
-     "Yeni: Bağlantıyla paylaş. Tadilatı, tatili ya da fiyat takibini QR veya bağlantıyla paylaş; ekleme önerirler, sen onaylarsın ve bildirim alırsın.",
-     "Yeni: Fotoğraftan doldur ve Yazılar.",
-     "Sekmeler yenilendi. Artık 17 dilde."
+     "Patron sayfasındaki hata düzeltildi, teklif kodu bağlantısı eklendi. Oyunu daha iyi yapabilmek için anonim kullanım ölçümü ve çökme raporu eklendi."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "2.4",
+    "surum": "1.0.4",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     6
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.4",
     "platform": "android",
     "track": "alpha",
     "durum": "kapalı test",
     "vc": [
-     24
+     6
     ],
-    "notlar": [
-     "Fiş okuma artık Bam Studio sunucusu üzerinden çalışıyor. Ödeme kütüphanesi güncellendi."
-    ],
-    "tarih": null,
+    "notlar": [],
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "2.4",
+    "surum": "1.0.4",
     "platform": "android",
     "track": "internal",
     "durum": "iç test",
     "vc": [
-     24
+     6
     ],
     "notlar": [
-     "AI özellikleri artık Bam Studio sunucusu üzerinden çalışıyor."
+     "Patron sayfasındaki hata düzeltildi, teklif kodu bağlantısı eklendi. Oyunu daha iyi yapabilmek için anonim kullanım ölçümü ve çökme raporu eklendi."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
-   }
-  ],
-  "bosyeryok": [
+   },
    {
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-08-31T01:57:56-07:00",
     "durum": "yayında",
     "notlar": []
-   },
+   }
+  ],
+  "bodybook": [
    {
-    "surum": "1.0.3",
+    "surum": "1.2",
     "platform": "android",
     "track": "production",
     "durum": "üretim",
     "vc": [
-     5
+     3
     ],
     "notlar": [
-     "İlk sürüm.",
-     "Otopark işlet: tarifeyi sen belirle, personeli sen al, maaşlar her saniye kasadan düşsün. Dört konum, her birinin kendi 24 saatlik talep eğrisi var. On iki yükseltme, altı personel, üç tarife ve abonman. On dokuz sokak olayı. İhale blokları sıfırlar, kalıcı ruhsat verir.",
-     "Reklam yok, hesap yok, kayıt cihazda kalır. Türkçe ve İngilizce, Ayarlar'dan değişir."
+     "Bağlantılar ve doktor raporundaki adres yeni sitemize taşındı. Uygulama Android 16 için güncellendi."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.0.3",
+    "surum": "1.2",
     "platform": "android",
     "track": "beta",
-    "durum": "açık test",
+    "durum": "açık test · draft",
     "vc": [
-     5
+     3
     ],
     "notlar": [
-     "İlk sürüm.",
-     "Otopark işlet: tarifeyi sen belirle, personeli sen al, maaşlar her saniye kasadan düşsün. Dört konum, her birinin kendi 24 saatlik talep eğrisi var. On iki yükseltme, altı personel, üç tarife ve abonman. On dokuz sokak olayı. İhale blokları sıfırlar, kalıcı ruhsat verir.",
-     "Reklam yok, hesap yok, kayıt cihazda kalır. Türkçe ve İngilizce, Ayarlar'dan değişir."
+     "Bildirimler",
+     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
+     "Bildirimler uygulamada seçtiğin dilde geliyor",
+     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
+     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
+     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
+     "BodyBook Pro",
+     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.0.3",
+    "surum": "1.2",
     "platform": "android",
     "track": "alpha",
     "durum": "kapalı test",
     "vc": [
-     5
+     3
     ],
-    "notlar": [
-     "Kasa RevenueCat üzerinden çalışıyor; satın alma geri yükleme daha güvenilir."
-    ],
-    "tarih": null,
+    "notlar": [],
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.0.3",
+    "surum": "1.2",
     "platform": "android",
     "track": "internal",
     "durum": "iç test",
     "vc": [
-     5
+     3
     ],
     "notlar": [
-     "Kasa RevenueCat üzerinden çalışıyor; satın alma geri yükleme daha güvenilir."
+     "Bağlantılar ve doktor raporundaki adres yeni sitemize taşındı. Uygulama Android 16 için güncellendi."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
-   }
-  ],
-  "bodybook": [
+   },
    {
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-08-09T13:02:12-07:00",
     "durum": "yayında",
     "notlar": []
-   },
+   }
+  ],
+  "tasbih-tally": [
    {
-    "surum": "1.1",
+    "surum": "1.5",
     "platform": "android",
     "track": "production",
     "durum": "üretim",
     "vc": [
-     2
+     52
     ],
     "notlar": [
-     "Bildirimler",
-     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
-     "Bildirimler uygulamada seçtiğin dilde geliyor",
-     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
-     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
-     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
-     "BodyBook Pro",
-     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.1",
+    "surum": "1.5",
     "platform": "android",
     "track": "beta",
-    "durum": "açık test · draft",
+    "durum": "açık test",
     "vc": [
-     2
+     52
     ],
     "notlar": [
-     "Bildirimler",
-     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
-     "Bildirimler uygulamada seçtiğin dilde geliyor",
-     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
-     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
-     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
-     "BodyBook Pro",
-     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.1",
+    "surum": "1.5",
     "platform": "android",
     "track": "alpha",
     "durum": "kapalı test",
     "vc": [
-     2
+     52
     ],
     "notlar": [
-     "Bildirimler",
-     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
-     "Bildirimler uygulamada seçtiğin dilde geliyor",
-     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
-     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
-     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
-     "BodyBook Pro",
-     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "2 (1.1)",
+    "surum": "1.4",
     "platform": "android",
     "track": "internal",
     "durum": "iç test",
     "vc": [
-     2
+     50
     ],
     "notlar": [
-     "Bildirimler",
-     "Bildirime dokununca uygulama bulunduğun ekranı koruyor",
-     "Bildirimler uygulamada seçtiğin dilde geliyor",
-     "\"15 dakika sonra\" ertelemesi artık boş bildirim üretmiyor",
-     "İşaretlediğin doz için ikinci kez hatırlatma çıkmıyor",
-     "Stok, ürün raf ömrü ve ben kontrolü artık adıyla bildiriliyor",
-     "BodyBook Pro",
-     "Ücretsiz sürümde aynı anda üç modül ve bir doktor raporu var. Bu sürümden önce kurduysan hepsi açık kalır. Kayıtların her zaman senin."
+     "Namaz vakitlerini artık elle ayarlayabilirsin: şehrini listeden seç, her vakti camindeki saate göre 30 dakikaya kadar ileri ya da geri al. Ramazan'da Umm al-Qura için yatsıya 30 dakika eklenir. Yeni ödeme ekranı, tebrik kartları ve teklif kodu bağlantısı da bu sürümde."
     ],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
-   }
-  ],
-  "tasbih-tally": [
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:beta",
+    "durum": "wear:beta",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:close release",
+    "durum": "wear:close release",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:for5",
+    "durum": "wear:for5",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.4",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     49
+    ],
+    "notlar": [
+     "Namaz vakitlerini artık elle ayarlayabilirsin: şehrini listeden seç, her vakti camindeki saate göre 30 dakikaya kadar ileri ya da geri al. Ramazan'da Umm al-Qura için yatsıya 30 dakika eklenir. Yeni ödeme ekranı, tebrik kartları ve teklif kodu bağlantısı da bu sürümde."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:track1",
+    "durum": "wear:track1",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5",
+    "platform": "wear",
+    "track": "wear:tstt",
+    "durum": "wear:tstt",
+    "vc": [
+     51
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
    {
     "surum": "1.3",
     "platform": "ios",
@@ -445,172 +554,21 @@
     "tarih": "2025-12-19T16:14:24-08:00",
     "durum": "yayında",
     "notlar": []
-   },
-   {
-    "surum": "1.2",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     44
-    ],
-    "notlar": [
-     "Artık tam bir dini uygulama: namaz vakitleri ve ezan hatırlatıcı, kıble pusulası, zikir setleri (33·33·34), sabah-akşam zikirleri, niyetleriyle 99 isim, Hicri takvim, günün duası, ana ekran widget'ı, 9 dil, koyu tema. Telefon ↔ saat senkronu."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
+   }
+  ],
+  "orbix-roulette": [
    {
     "surum": "1.2",
     "platform": "android",
     "track": "beta",
     "durum": "açık test",
     "vc": [
-     44
-    ],
-    "notlar": [
-     "Artık tam bir dini uygulama: namaz vakitleri ve ezan hatırlatıcı, kıble pusulası, zikir setleri (33·33·34), sabah-akşam zikirleri, niyetleriyle 99 isim, Hicri takvim, günün duası, ana ekran widget'ı, 9 dil, koyu tema. Telefon ↔ saat senkronu."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.2",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     44
+     31
     ],
     "notlar": [],
-    "tarih": null,
+    "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
    },
-   {
-    "surum": "1.2",
-    "platform": "android",
-    "track": "internal",
-    "durum": "iç test",
-    "vc": [
-     44
-    ],
-    "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.2",
-    "platform": "wear",
-    "track": "wear:beta",
-    "durum": "wear:beta",
-    "vc": [
-     45
-    ],
-    "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.2",
-    "platform": "wear",
-    "track": "wear:close release",
-    "durum": "wear:close release",
-    "vc": [
-     45
-    ],
-    "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "5 (1.0)",
-    "platform": "wear",
-    "track": "wear:for5",
-    "durum": "wear:for5",
-    "vc": [
-     5
-    ],
-    "notlar": [
-     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
-     "Özellikler:",
-     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
-     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
-     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
-     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
-     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
-     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.2",
-    "platform": "wear",
-    "track": "wear:internal",
-    "durum": "wear:internal",
-    "vc": [
-     45
-    ],
-    "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.2",
-    "platform": "wear",
-    "track": "wear:production",
-    "durum": "saat üretim",
-    "vc": [
-     45
-    ],
-    "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "20 (1.0)",
-    "platform": "wear",
-    "track": "wear:track1",
-    "durum": "wear:track1",
-    "vc": [
-     20
-    ],
-    "notlar": [
-     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
-     "Özellikler:",
-     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
-     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
-     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
-     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
-     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
-     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "4 (1.0)",
-    "platform": "wear",
-    "track": "wear:tstt",
-    "durum": "wear:tstt",
-    "vc": [
-     4
-    ],
-    "notlar": [
-     "Wear OS için özel olarak tasarlanmış premium zikirmatik ve sayaç deneyimi.",
-     "Özellikler:",
-     "📿 Dokunsal Hissiyat: Her sayımda gerçekçi titreşim geri bildirimi.",
-     "🎯 Akıllı Modlar: 33, 99 ve Sonsuz (∞) modları arasında kolay geçiş.",
-     "👑 Çerçeve Kontrolü: Digital Crown veya Dönen Çerçeve (Bezel) ile sayma desteği.",
-     "✨ Görsel Şölen: Saydıkça dönen altın tesbih taneleri animasyonu.",
-     "🌍 Çoklu Dil: Türkçe, İngilizce ve Arapça desteği.",
-     "🔋 Pil Dostu: AMOLED ekranlar için özel karanlık tasarım."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   }
-  ],
-  "orbix-roulette": [
    {
     "surum": "1.2",
     "platform": "ios",
@@ -637,22 +595,6 @@
      31
     ],
     "notlar": [],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "5 (1.0)",
-    "platform": "android",
-    "track": "beta",
-    "durum": "açık test",
-    "vc": [
-     5
-    ],
-    "notlar": [
-     "Launch of the most realistic roulette game for your phone and Wear OS!",
-     "Tap or Turn control.",
-     "Realistic physics."
-    ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
    },
@@ -730,6 +672,34 @@
    }
   ],
   "tennis-padel": [
+   {
+    "surum": "2.0.0",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     206
+    ],
+    "notlar": [
+     "Tennis & Padel 2.0: uygulama artık ücretsiz, ilk maçlar senden. Arkadaşlarını takip et, lig kur, iki telefonla aynı maçı say, saatten skor tut. Daha önce satın aldıysan Pro ömür boyu senin."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.0",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     203
+    ],
+    "notlar": [
+     "2.0: new engine and full phone sync."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
    {
     "surum": "2.0",
     "platform": "ios",
@@ -912,20 +882,6 @@
     "notlar": []
    },
    {
-    "surum": "155 (1.2.0)",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     155
-    ],
-    "notlar": [
-     "Games shown in the match bar and undo always visible. Set-by-set table with games and tie-break points in match detail, points bar, session stats. Tie-break sets now recorded as 7-6 (n). Voice score announcements, saved opponents on watch, opponent filter in logbook."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
     "surum": "2.0.0",
     "platform": "android",
     "track": "alpha",
@@ -945,10 +901,10 @@
     "track": "internal",
     "durum": "iç test",
     "vc": [
-     200
+     206
     ],
     "notlar": [
-     "2.0.0: yeni tasarım, ortak skor motoru, topluluk, ligler, Pass. İç test."
+     "Tennis & Padel 2.0: uygulama artık ücretsiz, ilk maçlar senden. Arkadaşlarını takip et, lig kur, iki telefonla aynı maçı say, saatten skor tut. Daha önce satın aldıysan Pro ömür boyu senin."
     ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
@@ -963,20 +919,6 @@
     ],
     "notlar": [
      "2.0: new engine and full phone sync."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "156 (1.2.0)",
-    "platform": "wear",
-    "track": "wear:production",
-    "durum": "saat üretim",
-    "vc": [
-     156
-    ],
-    "notlar": [
-     "Games shown in the match bar and undo always visible. Set-by-set table with games and tie-break points in match detail, points bar, session stats. Tie-break sets now recorded as 7-6 (n). Voice score announcements, saved opponents on watch, opponent filter in logbook."
     ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
@@ -997,6 +939,44 @@
    }
   ],
   "o-mu-bu-mu": [
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     28
+    ],
+    "notlar": [
+     "Topluluğun favori seçimleri, paylaşılabilir sonuç kartı ve \"çoğunluk ne seçti\" satırı geldi. Arkadaş turnuvası linkleri yeni adresimizde, bildirimler daha sağlam."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "beta",
+    "durum": "açık test",
+    "vc": [
+     28
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     28
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
    {
     "surum": "2.0",
     "platform": "ios",
@@ -1045,57 +1025,15 @@
     "notlar": []
    },
    {
-    "surum": "2.0",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     23
-    ],
-    "notlar": [
-     "Baştan yazıldı. Yeni ana ekran, Son 8/16/32/64 eleme turnuvaları ve yeni \"Kazanan kalır\" modu. Arkadaşlarınla aynı kurayı oyna: QR ya da bağlantı paylaş, şampiyonları karşılaştır. Kendi turnuvanı kur, fotoğraflarını ekle. Her fotoğrafı büyüt. Günün ikilemi ve turnuvası. Reklamları kaldır ya da Pro ile sınırsız turnuva. Türkçe ve İngilizce arayüz. Daha hızlı, daha hafif."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "8 (1.0.1)",
-    "platform": "android",
-    "track": "beta",
-    "durum": "açık test",
-    "vc": [
-     8
-    ],
-    "notlar": [
-     "O mu Bu mu? Harika bir seçim app'i"
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "22 (2.0)",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     22
-    ],
-    "notlar": [
-     "Baştan yazıldı. Yeni ana ekran, Son 8/16/32/64 eleme turnuvaları ve yeni \"Kazanan kalır\" modu. Arkadaşlarınla aynı kurayı oyna: QR ya da bağlantı paylaş, şampiyonları karşılaştır. Kendi turnuvanı kur, fotoğraflarını ekle. Her fotoğrafı büyüt. Günün ikilemi ve turnuvası. Reklamları kaldır ya da Pro ile sınırsız turnuva. Türkçe ve İngilizce arayüz. Daha hızlı, daha hafif."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
     "surum": "2.1",
     "platform": "android",
     "track": "internal",
     "durum": "iç test",
     "vc": [
-     26
+     28
     ],
     "notlar": [
-     "Turnuva bitince artık herkesin ne seçtiğini görüyorsun: bu turnuvada en çok şampiyon olan seçenekler ve senin şampiyonunun oranı. İkilemde oy verince çoğunlukta mısın azınlıkta mısın yazıyor, serin de görünüyor. Şampiyonu paylaşmak için fotoğraflı kart geldi. Bir de bildirim: günün ikilemi ve yeni turnuvalar için, istersen."
+     "Topluluğun favori seçimleri, paylaşılabilir sonuç kartı ve \"çoğunluk ne seçti\" satırı geldi. Arkadaş turnuvası linkleri yeni adresimizde, bildirimler daha sağlam."
     ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
@@ -1131,6 +1069,20 @@
   ],
   "matchday": [
    {
+    "surum": "1.1.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     9
+    ],
+    "notlar": [
+     "Hata düzeltmeleri ve iyileştirmeler. Geri bildirimin için teşekkürler."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
     "surum": "1.1",
     "platform": "android",
     "track": "production",
@@ -1150,20 +1102,6 @@
     "tarih": "2026-09-28T11:00:59-07:00",
     "durum": "reddedildi",
     "notlar": []
-   },
-   {
-    "surum": "1.1",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     8
-    ],
-    "notlar": [
-     "Davet edilenler hemen kadroda görünüyor, tik geri alınabiliyor, oyuncu menüsüyle kaptan yap ve kadrodan çıkar. Haftaya tekrarla ile kadro ve takım seçimi. Oyuncular sonucu organizatöre onaya gönderebiliyor. Açık tema, yeni ana sayfa ve Maçlar sekmesi."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
    },
    {
     "surum": "1.1",
@@ -1286,6 +1224,46 @@
   ],
   "nubi": [
    {
+    "surum": "1.0.2",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "Coin satın alma akışı yenilendi, küçük hatalar düzeltildi. Nubi'ye üç gün üst üste bakarsan bir kez uygulamayı puanlamanı isteyeceğiz."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.2",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     11
+    ],
+    "notlar": [],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.2",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     11
+    ],
+    "notlar": [
+     "Coin satın alma akışı yenilendi, küçük hatalar düzeltildi. Nubi'ye üç gün üst üste bakarsan bir kez uygulamayı puanlamanı isteyeceğiz."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
     "surum": "1.0.1",
     "platform": "ios",
     "tarih": "2026-10-01T07:53:24-07:00",
@@ -1300,48 +1278,6 @@
     "tarih": "2026-09-25T06:14:58-07:00",
     "durum": "yayında",
     "notlar": []
-   },
-   {
-    "surum": "1.0",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     9
-    ],
-    "notlar": [
-     "Düşen atıştırmalıklar artık düzgün iniyor, durulamada duş gerçekten akıyor ve coin paketine dokununca satın alma açılıyor. Yıkama daha hızlı, bebeğini köpüğe gömmüyor. Nubi artık İspanyolca, Almanca, Fransızca ve Portekizce de konuşuyor."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     9
-    ],
-    "notlar": [
-     "Düşen atıştırmalıklar artık düzgün iniyor, durulamada duş gerçekten akıyor ve coin paketine dokununca satın alma açılıyor. Yıkama daha hızlı, bebeğini köpüğe gömmüyor. Nubi artık İspanyolca, Almanca, Fransızca ve Portekizce de konuşuyor."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0",
-    "platform": "android",
-    "track": "internal",
-    "durum": "iç test",
-    "vc": [
-     2
-    ],
-    "notlar": [
-     "First internal build: full Nubi virtual pet with coins, tasks, 6 mini games, shop, widgets."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
    },
    {
     "surum": "1.0",
@@ -1602,25 +1538,39 @@
   ],
   "nika": [
    {
+    "surum": "1.0.1",
+    "platform": "android",
+    "track": "production",
+    "durum": "üretim",
+    "vc": [
+     6
+    ],
+    "notlar": [
+     "İlk kapalı test sürümü: plan, bütçe, davetliler, davetiye, masa planı, misafir albümleri, widget."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.0.1",
+    "platform": "android",
+    "track": "alpha",
+    "durum": "kapalı test",
+    "vc": [
+     6
+    ],
+    "notlar": [
+     "Hata düzeltmeleri ve iyileştirmeler. Geri bildirimin için teşekkürler."
+    ],
+    "tarih": "2026-10-22",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-10-05T04:05:52-07:00",
     "durum": "reddedildi",
     "notlar": []
-   },
-   {
-    "surum": "1.0 (5)",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     5
-    ],
-    "notlar": [
-     "İlk kapalı test sürümü: plan, bütçe, davetliler, davetiye, masa planı, misafir albümleri, widget."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
    },
    {
     "surum": "1.0",
