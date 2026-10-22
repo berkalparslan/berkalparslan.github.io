@@ -46,40 +46,64 @@ export function token() {
 
 const gunYazi = d => d.toISOString().slice(0, 10);
 
+const ONCEKI = join(homedir(), "dev", "vault", "metrikler", "veri", "web.json");
+const bekle = ms => new Promise(r => setTimeout(r, ms));
+
+/* Cloudflare GraphQL hesap başına 5 dakikalık bir sorgu bütçesi tutuyor; Nika ve
+   Framegrove da aynı bütçeden yiyor. Eski günler değişmediği için önceki
+   web.json'daki günler korunuyor, yalnız son YENI gün yeniden soruluyor. */
+const YENI = 14;
+
 export async function web(log = () => {}, gun = 90) {
+  let onceki = null;
+  try { onceki = JSON.parse(readFileSync(ONCEKI, "utf8")); } catch { /* ilk çalışma */ }
   const cikti = { uretim: new Date().toISOString(), kaynak: "cloudflare-rum", gunluk: {}, ulke: {}, ulke7: {}, sayfa: [], kaynakSite: [], hata: null };
   try {
     const tk = token();
     const H = { Authorization: `Bearer ${tk}`, "Content-Type": "application/json" };
     const hesap = (await (await fetch("https://api.cloudflare.com/client/v4/accounts", { headers: H })).json()).result?.[0]?.id;
     if (!hesap) throw new Error("hesap okunamadı");
-    const gql = async (alan, filtre, boyut, limit = 5000) => {
+    const gql = async (filtre, boyut, limit = 5000) => {
       const q = `query { viewer { accounts(filter:{accountTag:"${hesap}"}) { rumPageloadEventsAdaptiveGroups(limit:${limit}, filter:{${filtre}}) { count sum { visits } dimensions { ${boyut} requestHost } } } } }`;
-      const r = await fetch("https://api.cloudflare.com/client/v4/graphql", { method: "POST", headers: H, body: JSON.stringify({ query: q }) });
-      const j = await r.json();
-      if (j.errors?.length) throw new Error(j.errors[0].message.slice(0, 160));
-      return (j.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups || []).filter(x => HOSTLAR.test(x.dimensions.requestHost || "") && !AYRI.test(x.dimensions.requestHost || ""));
+      for (let deneme = 0; ; deneme++) {
+        const r = await fetch("https://api.cloudflare.com/client/v4/graphql", { method: "POST", headers: H, body: JSON.stringify({ query: q }) });
+        const j = await r.json();
+        const m = j.errors?.[0]?.message;
+        if (m && /rate limit/i.test(m) && deneme < 2) { log(`  web: sorgu bütçesi dolu, ${deneme ? 5 : 2} dk bekleniyor`); await bekle((deneme ? 5 : 2) * 60_000); continue; }
+        if (m) throw new Error(m.slice(0, 160));
+        return (j.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups || []).filter(x => HOSTLAR.test(x.dimensions.requestHost || "") && !AYRI.test(x.dimensions.requestHost || ""));
+      }
     };
     /* Adaptif örnekleme geniş aralıkta kaba sonuç veriyor (30 günlük tek sorgu
        7 günlükten az ülke döndürdü): 7 günlük parçalar, gün boyutuyla. */
     const bit = new Date();
     const parcalar = n => { const l = []; for (let s = 0; s < n; s += 7) l.push([gunYazi(new Date(bit - Math.min(n - 1, s + 6) * 864e5)), gunYazi(new Date(bit - s * 864e5))]); return l; };
-    const sayfa = {}, ref = {};
-    for (const [bas, son] of parcalar(gun)) {
+    const sinirYeni = gunYazi(new Date(bit - (YENI - 1) * 864e5)), sinirEski = gunYazi(new Date(bit - (gun - 1) * 864e5));
+    const eskiVar = onceki && !onceki.hata && Object.keys(onceki.gunluk || {}).length;
+    if (eskiVar) for (const [t, g] of Object.entries(onceki.gunluk)) if (t < sinirYeni && t >= sinirEski) cikti.gunluk[t] = g;
+    for (const [bas, son] of parcalar(eskiVar ? YENI : gun)) {
       const f = `date_geq:"${bas}", date_leq:"${son}"`;
-      for (const x of await gql("", f, "date countryName")) {
+      for (const x of await gql(f, "date countryName")) {
         const t = x.dimensions.date, u = x.dimensions.countryName || "??", v = x.sum?.visits || 0;
         const g = cikti.gunluk[t] ||= { pv: 0, ziyaret: 0, ulke: {} };
         g.pv += x.count; g.ziyaret += v; g.ulke[u] = (g.ulke[u] || 0) + v;
-        const yas = (bit - Date.parse(t)) / 864e5;
+      }
+    }
+    for (const [t, g] of Object.entries(cikti.gunluk)) {
+      const yas = (bit - Date.parse(t)) / 864e5;
+      for (const [u, v] of Object.entries(g.ulke || {})) {
         if (yas < 30) cikti.ulke[u] = (cikti.ulke[u] || 0) + v;
         if (yas < 7) cikti.ulke7[u] = (cikti.ulke7[u] || 0) + v;
       }
     }
+    /* Sayfa ve kaynak site tek sorguda: pv yola, ziyaret kaynağa toplanıyor. */
+    const sayfa = {}, ref = {};
     for (const [bas, son] of parcalar(30)) {
       const f = `date_geq:"${bas}", date_leq:"${son}"`;
-      for (const x of await gql("", f, "date requestPath")) sayfa[x.dimensions.requestPath] = (sayfa[x.dimensions.requestPath] || 0) + x.count;
-      for (const x of await gql("", f, "date refererHost")) { const h = x.dimensions.refererHost || "(doğrudan)"; if (!HOSTLAR.test(h)) ref[h] = (ref[h] || 0) + (x.sum?.visits || 0); }
+      for (const x of await gql(f, "date requestPath refererHost")) {
+        sayfa[x.dimensions.requestPath] = (sayfa[x.dimensions.requestPath] || 0) + x.count;
+        const h = x.dimensions.refererHost || "(doğrudan)"; if (!HOSTLAR.test(h)) ref[h] = (ref[h] || 0) + (x.sum?.visits || 0);
+      }
     }
     cikti.sayfa = Object.entries(sayfa).filter(([p]) => !p.startsWith("/lab") && !p.startsWith("/cdn-cgi")).sort((a, b) => b[1] - a[1]).slice(0, 15);
     cikti.kaynakSite = Object.entries(ref).filter(([, n]) => n).sort((a, b) => b[1] - a[1]).slice(0, 10);
@@ -105,7 +129,15 @@ export async function web(log = () => {}, gun = 90) {
       log(`  site arka ucu ✓ ${abone.active || 0} abone · ${oy.length} anket`);
     } catch (e) { cikti.arkaUcHata = e.message; log(`  site arka ucu ✗ ${e.message}`); }
     log(`  web ✓ ${Object.keys(cikti.gunluk).length} gün · ${top} ziyaret · ${Object.keys(cikti.ulke).length} ülke`);
-  } catch (e) { cikti.hata = e.message; log(`  web ✗ ${e.message}`); }
+  } catch (e) {
+    log(`  web ✗ ${e.message}`);
+    /* Son iyi veriyi koru; panel site bölümünü hata varken gizliyor. */
+    if (onceki && Object.keys(onceki.gunluk || {}).length) {
+      log(`  web: ${onceki.uretim?.slice(0, 10)} verisi korunuyor`);
+      return { ...onceki, hata: null, sonHata: e.message.slice(0, 160), sonDeneme: cikti.uretim };
+    }
+    cikti.hata = e.message;
+  }
   return cikti;
 }
 
