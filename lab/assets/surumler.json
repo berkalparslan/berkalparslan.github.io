@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-22T04:10:15.542Z",
+ "uretim": "2026-10-23T10:17:56.698Z",
  "apps": {
   "leafbook": [
    {
@@ -365,17 +365,59 @@
   ],
   "tasbih-tally": [
    {
-    "surum": "1.5",
+    "surum": "1.5.1",
     "platform": "android",
     "track": "production",
     "durum": "üretim",
     "vc": [
-     52
+     54
     ],
     "notlar": [
-     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor. Endonezce arayüz düzeltildi."
     ],
-    "tarih": "2026-10-22",
+    "tarih": "2026-10-23",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5.1",
+    "platform": "android",
+    "track": "internal",
+    "durum": "iç test",
+    "vc": [
+     54
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor. Endonezce arayüz düzeltildi."
+    ],
+    "tarih": "2026-10-23",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5.1",
+    "platform": "wear",
+    "track": "wear:internal",
+    "durum": "wear:internal",
+    "vc": [
+     53
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor. Endonezce arayüz düzeltildi."
+    ],
+    "tarih": "2026-10-23",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "1.5.1",
+    "platform": "wear",
+    "track": "wear:production",
+    "durum": "saat üretim",
+    "vc": [
+     53
+    ],
+    "notlar": [
+     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor. Endonezce arayüz düzeltildi."
+    ],
+    "tarih": "2026-10-23",
     "tarihKaynak": "ilk görülme"
    },
    {
@@ -402,20 +444,6 @@
     ],
     "notlar": [
      "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
-    ],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.4",
-    "platform": "android",
-    "track": "internal",
-    "durum": "iç test",
-    "vc": [
-     50
-    ],
-    "notlar": [
-     "Namaz vakitlerini artık elle ayarlayabilirsin: şehrini listeden seç, her vakti camindeki saate göre 30 dakikaya kadar ileri ya da geri al. Ramazan'da Umm al-Qura için yatsıya 30 dakika eklenir. Yeni ödeme ekranı, tebrik kartları ve teklif kodu bağlantısı da bu sürümde."
     ],
     "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
@@ -453,34 +481,6 @@
     "platform": "wear",
     "track": "wear:for5",
     "durum": "wear:for5",
-    "vc": [
-     51
-    ],
-    "notlar": [
-     "Bugün ekranında Ramazan kartı, ezkarda dinle düğmesi, Ayarlar'da Pro ve geri yükleme. Özel zikir hedefini artık 1 ile 1000 arasında istediğin gibi seçebilirsin. Hatırlatıcı saatleri arttı, widget'taki geri sayım canlı. Konum izni kapalıysa uygulama seni doğru ayara götürüyor."
-    ],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.4",
-    "platform": "wear",
-    "track": "wear:internal",
-    "durum": "wear:internal",
-    "vc": [
-     49
-    ],
-    "notlar": [
-     "Namaz vakitlerini artık elle ayarlayabilirsin: şehrini listeden seç, her vakti camindeki saate göre 30 dakikaya kadar ileri ya da geri al. Ramazan'da Umm al-Qura için yatsıya 30 dakika eklenir. Yeni ödeme ekranı, tebrik kartları ve teklif kodu bağlantısı da bu sürümde."
-    ],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.5",
-    "platform": "wear",
-    "track": "wear:production",
-    "durum": "saat üretim",
     "vc": [
      51
     ],
