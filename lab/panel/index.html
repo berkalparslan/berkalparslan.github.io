@@ -606,6 +606,101 @@
       .adim { grid-template-columns: 26px minmax(0, 1fr); }
       .adim .kim { grid-column: 2; flex-direction: row; align-items: center; justify-content: flex-start; flex-wrap: wrap; }
     }
+    /* ── Sosyal ── */
+    .k-sosyal { background: var(--c-pembe); border-radius: 50%; }
+    .s-ustbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .s-cipler { display: flex; gap: 6px; flex-wrap: wrap; }
+    .s-cipler button { display: flex; align-items: center; gap: 7px; padding: 6px 12px 6px 8px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); font-size: 14px; font-weight: 600; color: var(--subtle); }
+    .s-cipler button:hover { color: var(--text); border-color: var(--border-2); }
+    .s-cipler button[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+    .s-cipler button > span:first-child:not(.say) { padding-left: 4px; }
+    .s-cipler .say { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2); padding: 0 6px; border-radius: 99px; color: var(--subtle); }
+    .s-cipler .say.uyari { background: var(--rose-soft); color: var(--rose); }
+    .s-cipler.kucuk button { padding: 3px 11px; font-size: 13px; }
+    .s-appikon { width: 18px; height: 18px; border-radius: 5px; flex: none; vertical-align: -4px; margin-right: 4px; object-fit: cover; }
+    .s-cipler .s-appikon { width: 22px; height: 22px; margin: 0; border-radius: 6px; }
+    .s-arama { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--faint); }
+    .s-arama input { flex: 1 1 240px; min-width: 0; font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 11px; border: 1px solid var(--border-2); background: var(--surface); color: var(--text); outline: 0; }
+    .s-arama input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .s-sekmeler { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
+    .s-sekmeler button { padding: 8px 14px; font-size: 14.5px; font-weight: 600; color: var(--subtle); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; display: flex; gap: 6px; align-items: center; }
+    .s-sekmeler button[aria-pressed="true"] { color: var(--text); border-bottom-color: var(--accent); }
+    .s-sekmeler .say { font-family: var(--mono); font-size: 12px; padding: 0 6px; border-radius: 99px; }
+    .s-sekmeler .say.uyari { background: var(--rose-soft); color: var(--rose); }
+    .s-arac { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; font-size: 13px; }
+    .s-arac .seg { flex: none; }
+    .s-izgara { columns: 300px; column-gap: 14px; }
+    .s-kart { break-inside: avoid; margin-bottom: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: border-color .15s, transform .15s; display: flex; flex-direction: column; }
+    .s-kart:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .s-kart > header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+    .s-kart > header .etiket { margin-left: auto; font-size: 12px; line-height: 19px; }
+    .s-kart h4 { font-size: 15.5px; font-weight: 650; padding: 0 14px; margin: 10px 0 0; }
+    .s-kart p { padding: 0 14px; margin: 8px 0 0; font-size: 14.5px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+    .s-kart > footer { display: flex; gap: 14px; padding: 10px 14px 12px; font-size: 13px; color: var(--subtle); font-weight: 600; }
+    .s-kart > :last-child:not(footer) { margin-bottom: 14px; }
+    .s-kim { display: flex; flex-direction: column; min-width: 0; font-weight: 650; font-size: 14px; line-height: 1.3; }
+    .s-kim small { font-weight: 500; font-size: 12.5px; color: var(--faint); display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+    .s-handle { font-weight: 500; color: var(--faint); }
+    .s-avatar { position: relative; flex: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: inline-grid; place-items: center; overflow: hidden; font-size: 14px; }
+    .s-avatar b { font-weight: 700; }
+    .s-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .s-avatar img:not([src]), .s-avatar img.yok { display: none; }
+    .s-foto { background: var(--surface-2); aspect-ratio: 4 / 5; overflow: hidden; }
+    .s-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .s-foto:has(img.yok) { display: none; }
+    .s-foto.buyuk { aspect-ratio: auto; max-height: 70vh; border-radius: 16px; display: grid; place-items: center; }
+    .s-foto.buyuk img { width: auto; max-width: 100%; max-height: 70vh; object-fit: contain; }
+    .s-kolaj { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--surface-2); aspect-ratio: 1; }
+    .s-kolaj.s-k2 { aspect-ratio: 2 / 1; }
+    .s-kolaj.s-k3 img:first-child { grid-row: span 2; }
+    .s-kolaj img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 0; }
+    .s-kolaj.buyuk { border-radius: 16px; overflow: hidden; max-width: 520px; }
+    img.yok { visibility: hidden; }
+    .s-etiketler { display: flex; flex-wrap: wrap; gap: 5px; padding: 10px 14px 0; }
+    .s-etiketler span { font-size: 12.5px; padding: 1px 8px; border-radius: 99px; background: var(--surface-2); color: var(--subtle); border: 1px solid var(--border); }
+    .s-satir { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px; }
+    .s-satir:last-child { border-bottom: 0; }
+    .s-satir .s-kim { flex: 1; }
+    .s-satir:hover .s-kim > :first-child { color: var(--accent); }
+    .s-lejant { display: flex; gap: 14px; font-size: 13px; color: var(--subtle); margin-top: 8px; }
+    .s-lejant i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+    .s-lejant i.ios { background: var(--c-mavi); } .s-lejant i.and { background: var(--c-yesil); }
+    tr.tikla { cursor: pointer; }
+    tr.tikla:hover td { background: var(--surface-2); }
+    body.s-detay-acik { overflow: hidden; }
+    .s-detay { position: fixed; inset: 0; z-index: 40; display: flex; justify-content: flex-end; }
+    .s-perde { position: absolute; inset: 0; background: rgba(10, 12, 20, .45); }
+    .s-sayfa { position: relative; width: min(720px, 100%); height: 100%; background: var(--bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0, 0, 0, .18); animation: sGir .18s ease-out; }
+    @keyframes sGir { from { transform: translateX(30px); opacity: .4; } to { transform: none; opacity: 1; } }
+    .s-sayfa-ust { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border); font-weight: 650; font-size: 14px; }
+    .s-sayfa-ust a { margin-left: auto; font-size: 13px; font-weight: 600; }
+    .s-sayfa-ic { overflow-y: auto; padding: 20px 22px 40px; flex: 1; -webkit-overflow-scrolling: touch; }
+    .s-sayfa-ic h3 { font-size: 15px; margin: 22px 0 10px; }
+    .s-profil { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
+    .s-profil h2 { font-size: 21px; margin-bottom: 4px; }
+    .s-profil p { margin: 10px 0 0; font-size: 14.5px; line-height: 1.45; }
+    .s-profil .s-avatar { font-size: 28px; }
+    .s-sayilar { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 12px; font-size: 14px; color: var(--subtle); }
+    .s-sayilar b { color: var(--text); font-size: 16px; }
+    .s-tek { display: flex; flex-direction: column; gap: 12px; }
+    .s-tek h2 { font-size: 20px; }
+    .s-tek .s-etiketler { padding: 0; }
+    .s-uzun { font-size: 15.5px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+    .s-kimlink { display: flex; align-items: center; gap: 10px; color: var(--text); }
+    .s-kimlink:hover { text-decoration: none; } .s-kimlink:hover .s-kim > span { color: var(--accent); }
+    .s-yorum { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .s-yorum a { font-weight: 650; color: var(--text); }
+    .s-yorum p { margin: 3px 0 0; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .s-secenek { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .s-secenek > div { display: flex; flex-direction: column; gap: 4px; font-size: 13.5px; }
+    .s-secenek img, .s-secenek > div > span { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: var(--surface-2); display: block; }
+    .s-secenek small { color: var(--faint); font-size: 12.5px; }
+    @media (max-width: 640px) {
+      .s-izgara { columns: 1; }
+      .s-sayfa-ic { padding: 16px 16px 40px; }
+      .s-profil { gap: 12px; }
+      .s-arama span { flex-basis: 100%; }
+    }
   </style>
 </head>
 
@@ -1090,7 +1185,7 @@
       $("#cekim").textContent = "çekim " + new Date(D.uretim).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + (D.kaynakSistem && D.kaynakSistem !== "mac" ? ` · ${D.kaynakSistem}` : "");
       $("#yenile").title = D.yenile ? "GitHub Actions'ı tetikler; 3-5 dakika sonra sayfayı yenile" : "Çekim komutunu panoya kopyalar; terminale yapıştır (collect + ga4 + build + push)";
       const sa = secApp();
-      $("#mbarAd").textContent = S.app === SITE ? "bamstudio.dev" : S.app === FG ? "Framegrove" : sa ? sa.ad : "Tüm uygulamalar";
+      $("#mbarAd").textContent = S.sekme === "sosyal" ? "Sosyal" : S.app === SITE ? "bamstudio.dev" : S.app === FG ? "Framegrove" : sa ? sa.ad : "Tüm uygulamalar";
       $("#mbarAlt").textContent = `${ARALIKLAR.find(x => x.v === S.aralik)?.e || ""} · ${PLATFORMLAR.find(x => x.v === S.platform)?.e || ""} · ${$("#cekim").textContent}`;
       $("#segAralik").innerHTML = ARALIKLAR.map(a => `<button data-aralik="${a.v}" aria-pressed="${S.aralik === a.v}">${a.e}</button>`).join("");
       $("#segPlatform").innerHTML = PLATFORMLAR.map(p => `<button data-platform="${p.v}" aria-pressed="${S.platform === p.v}">${p.e}</button>`).join("");
@@ -1103,6 +1198,7 @@
       $("#yigUyg").innerHTML =
         `<button data-app="" aria-pressed="${!S.app}"><span class="katman k-yok"></span><span class="ad">Tümü</span><span class="say">${sayi(hepsi.reduce((t, a) => t + say(a), 0))}</span></button>` +
         (D.web ? `<button data-app="${SITE}" aria-pressed="${S.app === SITE}" title="bamstudio.dev: trafik, bülten, anket, kodlar"><span class="katman k-site"></span><span class="ad">bamstudio.dev (site)</span><span class="say">${sayi(webOzet()?.z7 || 0)}</span></button>` : "") +
+        (D.canli ? `<button data-sekme="sosyal" aria-pressed="${S.sekme === "sosyal"}" title="Sosyal uygulamaların paylaşımları ve kullanıcıları"><span class="katman k-sosyal"></span><span class="ad">Sosyal</span><span class="say">${SOS.veri ? sayi(SOS.veri.apps.reduce((t, a) => t + (a.sayac?.gonderi7 || 0), 0)) : ""}</span></button>` : "") +
         (D.framegrove ? `<button data-app="${FG}" aria-pressed="${S.app === FG}" title="Framegrove: npm, GitHub, site, MCP Registry"><span class="katman k-fg"></span><span class="ad">Framegrove (açık kaynak)</span><span class="say">${sayi(fgOzet()?.npm7 || 0)}</span></button>` : "") +
         `<div class="ayrac"></div>` +
         sirali.map(({ a, d, n }) => {
@@ -2425,8 +2521,262 @@
         </div></div>`;
     }
 
+    /* ── Sosyal ──────────────────────────────────────────────────
+       Sosyal katmanı olan uygulamaların (Leafbook, spor uygulamaları,
+       Matchday, O mu Bu mu) paylaşımları ve kullanıcıları tek yerde.
+       Worker GET /api/social: Canlı ile aynı anahtar, aynı salt okur servis
+       hesabı. Açıkken 60 sn'de bir yenilenir. Bayt olarak duran fotoğraflar
+       /api/social/foto'dan anahtarla çekilip blob olarak gösterilir; hiçbiri
+       pakete ya da depoya yazılmaz. */
+    const SOS_APPS = {
+      leafbook: { ikon: "/assets/lab-icons/leafbook-180.png", slugs: ["leafbook"] },
+      "bam-sports": { ikon: "/assets/lab-icons/bam-sports-180.png", slugs: ["tennis-padel", "pickleball", "volleyball", "rally-badminton", "rally-table-tennis"] },
+      matchday: { ikon: "/assets/lab-icons/matchday-180.png", slugs: ["matchday"] },
+      "o-mu-bu-mu": { ikon: "/assets/lab-icons/omubumu-180.png", slugs: ["o-mu-bu-mu"] }
+    };
+    const SOS_SEKMELER = [{ v: "akis", e: "Akış" }, { v: "kisi", e: "Kullanıcılar" }, { v: "sikayet", e: "Şikayetler" }, { v: "ozet", e: "Özet" }];
+    const SOS_TUR = { gonderi: "gönderi", mac: "maç", medya: "fotoğraf", turnuva: "turnuva", arkadas: "arkadaş turnuvası" };
+    let SOS = { veri: null, hata: null, zaman: null, yukleniyor: false, zamanlayici: null, detay: null };
+    const sosAyar = () => (S.sos ||= { app: "", alt: "", sekme: "akis", ara: "", sira: "yeni" });
+    const sosUrl = yol => D.canli.url.replace(/\/api\/live$/, "/api/social") + yol;
+    const sosApp = slug => (SOS.veri?.apps || []).find(a => a.slug === slug);
+    /* Panelde seçili uygulama sosyal ise (ör. Pickleball) karşılığı: ["bam-sports", "pickleball"]. */
+    const sosEsle = slug => { for (const [k, v] of Object.entries(SOS_APPS)) if (v.slugs.includes(slug)) return [k, v.slugs.length > 1 ? slug : ""]; return null; };
+    async function sosyalCek(zorla) {
+      if (!D?.canli?.url || SOS.yukleniyor || (document.hidden && !zorla)) return;
+      SOS.yukleniyor = true;
+      try {
+        const r = await fetch(sosUrl(""), { headers: { "x-live-key": D.canli.anahtar }, cache: "no-store" });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+        SOS.veri = j; SOS.hata = null;
+      } catch (e) { SOS.hata = String(e.message || e); }
+      SOS.yukleniyor = false; SOS.zaman = new Date();
+      if (S.sekme === "sosyal") { const y = scrollY; ciz(); scrollTo(0, y); } else yanCiz();
+    }
+    function sosyalBaslat() {
+      if (SOS.zamanlayici || !D?.canli?.url) return;
+      sosyalCek(true);
+      SOS.zamanlayici = setInterval(() => { if (S.sekme === "sosyal") sosyalCek(false); }, 60000);
+    }
+
+    /* Fotoğraflar: doğrudan adres (R2, Google) ya da Worker üstünden bayt. Blob adresleri önbellekte. */
+    const SOS_FOTO = new Map();
+    const fotoAnahtar = (app, f, buyuk) => f?.k ? `app=${encodeURIComponent(app)}&tur=${buyuk && f.k === "gonderi" ? "gonderiBuyuk" : f.k}&id=${encodeURIComponent(f.id)}` : null;
+    function fotoImg(app, f, sinif = "", buyuk = false) {
+      if (!f) return "";
+      if (f.u) return `<img class="${sinif}" src="${esc(f.u)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.classList.add('yok')">`;
+      const k = fotoAnahtar(app, f, buyuk), v = SOS_FOTO.get(k);
+      return typeof v === "string" && v ? `<img class="${sinif}" src="${v}" alt="">` : `<img class="${sinif}" data-sfoto="${esc(k)}" alt="">`;
+    }
+    async function fotoGetir(img) {
+      const k = img.dataset.sfoto; let v = SOS_FOTO.get(k);
+      if (v === "") { img.classList.add("yok"); return; }
+      if (!v) {
+        v = fetch(sosUrl("/foto?" + k), { headers: { "x-live-key": D.canli.anahtar } })
+          .then(r => r.ok ? r.blob() : Promise.reject(r.status)).then(b => URL.createObjectURL(b)).catch(() => "");
+        SOS_FOTO.set(k, v);
+      }
+      const u = await v; SOS_FOTO.set(k, u);
+      if (u) img.src = u; else img.classList.add("yok");
+    }
+    const SOS_GOZ = "IntersectionObserver" in window ? new IntersectionObserver(l => l.forEach(e => { if (e.isIntersecting) { SOS_GOZ.unobserve(e.target); fotoGetir(e.target); } }), { rootMargin: "600px" }) : null;
+    function sosFotolar() { document.querySelectorAll("img[data-sfoto]:not([src])").forEach(img => SOS_GOZ ? SOS_GOZ.observe(img) : fotoGetir(img)); }
+
+    const kisiAvatar = (app, k, boy = 34) => `<span class="s-avatar" style="width:${boy}px;height:${boy}px">${k?.foto ? fotoImg(app, k.foto) : ""}<b>${esc(((k?.ad || k?.handle || "?").trim()[0] || "?").toLocaleUpperCase("tr"))}</b></span>`;
+    const kisiAd = k => `${esc(k?.ad || (k?.handle ? "@" + k.handle : "isimsiz"))}${k?.handle && k?.ad ? ` <span class="s-handle">@${esc(k.handle)}</span>` : ""}`;
+    const sosIkon = slug => `<img class="s-appikon" src="${SOS_APPS[slug]?.ikon || ""}" alt="">`;
+    const altAd = s => appAdi(s);
+
+    /* Seçili süzgece göre birleşik listeler; her öğe hangi uygulamadan geldiğini taşır. */
+    function sosListe(alan) {
+      const o = sosAyar();
+      const q = (o.ara || "").trim().toLocaleLowerCase("tr");
+      let l = (SOS.veri?.apps || []).filter(a => !o.app || a.slug === o.app).flatMap(a => (a[alan] || []).map(x => ({ ...x, app: a.slug })));
+      if (o.alt) l = l.filter(x => Array.isArray(x.alt) ? x.alt.includes(o.alt) : x.alt === o.alt);
+      if (q) l = l.filter(x => [x.ad, x.handle, x.metin, x.baslik, x.bio, x.neden, ...(x.etiketler || []), ...(x.ek || [])].some(v => v && String(v).toLocaleLowerCase("tr").includes(q)));
+      return l;
+    }
+    function kisiBul(app, uid) { return uid ? (sosApp(app)?.kullanicilar || []).find(k => k.uid === uid) : null; }
+    function gonderiSay(app, uid) { return (sosApp(app)?.gonderiler || []).filter(g => g.uid === uid).length; }
+
+    function sosKart(g) {
+      const a = sosApp(g.app), k = kisiBul(g.app, g.uid) || { ad: g.ad, handle: g.handle };
+      const begeniAd = a?.begeniAd || "beğeni";
+      const kapak = g.kapaklar?.length > 1 ? `<div class="s-kolaj s-k${Math.min(4, g.kapaklar.length)}">${g.kapaklar.map(u => `<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.classList.add('yok')">`).join("")}</div>` : g.foto ? `<div class="s-foto">${fotoImg(g.app, g.foto)}</div>` : "";
+      return `<article class="s-kart" data-sdetay="${esc(g.tur === "turnuva" ? "turnuva" : "gonderi")}" data-sapp="${esc(g.app)}" data-sid="${esc(g.id)}">
+        <header>${kisiAvatar(g.app, k)}<div class="s-kim"><div>${kisiAd(k)}</div><small>${sosIkon(g.app)}${esc(g.alt && !Array.isArray(g.alt) ? altAd(g.alt) : a?.ad || g.app)} · ${once(g.t)}${g.kitle ? ` · ${esc(g.kitle)}` : ""}</small></div><span class="etiket e-gri">${esc(SOS_TUR[g.tur] || g.tur)}</span></header>
+        ${kapak}
+        ${g.baslik ? `<h4>${esc(g.baslik)}</h4>` : ""}${g.metin ? `<p>${esc(g.metin)}</p>` : ""}
+        ${g.etiketler?.length ? `<div class="s-etiketler">${g.etiketler.map(e => `<span>${esc(e)}</span>`).join("")}</div>` : ""}
+        ${g.begeni != null || g.yorum != null ? `<footer>${g.begeni != null ? `<span>${sayi(g.begeni)} ${esc(begeniAd)}</span>` : ""}${g.yorum != null ? `<span>${sayi(g.yorum)} yorum</span>` : ""}</footer>` : ""}
+      </article>`;
+    }
+
+    function sosAkis() {
+      const o = sosAyar();
+      let l = sosListe("gonderiler");
+      if (o.sira === "etkilesim") l.sort((x, y) => ((y.begeni || 0) + (y.yorum || 0) * 2) - ((x.begeni || 0) + (x.yorum || 0) * 2));
+      else l.sort((x, y) => String(y.t || "").localeCompare(String(x.t || "")));
+      const gorunen = l.slice(0, o.akisN || 60);
+      return `<div class="s-arac"><div class="seg">${[["yeni", "En yeni"], ["etkilesim", "En çok etkileşim"]].map(([v, e]) => `<button data-ssira="${v}" aria-pressed="${o.sira === v}">${e}</button>`).join("")}</div><span class="zero">${sayi(l.length)} paylaşım</span></div>
+        ${gorunen.length ? `<div class="s-izgara">${gorunen.map(sosKart).join("")}</div>` : `<div class="panel"><div class="bos">${SOS.veri ? "Bu süzgeçte paylaşım yok." : "Yükleniyor…"}</div></div>`}
+        ${l.length > gorunen.length ? `<div style="text-align:center;margin:16px 0"><button class="kopya buyuk" data-sdaha="1">${sayi(Math.min(60, l.length - gorunen.length))} tane daha göster</button></div>` : ""}`;
+    }
+
+    function sosKisiler() {
+      const l = sosListe("kullanicilar").sort((x, y) => String(y.t || "").localeCompare(String(x.t || "")));
+      const takipVar = l.some(k => k.takipci != null);
+      return `<div class="panel scroll"><table><thead><tr><th>Kullanıcı</th><th>Uygulama</th><th>Katıldı</th><th class="num">Paylaşım</th>${takipVar ? `<th class="num">Takipçi</th><th class="num">Takip</th>` : ""}<th>Ülke</th><th>Not</th></tr></thead>
+        <tbody>${l.map(k => `<tr data-sdetay="kullanici" data-sapp="${esc(k.app)}" data-sid="${esc(k.uid)}" class="tikla">
+          <td><span class="ad-hucre">${kisiAvatar(k.app, k, 28)}<span>${kisiAd(k)}${k.bio ? `<span class="alt">${esc(k.bio)}</span>` : ""}</span></span></td>
+          <td><span class="ad-hucre">${sosIkon(k.app)}<span>${esc(Array.isArray(k.alt) && k.alt.length ? k.alt.map(altAd).join(", ") : sosApp(k.app)?.ad || k.app)}</span></span></td>
+          <td data-s="${esc(k.t || "")}">${k.t ? tarihYazi(k.t) : "·"}</td>
+          <td class="num">${sayi(gonderiSay(k.app, k.uid))}</td>
+          ${takipVar ? `<td class="num">${k.takipci ?? "·"}</td><td class="num">${k.takip ?? "·"}</td>` : ""}
+          <td>${k.ulke ? `<span class="bayrak">${bayrak(k.ulke)}</span>${esc(ulkeAd(k.ulke))}` : "·"}</td>
+          <td>${k.gizli ? '<span class="etiket e-gri">gizli</span> ' : ""}${(k.ek || []).filter(e => e !== "gizli profil").map(e => esc(e)).join(" · ") || ""}</td></tr>`).join("") || `<tr><td colspan="8" class="zero">${SOS.veri ? "Bu süzgeçte kullanıcı yok." : "Yükleniyor…"}</td></tr>`}</tbody></table></div>
+        <div class="dip">Paylaşım sayısı yüklenen son paylaşımlardan (uygulama başına 150). Kullanıcıya tıklayınca bütün paylaşımları gelir. O mu Bu mu'da yalnız hesap bağlayanlar listelenir; anonim oyuncular Özet'te toplam olarak duruyor.</div>`;
+    }
+
+    function sosSikayetler() {
+      const l = sosListe("sikayetler").sort((x, y) => String(y.t || "").localeCompare(String(x.t || "")));
+      return `<div class="panel scroll"><table><thead><tr><th>Zaman</th><th>Uygulama</th><th>Şikayet eden</th><th>Hedef</th><th>Neden</th><th>Durum</th></tr></thead>
+        <tbody>${l.map(r => { const kim = kisiBul(r.app, r.kimden), hedef = kisiBul(r.app, r.hedefUid); return `<tr>
+          <td data-s="${esc(r.t || "")}">${r.t ? `${tarihYazi(r.t)}<span class="alt">${once(r.t)}</span>` : "·"}</td>
+          <td><span class="ad-hucre">${sosIkon(r.app)}<span>${esc(sosApp(r.app)?.ad || r.app)}</span></span></td>
+          <td>${r.kimden ? `<a href="#" data-sdetay="kullanici" data-sapp="${esc(r.app)}" data-sid="${esc(r.kimden)}">${kim ? kisiAd(kim) : `<span class="mono">${esc(r.kimden.slice(0, 8))}</span>`}</a>` : "·"}</td>
+          <td>${r.hedefUid ? `<a href="#" data-sdetay="kullanici" data-sapp="${esc(r.app)}" data-sid="${esc(r.hedefUid)}">${hedef ? kisiAd(hedef) : `<span class="mono">${esc(r.hedefUid.slice(0, 8))}</span>`}</a>` : ""}${r.hedefId ? `${r.hedefUid ? "<br>" : ""}<a href="#" data-sdetay="${esc(r.hedefTur === "turnuva" ? "turnuva" : "gonderi")}" data-sapp="${esc(r.app)}" data-sid="${esc(r.hedefId)}">${esc(SOS_TUR[r.hedefTur] || r.hedefTur || "içerik")} ${esc(r.hedefId.slice(0, 8))}</a>` : ""}</td>
+          <td>${esc(r.neden || "·")}</td>
+          <td>${r.durum ? `<span class="etiket ${r.durum === "open" ? "e-bakim" : "e-gri"}">${r.durum === "open" ? "açık" : esc(r.durum)}</span>` : '<span class="zero">durum tutulmuyor</span>'}</td></tr>`; }).join("") || `<tr><td colspan="6" class="zero">${SOS.veri ? "Şikayet yok." : "Yükleniyor…"}</td></tr>`}</tbody></table></div>
+        <div class="dip">Silme ve engelleme bu sayfada yok, uygulamanın kendi panelinden yapılıyor. Leafbook, spor uygulamaları ve Matchday şikayete durum yazmıyor; O mu Bu mu yazıyor.</div>`;
+    }
+
+    function sosOzet() {
+      const o = sosAyar();
+      const uyg = (SOS.veri?.apps || []).filter(a => !o.app || a.slug === o.app);
+      const t = k => uyg.reduce((s, a) => s + (a.sayac?.[k] || 0), 0);
+      const gunler = Array.from({ length: 30 }, (_, i) => new Date(Date.now() + 3 * 3600e3 - (29 - i) * 864e5).toISOString().slice(0, 10));
+      const seri = k => gunler.map(g => uyg.reduce((s, a) => s + (a.gunluk?.[k]?.[g] || 0), 0));
+      /* En çok paylaşan ve en çok etkileşim alan kullanıcılar (yüklenen paylaşımlardan). */
+      const kisiPuan = {};
+      for (const g of sosListe("gonderiler")) { if (!g.uid) continue; const k = `${g.app}|${g.uid}`; const p = (kisiPuan[k] ||= { app: g.app, uid: g.uid, ad: g.ad, handle: g.handle, n: 0, e: 0 }); p.n++; p.e += (g.begeni || 0) + (g.yorum || 0); }
+      const enAktif = Object.values(kisiPuan).sort((x, y) => y.n - x.n || y.e - x.e).slice(0, 10);
+      const yeniKisi = sosListe("kullanicilar").sort((x, y) => String(y.t || "").localeCompare(String(x.t || ""))).slice(0, 8);
+      const kucukSay = (n, alt) => `${n == null ? "·" : sayi(n)}${alt ? `<span class="alt">${alt}</span>` : ""}`;
+      return `
+        <div class="cards">
+          <div class="card"><div class="k">Sosyal kullanıcı</div><div class="v">${sayi(t("kullanici"))}</div><div class="s">son 7 gün +${sayi(t("kullanici7"))}</div></div>
+          <div class="card"><div class="k">Paylaşım</div><div class="v">${sayi(t("gonderi"))}</div><div class="s">son 7 gün +${sayi(t("gonderi7"))}</div></div>
+          <div class="card"><div class="k">Yorum</div><div class="v">${sayi(t("yorum"))}</div><div class="s">Leafbook ve spor</div></div>
+          <div class="card"><div class="k">Beğeni ve nazar</div><div class="v">${sayi(t("begeni"))}</div><div class="s">paylaşımlardaki sayaçların toplamı</div></div>
+          <div class="card"><div class="k">Takip</div><div class="v">${sayi(t("takip"))}</div><div class="s">spor ve Matchday</div></div>
+          <div class="card"><div class="k">Şikayet</div><div class="v ${t("sikayet") ? "down" : ""}">${sayi(t("sikayet"))}</div><div class="s"><a href="#" data-ssekme="sikayet">listeye git</a></div></div>
+        </div>
+        <section><h3>Son 30 gün <span class="acik">· yeni kullanıcı ve paylaşım, günlük</span></h3>
+          <div class="panel">${cubukCiz(gunler, [{ sinif: "ios", ad: "Yeni kullanıcı", deger: seri("kullanici") }, { sinif: "and", ad: "Paylaşım", deger: seri("gonderi") }], 200)}
+          <div class="s-lejant"><span><i class="ios"></i>Yeni kullanıcı</span><span><i class="and"></i>Paylaşım</span></div></div></section>
+        <section><h3>Uygulama bazında</h3>
+          <div class="panel scroll"><table><thead><tr><th>Uygulama</th><th class="num">Kullanıcı</th><th class="num">7 gün</th><th class="num">Paylaşım</th><th class="num">7 gün</th><th class="num">Yorum</th><th class="num">Beğeni</th><th class="num">Takip</th><th class="num">Şikayet</th><th>Ayrıca</th><th>Panel</th></tr></thead>
+          <tbody>${uyg.map(a => { const s = a.sayac || {}; const ek = [s.tumKullanici != null && `${sayi(s.tumKullanici)} oyuncu (anonim dahil)`, s.lig != null && `${sayi(s.lig)} lig`, s.mac != null && `${sayi(s.mac)} kayıtlı maç`, s.canliMac != null && `${sayi(s.canliMac)} canlı maç`, s.medya != null && `${sayi(s.medya)} maç medyası`, s.turnuva != null && `${sayi(s.turnuva)} kullanıcı turnuvası`, s.onayBekleyen && `${sayi(s.onayBekleyen)} onay bekliyor`, s.arkadas != null && `${sayi(s.arkadas)} arkadaş turnuvası`].filter(Boolean); return `<tr data-sapp-sec="${esc(a.slug)}" class="tikla">
+            <td><span class="ad-hucre">${sosIkon(a.slug)}<span>${esc(a.ad)}${a.hata ? `<span class="alt down">${esc(a.hata)}</span>` : ""}</span></span></td>
+            <td class="num">${kucukSay(s.kullanici)}</td><td class="num">${kucukSay(s.kullanici7)}</td><td class="num">${kucukSay(s.gonderi, a.gonderiAd || "")}</td><td class="num">${kucukSay(s.gonderi7)}</td>
+            <td class="num">${kucukSay(s.yorum)}</td><td class="num">${kucukSay(s.begeni, a.begeniAd && a.begeniAd !== "beğeni" ? a.begeniAd : "")}</td><td class="num">${kucukSay(s.takip)}</td><td class="num ${s.sikayet ? "down" : ""}">${kucukSay(s.sikayet)}</td>
+            <td>${ek.join(" · ") || "·"}</td><td><a href="${esc(a.panel)}" target="_blank" rel="noopener">aç ↗</a></td></tr>`; }).join("") || `<tr><td colspan="11" class="zero">Yükleniyor…</td></tr>`}</tbody></table></div></section>
+        <div class="ikili">
+          <section><h3>En çok paylaşan</h3><div class="panel">${enAktif.map(p => { const k = kisiBul(p.app, p.uid) || p; return `<div class="s-satir" data-sdetay="kullanici" data-sapp="${esc(p.app)}" data-sid="${esc(p.uid)}">${kisiAvatar(p.app, k, 28)}<span class="s-kim">${kisiAd(k)}<small>${esc(sosApp(p.app)?.ad || "")}</small></span><span class="mono">${p.n} paylaşım · ${p.e} etkileşim</span></div>`; }).join("") || '<div class="bos">Henüz paylaşım yok.</div>'}</div></section>
+          <section><h3>Son katılanlar</h3><div class="panel">${yeniKisi.map(k => `<div class="s-satir" data-sdetay="kullanici" data-sapp="${esc(k.app)}" data-sid="${esc(k.uid)}">${kisiAvatar(k.app, k, 28)}<span class="s-kim">${kisiAd(k)}<small>${esc(sosApp(k.app)?.ad || "")}</small></span><span class="zero">${once(k.t)}</span></div>`).join("") || '<div class="bos">Kullanıcı yok.</div>'}</div></section>
+        </div>
+        ${uyg.flatMap(a => (a.ekler || []).map(e => ({ ...e, app: a }))).filter(e => e.satirlar.length).map(e => `<section><h3>${sosIkon(e.app.slug)} ${esc(e.baslik)} <span class="acik">· ${esc(e.app.ad)}, son ${e.satirlar.length}</span></h3>
+          <div class="panel scroll"><table><thead><tr>${e.kolonlar.map(k => `<th>${esc(k)}</th>`).join("")}</tr></thead><tbody>${e.satirlar.filter(r => !o.alt || r.includes(o.alt)).map(r => `<tr>${r.map(h => h && typeof h === "object" ? `<td data-s="${esc(h.t || "")}">${h.t ? tarihYazi(h.t) : "·"}</td>` : `<td>${esc(typeof h === "string" && SOS_APPS["bam-sports"].slugs.includes(h) ? altAd(h) : h)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>`).join("")}`;
+    }
+
+    function sosyalCiz() {
+      const o = sosAyar();
+      if (!D.canli) return `<div class="panel"><div class="bos">Canlı anahtarı bu pakette yok, Sosyal de aynı anahtarla çalışıyor. <code>build.mjs</code> Keychain'deki <code>bamtech-lab-live</code> anahtarını pakete koyar.</div></div>`;
+      const apps = SOS.veri?.apps || [];
+      const sayac = a => a.sayac?.gonderi7 || 0;
+      const sporlar = o.app === "bam-sports" ? [...new Set((sosApp("bam-sports")?.gonderiler || []).map(g => g.alt).concat((sosApp("bam-sports")?.kullanicilar || []).flatMap(k => k.alt || [])).filter(s => SOS_APPS["bam-sports"].slugs.includes(s)))] : [];
+      const durum = SOS.hata ? `<span class="down">Hata: ${esc(SOS.hata)}</span>` : SOS.zaman ? `Son yenileme ${SOS.zaman.toLocaleTimeString("tr-TR")} · açıkken dakikada bir` : "Yükleniyor…";
+      const govde = !SOS.veri && SOS.hata ? `<div class="panel"><div class="bos">Sosyal veri gelmedi (${esc(SOS.hata)}). Worker yayında mı, servis hesabının dört projede okuma izni var mı? Ayrıntı vault <code>konular/panel.md</code>, Sosyal bölümü.</div></div>`
+        : ({ kisi: sosKisiler, sikayet: sosSikayetler, ozet: sosOzet }[o.sekme] || sosAkis)();
+      const sikayetN = apps.filter(a => !o.app || a.slug === o.app).reduce((t, a) => t + (a.sikayetler?.length || 0), 0);
+      return `
+        <div class="s-ustbar">
+          <div class="s-cipler">
+            <button data-sapp-sec="" aria-pressed="${!o.app}"><span>Hepsi</span><span class="say">${sayi(apps.reduce((t, a) => t + sayac(a), 0))}</span></button>
+            ${Object.keys(SOS_APPS).map(k => { const a = sosApp(k); return `<button data-sapp-sec="${k}" aria-pressed="${o.app === k}">${sosIkon(k)}<span>${esc(a?.ad || appAdi(SOS_APPS[k].slugs[0]))}</span>${a ? `<span class="say ${a.hata ? "uyari" : ""}">${a.hata ? "!" : sayi(sayac(a))}</span>` : ""}</button>`; }).join("")}
+          </div>
+          ${sporlar.length ? `<div class="s-cipler kucuk"><button data-salt="" aria-pressed="${!o.alt}">Bütün sporlar</button>${sporlar.map(s => `<button data-salt="${esc(s)}" aria-pressed="${o.alt === s}">${esc(altAd(s))}</button>`).join("")}</div>` : ""}
+          <div class="s-arama"><input type="search" id="sosAra" placeholder="Ad, @kullanıcı adı, metin ara" value="${esc(o.ara || "")}" aria-label="Sosyalde ara"><span>${durum}</span><button class="kopya" data-syenile="1">Yenile</button></div>
+        </div>
+        <div class="s-sekmeler">${SOS_SEKMELER.map(t => `<button data-ssekme="${t.v}" aria-pressed="${o.sekme === t.v}">${t.e}${t.v === "sikayet" && sikayetN ? ` <span class="say uyari">${sikayetN}</span>` : ""}</button>`).join("")}</div>
+        ${govde}
+        <div class="dip">Çiplerdeki sayı son 7 günün paylaşımı. Veri Firestore'dan anlık okunuyor, yalnız bu panel görüyor; pakete ve depoya yazılmıyor.</div>`;
+    }
+
+    /* Detay sayfası: gönderi (büyük fotoğraf + yorumlar) ya da kullanıcı (profil + paylaşımları). */
+    async function sosDetayAc(tur, app, id) {
+      SOS.detay = { tur, app, id, veri: null, hata: null };
+      sosDetayCiz();
+      const bekleme = tur === "gonderi" && !["leafbook", "bam-sports"].includes(app);
+      if (bekleme) { SOS.detay.veri = {}; sosDetayCiz(); return; }
+      try {
+        const r = await fetch(sosUrl(`/detay?app=${encodeURIComponent(app)}&tur=${encodeURIComponent(tur)}&id=${encodeURIComponent(id)}`), { headers: { "x-live-key": D.canli.anahtar }, cache: "no-store" });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+        if (SOS.detay?.id === id) SOS.detay.veri = j;
+      } catch (e) { if (SOS.detay?.id === id) SOS.detay.hata = String(e.message || e); }
+      if (SOS.detay?.id === id) sosDetayCiz();
+    }
+    function sosDetayCiz() {
+      let k = $("#sosDetay");
+      if (!SOS.detay) { if (k) k.remove(); document.body.classList.remove("s-detay-acik"); return; }
+      if (!k) { k = document.createElement("div"); k.id = "sosDetay"; k.className = "s-detay"; document.body.appendChild(k); }
+      document.body.classList.add("s-detay-acik");
+      const { tur, app, id, veri, hata } = SOS.detay;
+      const a = sosApp(app);
+      const yuk = hata ? `<div class="bos down">Gelmedi: ${esc(hata)}</div>` : !veri ? '<div class="bos">Yükleniyor…</div>' : "";
+      let ic = "";
+      if (tur === "kullanici") {
+        const u = kisiBul(app, id) || { uid: id };
+        const gl = veri?.gonderiler || [];
+        ic = `<div class="s-profil">${kisiAvatar(app, u, 72)}<div><h2>${kisiAd(u)}</h2>
+            <div class="zero">${sosIkon(app)} ${esc(Array.isArray(u.alt) && u.alt.length ? u.alt.map(altAd).join(", ") : a?.ad || app)}${u.t ? ` · ${tarihYazi(u.t)} katıldı` : ""}${u.ulke ? ` · ${bayrak(u.ulke)} ${esc(ulkeAd(u.ulke))}` : ""}</div>
+            ${u.bio ? `<p>${esc(u.bio)}</p>` : ""}
+            <div class="s-sayilar"><span><b>${veri ? sayi(gl.length) : "…"}</b> paylaşım</span>${(veri?.takipci ?? u.takipci) != null ? `<span><b>${sayi(veri?.takipci ?? u.takipci)}</b> takipçi</span><span><b>${sayi(veri?.takip ?? u.takip)}</b> takip</span>` : ""}${u.gizli ? '<span class="etiket e-gri">gizli profil</span>' : ""}${(u.ek || []).filter(e => e !== "gizli profil").map(e => `<span class="etiket e-gri">${esc(e)}</span>`).join("")}</div>
+            <div class="mono zero" style="margin-top:6px">uid ${esc(id)}</div></div></div>
+          ${yuk}${gl.length ? `<div class="s-izgara">${gl.map(g => sosKart({ ...g, app, uid: id, ad: u.ad, handle: u.handle })).join("")}</div>` : veri ? '<div class="bos">Paylaşımı yok.</div>' : ""}`;
+      } else {
+        const g = (a?.gonderiler || []).find(x => x.id === id) || { id, app, tur };
+        const u = kisiBul(app, g.uid) || { ad: g.ad, handle: g.handle };
+        const yorumlar = veri?.yorumlar || [];
+        const secenek = veri?.secenekler || [];
+        ic = `<div class="s-tek">
+            ${g.uid ? `<a href="#" class="s-kimlink" data-sdetay="kullanici" data-sapp="${esc(app)}" data-sid="${esc(g.uid)}">${kisiAvatar(app, u, 40)}<span class="s-kim"><span>${kisiAd(u)}</span><small>${sosIkon(app)}${esc(g.alt && !Array.isArray(g.alt) ? altAd(g.alt) : a?.ad || app)}${g.t ? ` · ${tarihYazi(g.t)}, ${once(g.t)}` : ""}</small></span></a>` : ""}
+            ${g.kapaklar?.length > 1 ? `<div class="s-kolaj s-k${Math.min(4, g.kapaklar.length)} buyuk">${g.kapaklar.map(x => `<img src="${esc(x)}" alt="" referrerpolicy="no-referrer">`).join("")}</div>` : g.foto ? `<div class="s-foto buyuk">${fotoImg(app, g.foto, "", true)}</div>` : ""}
+            ${g.baslik ? `<h2>${esc(g.baslik)}</h2>` : ""}${g.metin ? `<p class="s-uzun">${esc(g.metin)}</p>` : ""}
+            ${g.etiketler?.length ? `<div class="s-etiketler">${g.etiketler.map(e => `<span>${esc(e)}</span>`).join("")}</div>` : ""}
+            <div class="s-sayilar">${g.begeni != null ? `<span><b>${sayi(g.begeni)}</b> ${esc(a?.begeniAd || "beğeni")}</span>` : ""}${g.yorum != null ? `<span><b>${sayi(g.yorum)}</b> yorum</span>` : ""}<span class="mono zero">${esc(SOS_TUR[g.tur] || tur)} ${esc(id)}</span></div>
+            ${tur === "turnuva" ? `<h3>Seçenekler</h3>${yuk}${secenek.length ? `<div class="s-secenek">${secenek.sort((x, y) => y.galibiyet - x.galibiyet || y.oy - x.oy).map(s => `<div>${s.foto ? `<img src="${esc(s.foto)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : "<span></span>"}<b>${esc(s.ad)}</b><small>${sayi(s.galibiyet)} şampiyonluk · ${sayi(s.oy)} oy</small></div>`).join("")}</div>` : ""}` : ""}
+            ${g.tur === "gonderi" ? `<h3>Yorumlar</h3>${yuk}${yorumlar.map(c => `<div class="s-yorum">${kisiAvatar(app, kisiBul(app, c.uid) || c, 28)}<div><div><a href="#" data-sdetay="kullanici" data-sapp="${esc(app)}" data-sid="${esc(c.uid)}">${kisiAd(c)}</a> <span class="zero">${once(c.t)}</span></div><p>${esc(c.metin)}</p></div></div>`).join("") || (veri ? '<div class="bos">Yorum yok.</div>' : "")}` : ""}
+          </div>`;
+      }
+      k.innerHTML = `<div class="s-perde" data-skapat="1"></div><div class="s-sayfa" role="dialog" aria-modal="true">
+        <div class="s-sayfa-ust"><button class="kopya" data-skapat="1">← Geri</button><span>${esc(a?.ad || app)}</span><a href="${esc(a?.panel || "#")}" target="_blank" rel="noopener">uygulama paneli ↗</a></div>
+        <div class="s-sayfa-ic">${ic}</div></div>`;
+      sosFotolar();
+    }
+
     /* ── Çizim ───────────────────────────────────────────────── */
     function anaCiz() {
+      if (S.sekme === "sosyal") {
+        $("#ana").innerHTML = `
+          <div class="sekmeler"><button data-sekme="sosyal" aria-pressed="true">Sosyal</button><button data-sekme="ozet">← Panel</button></div>
+          <div class="baslik"><h2>Sosyal</h2><span class="alt">Leafbook · spor uygulamaları · Matchday · O mu Bu mu · anlık, Firestore</span></div>
+          ${sosyalCiz()}`;
+        return;
+      }
       if (S.app === SITE) {
         S.sekme = "site";
         $("#ana").innerHTML = `
@@ -2453,6 +2803,7 @@
         { v: "ozet", e: "Genel bakış" },
         { v: "rapor", e: "Raporlar", say: S.sekme !== "rapor" && raporOkunmamis() ? "yeni" : "", uyari: S.sekme !== "rapor" && !!raporOkunmamis() },
         { v: "canli", e: "Canlı", say: CANLI.veri ? (canliSay(secim ? [secim.slug] : null).toplam || "") : "", canli: true },
+        ...(D.canli ? [{ v: "sosyal", e: "Sosyal", say: SOS.veri ? (SOS.veri.apps.reduce((t, a) => t + (a.sayac?.gonderi7 || 0), 0) || "") : "" }] : []),
         { v: "kitle", e: "Kitle" },
         { v: "portfoy", e: secim ? "Uygulama" : "Uygulamalar" },
         { v: "finans", e: "Finans" },
@@ -2559,7 +2910,7 @@
       } catch (e) { k.innerHTML = `<div class="bos">Harita yüklenemedi.</div>`; }
     }
 
-    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); kareKatla(); tablolariGuclendir(); haritaCiz(); yaz(DURUM_KEY, S); }
+    function ciz() { KOMUTLAR = []; yanCiz(); renkCiz(); anaCiz(); kareKatla(); tablolariGuclendir(); haritaCiz(); sosFotolar(); yaz(DURUM_KEY, S); }
 
     /* ── Olaylar ─────────────────────────────────────────────── */
     document.addEventListener("toggle", e => {
@@ -2581,6 +2932,21 @@
         return;
       }
       if (e.target.closest("[data-canliyenile]")) { e.preventDefault(); canliCek(true); return; }
+      /* Sosyal: süzgeçler, iç sekmeler, detay sayfası. */
+      const sb = e.target.closest("[data-skapat],[data-sdetay],[data-sapp-sec],[data-salt],[data-ssekme],[data-ssira],[data-sdaha],[data-syenile]");
+      if (sb && D) {
+        e.preventDefault();
+        const d = sb.dataset, o = sosAyar();
+        if (d.skapat !== undefined) { SOS.detay = null; sosDetayCiz(); return; }
+        if (d.sdetay) { sosDetayAc(d.sdetay, d.sapp, d.sid); return; }
+        if (d.syenile) { sosyalCek(true); toast("Yenileniyor"); return; }
+        if (d.sappSec !== undefined) { o.app = d.sappSec; o.alt = ""; o.akisN = 0; }
+        else if (d.salt !== undefined) { o.alt = d.salt; o.akisN = 0; }
+        else if (d.ssekme) { o.sekme = d.ssekme; window.scrollTo({ top: 0 }); }
+        else if (d.ssira) o.sira = d.ssira;
+        else if (d.sdaha) o.akisN = (o.akisN || 60) + 60;
+        ciz(); return;
+      }
       if (e.target.closest("[data-uyarihepsi]")) { e.preventDefault(); UYARI.hepsi = !UYARI.hepsi; ciz(); return; }
       const kb = e.target.closest("[data-komut]");
       if (kb) { e.preventDefault(); e.stopPropagation(); kopyala(KOMUTLAR[+kb.dataset.komut] || ""); return; }
@@ -2595,7 +2961,17 @@
       if (d.rapor !== undefined) { e.preventDefault(); S.sekme = "rapor"; S.rapor = d.rapor || null; window.scrollTo({ top: 0 }); }
       else if (d.aralik !== undefined) S.aralik = Number(d.aralik);
       else if (d.platform) S.platform = d.platform;
-      else if (d.sekme) { e.preventDefault(); S.sekme = d.sekme; }
+      else if (d.sekme) {
+        e.preventDefault(); S.sekme = d.sekme;
+        if (d.sekme === "sosyal") {
+          const es = S.app && sosEsle(S.app), o = sosAyar();
+          if (es) { o.app = es[0]; o.alt = es[1]; }
+          if (ozelApp(S.app)) S.app = null;
+          if (!SOS.veri || Date.now() - SOS.zaman > 60000) sosyalCek(true);
+          window.scrollTo({ top: 0 });
+          if (b.closest("#yan")) menuKapat();
+        }
+      }
       else if (d.ulkem) S.ulkeMetrik = d.ulkem;
       else if (d.yorum) S.yorumSuzgec = d.yorum;
       else if (d.gorev) S.gorevSuzgec = d.gorev;
@@ -2605,6 +2981,8 @@
         const yeni = d.app || null;
         /* Menüde aynısına basınca seçim kalkar; tablo/kart satırında seçer. */
         S.app = (b.closest("#yigUyg") && S.app === yeni) ? null : yeni;
+        /* Sosyal açıkken menüden sosyal bir uygulama seçmek süzgeci değiştirir; başka uygulama paneli açar. */
+        if (S.sekme === "sosyal") { const es = S.app && sosEsle(S.app); if (es) { const o = sosAyar(); o.app = es[0]; o.alt = es[1]; } else S.sekme = "ozet"; }
         if (S.app && !ozelApp(S.app) && b.closest(".uyg-satir, tr, .adim, .uk") && S.sekme !== "canli") S.sekme = "ozet";
         if (S.app) window.scrollTo({ top: 0 });
         if (b.closest("#yan")) menuKapat();
@@ -2631,7 +3009,14 @@
     const menuKapat = () => document.body.classList.remove("menu-acik");
     $("#menuAc").onclick = () => document.body.classList.toggle("menu-acik");
     $("#perde").onclick = menuKapat;
-    addEventListener("keydown", e => { if (e.key === "Escape") menuKapat(); });
+    addEventListener("keydown", e => { if (e.key === "Escape") { if (SOS.detay) { SOS.detay = null; sosDetayCiz(); } else menuKapat(); } });
+    /* Sosyal arama: yazdıkça süz, odağı ve imleci koru. */
+    let sosAraZ = null;
+    document.addEventListener("input", e => {
+      if (e.target.id !== "sosAra") return;
+      clearTimeout(sosAraZ);
+      sosAraZ = setTimeout(() => { const v = e.target.value; sosAyar().ara = v; sosAyar().akisN = 0; ciz(); const i = $("#sosAra"); if (i) { i.focus(); i.setSelectionRange(v.length, v.length); } }, 220);
+    });
     $("#mbarTema").onclick = () => $("#tema").click();
     $("#kilit").onclick = () => { try { sessionStorage.removeItem(OTURUM); } catch (e) { } location.reload(); };
     $("#tema").onclick = () => {
@@ -2762,8 +3147,9 @@
       for (const g of D.genelGorevler || []) if (g.bitti) delete YEREL[`konu:${g.konu}|${kimlik(g.yazi)}`];
       yaz(GOREV_KEY, YEREL);
       if (S.app && !ozelApp(S.app) && !D.apps.some(a => a.slug === S.app)) S.app = null;
-      if (!["ozet", "rapor", "canli", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "surum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
+      if (!["ozet", "rapor", "canli", "sosyal", "site", "framegrove", "kitle", "portfoy", "finans", "pazarlama", "takip", "yorum", "surum", "gorev", "veri"].includes(S.sekme)) S.sekme = "ozet";
       $("#gate").hidden = true; $("#shell").hidden = false; ciz(); faceDugmeleri();
+      sosyalBaslat();
       if (D.canli?.url && !CANLI.zamanlayici) {
         canliCek(true);
         CANLI.zamanlayici = setInterval(() => canliCek(false), 30000);

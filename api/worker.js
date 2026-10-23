@@ -7,6 +7,7 @@
    - POST /api/feedback    geri bildirim formu (/geri-bildirim/) ve ana sayfadaki proje formu (type=proje):
                            D1'e yazar, merhaba@'ya mail atar
    - GET  /api/live        lab paneli için şu an uygulamada olan kurulumlar (anahtar ister, bkz. live())
+   - GET  /api/social[/detay|/foto]  sosyal uygulamaların paylaşımları ve kullanıcıları (anahtar ister, bkz. sosyal())
    - POST/GET/DELETE /api/panel-device  Panel iOS uygulamasının APNs jetonları (anahtar ister, bkz. panelDevice())
    - POST/GET /api/panel-alerts  Panel anlık uyarıları, son 200 (anahtar ister, bkz. panelAlerts())
    Veri D1'de (binding: DB), mail Resend ile (secret: RESEND_KEY). */
@@ -30,6 +31,7 @@ export default {
     try {
       const route = url.pathname.replace(/\/+$/, "");
       if (route === "/api/live") return await live(req, env);
+      if (route === "/api/social" || route.startsWith("/api/social/")) return await sosyal(req, env, url, route);
       if (route === "/api/panel-device") return await panelDevice(req, env, url);
       if (route === "/api/panel-alerts") return await panelAlerts(req, env, url);
       if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
@@ -351,6 +353,7 @@ async function googleToken(env) {
 const fsDeger = (f) => {
   if (!f) return null;
   if ("mapValue" in f) return Object.fromEntries(Object.entries(f.mapValue.fields || {}).map(([k, v]) => [k, fsDeger(v)]));
+  if ("arrayValue" in f) return (f.arrayValue.values || []).map(fsDeger);
   if ("integerValue" in f) return Number(f.integerValue);
   if ("doubleValue" in f) return f.doubleValue;
   return f.stringValue ?? f.timestampValue ?? f.booleanValue ?? null;
@@ -423,6 +426,286 @@ async function live(req, env) {
   liveCache = { ok: true, zaman: iso(simdi), esikDk: 3, toplam: apps.reduce((t, a) => t + a.liste.filter((x) => x.canli).length, 0), apps };
   liveCacheT = Date.now();
   return yanit(liveCache);
+}
+
+/* ── Sosyal (lab paneli) ────────────────────────────────────
+   Sosyal katmanı olan uygulamaların paylaşımları, kullanıcıları, takipleri
+   ve şikayetleri. Kimlik ve koruma /api/live ile aynı: salt okur servis
+   hesabı (her projede yalnız roles/datastore.viewer) ve x-live-key. Bu uç
+   ad, kullanıcı adı ve paylaşım metni döndürür; hiçbir yere yazılmaz,
+   yalnız anahtarı taşıyan panel görür. E-posta okunmaz.
+   - GET /api/social                     dört uygulamanın özeti ve son kayıtları
+   - GET /api/social/detay?app&tur&id    gönderinin yorumları / kullanıcının gönderileri
+   - GET /api/social/foto?app&tur&id     Firestore'da bayt olarak duran fotoğraf */
+const SPOR_SLUG = { tennis: "tennis-padel", padel: "tennis-padel", pickleball: "pickleball", volleyball: "volleyball", badminton: "rally-badminton", tabletennis: "rally-table-tennis" };
+const SOSYAL_APPS = {
+  leafbook: { ad: "Leafbook", proje: "leafbook-bamtech", panel: "/lab/leafbook/", begeni: "nazar" },
+  "bam-sports": { ad: "Spor uygulamaları", proje: "bam-tech-sports", panel: "/lab/bam-sports/", begeni: "beğeni" },
+  matchday: { ad: "Matchday", proje: "matchday-bamtech", panel: "/lab/matchday/", begeni: null },
+  "o-mu-bu-mu": { ad: "O mu Bu mu?", proje: "thisone-ba533", panel: "/lab/omubumu/", begeni: null },
+};
+let sosyalCache = null, sosyalCacheT = 0;
+
+const fsAlan = (l) => ({ fields: l.map((f) => ({ fieldPath: f })) });
+const fsEsit = (alan, deger) => ({ fieldFilter: { field: { fieldPath: alan }, op: "EQUAL", value: typeof deger === "boolean" ? { booleanValue: deger } : { stringValue: deger } } });
+const fsYeni = (alan = "createdAt") => [{ field: { fieldPath: alan }, direction: "DESCENDING" }];
+/* Koleksiyon (ya da collection group) üstünde sayım ve toplam; hata olursa null. */
+async function fsAgg(tok, proje, kol, { grup = false, where, toplam } = {}) {
+  const sq = { from: [{ collectionId: kol, allDescendants: grup }] };
+  if (where) sq.where = where;
+  const aggregations = [{ alias: "n", count: {} }];
+  if (toplam) aggregations.push({ alias: "s", sum: { field: { fieldPath: toplam } } });
+  try {
+    const r = await fetch(`https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents:runAggregationQuery`, {
+      method: "POST", headers: { authorization: `Bearer ${tok}`, "content-type": "application/json" },
+      body: JSON.stringify({ structuredAggregationQuery: { structuredQuery: sq, aggregations } }) });
+    const j = await r.json();
+    if (!r.ok) return null;
+    const a = j[0]?.result?.aggregateFields || {};
+    const say = (v) => v ? Number(v.integerValue ?? v.doubleValue ?? 0) : null;
+    return toplam ? { n: say(a.n), s: say(a.s) } : say(a.n);
+  } catch { return null; }
+}
+const sonra = (gun) => ({ fieldFilter: { field: { fieldPath: "createdAt" }, op: "GREATER_THAN_OR_EQUAL", value: { timestampValue: iso(Date.now() - gun * 864e5) } } });
+const zamanSirala = (l, alan = "t") => l.sort((a, b) => String(b[alan] || "").localeCompare(String(a[alan] || "")));
+/* Son 30 günün günlük sayısı (İstanbul günü), createdAt alanından. */
+function gunlukSay(liste) {
+  const g = {};
+  for (const t of liste) { if (!t) continue; const k = new Date(Date.parse(t) + 3 * 3600e3).toISOString().slice(0, 10); g[k] = (g[k] || 0) + 1; }
+  return g;
+}
+async function zamanlar(tok, proje, kol, gun = 30, alan = "createdAt") {
+  try {
+    const l = await fsSorgu(tok, proje, "", { from: [{ collectionId: kol }], select: fsAlan([alan]),
+      where: { fieldFilter: { field: { fieldPath: alan }, op: "GREATER_THAN_OR_EQUAL", value: { timestampValue: iso(Date.now() - gun * 864e5) } } },
+      orderBy: fsYeni(alan), limit: 2000 });
+    return l.map((x) => x[alan]);
+  } catch { return []; }
+}
+const kirp = (s, n) => typeof s === "string" ? s.slice(0, n) : null;
+
+/* Her uygulamanın kendi şeması, ortak biçime çevrilir:
+   gonderi {id, tur, uid, ad, handle, baslik, metin, t, begeni, yorum, foto, etiketler, alt, kitle}
+   kisi    {uid, ad, handle, bio, t, ulke, gizli, foto, ek, alt, takipci, takip}
+   sikayet {id, t, kimden, hedefUid, hedefId, hedefTur, neden, durum} */
+const SOSYAL_OKU = {
+  async leafbook(tok, p) {
+    const [kisiler, gonderiler, sikayetler, nKisi, nKisi7, gAgg, nGonderi7, nYorum, kz, gz] = await Promise.all([
+      fsSorgu(tok, p, "", { from: [{ collectionId: "profiles" }], select: fsAlan(["name", "handle", "bio", "hasPhoto", "hidden", "createdAt", "lastPostAt"]), orderBy: fsYeni(), limit: 300 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "posts" }], select: fsAlan(["authorUid", "authorName", "authorHandle", "text", "plantName", "speciesName", "createdAt", "nazarCount", "commentCount"]), orderBy: fsYeni(), limit: 150 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "reports" }], orderBy: fsYeni(), limit: 100 }).catch(() => []),
+      fsAgg(tok, p, "profiles"), fsAgg(tok, p, "profiles", { where: sonra(7) }),
+      fsAgg(tok, p, "posts", { toplam: "nazarCount" }), fsAgg(tok, p, "posts", { where: sonra(7) }),
+      fsAgg(tok, p, "comments", { grup: true }),
+      zamanlar(tok, p, "profiles"), zamanlar(tok, p, "posts"),
+    ]);
+    return {
+      sayac: { kullanici: nKisi, kullanici7: nKisi7, gonderi: gAgg?.n ?? null, gonderi7: nGonderi7, yorum: nYorum, begeni: gAgg?.s ?? null, takip: null, sikayet: sikayetler.length },
+      gunluk: { kullanici: gunlukSay(kz), gonderi: gunlukSay(gz) },
+      kullanicilar: kisiler.map((u) => ({ uid: u.id, ad: u.name || null, handle: u.handle || null, bio: kirp(u.bio, 160), t: u.createdAt || null, son: u.lastPostAt || null,
+        gizli: !!u.hidden, foto: u.hasPhoto ? { k: "kullanici", id: u.id } : null, ek: u.hidden ? ["gizli profil"] : [] })),
+      gonderiler: gonderiler.map((g) => ({ id: g.id, tur: "gonderi", uid: g.authorUid, ad: g.authorName || null, handle: g.authorHandle || null, metin: g.text || "", t: g.createdAt,
+        begeni: g.nazarCount ?? 0, yorum: g.commentCount ?? 0, foto: { k: "gonderi", id: g.id }, etiketler: [g.plantName, g.speciesName].filter(Boolean) })),
+      sikayetler: sikayetler.map((r) => ({ id: r.id, t: r.createdAt, kimden: r.by || null, hedefUid: r.authorUid || null, hedefId: r.postId || null, hedefTur: r.postId ? "gonderi" : "kullanici", neden: kirp(r.reason, 300) })),
+    };
+  },
+
+  async "bam-sports"(tok, p) {
+    const [kisiler, gonderiler, takipler, sikayetler, ligler, maclar, nKisi, nKisi7, gAgg, nGonderi7, nYorum, nTakip, nLig, nMac, nCanli, kz, gz] = await Promise.all([
+      fsSorgu(tok, p, "", { from: [{ collectionId: "users" }], select: fsAlan(["displayName", "handle", "sports", "country", "level", "city", "bio", "private", "photoUpdatedAt", "createdAt", "hand"]), orderBy: fsYeni(), limit: 300 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "posts" }], select: fsAlan(["authorUid", "authorName", "authorHandle", "sport", "caption", "place", "audience", "createdAt", "likeCount", "commentCount", "hasPhoto", "gameType", "match"]), orderBy: fsYeni(), limit: 150 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "follows" }], select: fsAlan(["follower", "followee"]), limit: 5000 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "reports" }], orderBy: fsYeni(), limit: 100 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "leagues" }], select: fsAlan(["name", "sport", "ownerUid", "ownerName", "memberCount", "status", "visibility", "city", "country", "format", "createdAt"]), orderBy: fsYeni(), limit: 60 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "matches" }], select: fsAlan(["sport", "createdBy", "players", "score", "status", "winner", "createdAt"]), orderBy: fsYeni(), limit: 60 }).catch(() => []),
+      fsAgg(tok, p, "users"), fsAgg(tok, p, "users", { where: sonra(7) }),
+      fsAgg(tok, p, "posts", { toplam: "likeCount" }), fsAgg(tok, p, "posts", { where: sonra(7) }),
+      fsAgg(tok, p, "comments", { grup: true }), fsAgg(tok, p, "follows"), fsAgg(tok, p, "leagues"), fsAgg(tok, p, "matches"), fsAgg(tok, p, "liveMatches"),
+      zamanlar(tok, p, "users"), zamanlar(tok, p, "posts"),
+    ]);
+    const takipci = {}, takip = {};
+    for (const f of takipler) { takipci[f.followee] = (takipci[f.followee] || 0) + 1; takip[f.follower] = (takip[f.follower] || 0) + 1; }
+    const ad = Object.fromEntries(kisiler.map((u) => [u.id, u.displayName || u.handle || u.id.slice(0, 6)]));
+    return {
+      sayac: { kullanici: nKisi, kullanici7: nKisi7, gonderi: gAgg?.n ?? null, gonderi7: nGonderi7, yorum: nYorum, begeni: gAgg?.s ?? null, takip: nTakip, sikayet: sikayetler.length, lig: nLig, mac: nMac, canliMac: nCanli },
+      gunluk: { kullanici: gunlukSay(kz), gonderi: gunlukSay(gz) },
+      kullanicilar: kisiler.map((u) => ({ uid: u.id, ad: u.displayName || null, handle: u.handle || null, bio: kirp(u.bio, 120), t: u.createdAt || null, ulke: u.country || null,
+        gizli: !!u.private, foto: u.photoUpdatedAt ? { k: "kullanici", id: u.id } : null, alt: (u.sports || []).map((s) => SPOR_SLUG[s] || s),
+        ek: [u.level && `seviye ${u.level}`, u.city, u.hand === "left" ? "solak" : null, u.id.startsWith("official_") ? "resmi hesap" : null].filter(Boolean),
+        takipci: takipci[u.id] || 0, takip: takip[u.id] || 0 })),
+      gonderiler: gonderiler.map((g) => ({ id: g.id, tur: "gonderi", uid: g.authorUid, ad: g.authorName || null, handle: g.authorHandle || null, metin: g.caption || "", t: g.createdAt,
+        begeni: g.likeCount ?? 0, yorum: g.commentCount ?? 0, foto: g.hasPhoto ? { k: "gonderi", id: g.id } : null, alt: SPOR_SLUG[g.sport] || g.sport, kitle: g.audience === "followers" ? "takipçiler" : null,
+        etiketler: [g.place, g.gameType, g.match?.score ? `${g.match.won ? "kazandı" : "kaybetti"} ${g.match.score}${g.match.opponent ? ` · ${g.match.opponent}` : ""}` : null].filter(Boolean) })),
+      sikayetler: sikayetler.map((r) => ({ id: r.id, t: r.createdAt, kimden: r.reporter || null, hedefUid: r.uid || null, hedefId: r.postId || null, hedefTur: r.postId ? "gonderi" : "kullanici", neden: kirp(r.reason, 300) })),
+      ekler: [
+        { baslik: "Ligler", kolonlar: ["Lig", "Spor", "Kurucu", "Üye", "Durum", "Yer", "Kuruldu"],
+          satirlar: ligler.map((l) => [l.name || "·", SPOR_SLUG[l.sport] || l.sport, l.ownerName || ad[l.ownerUid] || "·", l.memberCount ?? "·", `${l.status || "·"}${l.visibility === "private" ? " · özel" : ""}`, [l.city, l.country].filter(Boolean).join(", ") || "·", { t: l.createdAt }]) },
+        { baslik: "Kayıtlı maçlar", kolonlar: ["Spor", "Oyuncular", "Skor", "Durum", "Tarih"],
+          satirlar: maclar.map((m) => [SPOR_SLUG[m.sport] || m.sport, (m.players || []).map((u) => ad[u] || String(u).slice(0, 6)).join(" - "), m.score || "·", m.status === "confirmed" ? "onaylı" : "bekliyor", { t: m.createdAt }]) },
+      ],
+    };
+  },
+
+  async matchday(tok, p) {
+    const [kisiler, maclar, medya, takipler, sikayetler, nKisi, nKisi7, nMac, nMac7, nTakip, nMedya, kz, mz] = await Promise.all([
+      fsSorgu(tok, p, "", { from: [{ collectionId: "users" }], select: fsAlan(["name", "handle", "positions", "bio", "createdAt", "rating", "photoAt"]), orderBy: fsYeni(), limit: 300 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "matches" }], select: fsAlan(["title", "sport", "venue", "city", "startsAt", "status", "visibility", "memberUids", "adminUid", "maxPlayers", "homeScore", "awayScore", "createdAt"]), orderBy: fsYeni(), limit: 120 }),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "media", allDescendants: true }], select: fsAlan(["uid", "kind", "url", "createdAt"]), orderBy: fsYeni(), limit: 60 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "follows" }], select: fsAlan(["followerUid", "followedUid"]), limit: 5000 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "reports" }], orderBy: fsYeni(), limit: 100 }).catch(() => []),
+      fsAgg(tok, p, "users"), fsAgg(tok, p, "users", { where: sonra(7) }), fsAgg(tok, p, "matches"), fsAgg(tok, p, "matches", { where: sonra(7) }),
+      fsAgg(tok, p, "follows"), fsAgg(tok, p, "media", { grup: true }),
+      zamanlar(tok, p, "users"), zamanlar(tok, p, "matches"),
+    ]);
+    const takipci = {}, takip = {};
+    for (const f of takipler) { takipci[f.followedUid] = (takipci[f.followedUid] || 0) + 1; takip[f.followerUid] = (takip[f.followerUid] || 0) + 1; }
+    const kim = Object.fromEntries(kisiler.map((u) => [u.id, u]));
+    const DURUM = { upcoming: "yaklaşan", played: "oynandı", cancelled: "iptal" };
+    return {
+      sayac: { kullanici: nKisi, kullanici7: nKisi7, gonderi: nMac, gonderi7: nMac7, yorum: null, begeni: null, takip: nTakip, sikayet: sikayetler.length, medya: nMedya },
+      gonderiAd: "maç",
+      gunluk: { kullanici: gunlukSay(kz), gonderi: gunlukSay(mz) },
+      kullanicilar: kisiler.map((u) => ({ uid: u.id, ad: u.name || null, handle: u.handle || null, bio: kirp(u.bio, 160), t: u.createdAt || null,
+        foto: u.photoAt ? { k: "kullanici", id: u.id } : null, takipci: takipci[u.id] || 0, takip: takip[u.id] || 0,
+        ek: [(u.positions || []).join("/"), u.rating?.overall ? `puan ${Number(u.rating.overall).toFixed(1)} (${u.rating.count || 0})` : null].filter(Boolean) })),
+      gonderiler: [
+        ...maclar.map((m) => ({ id: m.id, tur: "mac", uid: m.adminUid, ad: kim[m.adminUid]?.name || null, handle: kim[m.adminUid]?.handle || null, baslik: m.title || "Maç",
+          metin: [m.venue, m.city].filter(Boolean).join(", "), t: m.createdAt, foto: null, kitle: m.visibility === "private" ? "özel" : null,
+          etiketler: [DURUM[m.status] || m.status, `${(m.memberUids || []).length}/${m.maxPlayers ?? "?"} oyuncu`, m.startsAt ? `maç günü ${m.startsAt.slice(0, 10)}` : null,
+            m.homeScore != null && m.awayScore != null ? `skor ${m.homeScore}-${m.awayScore}` : null].filter(Boolean) })),
+        ...medya.filter((x) => x.kind === "photo" && /^https:\/\//.test(x.url || "")).map((x) => ({ id: x.id, tur: "medya", uid: x.uid, ad: kim[x.uid]?.name || null, handle: kim[x.uid]?.handle || null,
+          metin: "", t: x.createdAt, foto: { u: x.url }, etiketler: ["maç fotoğrafı"] })),
+      ],
+      sikayetler: sikayetler.map((r) => ({ id: r.id, t: r.createdAt, kimden: r.fromUid || null, hedefUid: r.targetUid || null, hedefId: null, hedefTur: "kullanici", neden: kirp(r.reason, 300) })),
+    };
+  },
+
+  async "o-mu-bu-mu"(tok, p) {
+    /* Kullanıcıların çoğu anonim; sosyal taraf yalnız hesap bağlayanlar.
+       Eşitlik + sıralama bileşik dizin ister, sıralama burada yapılır. */
+    const [kisiler, turnuvalar, arkadas, sikayetler, nKisi, nHesap, nTurnuva, , nArkadas, , az] = await Promise.all([
+      fsSorgu(tok, p, "", { from: [{ collectionId: "users" }], select: fsAlan(["displayName", "photoURL", "providers", "platform", "createdAt", "lastSeenAt"]), where: fsEsit("isAnonymous", false), limit: 400 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "brackets" }], select: fsAlan(["title", "emoji", "cover", "optionCount", "totalPlays", "totalVotes", "status", "visibility", "ownerId", "createdAt"]), where: fsEsit("source", "user"), limit: 400 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "friendTournaments" }], select: fsAlan(["bracketTitle", "bracketEmoji", "cover", "size", "mode", "hostUid", "hostName", "createdAt", "results"]), orderBy: fsYeni(), limit: 80 }).catch(() => []),
+      fsSorgu(tok, p, "", { from: [{ collectionId: "reports" }], orderBy: fsYeni(), limit: 100 }).catch(() => []),
+      fsAgg(tok, p, "users"), fsAgg(tok, p, "users", { where: fsEsit("isAnonymous", false) }),
+      fsAgg(tok, p, "brackets", { where: fsEsit("source", "user") }), null, fsAgg(tok, p, "friendTournaments"),
+      null, zamanlar(tok, p, "friendTournaments"),
+    ]);
+    const kim = Object.fromEntries(kisiler.map((u) => [u.id, u]));
+    const DURUM = { pending: "onay bekliyor", approved: "onaylı", rejected: "reddedildi" };
+    const yedi = iso(Date.now() - 7 * 864e5);
+    const otuz = iso(Date.now() - 30 * 864e5);
+    const tz = turnuvalar.map((b) => b.createdAt).filter((t) => t && t >= otuz);
+    return {
+      sayac: { kullanici: nHesap, kullanici7: kisiler.filter((u) => (u.createdAt || "") >= yedi).length, tumKullanici: nKisi, gonderi: (nTurnuva ?? 0) + (nArkadas ?? 0),
+        gonderi7: turnuvalar.filter((b) => (b.createdAt || "") >= yedi).length + arkadas.filter((f) => (f.createdAt || "") >= yedi).length,
+        yorum: null, begeni: null, takip: null, sikayet: sikayetler.length, turnuva: nTurnuva, arkadas: nArkadas, onayBekleyen: turnuvalar.filter((b) => b.status === "pending").length },
+      gunluk: { kullanici: gunlukSay(kisiler.map((u) => u.createdAt).filter((t) => t && t >= otuz)), gonderi: gunlukSay([...az, ...tz]) },
+      kullanicilar: zamanSirala(kisiler.map((u) => ({ uid: u.id, ad: u.displayName || null, handle: null, t: u.createdAt || null, son: u.lastSeenAt || null,
+        foto: /^https:\/\//.test(u.photoURL || "") ? { u: u.photoURL } : null, ek: [(u.providers || []).filter((x) => x !== "anonymous").join(", "), u.platform].filter(Boolean) })), "t").slice(0, 300),
+      gonderiler: zamanSirala([
+        ...turnuvalar.map((b) => ({ id: b.id, tur: "turnuva", uid: b.ownerId, ad: kim[b.ownerId]?.displayName || null, handle: null, baslik: `${b.emoji ? b.emoji + " " : ""}${b.title || "Turnuva"}`,
+          metin: "", t: b.createdAt, foto: /^https:\/\//.test(b.cover?.[0] || "") ? { u: b.cover[0] } : null, kapaklar: (b.cover || []).filter((u) => /^https:\/\//.test(u)).slice(0, 4),
+          begeni: b.totalPlays ?? 0, yorum: null, durum: b.status, etiketler: [DURUM[b.status] || b.status, b.visibility, `${b.optionCount ?? "?"} seçenek`, `${b.totalPlays ?? 0} oynanma`].filter(Boolean) })),
+        ...arkadas.map((f) => ({ id: f.id, tur: "arkadas", uid: f.hostUid, ad: f.hostName || kim[f.hostUid]?.displayName || null, handle: null, baslik: `${f.bracketEmoji ? f.bracketEmoji + " " : ""}${f.bracketTitle || "Arkadaş turnuvası"}`,
+          metin: "", t: f.createdAt, foto: /^https:\/\//.test(f.cover?.[0] || "") ? { u: f.cover[0] } : null, kapaklar: (f.cover || []).filter((u) => /^https:\/\//.test(u)).slice(0, 4),
+          begeni: Object.keys(f.results || {}).length, yorum: null, etiketler: ["arkadaş turnuvası", `kod ${f.id}`, `${Object.keys(f.results || {}).length} kişi bitirdi`, f.size ? `${f.size}'li` : null].filter(Boolean) })),
+      ]).slice(0, 200),
+      begeniAd: "oynanma",
+      sikayetler: sikayetler.map((r) => ({ id: r.id, t: r.createdAt, kimden: r.uid || null, hedefUid: null, hedefId: r.targetId || null, hedefTur: r.type === "bracket" ? "turnuva" : r.type || "?",
+        neden: [r.reason, r.note].filter(Boolean).join(" · ").slice(0, 300), durum: r.status || null })),
+    };
+  },
+};
+
+/* Detay: gönderinin yorumları, kullanıcının gönderileri ve takip sayıları. */
+async function sosyalDetay(tok, slug, tur, id) {
+  const p = SOSYAL_APPS[slug].proje;
+  const yorumlar = async () => (await fsSorgu(tok, p, `/posts/${encodeURIComponent(id)}`, { from: [{ collectionId: "comments" }], select: fsAlan(["uid", "name", "handle", "text", "createdAt"]), orderBy: [{ field: { fieldPath: "createdAt" }, direction: "ASCENDING" }], limit: 300 }))
+    .map((c) => ({ uid: c.uid, ad: c.name || null, handle: c.handle || null, metin: c.text || "", t: c.createdAt }));
+  if (tur === "gonderi" && (slug === "leafbook" || slug === "bam-sports")) return { yorumlar: await yorumlar() };
+  if (tur === "turnuva" && slug === "o-mu-bu-mu") {
+    const l = await fsSorgu(tok, p, "", { from: [{ collectionId: "brackets" }], select: fsAlan(["options", "stats"]), where: { fieldFilter: { field: { fieldPath: "__name__" }, op: "EQUAL", value: { referenceValue: `projects/${p}/databases/(default)/documents/brackets/${id}` } } }, limit: 1 });
+    const b = l[0] || {};
+    return { secenekler: (b.options || []).map((o) => ({ ad: o.name || "·", foto: /^https:\/\//.test(o.imageURL || "") ? o.imageURL : null, oy: b.stats?.[o.id]?.votes ?? 0, galibiyet: b.stats?.[o.id]?.wins ?? 0 })) };
+  }
+  if (tur === "kullanici") {
+    const say = (kol, alan) => fsAgg(tok, p, kol, { where: fsEsit(alan, id) });
+    if (slug === "leafbook" || slug === "bam-sports") {
+      const g = await fsSorgu(tok, p, "", { from: [{ collectionId: "posts" }], where: fsEsit("authorUid", id), limit: 200,
+        select: fsAlan(slug === "leafbook" ? ["text", "plantName", "createdAt", "nazarCount", "commentCount"] : ["caption", "sport", "createdAt", "likeCount", "commentCount", "hasPhoto"]) });
+      const [takipci, takip] = slug === "bam-sports" ? await Promise.all([say("follows", "followee"), say("follows", "follower")]) : [null, null];
+      return { takipci, takip, gonderiler: zamanSirala(g.map((x) => ({ id: x.id, tur: "gonderi", metin: x.text ?? x.caption ?? "", t: x.createdAt, begeni: x.nazarCount ?? x.likeCount ?? 0, yorum: x.commentCount ?? 0,
+        foto: slug === "leafbook" || x.hasPhoto ? { k: "gonderi", id: x.id } : null, alt: SPOR_SLUG[x.sport] || x.sport || null, etiketler: [x.plantName].filter(Boolean) }))) };
+    }
+    if (slug === "matchday") {
+      const [m, takipci, takip] = await Promise.all([
+        fsSorgu(tok, p, "", { from: [{ collectionId: "matches" }], select: fsAlan(["title", "venue", "city", "status", "createdAt", "adminUid"]),
+          where: { fieldFilter: { field: { fieldPath: "memberUids" }, op: "ARRAY_CONTAINS", value: { stringValue: id } } }, limit: 200 }),
+        say("follows", "followedUid"), say("follows", "followerUid")]);
+      return { takipci, takip, gonderiler: zamanSirala(m.map((x) => ({ id: x.id, tur: "mac", baslik: x.title || "Maç", metin: [x.venue, x.city].filter(Boolean).join(", "), t: x.createdAt,
+        etiketler: [x.status, x.adminUid === id ? "düzenleyen" : "oyuncu"].filter(Boolean) }))) };
+    }
+    if (slug === "o-mu-bu-mu") {
+      const b = await fsSorgu(tok, p, "", { from: [{ collectionId: "brackets" }], select: fsAlan(["title", "emoji", "cover", "status", "totalPlays", "createdAt"]), where: fsEsit("ownerId", id), limit: 200 });
+      return { gonderiler: zamanSirala(b.map((x) => ({ id: x.id, tur: "turnuva", baslik: `${x.emoji ? x.emoji + " " : ""}${x.title || "Turnuva"}`, metin: "", t: x.createdAt,
+        foto: /^https:\/\//.test(x.cover?.[0] || "") ? { u: x.cover[0] } : null, begeni: x.totalPlays ?? 0, etiketler: [x.status].filter(Boolean) }))) };
+    }
+  }
+  return { yok: true };
+}
+
+/* Fotoğraf: Firestore belgesindeki bayt (ya da base64 metin) alanı. */
+const FOTO_YOL = {
+  leafbook: { gonderi: (id) => [`postThumbs/${id}`, "data"], gonderiBuyuk: (id) => [`postPhotos/${id}`, "data"], kullanici: (id) => [`profilePhotos/${id}`, "data"] },
+  "bam-sports": { gonderi: (id) => [`postPhotos/${id}`, "data"], gonderiBuyuk: (id) => [`postPhotos/${id}`, "data"], kullanici: (id) => [`users/${id}`, "photo"] },
+  matchday: { kullanici: (id) => [`avatars/${id}`, "data"] },
+};
+async function sosyalFoto(tok, slug, tur, id) {
+  const yol = FOTO_YOL[slug]?.[tur]; if (!yol) return null;
+  const [belge, alan] = yol(id);
+  const r = await fetch(`https://firestore.googleapis.com/v1/projects/${SOSYAL_APPS[slug].proje}/databases/(default)/documents/${belge}?mask.fieldPaths=${alan}`, { headers: { authorization: `Bearer ${tok}` } });
+  if (!r.ok) return null;
+  const f = (await r.json()).fields?.[alan];
+  const b64 = f?.bytesValue || (f?.stringValue || "").replace(/^data:image\/\w+;base64,/, "");
+  if (!b64) return null;
+  try { return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)); } catch { return null; }
+}
+
+async function sosyal(req, env, url, route) {
+  const cors = liveCors(req);
+  const yanit = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...cors } });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+  if (req.method !== "GET") return yanit({ ok: false, error: "method" }, 405);
+  if (!env.LIVE_KEY || !env.GCP_SA_KEY) return yanit({ ok: false, error: "not_configured" }, 503);
+  if (!esit(req.headers.get("x-live-key") || "", env.LIVE_KEY)) return yanit({ ok: false, error: "unauthorized" }, 401);
+  const tok = await googleToken(env);
+  const alt = route.slice("/api/social".length);
+  if (alt) {
+    const slug = url.searchParams.get("app") || "", tur = url.searchParams.get("tur") || "", id = url.searchParams.get("id") || "";
+    if (!SOSYAL_APPS[slug] || !/^[A-Za-z0-9_-]{1,128}$/.test(id) || !/^[a-zA-Z]{1,20}$/.test(tur)) return yanit({ ok: false, error: "invalid" }, 400);
+    if (alt === "/foto") {
+      const b = await sosyalFoto(tok, slug, tur, id);
+      if (!b) return new Response(null, { status: 404, headers: cors });
+      return new Response(b, { headers: { "content-type": "image/jpeg", "cache-control": "private, max-age=3600", ...cors } });
+    }
+    if (alt === "/detay") {
+      try { return yanit({ ok: true, ...(await sosyalDetay(tok, slug, tur, id)) }); }
+      catch (e) { return yanit({ ok: false, error: String(e.message || e).slice(0, 160) }, 502); }
+    }
+    return yanit({ ok: false, error: "not_found" }, 404);
+  }
+  /* 30 sn önbellek: panel birkaç sekmede açıksa her biri dört projeyi baştan okumasın. */
+  if (sosyalCache && Date.now() - sosyalCacheT < 30_000) return yanit(sosyalCache);
+  const apps = await Promise.all(Object.entries(SOSYAL_APPS).map(async ([slug, a]) => {
+    const temel = { slug, ad: a.ad, panel: a.panel, begeniAd: a.begeni };
+    try { return { ...temel, ...(await SOSYAL_OKU[slug](tok, a.proje)) }; }
+    catch (e) { return { ...temel, hata: String(e.message || e).slice(0, 160), gonderiler: [], kullanicilar: [], sikayetler: [], sayac: {} }; }
+  }));
+  sosyalCache = { ok: true, zaman: iso(Date.now()), apps };
+  sosyalCacheT = Date.now();
+  return yanit(sosyalCache);
 }
 
 /* ── Panel iOS bildirim jetonları ───────────────────────────
