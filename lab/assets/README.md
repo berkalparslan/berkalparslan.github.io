@@ -62,6 +62,7 @@ const kabuk = await panelKabuk({
   ikon: "/assets/lab-icons/leafbook-180.png",
   firebaseConfig,                       // Firebase Auth ile Google girişi
   yonetici: "yonetici@ornek.com",       // tek yerde
+  izleyiciler: ["ortak@ornek.com"],     // istege bagli, salt okunur; YÖNET grubu gizli
   araliklar: [1, 7, 30, 90], aralik: 7, // üst satırdaki gün düğmeleri (isteğe bağlı)
   yukle: async kabuk => { ... },        // girişten sonra, Yenile'de ve aralık değişince
   gruplar: [

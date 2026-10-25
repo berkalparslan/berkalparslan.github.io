@@ -7,6 +7,7 @@
  *     ikon: "/assets/lab-icons/leafbook-180.png",
  *     firebaseConfig: {...},                 // Firebase Auth ile Google girisi
  *     yonetici: "yonetici@ornek.com",        // tek yerde
+ *     izleyiciler: ["ortak@ornek.com"],      // istege bagli: salt okunur, YONET grubu gizli
  *     gruplar: [
  *       { baslik: "ANALİZ", sayfalar: [{ id: "genel", ad: "Genel bakış", ciz: c => ... }, ...] },
  *       { baslik: "SOSYAL", sayfalar: [...] },
@@ -31,6 +32,10 @@
  * Firebase'li panelde de `girisDogrula` verilirse Firebase ID token'i ile
  * ikinci bir kapi olarak calisir.
  *
+ * izleyiciler (yalniz Firebase'li panelde): girer, YONET grubunu ve
+ * `yonetici: true` isaretli sayfalari gormez; `kabuk.izleyici` true olur.
+ * Yazma yetkisini kurallar keser, menu yalniz bos dugme gostermemek icin.
+ *
  * Asil kapi her zaman sunucu tarafi (Firestore kurallari ya da Worker); buradaki
  * kontrol yetkisiz birinin kirik panel yerine acik bir mesaj gormesi icin.
  */
@@ -49,8 +54,10 @@ export async function panelKabuk(cfg) {
   const demo = new URLSearchParams(location.search).has("demo");
   const sayfalar = cfg.gruplar.flatMap(g => g.sayfalar);
   const ilk = cfg.varsayilan || sayfalar[0]?.id;
+  const yonetimSayfasi = s => s.yonetici === true || cfg.gruplar.some(g => g.baslik === "YÖNET" && g.sayfalar.includes(s));
+  const gorunur = () => kabuk.izleyici ? sayfalar.filter(s => !yonetimSayfasi(s)) : sayfalar;
   const kabuk = {
-    demo, app: null, auth: null, kullanici: null, oturum: null,
+    demo, app: null, auth: null, kullanici: null, oturum: null, izleyici: false,
     aralik: cfg.araliklar?.includes(hafiza.aralik) ? hafiza.aralik : cfg.aralik ?? (cfg.araliklar ? cfg.araliklar[1] ?? cfg.araliklar[0] : null),
     surum: hafiza.surum || "",
     sayfa: ilk, icerik: null,
@@ -70,7 +77,7 @@ export async function panelKabuk(cfg) {
   // ── DOM ────────────────────────────────────────────────────────────────
   const giris = el("div", "card hidden");
   giris.id = "login";
-  giris.innerHTML = `<h1></h1><p class="muted">Panele Google hesabınla gir. Yalnız yönetici e-postası açabilir.</p>
+  giris.innerHTML = `<h1></h1><p class="muted">Panele Google hesabınla gir. Yalnız yetkili hesaplar açabilir.</p>
     <p><button class="gbtn" id="gGiris">${G_IKON}<span>Google ile gir</span></button></p><div id="gisKutu"></div>
     <p class="muted" id="loginMsg"></p>`;
   giris.querySelector("h1").textContent = cfg.ad;
@@ -84,9 +91,12 @@ export async function panelKabuk(cfg) {
   yan.appendChild(marka);
   for (const g of cfg.gruplar) {
     if (!g.sayfalar?.length) continue;
-    yan.appendChild(el("div", "sec", g.baslik));
+    const sec = el("div", "sec", g.baslik);
+    if (g.baslik === "YÖNET") sec.dataset.yonet = "1";
+    yan.appendChild(sec);
     for (const s of g.sayfalar) {
       const a = el("a");
+      if (yonetimSayfasi(s)) a.dataset.yonet = "1";
       a.href = "#" + s.id;
       a.dataset.p = s.id;
       a.textContent = s.ad;
@@ -155,6 +165,7 @@ export async function panelKabuk(cfg) {
   const mesaj = m => { $("#loginMsg").textContent = m || ""; };
 
   async function icerde() {
+    yan.querySelectorAll("[data-yonet]").forEach(x => x.classList.toggle("hidden", kabuk.izleyici));
     goster(true);
     if (!yuklendi) { yuklendi = true; await yenile(); } else ciz();
   }
@@ -205,7 +216,8 @@ export async function panelKabuk(cfg) {
     surumleriDoldur();
     document.querySelectorAll(".drawer[data-cekmece]").forEach(x => x.remove());
     const id = location.hash.slice(1);
-    const s = sayfalar.find(x => x.id === id) || sayfalar.find(x => x.id === ilk);
+    const acik = gorunur();
+    const s = acik.find(x => x.id === id) || acik.find(x => x.id === ilk) || acik[0];
     /* Sayfa değişince açık çekmece kapanır (aynı sayfada yeniden çizimde kalır). */
     if (kabuk.sayfa !== s.id) document.querySelectorAll(".drawer[data-cekmece]").forEach(x => x.remove());
     kabuk.sayfa = s.id;
@@ -238,6 +250,7 @@ export async function panelKabuk(cfg) {
   }
 
   const yoneticiMi = (email, dogru) => !!email && email.toLowerCase() === String(cfg.yonetici).toLowerCase() && dogru === true;
+  const izleyiciMi = (email, dogru) => !!email && dogru === true && (cfg.izleyiciler || []).some(x => String(x).toLowerCase() === email.toLowerCase());
 
   if (cfg.firebaseConfig) {
     const [{ initializeApp, getApps }, A] = await Promise.all([import(`${FB}/firebase-app.js`), import(`${FB}/firebase-auth.js`)]);
@@ -247,15 +260,16 @@ export async function panelKabuk(cfg) {
       mesaj("");
       try {
         const p = new A.GoogleAuthProvider();
-        p.setCustomParameters({ prompt: "select_account", login_hint: cfg.yonetici || "" });
+        p.setCustomParameters({ prompt: "select_account", ...(cfg.izleyiciler?.length ? {} : { login_hint: cfg.yonetici || "" }) });
         await A.signInWithPopup(kabuk.auth, p);
       } catch (e) { if (e.code !== "auth/popup-closed-by-user") mesaj(e.message); }
     };
     await new Promise(hazir => {
       let ilkKez = true;
       A.onAuthStateChanged(kabuk.auth, async u => {
-        if (u && yoneticiMi(u.email, u.emailVerified)) {
+        if (u && (yoneticiMi(u.email, u.emailVerified) || izleyiciMi(u.email, u.emailVerified))) {
           try {
+            kabuk.izleyici = !yoneticiMi(u.email, u.emailVerified);
             if (cfg.girisDogrula) kabuk.oturum = await cfg.girisDogrula(await u.getIdToken());
             kabuk.kullanici = u;
             await icerde();
@@ -263,7 +277,7 @@ export async function panelKabuk(cfg) {
         } else {
           kabuk.kullanici = null;
           goster(false);
-          if (u) { mesaj("Bu panel yalnız yöneticiye açık."); await A.signOut(kabuk.auth); }
+          if (u) { mesaj("Bu hesabın bu panele erişimi yok."); await A.signOut(kabuk.auth); }
         }
         if (ilkKez) { ilkKez = false; hazir(); }
       });

@@ -41,7 +41,7 @@
 <script type="module">
 import { getFirestore, collection, getDocs, getDoc, query, orderBy, limit, doc, deleteDoc, addDoc, setDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { panelKabuk } from "/lab/assets/shell.js?v=3";
+import { panelKabuk } from "/lab/assets/shell.js?v=4";
 import { el, kart, tiles, veriTablo, dagilimTablo, sayi, sure, tarihTam, tarihHucre, yuzde, para, zaman, ms, istGun, istGunBasi,
          donem, farkYazi, surumListesi, surumSuz, surumNotlari, surumNotlariKutu, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
 import { gunlukCubuk, cizgi, huni, yatayCubuk, saatIsi, saatMatrisi, kivilcim, gunleriDoldur } from "/lab/assets/grafik.js?v=1";
@@ -50,6 +50,9 @@ import { dunyaHaritasi } from "/lab/assets/harita.js?v=1";
 
 const DEMO = new URLSearchParams(location.search).has("demo");
 const YONETICI = "aberkalparslan@gmail.com";
+/* Salt okunur: YÖNET menüsü gizli, yazmayı Firestore kuralları (isViewer) keser.
+   Buraya eklenen adres firebase/firestore.rules içinde de olmalı. */
+const IZLEYICILER = ["fatihsrhn@gmail.com"];
 /* Web API anahtarı. 13 Eki 2026: Google bu anahtarı askıya aldı, giriş açılmıyor.
    Yeni tarayıcı anahtarı açılınca (bamstudio.dev/* referrer, Identity Toolkit +
    Firestore) YALNIZ bu satır değişir. */
@@ -1695,6 +1698,7 @@ K = await panelKabuk({
   ikon: IKON,
   firebaseConfig,
   yonetici: YONETICI,
+  izleyiciler: IZLEYICILER,
   anahtar: "wallet-coach",
   araliklar: [1, 7, 28, 90, 0], aralik: 7,
   yukle,
