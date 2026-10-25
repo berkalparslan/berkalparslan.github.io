@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-24T04:38:46.876Z",
+ "uretim": "2026-10-25T04:10:19.416Z",
  "apps": {
   "leafbook": [
    {
@@ -672,6 +672,13 @@
    }
   ],
   "tennis-padel": [
+   {
+    "surum": "2.2",
+    "platform": "ios",
+    "tarih": "2026-10-23T23:50:43-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   },
    {
     "surum": "2.0.0",
     "platform": "android",
@@ -1346,6 +1353,13 @@
    }
   ],
   "pickleball": [
+   {
+    "surum": "2.2",
+    "platform": "ios",
+    "tarih": "2026-10-24T20:28:25-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": []
+   },
    {
     "surum": "2.0",
     "platform": "ios",
