@@ -1,7 +1,17 @@
 {
- "uretim": "2026-10-25T04:10:19.416Z",
+ "uretim": "2026-10-26T07:49:17.554Z",
  "apps": {
   "leafbook": [
+   {
+    "surum": "1.4",
+    "platform": "ios",
+    "tarih": "2026-10-24T22:57:40-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Yan çevirince bitkilerin solda kalıyor; bakım, topluluk ya da katalog sağda açılıyor. Kapalıyken her iPhone gibi çalışır.",
+     "Bir de birkaç küçük düzeltme var."
+    ]
+   },
    {
     "surum": "1.2.2",
     "platform": "android",
@@ -101,6 +111,16 @@
    }
   ],
   "walletcoach": [
+   {
+    "surum": "2.6",
+    "platform": "ios",
+    "tarih": "2026-10-24T22:36:23-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Açınca panel solda hep açık kalıyor, sağda Ay, Analiz ya da Cüzdan duruyor. Paneldeki bir kısayola dokununca sağ taraf ona geçiyor.",
+     "Bir de birkaç küçük iyileştirme var."
+    ]
+   },
    {
     "surum": "2.4.2",
     "platform": "android",
@@ -364,6 +384,16 @@
    }
   ],
   "tasbih-tally": [
+   {
+    "surum": "1.5",
+    "platform": "ios",
+    "tarih": "2026-10-24T23:11:50-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Yan çevirince tesbih solda kalıyor; namaz vakitleri, günün duası ya da rehber sağda açılıyor. Okurken saymaya devam edebilirsin.",
+     "Bir de birkaç küçük düzeltme var."
+    ]
+   },
    {
     "surum": "1.5.1",
     "platform": "android",
@@ -676,8 +706,12 @@
     "surum": "2.2",
     "platform": "ios",
     "tarih": "2026-10-23T23:50:43-07:00",
-    "durum": "hazırlanıyor",
-    "notlar": []
+    "durum": "yayında",
+    "notlar": [
+     "Made for iPhone Duo. Open it up and the scoreboard sits on one side with your stats on the other, or across the top when you turn it sideways. Fold it halfway on the bench and the top half becomes a scoreboard both players can read, with big buttons below for each point.",
+     "Posts without a photo now get their own tennis or padel court.",
+     "Plus a few small improvements."
+    ]
    },
    {
     "surum": "2.0.0",
@@ -947,6 +981,17 @@
   ],
   "o-mu-bu-mu": [
    {
+    "surum": "2.3",
+    "platform": "ios",
+    "tarih": "2026-10-24T22:23:43-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Açınca ikilemde, turnuvada ve kazanan kalırda iki seçenek yan yana, her biri kendi yarısında duruyor.",
+     "Oy verince çıkan \"çoğunluktasın\" cümlesi artık Türkçe.",
+     "Bir de birkaç küçük iyileştirme var."
+    ]
+   },
+   {
     "surum": "2.1",
     "platform": "android",
     "track": "production",
@@ -1126,6 +1171,16 @@
    }
   ],
   "daily-whisper": [
+   {
+    "surum": "2.2",
+    "platform": "ios",
+    "tarih": "2026-10-24T23:11:26-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Yan çevirince bugün sol sayfada kalıyor; hikayelerin, Vision Board ya da olumlamalar sağ sayfada açılıyor.",
+     "Bir de birkaç küçük düzeltme var."
+    ]
+   },
    {
     "surum": "2.1",
     "platform": "android",
@@ -1357,8 +1412,12 @@
     "surum": "2.2",
     "platform": "ios",
     "tarih": "2026-10-24T20:28:25-07:00",
-    "durum": "hazırlanıyor",
-    "notlar": []
+    "durum": "yayında",
+    "notlar": [
+     "为 iPhone Duo 打造。展开后，记分牌在一侧，你的数据在另一侧；横过来时比分显示在顶部。对折一半放在网边，上半部分向全场显示比分和报分，下半部分是每个回合都能点的大按钮。",
+     "没有照片的动态现在会配上带厨房区的专属匹克球场。",
+     "另外还有一些小改进。"
+    ]
    },
    {
     "surum": "2.0",
@@ -1404,6 +1463,17 @@
    }
   ],
   "volleyball": [
+   {
+    "surum": "2.2",
+    "platform": "ios",
+    "tarih": "2026-10-24T23:23:24-07:00",
+    "durum": "hazırlanıyor",
+    "notlar": [
+     "iPhone Duo için hazır. Açınca skor tabelası bir yanda, istatistiklerin öbür yanda duruyor; yan çevirince skor üste geçiyor. Yarıya katlayıp saha kenarına koyarsan üst yarı iki takımın da okuyabileceği bir tabela olur, her sayıyı alttaki büyük butonlarla girersin.",
+     "Fotoğrafsız paylaşımlar artık kendi voleybol sahasıyla geliyor, filesi ve antenleriyle.",
+     "Bir de birkaç küçük iyileştirme var."
+    ]
+   },
    {
     "surum": "2.0",
     "platform": "ios",
