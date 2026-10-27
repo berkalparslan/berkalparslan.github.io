@@ -1,5 +1,5 @@
 {
- "uretim": "2026-10-26T07:49:17.554Z",
+ "uretim": "2026-10-27T04:45:36.211Z",
  "apps": {
   "leafbook": [
    {
@@ -115,9 +115,9 @@
     "surum": "2.6",
     "platform": "ios",
     "tarih": "2026-10-24T22:36:23-07:00",
-    "durum": "hazırlanıyor",
+    "durum": "yayında",
     "notlar": [
-     "iPhone Duo için hazır. Açınca panel solda hep açık kalıyor, sağda Ay, Analiz ya da Cüzdan duruyor. Paneldeki bir kısayola dokununca sağ taraf ona geçiyor.",
+     "iPhone Duo için hazır. Açıp yan çevirince panel solda hep açık kalıyor, sağda Ay, Analiz ya da Cüzdan duruyor. Paneldeki bir kısayola dokununca sağ taraf ona geçiyor.",
      "Bir de birkaç küçük iyileştirme var."
     ]
    },
@@ -254,58 +254,6 @@
   ],
   "bosyeryok": [
    {
-    "surum": "1.0.4",
-    "platform": "android",
-    "track": "production",
-    "durum": "üretim",
-    "vc": [
-     6
-    ],
-    "notlar": [
-     "Patron sayfasındaki hata düzeltildi, teklif kodu bağlantısı eklendi. Oyunu daha iyi yapabilmek için anonim kullanım ölçümü ve çökme raporu eklendi."
-    ],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0.4",
-    "platform": "android",
-    "track": "beta",
-    "durum": "açık test",
-    "vc": [
-     6
-    ],
-    "notlar": [],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0.4",
-    "platform": "android",
-    "track": "alpha",
-    "durum": "kapalı test",
-    "vc": [
-     6
-    ],
-    "notlar": [],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0.4",
-    "platform": "android",
-    "track": "internal",
-    "durum": "iç test",
-    "vc": [
-     6
-    ],
-    "notlar": [
-     "Patron sayfasındaki hata düzeltildi, teklif kodu bağlantısı eklendi. Oyunu daha iyi yapabilmek için anonim kullanım ölçümü ve çökme raporu eklendi."
-    ],
-    "tarih": "2026-10-22",
-    "tarihKaynak": "ilk görülme"
-   },
-   {
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-08-31T01:57:56-07:00",
@@ -374,13 +322,6 @@
     ],
     "tarih": "2026-10-22",
     "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "1.0",
-    "platform": "ios",
-    "tarih": "2026-08-09T13:02:12-07:00",
-    "durum": "yayında",
-    "notlar": []
    }
   ],
   "tasbih-tally": [
@@ -984,7 +925,7 @@
     "surum": "2.3",
     "platform": "ios",
     "tarih": "2026-10-24T22:23:43-07:00",
-    "durum": "hazırlanıyor",
+    "durum": "incelemede",
     "notlar": [
      "iPhone Duo için hazır. Açınca ikilemde, turnuvada ve kazanan kalırda iki seçenek yan yana, her biri kendi yarısında duruyor.",
      "Oy verince çıkan \"çoğunluktasın\" cümlesi artık Türkçe.",
@@ -1414,9 +1355,9 @@
     "tarih": "2026-10-24T20:28:25-07:00",
     "durum": "yayında",
     "notlar": [
-     "为 iPhone Duo 打造。展开后，记分牌在一侧，你的数据在另一侧；横过来时比分显示在顶部。对折一半放在网边，上半部分向全场显示比分和报分，下半部分是每个回合都能点的大按钮。",
-     "没有照片的动态现在会配上带厨房区的专属匹克球场。",
-     "另外还有一些小改进。"
+     "iPhone Duo के लिए बनाया गया। खोलने पर स्कोरबोर्ड एक तरफ़ और आपके आँकड़े दूसरी तरफ़ रहते हैं, घुमाने पर स्कोर ऊपर आ जाता है। नेट के पास आधा मोड़कर रखें तो ऊपर का हिस्सा कोर्ट पर सबको स्कोर और कॉल दिखाता है, और नीचे हर रैली के लिए बड़े बटन होते हैं।",
+     "बिना फ़ोटो वाली पोस्ट को अब किचन समेत अपना पिकलबॉल कोर्ट मिलता है।",
+     "साथ में कुछ छोटे सुधार।"
     ]
    },
    {
@@ -1467,7 +1408,7 @@
     "surum": "2.2",
     "platform": "ios",
     "tarih": "2026-10-24T23:23:24-07:00",
-    "durum": "hazırlanıyor",
+    "durum": "yayında",
     "notlar": [
      "iPhone Duo için hazır. Açınca skor tabelası bir yanda, istatistiklerin öbür yanda duruyor; yan çevirince skor üste geçiyor. Yarıya katlayıp saha kenarına koyarsan üst yarı iki takımın da okuyabileceği bir tabela olur, her sayıyı alttaki büyük butonlarla girersin.",
      "Fotoğrafsız paylaşımlar artık kendi voleybol sahasıyla geliyor, filesi ve antenleriyle.",
