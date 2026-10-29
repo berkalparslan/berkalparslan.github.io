@@ -9,7 +9,9 @@
  * clientId/secret'ı + ~/.config/configstore/firebase-tools.json refresh token),
  * walletcoach.mjs ile aynı kalıp. Oturum yoksa atlanır.
  *
- * Yeni uygulama paneli kurulunca PROJELER'e bir satır eklenir.
+ * Yeni uygulama paneli kurulunca PROJELER'e bir satır eklenir. Anahtar
+ * "proje/koleksiyon" biçimindeyse kök `installs` yerine o koleksiyon okunur
+ * (ortak projede önekli koleksiyonu olan uygulamalar için, ör. BodyBook).
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -24,6 +26,8 @@ export const PROJELER = {
   "matchday-bamtech": "matchday",
   "kit-qr-bamtech": "kit-qr",
   "nubi-bamtech": "nubi",
+  /* BodyBook'un kendi projesi yok: ortak lab projesinde bb_ önekli koleksiyonlar. */
+  "leafbook-bamtech/bb_installs": "bodybook",
   /* Beş spor uygulaması tek projede; kurulumun `app` alanı slug'ı seçer. */
   "bam-tech-sports": { tennis: "tennis-padel", pickleball: "pickleball", volleyball: "volleyball", badminton: "rally-badminton", tabletennis: "rally-table-tennis" }
 };
@@ -43,10 +47,10 @@ export async function firebaseToken() {
 
 export const deger = f => f == null ? null : f.stringValue ?? f.timestampValue ?? f.booleanValue ?? (f.integerValue != null ? Number(f.integerValue) : null);
 
-async function kurulumlar(proje, token) {
+async function kurulumlar(proje, token, koleksiyon = "installs") {
   const l = []; let sayfa;
   do {
-    const u = new URL(`https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents/installs`);
+    const u = new URL(`https://firestore.googleapis.com/v1/projects/${proje}/databases/(default)/documents/${koleksiyon}`);
     u.searchParams.set("pageSize", "300");
     for (const a of ALANLAR) u.searchParams.append("mask.fieldPaths", a);
     if (sayfa) u.searchParams.set("pageToken", sayfa);
@@ -73,10 +77,11 @@ export async function telemetri(log = () => {}) {
     for (const [anahtar, slug] of Object.entries(h)) isler.push([proje, slug, anahtar]);
   }
   const onbellek = {};
-  for (const [proje, slug, anahtar] of isler) {
+  for (const [kaynak, slug, anahtar] of isler) {
+    const [proje, koleksiyon = "installs"] = kaynak.split("/");
     try {
-      onbellek[proje] ||= await kurulumlar(proje, token);
-      const hepsi = anahtar ? onbellek[proje].filter(k => k.app === anahtar) : onbellek[proje];
+      onbellek[kaynak] ||= await kurulumlar(proje, token, koleksiyon);
+      const hepsi = anahtar ? onbellek[kaynak].filter(k => k.app === anahtar) : onbellek[kaynak];
       const l = hepsi.filter(k => !k.tester);
       const yas = t => t ? (simdi - Date.parse(t)) / gun : Infinity;
       const o = {
@@ -101,7 +106,12 @@ export async function telemetri(log = () => {}) {
       }
       cikti.apps[slug] = o;
       log(`  telemetri ${slug} ✓ ${o.toplam} kurulum · 7g aktif ${o.aktif7} · canlı ${o.canli}`);
-    } catch (e) { cikti.hatalar.push({ proje, hata: e.message }); log(`  telemetri ${slug} ✗ ${e.message}`); }
+    } catch (e) {
+      /* bb_ koleksiyonlarının kuralları henüz yüklenmediyse 403 beklenen durum: hata kaydı düşer, diğerleri sürer. */
+      const kural = koleksiyon !== "installs" && /^403|PERMISSION_DENIED/.test(e.message);
+      cikti.hatalar.push({ proje: kaynak, hata: kural ? `${e.message} (Firestore kuralları yüklenmemiş olabilir)` : e.message });
+      log(`  telemetri ${slug} ✗ ${e.message}${kural ? " · bekleniyor: kurallar yüklenince açılır" : ""}`);
+    }
   }
   return cikti;
 }
