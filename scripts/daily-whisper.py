@@ -37,7 +37,7 @@ T["en"] = dict(
     h1="Hear your dream.",
     lede="Every morning, a short story written just for you: a scene from the life you want, with your name, your people and your city in it, read aloud in a warm voice.",
     store_small="Download on the", android="Get it on",
-    hero_note="iPhone · iPad · Apple Watch · Widgets",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widgets",
     how_kicker="How it works", how_h="Three quiet minutes a day",
     steps=[
         ("Tell it your dream", "A short, gentle chat: your name, the people you love, what you want to change and the life you imagine."),
@@ -88,7 +88,7 @@ T["tr"] = dict(
     h1="Hayalini dinle.",
     lede="Her sabah yalnızca senin için yazılmış kısa bir hikaye: istediğin hayattan bir sahne. İçinde adın, sevdiklerin ve şehrin var; sıcak bir ses onu sana okur.",
     store_small="Şimdi indir", android="Hemen indir",
-    hero_note="iPhone · iPad · Apple Watch · Widget",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widget",
     how_kicker="Nasıl çalışır", how_h="Günde üç sakin dakika",
     steps=[
         ("Hayalini anlat", "Kısa ve sıcak bir sohbet: adın, sevdiklerin, değiştirmek istediğin şey ve hayal ettiğin hayat."),
@@ -139,7 +139,7 @@ T["es"] = dict(
     h1="Escucha tu sueño.",
     lede="Cada mañana, una historia breve escrita solo para ti: una escena de la vida que quieres, con tu nombre, tu gente y tu ciudad, leída por una voz cálida.",
     store_small="Disponible en", android="Disponible en",
-    hero_note="iPhone · iPad · Apple Watch · Widgets",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widgets",
     how_kicker="Cómo funciona", how_h="Tres minutos tranquilos al día",
     steps=[
         ("Cuéntale tu sueño", "Una charla breve y amable: tu nombre, las personas que quieres, lo que deseas cambiar y la vida que imaginas."),
@@ -190,7 +190,7 @@ T["de"] = dict(
     h1="Hör deinen Traum.",
     lede="Jeden Morgen eine kurze Geschichte nur für dich: eine Szene aus dem Leben, das du dir wünschst, mit deinem Namen, deinen Menschen und deiner Stadt, vorgelesen von einer warmen Stimme.",
     store_small="Laden im", android="Jetzt bei",
-    hero_note="iPhone · iPad · Apple Watch · Widgets",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widgets",
     how_kicker="So funktioniert's", how_h="Drei ruhige Minuten am Tag",
     steps=[
         ("Erzähl von deinem Traum", "Ein kurzes, sanftes Gespräch: dein Name, die Menschen, die du liebst, was du ändern willst und das Leben, das du dir vorstellst."),
@@ -241,7 +241,7 @@ T["fr"] = dict(
     h1="Écoute ton rêve.",
     lede="Chaque matin, une courte histoire écrite rien que pour toi : une scène de la vie que tu veux, avec ton prénom, tes proches et ta ville, lue par une voix chaleureuse.",
     store_small="Disponible sur", android="Disponible sur",
-    hero_note="iPhone · iPad · Apple Watch · Widgets",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widgets",
     how_kicker="Comment ça marche", how_h="Trois minutes calmes par jour",
     steps=[
         ("Raconte ton rêve", "Une conversation courte et douce : ton prénom, les personnes que tu aimes, ce que tu veux changer et la vie que tu imagines."),
@@ -292,7 +292,7 @@ T["it"] = dict(
     h1="Ascolta il tuo sogno.",
     lede="Ogni mattina una breve storia scritta solo per te: una scena della vita che desideri, con il tuo nome, le tue persone e la tua città, letta da una voce calda.",
     store_small="Scarica su", android="Disponibile su",
-    hero_note="iPhone · iPad · Apple Watch · Widget",
+    hero_note="iPhone · iPad · Apple Watch · Android · Widget",
     how_kicker="Come funziona", how_h="Tre minuti tranquilli al giorno",
     steps=[
         ("Racconta il tuo sogno", "Una chiacchierata breve e gentile: il tuo nome, le persone che ami, cosa vuoi cambiare e la vita che immagini."),
