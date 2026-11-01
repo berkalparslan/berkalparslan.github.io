@@ -17,6 +17,7 @@ from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 D = pathlib.Path.home() / "dev"
+G = pathlib.Path.home() / "Desktop" / "Görseller"  # mağaza kampanya setleri
 
 SP = D / "sports-preview-campaign/delivery"
 SPORT_SHOTS = ["01-home", "02-live-scoring", "05-your-stats", "07-league-standings", "08-community"]
@@ -35,11 +36,17 @@ JOBS = [
     ("era-promo", D / "output/era-store-2026-10-15/preview/iPhone/{L}", "era/assets/promo", 500, 10),
     ("daily-whisper-promo", D / "designs/daily-whisper-store-2026-10-06/iPhone/{L}", "daily-whisper/assets/promo", 500, 8),
     ("konfeti-promo", D / "konfeti/store/appletv/{l}", "konfeti/assets/promo", 1040, 8),
+    # Yonca 2.0 (1 Kas 2026, Codex seti) ve BodyBook 1.3 (31 Eki 2026) mağaza posterleri
+    ("yonca-promo", G / "Yonca App Store/preview/2026-11-01/iPhone/{L}", "yonca/assets/promo/v2", 500, 6),
+    ("bodybook-promo", G / "BodyBook App Store/Mağaza {L}", "bodybook/assets/promo/v13", 500, 10),
     # Ana sayfa vitrini ve tanıtım bölümleri (ham ekranlar, telefon çerçevesine girer)
     ("leafbook-screen", D / "leafbook/store/screenshots/raw-1.2 2/{L}", "assets/home/screens/leafbook/v12", 390, 6),
     ("nika-screen", D / "nika-store-campaign/raw/iPhone/{L}", "nika/assets/screens", 390, 13),
     ("era-screen", D / "iz/docs/screenshots/{l}", "era/assets/screens", 390, 9),
     ("walletcoach-screen", D / "wallet-coach/store/screenshots-store/{l}", "assets/home/screens/walletcoach/v24", 390, 7),
+    # Yonca 2.0 ve BodyBook 1.3 ham ekranlar (6.9", masaüstü Görseller klasörü); dosya adları dile göre farklı, sıra aynı
+    ("yonca-screen", G / "Yonca App Store/iPhone {L}", "assets/home/screens/yonca/v2", 390, 10),
+    ("bodybook-screen", G / "BodyBook App Store/iPhone {L}", "assets/home/screens/bodybook/v13", 390, 18),
     # Daily Whisper 2.x Still: ham iPhone ekranları tanıtım sayfasında (daily-whisper/assets/v2/screens), vitrine beşi
     ("daily-whisper-screen", ROOT / "daily-whisper/assets/v2/screens/{l}", "assets/home/screens/daily-whisper/v2", 390, 5,
      ["01-today", "02-player", "06-affirmations", "07-vision-board", "04-zodiac"]),
@@ -58,7 +65,7 @@ def run(name, src, dst, width, limit, only=None):
         s = pathlib.Path(str(src).replace("{L}", lang.upper()).replace("{l}", lang))
         if not s.is_dir():
             print("YOK:", s); continue
-        files = sorted(p for p in s.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp"))
+        files = sorted(p for p in s.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp") and not p.name.startswith(("_", ".")))
         if only:  # isteğe bağlı 6. alan: yalnız bu adlar, bu sırayla
             files = [p for o in only for p in files if p.stem == o]
         files = files[:limit]

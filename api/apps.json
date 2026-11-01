@@ -19,11 +19,11 @@
   "icon": "/assets/home/nika-icon.webp",
   "color": "#e9ccff",
   "ios": null,
-  "play": null,
+  "play": "com.aberk.nika",
   "tour": "/nika/",
-  "status": "soon",
-  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. Android'de kapalı testte, iPhone sürümü yolda.",
-  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. In closed testing on Android, the iPhone version is on the way."
+  "status": "new",
+  "tr": "Düğünü ikiniz birlikte planlayın: işler, bütçe, davetliler, masa planı, takı defteri. Misafir uygulama indirmeden davetiyeye cevap verir, düğün günü QR'ı okutup fotoğraflarını albüme yükler. Android'de Google Play'de, iPhone sürümü yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating and a gift log. Guests reply to the invitation without installing anything and drop their photos into the album with a QR on the day. On Google Play for Android, the iPhone version is on the way."
  },
  {
   "slug": "tennis-padel",
@@ -54,15 +54,15 @@
  {
   "slug": "bodybook",
   "name": "BodyBook",
-  "sub": "Mole Tracker",
+  "sub": "Health Journal",
   "icon": "/assets/home/bodybook-icon.webp",
   "color": "#fb4903",
   "ios": "6799754171",
   "play": "com.aberk.bodybook",
   "tour": "/bodybook/",
   "status": "new",
-  "tr": "Benlerini aynı açıdan fotoğrafla, ABCDE listesiyle 3 ila 6 ayda bir karşılaştır. Cilt rutini ve ilaç hatırlatıcısı da içinde. Hepsi telefonunda kalır. Artık iPhone'da da var.",
-  "en": "Photograph your moles from the same angle and compare them every 3 to 6 months with the ABCDE checklist. Skincare routine and pill reminders are in there too. Everything stays on your phone. Now on iPhone as well."
+  "tr": "Sağlık defteri: ben fotoğrafları, ilaç saatleri, tansiyon, kilo, su, uyku ve rutinler tek yerde; doktora tek PDF ile git. 1.3 ile Apple Sağlık, widget'lar ve tahlil arşivi geldi. Hepsi telefonunda kalır.",
+  "en": "A health journal: mole photos, pill times, blood pressure, weight, water, sleep and routines in one place; walk into the doctor's visit with a single PDF. 1.3 adds Apple Health, widgets and a document archive. Everything stays on your phone."
  },
  {
   "slug": "daily-whisper",
@@ -171,15 +171,15 @@
  {
   "slug": "yonca",
   "name": "Yonca",
-  "sub": "Çekiliş",
+  "sub": "Çekiliş, Çark, Tombala",
   "icon": "/assets/home/yonca-icon.webp",
   "color": "#55db9c",
   "ios": "6802312123",
   "play": null,
   "tour": "/yonca/",
-  "status": "live",
-  "tr": "Kendi çekilişini yap ya da katıldıklarını takip et. İsimleri yapıştır, kazananı çek, kartı paylaş; sonuç günü de hatırlatır.",
-  "en": "Run your own giveaway or track the ones you entered. Paste the names, draw the winners, share the card; it reminds you on result day too."
+  "status": "new",
+  "tr": "Yılbaşı masası için tek uygulama: tombala torbası ve kartları, hediye eşleşmesi, çark, çekiliş. Odayı aç, herkes kendi telefonundan izlesin. Katıldığın çekilişleri de unutturmaz. 2.0 ile 15 dil; Android sürümü yolda.",
+  "en": "One app for the New Year's table: tombala bag and cards, Secret Santa matching, a wheel and a name draw. Open a room and everyone follows on their own phone. It still tracks the giveaways you enter. 2.0 adds 15 languages; Android is on the way."
  },
  {
   "slug": "matchday",
@@ -188,11 +188,11 @@
   "icon": "/matchday/assets/icon-512.png",
   "color": "#c8f560",
   "ios": null,
-  "play": null,
+  "play": "com.aberk.matchday",
   "tour": "/matchday/",
-  "status": "soon",
-  "tr": "Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar.",
-  "en": "The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously."
+  "status": "new",
+  "tr": "Haftalık halısaha düzeni: maçı kur, davet et, kadroyu yaz, skoru gir. Maçtan sonra herkes birbirini anonim puanlar. Android'de Google Play'de, iPhone sürümü yolda.",
+  "en": "The weekly five-a-side, organised: set up the match, invite, pick the lineup, log the score. Afterwards everyone rates each other anonymously. On Google Play for Android, the iPhone version is on the way."
  },
  {
   "slug": "pickleball",

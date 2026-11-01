@@ -6,16 +6,16 @@
   "en": "Matchday: Five a side"
  },
  "description": {
-  "tr": "Halısaha maçını tek yerde topla: kim geliyor, takımlar sahada, kadroyu WhatsApp'a at, maçtan sonra gizli puanlama. iPhone ve Android beta.",
-  "en": "Your weekly five-a-side in one place: who is coming, teams on the pitch, the lineup in the group chat and secret ratings after the match. iPhone and Android beta."
+  "tr": "Halısaha maçını tek yerde topla: kim geliyor, takımlar sahada, kadroyu WhatsApp'a at, maçtan sonra gizli puanlama. Android'de Google Play'de, iPhone sürümü yolda.",
+  "en": "Your weekly five-a-side in one place: who is coming, teams on the pitch, the lineup in the group chat and secret ratings after the match. On Google Play for Android, the iPhone version is on the way."
  },
  "icon": "/matchday/assets/icon-512.png",
  "color": "#c8f560",
  "accent": "#fb4903",
- "status": "soon",
+ "status": "new",
  "kicker": {
-  "tr": "iPhone · Android · Beta",
-  "en": "iPhone · Android · Beta"
+  "tr": "Android Google Play'de · iPhone yolda",
+  "en": "Android on Google Play · iPhone on the way"
  },
  "lede": {
   "tr": "Halısaha maçının bütün derdi tek uygulamada: kim geliyor, kim hangi takımda, kim kaç attı. Maçı kur, ekibi davet et, takımları sahaya diz, kadroyu WhatsApp grubuna at.",
@@ -40,17 +40,16 @@
   }
  ],
  "platforms": [
-  "ios",
   "android"
  ],
  "buttons": [
   {
    "label": {
-    "tr": "Beta'ya katıl",
-    "en": "Join the beta"
+    "tr": "iPhone betasına katıl",
+    "en": "Join the iPhone beta"
    },
    "href": "#katil",
-   "dark": true
+   "dark": false
   }
  ],
  "emoji": [
@@ -306,7 +305,7 @@
    }
   }
  ],
- "extra_html": "\n  <section class=\"band band-sun\" id=\"katil\">\n    <div class=\"wrap\">\n      <h2 class=\"disp big\"><span class=\"tr\">Beta'ya katıl</span><span class=\"en\">Join the beta</span></h2>\n      <p class=\"band-p\"><span class=\"tr\">Şu an deneme sürümünde. Maça davet edildiysen ya da ekibini taşımak istiyorsan, telefonuna göre aşağıdan yükle.</span><span class=\"en\">In beta right now. Invited to a match, or want to bring your group over? Install it below for your phone.</span></p>\n      <div class=\"plans\">\n        <div class=\"plan\" id=\"ios\" style=\"--c:#dceeff;--r:-1deg\">\n          <h3>iPhone</h3>\n          <p class=\"price\">TestFlight</p>\n          <ul class=\"tr\"><li>App Store'dan TestFlight'ı indir.</li><li>Aşağıdaki bağlantıyla Matchday'i yükle.</li></ul>\n          <ul class=\"en\"><li>Get TestFlight from the App Store.</li><li>Install Matchday with the link below.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill\" href=\"https://apps.apple.com/app/testflight/id899247664\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">TestFlight'ı indir</span><span class=\"en\">Get TestFlight</span></a>\n            <a class=\"pill dark\" id=\"iosLink\" href=\"https://testflight.apple.com/join/EkCzWQEM\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Matchday'i yükle</span><span class=\"en\">Install Matchday</span></a>\n          </p>\n        </div>\n        <div class=\"plan\" id=\"android\" style=\"--c:#c8f560;--r:1deg\">\n          <h3>Android</h3>\n          <p class=\"price\"><span class=\"tr\">Play testi</span><span class=\"en\">Play test</span></p>\n          <ul class=\"tr\"><li>Organizatöre Gmail adresini ver, test listesine eklesin.</li><li>Aşağıdaki bağlantıda \"Test kullanıcısı ol\" de, sonra Play'den yükle.</li></ul>\n          <ul class=\"en\"><li>Give the organiser your Gmail address so they add you to the test list.</li><li>Open the link below, tap \"Become a tester\", then install from Play.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill dark\" id=\"androidLink\" href=\"https://play.google.com/apps/testing/com.aberk.matchday\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Teste katıl ve yükle</span><span class=\"en\">Join the test and install</span></a>\n          </p>\n          <p style=\"font-size:13px;margin-top:12px\"><span class=\"tr\">Listeye eklenmeden bu bağlantı \"bulunamadı\" der; bu normal, test bitince herkese açılacak.</span><span class=\"en\">Until you are on the list this link says \"not found\". That is expected; it opens to everyone after the test.</span></p>\n        </div>\n      </div>\n      <p class=\"band-p\" style=\"margin-top:32px\"><span class=\"tr\">Sonra kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta \"Bu benim\" dersin.</span><span class=\"en\">Then sign up. If the organiser added you as a player, they link you to your account, or you tap \"This is me\" in the match.</span></p>\n      <p class=\"row-btns\"><a class=\"pill\" href=\"/matchday/delete/\"><span class=\"tr\">Hesap silme</span><span class=\"en\">Delete account</span> →</a></p>\n    </div>\n  </section>\n",
+ "extra_html": "\n  <section class=\"band band-sun\" id=\"katil\">\n    <div class=\"wrap\">\n      <h2 class=\"disp big\"><span class=\"tr\">Beta'ya katıl</span><span class=\"en\">Join the beta</span></h2>\n      <p class=\"band-p\"><span class=\"tr\">Android sürümü Google Play'de, iPhone sürümü şimdilik TestFlight'ta. Telefonuna göre aşağıdan yükle.</span><span class=\"en\">Android is on Google Play, the iPhone version is on TestFlight for now. Install it below for your phone.</span></p>\n      <div class=\"plans\">\n        <div class=\"plan\" id=\"ios\" style=\"--c:#dceeff;--r:-1deg\">\n          <h3>iPhone</h3>\n          <p class=\"price\">TestFlight</p>\n          <ul class=\"tr\"><li>App Store'dan TestFlight'ı indir.</li><li>Aşağıdaki bağlantıyla Matchday'i yükle.</li></ul>\n          <ul class=\"en\"><li>Get TestFlight from the App Store.</li><li>Install Matchday with the link below.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill\" href=\"https://apps.apple.com/app/testflight/id899247664\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">TestFlight'ı indir</span><span class=\"en\">Get TestFlight</span></a>\n            <a class=\"pill dark\" id=\"iosLink\" href=\"https://testflight.apple.com/join/EkCzWQEM\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Matchday'i yükle</span><span class=\"en\">Install Matchday</span></a>\n          </p>\n        </div>\n        <div class=\"plan\" id=\"android\" style=\"--c:#c8f560;--r:1deg\">\n          <h3>Android</h3>\n          <p class=\"price\"><span class=\"tr\">Google Play'de</span><span class=\"en\">On Google Play</span></p>\n          <ul class=\"tr\"><li>Test bitti, uygulama herkese açık.</li><li>Play'den yükle, organizatörün davet bağlantısıyla maça gir.</li></ul>\n          <ul class=\"en\"><li>The test is over, the app is open to everyone.</li><li>Install from Play and join the match with the organiser's invite link.</li></ul>\n          <p class=\"row-btns\" style=\"margin-top:18px\">\n            <a class=\"pill dark\" id=\"androidLink\" href=\"https://play.google.com/store/apps/details?id=com.aberk.matchday\" target=\"_blank\" rel=\"noopener\"><span class=\"tr\">Google Play'den yükle</span><span class=\"en\">Get it on Google Play</span></a>\n          </p>\n        </div>\n      </div>\n      <p class=\"band-p\" style=\"margin-top:32px\"><span class=\"tr\">Sonra kaydol. Organizatör seni oyuncu olarak eklediyse hesabınla eşleştirir ya da maçta \"Bu benim\" dersin.</span><span class=\"en\">Then sign up. If the organiser added you as a player, they link you to your account, or you tap \"This is me\" in the match.</span></p>\n      <p class=\"row-btns\"><a class=\"pill\" href=\"/matchday/delete/\"><span class=\"tr\">Hesap silme</span><span class=\"en\">Delete account</span> →</a></p>\n    </div>\n  </section>\n",
  "extra_script": "\n// Önce ziyaretçinin kendi platformu; masaüstü ikisini de görür.\n(function () {\n  var ua = navigator.userAgent || \"\";\n  var ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);\n  if (ios) document.getElementById(\"android\").style.display = \"none\";\n  if (android) document.getElementById(\"ios\").style.display = \"none\";\n})();\n// Links come from the admin panel (Firestore config/app), so a new\n// TestFlight or Play link needs no new page.\nfetch(\"https://firestore.googleapis.com/v1/projects/matchday-bamtech/databases/(default)/documents/config/app?key=AIzaSyDWl7gAoXzKTTK5su2J56W1-_rTJ6shr_E\")\n  .then(function (r) { return r.ok ? r.json() : null; })\n  .then(function (d) {\n    var f = d && d.fields;\n    if (!f) return;\n    if (f.iosURL && f.iosURL.stringValue) document.getElementById(\"iosLink\").href = f.iosURL.stringValue;\n    if (f.androidURL && f.androidURL.stringValue) document.getElementById(\"androidLink\").href = f.androidURL.stringValue;\n  })\n  .catch(function () {});\n",
  "privacy": {
   "title": {
@@ -321,5 +320,9 @@
  },
  "support": "/support/",
  "seo_title": "Matchday: Five-a-side Football Organiser · Halısaha Uygulaması",
- "category": "SportsApplication"
+ "category": "SportsApplication",
+ "soon_platforms": [
+  "ios"
+ ],
+ "play": "com.aberk.matchday"
 }

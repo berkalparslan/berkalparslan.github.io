@@ -2,315 +2,355 @@
  "slug": "yonca",
  "name": "Yonca",
  "title": {
-  "tr": "Yonca: Çekiliş Takip",
-  "en": "Yonca: Giveaway Tracker"
+  "tr": "Yonca: Çekiliş, Çark, Tombala",
+  "en": "Yonca: Raffle, Wheel & Tombala"
  },
  "description": {
-  "tr": "Katıldığın çekilişleri takip eder, sonuç gününü ve saklaman gerekenleri hatırlatır. Her şey telefonunda kalır.",
-  "en": "Tracks the giveaways you enter and reminds you of the draw date and what you need to keep. Everything stays on your phone."
+  "tr": "Yılbaşı masası için tek uygulama: tombala torbası ve kartları, hediye eşleşmesi, çark, çekiliş. Odayı aç, herkes kendi telefonundan izlesin. Katıldığın çekilişleri de unutturmaz.",
+  "en": "One app for the New Year's table: tombala bag and cards, Secret Santa matching, a wheel and a name draw. Open a room and everyone follows on their own phone. It also keeps track of the giveaways you enter."
  },
  "icon": "/assets/home/yonca-icon.webp",
  "color": "#ffd731",
  "accent": "#55db9c",
  "status": "live",
  "kicker": {
-  "tr": "iPhone · App Store'da",
-  "en": "iPhone · On the App Store"
+  "tr": "iPhone · 2.0 App Store'da · Android yolda",
+  "en": "iPhone · 2.0 on the App Store · Android on the way"
  },
  "lede": {
-  "tr": "Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki kodu gönderirsin, sonra unutursun. Yonca hem sonuç gününü hem de saklaman gerekenleri hatırlar.",
-  "en": "You comment on an Instagram post, keep receipts for a supermarket promotion, send in the code under a bottle cap, and then you forget. Yonca remembers both the draw date and the things you have to hold on to."
+  "tr": "Yılbaşı masası, ofis çekilişi, Instagram yorumları, kahveyi kim alacak sorusu. Yonca'da hepsi için bir araç var. Torbadan sayı çekersin, telefon Türkçe okur; herkesin kartı kendi telefonunda. Çarkı çevirirsin, isimleri eşleştirirsin, kazananı çekersin. Katıldığın çekilişleri de eskisi gibi takip eder.",
+  "en": "The New Year's table, the office raffle, Instagram comments, who buys the coffee. Yonca has a tool for each one. Call numbers from the bag and the phone reads them out; everyone's card lives on their own phone. Spin the wheel, match the gifts, draw the winner. And it still tracks the giveaways you enter."
  },
  "pills": [
-  {
-   "tr": "Sunucu yok",
-   "en": "No server"
-  },
   {
    "tr": "Hesap yok",
    "en": "No account"
   },
   {
-   "tr": "İzleme yok",
-   "en": "No tracking"
+   "tr": "Oda: tarayıcıdan da katıl",
+   "en": "Rooms: join from a browser"
   },
   {
-   "tr": "Kendi çekilişini yap",
-   "en": "Run your own draw"
+   "tr": "15 dil",
+   "en": "15 languages"
+  },
+  {
+   "tr": "iPhone Duo'da iki bölme",
+   "en": "Two panes on iPhone Duo"
+  },
+  {
+   "tr": "Para yok, ödül yok",
+   "en": "No money, no prizes"
   }
  ],
  "platforms": [
   "ios"
  ],
+ "soon_platforms": [
+  "android"
+ ],
  "ios": "6802312123",
  "emoji": [
   "🍀",
   "🎁",
+  "🎯",
+  "🎲",
   "🏆",
-  "🧾",
-  "🍦",
   "🔔",
   "🎉"
  ],
  "promo": {
-  "any": [
-   "/assets/home/yonca-shot-1.webp",
-   "/assets/home/yonca-shot-2.webp",
-   "/assets/home/yonca-shot-3.webp"
+  "tr": [
+   "/yonca/assets/promo/v2/tr/01-together.webp",
+   "/yonca/assets/promo/v2/tr/02-tombala.webp",
+   "/yonca/assets/promo/v2/tr/03-wheel.webp",
+   "/yonca/assets/promo/v2/tr/04-gifts.webp",
+   "/yonca/assets/promo/v2/tr/05-draw.webp",
+   "/yonca/assets/promo/v2/tr/06-track.webp"
+  ],
+  "en": [
+   "/yonca/assets/promo/v2/en/01-together.webp",
+   "/yonca/assets/promo/v2/en/02-tombala.webp",
+   "/yonca/assets/promo/v2/en/03-wheel.webp",
+   "/yonca/assets/promo/v2/en/04-gifts.webp",
+   "/yonca/assets/promo/v2/en/05-draw.webp",
+   "/yonca/assets/promo/v2/en/06-track.webp"
   ]
  },
  "sections": [
   {
-   "id": "liste",
+   "id": "oyna",
    "kicker": {
-    "tr": "Ana ekran",
-    "en": "Home screen"
+    "tr": "Oyna",
+    "en": "Play"
    },
    "title": {
-    "tr": "Önce acil olan",
-    "en": "Urgent first"
+    "tr": "Masadaki her iş için bir araç",
+    "en": "A tool for every job at the table"
    },
    "text": {
-    "tr": "Liste tarihe göre değil, ne kadar acil olduğuna göre sıralanır. Sonucunu henüz işaretlemediklerin en üste çıkar; çünkü unutulan asıl şey onlardır.",
-    "en": "The list sorts by how urgent things are, not by date. The ones whose result you still have not marked rise to the top, because those are the ones that get forgotten."
+    "tr": "Açılış ekranı altı kart: Çekiliş yap, Çark, Tombala, Hediye eşleşmesi, Takım kur, bir de yazı tura, zar ve sayı. Aralık başından 7 Ocak'a kadar üstte yılbaşı kartı ve geri sayım var.",
+    "en": "The opening screen is six cards: Draw, Wheel, Tombala, Gift exchange, Teams, plus coin, dice and number. From early December to 7 January a New Year card with a countdown sits on top."
    },
    "bullets": [
     {
-     "tr": "Sonucu işaretlenmemiş, Bugün ve Bu hafta, geri sayım rozetiyle",
-     "en": "Result not marked, Today and This week, with a countdown badge"
+     "tr": "Takım kur: listeyi rastgele takımlara böler",
+     "en": "Teams: splits a list into random sides"
     },
     {
-     "tr": "Henüz katılmadıkların ayrı grupta",
-     "en": "Not entered yet, in its own group"
+     "tr": "Yazı tura, zar ve aralıktan sayı: kısa kararlar için",
+     "en": "Coin, dice and a number from a range, for quick calls"
     },
     {
-     "tr": "Her kartta katılım hakkın, olasılığın ve eksik adımın",
-     "en": "Every card shows your entries, odds and steps left"
+     "tr": "Son yapılanlar aşağıda durur, kaldığın yerden devam edersin",
+     "en": "Recent games wait below so you pick up where you left off"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/assets/home/screens/yonca/any/01.webp",
-     "/yonca/assets/screens/liste.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/01-oyna.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/01-play.webp"
     ]
    }
   },
   {
-   "id": "saklama",
+   "id": "tombala",
    "kicker": {
-    "tr": "Saklama",
-    "en": "Keeping proof"
+    "tr": "Tombala",
+    "en": "Tombala"
    },
    "title": {
-    "tr": "Çubuğu atma, sakla",
-    "en": "Keep the stick"
+    "tr": "Torba sende, kartlar herkeste",
+    "en": "You hold the bag, everyone holds a card"
    },
    "text": {
-    "tr": "Asıl kaybettiren şey tarih değil: Magnum çubuğunu, kapağı, market fişini, ürün kodunu saklaman gerekiyor. İbraz edemezsen ödülü alamazsın.",
-    "en": "The date is not what loses it for you: you have to keep the ice-cream stick, the cap, the receipt, the product code. If you cannot produce it, you do not get the prize."
+    "tr": "1'den 90'a torba. Sayı çek, telefon Türkçe okusun: \"otuz üç, yaş otuz üç\". Oyuncu başına kart üret, kartları fotoğraf olarak gönder ya da odaya al. Çekilen sayılar kartlarda kendiliğinden işaretlenir; birinci çinko, ikinci çinko ve tombala anında duyurulur.",
+    "en": "A bag from 1 to 90. Call a number and the phone reads it out loud. Make a card for every player, send the cards as pictures or put them in a room. Called numbers are marked on the cards by themselves; first line, second line and full house are announced the moment they happen."
    },
    "bullets": [
     {
-     "tr": "Saklaman gerekenler ayrı liste, tek tek işaretlenir",
-     "en": "What you need to keep is its own checklist"
+     "tr": "Tablo, son çekilenler, geri alma",
+     "en": "Board of all 90, recent calls, undo"
     },
     {
-     "tr": "Nereye koyduğunu da yazarsın: \"mutfak çekmecesi\"",
-     "en": "You also note where you put it: \"kitchen drawer\""
+     "tr": "Torba başkasındaysa çekilen sayıya tablodan dokun",
+     "en": "If someone else holds the bag, tap the called number on the board"
     },
     {
-     "tr": "Eksikler \"Eksik kalanlar\" kartında toplanır",
-     "en": "Anything missing collects in a \"Still missing\" card"
+     "tr": "Ücretsizde 6 kart; daha fazlası Pro",
+     "en": "6 cards free; more with Pro"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/assets/home/screens/yonca/any/02.webp",
-     "/yonca/assets/screens/magnum.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/02-tombala-torba.webp",
+     "/assets/home/screens/yonca/v2/tr/03-tombala-kartlar.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/02-tombala-bag.webp",
+     "/assets/home/screens/yonca/v2/en/03-tombala-cards.webp"
     ]
    }
   },
   {
-   "id": "hatirlatma",
+   "id": "oda",
    "kicker": {
-    "tr": "Hatırlatma",
-    "en": "Reminders"
+    "tr": "Ortak oda",
+    "en": "Rooms"
    },
    "title": {
-    "tr": "Dört an, dört hatırlatma",
-    "en": "Four moments, four reminders"
+    "tr": "Odayı aç, kodu söyle",
+    "en": "Open a room, say the code"
    },
    "text": {
-    "tr": "Saklama, son katılım, çekiliş günü ve sonuç kontrolü. Bildirimi kaydırıp Kazandım ya da Kazanamadım diyebilirsin, uygulamayı açmadan.",
-    "en": "Keep it, last chance, draw day and check the result. Swipe the notification and say Won or Didn't win without opening the app."
+    "tr": "Tombala, çark, çekiliş, takım ya da hediye eşleşmesinde \"Odayı aç\" dersin. Herkes kodu girer ya da QR'ı okutur ve oyunu kendi telefonundan izler. Uygulaması olmayan tarayıcıdan katılır: yonca.bamstudio.dev/r/KOD.",
+    "en": "In tombala, the wheel, a draw, teams or a gift exchange you tap \"Open a room\". Everyone types the code or scans the QR and follows the game on their own phone. People without the app join from a browser at yonca.bamstudio.dev/r/CODE."
    },
    "bullets": [
     {
-     "tr": "Detay ekranı kurulacak bildirimleri metniyle önceden gösterir",
-     "en": "The detail screen shows upcoming notifications, wording included"
+     "tr": "Ev sahibi oynatır, misafirler canlı görür",
+     "en": "The host runs it, guests watch live"
     },
     {
-     "tr": "Dört tür için ayrı anahtar, saati sen seçersin",
-     "en": "A switch for each type, and you pick the hour"
+     "tr": "Hediye eşleşmesinde herkes kendi kişisini kendi telefonunda açar",
+     "en": "In a gift exchange everyone reveals their match on their own phone"
     },
     {
-     "tr": "Tüm verileri tek dokunuşla kalıcı olarak sil",
-     "en": "Erase all your data permanently in one tap"
+     "tr": "Oda 24 saat kullanılmazsa silinir, hesap gerekmez",
+     "en": "A room is deleted after 24 idle hours, no account needed"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/yonca/assets/screens/hatirlatmalar.png",
-     "/assets/home/screens/yonca/any/04.webp"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/07-oda.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/07-room.webp"
     ]
    }
   },
   {
-   "id": "ekle",
+   "id": "cark",
    "kicker": {
-    "tr": "Çekiliş ekleme",
-    "en": "Adding a giveaway"
+    "tr": "Çark",
+    "en": "Wheel"
    },
    "title": {
-    "tr": "Yöntemi seç, gerisi hazır",
-    "en": "Pick a method, done"
+    "tr": "Kararı çarka bırak",
+    "en": "Leave it to the wheel"
    },
    "text": {
-    "tr": "Sosyal medya, ürün kodu, fiş ya da kapak, siteye kayıt, mağaza içi katılım. Yöntemi seçtiğinde form kendini ona göre kurar.",
-    "en": "Social media, product code, receipt or cap, website sign-up, in-store entry. Choose the method and the form rebuilds itself around it."
+    "tr": "İsimleri ya da seçenekleri yaz, çevir. Çıkanı çarktan düşürüp sıra çekebilirsin. Evet/Hayır, görev çarkı, kahveyi kim alır: hazır listeler var. Sonucu çark dönmeye başlamadan cihazın güvenli rastgele üreteci seçer, ok tam o dilimde durur.",
+    "en": "Type names or options and spin. Drop the winner from the wheel to draw an order. Yes/No, dare wheel, who pays: ready-made lists included. The result is picked by your phone's secure random generator before the wheel starts turning, and the pointer lands on exactly that slice."
    },
    "bullets": [
     {
-     "tr": "Adımlar ve saklanacaklar şablondan gelir",
-     "en": "Steps and things to keep come from a template"
+     "tr": "Dilim dilim titreşim",
+     "en": "A haptic tick on every slice"
     },
     {
-     "tr": "Ekran görüntüsünden tarih, şart ve kazanan sayısı okunur",
-     "en": "A screenshot fills in dates, conditions and winner count"
-    },
-    {
-     "tr": "Okuma tamamen cihazında, görüntü hiçbir yere gitmez",
-     "en": "Reading happens on device; the image is never uploaded"
+     "tr": "Çıkanı paylaş ya da tekrar çevir",
+     "en": "Share the result or spin again"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/yonca/assets/screens/ekle.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/04-cark.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/04-wheel.webp"
     ]
    }
   },
   {
-   "id": "haklar",
+   "id": "hediye",
    "kicker": {
-    "tr": "Katılım hakkı",
-    "en": "Entries"
+    "tr": "Hediye eşleşmesi",
+    "en": "Gift exchange"
    },
    "title": {
-    "tr": "Her kod bir hak",
-    "en": "Every code is an entry"
+    "tr": "Kim kime hediye alacak?",
+    "en": "Who buys for whom?"
    },
    "text": {
-    "tr": "Kapak altı kampanyalarında bir kez katılmıyorsun. Her ürün yeni bir hak demek ve kazanma olasılığın buna göre değişiyor.",
-    "en": "In under-the-cap promotions you do not enter once. Every product is another entry, and your odds move with it."
+    "tr": "İsimleri yaz, çiftleri birbirine düşmesin diye işaretle, bütçeyi koy. Telefonu sırayla herkese ver: her biri kendi adına dokunup basılı tutar, kişisini görür, bırakınca kaybolur. İstersen herkese ayrı mesaj gönderirsin; düzenleyen bile listeyi görmek zorunda değil.",
+    "en": "Write the names, mark couples who shouldn't get each other, set a budget. Pass the phone around: each person taps their own name, holds to reveal, and it disappears when they let go. Or send everyone their own message; even the organizer doesn't have to see the list."
    },
    "bullets": [
     {
-     "tr": "Gönderdiğin her kod tarihiyle kaydedilir",
-     "en": "Every code you send is logged with its date"
+     "tr": "Tek döngü: herkes alır, herkes verir",
+     "en": "One loop: everyone gives, everyone gets"
     },
     {
-     "tr": "Olasılık hak sayısıyla çarpılarak hesaplanır",
-     "en": "The odds are multiplied by your entries"
+     "tr": "Ücretsizde 6 kişi; kalabalık aile Pro",
+     "en": "6 people free; the big family needs Pro"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/yonca/assets/screens/haklar.png",
-     "/yonca/assets/screens/market-detay.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/05-hediye.webp",
+     "/assets/home/screens/yonca/v2/tr/06-hediye-goster.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/05-gift.webp",
+     "/assets/home/screens/yonca/v2/en/06-gift-reveal.webp"
     ]
    }
   },
   {
-   "id": "sonuc",
+   "id": "cekilis",
    "kicker": {
-    "tr": "Sonuç",
-    "en": "The result"
+    "tr": "Çekiliş yap",
+    "en": "Draw"
    },
    "title": {
-    "tr": "Üç düğme, bitti",
-    "en": "Three buttons, done"
+    "tr": "Kazanan belli, paylaşmaya hazır",
+    "en": "Winner picked, ready to share"
    },
    "text": {
-    "tr": "Kazandım, Kazanamadım ya da Açıklanmadı. Üçüncü seçenek bilerek var: bazı çekilişler sonucu hiç açıklamaz ve bu da bir veri.",
-    "en": "Won, Didn't win or Never announced. The third option is there on purpose: some giveaways never announce a result, and that is information too."
+    "tr": "İsimleri olduğu gibi yapıştır: Instagram yorumları, WhatsApp listesi, Excel sütunu. Kaç kazanan, kaç yedek istediğini seç ve çek. Aynı isim iki kez yazılmışsa tek sayılır. Sonuç paylaşmaya hazır bir kartla gelir, istersen düz metin olarak da kopyalarsın.",
+    "en": "Paste the names as they are: Instagram comments, a chat list, a spreadsheet column. Pick how many winners and backups, then draw. A name typed twice counts once. The result comes as a card ready to share, or as plain text if you prefer."
    },
    "bullets": [
     {
-     "tr": "Kazandığında konfeti ve titreşim",
-     "en": "Confetti and a haptic when you win"
+     "tr": "Sonuç önceden bilinmez, sonradan değiştirilemez",
+     "en": "Nobody knows the result in advance and it can't be changed after"
     },
     {
-     "tr": "İşaretlediğin an bekleyen bildirimler iptal edilir",
-     "en": "Marking it cancels that giveaway's pending notifications"
+     "tr": "Geçmiş çekilişler listede durur",
+     "en": "Past draws stay in the list"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/yonca/assets/screens/sonuc.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/08-cekilis-sonuc.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/08-draw-result.webp"
     ]
    }
   },
   {
-   "id": "sansin",
+   "id": "takip",
    "kicker": {
-    "tr": "İstatistik",
-    "en": "Statistics"
+    "tr": "Takip",
+    "en": "Track"
    },
    "title": {
-    "tr": "Şansın ne kadar?",
-    "en": "How lucky are you?"
+    "tr": "Katıldın, unutup gitme",
+    "en": "You entered, don't forget"
    },
    "text": {
-    "tr": "Kaç çekilişe katıldığını ve kaçını kazandığını zaman içinde görürsün. Takip disiplini de burada: uygulamanın sana kızdığı yer.",
-    "en": "How many you entered and how many you won, over time. Follow-through lives here too: the place where the app tells you off."
+    "tr": "Instagram'da yorum yaparsın, market kampanyası için fiş biriktirirsin, kapak altındaki kodu gönderirsin, sonra unutursun. Takip sekmesi sonuç gününü ve saklaman gerekenleri hatırlatır: çubuk, kapak, fiş, kod. Sonucu işaretlenmemişler en üste çıkar.",
+    "en": "You comment on a post, keep receipts for a supermarket promotion, send in the code under a cap, and then you forget. The Track tab reminds you of the draw date and what you have to keep: the stick, the cap, the receipt, the code. Anything whose result you haven't marked rises to the top."
    },
    "bullets": [
     {
-     "tr": "Kazanma oranın ve kazandığın ödüllerin toplam değeri",
-     "en": "Your win rate and the total value of what you won"
+     "tr": "Ekran görüntüsünden tarih, şart ve kazanan sayısı okunur, cihazında",
+     "en": "A screenshot fills in dates, conditions and winner count, on device"
     },
     {
-     "tr": "Risk altındaki çekilişler: saklaman gerekeni koymadıkların",
-     "en": "Giveaways at risk: proof you never put away"
+     "tr": "Dört hatırlatma: saklama, son katılım, çekiliş günü, sonuç",
+     "en": "Four reminders: keep it, last chance, draw day, result"
+    },
+    {
+     "tr": "Şansın: kaç çekilişe katıldın, kaçını kazandın",
+     "en": "Your luck: how many you entered, how many you won"
     }
    ],
    "device": "phone",
    "images": {
-    "any": [
-     "/assets/home/screens/yonca/any/03.webp",
-     "/yonca/assets/screens/risk.png"
+    "tr": [
+     "/assets/home/screens/yonca/v2/tr/09-takip.webp",
+     "/assets/home/screens/yonca/v2/tr/09b-takip-detay.webp"
+    ],
+    "en": [
+     "/assets/home/screens/yonca/v2/en/09-track.webp",
+     "/assets/home/screens/yonca/v2/en/09b-track-detail.webp"
     ]
    }
   }
  ],
  "privacy": {
   "title": {
-   "tr": "Hiçbir şey dışarı çıkmaz",
-   "en": "Nothing leaves your device"
+   "tr": "Kayıtların telefonunda kalır",
+   "en": "Your records stay on your phone"
   },
   "text": {
-   "tr": "Yonca'nın sunucusu yok. Hesap açman gerekmez, uygulama internete hiçbir istek göndermez. Reklam, analitik ve üçüncü taraf SDK yok. Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır.",
-   "en": "Yonca has no server. You never make an account, and the app sends no requests to the internet. No ads, no analytics, no third-party SDKs. Text is read out of a screenshot on your device, using Apple's Vision framework."
+   "tr": "Hesap yok, reklam yok, analitik yok. Çekilişlerin, kartların ve listelerin iPhone'unda durur. Tek istisna ortak oda: oda açtığın oyunun bilgileri yonca.bamstudio.dev üzerinde tutulur ve oda 24 saat kullanılmayınca silinir. Ekran görüntüsünden metin okuma Apple'ın Vision teknolojisiyle cihazında yapılır, görüntü hiçbir yere gitmez.",
+   "en": "No account, no ads, no analytics. Your draws, cards and lists stay on your iPhone. The one exception is a shared room: the game you open a room for is kept on yonca.bamstudio.dev and deleted after 24 idle hours. Text is read out of a screenshot on your device with Apple's Vision framework; the image never leaves the phone."
   },
   "href": "/yonca/privacy/"
  },
  "support": "/support/",
- "seo_title": "Yonca: Çekiliş Yap ve Takip Et · Giveaway Picker for iPhone",
- "category": "UtilitiesApplication"
+ "seo_title": "Yonca: Raffle, Wheel, Tombala & Secret Santa for iPhone · Çekiliş, Çark, Tombala",
+ "category": "EntertainmentApplication"
 }

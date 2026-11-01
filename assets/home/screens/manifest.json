@@ -152,12 +152,19 @@
  },
  "bodybook": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/bodybook/any/01.webp",
-   "/assets/home/screens/bodybook/any/02.webp",
-   "/assets/home/screens/bodybook/any/03.webp",
-   "/assets/home/screens/bodybook/any/04.webp",
-   "/assets/home/screens/bodybook/any/05.webp"
+  "tr": [
+   "/assets/home/screens/bodybook/v13/tr/01-bugun.webp",
+   "/assets/home/screens/bodybook/v13/tr/05-ben-detay-karsilastirma.webp",
+   "/assets/home/screens/bodybook/v13/tr/13-ilac.webp",
+   "/assets/home/screens/bodybook/v13/tr/12-tansiyon.webp",
+   "/assets/home/screens/bodybook/v13/tr/09-rutinlerim.webp"
+  ],
+  "en": [
+   "/assets/home/screens/bodybook/v13/en/01-today.webp",
+   "/assets/home/screens/bodybook/v13/en/05-mole-compare.webp",
+   "/assets/home/screens/bodybook/v13/en/13-medication.webp",
+   "/assets/home/screens/bodybook/v13/en/12-blood-pressure.webp",
+   "/assets/home/screens/bodybook/v13/en/09-routines.webp"
   ]
  },
  "bosyeryok": {
@@ -177,11 +184,19 @@
  },
  "yonca": {
   "kind": "screen",
-  "any": [
-   "/assets/home/screens/yonca/any/01.webp",
-   "/assets/home/screens/yonca/any/02.webp",
-   "/assets/home/screens/yonca/any/03.webp",
-   "/assets/home/screens/yonca/any/04.webp"
+  "tr": [
+   "/assets/home/screens/yonca/v2/tr/01-oyna.webp",
+   "/assets/home/screens/yonca/v2/tr/03-tombala-kartlar.webp",
+   "/assets/home/screens/yonca/v2/tr/04-cark.webp",
+   "/assets/home/screens/yonca/v2/tr/05-hediye.webp",
+   "/assets/home/screens/yonca/v2/tr/09-takip.webp"
+  ],
+  "en": [
+   "/assets/home/screens/yonca/v2/en/01-play.webp",
+   "/assets/home/screens/yonca/v2/en/03-tombala-cards.webp",
+   "/assets/home/screens/yonca/v2/en/04-wheel.webp",
+   "/assets/home/screens/yonca/v2/en/05-gift.webp",
+   "/assets/home/screens/yonca/v2/en/09-track.webp"
   ]
  },
  "tennis-padel": {

@@ -7,17 +7,17 @@
  },
  "seo_title": "Nika: Wedding Planner App for Couples · Düğün Planlayıcı",
  "description": {
-  "tr": "Düğünü ikiniz birlikte planlayın: yapılacaklar, bütçe, davetliler, masa planı, davetiye, takı defteri ve misafir fotoğrafları tek yerde. Android'de kapalı testte, iPhone sürümü yolda.",
-  "en": "Plan the wedding together: tasks, budget, guests, seating, invitations, a gift log and guest photos in one place. In closed testing on Android, the iPhone version is on the way."
+  "tr": "Düğünü ikiniz birlikte planlayın: yapılacaklar, bütçe, davetliler, masa planı, davetiye, takı defteri ve misafir fotoğrafları tek yerde. Android'de Google Play'de, iPhone sürümü yolda.",
+  "en": "Plan the wedding together: tasks, budget, guests, seating, invitations, a gift log and guest photos in one place. On Google Play for Android, the iPhone version is on the way."
  },
  "icon": "/assets/home/nika-icon.webp",
  "color": "#e9ccff",
  "accent": "#5c4ade",
- "status": "soon",
+ "status": "new",
  "category": "LifestyleApplication",
  "kicker": {
-  "tr": "Düğün planlayıcı · iPhone ve Android yakında",
-  "en": "Wedding planner · iPhone and Android soon"
+  "tr": "Düğün planlayıcı · Android Google Play'de · iPhone yolda",
+  "en": "Wedding planner · Android on Google Play · iPhone on the way"
  },
  "lede": {
   "tr": "Bin küçük iş, tek güzel gün. Nika'da ikiniz aynı alanda çalışırsınız: işler, ödemeler, davetliler ve masalar. Misafirler de uygulama indirmeden davetiyeye cevap verir, düğün günü fotoğraflarını QR ile albüme bırakır.",
@@ -41,19 +41,20 @@
    "en": "18 languages"
   }
  ],
- "platforms": [],
- "soon_platforms": [
-  "ios",
+ "platforms": [
   "android"
+ ],
+ "soon_platforms": [
+  "ios"
  ],
  "buttons": [
   {
    "label": {
-    "tr": "Çıkınca haber ver",
-    "en": "Tell me when it's out"
+    "tr": "iPhone çıkınca haber ver",
+    "en": "Tell me when iPhone is out"
    },
    "href": "/#haberdar",
-   "dark": true
+   "dark": false
   }
  ],
  "emoji": [
@@ -236,5 +237,6 @@
    "en": "Your wedding space belongs to you and the partner or helpers you invite. Guest photos don't reach the album until you approve them. Details are in the privacy policy."
   },
   "href": "/privacy/nika/"
- }
+ },
+ "play": "com.aberk.nika"
 }
