@@ -20,6 +20,7 @@ DW = "https://dailywhisper.bamstudio.dev"  # asıl adres; api/worker.js kökü /
 BASE = "/daily-whisper/"
 A = BASE + "assets/v2/"
 IOS = "https://apps.apple.com/app/id6757824195"
+PLAY = "https://play.google.com/store/apps/details?id=com.aberk.dailywhisper"
 LANGS = ["en", "tr", "es", "de", "fr", "it"]
 NAMES = {"en": "English", "tr": "Türkçe", "es": "Español", "de": "Deutsch", "fr": "Français", "it": "Italiano"}
 SHOTS = {"en": "en", "tr": "tr"}  # diğer dillerde İngilizce ekranlar
@@ -35,7 +36,7 @@ T["en"] = dict(
     kicker="Manifest stories, made for you",
     h1="Hear your dream.",
     lede="Every morning, a short story written just for you: a scene from the life you want, with your name, your people and your city in it, read aloud in a warm voice.",
-    store_small="Download on the", android="Android coming soon",
+    store_small="Download on the", android="Get it on",
     hero_note="iPhone · iPad · Apple Watch · Widgets",
     how_kicker="How it works", how_h="Three quiet minutes a day",
     steps=[
@@ -71,7 +72,7 @@ T["en"] = dict(
         ("Is Daily Whisper free?", "You can try two stories for free. A story every morning and the full experience come with Premium, which starts with a 7 day free trial."),
         ("Which languages does it speak?", "The app is in English, Turkish, Spanish, German, French and Italian, and stories are written natively in 24 languages."),
         ("Do I need an account?", "No. You can start right away. An optional account keeps your stories safe across devices."),
-        ("Is it on Android?", "Daily Whisper is on iPhone, iPad and Apple Watch today. The Android version is coming soon."),
+        ("Is it on Android?", "Yes. Daily Whisper is on Google Play, and on iPhone, iPad and Apple Watch."),
         ("What happens to my answers?", "They are used only to write your stories. The privacy policy has all the details."),
     ],
     end_h="Return to your dream every day.", end_p="Download Daily Whisper and hear your first story today.",
@@ -86,7 +87,7 @@ T["tr"] = dict(
     kicker="Sana özel manifest hikayeleri",
     h1="Hayalini dinle.",
     lede="Her sabah yalnızca senin için yazılmış kısa bir hikaye: istediğin hayattan bir sahne. İçinde adın, sevdiklerin ve şehrin var; sıcak bir ses onu sana okur.",
-    store_small="Şimdi indir", android="Android yakında",
+    store_small="Şimdi indir", android="Hemen indir",
     hero_note="iPhone · iPad · Apple Watch · Widget",
     how_kicker="Nasıl çalışır", how_h="Günde üç sakin dakika",
     steps=[
@@ -122,7 +123,7 @@ T["tr"] = dict(
         ("Daily Whisper ücretsiz mi?", "İki hikayeyi ücretsiz deneyebilirsin. Her sabah hikaye ve tam deneyim Premium ile gelir; Premium 7 günlük ücretsiz denemeyle başlar."),
         ("Hangi dilleri konuşuyor?", "Uygulama Türkçe, İngilizce, İspanyolca, Almanca, Fransızca ve İtalyanca; hikayeler 24 dilde doğrudan o dilde yazılır."),
         ("Hesap açmam gerekiyor mu?", "Hayır, hemen başlayabilirsin. İstersen açacağın hesap hikayelerini cihazlar arasında korur."),
-        ("Android'de var mı?", "Daily Whisper bugün iPhone, iPad ve Apple Watch'ta. Android sürümü yakında geliyor."),
+        ("Android'de var mı?", "Evet. Daily Whisper Google Play'de var; iPhone, iPad ve Apple Watch'ta da."),
         ("Cevaplarıma ne oluyor?", "Yalnızca hikayelerini yazmak için kullanılır. Ayrıntılar gizlilik politikasında."),
     ],
     end_h="Her gün hayaline dön.", end_p="Daily Whisper'ı indir, ilk hikayeni bugün dinle.",
@@ -137,7 +138,7 @@ T["es"] = dict(
     kicker="Historias de manifestación, hechas para ti",
     h1="Escucha tu sueño.",
     lede="Cada mañana, una historia breve escrita solo para ti: una escena de la vida que quieres, con tu nombre, tu gente y tu ciudad, leída por una voz cálida.",
-    store_small="Disponible en", android="Android muy pronto",
+    store_small="Disponible en", android="Disponible en",
     hero_note="iPhone · iPad · Apple Watch · Widgets",
     how_kicker="Cómo funciona", how_h="Tres minutos tranquilos al día",
     steps=[
@@ -173,7 +174,7 @@ T["es"] = dict(
         ("¿Daily Whisper es gratis?", "Puedes probar dos historias gratis. La historia de cada mañana y la experiencia completa llegan con Premium, que empieza con 7 días de prueba gratis."),
         ("¿Qué idiomas habla?", "La app está en español, inglés, turco, alemán, francés e italiano, y las historias se escriben de forma nativa en 24 idiomas."),
         ("¿Necesito una cuenta?", "No. Puedes empezar ya mismo. Una cuenta opcional guarda tus historias entre dispositivos."),
-        ("¿Está en Android?", "Daily Whisper ya está en iPhone, iPad y Apple Watch. La versión para Android llega muy pronto."),
+        ("¿Está en Android?", "Sí. Daily Whisper está en Google Play, y también en iPhone, iPad y Apple Watch."),
         ("¿Qué pasa con mis respuestas?", "Solo se usan para escribir tus historias. La política de privacidad tiene todos los detalles."),
     ],
     end_h="Vuelve a tu sueño cada día.", end_p="Descarga Daily Whisper y escucha tu primera historia hoy.",
@@ -188,7 +189,7 @@ T["de"] = dict(
     kicker="Manifestations-Geschichten, nur für dich",
     h1="Hör deinen Traum.",
     lede="Jeden Morgen eine kurze Geschichte nur für dich: eine Szene aus dem Leben, das du dir wünschst, mit deinem Namen, deinen Menschen und deiner Stadt, vorgelesen von einer warmen Stimme.",
-    store_small="Laden im", android="Android folgt bald",
+    store_small="Laden im", android="Jetzt bei",
     hero_note="iPhone · iPad · Apple Watch · Widgets",
     how_kicker="So funktioniert's", how_h="Drei ruhige Minuten am Tag",
     steps=[
@@ -224,7 +225,7 @@ T["de"] = dict(
         ("Ist Daily Whisper kostenlos?", "Du kannst zwei Geschichten gratis ausprobieren. Die Geschichte jeden Morgen und alles Weitere gibt es mit Premium, das mit einer 7 tägigen Gratis-Testphase beginnt."),
         ("Welche Sprachen spricht die App?", "Die App gibt es auf Deutsch, Englisch, Türkisch, Spanisch, Französisch und Italienisch; Geschichten werden nativ in 24 Sprachen geschrieben."),
         ("Brauche ich ein Konto?", "Nein. Du kannst sofort loslegen. Ein optionales Konto sichert deine Geschichten über Geräte hinweg."),
-        ("Gibt es die App für Android?", "Daily Whisper gibt es schon für iPhone, iPad und Apple Watch. Die Android-Version folgt bald."),
+        ("Gibt es die App für Android?", "Ja. Daily Whisper gibt es bei Google Play, außerdem für iPhone, iPad und Apple Watch."),
         ("Was passiert mit meinen Antworten?", "Sie werden nur genutzt, um deine Geschichten zu schreiben. Alle Details stehen in der Datenschutzerklärung."),
     ],
     end_h="Kehr jeden Tag zu deinem Traum zurück.", end_p="Lade Daily Whisper und hör deine erste Geschichte noch heute.",
@@ -239,7 +240,7 @@ T["fr"] = dict(
     kicker="Des histoires de manifestation, faites pour toi",
     h1="Écoute ton rêve.",
     lede="Chaque matin, une courte histoire écrite rien que pour toi : une scène de la vie que tu veux, avec ton prénom, tes proches et ta ville, lue par une voix chaleureuse.",
-    store_small="Disponible sur", android="Bientôt sur Android",
+    store_small="Disponible sur", android="Disponible sur",
     hero_note="iPhone · iPad · Apple Watch · Widgets",
     how_kicker="Comment ça marche", how_h="Trois minutes calmes par jour",
     steps=[
@@ -275,7 +276,7 @@ T["fr"] = dict(
         ("Daily Whisper est-il gratuit ?", "Tu peux essayer deux histoires gratuitement. L'histoire de chaque matin et l'expérience complète viennent avec Premium, qui commence par 7 jours d'essai gratuit."),
         ("Quelles langues parle-t-il ?", "L'app est en français, anglais, turc, espagnol, allemand et italien, et les histoires sont écrites nativement dans 24 langues."),
         ("Faut-il un compte ?", "Non. Tu peux commencer tout de suite. Un compte facultatif garde tes histoires sur tous tes appareils."),
-        ("Est-il disponible sur Android ?", "Daily Whisper est déjà sur iPhone, iPad et Apple Watch. La version Android arrive bientôt."),
+        ("Est-il disponible sur Android ?", "Oui. Daily Whisper est sur Google Play, et aussi sur iPhone, iPad et Apple Watch."),
         ("Que deviennent mes réponses ?", "Elles servent uniquement à écrire tes histoires. Tous les détails sont dans la politique de confidentialité."),
     ],
     end_h="Reviens à ton rêve chaque jour.", end_p="Télécharge Daily Whisper et écoute ta première histoire dès aujourd'hui.",
@@ -290,7 +291,7 @@ T["it"] = dict(
     kicker="Storie di manifestazione, fatte per te",
     h1="Ascolta il tuo sogno.",
     lede="Ogni mattina una breve storia scritta solo per te: una scena della vita che desideri, con il tuo nome, le tue persone e la tua città, letta da una voce calda.",
-    store_small="Scarica su", android="Presto su Android",
+    store_small="Scarica su", android="Disponibile su",
     hero_note="iPhone · iPad · Apple Watch · Widget",
     how_kicker="Come funziona", how_h="Tre minuti tranquilli al giorno",
     steps=[
@@ -326,7 +327,7 @@ T["it"] = dict(
         ("Daily Whisper è gratis?", "Puoi provare due storie gratis. La storia di ogni mattina e l'esperienza completa arrivano con Premium, che inizia con 7 giorni di prova gratuita."),
         ("Quali lingue parla?", "L'app è in italiano, inglese, turco, spagnolo, tedesco e francese, e le storie sono scritte in modo nativo in 24 lingue."),
         ("Serve un account?", "No. Puoi iniziare subito. Un account facoltativo conserva le tue storie su tutti i dispositivi."),
-        ("È disponibile su Android?", "Daily Whisper è già su iPhone, iPad e Apple Watch. La versione Android arriva presto."),
+        ("È disponibile su Android?", "Sì. Daily Whisper è su Google Play, e anche su iPhone, iPad e Apple Watch."),
         ("Cosa succede alle mie risposte?", "Servono solo a scrivere le tue storie. Tutti i dettagli sono nell'informativa sulla privacy."),
     ],
     end_h="Torna al tuo sogno ogni giorno.", end_p="Scarica Daily Whisper e ascolta la tua prima storia oggi.",
@@ -344,6 +345,7 @@ ROWS = [
 CARDS = ["06-affirmations", "07-vision-board", "10-gratitude", "watch", "13-share", "lang"]
 ROW_IDS = ["today", "listen", "manifest", "stars"]
 
+GPLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.18 23.76c.3.17.64.22.99.14l11.24-6.51-2.5-2.5-9.73 8.87zM.5 1.1C.18 1.47 0 2.01 0 2.7v18.6c0 .69.18 1.23.5 1.6l.08.08 10.43-10.43v-.24L.58 1.02.5 1.1zm18.1 11.27-2.6-1.5-2.77 2.77 2.77 2.77 2.61-1.51c.75-.43.75-1.1-.01-1.53zM4.17.24L15.4 6.75l-2.5 2.5L3.18.38A1.2 1.2 0 014.17.24z"/></svg>'
 APPLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>'
 MOON = '<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M20.5 4.5a11.5 11.5 0 1 0 7 19.6A10 10 0 0 1 20.5 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M24 7.5v3M22.5 9h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
 CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -375,6 +377,12 @@ def store_btn(t, ev, cls=""):
     return (f'<a class="btn {cls}" href="{IOS}" target="_blank" rel="noopener" data-umami-event="app-store" '
             f'data-umami-event-app="daily-whisper" data-umami-event-where="{ev}">{APPLE}'
             f'<span><small>{escape(t["store_small"])}</small>App Store</span></a>')
+
+
+def play_btn(t, ev, cls=""):
+    return (f'<a class="btn {cls}" href="{PLAY}" target="_blank" rel="noopener" data-umami-event="google-play" '
+            f'data-umami-event-app="daily-whisper" data-umami-event-where="{ev}">{GPLAY}'
+            f'<span><small>{escape(t["android"])}</small>Google Play</span></a>')
 
 
 def render(lang):
@@ -486,7 +494,7 @@ if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/"+n+"/"+location.
         <p class="kick">{e(t["kicker"])}</p>
         <h1>{e(t["h1"])}</h1>
         <p class="lede">{e(t["lede"])}</p>
-        <div class="ctas" id="hero-cta">{store_btn(t, "hero")}<span class="soon">{e(t["android"])}</span></div>
+        <div class="ctas" id="hero-cta">{store_btn(t, "hero")}{play_btn(t, "hero")}</div>
         <p class="note">{e(t["hero_note"])}</p>
       </div>
       <div class="hero-art" style="--ph:url('{A}photos/sea.webp')">
@@ -541,7 +549,7 @@ if(["tr","es","de","fr","it"].indexOf(n)>-1)location.replace("/"+n+"/"+location.
         {MOON}
         <h2>{e(t["end_h"])}</h2>
         <p class="p">{e(t["end_p"])}</p>
-        <div class="ctas">{store_btn(t, "end", "light")}<span class="soon light">{e(t["android"])}</span></div>
+        <div class="ctas">{store_btn(t, "end", "light")}{play_btn(t, "end", "light")}</div>
       </div>
     </div>
   </section>

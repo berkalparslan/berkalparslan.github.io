@@ -71,7 +71,7 @@
   "icon": "/assets/home/daily-whisper-icon.webp",
   "color": "#e9ccff",
   "ios": "6757824195",
-  "play": null,
+  "play": "com.aberk.dailywhisper",
   "tour": "/daily-whisper/",
   "status": "new",
   "tr": "Her sabah sana yazılmış kısa bir hikaye. Hayalini kurduğun hayattan bir sahne, içinde senin adın; sakin bir ses okuyor, sen gözünü kapatıp dinliyorsun. 2.0 ile baştan tasarlandı.",
