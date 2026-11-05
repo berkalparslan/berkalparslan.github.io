@@ -1,5 +1,5 @@
 {
- "uretim": "2026-11-02T07:10:46.126Z",
+ "uretim": "2026-11-05T06:02:59.258Z",
  "apps": {
   "leafbook": [
    {
@@ -380,7 +380,7 @@
     "surum": "1.3",
     "platform": "ios",
     "tarih": "2026-10-30T12:22:37-07:00",
-    "durum": "incelemede",
+    "durum": "yayında",
     "notlar": [
      "Duża aktualizacja. Każdy moduł ma swój kolor, a cała aplikacja jest odświeżona od góry do dołu.",
      "Aparat do znamion: ostatnie zdjęcie widać w wizjerze jako półprzezroczyste, a suwakiem ustawiasz, jak mocno. Lampa błyskowa, zoom 1x/2x/3x, siatka i teraz też przedni aparat. Po każdym zdjęciu, a także przy zdjęciach z galerii, możesz je przyciąć i nałożyć na poprzednie przed zapisaniem. Każde zdjęcie otwiera się na pełnym ekranie z własną kontrolą ABCDE.",
@@ -751,31 +751,45 @@
   ],
   "tennis-padel": [
    {
-    "surum": "2.0.1 (1207)",
+    "surum": "2.0.1 (1209)",
     "platform": "wear",
     "track": "wear:internal",
     "durum": "wear:internal",
     "vc": [
-     1207
+     1209
     ],
     "notlar": [
-     "Ongoing activity chip during matches even without heart rate access. Scrollbar on every scrolling screen."
+     "Skor tahtası yuvarlak saat ekranlarına daha iyi oturuyor."
     ],
-    "tarih": "2026-11-02",
+    "tarih": "2026-11-05",
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "2.0.1 (1207)",
+    "surum": "2.0.1 (1209)",
     "platform": "wear",
     "track": "wear:production",
     "durum": "saat üretim",
     "vc": [
-     1207
+     1209
     ],
     "notlar": [
-     "The match chip now shows on the watch face during every match. Scrolling screens show a scrollbar."
+     "Skor tahtası yuvarlak saat ekranlarına daha iyi oturuyor."
     ],
-    "tarih": "2026-11-02",
+    "tarih": "2026-11-05",
+    "tarihKaynak": "ilk görülme"
+   },
+   {
+    "surum": "2.0.1 (1209)",
+    "platform": "wear",
+    "track": "wear:wear",
+    "durum": "wear:wear",
+    "vc": [
+     1209
+    ],
+    "notlar": [
+     "Skor tahtası yuvarlak saat ekranlarına daha iyi oturuyor."
+    ],
+    "tarih": "2026-11-05",
     "tarihKaynak": "ilk görülme"
    },
    {
@@ -1008,20 +1022,6 @@
     ],
     "notlar": [
      "Tennis & Padel 2.0: uygulama artık ücretsiz, ilk maçlar senden. Arkadaşlarını takip et, lig kur, iki telefonla aynı maçı say, saatten skor tut. Daha önce satın aldıysan Pro ömür boyu senin."
-    ],
-    "tarih": null,
-    "tarihKaynak": "ilk görülme"
-   },
-   {
-    "surum": "2.0.0",
-    "platform": "wear",
-    "track": "wear:wear",
-    "durum": "wear:wear",
-    "vc": [
-     203
-    ],
-    "notlar": [
-     "2.0: new engine and full phone sync."
     ],
     "tarih": null,
     "tarihKaynak": "ilk görülme"
@@ -1490,9 +1490,9 @@
     "tarih": "2026-10-24T20:28:25-07:00",
     "durum": "yayında",
     "notlar": [
-     "iPhone Duo के लिए बनाया गया। खोलने पर स्कोरबोर्ड एक तरफ़ और आपके आँकड़े दूसरी तरफ़ रहते हैं, घुमाने पर स्कोर ऊपर आ जाता है। नेट के पास आधा मोड़कर रखें तो ऊपर का हिस्सा कोर्ट पर सबको स्कोर और कॉल दिखाता है, और नीचे हर रैली के लिए बड़े बटन होते हैं।",
-     "बिना फ़ोटो वाली पोस्ट को अब किचन समेत अपना पिकलबॉल कोर्ट मिलता है।",
-     "साथ में कुछ छोटे सुधार।"
+     "为 iPhone Duo 打造。展开后，记分牌在一侧，你的数据在另一侧；横过来时比分显示在顶部。对折一半放在网边，上半部分向全场显示比分和报分，下半部分是每个回合都能点的大按钮。",
+     "没有照片的动态现在会配上带厨房区的专属匹克球场。",
+     "另外还有一些小改进。"
     ]
    },
    {
@@ -1748,10 +1748,10 @@
     "tarihKaynak": "ilk görülme"
    },
    {
-    "surum": "1.0",
+    "surum": "1.1",
     "platform": "ios",
     "tarih": "2026-10-05T04:05:52-07:00",
-    "durum": "reddedildi",
+    "durum": "incelemede",
     "notlar": []
    },
    {
@@ -1774,7 +1774,7 @@
     "surum": "1.0",
     "platform": "ios",
     "tarih": "2026-10-12T15:25:54-07:00",
-    "durum": "incelemede",
+    "durum": "yayında",
     "notlar": []
    }
   ]
