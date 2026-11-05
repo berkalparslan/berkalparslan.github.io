@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="64x64" href="https://bamstudio.dev/assets/lab-icons/pagestudio-64.png">
+<link rel="apple-touch-icon" href="https://bamstudio.dev/assets/lab-icons/pagestudio-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Page Studio Panel</title>
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("bamtech-panel-tema"); } catch (e) { }
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
+<link rel="stylesheet" href="/lab/assets/panel.css?v=6">
+<style>
+/* Yalniz bu panele ait kucuk parcalar. */
+.not{font-size:13px;color:var(--soft);line-height:1.5;margin:0}
+.baglar{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.bag{display:block;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none}
+.bag:hover{border-color:var(--accent)}
+.bag b{display:block;font-size:15px;margin-bottom:4px}
+.bag span{font-size:13px;color:var(--soft)}
+.akis{list-style:none;margin:0;padding:0;font-size:13px}
+.akis li{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.akis li span{color:var(--soft)}
+.akis li.tik b{color:var(--accent)}
+</style>
+</head>
+<body>
+<script type="module">
+import { panelKabuk } from "/lab/assets/shell.js?v=3";
+import { el, kart, tiles, veriTablo, dagilimTablo, sayi, sure, yuzde, ms, donem, istGun, tarihTam, tarihHucre, kullaniciCekmecesi } from "/lab/assets/panel.js?v=6";
+import { gunlukCubuk, yatayCubuk, huni, saatIsi, saatMatrisi, gunleriDoldur } from "/lab/assets/grafik.js?v=1";
+import { dunyaHaritasi } from "/lab/assets/harita.js?v=1";
+
+/* Page Studio sitesi (pagestudio.co) Cloudflare Worker + D1. Site cerezsiz kayit tutar:
+   her sayfa acilisi bir "ziyaret" satiri (sure, kaydirma, kaynak, ulke, cihaz), sayfadaki
+   tiklamalar ayri satir. Ziyaretci kimligi gunluk karma; ayni kisi ertesi gun yeni sayilir.
+   Giris ortak lab Firebase projesiyle (Google); asil kapi Worker'daki /api/panel/*. */
+const firebaseConfig = {
+  apiKey: "AIzaSyADKB3iVGvc8DnXRtUAOHKhBQZ6yU77GX8",
+  authDomain: "leafbook-bamtech.firebaseapp.com",
+  projectId: "leafbook-bamtech",
+  appId: "1:615635545520:web:99c8f154f221367f5e3a75",
+  messagingSenderId: "615635545520",
+};
+const YONETICI = "aberkalparslan@gmail.com";
+const SITE = "https://pagestudio.co";
+const API = SITE;
+
+/* Site renkleri: beyaz, siyah, kul gri; vurgu sitenin mavi cizgisi. */
+const TEMA = {
+  acik: { accent: "#2b50ff", onAccent: "#ffffff", bg: "#f7f7f5", card: "#ffffff", side: "#efefec", line: "#e5e7eb", ink: "#0e0e0e", soft: "#737373" },
+  koyu: { accent: "#7d93ff", onAccent: "#0e0e0e", bg: "#0e0e0e", card: "#181818", side: "#141414", line: "#2a2a2a", ink: "#f7f7f5", soft: "#a3a3a3" },
+};
+
+const OTURUM_ARASI = 30 * 60e3;
+const TIK = { project: "İş kartı", filter: "Süzgeç", more: "Tüm işler", contact: "E-posta", social: "Sosyal medya", external: "Dış bağlantı", nav: "Menü", map: "Harita" };
+const BOLUM = { isler: "İşler", hizmetler: "Hizmetler", referanslar: "Referanslar", biz: "Hakkımızda", iletisim: "İletişim" };
+
+let K, veri = null, canliSaat = null;
+
+async function api(yol) {
+  const r = await fetch(API + yol, { headers: { authorization: "Bearer " + await K.token() } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.hata === "yetki" ? "Bu hesabın Page Studio verisine erişimi yok." : "Sunucu: " + (j.hata || r.status));
+  return j;
+}
+
+// ---------- Veri hazirlama ----------
+const proje = new Map(), kategori = new Map();
+const sayfaAd = p => p === "/" ? "Ana sayfa" : p.startsWith("/proje/") ? (proje.get(decodeURIComponent(p.slice(7)))?.title || p.slice(7)) : p;
+const isAd = s => proje.get(s)?.title || s;
+
+/* Kanal: once utm/ref etiketi, sonra yonlendiren alan adi, sonra uygulama ici tarayici. */
+function kanal(v) {
+  const s = (v.src || "").toLowerCase(), r = (v.ref || "").toLowerCase();
+  const ad = x =>
+    /instagram|^ig$/.test(x) ? "Instagram" : /facebook|^fb$/.test(x) ? "Facebook" : /tiktok/.test(x) ? "TikTok" : /linkedin|lnkd/.test(x) ? "LinkedIn" :
+    /whatsapp|wa\.me/.test(x) ? "WhatsApp" : /(^|\.)t\.co$|twitter|(^|\.)x\.com/.test(x) ? "X" : /google\./.test(x) || x === "google" ? "Google arama" :
+    /bing|yandex|duckduckgo|yahoo|ecosia/.test(x) ? "Diğer arama" : /bamstudio/.test(x) ? "Bam Studio" : /mail|gmail|outlook/.test(x) ? "E-posta" : "";
+  if (s) return ad(s) || "Etiket: " + v.src;
+  if (r) return ad(r) || "Site: " + r;
+  if (v.browser === "Instagram") return "Instagram";
+  if (v.browser === "Facebook") return "Facebook";
+  return "Doğrudan";
+}
+
+function hazirla(h) {
+  proje.clear(); kategori.clear();
+  for (const p of h.projeler || []) { try { p.cats = JSON.parse(p.categories || "[]"); } catch { p.cats = []; } proje.set(p.slug, p); }
+  for (const c of h.kategoriler || []) kategori.set(c.slug, c.name);
+  const ziy = (h.ziyaretler || []).map(v => ({ ...v, kanal: kanal(v) })).sort((a, b) => a.t - b.t);
+  const tik = (h.tiklamalar || []).slice().sort((a, b) => a.t - b.t);
+  const tikZiy = new Map();
+  for (const c of tik) (tikZiy.get(c.visit) || tikZiy.set(c.visit, []).get(c.visit)).push(c);
+
+  // Oturum: ayni gunluk ziyaretci, aralarinda 30 dakikadan az bosluk olan sayfalar
+  const oturumlar = [], son = new Map();
+  for (const v of ziy) {
+    let o = son.get(v.vid);
+    if (!o || v.t - o.bitis > OTURUM_ARASI) {
+      o = { id: v.vid + ":" + v.t, vid: v.vid, bas: v.t, bitis: v.last, sayfalar: [], tiklar: [], kanal: v.kanal, giris: v.path,
+        ulke: v.country, sehir: v.city, cihaz: v.device, tarayici: v.browser, os: v.os, dil: v.lang, ref: v.ref, src: v.src, camp: v.camp };
+      oturumlar.push(o);
+      son.set(v.vid, o);
+    }
+    o.sayfalar.push(v);
+    o.tiklar.push(...(tikZiy.get(v.id) || []));
+    o.bitis = Math.max(o.bitis, v.last);
+  }
+  for (const o of oturumlar) {
+    o.sure = o.sayfalar.reduce((t, v) => t + (v.dur || 0), 0);
+    o.iletisim = o.tiklar.some(c => c.kind === "contact");
+    o.isBakti = o.sayfalar.some(v => v.path.startsWith("/proje/"));
+    o.hemenCikti = o.sayfalar.length === 1 && !o.tiklar.length && o.sure < 10;
+  }
+  return { ziy, tik, oturumlar, simdi: h.simdi || Date.now() };
+}
+
+function secili() {
+  const d = donem(K.aralik);
+  const ara = (l, k, bas, son) => l.filter(x => x[k] >= bas && x[k] < son);
+  const r = { d, ziy: ara(veri.ziy, "t", d.bas, d.son + 1), tik: ara(veri.tik, "t", d.bas, d.son + 1), ot: ara(veri.oturumlar, "bas", d.bas, d.son + 1) };
+  if (d.oncekiBas != null) Object.assign(r, { oZiy: ara(veri.ziy, "t", d.oncekiBas, d.oncekiSon), oTik: ara(veri.tik, "t", d.oncekiBas, d.oncekiSon), oOt: ara(veri.oturumlar, "bas", d.oncekiBas, d.oncekiSon) });
+  return r;
+}
+
+const tekil = (l, f = x => x.vid + "|" + istGun(x.t ?? x.bas)) => new Set(l.map(f)).size;
+const say = (l, f, w = () => 1) => l.reduce((o, x) => { const k = f(x); if (k != null && k !== "") o[k] = (o[k] || 0) + w(x); return o; }, {});
+const ort = (l, f) => l.length ? l.reduce((t, x) => t + (f(x) || 0), 0) / l.length : 0;
+const fark = (simdi, once, ters) => once == null ? undefined : { simdi, once, ters };
+const ulkeAd = (() => { let a; try { a = new Intl.DisplayNames(["tr"], { type: "region" }); } catch { } return c => c ? (a?.of(c) || c) : "Bilinmiyor"; })();
+
+function gunlukSeri(icerik, baslik, l, tarih, seriler) {
+  const d = donem(K.aralik);
+  const h = {};
+  for (const x of l) { const g = istGun(tarih(x)); h[g] ||= {}; for (const s of seriler) h[g][s.alan] = (h[g][s.alan] || 0) + (s.deger ? s.deger(x, h[g]) : 1); }
+  for (const g of Object.values(h)) for (const s of seriler) if (s.son) g[s.alan] = s.son(g);
+  const gunler = Object.keys(h).sort();
+  const bas = K.aralik ? istGun(d.bas) : (gunler[0] || istGun(Date.now()));
+  const c = el("div");
+  icerik.appendChild(kart(baslik, c));
+  gunlukCubuk(c, gunleriDoldur(h, bas, istGun(Date.now())), { seriler: seriler.map(({ ad, alan, renk }) => ({ ad, alan, renk })), ozet: true });
+}
+
+// ---------- Sayfalar ----------
+function genel(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  const ziyaretci = tekil(s.ziy), oz = s.oZiy && tekil(s.oZiy);
+  const ilet = s.tik.filter(c => c.kind === "contact"), oIlet = s.oTik?.filter(c => c.kind === "contact");
+  const hemen = s.ot.filter(o => o.hemenCikti).length;
+  icerik.appendChild(tiles([
+    ["Ziyaretçi", sayi(ziyaretci), "günlük tekil", fark(ziyaretci, oz)],
+    ["Oturum", sayi(s.ot.length), "", fark(s.ot.length, s.oOt?.length)],
+    ["Sayfa görüntüleme", sayi(s.ziy.length), s.ot.length ? `oturum başı ${(s.ziy.length / s.ot.length).toFixed(1)}` : "", fark(s.ziy.length, s.oZiy?.length)],
+    ["Ortalama süre", sure(Math.round(ort(s.ot, o => o.sure))) || "0", "oturum başı", fark(Math.round(ort(s.ot, o => o.sure)), s.oOt && Math.round(ort(s.oOt, o => o.sure)))],
+    ["Hemen çıkma", yuzde(hemen, s.ot.length), "tek sayfa, 10 sn altı", fark(hemen, s.oOt?.filter(o => o.hemenCikti).length, true)],
+    ["İletişime tıklama", sayi(ilet.length), `${sayi(s.ot.filter(o => o.iletisim).length)} oturumda`, fark(ilet.length, oIlet?.length)],
+  ]));
+
+  gunlukSeri(icerik, "Günlük ziyaretçi ve sayfa görüntüleme", s.ziy, v => v.t, [
+    { ad: "Ziyaretçi", alan: "ziy", renk: "var(--s1)", deger: (v, g) => ((g._v ||= new Set()).has(v.vid) ? 0 : (g._v.add(v.vid), 1)) },
+    { ad: "Diğer görüntüleme", alan: "ek", renk: "var(--s3)", deger: (v, g) => ((g._w ||= new Set()).has(v.vid) ? 1 : (g._w.add(v.vid), 0)) },
+  ]);
+
+  const izgara = el("div", "izgara2");
+  const kk = el("div"), ck = el("div");
+  izgara.appendChild(kart("Nereden geliyorlar (oturum)", kk));
+  izgara.appendChild(kart("Cihaz (oturum)", ck));
+  icerik.appendChild(izgara);
+  yatayCubuk(kk, say(s.ot, o => o.kanal));
+  yatayCubuk(ck, say(s.ot, o => o.cihaz));
+
+  const hk = el("div");
+  icerik.appendChild(kart("Ülkeler (oturum)", hk));
+  dunyaHaritasi(hk, say(s.ot, o => o.ulke), { birim: "oturum" });
+
+  const izgara2 = el("div", "izgara2");
+  const sk = el("div"), ik = el("div");
+  izgara2.appendChild(kart("En çok görüntülenen sayfalar", sk));
+  izgara2.appendChild(kart("En çok tıklanan işler (ana sayfada)", ik));
+  icerik.appendChild(izgara2);
+  yatayCubuk(sk, say(s.ziy, v => sayfaAd(v.path)), { limit: 10 });
+  yatayCubuk(ik, say(s.tik.filter(c => c.kind === "project"), c => isAd(c.target)), { limit: 10 });
+
+  const sa = el("div");
+  icerik.appendChild(kart("Haftanın günü ve saat (Türkiye saati, sayfa görüntüleme)", sa));
+  saatIsi(sa, saatMatrisi(s.ziy.map(v => v.t)));
+
+  icerik.appendChild(kart(null, el("p", "not",
+    "Çerez yok, IP saklanmaz. Ziyaretçi kimliği IP, tarayıcı ve günden üretilen tek yönlü bir karma; aynı kişi ertesi gün yeni ziyaretçi sayılır, bu yüzden haftalık ziyaretçi günlüklerin toplamıdır. Botlar, önizleme adresleri ve panele giriş yapmış tarayıcılar sayılmaz. Veri " + (veri ? `son ${veri.gun} gün` : "") + " için yüklendi.")));
+}
+
+function canli(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const kutu = el("div");
+  icerik.appendChild(kutu);
+  const ciz = async () => {
+    if (!kutu.isConnected) { clearInterval(canliSaat); return; }
+    let l;
+    try { l = K.demo ? veri.ziy.filter(v => v.last > Date.now() - 5 * 60e3) : (await api("/api/panel/canli")).ziyaretler; }
+    catch (e) { kutu.replaceChildren(kart(null, el("p", "not", "Canlı veri alınamadı: " + e.message))); return; }
+    const kisiler = new Map();
+    for (const v of l) { const k = kisiler.get(v.vid); if (!k || v.last > k.last) kisiler.set(v.vid, v); }
+    const aktif = [...kisiler.values()].sort((a, b) => b.last - a.last);
+    kutu.replaceChildren(
+      tiles([["Şu an sitede", sayi(aktif.length), "son 5 dakika"], ["Açık sayfa", sayi(l.length), ""]]),
+      kart("Kim nerede", veriTablo(["Son hareket", "Sayfa", { ad: "Kanal", filtre: true }, { ad: "Ülke", filtre: true }, "Şehir", { ad: "Cihaz", filtre: true }, { ad: "Süre", num: true }, { ad: "Kaydırma", num: true }],
+        aktif.map(v => [tarihHucre(v.last), sayfaAd(v.path), kanal(v), ulkeAd(v.country), v.city || "-", v.device, { d: sure(v.dur) || "0 sn", s: v.dur }, { d: "%" + v.scroll, s: v.scroll }]),
+        { sirala: [0, "desc"], bos: "Şu an sitede kimse yok." })),
+      el("p", "not", "30 saniyede bir yenilenir. Bir sayfa açıkken 15 saniyede bir nabız gelir.")
+    );
+  };
+  clearInterval(canliSaat);
+  ciz();
+  canliSaat = setInterval(ciz, 30000);
+}
+
+function sayfalar(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  const g = new Map();
+  for (const v of s.ziy) {
+    const x = g.get(v.path) || g.set(v.path, { n: 0, kim: new Set(), dur: 0, sc: 0, giris: 0 }).get(v.path);
+    x.n++; x.kim.add(v.vid + istGun(v.t)); x.dur += v.dur; x.sc += v.scroll;
+  }
+  for (const o of s.ot) { const x = g.get(o.giris); if (x) x.giris++; }
+  const satir = [...g].map(([p, x]) => [
+    { d: sayfaAd(p), s: sayfaAd(p) }, p.startsWith("/proje/") ? "Proje" : p === "/" ? "Ana sayfa" : "Diğer",
+    { d: sayi(x.n), s: x.n }, { d: sayi(x.kim.size), s: x.kim.size }, { d: sayi(x.giris), s: x.giris },
+    { d: sure(Math.round(x.dur / x.n)) || "0 sn", s: x.dur / x.n }, { d: "%" + Math.round(x.sc / x.n), s: x.sc / x.n },
+  ]);
+  icerik.appendChild(kart(`Sayfalar (${sayi(g.size)})`, veriTablo(["Sayfa", { ad: "Tür", filtre: true }, { ad: "Görüntüleme", num: true }, { ad: "Ziyaretçi", num: true },
+    { ad: "Giriş sayfası", num: true }, { ad: "Ort. süre", num: true }, { ad: "Ort. kaydırma", num: true }], satir, { sirala: [2, "desc"], bos: "Bu aralıkta ziyaret yok." })));
+  icerik.appendChild(kart(null, el("p", "not", "Süre sayfanın ekranda açık kaldığı süredir (sekme arkadayken sayılmaz). Kaydırma sayfanın en çok yüzde kaçına inildiği.")));
+}
+
+function isler(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  const kart_ = say(s.tik.filter(c => c.kind === "project"), c => c.target);
+  const dis = say(s.tik.filter(c => c.kind === "external" && c.path.startsWith("/proje/")), c => decodeURIComponent(c.path.slice(7)));
+  const g = new Map();
+  for (const v of s.ziy.filter(v => v.path.startsWith("/proje/"))) {
+    const k = decodeURIComponent(v.path.slice(7));
+    const x = g.get(k) || g.set(k, { n: 0, dur: 0, sc: 0 }).get(k);
+    x.n++; x.dur += v.dur; x.sc += v.scroll;
+  }
+  const anaGor = s.ziy.filter(v => v.path === "/").length;
+  const sira = [...proje.values()].filter(p => p.published).map((p, i) => [p, i + 1]);
+  const satir = sira.map(([p, i]) => {
+    const x = g.get(p.slug) || { n: 0, dur: 0, sc: 0 }, kt = kart_[p.slug] || 0;
+    return [{ d: p.title, s: p.title }, { d: String(i), s: i }, i <= 14 ? "İlk 14" : "Tüm işler'de",
+      { d: sayi(kt), s: kt }, { d: yuzde(kt, anaGor, 1), s: anaGor ? kt / anaGor : 0 }, { d: sayi(x.n), s: x.n },
+      { d: x.n ? sure(Math.round(x.dur / x.n)) || "0 sn" : "-", s: x.n ? x.dur / x.n : 0 }, { d: x.n ? "%" + Math.round(x.sc / x.n) : "-", s: x.n ? x.sc / x.n : 0 },
+      { d: sayi(dis[p.slug] || 0), s: dis[p.slug] || 0 }];
+  });
+  icerik.appendChild(kart("İşler", veriTablo(["İş", { ad: "Sıra", num: true }, { ad: "Yer", filtre: true }, { ad: "Kart tıklaması", num: true }, { ad: "Ana sayfa görenlerin", num: true },
+    { ad: "Proje sayfası", num: true }, { ad: "Ort. süre", num: true }, { ad: "Ort. kaydırma", num: true }, { ad: "Markaya geçiş", num: true }], satir, { sirala: [3, "desc"] })));
+
+  const izgara = el("div", "izgara2");
+  const fk = el("div"), mk = el("div");
+  izgara.appendChild(kart("Süzgeç kullanımı", fk));
+  izgara.appendChild(kart("\"Tüm işler\" düğmesi", mk));
+  icerik.appendChild(izgara);
+  yatayCubuk(fk, say(s.tik.filter(c => c.kind === "filter"), c => c.target === "*" ? "Tümü" : kategori.get(c.target) || c.target));
+  const tum = s.tik.filter(c => c.kind === "more").length;
+  mk.appendChild(tiles([["Tıklama", sayi(tum), ""], ["Ana sayfa görenlerin", yuzde(tum, anaGor, 1), ""]]));
+  icerik.appendChild(kart(null, el("p", "not", "Sıra, paneldeki iş sırası; ilk 14 iş ana sayfada açık görünür. \"Markaya geçiş\" proje sayfasındaki marka bağlantısına tıklama.")));
+}
+
+function kaynaklar(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  const g = new Map();
+  for (const o of s.ot) {
+    const x = g.get(o.kanal) || g.set(o.kanal, { n: 0, sayfa: 0, sure: 0, ilet: 0, hemen: 0 }).get(o.kanal);
+    x.n++; x.sayfa += o.sayfalar.length; x.sure += o.sure; x.ilet += o.iletisim ? 1 : 0; x.hemen += o.hemenCikti ? 1 : 0;
+  }
+  icerik.appendChild(kart("Kanallar (oturum)", veriTablo(["Kanal", { ad: "Oturum", num: true }, { ad: "Oturum başı sayfa", num: true }, { ad: "Ort. süre", num: true }, { ad: "Hemen çıkma", num: true }, { ad: "İletişime tıklayan", num: true }],
+    [...g].map(([k, x]) => [k, { d: sayi(x.n), s: x.n }, { d: (x.sayfa / x.n).toFixed(1), s: x.sayfa / x.n }, { d: sure(Math.round(x.sure / x.n)) || "0 sn", s: x.sure / x.n },
+      { d: yuzde(x.hemen, x.n), s: x.hemen / x.n }, { d: `${sayi(x.ilet)} · ${yuzde(x.ilet, x.n, 1)}`, s: x.ilet }]), { sirala: [1, "desc"] })));
+  const izgara = el("div", "izgara2");
+  izgara.appendChild(kart("Yönlendiren siteler", dagilimTablo(say(s.ot.filter(o => o.ref), o => o.ref), ["Site", "Oturum"])));
+  izgara.appendChild(kart("Kampanya etiketleri (utm)", dagilimTablo(say(s.ot.filter(o => o.src || o.camp), o => [o.src, o.camp].filter(Boolean).join(" · ")), ["Kaynak · kampanya", "Oturum"])));
+  icerik.appendChild(izgara);
+  icerik.appendChild(kart(null, el("p", "not",
+    "Instagram profil bağlantısına ?utm_source=instagram&utm_campaign=bio eklenirse Instagram'dan gelenler ayrıca görünür (uygulama içi tarayıcı çoğu zaman yönlendiren bilgisi göndermez). Teklif e-postaları için utm_source=teklif gibi etiketler kullanılabilir.")));
+}
+
+function iletisim(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  const ot = s.ot;
+  huni(icerik.appendChild(kart("Oturum hunisi", el("div"))).lastChild, [
+    ["Siteye geldi", ot.length],
+    ["İşlere baktı (kart, süzgeç ya da proje sayfası)", ot.filter(o => o.isBakti || o.tiklar.some(c => c.kind === "project" || c.kind === "filter" || c.kind === "more")).length],
+    ["Proje sayfası açtı", ot.filter(o => o.isBakti).length],
+    ["E-postaya tıkladı", ot.filter(o => o.iletisim).length],
+  ], { birim: "oturum" });
+  const izgara = el("div", "izgara2");
+  const ek = el("div"), sk = el("div");
+  izgara.appendChild(kart("E-posta tıklamaları (adres · yer)", ek));
+  izgara.appendChild(kart("Sosyal medya tıklamaları", sk));
+  icerik.appendChild(izgara);
+  yatayCubuk(ek, say(s.tik.filter(c => c.kind === "contact"), c => c.target));
+  yatayCubuk(sk, say(s.tik.filter(c => c.kind === "social"), c => c.target));
+  const ilet = ot.filter(o => o.iletisim);
+  icerik.appendChild(kart(`İletişime tıklayan oturumlar (${sayi(ilet.length)})`, oturumTablo(ilet)));
+  icerik.appendChild(kart(null, el("p", "not", "E-posta tıklaması, ziyaretçinin e-posta uygulamasını açtığı an. Gerçekten gönderip göndermediği görünmez.")));
+}
+
+function oturumTablo(l) {
+  return veriTablo([{ ad: "Başlangıç" }, { ad: "Kanal", filtre: true }, "Giriş sayfası", { ad: "Ülke", filtre: true }, "Şehir", { ad: "Cihaz", filtre: true }, { ad: "Tarayıcı", filtre: true },
+    { ad: "Sayfa", num: true }, { ad: "Tıklama", num: true }, { ad: "Süre", num: true }, { ad: "İletişim", filtre: true }],
+    l.map(o => [tarihHucre(o.bas), o.kanal, sayfaAd(o.giris), ulkeAd(o.ulke), o.sehir || "-", o.cihaz, o.tarayici, { d: sayi(o.sayfalar.length), s: o.sayfalar.length },
+      { d: sayi(o.tiklar.length), s: o.tiklar.length }, { d: sure(o.sure) || "0 sn", s: o.sure }, o.iletisim ? "Tıkladı" : "-"]),
+    { sirala: [0, "desc"], bos: "Bu aralıkta oturum yok.", satirTik: (_, i) => oturumCekmece(l[i]) });
+}
+
+function ziyaretler(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const s = secili();
+  icerik.appendChild(kart(`Oturumlar (${sayi(s.ot.length)})`, oturumTablo(s.ot)));
+  icerik.appendChild(kart(null, el("p", "not", "Bir oturum, aynı günlük ziyaretçinin aralarında 30 dakikadan az boşluk olan sayfaları. Satıra tıklayınca sayfa sayfa ne yaptığı açılır.")));
+}
+
+function oturumCekmece(o) {
+  kullaniciCekmecesi(o, [
+    ["Başlangıç", tarihTam(o.bas)], ["Son hareket", tarihTam(o.bitis)], ["Süre", sure(o.sure) || "0 sn"],
+    { baslik: "Kaynak" },
+    ["Kanal", o.kanal], ["Yönlendiren", o.ref || "-"], ["Etiket", [o.src, o.camp].filter(Boolean).join(" · ") || "-"],
+    { baslik: "Cihaz" },
+    ["Ülke", ulkeAd(o.ulke)], ["Şehir", o.sehir || "-"], ["Cihaz", o.cihaz], ["Tarayıcı", o.tarayici], ["İşletim sistemi", o.os], ["Dil", o.dil || "-"],
+  ], {
+    baslik: `${o.kanal} · ${sayfaAd(o.giris)}`, alt: `${o.sayfalar.length} sayfa, ${o.tiklar.length} tıklama`,
+    ek: kutu => {
+      kutu.appendChild(el("h2", "cek-ara", "Akış"));
+      const ul = el("ul", "akis");
+      const olay = [...o.sayfalar.map(v => ({ t: v.t, s: `<b>${esc(sayfaAd(v.path))}</b> <span>${sure(v.dur) || "0 sn"} · %${v.scroll} kaydırma</span>` })),
+        ...o.tiklar.map(c => ({ t: c.t, tik: true, s: `<b>${esc(TIK[c.kind] || c.kind)}</b> <span>${esc(c.kind === "project" ? isAd(c.target) : c.kind === "nav" ? BOLUM[c.target] || c.target : c.kind === "filter" ? (c.target === "*" ? "Tümü" : kategori.get(c.target) || c.target) : c.target)}</span>` }))]
+        .sort((a, b) => a.t - b.t);
+      for (const x of olay) {
+        const li = el("li", x.tik ? "tik" : null);
+        li.innerHTML = `<span>${new Date(x.t).toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul" })}</span><div>${x.s}</div>`;
+        ul.appendChild(li);
+      }
+      kutu.appendChild(ul);
+    },
+  });
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function yonetim(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  const b = el("div", "baglar");
+  for (const [href, ad, alt] of [
+    [SITE + "/admin/", "Site yönetimi", "İşler, hizmetler, referanslar, metinler ve ana sayfa bölümleri. Kendi şifresiyle girilir."],
+    [SITE + "/", "Siteyi aç", "pagestudio.co"],
+    ["https://search.google.com/search-console?resource_id=sc-domain:pagestudio.co", "Search Console", "Google aramada görünme, tıklama, sorgular."],
+    ["https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/pagestudio.co", "Cloudflare", "Alan adı, DNS, e-posta kayıtları, Worker."],
+    ["https://page.bamstudio.dev/", "Önizleme", "page.bamstudio.dev, Google'a kapalı."],
+  ]) {
+    const a = el("a", "bag");
+    a.href = href; a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = `<b>${esc(ad)} ↗</b><span>${esc(alt)}</span>`;
+    b.appendChild(a);
+  }
+  icerik.appendChild(b);
+}
+
+function ayarlar(icerik, kabuk) {
+  if (kabuk) K = kabuk;
+  icerik.appendChild(kart("Bu panel", el("p", "not",
+    `Veri pagestudio.co Worker'ından gelir (D1 pagestudio, tablolar visits ve clicks). Giriş Google ile; Worker kimliği Google'ın anahtarlarıyla doğrular ve yalnız ${YONETICI} adresine açar. ${K.demo ? "Demo modu: veri sahte, sunucuya bağlanmaz." : "Giriş: " + esc(K.kullanici?.email || "-")}`)));
+  icerik.appendChild(kart("Neler kaydediliyor", el("p", "not",
+    "Sayfa adresi, yönlendiren alan adı, utm etiketi, ülke ve şehir (Cloudflare'in tahmini), cihaz türü, tarayıcı, işletim sistemi, dil, ekran genişliği, sayfada kalınan süre, kaydırma derinliği ve sayfadaki tıklamalar (hangi iş kartı, süzgeç, e-posta, sosyal medya). Çerez, IP, ad ya da e-posta tutulmaz. Site yönetimine giriş yapmış tarayıcı sayılmaz.")));
+}
+
+// ---------- Demo ----------
+function demoVeri() {
+  let x = 11; const r = () => (x = (x * 16807) % 2147483647) / 2147483647;
+  const sec = l => l[Math.floor(r() * l.length)];
+  const projeler = ["taskonaklar-kapadokya", "onaranlar-kulubu", "mesut-watches", "moniq-restaurant", "loka-yoga", "armagan-giyim", "tuyap-kitap-fuari", "binance-tr", "lindos", "giyiworld"]
+    .map((slug, i) => ({ slug, title: slug.split("-").map(w => w[0].toUpperCase() + w.slice(1)).join(" "), categories: '["sosyal-medya"]', published: 1, sort: i }));
+  const kategoriler = [{ slug: "sosyal-medya", name: "Sosyal Medya Yönetimi" }, { slug: "influencer", name: "Influencer Marketing" }, { slug: "reklam", name: "Reklam Optimizasyonu" }];
+  const ziyaretler = [], tiklamalar = [];
+  const simdi = Date.now();
+  for (let i = 0; i < 1400; i++) {
+    const t = simdi - Math.floor(r() * r() * 60 * 864e5) - 1000;
+    const vid = "d" + Math.floor(r() * 500);
+    const kaynak = sec([["", ""], ["", ""], ["google.com", ""], ["", "instagram"], ["l.instagram.com", ""], ["linkedin.com", ""], ["bamstudio.dev", ""]]);
+    const ortak = { vid, ref: kaynak[0], src: kaynak[1], camp: kaynak[1] ? "bio" : "", country: sec(["TR", "TR", "TR", "TR", "DE", "GB", "NL", "US", "AZ"]), city: sec(["Istanbul", "Ankara", "Izmir", "Berlin", "London"]),
+      device: sec(["Telefon", "Telefon", "Telefon", "Masaüstü", "Tablet"]), browser: sec(["Safari", "Chrome", "Instagram", "Chrome"]), os: sec(["iOS", "Android", "macOS", "Windows"]), lang: sec(["tr-TR", "tr-TR", "en-US"]), w: 390 };
+    const n = 1 + Math.floor(r() * r() * 5);
+    let tt = t;
+    for (let j = 0; j < n; j++) {
+      const path = j === 0 ? sec(["/", "/", "/", "/proje/" + sec(projeler).slug]) : "/proje/" + sec(projeler).slug;
+      const dur = Math.floor(r() * 120), id = "d" + i + "_" + j;
+      ziyaretler.push({ id, t: tt, last: tt + dur * 1000, path, dur, scroll: Math.floor(r() * 100), ...ortak });
+      if (path === "/" && r() < 0.6) tiklamalar.push({ t: tt + 5000, visit: id, vid, path, kind: "project", target: sec(projeler).slug });
+      if (r() < 0.2) tiklamalar.push({ t: tt + 3000, visit: id, vid, path, kind: "filter", target: sec(["*", "sosyal-medya", "influencer"]) });
+      if (r() < 0.08) tiklamalar.push({ t: tt + 9000, visit: id, vid, path, kind: "contact", target: sec(["hello@pagestudio.co", "elif@pagestudio.co · alt bilgi"]) });
+      if (r() < 0.06) tiklamalar.push({ t: tt + 7000, visit: id, vid, path, kind: "social", target: "instagram.com" });
+      tt += dur * 1000 + 4000;
+    }
+  }
+  ziyaretler.push({ id: "canli", t: simdi - 60000, last: simdi - 10000, vid: "canli", path: "/proje/moniq-restaurant", ref: "", src: "instagram", camp: "bio", country: "TR", city: "Istanbul", device: "Telefon", browser: "Instagram", os: "iOS", lang: "tr-TR", w: 390, dur: 45, scroll: 60 });
+  return { ziyaretler, tiklamalar, projeler, kategoriler, gun: 90, simdi };
+}
+
+async function yukle(kabuk) {
+  K = kabuk;
+  const gun = K.aralik ? Math.min(400, K.aralik * 2 + 1) : 400;
+  const h = K.demo ? demoVeri() : await api("/api/panel/veri?gun=" + gun);
+  veri = { ...hazirla(h), gun: h.gun };
+}
+
+K = await panelKabuk({
+  ad: "Page Studio",
+  ikon: "/assets/lab-icons/pagestudio-180.png",
+  firebaseConfig,
+  yonetici: YONETICI,
+  girisDogrula: async token => {
+    const r = await fetch(API + "/api/panel/oturum", { headers: { authorization: "Bearer " + token } });
+    if (!r.ok) throw new Error("Page Studio sunucusu bu girişi kabul etmedi.");
+    return r.json();
+  },
+  tema: TEMA,
+  araliklar: [1, 7, 28, 90, 0], aralik: 28,
+  aralikYukler: true,
+  yukle,
+  gruplar: [
+    { baslik: "ANALİZ", sayfalar: [
+      { id: "genel", ad: "Genel bakış", ciz: genel },
+      { id: "canli", ad: "Canlı", ciz: canli },
+      { id: "sayfalar", ad: "Sayfalar", ciz: sayfalar },
+      { id: "isler", ad: "İşler", ciz: isler },
+      { id: "kaynaklar", ad: "Kaynaklar", ciz: kaynaklar },
+      { id: "iletisim", ad: "İletişim", ciz: iletisim },
+      { id: "ziyaretler", ad: "Ziyaretler", ciz: ziyaretler },
+    ] },
+    { baslik: "YÖNET", sayfalar: [
+      { id: "yonetim", ad: "Site yönetimi", ciz: yonetim },
+      { id: "ayarlar", ad: "Ayarlar", ciz: ayarlar },
+    ] },
+  ],
+});
+</script>
+</body>
+</html>
