@@ -74,7 +74,7 @@ async function api(yol) {
 
 // ---------- Veri hazirlama ----------
 const proje = new Map(), kategori = new Map();
-const sayfaAd = p => p === "/" ? "Ana sayfa" : p.startsWith("/proje/") ? (proje.get(decodeURIComponent(p.slice(7)))?.title || p.slice(7)) : p;
+const sayfaAd = p => p === "/" ? "Ana sayfa" : p === "/isler" ? "İşler" : p.startsWith("/proje/") ? (proje.get(decodeURIComponent(p.slice(7)))?.title || p.slice(7)) : p;
 const isAd = s => proje.get(s)?.title || s;
 
 /* Kanal: once utm/ref etiketi, sonra yonlendiren alan adi, sonra uygulama ici tarayici. */
@@ -253,27 +253,29 @@ function isler(icerik, kabuk) {
     const x = g.get(k) || g.set(k, { n: 0, dur: 0, sc: 0 }).get(k);
     x.n++; x.dur += v.dur; x.sc += v.scroll;
   }
-  const anaGor = s.ziy.filter(v => v.path === "/").length;
-  const sira = [...proje.values()].filter(p => p.published).map((p, i) => [p, i + 1]);
+  const anaGor = s.ziy.filter(v => v.path === "/").length, islerGor = s.ziy.filter(v => v.path === "/isler").length;
+  const gor = p => (p._i <= 4 ? anaGor : 0) + islerGor;
+  const sira = [...proje.values()].filter(p => p.published).map((p, i) => [Object.assign(p, { _i: i + 1 }), i + 1]);
   const satir = sira.map(([p, i]) => {
     const x = g.get(p.slug) || { n: 0, dur: 0, sc: 0 }, kt = kart_[p.slug] || 0;
-    return [{ d: p.title, s: p.title }, { d: String(i), s: i }, i <= 14 ? "İlk 14" : "Tüm işler'de",
-      { d: sayi(kt), s: kt }, { d: yuzde(kt, anaGor, 1), s: anaGor ? kt / anaGor : 0 }, { d: sayi(x.n), s: x.n },
+    return [{ d: p.title, s: p.title }, { d: String(i), s: i }, i <= 4 ? "Ana sayfada" : "İşler sayfasında",
+      { d: sayi(kt), s: kt }, { d: yuzde(kt, gor(p), 1), s: gor(p) ? kt / gor(p) : 0 }, { d: sayi(x.n), s: x.n },
       { d: x.n ? sure(Math.round(x.dur / x.n)) || "0 sn" : "-", s: x.n ? x.dur / x.n : 0 }, { d: x.n ? "%" + Math.round(x.sc / x.n) : "-", s: x.n ? x.sc / x.n : 0 },
       { d: sayi(dis[p.slug] || 0), s: dis[p.slug] || 0 }];
   });
-  icerik.appendChild(kart("İşler", veriTablo(["İş", { ad: "Sıra", num: true }, { ad: "Yer", filtre: true }, { ad: "Kart tıklaması", num: true }, { ad: "Ana sayfa görenlerin", num: true },
+  icerik.appendChild(kart("İşler", veriTablo(["İş", { ad: "Sıra", num: true }, { ad: "Yer", filtre: true }, { ad: "Kart tıklaması", num: true }, { ad: "Kartı görenlerin", num: true },
     { ad: "Proje sayfası", num: true }, { ad: "Ort. süre", num: true }, { ad: "Ort. kaydırma", num: true }, { ad: "Markaya geçiş", num: true }], satir, { sirala: [3, "desc"] })));
 
   const izgara = el("div", "izgara2");
   const fk = el("div"), mk = el("div");
   izgara.appendChild(kart("Süzgeç kullanımı", fk));
-  izgara.appendChild(kart("\"Tüm işler\" düğmesi", mk));
+  izgara.appendChild(kart("\"Tüm işler\" bağlantısı", mk));
   icerik.appendChild(izgara);
   yatayCubuk(fk, say(s.tik.filter(c => c.kind === "filter"), c => c.target === "*" ? "Tümü" : kategori.get(c.target) || c.target));
-  const tum = s.tik.filter(c => c.kind === "more").length;
-  mk.appendChild(tiles([["Tıklama", sayi(tum), ""], ["Ana sayfa görenlerin", yuzde(tum, anaGor, 1), ""]]));
-  icerik.appendChild(kart(null, el("p", "not", "Sıra, paneldeki iş sırası; ilk 14 iş ana sayfada açık görünür. \"Markaya geçiş\" proje sayfasındaki marka bağlantısına tıklama.")));
+  const tum = s.tik.filter(c => c.kind === "more");
+  mk.appendChild(tiles([["Tıklama", sayi(tum.length), ""], ["Ana sayfa görenlerin", yuzde(tum.filter(c => c.path === "/").length, anaGor, 1), ""], ["İşler sayfası", sayi(islerGor), "görüntüleme"]]));
+  const yk = el("div"); mk.appendChild(yk); yatayCubuk(yk, say(tum, c => ({ "üst": "Ana sayfa, üstteki bağlantı", "alt": "Ana sayfa, alttaki düğme", "menü": "Menü" }[c.target] || "Eski düğme")));
+  icerik.appendChild(kart(null, el("p", "not", "Sıra, paneldeki iş sırası; ilk 4 iş ana sayfada, hepsi İşler sayfasında görünür. \"Kartı görenlerin\" kartın gösterildiği sayfa görüntülemelerine oranı. \"Markaya geçiş\" proje sayfasındaki marka bağlantısına tıklama.")));
 }
 
 function kaynaklar(icerik, kabuk) {
