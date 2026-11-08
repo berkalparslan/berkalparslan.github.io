@@ -712,7 +712,7 @@ function yapayzeka(c) {
   const g = izgara(c);
   grafik(g, "Günlük istekler", k => gunlukCubuk(k, seri({ m: x => sayac(x, "ai_text_requests"), s: x => sayac(x, "ai_tts_requests") }), { seriler: [{ ad: "Metin", alan: "m" }, { ad: "Ses", alan: "s" }] }));
   grafik(g, "Günlük tahmini maliyet (USD)", k => cizgi(k, seri({ v: x => Math.round(maliyet(x) * 1000) / 1000 }), { birim: "USD" }));
-  grafik(g, "Model dağılımı", k => { const m = {}; for (const x of s) for (const [a, n] of Object.entries(x)) if (a.startsWith("model_")) m[MODEL_AD(a)] = (m[MODEL_AD(a)] || 0) + +n; yatayCubuk(k, m); });
+  grafik(g, "Model dağılımı", k => { const m = {}; for (const x of s) for (const [a, n] of [...Object.entries(x), ...Object.entries(x.ev || {})]) if (a.startsWith("model_")) m[MODEL_AD(a)] = (m[MODEL_AD(a)] || 0) + +n; yatayCubuk(k, m); });
   grafik(g, "Günlük hatalar", k => gunlukCubuk(k, seri({ h: x => sayac(x, "stories_failed"), s: x => sayac(x, "ai_tts_failed") }), { seriler: [{ ad: "Hikaye", alan: "h" }, { ad: "Ses", alan: "s" }] }));
   // Proxy ve Google
   const a = veri.ai, d = D(), bg = d.bas ? istGun(d.bas) : "0000";
