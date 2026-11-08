@@ -82,6 +82,10 @@ export async function buildProject(spec) {
     if (spec.frame && L.type === 'device' && L.frame !== 'none') L.frame = spec.frame;
     if (spec.device && L.type === 'device') ['x', 'y', 'w'].forEach((k) => { if (spec.device[k] != null) L[k] = Number(spec.device[k]); });
     if (accent && L.type === 'element' && (L.kind === 'icon' || L.kind === 'note')) L.iconBg = accent;
+    // Template demo copy ("01 / YOUR APP") gets the real app name.
+    if (spec.name && L.type === 'element' && L.text && typeof L.text === 'object') Object.keys(L.text).forEach((k) => {
+      if (typeof L.text[k] === 'string') L.text[k] = L.text[k].replace(/YOUR APP|UYGULAMAN/g, spec.name.toUpperCase()).replace(/Your App|Uygulaman/g, spec.name);
+    });
   }));
   const first = project.screens[0];
   if (first) {
