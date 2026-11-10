@@ -1,5 +1,5 @@
 {
- "uretim": "2026-11-09T04:11:18.040Z",
+ "uretim": "2026-11-10T04:11:51.370Z",
  "apps": {
   "leafbook": [
    {
@@ -534,7 +534,7 @@
     "surum": "1.5",
     "platform": "ios",
     "tarih": "2026-10-24T23:11:50-07:00",
-    "durum": "incelemede",
+    "durum": "reddedildi",
     "notlar": [
      "iPhone Duo için hazır. Yan çevirince tesbih solda kalıyor; namaz vakitleri, günün duası ya da rehber sağda açılıyor. Okurken saymaya devam edebilirsin.",
      "Bir de birkaç küçük düzeltme var."
