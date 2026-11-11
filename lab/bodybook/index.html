@@ -66,12 +66,15 @@ const TEMA = {
 /* .trackScreen("...") anahtarlari. */
 const EKRAN = {
   today: "Bugün", body: "Vücut", trends: "Trend", you: "Sen", onboarding: "Tanıtım", moles: "Ben takibi", mole_detail: "Ben ayrıntısı",
-  camera: "Ben kamerası", paywall: "Pro ekranı", blood_pressure: "Tansiyon", weight: "Kilo", routine: "Cilt rutini", products: "Ürünlerim",
+  camera: "Ben kamerası", paywall: "Pro ekranı", blood_pressure: "Tansiyon", weight: "Kilo", routine: "Rutinlerim", products: "Ürünlerim",
   medication: "İlaç ve takviye", hydration: "Su", sleep: "Uyku", closed: "Kapalı",
+  health_journal: "Sağlık günlüğü", today_layout: "Bugün düzeni", photo_viewer: "Fotoğraf görüntüleyici", photo_review: "Fotoğraf inceleme",
+  documents: "Belgeler", document_detail: "Belge ayrıntısı", report_center: "Rapor merkezi", modules: "Modüller", notifications: "Bildirimler",
+  medical_sources: "Tıbbi kaynaklar", backup: "Yedek", product_detail: "Ürün ayrıntısı", medication_detail: "İlaç ayrıntısı",
 };
 const ekranAdi = k => EKRAN[k] || k || "";
 /* PaywallPresenter.present(source:). */
-const KAYNAK = { report_bp: "Tansiyon raporu", report_trends: "Trend raporu", insights: "İçgörüler", modules: "Modül sınırı", pro_card: "Sen: Pro kartı", unknown: "Bilinmiyor" };
+const KAYNAK = { report_bp: "Tansiyon raporu", report_trends: "Trend raporu", insights: "İçgörüler", modules: "Modül sınırı", pro_card: "Sen: Pro kartı", report_center: "Rapor merkezi", report_share: "Rapor paylaşımı", unknown: "Bilinmiyor" };
 const kaynakAdi = k => KAYNAK[String(k || "").toLowerCase()] || k || "Bilinmiyor";
 /* ABD liste fiyati (USD); gercek odenen tutar ulkeye gore degisir, her yerde "tahmini". */
 const PLAN = {
@@ -82,7 +85,7 @@ const planKey = p => String(p || "").toLowerCase().split(".").pop();
 const planAdi = p => !p ? "" : PLAN[planKey(p)]?.ad || p;
 const planFiyat = p => PLAN[planKey(p)]?.usd || 0;
 /* Core/BBModule.swift rawValue'lari, allCases sirasinda. */
-const MODUL = { moles: "Ben takibi", routine: "Cilt rutini", products: "Ürünlerim", medication: "İlaç ve takviye",
+const MODUL = { moles: "Ben takibi", routine: "Rutinlerim", products: "Ürünlerim", medication: "İlaç ve takviye",
   bloodPressure: "Tansiyon", weight: "Kilo", hydration: "Su", sleep: "Uyku" };
 const MODUL_EKRAN = { moles: "moles", routine: "routine", products: "products", medication: "medication",
   bloodPressure: "blood_pressure", weight: "weight", hydration: "hydration", sleep: "sleep" };
@@ -101,6 +104,7 @@ const ANALITIK = {
   hydration_logged: "Su kaydı", sleep_logged: "Uyku kaydı", medication_created: "İlaç eklendi", medication_dosemarked: "Doz işaretlendi",
   coach_started: "Rehber başladı", coach_acted: "Rehberde adım", coach_completed: "Rehber bitti", coach_skipped: "Rehber atlandı",
   health_connected: "Sağlık'a bağlandı", health_imported: "Sağlık'tan aktarım",
+  document_added: "Belge eklendi", backup_created: "Yedek alındı", backup_restored: "Yedek geri yüklendi", document: "Belge", widget: "Widget",
 };
 const SAYAC = {
   installs_new: "Yeni kurulum", sessions: "Oturum", onboarding_done: "Tanıtım bitti", paywall_views: "Paywall açıldı",
@@ -184,9 +188,29 @@ const oncekiVar = d => d.oncekiBas != null;
 const icinde = (t, b, s) => { const x = ms(t); return x >= b && x <= s; };
 const fk = (simdi, once, ters) => once == null ? undefined : { simdi, once, ters };
 const donemAdi = () => K.aralik === 0 ? "tüm zamanlar" : K.aralik === 1 ? "bugün" : `son ${K.aralik} gün`;
-const I = () => surumSuz(veri.installs, K.surum);
-const EV = () => !K.surum ? veri.events : veri.events.filter(e => veri.kurulum.get(e.iid)?.appVersion === K.surum);
-const AL = () => !K.surum ? veri.alimlar : veri.alimlar.filter(a => veri.kurulum.get(a.iid)?.appVersion === K.surum);
+/* Ust satirdaki secici hem platform hem surum suzer: "iOS", "Android", "iOS 1.3", "Android 1.3".
+   Gunluk bb_stats sayaclari platforma bolunmez. */
+const platGrup = p => p === "android" ? "Android" : p === "ios" ? "iOS" : "Bilinmiyor";
+const platAdi = p => platGrup(p);
+function platSurumListesi(L) {
+  const say = {};
+  for (const i of L) { const g = platGrup(i.platform); say[g] = (say[g] || 0) + 1; }
+  const out = ["iOS", "Android", "Bilinmiyor"].filter(g => say[g]).map(g => ({ surum: g, adet: say[g] }));
+  for (const g of ["iOS", "Android"]) out.push(...surumListesi(L.filter(i => platGrup(i.platform) === g)).map(x => ({ surum: `${g} ${x.surum}`, adet: x.adet })));
+  return out;
+}
+function secili(i) {
+  const k = K.surum;
+  if (!k) return true;
+  if (!i) return false;
+  if (k === "iOS" || k === "Android" || k === "Bilinmiyor") return platGrup(i.platform) === k;
+  const m = /^(iOS|Android) (.+)$/.exec(k);
+  if (m) return platGrup(i.platform) === m[1] && i.appVersion === m[2];
+  return i.appVersion === k;
+}
+const I = () => !K.surum ? veri.installs : veri.installs.filter(secili);
+const EV = () => !K.surum ? veri.events : veri.events.filter(e => secili(veri.kurulum.get(e.iid)));
+const AL = () => !K.surum ? veri.alimlar : veri.alimlar.filter(a => secili(veri.kurulum.get(a.iid)));
 const statsArasi = (b, s) => { const x = istGun(b), y = istGun(s); return veri.days.filter(d => d.id >= x && d.id <= y); };
 const gP = () => { const d = D(); return statsArasi(d.bas, d.son); };
 const gO = () => { const d = D(); return oncekiVar(d) ? statsArasi(d.oncekiBas, d.oncekiSon - 1) : null; };
@@ -209,7 +233,7 @@ function statGunluk(alanlar) {
   const d = D(), h = Object.fromEntries(veri.days.map(x => [x.id, x]));
   return gunDizisi(d).map(t => { const o = { t }; for (const [ad, f] of Object.entries(alanlar)) o[ad] = f(h[t] || {}); return o; });
 }
-const SURUM_NOT = () => K.surum ? el("p", "muted", "Sürüm filtresi bu grafiğe uygulanmaz: günlük kayıtlar (bb_stats) sürüme bölünmüyor.") : null;
+const SURUM_NOT = () => K.surum ? el("p", "muted", "Platform ve sürüm filtresi bu grafiğe uygulanmaz: günlük kayıtlar (bb_stats) ikisine de bölünmüyor.") : null;
 const ham = (o, k) => n(o?.[k]);
 const iev = (i, k) => n(i.ev?.[k]);
 const online = i => i.screen && i.screen !== "closed" && Date.now() - ms(i.lastSeen) < ONLINE;
@@ -220,7 +244,7 @@ const kisiAdi = i => i ? `Kurulum ${i.id.slice(0, 8)}` : "";
 function kisiHucre(i) {
   const k = el("span", "kisi");
   const b = el("b"); b.textContent = i.id.slice(0, 8);
-  const s = el("small"); s.textContent = [i.region, DIL[i.language] || i.language].filter(Boolean).join(" · ") || "anonim";
+  const s = el("small"); s.textContent = [platAdi(i.platform), i.region, DIL[i.language] || i.language].filter(Boolean).join(" · ") || "anonim";
   k.append(b, s);
   return { d: k, s: i.id };
 }
@@ -320,7 +344,7 @@ function genel(c) {
     tStat("Ben fotoğrafı", "mole_photos"),
     tStat("PDF rapor", "reports"),
     ["Satın alma", sayi(alimSay(d.bas, d.son)), "olay kayıtlarından", on ? fk(alimSay(d.bas, d.son), alimSay(d.oncekiBas, d.oncekiSon)) : undefined],
-    ["Toplam kurulum", sayi(ins.length), K.surum ? `sürüm ${K.surum}` : "hepsi"],
+    ["Toplam kurulum", sayi(ins.length), K.surum ? K.surum : `iOS ${sayi(ins.filter(i => i.platform === "ios").length)} · Android ${sayi(ins.filter(i => i.platform === "android").length)}`],
     ["Pro", sayi(pro), yuzde(pro, ins.length)],
     ["Şu an uygulamada", sayi(ins.filter(online).length), "son 3 dakika"],
   ]));
@@ -336,7 +360,7 @@ function genel(c) {
     { seriler: [{ ad: "Aktif kurulum", alan: "aktif" }, { ad: "Yeni kurulum", alan: "yeni" }] }),
     el("p", "muted", "Aktif: o gün olay yazan ya da son görülmesi o gün olan kurulum. Türkiye günü."));
   gKart(g1, "Yeni kurulum", k => gunlukCubuk(k, gunler.map(t => ({ t, v: yeniGun[t] || 0 })), { birim: "kurulum" }),
-    el("p", "muted", "Şimdilik yalnız iOS; Android'de bu telemetri henüz yok. Telemetriden önceki kurulumlarda ilk görülme, uygulama klasörünün açıldığı gün."));
+    el("p", "muted", "iOS ve Android aynı alanlarla yazar; üstteki seçiciden tek platform seçilebilir. iOS'ta telemetriden önceki kurulumlarda ilk görülme, uygulama klasörünün açıldığı gün."));
   const g2 = izgara(c);
   gKart(g2, "Oturum (günlük kayıt)", k => gunlukCubuk(k, statGunluk({ v: x => ham(x, "sessions") }), { birim: "oturum" }), SURUM_NOT());
   gKart(g2, "Kayıt, ben, rapor (günlük kayıt)", k => gunlukCubuk(k, statGunluk({ k: x => ham(x, "entries"), b: x => ham(x, "moles_added"), f: x => ham(x, "mole_photos"), r: x => ham(x, "reports") }),
@@ -356,14 +380,15 @@ function genel(c) {
 
   const g4 = izgara(c, "izgara3");
   const say = f => { const m = {}; for (const i of ins) { const k = f(i) || "Bilinmiyor"; m[k] = (m[k] || 0) + 1; } return m; };
+  gKart(g4, "Platform", k => yatayCubuk(k, say(i => platAdi(i.platform))));
   gKart(g4, "Telefon dili", k => yatayCubuk(k, say(i => DIL[i.language] || i.language)));
   gKart(g4, "Uygulama dili", k => yatayCubuk(k, say(i => i.appLang ? (DIL[String(i.appLang).split("-")[0]] || i.appLang) : "")));
   gKart(g4, "Ülke", k => yatayCubuk(k, say(i => i.region), { limit: 10 }));
   gKart(g4, "Cihaz", k => yatayCubuk(k, say(i => i.device), { limit: 10 }));
-  gKart(g4, "iOS sürümü", k => yatayCubuk(k, say(i => i.os ? `iOS ${String(i.os).split(".")[0]}` : ""), { limit: 10 }));
+  gKart(g4, "İşletim sistemi", k => yatayCubuk(k, say(i => i.os ? `${platAdi(i.platform)} ${String(i.os).split(".")[0]}` : ""), { limit: 10 }));
   gKart(g4, "Bildirim izni", k => yatayCubuk(k, say(i => izin(i.notif))));
   gKart(g4, "Açık modül sayısı", k => yatayCubuk(k, say(i => i.n_modules != null ? `${n(i.n_modules)} modül` : "")));
-  gKart(g4, "iPhone Duo", k => yatayCubuk(k, say(i => i.duo ? duoAdi(i.duo) : "")));
+  gKart(g4, "iPhone Duo", k => yatayCubuk(k, say(i => i.platform === "android" ? "" : i.duo ? duoAdi(i.duo) : "")));
   gKart(g4, "Tanıtım", k => yatayCubuk(k, say(i => i.onboarded === true ? "Bitirdi" : i.onboarded === false ? "Bitirmedi" : "")));
 
   surumKart(c);
@@ -447,9 +472,9 @@ function canli(c) {
   ]));
   const g = izgara(c);
   g.appendChild(kart("Şu an uygulamada", veriTablo(
-    ["Kurulum", { ad: "Ekran", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, { ad: "Pro", filtre: true }, { ad: "Modül", num: true }, { ad: "Ben", num: true }, "Son"],
-    acik.map(i => [kisiHucre(i), ekranAdi(i.screen), i.appVersion || "", i.region || "", i.pro ? "Pro" : "Ücretsiz", sayi(i.n_modules), sayi(i.n_moles), tarihHucre(i.lastSeen)]),
-    { sirala: [7, "desc"], bos: "Şimdi kimse yok. Uygulama açıkken dakikada bir kalp atışı yazar.", satirTik: (_, x) => cekmece(acik[x]) })));
+    ["Kurulum", { ad: "Ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, { ad: "Pro", filtre: true }, { ad: "Modül", num: true }, { ad: "Ben", num: true }, "Son"],
+    acik.map(i => [kisiHucre(i), ekranAdi(i.screen), platAdi(i.platform), i.appVersion || "", i.region || "", i.pro ? "Pro" : "Ücretsiz", sayi(i.n_modules), sayi(i.n_moles), tarihHucre(i.lastSeen)]),
+    { sirala: [8, "desc"], bos: "Şimdi kimse yok. Uygulama açıkken dakikada bir kalp atışı yazar.", satirTik: (_, x) => cekmece(acik[x]) })));
   gKart(g, "Açık ekranlar", k => { const m = {}; for (const i of acik) m[ekranAdi(i.screen)] = (m[ekranAdi(i.screen)] || 0) + 1; yatayCubuk(k, m); });
   const son = EV().slice(-100).reverse();
   c.appendChild(kart("Son olaylar", veriTablo(["Zaman", "Kurulum", { ad: "Olay", filtre: true }, "Ayrıntı", { ad: "Süre", num: true }],
@@ -457,9 +482,9 @@ function canli(c) {
     { sirala: [0, "desc"], bos: "Olay yok.", satirTik: (_, x) => { const i = veri.kurulum.get(son[x].iid); if (i) cekmece(i); } })));
   const sg = ins.slice().sort((a, b) => ms(b.lastSeen) - ms(a.lastSeen)).slice(0, 50);
   c.appendChild(kart("Son görülenler", veriTablo(
-    ["Kurulum", { ad: "Son ekran", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, "Son görülme"],
-    sg.map(i => [kisiHucre(i), ekranAdi(i.lastScreen || i.screen), i.appVersion || "", i.region || "", tarihHucre(i.lastSeen)]),
-    { sirala: [4, "desc"], satirTik: (_, x) => cekmece(sg[x]) })));
+    ["Kurulum", { ad: "Son ekran", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, { ad: "Ülke", filtre: true }, "Son görülme"],
+    sg.map(i => [kisiHucre(i), ekranAdi(i.lastScreen || i.screen), platAdi(i.platform), i.appVersion || "", i.region || "", tarihHucre(i.lastSeen)]),
+    { sirala: [5, "desc"], satirTik: (_, x) => cekmece(sg[x]) })));
 }
 
 function ekranlar(c) {
@@ -502,7 +527,7 @@ function ekranlar(c) {
     { sirala: [1, "desc"], ara: false, bos: "Veri yok." }), el("p", "muted", `${sayi(ins.length)} kurulumun kendi sayaçlarından; sürüm filtresi uygulanır.`)));
   const gecis = {};
   for (const [iid, l] of veri.olaylar) {
-    if (K.surum && veri.kurulum.get(iid)?.appVersion !== K.surum) continue;
+    if (K.surum && !secili(veri.kurulum.get(iid))) continue;
     let once = null;
     for (const e of l) {
       if (e.t < d.bas || e.t > d.son) continue;
@@ -736,11 +761,11 @@ function kullanicilar(c) {
   const yeni = ins.filter(i => icinde(i.firstSeen, d.bas, d.son)).length, aktif = ins.filter(i => icinde(i.lastSeen, d.bas, d.son)).length;
   c.appendChild(tiles([
     ["Kurulum", sayi(ins.length)], ["Aktif", sayi(aktif), donemAdi()], ["Yeni", sayi(yeni), donemAdi()], ["Pro", sayi(ins.filter(i => i.pro).length)],
-    ["Benli", sayi(ins.filter(i => n(i.n_moles) > 0).length)], ["iPhone Duo", sayi(ins.filter(duoVar).length)], ["Test", sayi(ins.filter(i => i.tester).length), "TestFlight"],
+    ["Benli", sayi(ins.filter(i => n(i.n_moles) > 0).length)], ["iPhone Duo", sayi(ins.filter(duoVar).length)], ["Android", sayi(ins.filter(i => i.platform === "android").length)], ["Test", sayi(ins.filter(i => i.tester).length), "TestFlight, Play test"],
   ]));
   const kol = [
-    "Kurulum", { ad: "Durum", num: true }, { ad: "Şu an", filtre: true }, { ad: "Sürüm", filtre: true }, "Build",
-    { ad: "Ülke", filtre: true }, { ad: "Dil", filtre: true }, { ad: "Uygulama dili", filtre: true }, { ad: "Cihaz", filtre: true }, { ad: "iOS", filtre: true }, { ad: "Saat dilimi", filtre: true },
+    "Kurulum", { ad: "Durum", num: true }, { ad: "Şu an", filtre: true }, { ad: "Platform", filtre: true }, { ad: "Sürüm", filtre: true }, "Build",
+    { ad: "Ülke", filtre: true }, { ad: "Dil", filtre: true }, { ad: "Uygulama dili", filtre: true }, { ad: "Cihaz", filtre: true }, { ad: "İşletim sistemi", filtre: true }, { ad: "Saat dilimi", filtre: true },
     "İlk görülme", "Son görülme", { ad: "Son görülme aralığı", filtre: true }, { ad: "Gün", num: true }, { ad: "Oturum", num: true }, { ad: "Toplam süre", num: true },
     "Modüller", { ad: "Modül", num: true }, { ad: "Ben", num: true }, { ad: "Ben fotoğrafı", num: true }, { ad: "ABCDE", num: true }, { ad: "Rapor", num: true },
     { ad: "Kayıt", num: true }, { ad: "Ölçüm", num: true }, { ad: "İlaç", num: true }, { ad: "Hatırlatma cevabı", num: true },
@@ -748,9 +773,9 @@ function kullanicilar(c) {
     { ad: "Bildirim", filtre: true }, { ad: "iPhone Duo", filtre: true }, { ad: "Tanıtım", filtre: true }, { ad: "Test", filtre: true },
   ];
   const satir = ins.map(i => [
-    kisiHucre(i), rozetler(i), online(i) ? `Uygulamada · ${ekranAdi(i.screen)}` : "Kapalı", i.appVersion || "", i.build || "",
+    kisiHucre(i), rozetler(i), online(i) ? `Uygulamada · ${ekranAdi(i.screen)}` : "Kapalı", platAdi(i.platform), i.appVersion || "", i.build || "",
     i.region || "Bilinmiyor", DIL[i.language] || i.language || "Bilinmiyor", i.appLang ? (DIL[String(i.appLang).split("-")[0]] || i.appLang) : "Bilinmiyor",
-    i.device || "", i.os ? `iOS ${String(i.os).split(".")[0]}` : "", i.tz || "",
+    i.device || "", i.os ? `${platAdi(i.platform)} ${String(i.os).split(".")[0]}` : "", i.tz || "",
     tarihHucre(i.firstSeen), tarihHucre(i.lastSeen), sonAralik(i), { d: yas(i) ?? "-", s: yas(i) ?? -1 }, sayi(i.sessions),
     { d: iev(i, "session_sec") ? sure(iev(i, "session_sec")) : "-", s: iev(i, "session_sec") },
     moduller(i).map(m => MODUL[m] || m).join(", "), sayi(i.n_modules), sayi(i.n_moles), sayi(i.n_mole_photos), sayi(i.mole_checks), sayi(i.reports),
@@ -760,7 +785,7 @@ function kullanicilar(c) {
     izin(i.notif), duoAdi(i.duo), i.onboarded ? "Bitirdi" : "Bitirmedi", i.tester ? "Test" : "Gerçek",
   ]);
   c.appendChild(kart(null, veriTablo(kol, satir, {
-    sirala: [12, "desc"], araYazi: "Ara: kurulum kimliği, cihaz, ülke",
+    sirala: [13, "desc"], araYazi: "Ara: kurulum kimliği, cihaz, ülke",
     bos: "Bu süzgece uyan kurulum yok.", satirTik: (_, x) => cekmece(ins[x]),
   }), el("p", "muted", "Hesap yok, kişi yok: her satır bir kurulum (uygulamaya özel rastgele kimlik). Sağlık verisinin kendisi hiç gelmez, yalnız sayılar. Satıra dokununca ayrıntı ve zaman çizelgesi. Üstteki Sürüm seçici bu tabloyu da süzer.")));
 }
@@ -914,7 +939,7 @@ function sahte() {
     mods = tumModul.filter(m => mods.includes(m));
     const i = {
       id: hex(8) + "-" + hex(4) + "-" + hex(4) + "-" + hex(4) + "-" + hex(12),
-      platform: "ios", appVersion: surum, build: surum === "1.1" ? "21" : "14",
+      platform: j % 3 === 2 ? "android" : "ios", appVersion: surum, build: j % 3 === 2 ? (surum === "1.1" ? "4" : "3") : surum === "1.1" ? "21" : "14",
       language: sec(["en", "en", "en", "tr", "tr", "de", "es", "fr", "pt"]), region: sec(["US", "US", "TR", "TR", "DE", "GB", "CA", "AU", "FR", "BR"]),
       tz: sec(["Europe/Istanbul", "America/New_York", "Europe/Berlin", "America/Los_Angeles", "Europe/London"]),
       device: sec(["iPhone17,2", "iPhone16,1", "iPhone15,3", "iPhone14,7", "iPhone17,1", "iPhone18,9"]), os: sec(["26.6.1", "26.6.2", "27.0.1", "27.1"]),
@@ -924,6 +949,7 @@ function sahte() {
       duo: j % 11 === 4 ? sec(["open", "halfOpen", "closed"]) : "none",
       modules: mods.join(","), n_modules: mods.length, pro: false, ev: {},
     };
+    if (i.platform === "android") Object.assign(i, { device: sec(["samsung SM-S928B", "Google Pixel 8", "Xiaomi 23127PN0CG", "samsung SM-A546B"]), os: sec(["14", "15", "16"]), duo: "none" });
     i.screen = j < 3 ? sec(["today", "moles", "body"]) : "closed";
     installs.push(i);
     const ekle = (t, e, p, s) => events.push({ iid: i.id, t: Math.round(t), e, p: p ?? null, s: s ?? null });
@@ -1021,7 +1047,7 @@ K = await panelKabuk({
   yonetici: YONETICI,
   tema: TEMA,
   araliklar: [1, 7, 28, 90, 0], aralik: 7,
-  surumler: () => surumListesi(veri?.installs || []),
+  surumler: () => platSurumListesi(veri?.installs || []),
   surumNotu: SLUG,
   yukle,
   gruplar: [
