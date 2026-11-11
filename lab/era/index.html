@@ -66,10 +66,12 @@ const EKRAN = {
   journal: "Anı Defteri", trips: "Yolculuklar", memory: "Anı detayı", editor: "Anı yazıyor", trip: "Yolculuk sayfası",
   trip_editor: "Yolculuk ekliyor", route_studio: "Rota videosu", card_studio: "Kart stüdyosu", reader: "Defter gibi okuyor",
   import: "Eski notları getiriyor", envelope: "Zarf açıyor", me: "Ayarlar", cards: "Kartlarım", add: "Ekle menüsü", paywall: "Paywall", onboarding: "Tanıtım", closed: "Kapalı",
+  frame: "Çerçeve modu", photo_days: "Fotoğraflardan anı", trip_photos: "Yolculuğun fotoğrafları", special_days: "Özel günler",
+  special_days_settings: "Özel gün ayarları", shelf_options: "Raf seçenekleri", share_intake: "Paylaşımdan gelen",
 };
 const KAYNAK = {
   theme: "Pro tema", book: "Yeni defter", photos: "Fotoğraf sınırı", pdf: "PDF", importlines: "İçe aktarım sınırı", import_lines: "İçe aktarım sınırı",
-  signature: "İmza kaldırma", general: "Ayarlar", trips: "6. yolculuk", ai: "Yapay zeka kotası", unknown: "Bilinmiyor",
+  signature: "İmza kaldırma", general: "Ayarlar", trips: "6. yolculuk", ai: "Yapay zeka kotası", vehicle: "Rota aracı", unknown: "Bilinmiyor",
 };
 const kaynakAdi = k => KAYNAK[String(k || "").toLowerCase()] || k || "Bilinmiyor";
 /* Liste fiyati (USD); gercek odenen tutar ulkeye gore degisir, her yerde "tahmini". */
@@ -81,6 +83,7 @@ const planAdi = p => !p ? "" : PLAN[p]?.ad || String(p).split(/[._]/).pop();
 const SAYAC = {
   installs_new: "Yeni kurulum", sessions: "Oturum", onboarding_done: "Tanıtım bitti", paywall_views: "Paywall açıldı", purchases: "Satın alma",
   ai_requests: "Yapay zeka isteği", ai_blocked: "Yapay zeka kotası doldu", ai_failed: "Yapay zeka hatası",
+  ai_tokens_in: "Giden jeton", ai_tokens_out: "Gelen jeton",
   memories_added: "Anı eklendi", trips_added: "Yolculuk eklendi", cards_exported: "Kart dışa aktarıldı", videos_exported: "Rota videosu",
   imports_done: "İçe aktarım", books_read: "Defter okundu",
   envelopes_opened: "Zarf açıldı", trips_from_memory: "Anıdan yolculuk",
@@ -152,8 +155,27 @@ const icinde = (t, b, s) => { const x = ms(t); return x >= b && x <= s; };
 const fk = (simdi, once, ters) => once == null ? undefined : { simdi, once, ters };
 const donemAdi = () => K.aralik === 0 ? "tüm zamanlar" : K.aralik === 1 ? "bugün" : `son ${K.aralik} gün`;
 /* Kurulum bazli her sey secili surume gore; olaylar da kurulumun surumune gore. */
-const I = () => surumSuz(veri.installs, K.surum);
-const EV = () => !K.surum ? veri.events : veri.events.filter(e => veri.kurulum.get(e.iid)?.appVersion === K.surum);
+/* Ust satirdaki secici hem platform hem surum suzer: "iOS", "Android", "iOS 1.3", "Android 1.3".
+   Eski kayitli duz surum ("1.1") de calisir. Gunluk stats sayaclari platforma bolunmez. */
+const platGrup = p => p === "android" ? "Android" : p === "ios" ? "iOS" : "Bilinmiyor";
+function platSurumListesi(L) {
+  const say = {};
+  for (const i of L) { const g = platGrup(i.platform); say[g] = (say[g] || 0) + 1; }
+  const out = ["iOS", "Android", "Bilinmiyor"].filter(g => say[g]).map(g => ({ surum: g, adet: say[g] }));
+  for (const g of ["iOS", "Android"]) out.push(...surumListesi(L.filter(i => platGrup(i.platform) === g)).map(x => ({ surum: `${g} ${x.surum}`, adet: x.adet })));
+  return out;
+}
+function secili(i) {
+  const k = K.surum;
+  if (!k) return true;
+  if (!i) return false;
+  if (k === "iOS" || k === "Android" || k === "Bilinmiyor") return platGrup(i.platform) === k;
+  const m = /^(iOS|Android) (.+)$/.exec(k);
+  if (m) return platGrup(i.platform) === m[1] && i.appVersion === m[2];
+  return i.appVersion === k;
+}
+const I = () => !K.surum ? veri.installs : veri.installs.filter(secili);
+const EV = () => !K.surum ? veri.events : veri.events.filter(e => secili(veri.kurulum.get(e.iid)));
 const statsArasi = (b, s) => { const x = istGun(b), y = istGun(s); return veri.days.filter(d => d.id >= x && d.id <= y); };
 const gP = () => { const d = D(); return statsArasi(d.bas, d.son); };
 const gO = () => { const d = D(); return oncekiVar(d) ? statsArasi(d.oncekiBas, d.oncekiSon - 1) : null; };
@@ -175,7 +197,7 @@ function statGunluk(alanlar) {
   const d = D(), h = Object.fromEntries(veri.days.map(x => [x.id, x]));
   return gunDizisi(d).map(t => { const o = { t }; for (const [ad, f] of Object.entries(alanlar)) o[ad] = f(h[t] || {}); return o; });
 }
-const SURUM_NOT = () => K.surum ? el("p", "muted", "Sürüm filtresi bu grafiğe uygulanmaz: günlük kayıtlar (stats) sürüme bölünmüyor.") : null;
+const SURUM_NOT = () => K.surum ? el("p", "muted", "Platform ve sürüm filtresi bu grafiğe uygulanmaz: günlük kayıtlar (stats) ikisine de bölünmüyor.") : null;
 const ham = (o, k) => n(o?.[k]);
 const iev = (i, k) => n(i.ev?.[k]);
 const online = i => i.screen && i.screen !== "closed" && Date.now() - ms(i.lastSeen) < ONLINE;
@@ -220,7 +242,7 @@ const izgara = (c, sinif = "izgara2") => { const g = el("div", sinif); c.appendC
 const hataNotu = ad => veri.hatalar[ad] ? el("div", "note err", `${esc(ad)} okunamadı: ${esc(veri.hatalar[ad])}`) : null;
 
 // ── Olay metni (zaman cizelgesi) ──────────────────────────────────────────
-const AI_YER = { trip_draft: "Yolculuk taslağı", notes: "Not toparlama", memory: "Anı yazımı", caption: "Başlık önerisi", import: "İçe aktarım" };
+const AI_YER = { trip_draft: "Yolculuk taslağı", notes: "Not toparlama", notes_scan: "Sayfa tarama", memory: "Anı yazımı", caption: "Başlık önerisi", import: "İçe aktarım" };
 function aiHata(p) {
   const m = String(p || "").match(/^(.+?)_(\d{3})$/);
   if (!m) return p || "bilinmiyor";
@@ -289,7 +311,7 @@ function genel(c) {
     ["Yeni kurulum", sayi(yeni(d.bas, d.son)), donemAdi(), on ? fk(yeni(d.bas, d.son), yeni(d.oncekiBas, d.oncekiSon)) : undefined],
     st("Oturum", "sessions"),
     ["Satın alma", sayi(alim(d.bas, d.son)), "kurulum", on ? fk(alim(d.bas, d.son), alim(d.oncekiBas, d.oncekiSon)) : undefined],
-    ["Toplam kurulum", sayi(ins.length), K.surum ? `sürüm ${K.surum}` : "hepsi"],
+    ["Toplam kurulum", sayi(ins.length), K.surum ? K.surum : `iOS ${sayi(ins.filter(i => i.platform === "ios").length)} · Android ${sayi(ins.filter(i => i.platform === "android").length)}`],
     ["Pro", sayi(pro), yuzde(pro, ins.length)],
     st("Anı eklendi", "memories_added"), st("Yolculuk eklendi", "trips_added"),
     ["Ortak defter", sayi(ins.filter(i => i.shared).length), yuzde(ins.filter(i => i.shared).length, ins.length)],
@@ -327,10 +349,11 @@ function genel(c) {
 
   const g4 = izgara(c, "izgara3");
   const say = f => { const m = {}; for (const i of ins) { const k = f(i) || "Bilinmiyor"; m[k] = (m[k] || 0) + 1; } return m; };
+  gKart(g4, "Platform", k => yatayCubuk(k, say(i => platAdi(i.platform))));
   gKart(g4, "Dil", k => yatayCubuk(k, say(i => DIL[i.language] || i.language)));
   gKart(g4, "Ülke", k => yatayCubuk(k, say(i => i.region), { limit: 10 }));
   gKart(g4, "Cihaz", k => yatayCubuk(k, say(i => i.device), { limit: 10 }));
-  gKart(g4, "İşletim sistemi", k => yatayCubuk(k, say(i => i.os ? `iOS ${String(i.os).split(".")[0]}` : ""), { limit: 10 }));
+  gKart(g4, "İşletim sistemi", k => yatayCubuk(k, say(i => i.os ? `${platAdi(i.platform)} ${String(i.os).split(".")[0]}` : ""), { limit: 10 }));
   gKart(g4, "Bildirim izni", k => yatayCubuk(k, say(i => i.notif === true ? "İzin var" : i.notif === false ? "Kapalı" : "Bilinmiyor")));
   gKart(g4, "Defter türü", k => yatayCubuk(k, say(i => i.shared ? "Ortak (çift)" : "Tek kişilik")));
 
@@ -476,7 +499,7 @@ function ekranlar(c) {
   // Gecisler
   const gecis = {};
   for (const [iid, l] of veri.olaylar) {
-    if (K.surum && veri.kurulum.get(iid)?.appVersion !== K.surum) continue;
+    if (K.surum && !secili(veri.kurulum.get(iid))) continue;
     let once = null;
     for (const e of l) {
       if (e.t < d.bas || e.t > d.son) continue;
@@ -818,16 +841,24 @@ function ozellikler(c) {
 function ai(c) {
   const p = gP(), o = gO();
   const istek = topla(p, "ai_requests"), hata = topla(p, "ai_failed"), kota = topla(p, "ai_blocked");
+  const jg = topla(p, "ai_tokens_in"), jc = topla(p, "ai_tokens_out");
   c.appendChild(tiles([
     ["Yapay zeka isteği", sayi(istek), donemAdi(), o ? fk(istek, topla(o, "ai_requests")) : undefined],
     ["Hata", sayi(hata), istek ? yuzde(hata, istek, 1) : "", o ? fk(hata, topla(o, "ai_failed"), true) : undefined],
     ["Kota doldu", sayi(kota), "ücretsiz kota", o ? fk(kota, topla(o, "ai_blocked"), true) : undefined],
     ["Başarılı", sayi(Math.max(0, istek - hata)), istek ? yuzde(Math.max(0, istek - hata), istek, 1) : ""],
     ["Kullanan kurulum", sayi(I().filter(i => n(i.ai_requests) > 0).length)],
+    ["Giden jeton", sayi(jg), "istem ve görsel", o ? fk(jg, topla(o, "ai_tokens_in")) : undefined],
+    ["Gelen jeton", sayi(jc), "cevap", o ? fk(jc, topla(o, "ai_tokens_out")) : undefined],
+    ["Tahmini maliyet", "$" + maliyet(jg, jc).toFixed(maliyet(jg, jc) < 1 ? 4 : 2), "Gemini Flash Lite liste fiyatı"],
   ]));
   const g = izgara(c);
   gKart(g, "Günlük yapay zeka", k => gunlukCubuk(k, statGunluk({ ok: x => Math.max(0, ham(x, "ai_requests") - ham(x, "ai_failed")), f: x => ham(x, "ai_failed"), b: x => ham(x, "ai_blocked") }),
     { seriler: [{ ad: "Başarılı", alan: "ok" }, { ad: "Hata", alan: "f" }, { ad: "Kota doldu", alan: "b" }] }), SURUM_NOT());
+  gKart(g, "Günlük jeton", k => gunlukCubuk(k, statGunluk({ i: x => ham(x, "ai_tokens_in"), o: x => ham(x, "ai_tokens_out") }),
+    { seriler: [{ ad: "Giden", alan: "i" }, { ad: "Gelen", alan: "o" }] }), SURUM_NOT());
+  gKart(g, "Kota dolunca hangi özellik", k => yatayCubuk(k, Object.fromEntries(Object.entries(evOnek(p, "ai_blocked_")).map(([k2, v]) => [AI_YER[k2] || k2, v]))),
+    el("p", "muted", "11 Kasım sonrası sürümlerden. Öncesinde yalnız yolculuk taslağı sayılıyordu."), SURUM_NOT());
   const hatalar = evOnek(p, "ai_error_");
   gKart(g, "Hata dağılımı", k => yatayCubuk(k, Object.fromEntries(Object.entries(hatalar).map(([k2, v]) => [aiHata(k2), v])), { limit: 12 }), SURUM_NOT());
   c.appendChild(kart("Hata tablosu", veriTablo(["Yer", { ad: "Kod", filtre: true }, { ad: "Bu dönem", num: true }, { ad: "Önceki dönem", num: true }],
@@ -836,10 +867,57 @@ function ai(c) {
     el("p", "muted", "429: sınır (vekil ya da Gemini), 500: sunucu hatası. Kota doldu sayısı ayrı: ücretsiz kullanıcı kotasını bitirince istek gönderilmez.")));
   const ins = I().filter(i => n(i.ai_requests) > 0).sort((a, b) => n(b.ai_requests) - n(a.ai_requests));
   c.appendChild(kart("En çok yapay zeka kullanan kurulumlar (bütün zamanlar)", veriTablo(
-    ["Kişi", { ad: "Pro", filtre: true }, { ad: "İstek", num: true }, { ad: "Hata", num: true }, { ad: "Kota doldu", num: true }],
-    ins.map(i => [kisiHucre(i), i.pro ? "Pro" : "Ücretsiz", sayi(i.ai_requests), sayi(i.ai_failed), sayi(i.ai_blocked)]),
-    { sirala: [2, "desc"], bos: "Yapay zeka kullanan kurulum yok.", satirTik: (_, x) => cekmece(ins[x]) }),
-    el("p", "muted", "Jeton (token) cihazda sayılmıyor, bu yüzden maliyet burada hesaplanmaz; vekilin (ai.bamstudio.dev) kendi kaydına bakılmalı. İstem ve metin gönderilmez, yalnız sayılar.")));
+    ["Kişi", { ad: "Platform", filtre: true }, { ad: "Pro", filtre: true }, { ad: "İstek", num: true }, { ad: "Hata", num: true }, { ad: "Kota doldu", num: true }, { ad: "Jeton", num: true }, { ad: "Tahmini $", num: true }],
+    ins.map(i => [kisiHucre(i), platAdi(i.platform), i.pro ? "Pro" : "Ücretsiz", sayi(i.ai_requests), sayi(i.ai_failed), sayi(i.ai_blocked),
+      sayi(n(i.ai_tokens_in) + n(i.ai_tokens_out)), { d: maliyet(n(i.ai_tokens_in), n(i.ai_tokens_out)).toFixed(4), s: maliyet(n(i.ai_tokens_in), n(i.ai_tokens_out)) }]),
+    { sirala: [3, "desc"], bos: "Yapay zeka kullanan kurulum yok.", satirTik: (_, x) => cekmece(ins[x]) }),
+    el("p", "muted", "Jeton sayısı Gemini cevabındaki usageMetadata'dan, 11 Kasım sonrası derlemelerde (iOS 1.3 (19) ve öncesinde yok). Maliyet liste fiyatıyla tahmini: giden 0,10 $, gelen 0,40 $ / milyon jeton. Vekilin (ai.bamstudio.dev) kendi kaydı asıl kaynak. İstem ve metin gönderilmez, yalnız sayılar.")));
+}
+
+/* Gemini Flash Lite liste fiyati (USD / milyon jeton); tahmini. */
+const maliyet = (gir, cik) => (n(gir) * 0.10 + n(cik) * 0.40) / 1e6;
+
+function analytics(c) {
+  c.appendChild(kart("Analytics (GA4) kurulmadı", el("div", null,
+    `<p>Era'da Firebase Analytics SDK'sı yok, bu yüzden GA4 mülkü ve günlük özet (<code>panel/ga4</code>) da yok. Bu paneldeki her şey uygulamanın kendi Firestore telemetrisinden geliyor ve GA4'ün vereceği bilgilerin çoğunu zaten veriyor: kurulum, oturum, tutma, ekran süresi, paywall, platform, ülke, cihaz.</p>
+     <p class="muted">İstenirse yapılacaklar: iOS ve Android'e FirebaseAnalytics, <code>scripts/lab/ga4.mjs</code> PROPERTIES'e mülk kimliği, <code>gunluk.sh</code>'a özet satırı. Gizlilik beyanı da değişir. Şimdilik gerek görülmedi.</p>`)));
+  const s = veri.sales;
+  if (!s || !Array.isArray(s.gunluk)) { c.appendChild(kart("Mağaza raporu", el("p", "muted", "panel/sales belgesi yok ya da okunamadı."))); return; }
+  const d = D();
+  const gun = s.gunluk.filter(x => x.tarih >= istGun(d.bas) && x.tarih <= istGun(d.son));
+  const t = k => gun.reduce((a, x) => a + n(x[k]), 0);
+  c.appendChild(el("h2", null, "App Store raporu"));
+  c.appendChild(tiles([
+    ["İndirme", sayi(t("indirme")), donemAdi()], ["Güncelleme", sayi(t("guncelleme")), donemAdi()], ["Uygulama içi satın alma", sayi(t("iap")), donemAdi()],
+    ["Rapor", s.uretim ? tarihTam(s.uretim) : "-", "App Store Connect, günlük"],
+  ]));
+  const g = izgara(c);
+  gKart(g, "Günlük indirme", k => gunlukCubuk(k, gunDizisi(d).map(x => ({ t: x, v: n(s.gunluk.find(y => y.tarih === x)?.indirme) })), { birim: "indirme" }),
+    el("p", "muted", "Mac'teki günlük işin yazdığı mağaza raporundan."));
+  gKart(g, "Ülke (rapor dönemi)", k => yatayCubuk(k, s.ulkeler || {}, { limit: 10 }));
+}
+
+const BILDIRIM_EKSIK = `<p>Era'da uzak bildirim yolu yok: uygulama yalnız yerel hatırlatma kuruyor (Bugün yıllar önce, zarf, özel gün). Panelden bildirim göndermek için gerekenler:</p>
+  <ul>
+    <li>iOS: Push Notifications yeteneği, APNs kaydı ve FCM jetonu (FirebaseMessaging) ya da doğrudan APNs; Berk takımının .p8 anahtarı (2972UYSCQ2) Firebase'e yüklenir.</li>
+    <li>Android: firebase-messaging, <code>era_all</code>, <code>era_lang_xx</code>, <code>era_test</code> konularına abonelik, POST_NOTIFICATIONS izni zaten var mı bakılır.</li>
+    <li>Cloudflare Worker (FCM HTTP v1, Spark planında çalışır, Blaze gerekmez): Leafbook/Nika Worker sözleşmesiyle aynı, admin e-postası kontrolü ve <code>pushes/</code> kaydı.</li>
+    <li>Panel: Worker adresi gelince bu sayfa ortak <code>pushSayfasi</code> ile açılır.</li>
+  </ul>`;
+function bildirim(c) {
+  c.appendChild(kart("Bildirim kurulmadı", el("div", null, BILDIRIM_EKSIK)));
+  const ins = I();
+  c.appendChild(tiles([
+    ["Yerel hatırlatma açık", sayi(ins.filter(i => i.notif).length), yuzde(ins.filter(i => i.notif).length, ins.length)],
+    ["Kurulum", sayi(ins.length), "bildirim kurulunca ulaşılabilecek en fazla kitle"],
+  ]));
+  const g = izgara(c);
+  gKart(g, "Hatırlatma türü", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) { const a = BILDIRIM[n(i.notifMode)] || "Bilinmiyor"; h[a] = (h[a] || 0) + 1; } return h; })()));
+  gKart(g, "Dil (kitle)", k => yatayCubuk(k, (() => { const h = {}; for (const i of ins) { const a = DIL[i.language] || i.language || "Bilinmiyor"; h[a] = (h[a] || 0) + 1; } return h; })()));
+}
+function gonderilenler(c) {
+  c.appendChild(kart("Gönderilenler", el("div", null, `<p class="muted">Henüz gönderilmiş bildirim yok; bildirim yolu kurulmadı.</p>`)));
+  c.appendChild(kart("Ne gerekiyor", el("div", null, BILDIRIM_EKSIK)));
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -850,8 +928,8 @@ function ayarlar(c) {
   c.appendChild(kart("Proje", el("div", "dl",
     `<div>Firebase</div><div>era-bamstudio (Firestore)</div>
      <div>Yönetici</div><div>${esc(YONETICI)}</div>
-     <div>Uygulama</div><div>iOS com.aberk.iz (Era)</div>
-     <div>Bildirim</div><div>Yok: Era'da FCM yok, panelden bildirim gönderilmez</div>
+     <div>Uygulama</div><div>iOS ve Android com.aberk.iz (Era)</div>
+     <div>Bildirim</div><div>Kurulmadı: Era'da uzak bildirim yok (Bildirim gönder sayfasında ne gerektiği yazıyor)</div>
      <div>Sürüm notları</div><div>/lab/assets/surumler.json, slug ${SLUG}</div>`)));
   c.appendChild(kart("Neden GA4 yok", el("p", "muted",
     "Era'da Firebase Analytics SDK'sı yok. Kurulum, oturum, tutma, ekran süresi, paywall ve kullanım bilgisi uygulamanın kendi Firestore telemetrisinden geliyor (installs, stats, events).")));
@@ -865,8 +943,9 @@ function ayarlar(c) {
     kay.map(([k, ne, s]) => [k, ne, sayi(s), veri.hatalar[k.split("/")[0]] || veri.hatalar[k] ? "Okunamadı" : "Tamam"]), { ara: false })));
   c.appendChild(kart("Okurken dikkat", el("ul", null,
     "<li>Günlük kayıtlar (stats) UTC günüyle, kurulum ve olay grafikleri Türkiye günüyle.</li>" +
-    "<li>Sürüm filtresi kurulumun <b>şu anki</b> sürümüne bakar.</li>" +
-    "<li>Yapay zeka jetonu cihazda tutulmuyor; maliyet panelde yok.</li>" +
+    "<li>Platform ve sürüm filtresi kurulumun <b>şu anki</b> platform ve sürümüne bakar.</li>" +
+    "<li>Yapay zeka jetonu 11 Kasım sonrası sürümlerde sayılıyor; maliyet liste fiyatıyla tahmini.</li>" +
+    "<li>15 Ekim ile 11 Kasım arasında iOS'un profil alanları (platform, sürüm, sayılar) kurallara takılıp yazılmadı; o kurulumlar platformu \"Bilinmiyor\" görünür, bir sonraki açılışta düzelir.</li>" +
     "<li>Panel en fazla 8.000 olay okur.</li>")));
 }
 
@@ -886,15 +965,17 @@ function sahte() {
     const ilk = now - Math.pow(r(), 1.5) * 75 * G;
     const omur = r() < 0.3 ? r() * 2 * G : r() * (now - ilk);
     const son = Math.min(now - (j < 3 ? 40e3 : r() * 3 * 36e5), ilk + omur);
-    const surum = ilk > now - 10 * G ? "1.1" : sec(["1.0", "1.1"]);
+    const android = j % 3 === 2;
+    const surum = android ? sec(["1.1", "1.3", "1.3"]) : ilk > now - 10 * G ? "1.3" : sec(["1.0", "1.1", "1.3"]);
     const pro = j % 8 === 0 || j === 3;
     const shared = r() < 0.3;
     const i = {
       id: hex(8) + "-" + hex(4) + "-" + hex(4) + "-" + hex(4) + "-" + hex(12),
-      platform: "ios", appVersion: surum, build: { "1.0": "12", "1.1": "18" }[surum],
+      platform: android ? "android" : "ios", appVersion: surum, build: android ? { "1.1": "3", "1.3": "6" }[surum] : { "1.0": "12", "1.1": "18", "1.3": "19" }[surum],
       language: sec(["tr", "tr", "en", "en", "en", "de", "es"]), region: sec(["TR", "TR", "US", "US", "GB", "DE", "NL", "ES", "CA"]),
       tz: sec(["Europe/Istanbul", "America/New_York", "Europe/London", "Europe/Berlin"]),
-      device: sec(["iPhone17,2", "iPhone16,1", "iPhone15,3", "iPhone14,7"]), os: sec(["26.6.1", "26.6.2", "27.0.1"]),
+      device: android ? sec(["Samsung SM-S921B", "Google Pixel 8", "Xiaomi 23078PND5G"]) : sec(["iPhone17,2", "iPhone16,1", "iPhone15,3", "iPhone14,7"]),
+      os: android ? sec(["14", "15", "16"]) : sec(["26.6.1", "26.6.2", "27.0.1"]),
       firstSeen: new Date(ilk), lastSeen: new Date(son), screen: j < 3 ? sec(["journal", "editor", "trip"]) : "closed", lastScreen: sec(ekran),
       pro, plan: pro ? sec(["com.aberk.iz.pro.yearly", "com.aberk.iz.pro.monthly"]) : undefined,
       buySource: pro ? sec(kaynaklar) : undefined, purchasedAt: pro ? new Date(ilk + r() * Math.max(1, son - ilk)) : undefined,
@@ -933,7 +1014,7 @@ function sahte() {
       if (r() < 0.1) ekle(t, "place_search");
       if (r() < 0.15) ekle(t, "photo_add", sec(["1", "1", "2_3", "4p"]));
       if (r() < 0.03) ekle(t, "language_set", sec(["en", "tr", "system"]));
-      if (r() < 0.15) { ekle(t, "ai_request", sec(["trip_draft", "notes"])); if (r() < 0.1) ekle(t + 1e3, "ai_error", sec(["trip_draft_500", "notes_429", "trip_draft_429"])); if (!pro && r() < 0.1) ekle(t + 2e3, "ai_blocked"); }
+      if (r() < 0.15) { ekle(t, "ai_request", sec(["trip_draft", "notes"])); if (r() < 0.1) ekle(t + 1e3, "ai_error", sec(["trip_draft_500", "notes_429", "trip_draft_429"])); if (!pro && r() < 0.1) ekle(t + 2e3, "ai_blocked", sec(["trip_draft", "notes", "notes_scan"])); }
       if (r() < 0.12) { const k = sec(kaynaklar); ekle(t, "pw_view", k); ekle(t + 2e4, "pw_close", k, Math.round(4 + r() * 50)); }
       ekle(t + 1e3, "session", null, top);
     }
@@ -947,7 +1028,7 @@ function sahte() {
   const kayit = (o, e) => {
     const ad = slug(e.e), ev = o.ev ||= {};
     if (e.e === "screen_time") ev["screen_" + slug(e.p) + "_sec"] = (ev["screen_" + slug(e.p) + "_sec"] || 0) + n(e.s);
-    if (e.e === "ai_request") return void (o.ai_requests = (o.ai_requests || 0) + 1);
+    if (e.e === "ai_request") { o.ai_tokens_in = (o.ai_tokens_in || 0) + 900 + (e.t % 1700); o.ai_tokens_out = (o.ai_tokens_out || 0) + 150 + (e.t % 400); return void (o.ai_requests = (o.ai_requests || 0) + 1); }
     ev[ad] = (ev[ad] || 0) + 1;
     if (e.p && e.e !== "import_lines") ev[ad + "_" + slug(e.p)] = (ev[ad + "_" + slug(e.p)] || 0) + 1;
     if (e.s) { ev[ad + "_sec"] = (ev[ad + "_sec"] || 0) + n(e.s); if (e.p) ev[ad + "_" + slug(e.p) + "_sec"] = (ev[ad + "_" + slug(e.p) + "_sec"] || 0) + n(e.s); }
@@ -971,7 +1052,7 @@ K = await panelKabuk({
   yonetici: YONETICI,
   tema: TEMA,
   araliklar: [1, 7, 28, 90, 0], aralik: 7,
-  surumler: () => surumListesi(veri?.installs || []),
+  surumler: () => platSurumListesi(veri?.installs || []),
   surumNotu: SLUG,
   yukle,
   gruplar: [
@@ -984,8 +1065,11 @@ K = await panelKabuk({
       { id: "ozellikler", ad: "Özellikler", ciz: ozellikler },
       { id: "kullanicilar", ad: "Kullanıcılar", ciz: kullanicilar },
       { id: "ai", ad: "Yapay zeka", ciz: ai },
+      { id: "analytics", ad: "Analytics", ciz: analytics },
     ] },
     { baslik: "YÖNET", sayfalar: [
+      { id: "bildirim", ad: "Bildirim gönder", ciz: bildirim },
+      { id: "gonderilenler", ad: "Gönderilenler", ciz: gonderilenler },
       { id: "ayarlar", ad: "Ayarlar", ciz: ayarlar },
     ] },
   ],
