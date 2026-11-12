@@ -1,5 +1,5 @@
 {
- "uretim": "2026-11-10T04:11:51.370Z",
+ "uretim": "2026-11-12T05:23:54.849Z",
  "apps": {
   "leafbook": [
    {
@@ -396,10 +396,10 @@
     "tarih": "2026-10-29T01:27:33-07:00",
     "durum": "yayında",
     "notlar": [
-     "血壓、體重、喝水和睡眠回來了，跟痣的追蹤、保養、保養品、用藥放在一起。",
-     "BodyBook Pro 上線。免費版可同時使用 3 個模組和 1 份 PDF 報告；Pro 解鎖全部模組、不限次數的報告和跨模組比對。如果你在這次更新前就裝了 BodyBook，Pro 送你免費用。",
-     "在橫向展開的 iPhone Duo 上，身體圖留在左側，點按的痣在右側開啟，附帶照片與比較滑桿。",
-     "另外也修了一些設計上的細節。"
+     "Blood pressure, weight, water and sleep are back, alongside mole tracking, skincare, products and medication.",
+     "BodyBook Pro has arrived. Free, you get three modules at a time and one PDF report; Pro opens every module, unlimited reports and the cross-module insights. If you installed BodyBook before this update, Pro is free for you.",
+     "On iPhone Duo, open it on its side: the body map stays on the left, and the mole you tap opens on the right with its photos and comparison slider.",
+     "Plus a batch of design fixes."
     ]
    },
    {
@@ -534,10 +534,14 @@
     "surum": "1.5",
     "platform": "ios",
     "tarih": "2026-10-24T23:11:50-07:00",
-    "durum": "reddedildi",
+    "durum": "yayında",
     "notlar": [
      "iPhone Duo için hazır. Yan çevirince tesbih solda kalıyor; namaz vakitleri, günün duası ya da rehber sağda açılıyor. Okurken saymaya devam edebilirsin.",
-     "Bir de birkaç küçük düzeltme var."
+     "Bunlar da yeni:",
+     "Her namaz vaktini 30 dakikaya kadar öne ya da geriye alabilirsin. Vakitler sekmesinde şehir adına dokun.",
+     "Konum izni vermeden şehrini elle seçebilirsin.",
+     "Umm al-Qura yönteminde Ramazan boyunca yatsı 30 dakika sonra. Aynı ekrandan kapatabilirsin.",
+     "Teklif kodun varsa Pro ekranında kullanabilirsin."
     ]
    },
    {
@@ -1770,6 +1774,24 @@
    }
   ],
   "iz": [
+   {
+    "surum": "1.3",
+    "platform": "ios",
+    "tarih": "2026-11-11T04:02:19-08:00",
+    "durum": "yayında",
+    "notlar": [
+     "Artık her seyahatin ya da olayın kendi defteri var. Deftere bir ad ver, birkaç fotoğraf seç, rotanı bir cümleyle anlat. Era durakları çıkarırken küçük bir uçak dünyanın etrafında dolaşıyor.",
+     "Başka neler var:",
+     "Ana sayfadaki rafta son defterin önde duruyor, boş yerlerde soluk defterler bekliyor.",
+     "Yolculuk sayfası Rota ve Anılar diye ikiye ayrıldı. Tarihleri uçak biletine benzeyen tek bir takvimden seçiyorsun.",
+     "İnternet yokken de durak eklenebiliyor, konumu sonra eşleştiriyorsun.",
+     "Rota videosunda 10 renkte 31 çizim araç var. İstersen kendi arabanın ya da bisikletinin fotoğrafını araç yap.",
+     "iPad'de çerçeve modu: iPad'i bir yere yasla, anıların fotoğraf çerçevesindeki gibi dönsün.",
+     "iPhone Duo açıkken liste solda, ayrıntı sağda duruyor.",
+     "Zarftan çıkan anıyı hemen paylaşabilir ya da düzenleyebilirsin.",
+     "Kaydırma hızlandı. Taşan bir fotoğrafın yanındakinin dokunuşunu kaptığı hata da düzeldi."
+    ]
+   },
    {
     "surum": "1.0",
     "platform": "ios",
