@@ -552,34 +552,52 @@ function listHTML(T, p) {
           return row(esc(x.name) + (d !== "pending" ? `<span class="st">${d === "bought" ? T.bought : T.skipped}</span>` : ""), "", money(x.price, x.currency || sym), d === "skipped" ? "off" : ""); }).join("") || `<p class="empty">${T.empty}</p>`);
     }
     case "split": {
-      // The same sums as the app (SplitStore.swift): equal parts in cents, the
-      // odd cents to the first sharers, then the fewest payments that settle.
+      // The same sums as the app (SplitStore.swift): parts in cents by weight
+      // (all equal for an equal split), the odd cents to the first sharers,
+      // then the fewest payments that settle. Each currency on its own.
       const g = p.split || {}, S = SPLIT[lang] || SPLIT.en, ms = g.members || [], es = g.expenses || [];
-      const gs = g.currency || sym, ids = ms.map(m => m.id);
+      const gs = g.currency || sym, ids = ms.map(m => m.id), cur = e => e.currency || gs;
       const nm = i => (ms.find(m => m.id === i) || {}).name || "?";
-      const sharers = e => { const set = new Set(e.sharedBy || []); const l = ids.filter(i => !set.size || set.has(i)); return l.length ? l : ids; };
-      const bal = {}, paid = {}, part = {}; ids.forEach(i => { bal[i] = 0; paid[i] = 0; part[i] = 0; });
+      const weighted = e => !e.isTransfer && e.mode && e.mode !== "equal" && e.weights;
+      const sharers = e => {
+        if (weighted(e)) { const l = ids.filter(i => (+e.weights[i] || 0) > 0); if (l.length) return l; }
+        const set = new Set(e.sharedBy || []); const l = ids.filter(i => !set.size || set.has(i)); return l.length ? l : ids;
+      };
+      const parts = e => {
+        const sh = sharers(e), c = Math.round((+e.amount || 0) * 100);
+        let w = sh.map(() => 1);
+        if (weighted(e)) { const x = sh.map(i => Math.round((+e.weights[i] || 0) * 100)); if (x.reduce((a, b) => a + b, 0) > 0) w = x; }
+        const sum = w.reduce((a, b) => a + b, 0), out = w.map(x => Math.floor(c * x / sum)), left = c - out.reduce((a, b) => a + b, 0);
+        return sh.map((i, k) => [i, out[k] + (k < left ? 1 : 0)]);
+      };
+      const curs = [gs]; es.forEach(e => { if (!curs.includes(cur(e))) curs.push(cur(e)); });
+      const zero = () => Object.fromEntries(ids.map(i => [i, 0]));
+      const bal = {}, paid = zero(), part = zero(), spent = {};
+      curs.forEach(c => { bal[c] = zero(); spent[c] = 0; });
       for (const e of es) {
-        if (!(e.payerID in bal) || !ids.length) continue;
-        const c = Math.round((+e.amount || 0) * 100), sh = sharers(e), base = Math.floor(c / sh.length), extra = c - base * sh.length;
-        bal[e.payerID] += c; if (!e.isTransfer) paid[e.payerID] += c;
-        sh.forEach((i, k) => { const x = base + (k < extra ? 1 : 0); bal[i] -= x; if (!e.isTransfer) part[i] += x; });
+        if (!(e.payerID in paid)) continue;
+        const c = cur(e), ps = parts(e), own = !e.isTransfer;
+        bal[c][e.payerID] += ps.reduce((t, x) => t + x[1], 0);
+        if (own) { spent[c] += +e.amount || 0; if (c === gs) paid[e.payerID] += Math.round((+e.amount || 0) * 100); }
+        ps.forEach(([i, x]) => { bal[c][i] -= x; if (own && c === gs) part[i] += x; });
       }
       const ord = Object.fromEntries(ids.map((i, k) => [i, k]));
       const srt = l => l.filter(x => x.a > 0).sort((x, y) => y.a - x.a || ord[x.id] - ord[y.id]);
-      let owed = srt(ids.map(i => ({ id: i, a: bal[i] }))), owing = srt(ids.map(i => ({ id: i, a: -bal[i] })));
       const pays = [];
-      while (owed.length && owing.length) { const a = Math.min(owed[0].a, owing[0].a); pays.push({ f: owing[0].id, t: owed[0].id, a }); owed[0].a -= a; owing[0].a -= a; owed = srt(owed); owing = srt(owing); }
-      const buys = es.filter(e => !e.isTransfer), spent = buys.reduce((t, e) => t + (+e.amount || 0), 0);
+      for (const c of curs) {
+        let owed = srt(ids.map(i => ({ id: i, a: bal[c][i] }))), owing = srt(ids.map(i => ({ id: i, a: -bal[c][i] })));
+        while (owed.length && owing.length) { const a = Math.min(owed[0].a, owing[0].a); pays.push({ f: owing[0].id, t: owed[0].id, a, c }); owed[0].a -= a; owing[0].a -= a; owed = srt(owed); owing = srt(owing); }
+      }
       const head = t => `<div class="row"><div><div class="d"><b>${esc(t).toLocaleUpperCase(LOCALE[lang])}</b></div></div></div>`;
-      const who = i => { const b = bal[i]; return b ? `${money(Math.abs(b) / 100, gs)}<br><small>${esc(b > 0 ? S.gets : S.owes)}</small>` : `<small>${esc(S.even)}</small>`; };
+      const who = i => curs.filter(c => bal[c][i]).map(c => `${money(Math.abs(bal[c][i]) / 100, c)}<br><small>${esc(bal[c][i] > 0 ? S.gets : S.owes)}</small>`).join("<br>") || `<small>${esc(S.even)}</small>`;
       const list = es.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-      return sumBar(S.total, money(spent, gs), esc(ms.map(m => m.name).join(", ")))
-        + (es.length ? head(S.debts) + (pays.map(x => row(`${esc(nm(x.f))} → ${esc(nm(x.t))}`, "", money(x.a / 100, gs))).join("") || row(esc(S.settled), "", "")) : "")
+      const others = curs.slice(1).filter(c => spent[c] > 0).map(c => "+ " + money(spent[c], c)).join("  ");
+      return sumBar(S.total, money(spent[gs], gs) + (others ? `<br><small>${esc(others)}</small>` : ""), esc(ms.map(m => m.name).join(", ")))
+        + (es.length ? head(S.debts) + (pays.map(x => row(`${esc(nm(x.f))} → ${esc(nm(x.t))}`, "", money(x.a / 100, x.c))).join("") || row(esc(S.settled), "", "")) : "")
         + head(S.people) + ms.map(m => row(esc(m.name), esc(S.detail.replace("%1$@", money(paid[m.id] / 100, gs)).replace("%2$@", money(part[m.id] / 100, gs))), who(m.id))).join("")
         + (list.length ? head(S.expenses) + list.map(e => e.isTransfer
-          ? row(`${esc(nm(e.payerID))} → ${esc(nm((e.sharedBy || [])[0]))}`, esc([S.payment, day(e.date)].filter(Boolean).join(" · ")), money(e.amount, gs))
-          : row(esc(e.title), esc([S.paidBy.replace("%@", nm(e.payerID)), day(e.date)].filter(Boolean).join(" · ")), money(e.amount, gs))).join("") : "");
+          ? row(`${esc(nm(e.payerID))} → ${esc(nm((e.sharedBy || [])[0]))}`, esc([S.payment, day(e.date)].filter(Boolean).join(" · ")), money(e.amount, cur(e)))
+          : row(esc(e.title), esc([S.paidBy.replace("%@", nm(e.payerID)), day(e.date)].filter(Boolean).join(" · ")), money(e.amount, cur(e)))).join("") : "");
     }
   }
   return `<p class="empty">${T.empty}</p>`;
