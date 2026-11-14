@@ -29,6 +29,7 @@
 .akis li{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
 .akis li span{color:var(--soft)}
 .akis li.tik b{color:var(--accent)}
+.akis.hareket li{grid-template-columns:170px 1fr}
 </style>
 </head>
 <body>
@@ -63,7 +64,7 @@ const OTURUM_ARASI = 30 * 60e3;
 const TIK = { project: "İş kartı", filter: "Süzgeç", more: "Tüm işler", contact: "E-posta", social: "Sosyal medya", external: "Dış bağlantı", nav: "Menü", map: "Harita" };
 const BOLUM = { isler: "İşler", hizmetler: "Hizmetler", referanslar: "Referanslar", biz: "Hakkımızda", iletisim: "İletişim" };
 
-let K, veri = null, canliSaat = null;
+let K, veri = null, canliSaat = null, kullanim = null, kullanimHata = "";
 
 async function api(yol) {
   const r = await fetch(API + yol, { headers: { authorization: "Bearer " + await K.token() } });
@@ -366,6 +367,7 @@ function yonetim(icerik, kabuk) {
   for (const [href, ad, alt] of [
     [SITE + "/admin/", "Site yönetimi", "İşler, hizmetler, referanslar, metinler ve ana sayfa bölümleri. Kendi şifresiyle girilir."],
     [SITE + "/", "Siteyi aç", "pagestudio.co"],
+    ["https://panel.pagestudio.co/kullanim", "Panelde Kullanım", "Aynı kullanım verisinin Page Studio panelindeki sayfası. Kurucu hesabıyla girilir."],
     ["https://search.google.com/search-console?resource_id=sc-domain:pagestudio.co", "Search Console", "Google aramada görünme, tıklama, sorgular."],
     ["https://dash.cloudflare.com/63d95f944aa0ebee2c6be97d5ce5f46b/pagestudio.co", "Cloudflare", "Alan adı, DNS, e-posta kayıtları, Worker."],
     ["https://page.bamstudio.dev/", "Önizleme", "page.bamstudio.dev, Google'a kapalı."],
@@ -382,8 +384,171 @@ function ayarlar(icerik, kabuk) {
   if (kabuk) K = kabuk;
   icerik.appendChild(kart("Bu panel", el("p", "not",
     `Veri pagestudio.co Worker'ından gelir (D1 pagestudio, tablolar visits ve clicks). Giriş Google ile; Worker kimliği Google'ın anahtarlarıyla doğrular ve yalnız ${YONETICI} adresine açar. ${K.demo ? "Demo modu: veri sahte, sunucuya bağlanmaz." : "Giriş: " + esc(K.kullanici?.email || "-")}`)));
-  icerik.appendChild(kart("Neler kaydediliyor", el("p", "not",
+  icerik.appendChild(kart("Panel ve portal kullanımı", el("p", "not",
+    "Marka portalları ve Ekip paneli sayfalarının verisi panel.pagestudio.co'dan gelir (D1 pagestudio-hub, tablo visits). Okuma anahtarı pagestudio.co Worker'ında sır olarak durur (HUB_INGEST_TOKEN), bu sayfaya ve depoya girmez. Orada ad ve e-posta tutulur çünkü herkes kendi hesabıyla giriş yapar.")));
+  icerik.appendChild(kart("Sitede neler kaydediliyor", el("p", "not",
     "Sayfa adresi, yönlendiren alan adı, utm etiketi, ülke ve şehir (Cloudflare'in tahmini), cihaz türü, tarayıcı, işletim sistemi, dil, ekran genişliği, sayfada kalınan süre, kaydırma derinliği ve sayfadaki tıklamalar (hangi iş kartı, süzgeç, e-posta, sosyal medya). Çerez, IP, ad ya da e-posta tutulmaz. Site yönetimine giriş yapmış tarayıcı sayılmaz.")));
+}
+
+// ---------- Panel ve portal kullanimi ----------
+/* panel.pagestudio.co (ajans paneli) ve <marka>.pagestudio.co (marka portallari) giris yapmis
+   kullanicinin actigi her sayfayi kaydeder (14 Kasim 2026'dan beri). Veri oradaki
+   /api/rk-ingest/usage ucundan gelir; anahtar pagestudio.co Worker'inda sir olarak durur,
+   bu sayfa yalniz /api/panel/kullanim'i Google girisiyle cagirir. */
+const KAYIT_BASI = "2026-11-14";
+const ROL = { owner: "Kurucu", staff: "Ekip", freelancer: "Freelancer", brand: "Marka" };
+/* Page Studio'daki src/agency/Usage.tsx pageName ile ayni; orada degisirse burada da degismeli. */
+function panelSayfaAd(side, path) {
+  const p = path || "/";
+  const portal = [
+    [/^\/$/, "Özet"], [/^\/onay/, "Onay"], [/^\/icerik\/.+/, "İçerik detayı"], [/^\/icerik/, "İçerikler"], [/^\/kampanyalar\/.+/, "Kampanya detayı"], [/^\/kampanyalar/, "Kampanyalar"],
+    [/^\/creatorlar/, "Creator'lar"], [/^\/rakipler\/.+/, "Rakip sayfası"], [/^\/rakipler/, "Rakipler"], [/^\/raporlar\/.+/, "Rapor"], [/^\/raporlar/, "Raporlar"], [/^\/reklam/, "Reklam"], [/^\/kitle/, "Kitle"],
+  ];
+  const agency = [
+    [/^\/$/, "Bugün"], [/^\/markalar\/.+/, "Marka sayfası"], [/^\/markalar/, "Markalar"], [/^\/creatorlar\/.+/, "Creator detayı"], [/^\/creatorlar/, "Creator'lar"], [/^\/kampanyalar/, "Kampanyalar"],
+    [/^\/icerik/, "İçerikler"], [/^\/anlasmalar/, "Anlaşmalar"], [/^\/odemeler/, "Ödemeler"], [/^\/ekip/, "Ekip"], [/^\/hakedis/, "Hakediş"], [/^\/kayitlar/, "Kayıtlar"], [/^\/kullanim/, "Kullanım"],
+    [/^\/u\//, "Reklam ve rakip analizi"], [/^\/arastirma/, "Raporlar ve araçlar"], [/^\/reklam/, "Reklam"],
+  ];
+  return (side === "portal" ? portal : agency).find(([re]) => re.test(p))?.[1] ?? p;
+}
+/* Sunucu saati "2026-11-14 17:57:58" bicimiyle ve UTC verir. */
+const utc = v => v ? new Date(String(v).replace(" ", "T") + "Z") : null;
+const utcHucre = v => { const d = utc(v); return d ? tarihHucre(d) : { d: "-", s: 0 }; };
+const kullanimGun = () => Math.min(90, K.aralik || 90);
+
+function kullanimSayfa(icerik, taraf) {
+  if (!kullanim) {
+    icerik.appendChild(kart(null, el("p", "not", "Kullanım verisi alınamadı" + (kullanimHata ? ": " + esc(kullanimHata) : "."))));
+    return;
+  }
+  const portalMi = taraf === "portal";
+  /* Kisi satirinda taraf yok: markasi olan satir portal, olmayan ajans paneli. */
+  const tut = x => x.side ? x.side === taraf : !!x.brand === portalMi;
+  const kisiler = kullanim.users.filter(tut), sayfalar_ = kullanim.pages.filter(tut), son = kullanim.recent.filter(tut);
+  const gunluk = kullanim.daily.filter(tut);
+  const sessiz = portalMi ? kullanim.silent : [];
+  const gor = gunluk.reduce((t, d) => t + d.views, 0);
+  const markadan = kisiler.filter(u => u.role === "brand").length;
+  const kutular = [
+    ["Giren kişi", sayi(kisiler.length), portalMi ? (kisiler.length ? `${sayi(markadan)} markadan, ${sayi(kisiler.length - markadan)} bizden` : "") : ""],
+    ["Sayfa görüntüleme", sayi(gor), kisiler.length ? `kişi başı ${(gor / kisiler.length).toFixed(1)}` : ""],
+    ["Hareketli gün", sayi(gunluk.length), ""],
+  ];
+  if (portalMi) kutular.push(["Girmeyen", sayi(sessiz.length), "hesabı var"]);
+  icerik.appendChild(tiles(kutular));
+
+  const gk = el("div");
+  icerik.appendChild(kart("Günlük sayfa görüntüleme", gk));
+  if (gunluk.length) {
+    const h = {};
+    for (const d of gunluk) h[d.day] = { v: d.views, not: `${sayi(d.people)} kişi` };
+    const bugun = istGun(Date.now());
+    let bas = istGun(Date.now() - (kullanimGun() - 1) * 864e5);
+    if (bas < KAYIT_BASI) bas = KAYIT_BASI;
+    gunlukCubuk(gk, gunleriDoldur(h, bas, bugun), { birim: "görüntüleme" });
+  } else gk.appendChild(el("p", "not", "Bu aralıkta kayıt yok. İlk girişlerden sonra burada görünür."));
+
+  const kolon = [{ ad: "Kim" }, "E-posta", { ad: "Rol", filtre: true }];
+  if (portalMi) kolon.push({ ad: "Marka", filtre: true });
+  kolon.push({ ad: "Görüntüleme", num: true }, { ad: "Geldiği gün", num: true }, "İlk hareket", "Son hareket");
+  icerik.appendChild(kart(portalMi ? `Portala girenler (${sayi(kisiler.length)})` : `Panele girenler (${sayi(kisiler.length)})`,
+    veriTablo(kolon, kisiler.map(u => {
+      const r = [u.name, u.email, ROL[u.role] || u.role];
+      if (portalMi) r.push(u.brand || "-");
+      r.push({ d: sayi(u.views), s: u.views }, { d: sayi(u.days), s: u.days }, utcHucre(u.first_at), utcHucre(u.last_at));
+      return r;
+    }), { sirala: [kolon.length - 1, "desc"], bos: "Bu aralıkta giren olmadı.", satirTik: (_, i) => kisiCekmece(kisiler[i], son, taraf) })));
+
+  if (portalMi) {
+    icerik.appendChild(kart(`Hesabı olup girmeyenler (${sayi(sessiz.length)})`,
+      veriTablo(["Kim", "E-posta", { ad: "Marka", filtre: true }, { ad: "Durum", filtre: true }, "Son giriş", "Davet"],
+        sessiz.map(u => [u.name, u.email, u.brand, u.last_seen_at ? "Daha önce girmiş" : u.invited_at ? "Davet gitti, girmedi" : "Davet gönderilmedi", utcHucre(u.last_seen_at), utcHucre(u.invited_at)]),
+        { bos: "Hesabı olan herkes bu aralıkta girmiş." })));
+  }
+
+  const izgara = el("div", "izgara2");
+  const sKol = ["Sayfa"]; if (portalMi) sKol.push({ ad: "Marka", filtre: true });
+  sKol.push({ ad: "Görüntüleme", num: true }, { ad: "Kişi", num: true });
+  izgara.appendChild(kart("En çok bakılan sayfalar", veriTablo(sKol, sayfalar_.map(p => {
+    const r = [panelSayfaAd(p.side, p.path)]; if (portalMi) r.push(p.brand || "-");
+    r.push({ d: sayi(p.views), s: p.views }, { d: sayi(p.people), s: p.people });
+    return r;
+  }), { sirala: [sKol.length - 2, "desc"], bos: "Kayıt yok." })));
+  const hKol = ["Zaman", "Kim"]; if (portalMi) hKol.push({ ad: "Marka", filtre: true });
+  hKol.push("Sayfa");
+  izgara.appendChild(kart("Son hareketler", veriTablo(hKol, son.map(r => {
+    const x = [utcHucre(r.at), r.name]; if (portalMi) x.push(r.brand || "-");
+    x.push(panelSayfaAd(r.side, r.path));
+    return x;
+  }), { sirala: [0, "desc"], bos: "Kayıt yok." })));
+  icerik.appendChild(izgara);
+
+  icerik.appendChild(kart(null, el("p", "not",
+    (portalMi ? "Marka portalları (marka.pagestudio.co): giriş yapmış kişinin açtığı her sayfa bir görüntüleme. Ekipten biri portalı markanın gözünden açarsa o da burada görünür, Rol sütunundan ayırabilirsin. "
+      : "Ajans paneli (panel.pagestudio.co): ekibin ve freelancer'ların açtığı sayfalar. ")
+    + `Kayıt 14 Kasım 2026'da başladı, öncesi yok. Veri son ${sayi(kullanim.gun || kullanim.days)} gün için yüklendi; sunucu en çok 90 gün verir, "Bugün" son 24 saattir. Son hareketler iki taraf toplamında son 150 kayıttır.`)));
+}
+
+function kisiCekmece(u, son, taraf) {
+  const onun = son.filter(r => r.name === u.name && (r.brand || "") === (u.brand || ""));
+  kullaniciCekmecesi(u, [
+    ["E-posta", u.email], ["Rol", ROL[u.role] || u.role], ["Yer", u.brand ? u.brand + " portalı" : "Ajans paneli"],
+    { baslik: "Bu aralıkta" },
+    ["Görüntüleme", sayi(u.views)], ["Geldiği gün", sayi(u.days)], ["İlk hareket", utcHucre(u.first_at).d], ["Son hareket", utcHucre(u.last_at).d],
+  ], {
+    baslik: u.name, alt: u.brand ? u.brand + " portalı" : "Ajans paneli",
+    ek: kutu => {
+      kutu.appendChild(el("h2", "cek-ara", "Son hareketleri"));
+      if (!onun.length) { kutu.appendChild(el("p", "not", "Son 150 hareketin içinde bu kişi yok.")); return; }
+      const ul = el("ul", "akis hareket");
+      for (const r of onun) {
+        const li = el("li");
+        li.innerHTML = `<span>${esc(utcHucre(r.at).d)}</span><div><b>${esc(panelSayfaAd(r.side || taraf, r.path))}</b></div>`;
+        ul.appendChild(li);
+      }
+      kutu.appendChild(ul);
+    },
+  });
+}
+const portalKullanim = (icerik, kabuk) => { if (kabuk) K = kabuk; kullanimSayfa(icerik, "portal"); };
+const ekipKullanim = (icerik, kabuk) => { if (kabuk) K = kabuk; kullanimSayfa(icerik, "agency"); };
+
+function demoKullanim(gun) {
+  const z = dk => new Date(Date.now() - dk * 60e3).toISOString().slice(0, 19).replace("T", " ");
+  const g = n => istGun(Date.now() - n * 864e5);
+  const P = { brand: "Fintra", color: "#9bba3b" };
+  return {
+    days: gun, gun,
+    users: [
+      { id: "u1", name: "Deniz Arı", email: "deniz@fintra.example", role: "brand", ...P, views: 23, days: 3, last_at: z(40), first_at: z(2900) },
+      { id: "u2", name: "Selin Koç", email: "selin@fintra.example", role: "brand", ...P, views: 6, days: 1, last_at: z(1500), first_at: z(1530) },
+      { id: "u3", name: "Elif Örnek", email: "elif@ajans.example", role: "owner", ...P, views: 4, days: 1, last_at: z(200), first_at: z(215) },
+      { id: "u3", name: "Elif Örnek", email: "elif@ajans.example", role: "owner", brand: null, color: null, views: 48, days: 3, last_at: z(12), first_at: z(3000) },
+      { id: "u4", name: "Mert Yalın", email: "mert@ajans.example", role: "freelancer", brand: null, color: null, views: 17, days: 2, last_at: z(300), first_at: z(1700) },
+    ],
+    pages: [
+      { side: "portal", path: "/onay", brand: "Fintra", views: 12, people: 2 }, { side: "portal", path: "/", brand: "Fintra", views: 9, people: 3 },
+      { side: "portal", path: "/rakipler/pc_1", brand: "Fintra", views: 7, people: 1 }, { side: "portal", path: "/raporlar", brand: "Fintra", views: 5, people: 2 },
+      { side: "agency", path: "/", brand: null, views: 21, people: 2 }, { side: "agency", path: "/markalar/fintra", brand: null, views: 18, people: 2 },
+      { side: "agency", path: "/u/fintra/reklam", brand: null, views: 15, people: 1 }, { side: "agency", path: "/odemeler", brand: null, views: 11, people: 1 },
+    ],
+    daily: [
+      { day: g(2), side: "portal", views: 9, people: 1 }, { day: g(1), side: "portal", views: 11, people: 2 }, { day: g(0), side: "portal", views: 13, people: 2 },
+      { day: g(2), side: "agency", views: 20, people: 1 }, { day: g(1), side: "agency", views: 26, people: 2 }, { day: g(0), side: "agency", views: 19, people: 2 },
+    ],
+    recent: [
+      { at: z(12), side: "agency", path: "/markalar/fintra", name: "Elif Örnek", role: "owner", brand: null, color: null },
+      { at: z(40), side: "portal", path: "/onay", name: "Deniz Arı", role: "brand", ...P },
+      { at: z(43), side: "portal", path: "/", name: "Deniz Arı", role: "brand", ...P },
+      { at: z(200), side: "portal", path: "/raporlar", name: "Elif Örnek", role: "owner", ...P },
+      { at: z(300), side: "agency", path: "/u/fintra/reklam", name: "Mert Yalın", role: "freelancer", brand: null, color: null },
+      { at: z(1500), side: "portal", path: "/rakipler/pc_1", name: "Selin Koç", role: "brand", ...P },
+    ],
+    silent: [
+      { id: "u5", name: "Can Tekin", email: "can@fintra.example", brand: "Fintra", color: "#9bba3b", last_seen_at: null, invited_at: z(4000) },
+      { id: "u6", name: "Ece Demir", email: "ece@fintra.example", brand: "Fintra", color: "#9bba3b", last_seen_at: null, invited_at: null },
+    ],
+  };
 }
 
 // ---------- Demo ----------
@@ -421,8 +586,13 @@ function demoVeri() {
 async function yukle(kabuk) {
   K = kabuk;
   const gun = K.aralik ? Math.min(400, K.aralik * 2 + 1) : 400;
-  const h = K.demo ? demoVeri() : await api("/api/panel/veri?gun=" + gun);
+  /* Kullanim ayri Worker'dan gelir; o ariza verirse site sayfalari yine acilsin. */
+  const [h, k] = await Promise.all([
+    K.demo ? demoVeri() : api("/api/panel/veri?gun=" + gun),
+    K.demo ? demoKullanim(kullanimGun()) : api("/api/panel/kullanim?gun=" + kullanimGun()).catch(e => ({ hata: e.message })),
+  ]);
   veri = { ...hazirla(h), gun: h.gun };
+  kullanim = k.hata ? null : k; kullanimHata = k.hata || "";
 }
 
 K = await panelKabuk({
@@ -448,6 +618,10 @@ K = await panelKabuk({
       { id: "kaynaklar", ad: "Kaynaklar", ciz: kaynaklar },
       { id: "iletisim", ad: "İletişim", ciz: iletisim },
       { id: "ziyaretler", ad: "Ziyaretler", ciz: ziyaretler },
+    ] },
+    { baslik: "PANEL VE PORTAL", sayfalar: [
+      { id: "portal", ad: "Marka portalları", ciz: portalKullanim },
+      { id: "ekip", ad: "Ekip paneli", ciz: ekipKullanim },
     ] },
     { baslik: "YÖNET", sayfalar: [
       { id: "yonetim", ad: "Site yönetimi", ciz: yonetim },
